@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { HighlightSpanKind } from 'typescript';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-sign-up',
@@ -20,8 +19,8 @@ export class SignUpComponent implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      username: [''],
-      password: [''],
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     });
   }
 }
