@@ -5,6 +5,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { InputModule } from 'src/input/input.module';
+import { ButtonModule } from 'src/button/button.module';
 
 @NgModule({
   declarations: [SignUpComponent],
@@ -14,6 +15,7 @@ import { InputModule } from 'src/input/input.module';
     ReactiveFormsModule,
     PipesModule,
     InputModule,
+    ButtonModule,
   ],
 })
 export class AuthModule {}
