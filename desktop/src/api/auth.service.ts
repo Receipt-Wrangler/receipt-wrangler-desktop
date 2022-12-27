@@ -15,4 +15,8 @@ export class AuthService {
   }): Observable<void> {
     return this.httpClient.post<void>('/api/signup', data).pipe(take(1));
   }
+
+  public login(data: { username: string; password: string }): Observable<void> {
+    return this.httpClient.post<void>('api/login', data).pipe(take(1));
+  }
 }
