@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError, of } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DEFAULT_SNACKBAR_CONFIG } from '../../../constants';
+import { catchError, of, tap } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
 import { applyApiErrors } from 'src/utils';
 
@@ -14,7 +16,8 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackbar: MatSnackBar
   ) {
     this.initForm();
   }
@@ -35,7 +38,16 @@ export class SignUpComponent implements OnInit {
     if (this.form.valid) {
       this.authService
         .signUp(this.form.value)
-        .pipe(catchError((err) => of(applyApiErrors(this.form, err))))
+        .pipe(
+          tap(() => {
+            this.snackbar.open(
+              'Successfully registered!',
+              'Success!',
+              DEFAULT_SNACKBAR_CONFIG
+            );
+          }),
+          catchError((err) => of(applyApiErrors(this.form, err)))
+        )
         .subscribe();
     }
   }
