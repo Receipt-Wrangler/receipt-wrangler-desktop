@@ -9,6 +9,7 @@ export interface AuthStateInterface {
   displayname?: string;
   username?: string;
   expirationDate?: string;
+  token?: string;
 }
 
 @State<AuthStateInterface>({
@@ -20,6 +21,11 @@ export class AuthState {
   @Selector()
   static isLoggedIn(state: AuthStateInterface): boolean {
     return AuthState.isTokenExpired(state);
+  }
+
+  @Selector()
+  static token(state: AuthStateInterface): string {
+    return state.token ?? '';
   }
 
   @Selector()
@@ -42,6 +48,7 @@ export class AuthState {
           displayname: claims['Displayname'],
           username: claims['Username'],
           expirationDate: claims['exp'],
+          token: jwt,
         });
       }
     }
