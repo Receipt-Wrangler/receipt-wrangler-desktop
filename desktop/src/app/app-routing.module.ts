@@ -15,6 +15,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'receipts',
+    loadChildren: () =>
+      import('../receipts/receipts.module').then((m) => m.ReceiptsModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: '',
     redirectTo: '/auth/login',
     pathMatch: 'full',

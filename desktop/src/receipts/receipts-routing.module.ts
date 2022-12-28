@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { ReceiptsTableComponent } from './receipts-table/receipts-table.component';
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent,
+    component: ReceiptsTableComponent,
   },
   {
     path: '',
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DashboardRoutingModule {}
+export class ReceiptsRoutingModule {}
