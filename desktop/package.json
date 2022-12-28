@@ -1,9 +1,9 @@
 {
-  "name": "my-app",
+  "name": "receipt-wrangler",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config ./proxy.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -20,6 +20,9 @@
     "@angular/platform-browser": "^15.0.0",
     "@angular/platform-browser-dynamic": "^15.0.0",
     "@angular/router": "^15.0.0",
+    "@ngxs/store": "^3.7.6",
+    "bootstrap": "^5.2.3",
+    "jwt-decode": "^3.1.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
@@ -28,8 +31,11 @@
     "@angular-devkit/build-angular": "^15.0.4",
     "@angular/cli": "~15.0.4",
     "@angular/compiler-cli": "^15.0.0",
+    "@ngxs/devtools-plugin": "^3.7.6",
     "@types/jasmine": "~4.3.0",
+    "@types/js-cookie": "^3.0.2",
     "jasmine-core": "~4.5.0",
+    "js-cookie": "^3.0.1",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
