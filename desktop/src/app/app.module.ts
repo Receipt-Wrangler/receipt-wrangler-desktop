@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from 'src/store/store.module';
+import { LayoutModule } from 'src/layout/layout.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +18,7 @@ import { StoreModule } from 'src/store/store.module';
     MatSnackBarModule,
     HttpClientModule,
     StoreModule,
+    LayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

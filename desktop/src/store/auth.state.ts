@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { tap } from 'rxjs';
 import { SetAuthState } from './auth.state.actions';
 import Cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
@@ -19,9 +18,8 @@ export interface AuthStateInterface {
 @Injectable()
 export class AuthState {
   @Selector()
-  static currentPage(state: AuthStateInterface): number {
-    return 0;
-    // return state.orderFilter.page;
+  static isLoggedIn(state: AuthStateInterface): boolean {
+    return AuthState.isTokenExpired(state);
   }
 
   @Selector()
