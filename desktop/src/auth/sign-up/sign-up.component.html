@@ -1,23 +1,25 @@
-<h2>{{isSignUp ? 'Sign Up' : 'Login'}}</h2>
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="d-flex flex-column">
-    <ng-container *ngIf="isSignUp">
+<div class="d-flex align-items-center justify-content-center">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <h2>{{ isSignUp ? "Sign Up" : "Login" }}</h2>
+    <div class="d-flex flex-column">
+      <ng-container *ngIf="isSignUp">
+        <app-input
+          label="Displayname"
+          [inputFormControl]="form | formGet : 'displayname'"
+        >
+        </app-input>
+      </ng-container>
       <app-input
-        label="Displayname"
-        [inputFormControl]="form | formGet : 'displayname'"
+        label="Username"
+        [inputFormControl]="form | formGet : 'username'"
       >
       </app-input>
-    </ng-container>
-    <app-input
-      label="Username"
-      [inputFormControl]="form | formGet : 'username'"
-    >
-    </app-input>
-    <app-input
-      label="Password"
-      [inputFormControl]="form | formGet : 'password'"
-    >
-    </app-input>
-  </div>
-  <app-button type="submit" buttonText="Submit"></app-button>
-</form>
+      <app-input
+        label="Password"
+        [inputFormControl]="form | formGet : 'password'"
+      >
+      </app-input>
+    </div>
+    <app-button type="submit" buttonText="Submit"></app-button>
+  </form>
+</div>
