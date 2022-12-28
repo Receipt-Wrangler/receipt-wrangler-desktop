@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { State } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { tap } from 'rxjs';
+import { SetAuthState } from './auth.state.actions';
+import Cookie from 'js-cookie';
+import jwtDecode from 'jwt-decode';
 
 export interface AuthStateInterface {
   userId?: string;
   displayname?: string;
   username?: string;
-  expirationDate?: Date;
+  expirationDate?: string;
 }
 
 @State<AuthStateInterface>({
@@ -13,4 +17,35 @@ export interface AuthStateInterface {
   defaults: {},
 })
 @Injectable()
-export class AuthState {}
+export class AuthState {
+  @Selector()
+  static currentPage(state: AuthStateInterface): number {
+    return 0;
+    // return state.orderFilter.page;
+  }
+
+  @Selector()
+  static isTokenExpired(state: AuthStateInterface): boolean {
+    if (state.expirationDate) {
+      return new Date() > new Date(state.expirationDate);
+    } else {
+      return false;
+    }
+  }
+
+  @Action(SetAuthState)
+  setAuthState({ getState, patchState }: StateContext<AuthStateInterface>) {
+    const jwt = Cookie.get('jwt');
+    if (jwt) {
+      const claims = jwtDecode(jwt) as any;
+      if (claims) {
+        patchState({
+          userId: claims['UserId']?.toString(),
+          displayname: claims['Displayname'],
+          username: claims['Username'],
+          expirationDate: claims['exp'],
+        });
+      }
+    }
+  }
+}
