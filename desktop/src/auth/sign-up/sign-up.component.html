@@ -20,6 +20,16 @@
       >
       </app-input>
     </div>
-    <app-button type="submit" buttonText="Submit"></app-button>
+    <app-button
+      class="d-inline-block w-100 mb-2"
+      type="submit"
+      [buttonText]="isSignUp ? 'Sign Up' : 'Login'"
+    ></app-button>
+    <app-button
+      class="d-inline-block w-100"
+      type="button"
+      [buttonText]="isSignUp ? 'Back to Login' : 'Sign Up'"
+      [routerLink]="isSignUp ? ['/auth/login'] : ['/auth/sign-up']"
+    ></app-button>
   </form>
 </div>
