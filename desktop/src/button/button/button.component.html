@@ -1,3 +1,23 @@
-<button class="w-100" mat-raised-button [type]="type" [color]="color">
-  {{ buttonText }}
-</button>
+<div [ngSwitch]="matButtonType">
+  <button
+    mat-raised-button
+    *ngSwitchCase="'matRaisedButton'"
+    class="w-100"
+    [type]="type"
+    [color]="color"
+  >
+    {{ buttonText }}
+  </button>
+
+  <button
+    mat-icon-button
+    *ngSwitchCase="'iconButton'"
+    class="w-100"
+    [type]="type"
+    [color]="color"
+  >
+    <mat-icon>
+      {{ icon }}
+    </mat-icon>
+  </button>
+</div>

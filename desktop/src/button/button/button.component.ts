@@ -10,4 +10,6 @@ export class ButtonComponent {
   @Input() color: string = 'primary';
   @Input() buttonText: string = '';
   @Input() type: 'button' | 'menu' | 'submit' | 'reset' = 'button';
+  @Input() matButtonType: 'matRaisedButton' | 'iconButton' = 'matRaisedButton';
+  @Input() icon: string = '';
 }
