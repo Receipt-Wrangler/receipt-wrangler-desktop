@@ -10,7 +10,18 @@ import { Receipt } from 'src/models/receipt';
 })
 export class ReceiptsTableComponent implements OnInit {
   constructor(private receiptsService: ReceiptsService) {}
+
   public receipts: Receipt[] = [];
+
+  public displayedColumns = [
+    'date',
+    'name',
+    'paidBy',
+    'amount',
+    'categories',
+    'tags',
+    'isResolved',
+  ];
 
   public ngOnInit(): void {
     this.receiptsService

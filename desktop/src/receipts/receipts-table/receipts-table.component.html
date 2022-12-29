@@ -1,1 +1,52 @@
-<p>receipts-table works!</p>
+<div class="example-container mat-elevation-z8">
+  <mat-table #table [dataSource]="receipts">
+    <!-- Name Column -->
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.date | date }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="paidBy">
+      <mat-header-cell *matHeaderCellDef> Paid By </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.paidByUserId }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.amount | currency }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="categories">
+      <mat-header-cell *matHeaderCellDef> Categories </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element?.categories | name }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="tags">
+      <mat-header-cell *matHeaderCellDef> Tags </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.tags | name }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isResolved">
+      <mat-header-cell *matHeaderCellDef> Is Resolved </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.isResolved }}
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</div>
