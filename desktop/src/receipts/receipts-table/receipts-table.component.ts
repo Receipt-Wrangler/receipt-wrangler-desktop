@@ -21,12 +21,29 @@ export class ReceiptsTableComponent implements OnInit {
     'categories',
     'tags',
     'isResolved',
+    'actions',
   ];
 
   public ngOnInit(): void {
     this.receiptsService
       .getAllReceipts()
       .pipe(tap((receipts) => (this.receipts = receipts)))
+      .subscribe();
+  }
+
+  public toggleIsResolved(row: Receipt, index: number): void {
+    this.receiptsService
+      .toggleIsResolved(row.id.toString())
+      .pipe(
+        tap(() => {
+          const newReceipts = Array.from(this.receipts);
+          newReceipts.splice(index, 1, {
+            ...row,
+            isResolved: !row.isResolved,
+          });
+          this.receipts = newReceipts;
+        })
+      )
       .subscribe();
   }
 }

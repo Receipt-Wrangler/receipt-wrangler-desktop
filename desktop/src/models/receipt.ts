@@ -1,4 +1,5 @@
 export interface Receipt {
+  id: number;
   name: string;
   amount: number;
   date: Date;

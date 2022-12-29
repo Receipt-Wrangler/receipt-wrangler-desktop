@@ -41,8 +41,19 @@
 
     <ng-container matColumnDef="isResolved">
       <mat-header-cell *matHeaderCellDef> Is Resolved </mat-header-cell>
+      <mat-cell *matCellDef="let element; let i = index">
+        <app-slide-toggle
+          [checked]="element.isResolved"
+          (click)="toggleIsResolved(element, i)"
+        ></app-slide-toggle>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> Actions</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.isResolved }}
+        <div class="d-flex"></div>
+        delete button edit button
       </mat-cell>
     </ng-container>
 

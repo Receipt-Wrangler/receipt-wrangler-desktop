@@ -4,9 +4,16 @@ import { ReceiptsTableComponent } from './receipts-table/receipts-table.componen
 import { ReceiptsRoutingModule } from './receipts-routing.module';
 import { MatTableModule } from '@angular/material/table';
 import { PipesModule } from 'src/pipes/pipes.module';
+import { SlideToggleModule } from 'src/slide-toggle/slide-toggle.module';
 
 @NgModule({
   declarations: [ReceiptsTableComponent],
-  imports: [CommonModule, ReceiptsRoutingModule, MatTableModule, PipesModule],
+  imports: [
+    CommonModule,
+    ReceiptsRoutingModule,
+    MatTableModule,
+    PipesModule,
+    SlideToggleModule,
+  ],
 })
 export class ReceiptsModule {}
