@@ -21,7 +21,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const url = req.url.toString();
-    if (!!(url.includes('signup') || url.includes('login'))) {
+    if (!(url.includes('signup') || url.includes('login'))) {
       const isTokenExpired = this.store.selectSnapshot(
         AuthState.isTokenExpired
       );
@@ -33,9 +33,8 @@ export class HttpInterceptorService implements HttpInterceptor {
           .subscribe(() => {
             return next.handle(this.addTokenToRequest(req));
           });
-      } else {
-        return next.handle(this.addTokenToRequest(req));
       }
+      return next.handle(this.addTokenToRequest(req));
     }
     return next.handle(req);
   }
