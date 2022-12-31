@@ -1,1 +1,35 @@
-<p>receipt-form works!</p>
+<form [formGroup]="form">
+  <div class="d-flex flex-column">
+    <app-input
+      label="Name"
+      [inputFormControl]="form | formGet : 'name'"
+    ></app-input>
+    <app-input
+      label="Amount"
+      type="number"
+      [inputFormControl]="form | formGet : 'amount'"
+    ></app-input>
+    <app-input
+      label="Categories"
+      [inputFormControl]="form | formGet : 'categories'"
+    ></app-input>
+    <app-input
+      label="Tags"
+      [inputFormControl]="form | formGet : 'tags'"
+    ></app-input>
+    <app-input
+      label="Date"
+      type="date"
+      [inputFormControl]="form | formGet : 'date'"
+    ></app-input>
+    <app-input
+      label="Paid by"
+      [inputFormControl]="form | formGet : 'paidBy'"
+    ></app-input>
+    <app-input
+      label="Is Resolved"
+      [inputFormControl]="form | formGet : 'isResolved'"
+    ></app-input>
+  </div>
+  <app-button type="submit" buttonText="Submit"></app-button>
+</form>

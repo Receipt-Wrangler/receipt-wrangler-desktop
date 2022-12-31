@@ -1,6 +1,6 @@
 <mat-form-field>
   <mat-label>{{ label }}</mat-label>
-  <input matInput type="text" [formControl]="inputFormControl" />
+  <input matInput [type]="type" [formControl]="inputFormControl" />
 </mat-form-field>
 <ng-container *ngFor="let err of formControlErrors | async">
   <mat-error *ngIf="inputFormControl.touched">{{ err.message }}</mat-error>

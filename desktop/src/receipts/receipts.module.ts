@@ -7,6 +7,8 @@ import { PipesModule } from 'src/pipes/pipes.module';
 import { SlideToggleModule } from 'src/slide-toggle/slide-toggle.module';
 import { ButtonModule } from 'src/button/button.module';
 import { ReceiptFormComponent } from './receipt-form/receipt-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { InputModule } from 'src/input/input.module';
 
 @NgModule({
   declarations: [ReceiptsTableComponent, ReceiptFormComponent],
@@ -17,6 +19,8 @@ import { ReceiptFormComponent } from './receipt-form/receipt-form.component';
     PipesModule,
     SlideToggleModule,
     ButtonModule,
+    ReactiveFormsModule,
+    InputModule,
   ],
 })
 export class ReceiptsModule {}
