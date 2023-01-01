@@ -1,6 +1,27 @@
 <mat-form-field class="example-full-width" appearance="fill">
   <mat-label>{{ label }}</mat-label>
+  <ng-container *ngIf="multiple">
+    <mat-chip-grid #chipGrid>
+      <mat-chip-row *ngFor="let option of filteredOptions | async"
+        ><ng-template
+          [ngTemplateOutlet]="optionChipTemplate"
+          [ngTemplateOutletContext]="{
+            option: option
+          }"
+        ></ng-template
+      ></mat-chip-row>
+    </mat-chip-grid>
+    <input
+      *ngIf="multiple"
+      matInput
+      type="text"
+      [formControl]="filterFormControl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipGrid"
+    />
+  </ng-container>
   <input
+    *ngIf="!multiple"
     matInput
     type="text"
     [formControl]="filterFormControl"

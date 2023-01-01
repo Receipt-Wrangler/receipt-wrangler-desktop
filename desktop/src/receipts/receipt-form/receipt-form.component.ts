@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { Category } from 'src/models';
 import { User } from 'src/models/user';
 import { UserState } from 'src/store/user.state';
 
@@ -13,11 +15,18 @@ import { UserState } from 'src/store/user.state';
 export class ReceiptFormComponent implements OnInit {
   @Select(UserState.users) public users!: Observable<User[]>;
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {}
+  public categories: Category[] = [];
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private store: Store,
+    private acitvatedRoute: ActivatedRoute
+  ) {}
 
   public form: FormGroup = new FormGroup({});
 
   public ngOnInit(): void {
+    this.categories = this.acitvatedRoute.snapshot.data['categories'];
     this.form = this.formBuilder.group({
       name: '',
       amount: '',

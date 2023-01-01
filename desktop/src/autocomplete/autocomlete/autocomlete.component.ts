@@ -17,9 +17,13 @@ export class AutocomleteComponent implements OnInit {
 
   @Input() public optionTemplate!: TemplateRef<any>;
 
+  @Input() public optionChipTemplate!: TemplateRef<any>;
+
   @Input() public optionFilterKey: string = '';
 
-  @Input() public optionValueKey: string = '  ';
+  @Input() public optionValueKey: string = '';
+
+  @Input() public multiple: boolean = false;
 
   @Input() public displayWith!: (value: any) => string;
 
@@ -37,7 +41,7 @@ export class AutocomleteComponent implements OnInit {
   }
 
   private _filter(value: string): string[] {
-    if (value) {
+    if (value && !this.multiple) {
       const filterValue = value.toString().toLowerCase();
 
       return this.options.filter((option) =>
@@ -48,6 +52,8 @@ export class AutocomleteComponent implements OnInit {
   }
 
   public optionSelected(event: MatAutocompleteSelectedEvent): void {
-    this.inputFormControl.setValue(event.option.value);
+    if (!this.multiple) {
+      this.inputFormControl.setValue(event.option.value);
+    }
   }
 }

@@ -9,10 +9,15 @@
       type="number"
       [inputFormControl]="form | formGet : 'amount'"
     ></app-input>
-    <app-input
+    <app-autocomlete
       label="Categories"
+      optionFilterKey="displayName"
       [inputFormControl]="form | formGet : 'categories'"
-    ></app-input>
+      [options]="categories"
+      [optionTemplate]="categoryOptionTemplate"
+      [optionChipTemplate]="categoryOptionTemplate"
+      [multiple]="true"
+    ></app-autocomlete>
     <app-input
       label="Tags"
       [inputFormControl]="form | formGet : 'tags'"
@@ -41,4 +46,8 @@
 
 <ng-template #optionTemplate let-option="option"
   >{{ option.displayName }}
+</ng-template>
+
+<ng-template #categoryOptionTemplate let-option="option"
+  >{{ option.name }}
 </ng-template>

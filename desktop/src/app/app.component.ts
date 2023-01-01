@@ -25,9 +25,9 @@ export class AppComponent implements OnInit {
     const isTokenExpired = this.store.selectSnapshot(AuthState.isTokenExpired);
     const isLoggedIn = this.store.selectSnapshot(AuthState.isLoggedIn);
 
-    if (isTokenExpired) {
-      this.authService.getNewRefreshToken().subscribe();
-    }
+    //if (isTokenExpired) {
+    this.authService.getNewRefreshToken().subscribe();
+    //}
 
     if (isLoggedIn) {
       this.userService.getAllUsers().subscribe((users) => {

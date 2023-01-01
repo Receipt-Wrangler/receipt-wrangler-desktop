@@ -4,6 +4,8 @@ import { AutocomleteComponent } from './autocomlete/autocomlete.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [AutocomleteComponent],
@@ -12,6 +14,8 @@ import { MatInputModule } from '@angular/material/input';
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatChipsModule,
+    MatIconModule,
   ],
   exports: [AutocomleteComponent],
 })
