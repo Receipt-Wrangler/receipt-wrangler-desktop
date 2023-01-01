@@ -1,1 +1,13 @@
-<p>autocomlete works!</p>
+<mat-form-field class="example-full-width" appearance="fill">
+  <mat-label>Number</mat-label>
+  <input
+    matInput
+    type="text"
+    aria-label="Number"
+    [formControl]="inputFormControl"
+    [matAutocomplete]="auto"
+  />
+  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+    <ng-template></ng-template>
+  </mat-autocomplete>
+</mat-form-field>

@@ -9,6 +9,7 @@ import { ButtonModule } from 'src/button/button.module';
 import { ReceiptFormComponent } from './receipt-form/receipt-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputModule } from 'src/input/input.module';
+import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
 
 @NgModule({
   declarations: [ReceiptsTableComponent, ReceiptFormComponent],
@@ -21,6 +22,7 @@ import { InputModule } from 'src/input/input.module';
     ButtonModule,
     ReactiveFormsModule,
     InputModule,
+    AutocompleteModule,
   ],
 })
 export class ReceiptsModule {}
