@@ -10,10 +10,14 @@ import {
   DEFAULT_SNACKBAR_ACTION,
   DEFAULT_SNACKBAR_CONFIG,
 } from '../../../constants';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, of, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
 import { applyApiErrors } from 'src/utils';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UsersService } from 'src/api/users.service';
+import { Store } from '@ngxs/store';
+import { SetUsers } from 'src/store/user.state.actions';
+import { User } from 'src/models/user';
 
 @Component({
   selector: 'app-sign-up',
@@ -29,7 +33,9 @@ export class SignUpComponent implements OnInit {
     private authService: AuthService,
     private snackbar: MatSnackBar,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private usersService: UsersService,
+    private store: Store
   ) {}
 
   public ngOnInit(): void {
@@ -82,8 +88,12 @@ export class SignUpComponent implements OnInit {
               DEFAULT_SNACKBAR_ACTION,
               DEFAULT_SNACKBAR_CONFIG
             );
-            this.router.navigate(['/dashboard']);
-          })
+          }),
+          switchMap(() => this.usersService.getAllUsers()),
+          switchMap((users: User[]) =>
+            this.store.dispatch(new SetUsers(users))
+          ),
+          tap(() => this.router.navigate(['/dashboard']))
         )
         .subscribe();
     }
