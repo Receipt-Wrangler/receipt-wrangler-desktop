@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { User } from 'src/models/user';
+import { UserState } from 'src/store/user.state';
 
 @Component({
   selector: 'app-receipt-form',
@@ -7,7 +11,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./receipt-form.component.scss'],
 })
 export class ReceiptFormComponent implements OnInit {
-  constructor(private formBuilder: FormBuilder) {}
+  @Select(UserState.users) public users!: Observable<User[]>;
+
+  constructor(private formBuilder: FormBuilder, private store: Store) {}
 
   public form: FormGroup = new FormGroup({});
 
@@ -21,5 +27,16 @@ export class ReceiptFormComponent implements OnInit {
       paidBy: '',
       isResolved: false,
     });
+  }
+
+  public paidByDisplayWith(id: number): string {
+    const user = this.store.selectSnapshot(
+      UserState.getUserById(id.toString())
+    );
+
+    if (user) {
+      return user.displayName;
+    }
+    return '';
   }
 }

@@ -24,7 +24,12 @@
     ></app-input>
     <app-autocomlete
       label="Paid by"
+      optionFilterKey="displayName"
+      optionValueKey="id"
       [inputFormControl]="form | formGet : 'paidBy'"
+      [options]="(users | async) ?? []"
+      [optionTemplate]="optionTemplate"
+      [displayWith]="paidByDisplayWith.bind(this)"
     ></app-autocomlete>
     <app-input
       label="Is Resolved"
@@ -33,3 +38,7 @@
   </div>
   <app-button type="submit" buttonText="Submit"></app-button>
 </form>
+
+<ng-template #optionTemplate let-option="option"
+  >{{ option.displayName }}
+</ng-template>

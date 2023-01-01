@@ -1,13 +1,25 @@
 <mat-form-field class="example-full-width" appearance="fill">
-  <mat-label>Number</mat-label>
+  <mat-label>{{ label }}</mat-label>
   <input
     matInput
     type="text"
-    aria-label="Number"
-    [formControl]="inputFormControl"
+    [formControl]="filterFormControl"
     [matAutocomplete]="auto"
   />
-  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-    <ng-template></ng-template>
+  <mat-autocomplete
+    autoActiveFirstOption
+    [displayWith]="displayWith"
+    #auto="matAutocomplete"
+  >
+    <mat-option
+      *ngFor="let option of filteredOptions | async"
+      [value]="optionValueKey ? option[optionValueKey] : option"
+      ><ng-template
+        [ngTemplateOutlet]="optionTemplate"
+        [ngTemplateOutletContext]="{
+          option: option
+        }"
+      ></ng-template>
+    </mat-option>
   </mat-autocomplete>
 </mat-form-field>
