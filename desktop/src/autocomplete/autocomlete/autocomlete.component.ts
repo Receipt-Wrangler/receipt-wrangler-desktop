@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormArray, FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { map, Observable, of, startWith } from 'rxjs';
 
 @Component({
@@ -41,7 +42,7 @@ export class AutocomleteComponent implements OnInit {
   }
 
   private _filter(value: string): string[] {
-    if (value && !this.multiple) {
+    if (value) {
       const filterValue = value.toString().toLowerCase();
 
       return this.options.filter((option) =>
@@ -52,8 +53,19 @@ export class AutocomleteComponent implements OnInit {
   }
 
   public optionSelected(event: MatAutocompleteSelectedEvent): void {
-    if (!this.multiple) {
+    if (this.multiple) {
+      (this.inputFormControl as any as FormArray).push(
+        new FormControl(event.option.value)
+      );
+    } else {
       this.inputFormControl.setValue(event.option.value);
+    }
+  }
+
+  public removeOption(index: number) {
+    if (this.multiple) {
+      const formArray = this.inputFormControl as any as FormArray;
+      formArray.removeAt(index);
     }
   }
 }

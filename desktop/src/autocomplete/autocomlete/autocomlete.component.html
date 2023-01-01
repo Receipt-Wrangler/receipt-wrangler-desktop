@@ -1,15 +1,20 @@
-<mat-form-field class="example-full-width" appearance="fill">
+<mat-form-field appearance="fill">
   <mat-label>{{ label }}</mat-label>
   <ng-container *ngIf="multiple">
     <mat-chip-grid #chipGrid>
-      <mat-chip-row *ngFor="let option of filteredOptions | async"
+      <mat-chip-row
+        *ngFor="let option of inputFormControl.value; let i = index"
+        (removed)="removeOption(i)"
         ><ng-template
           [ngTemplateOutlet]="optionChipTemplate"
           [ngTemplateOutletContext]="{
             option: option
           }"
-        ></ng-template
-      ></mat-chip-row>
+        ></ng-template>
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button></mat-chip-row
+      >
     </mat-chip-grid>
     <input
       *ngIf="multiple"

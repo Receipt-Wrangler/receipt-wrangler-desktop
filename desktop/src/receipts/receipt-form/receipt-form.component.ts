@@ -30,7 +30,7 @@ export class ReceiptFormComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: '',
       amount: '',
-      categories: '',
+      categories: this.formBuilder.array([]),
       tags: '',
       date: '',
       paidBy: '',
