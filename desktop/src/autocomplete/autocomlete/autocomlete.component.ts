@@ -42,14 +42,23 @@ export class AutocomleteComponent implements OnInit {
   }
 
   private _filter(value: string): string[] {
-    if (value) {
-      const filterValue = value.toString().toLowerCase();
+    value = value ?? '';
+    const filterValue = value.toString()?.toLowerCase();
 
+    if (this.multiple) {
+      const formArray = this.inputFormControl as any as FormArray;
+      const selectedValues = formArray.value as any[];
+
+      return this.options
+        .filter((o) => !selectedValues.includes(o))
+        .filter((option) =>
+          option[this.optionFilterKey].toLowerCase().includes(filterValue)
+        );
+    } else {
       return this.options.filter((option) =>
         option[this.optionFilterKey].toLowerCase().includes(filterValue)
       );
     }
-    return this.options;
   }
 
   public optionSelected(event: MatAutocompleteSelectedEvent): void {
@@ -57,6 +66,7 @@ export class AutocomleteComponent implements OnInit {
       (this.inputFormControl as any as FormArray).push(
         new FormControl(event.option.value)
       );
+      // TODO: set as null
     } else {
       this.inputFormControl.setValue(event.option.value);
     }
