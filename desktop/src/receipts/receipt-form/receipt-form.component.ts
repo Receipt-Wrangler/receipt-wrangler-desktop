@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Category } from 'src/models';
+import { Category, Tag } from 'src/models';
 import { User } from 'src/models/user';
 import { UserState } from 'src/store/user.state';
 
@@ -16,6 +16,7 @@ export class ReceiptFormComponent implements OnInit {
   @Select(UserState.users) public users!: Observable<User[]>;
 
   public categories: Category[] = [];
+  public tags: Tag[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,11 +28,13 @@ export class ReceiptFormComponent implements OnInit {
 
   public ngOnInit(): void {
     this.categories = this.acitvatedRoute.snapshot.data['categories'];
+    this.tags = this.acitvatedRoute.snapshot.data['tags'];
+
     this.form = this.formBuilder.group({
       name: '',
       amount: '',
       categories: this.formBuilder.array([]),
-      tags: '',
+      tags: this.formBuilder.array([]),
       date: '',
       paidBy: '',
       isResolved: false,
