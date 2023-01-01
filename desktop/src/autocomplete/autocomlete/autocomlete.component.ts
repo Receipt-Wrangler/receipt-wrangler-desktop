@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, Observable, of, startWith } from 'rxjs';
 
 @Component({
@@ -44,5 +45,9 @@ export class AutocomleteComponent implements OnInit {
       );
     }
     return this.options;
+  }
+
+  public optionSelected(event: MatAutocompleteSelectedEvent): void {
+    this.inputFormControl.setValue(event.option.value);
   }
 }
