@@ -9,7 +9,7 @@ import { User } from 'src/models/user';
 export class UsersService {
   constructor(private httpClient: HttpClient) {}
 
-  public getAllTags(): Observable<User[]> {
+  public getAllUsers(): Observable<User[]> {
     return this.httpClient.get<User[]>('/api/user').pipe(take(1));
   }
 }
