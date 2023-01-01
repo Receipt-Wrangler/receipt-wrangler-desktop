@@ -33,7 +33,7 @@ export class AuthState {
     if (state.expirationDate) {
       return new Date() >= new Date(Number(state.expirationDate) * 1000);
     } else {
-      return false;
+      return true;
     }
   }
 
