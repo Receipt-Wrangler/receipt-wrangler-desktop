@@ -48,5 +48,10 @@
         }"
       ></ng-template>
     </mat-option>
+    <ng-container *ngIf="creatable && (filteredOptions | async)?.length === 0">
+      <mat-option [id]="creatableOptionId" [value]="filterFormControl.value"
+        >Add {{ filterFormControl.value }}</mat-option
+      >
+    </ng-container>
   </mat-autocomplete>
 </mat-form-field>

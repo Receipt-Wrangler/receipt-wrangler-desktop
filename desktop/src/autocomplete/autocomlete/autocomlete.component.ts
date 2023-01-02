@@ -28,9 +28,19 @@ export class AutocomleteComponent implements OnInit {
 
   @Input() public displayWith!: (value: any) => string;
 
+  @Input() public creatable: boolean = false;
+
+  @Input() public defaultCreatableObject: any = {};
+
+  @Input() public creatableValueKey: string = '';
+
   public filteredOptions: Observable<any[]> = of([]);
 
   public filterFormControl: FormControl = new FormControl('');
+
+  public creatableOptionId = (Math.random() + 1).toString(36).substring(7);
+
+  public duplicateValuesFound: any[] = [];
 
   public ngOnInit(): void {
     this.filteredOptions = this.filterFormControl.valueChanges.pipe(
@@ -48,6 +58,7 @@ export class AutocomleteComponent implements OnInit {
     if (this.multiple) {
       const formArray = this.inputFormControl as any as FormArray;
       const selectedValues = formArray.value as any[];
+      // TODO: Restrict the user form adding an already added value
 
       return this.options
         .filter((o) => !selectedValues.includes(o))
@@ -63,9 +74,24 @@ export class AutocomleteComponent implements OnInit {
 
   public optionSelected(event: MatAutocompleteSelectedEvent): void {
     if (this.multiple) {
-      (this.inputFormControl as any as FormArray).push(
-        new FormControl(event.option.value)
-      );
+      const customOptionSelected = event.option.id === this.creatableOptionId;
+      const formArray = this.inputFormControl as any as FormArray;
+
+      if (customOptionSelected && !this.optionValueKey) {
+        formArray.push(
+          new FormControl({
+            ...this.defaultCreatableObject,
+            [this.creatableValueKey]: this.filterFormControl.value,
+          })
+        );
+      } else if (customOptionSelected && this.optionValueKey) {
+        // TODO: not sure if this works
+        formArray.push(new FormControl(this.filterFormControl.value));
+      } else {
+        (this.inputFormControl as any as FormArray).push(
+          new FormControl(event.option.value)
+        );
+      }
       // TODO: set as null
     } else {
       this.inputFormControl.setValue(event.option.value);

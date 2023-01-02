@@ -12,20 +12,24 @@
     <app-autocomlete
       label="Categories"
       optionFilterKey="name"
+      creatableValueKey="name"
       [inputFormControl]="form | formGet : 'categories'"
       [options]="categories"
       [optionTemplate]="categoryOptionTemplate"
       [optionChipTemplate]="categoryOptionTemplate"
       [multiple]="true"
+      [creatable]="true"
     ></app-autocomlete>
     <app-autocomlete
       label="Tags"
       optionFilterKey="name"
+      creatableValueKey="name"
       [inputFormControl]="form | formGet : 'tags'"
       [options]="tags"
       [optionTemplate]="tagOptionTemplate"
       [optionChipTemplate]="tagOptionTemplate"
       [multiple]="true"
+      [creatable]="true"
     ></app-autocomlete>
     <app-input
       label="Date"

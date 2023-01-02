@@ -35,7 +35,7 @@ export class ReceiptFormComponent implements OnInit {
       amount: '',
       categories: this.formBuilder.array([]),
       tags: this.formBuilder.array([]),
-      date: '',
+      date: new Date(),
       paidBy: '',
       isResolved: false,
     });
