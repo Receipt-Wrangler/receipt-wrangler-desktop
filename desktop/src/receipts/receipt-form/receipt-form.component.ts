@@ -50,11 +50,13 @@ export class ReceiptFormComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [this.originalReceipt?.name ?? '', Validators.required],
       amount: [this.originalReceipt?.amount ?? '', Validators.required],
-      categories: this.formBuilder.array([]),
-      tags: this.formBuilder.array([]),
+      categories: this.formBuilder.array(
+        this.originalReceipt?.categories ?? []
+      ),
+      tags: this.formBuilder.array(this.originalReceipt?.tags ?? []),
       date: [this.originalReceipt?.date ?? new Date(), Validators.required],
       paidByUserId: [
-        this.originalReceipt?.paidByUserId ?? null,
+        this.originalReceipt?.paidByUserId ?? '',
         Validators.required,
       ],
       isResolved: this.originalReceipt?.isResolved ?? false,
@@ -74,6 +76,18 @@ export class ReceiptFormComponent implements OnInit {
 
   public submit(): void {
     if (this.originalReceipt && this.form.valid) {
+      this.receiptsService
+        .updateReceipt(this.originalReceipt.id.toString(), this.form.value)
+        .pipe(
+          tap(() => {
+            this.snackbar.open(
+              'Successfully updated receipt',
+              DEFAULT_SNACKBAR_ACTION,
+              DEFAULT_SNACKBAR_CONFIG
+            );
+          })
+        )
+        .subscribe();
     } else if (!this.originalReceipt && this.form.valid) {
       this.receiptsService
         .createReceipt(this.form.value)
