@@ -31,16 +31,15 @@
       [multiple]="true"
       [creatable]="true"
     ></app-autocomlete>
-    <app-input
+    <app-datepicker
       label="Date"
-      type="date"
       [inputFormControl]="form | formGet : 'date'"
-    ></app-input>
+    ></app-datepicker>
     <app-autocomlete
       label="Paid by"
       optionFilterKey="displayName"
       optionValueKey="id"
-      [inputFormControl]="form | formGet : 'paidBy'"
+      [inputFormControl]="form | formGet : 'paidByUserId'"
       [options]="(users | async) ?? []"
       [optionTemplate]="optionTemplate"
       [displayWith]="paidByDisplayWith.bind(this)"

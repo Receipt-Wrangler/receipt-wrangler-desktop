@@ -48,8 +48,8 @@ export class ReceiptFormComponent implements OnInit {
       amount: ['', Validators.required],
       categories: this.formBuilder.array([]),
       tags: this.formBuilder.array([]),
-      date: [null, Validators.required],
-      paidBy: [null, Validators.required],
+      date: [new Date(), Validators.required],
+      paidByUserId: [null, Validators.required],
       isResolved: false,
     });
   }

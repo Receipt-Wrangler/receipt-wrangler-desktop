@@ -10,6 +10,8 @@ import { ReceiptFormComponent } from './receipt-form/receipt-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputModule } from 'src/input/input.module';
 import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
+import { DatepickerComponent } from 'src/datepicker/datepicker/datepicker.component';
+import { DatepickerModule } from 'src/datepicker/datepicker.module';
 
 @NgModule({
   declarations: [ReceiptsTableComponent, ReceiptFormComponent],
@@ -23,6 +25,7 @@ import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
     ReactiveFormsModule,
     InputModule,
     AutocompleteModule,
+    DatepickerModule,
   ],
 })
 export class ReceiptsModule {}
