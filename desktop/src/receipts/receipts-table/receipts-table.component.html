@@ -6,7 +6,6 @@
     ></app-button>
   </div>
   <mat-table #table [dataSource]="receipts">
-    <!-- Name Column -->
     <ng-container matColumnDef="date">
       <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{ element.date | date }} </mat-cell>
@@ -14,7 +13,11 @@
 
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+      <mat-cell *matCellDef="let element">
+        <a [routerLink]="['/receipts/' + element.id]">
+          {{ element.name }}
+        </a>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="paidBy">

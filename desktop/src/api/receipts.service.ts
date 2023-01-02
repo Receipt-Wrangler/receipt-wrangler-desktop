@@ -13,6 +13,10 @@ export class ReceiptsService {
     return this.httpClient.get<Receipt[]>('/api/receipt').pipe(take(1));
   }
 
+  public getReceiptById(id: string): Observable<Receipt> {
+    return this.httpClient.get<Receipt>(`/api/receipt/${id}`).pipe(take(1));
+  }
+
   public toggleIsResolved(id: string): Observable<void> {
     return this.httpClient
       .put<void>(`/api/receipt/${id}/toggleIsResolved`, {})

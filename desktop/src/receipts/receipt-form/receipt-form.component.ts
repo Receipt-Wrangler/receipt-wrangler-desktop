@@ -42,15 +42,22 @@ export class ReceiptFormComponent implements OnInit {
   public ngOnInit(): void {
     this.categories = this.acitvatedRoute.snapshot.data['categories'];
     this.tags = this.acitvatedRoute.snapshot.data['tags'];
+    this.originalReceipt = this.acitvatedRoute.snapshot.data['receipt'];
+    this.initForm();
+  }
 
+  private initForm(): void {
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      amount: ['', Validators.required],
+      name: [this.originalReceipt?.name ?? '', Validators.required],
+      amount: [this.originalReceipt?.amount ?? '', Validators.required],
       categories: this.formBuilder.array([]),
       tags: this.formBuilder.array([]),
-      date: [new Date(), Validators.required],
-      paidByUserId: [null, Validators.required],
-      isResolved: false,
+      date: [this.originalReceipt?.date ?? new Date(), Validators.required],
+      paidByUserId: [
+        this.originalReceipt?.paidByUserId ?? null,
+        Validators.required,
+      ],
+      isResolved: this.originalReceipt?.isResolved ?? false,
     });
   }
 
