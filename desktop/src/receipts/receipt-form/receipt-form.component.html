@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="submit()">
   <div class="d-flex flex-column">
     <app-input
       label="Name"
