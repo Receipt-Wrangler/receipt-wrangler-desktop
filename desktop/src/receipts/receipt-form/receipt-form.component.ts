@@ -42,15 +42,24 @@ export class ReceiptFormComponent implements OnInit {
   public ngOnInit(): void {
     this.categories = this.acitvatedRoute.snapshot.data['categories'];
     this.tags = this.acitvatedRoute.snapshot.data['tags'];
+    this.originalReceipt = this.acitvatedRoute.snapshot.data['receipt'];
+    this.initForm();
+  }
 
+  private initForm(): void {
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      amount: ['', Validators.required],
-      categories: this.formBuilder.array([]),
-      tags: this.formBuilder.array([]),
-      date: [new Date(), Validators.required],
-      paidByUserId: [null, Validators.required],
-      isResolved: false,
+      name: [this.originalReceipt?.name ?? '', Validators.required],
+      amount: [this.originalReceipt?.amount ?? '', Validators.required],
+      categories: this.formBuilder.array(
+        this.originalReceipt?.categories ?? []
+      ),
+      tags: this.formBuilder.array(this.originalReceipt?.tags ?? []),
+      date: [this.originalReceipt?.date ?? new Date(), Validators.required],
+      paidByUserId: [
+        this.originalReceipt?.paidByUserId ?? '',
+        Validators.required,
+      ],
+      isResolved: this.originalReceipt?.isResolved ?? false,
     });
   }
 
@@ -67,6 +76,18 @@ export class ReceiptFormComponent implements OnInit {
 
   public submit(): void {
     if (this.originalReceipt && this.form.valid) {
+      this.receiptsService
+        .updateReceipt(this.originalReceipt.id.toString(), this.form.value)
+        .pipe(
+          tap(() => {
+            this.snackbar.open(
+              'Successfully updated receipt',
+              DEFAULT_SNACKBAR_ACTION,
+              DEFAULT_SNACKBAR_CONFIG
+            );
+          })
+        )
+        .subscribe();
     } else if (!this.originalReceipt && this.form.valid) {
       this.receiptsService
         .createReceipt(this.form.value)
