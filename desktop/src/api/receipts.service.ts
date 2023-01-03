@@ -19,6 +19,10 @@ export class ReceiptsService {
       .pipe(take(1));
   }
 
+  public createReceipt(receipt: Receipt): Observable<void> {
+    return this.httpClient.post<void>(`/api/receipt`, receipt).pipe(take(1));
+  }
+
   public deleteReceipt(id: string): Observable<void> {
     return this.httpClient.delete<void>(`/api/receipt/${id}`).pipe(take(1));
   }

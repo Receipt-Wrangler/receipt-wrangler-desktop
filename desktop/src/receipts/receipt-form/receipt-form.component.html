@@ -1,0 +1,65 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="d-flex flex-column">
+    <app-input
+      label="Name"
+      [inputFormControl]="form | formGet : 'name'"
+    ></app-input>
+    <app-input
+      label="Amount"
+      type="number"
+      [inputFormControl]="form | formGet : 'amount'"
+    ></app-input>
+    <app-autocomlete
+      label="Categories"
+      optionFilterKey="name"
+      creatableValueKey="name"
+      [inputFormControl]="form | formGet : 'categories'"
+      [options]="categories"
+      [optionTemplate]="categoryOptionTemplate"
+      [optionChipTemplate]="categoryOptionTemplate"
+      [multiple]="true"
+      [creatable]="true"
+    ></app-autocomlete>
+    <app-autocomlete
+      label="Tags"
+      optionFilterKey="name"
+      creatableValueKey="name"
+      [inputFormControl]="form | formGet : 'tags'"
+      [options]="tags"
+      [optionTemplate]="tagOptionTemplate"
+      [optionChipTemplate]="tagOptionTemplate"
+      [multiple]="true"
+      [creatable]="true"
+    ></app-autocomlete>
+    <app-datepicker
+      label="Date"
+      [inputFormControl]="form | formGet : 'date'"
+    ></app-datepicker>
+    <app-autocomlete
+      label="Paid by"
+      optionFilterKey="displayName"
+      optionValueKey="id"
+      [inputFormControl]="form | formGet : 'paidByUserId'"
+      [options]="(users | async) ?? []"
+      [optionTemplate]="optionTemplate"
+      [displayWith]="paidByDisplayWith.bind(this)"
+    ></app-autocomlete>
+    <app-input
+      label="Is Resolved"
+      [inputFormControl]="form | formGet : 'isResolved'"
+    ></app-input>
+  </div>
+  <app-button type="submit" buttonText="Submit"></app-button>
+</form>
+
+<ng-template #optionTemplate let-option="option"
+  >{{ option.displayName }}
+</ng-template>
+
+<ng-template #categoryOptionTemplate let-option="option"
+  >{{ option.name }}
+</ng-template>
+
+<ng-template #tagOptionTemplate let-option="option"
+  >{{ option.name }}
+</ng-template>

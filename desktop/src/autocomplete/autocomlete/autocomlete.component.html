@@ -1,0 +1,57 @@
+<mat-form-field appearance="fill">
+  <mat-label>{{ label }}</mat-label>
+  <ng-container *ngIf="multiple">
+    <mat-chip-grid #chipGrid>
+      <mat-chip-row
+        *ngFor="let option of inputFormControl.value; let i = index"
+        (removed)="removeOption(i)"
+        ><ng-template
+          [ngTemplateOutlet]="optionChipTemplate"
+          [ngTemplateOutletContext]="{
+            option: option
+          }"
+        ></ng-template>
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button></mat-chip-row
+      >
+    </mat-chip-grid>
+    <input
+      *ngIf="multiple"
+      matInput
+      type="text"
+      [formControl]="filterFormControl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipGrid"
+    />
+  </ng-container>
+  <input
+    *ngIf="!multiple"
+    matInput
+    type="text"
+    [formControl]="filterFormControl"
+    [matAutocomplete]="auto"
+  />
+  <mat-autocomplete
+    autoActiveFirstOption
+    [displayWith]="displayWith"
+    (optionSelected)="optionSelected($event)"
+    #auto="matAutocomplete"
+  >
+    <mat-option
+      *ngFor="let option of filteredOptions | async"
+      [value]="optionValueKey ? option[optionValueKey] : option"
+      ><ng-template
+        [ngTemplateOutlet]="optionTemplate"
+        [ngTemplateOutletContext]="{
+          option: option
+        }"
+      ></ng-template>
+    </mat-option>
+    <ng-container *ngIf="creatable && (filteredOptions | async)?.length === 0">
+      <mat-option [id]="creatableOptionId" [value]="filterFormControl.value"
+        >Add {{ filterFormControl.value }}</mat-option
+      >
+    </ng-container>
+  </mat-autocomplete>
+</mat-form-field>
