@@ -1,0 +1,27 @@
+<app-button type="button" buttonText="Add Item"></app-button>
+<mat-accordion multi>
+  <mat-expansion-panel *ngFor="let key of userItemMap | mapKey; let i = index">
+    <mat-expansion-panel-header>
+      <mat-panel-title> {{ (key | user)?.displayName }} </mat-panel-title>
+      <mat-panel-description>
+        This is a summary of the content
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="d-flex flex-column">
+      <ng-container *ngFor="let itemData of userItemMap | mapGet : key">
+        <app-input
+          label="Name"
+          [inputFormControl]="
+            form | formGet : 'receiptItems.' + itemData.arrayIndex + '.name'
+          "
+        ></app-input>
+        <app-input
+          label="Amount"
+          [inputFormControl]="
+            form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
+          "
+        ></app-input>
+      </ng-container>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

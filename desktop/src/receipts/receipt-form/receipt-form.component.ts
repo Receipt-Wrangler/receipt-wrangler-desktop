@@ -33,16 +33,16 @@ export class ReceiptFormComponent implements OnInit {
     private receiptsService: ReceiptsService,
     private formBuilder: FormBuilder,
     private store: Store,
-    private acitvatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private snackbar: MatSnackBar
   ) {}
 
   public form: FormGroup = new FormGroup({});
 
   public ngOnInit(): void {
-    this.categories = this.acitvatedRoute.snapshot.data['categories'];
-    this.tags = this.acitvatedRoute.snapshot.data['tags'];
-    this.originalReceipt = this.acitvatedRoute.snapshot.data['receipt'];
+    this.categories = this.activatedRoute.snapshot.data['categories'];
+    this.tags = this.activatedRoute.snapshot.data['tags'];
+    this.originalReceipt = this.activatedRoute.snapshot.data['receipt'];
     this.initForm();
   }
 
