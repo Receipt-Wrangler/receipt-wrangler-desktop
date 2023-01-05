@@ -5,7 +5,7 @@ import { map, Observable, of, startWith, tap } from 'rxjs';
 import { Receipt } from 'src/models';
 import { Item } from 'src/models/item';
 
-interface ItemData {
+export interface ItemData {
   item: Item;
   arrayIndex: number;
 }

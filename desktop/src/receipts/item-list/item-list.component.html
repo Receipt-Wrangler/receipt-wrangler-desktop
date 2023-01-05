@@ -4,7 +4,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title> {{ (key | user)?.displayName }} </mat-panel-title>
       <mat-panel-description>
-        This is a summary of the content
+        Total amount owed: {{ userItemMap | userTotal : key }}
       </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="d-flex flex-column">

@@ -13,12 +13,14 @@ import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
 import { DatepickerModule } from 'src/datepicker/datepicker.module';
 import { ItemListComponent } from './item-list/item-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { UserTotalPipe } from './user-total.pipe';
 
 @NgModule({
   declarations: [
     ReceiptsTableComponent,
     ReceiptFormComponent,
     ItemListComponent,
+    UserTotalPipe,
   ],
   imports: [
     CommonModule,
