@@ -12,4 +12,5 @@ export class ButtonComponent {
   @Input() type: 'button' | 'menu' | 'submit' | 'reset' = 'button';
   @Input() matButtonType: 'matRaisedButton' | 'iconButton' = 'matRaisedButton';
   @Input() icon: string = '';
+  @Input() disabled: boolean = false;
 }

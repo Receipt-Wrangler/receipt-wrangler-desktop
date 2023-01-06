@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable, of, startWith, tap } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { map, Observable, of, startWith, take, tap } from 'rxjs';
 import { Receipt } from 'src/models';
 import { Item } from 'src/models/item';
+import { User } from 'src/models/user';
+import { UserState } from 'src/store/user.state';
 
 export interface ItemData {
   item: Item;
@@ -16,21 +19,28 @@ export interface ItemData {
   styleUrls: ['./item-list.component.scss'],
 })
 export class ItemListComponent implements OnInit {
+  @Select(UserState.users) public users!: Observable<User[]>;
+
   @Input() public form!: FormGroup;
 
   @Input() public originalReceipt?: Receipt;
 
+  public newItemFormGroup: FormGroup = new FormGroup({});
+
   public userItemMap: Map<string, ItemData[]> = new Map<string, ItemData[]>();
+
+  public isAdding: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private store: Store
   ) {}
 
   public ngOnInit(): void {
     this.originalReceipt = this.activatedRoute.snapshot.data['receipt'];
     this.initForm();
-    this.initUserItemMap();
+    this.setUserItemMap();
   }
 
   private initForm(): void {
@@ -46,50 +56,77 @@ export class ItemListComponent implements OnInit {
     );
   }
 
-  private initUserItemMap(): void {
+  public setUserItemMap(): void {
     const receiptItems = this.form.get('receiptItems');
     if (receiptItems) {
-      receiptItems.valueChanges
-        .pipe(
-          startWith(receiptItems.value),
-          tap(() => {
-            const items = this.form.get('receiptItems')?.value as Item[];
-            const map = new Map<string, ItemData[]>();
+      const items = this.form.get('receiptItems')?.value as Item[];
+      const map = new Map<string, ItemData[]>();
 
-            if (items?.length > 0) {
-              items.forEach((item, index) => {
-                const chargedToUserId = item.chargedToUserId.toString();
-                const itemData: ItemData = {
-                  item: item,
-                  arrayIndex: index,
-                };
-                console.warn(itemData);
+      if (items?.length > 0) {
+        items.forEach((item, index) => {
+          const chargedToUserId = item.chargedToUserId.toString();
+          const itemData: ItemData = {
+            item: item,
+            arrayIndex: index,
+          };
 
-                if (map.has(chargedToUserId)) {
-                  const newItems = Array.from(
-                    map.get(chargedToUserId) as ItemData[]
-                  );
-                  newItems.push(itemData);
-                } else {
-                  map.set(chargedToUserId, [itemData]);
-                }
-              });
-            }
-            this.userItemMap = map;
-          })
-        )
-        .subscribe();
+          if (map.has(chargedToUserId)) {
+            const newItems = Array.from(map.get(chargedToUserId) as ItemData[]);
+            newItems.push(itemData);
+            map.set(chargedToUserId, newItems);
+          } else {
+            map.set(chargedToUserId, [itemData]);
+          }
+        });
+      }
+      this.userItemMap = map;
     }
-    console.warn(this.userItemMap);
   }
 
-  private buildItemForm(item: Item): FormGroup {
+  private buildItemForm(item?: Item): FormGroup {
     return this.formBuilder.group({
-      name: item.name ?? '',
-      chargedToUserId: item.chargedToUserId ?? '',
-      receiptId: item.receiptId ?? '',
-      amount: item.amount ?? 1,
-      isTaxed: item.isTaxed ?? false,
+      name: [item?.name ?? '', Validators.required],
+      chargedToUserId: [item?.chargedToUserId ?? '', Validators.required],
+      receiptId: item?.receiptId ?? this.originalReceipt?.id,
+      amount: [item?.amount ?? 1, Validators.required],
+      isTaxed: item?.isTaxed ?? false,
     });
+  }
+
+  public initAddMode(): void {
+    this.isAdding = true;
+    this.newItemFormGroup = this.buildItemForm();
+  }
+
+  public exitAddMode(): void {
+    this.isAdding = false;
+    this.newItemFormGroup = new FormGroup({});
+  }
+
+  public submitNewItemFormGroup(): void {
+    if (this.newItemFormGroup.valid) {
+      const formArray = this.form.get('receiptItems') as FormArray;
+      formArray.push(this.newItemFormGroup);
+      this.exitAddMode();
+      this.setUserItemMap();
+    }
+  }
+
+  // TODO: move into shared component
+  public paidByDisplayWith(id: number): string {
+    const user = this.store.selectSnapshot(
+      UserState.getUserById(id.toString())
+    );
+
+    if (user) {
+      return user.displayName;
+    }
+    return '';
+  }
+
+  public removeItem(itemData: ItemData): void {
+    const formArray = this.form.get('receiptItems') as FormArray;
+    formArray.removeAt(itemData.arrayIndex);
+    this.setUserItemMap();
   }
 }

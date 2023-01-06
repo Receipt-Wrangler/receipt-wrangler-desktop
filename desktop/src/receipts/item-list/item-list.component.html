@@ -1,27 +1,75 @@
-<app-button type="button" buttonText="Add Item"></app-button>
+<app-button
+  type="button"
+  buttonText="Add Item"
+  [disabled]="isAdding"
+  (click)="initAddMode()"
+></app-button>
+<ng-container *ngIf="isAdding">
+  <form [formGroup]="newItemFormGroup" (ngSubmit)="submitNewItemFormGroup()">
+    <div class="d-flex flex-column">
+      <app-input
+        label="Name"
+        [inputFormControl]="newItemFormGroup | formGet : 'name'"
+      >
+      </app-input>
+      <app-input
+        label="Amount"
+        type="number"
+        [inputFormControl]="newItemFormGroup | formGet : 'amount'"
+      >
+      </app-input>
+      <app-autocomlete
+        label="Charge to"
+        optionFilterKey="displayName"
+        optionValueKey="id"
+        [inputFormControl]="newItemFormGroup | formGet : 'chargedToUserId'"
+        [options]="(users | async) ?? []"
+        [optionTemplate]="optionTemplate"
+        [displayWith]="paidByDisplayWith.bind(this)"
+      ></app-autocomlete>
+    </div>
+    <app-button type="submit" buttonText="Done"></app-button>
+    <app-button buttonText="Cancel" (click)="exitAddMode()"></app-button>
+  </form>
+</ng-container>
 <mat-accordion multi>
   <mat-expansion-panel *ngFor="let key of userItemMap | mapKey; let i = index">
     <mat-expansion-panel-header>
       <mat-panel-title> {{ (key | user)?.displayName }} </mat-panel-title>
       <mat-panel-description>
-        Total amount owed: {{ userItemMap | userTotal : key }}
+        <div class="d-flex justify-content-between w-100">
+          <span>Total amount owed: {{ userItemMap | userTotal : key }}</span>
+        </div>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <div class="d-flex flex-column">
-      <ng-container *ngFor="let itemData of userItemMap | mapGet : key">
+    <ng-container *ngFor="let itemData of userItemMap | mapGet : key">
+      <div class="d-flex flex-column border">
+        <div class="d-flex justify-content-end">
+          <app-button
+            class="w-25"
+            buttonText="remove"
+            (click)="removeItem(itemData)"
+          ></app-button>
+        </div>
         <app-input
           label="Name"
           [inputFormControl]="
             form | formGet : 'receiptItems.' + itemData.arrayIndex + '.name'
           "
-        ></app-input>
+        >
+        </app-input>
         <app-input
           label="Amount"
           [inputFormControl]="
             form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
           "
-        ></app-input>
-      </ng-container>
-    </div>
+        >
+        </app-input>
+      </div>
+    </ng-container>
   </mat-expansion-panel>
 </mat-accordion>
+
+<ng-template #optionTemplate let-option="option"
+  >{{ option.displayName }}
+</ng-template>

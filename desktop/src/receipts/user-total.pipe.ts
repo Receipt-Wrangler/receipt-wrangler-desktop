@@ -3,6 +3,7 @@ import { ItemData } from './item-list/item-list.component';
 
 @Pipe({
   name: 'userTotal',
+  pure: false,
 })
 export class UserTotalPipe implements PipeTransform {
   public transform(
@@ -13,7 +14,9 @@ export class UserTotalPipe implements PipeTransform {
     if (items?.length === 0 || !items) {
       return 0;
     } else {
-      return items.map((item) => item.item.amount).reduce((a, b) => a + b);
+      return items
+        .map((item) => Number(item.item.amount))
+        .reduce((a, b) => a + b);
     }
   }
 }
