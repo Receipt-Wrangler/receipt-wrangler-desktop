@@ -49,6 +49,14 @@ export class AutocomleteComponent implements OnInit {
         return this._filter(value);
       })
     );
+
+    if (!this.multiple) {
+      this.initSingleAutocomplete();
+    }
+  }
+
+  private initSingleAutocomplete(): void {
+    this.filterFormControl.setValue(this.inputFormControl.value);
   }
 
   private _filter(value: string): string[] {
