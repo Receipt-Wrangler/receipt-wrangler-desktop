@@ -19,6 +19,8 @@ export class UserAutocompleteComponent {
 
   @Input() public label = '';
 
+  @Input() public multiple: boolean = false;
+
   public displayWith(id: number): string {
     const user = this.store.selectSnapshot(
       UserState.getUserById(id.toString())

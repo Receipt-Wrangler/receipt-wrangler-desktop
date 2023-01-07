@@ -5,17 +5,18 @@
     [radioButtonData]="radioValues"
   ></app-radio-group>
 
-  <form [formGroup]="localForm">
+  <form [formGroup]="localForm" (ngSubmit)="addSplits()">
     <app-user-autocomplete
       label="Users to Split Between"
       [inputFormControl]="localForm | formGet : 'usersToSplit'"
+      [multiple]="true"
     >
     </app-user-autocomplete>
     <ng-container [ngSwitch]="(localForm | formGet : 'quickAction')?.value">
-      <div *ngSwitchCase="radioValues[0].value">even</div>
       <div *ngSwitchCase="radioValues[1].value">
         even withs pli optional parts
       </div>
     </ng-container>
+    <app-button type="submit" buttonText="Split"></app-button>
   </form>
 </mat-dialog-content>

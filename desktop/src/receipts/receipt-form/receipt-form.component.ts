@@ -1,5 +1,5 @@
 import { DEFAULT_INTERPOLATION_CONFIG } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,11 +10,12 @@ import {
   DEFAULT_SNACKBAR_ACTION,
 } from 'constants/index';
 
-import { Observable, tap } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 import { ReceiptsService } from 'src/api/receipts.service';
 import { Category, Receipt, Tag } from 'src/models';
 import { User } from 'src/models/user';
 import { UserState } from 'src/store/user.state';
+import { ItemListComponent } from '../item-list/item-list.component';
 import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
 
 @Component({
@@ -23,6 +24,8 @@ import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actio
   styleUrls: ['./receipt-form.component.scss'],
 })
 export class ReceiptFormComponent implements OnInit {
+  @ViewChild(ItemListComponent) itemsListComponent!: ItemListComponent;
+
   public categories: Category[] = [];
 
   public tags: Tag[] = [];
@@ -70,6 +73,16 @@ export class ReceiptFormComponent implements OnInit {
     const dialogRef = this.matDialog.open(QuickActionsDialogComponent);
 
     dialogRef.componentInstance.parentForm = this.form;
+    dialogRef.componentInstance.originalReceipt = this.originalReceipt;
+
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.itemsListComponent.setUserItemMap();
+        }
+      });
   }
 
   public submit(): void {
