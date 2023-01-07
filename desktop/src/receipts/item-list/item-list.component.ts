@@ -42,8 +42,7 @@ export class ItemListComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private store: Store
+    private formBuilder: FormBuilder
   ) {}
 
   public ngOnInit(): void {
@@ -123,18 +122,6 @@ export class ItemListComponent implements OnInit {
       this.exitAddMode();
       this.setUserItemMap();
     }
-  }
-
-  // TODO: move into shared component
-  public paidByDisplayWith(id: number): string {
-    const user = this.store.selectSnapshot(
-      UserState.getUserById(id.toString())
-    );
-
-    if (user) {
-      return user.displayName;
-    }
-    return '';
   }
 
   public removeItem(itemData: ItemData): void {

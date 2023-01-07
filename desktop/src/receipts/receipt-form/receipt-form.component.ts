@@ -23,8 +23,6 @@ import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actio
   styleUrls: ['./receipt-form.component.scss'],
 })
 export class ReceiptFormComponent implements OnInit {
-  @Select(UserState.users) public users!: Observable<User[]>;
-
   public categories: Category[] = [];
 
   public tags: Tag[] = [];
@@ -34,7 +32,6 @@ export class ReceiptFormComponent implements OnInit {
   constructor(
     private receiptsService: ReceiptsService,
     private formBuilder: FormBuilder,
-    private store: Store,
     private activatedRoute: ActivatedRoute,
     private snackbar: MatSnackBar,
     private matDialog: MatDialog
@@ -67,17 +64,6 @@ export class ReceiptFormComponent implements OnInit {
       ],
       isResolved: this.originalReceipt?.isResolved ?? false,
     });
-  }
-
-  public paidByDisplayWith(id: number): string {
-    const user = this.store.selectSnapshot(
-      UserState.getUserById(id.toString())
-    );
-
-    if (user) {
-      return user.displayName;
-    }
-    return '';
   }
 
   public openQuickActionsModal(): void {

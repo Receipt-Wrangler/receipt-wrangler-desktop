@@ -17,6 +17,7 @@ import { UserTotalPipe } from './user-total.pipe';
 import { QuickActionsDialogComponent } from './quick-actions-dialog/quick-actions-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RadioGroupModule } from 'src/radio-group/radio-group.module';
+import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
 @NgModule({
   declarations: [
     ReceiptsTableComponent,
@@ -39,6 +40,7 @@ import { RadioGroupModule } from 'src/radio-group/radio-group.module';
     MatExpansionModule,
     MatDialogModule,
     RadioGroupModule,
+    UserAutocompleteModule,
   ],
 })
 export class ReceiptsModule {}
