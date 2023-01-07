@@ -37,6 +37,7 @@ export class QuickActionsDialogComponent implements OnInit {
   private initForm(): void {
     this.localForm = this.formBuilder.group({
       quickAction: [this.radioValues[0].value, Validators.required],
+      usersToSplit: [undefined, [Validators.required]],
     });
 
     this.localForm

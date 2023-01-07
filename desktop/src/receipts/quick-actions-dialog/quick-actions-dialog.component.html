@@ -5,10 +5,17 @@
     [radioButtonData]="radioValues"
   ></app-radio-group>
 
-  <ng-container [ngSwitch]="(localForm | formGet : 'quickAction')?.value">
-    <div *ngSwitchCase="radioValues[0].value">even</div>
-    <div *ngSwitchCase="radioValues[1].value">
-      even withs pli optional parts
-    </div>
-  </ng-container>
+  <form [formGroup]="localForm">
+    <app-user-autocomplete
+      label="Users to Split Between"
+      [inputFormControl]="localForm | formGet : 'usersToSplit'"
+    >
+    </app-user-autocomplete>
+    <ng-container [ngSwitch]="(localForm | formGet : 'quickAction')?.value">
+      <div *ngSwitchCase="radioValues[0].value">even</div>
+      <div *ngSwitchCase="radioValues[1].value">
+        even withs pli optional parts
+      </div>
+    </ng-container>
+  </form>
 </mat-dialog-content>
