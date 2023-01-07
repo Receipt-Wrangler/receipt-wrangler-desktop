@@ -49,7 +49,10 @@ export class ReceiptFormComponent implements OnInit {
   private initForm(): void {
     this.form = this.formBuilder.group({
       name: [this.originalReceipt?.name ?? '', Validators.required],
-      amount: [this.originalReceipt?.amount ?? '', Validators.required],
+      amount: [
+        this.originalReceipt?.amount ?? '',
+        [Validators.required, Validators.min(1)],
+      ],
       categories: this.formBuilder.array(
         this.originalReceipt?.categories ?? []
       ),

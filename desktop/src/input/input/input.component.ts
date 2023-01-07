@@ -30,6 +30,7 @@ export class InputComponent implements OnInit, OnChanges, InputInterface {
   public ngOnInit(): void {
     this.errorMessages = {
       required: `${this.label} is required.`,
+      min: `Value must be larger than 0`,
     };
 
     this.formControlErrors = this.inputFormControl.valueChanges.pipe(
@@ -37,6 +38,7 @@ export class InputComponent implements OnInit, OnChanges, InputInterface {
       map(() => {
         const errors = this.inputFormControl.errors;
         if (errors) {
+          console.warn(errors, 'errors');
           const keys = Object.keys(this.inputFormControl.errors as any);
           return keys.map((k: string) => {
             const value = errors[k];
@@ -68,4 +70,10 @@ export class InputComponent implements OnInit, OnChanges, InputInterface {
       };
     }
   }
+
+  // TODO: Figure this out as apart of validation issues
+  // private getMinValue(): string {
+  //   const err = this.inputFormControl.errors as any;
+  //   return err['min']['min'] ?? '0';
+  // }
 }

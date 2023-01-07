@@ -1,5 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable, of, startWith, take, tap } from 'rxjs';
@@ -88,7 +97,11 @@ export class ItemListComponent implements OnInit {
       name: [item?.name ?? '', Validators.required],
       chargedToUserId: [item?.chargedToUserId ?? '', Validators.required],
       receiptId: item?.receiptId ?? this.originalReceipt?.id,
-      amount: [item?.amount ?? 1, Validators.required],
+      amount: new FormControl(item?.amount ?? 1, [
+        Validators.required,
+        Validators.min(1),
+        itemTotalValidator(),
+      ]),
       isTaxed: item?.isTaxed ?? false,
     });
   }
@@ -129,4 +142,43 @@ export class ItemListComponent implements OnInit {
     formArray.removeAt(itemData.arrayIndex);
     this.setUserItemMap();
   }
+}
+
+export function itemTotalValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const errKey = 'itemLargerThanTotal';
+
+    const formArray = control.parent?.parent as FormArray;
+    const amountControl = control?.parent?.parent?.parent;
+    let receiptTotal: number = 1;
+    if (amountControl) {
+      const amountValue = amountControl.get('amount')?.value;
+      if (amountValue !== undefined) {
+        receiptTotal = Number.parseFloat(amountValue ?? '1');
+      }
+    }
+
+    if (!formArray) {
+      return null;
+    }
+
+    const itemControls = formArray.controls;
+    const itemsAmounts: number[] = itemControls
+      .map((c) => c.get('amount')?.value ?? 0)
+      .map((amount: any) => Number.parseFloat(amount) ?? 1);
+    const itemsTotal = itemsAmounts.reduce((a, b) => a + b);
+
+    if (itemsTotal > receiptTotal) {
+      return { [errKey]: 'Error message' };
+    } else {
+      itemControls.forEach((c) => {
+        if (c.errors && c.hasError(errKey)) {
+          let newErrors = c.errors;
+          delete newErrors[errKey];
+          c.setErrors(newErrors);
+        }
+      });
+      return null;
+    }
+  };
 }
