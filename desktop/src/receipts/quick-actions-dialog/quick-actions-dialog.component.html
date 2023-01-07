@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Quick Actions</h2>
+<mat-dialog-content>
+  <app-radio-group
+    [inputFormControl]="localForm | formGet : 'quickAction'"
+    [radioButtonData]="radioValues"
+  ></app-radio-group>
+
+  <ng-container [ngSwitch]="(localForm | formGet : 'quickAction')?.value">
+    <div *ngSwitchCase="radioValues[0].value">even</div>
+    <div *ngSwitchCase="radioValues[1].value">
+      even withs pli optional parts
+    </div>
+  </ng-container>
+</mat-dialog-content>

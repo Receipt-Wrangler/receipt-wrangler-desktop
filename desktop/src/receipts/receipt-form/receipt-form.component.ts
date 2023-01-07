@@ -1,6 +1,7 @@
 import { DEFAULT_INTERPOLATION_CONFIG } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -14,6 +15,7 @@ import { ReceiptsService } from 'src/api/receipts.service';
 import { Category, Receipt, Tag } from 'src/models';
 import { User } from 'src/models/user';
 import { UserState } from 'src/store/user.state';
+import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
 
 @Component({
   selector: 'app-receipt-form',
@@ -34,7 +36,8 @@ export class ReceiptFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private store: Store,
     private activatedRoute: ActivatedRoute,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private matDialog: MatDialog
   ) {}
 
   public form: FormGroup = new FormGroup({});
@@ -75,6 +78,12 @@ export class ReceiptFormComponent implements OnInit {
       return user.displayName;
     }
     return '';
+  }
+
+  public openQuickActionsModal(): void {
+    const dialogRef = this.matDialog.open(QuickActionsDialogComponent);
+
+    dialogRef.componentInstance.parentForm = this.form;
   }
 
   public submit(): void {
