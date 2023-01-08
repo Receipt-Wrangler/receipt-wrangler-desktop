@@ -46,6 +46,10 @@ export class QuickActionsDialogComponent implements OnInit {
     return this.localForm.get('usersToSplit') as FormArray;
   }
 
+  private get receiptItems(): FormArray {
+    return this.parentForm.get('receiptItems') as FormArray;
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private matSnackbar: MatSnackBar,
@@ -90,7 +94,6 @@ export class QuickActionsDialogComponent implements OnInit {
         this.splitEvenly();
       } else {
         this.splitEvenlyWithOptionalParts();
-        console.warn('split with parts');
       }
       this.dialogRef.close(true);
     }
@@ -100,11 +103,9 @@ export class QuickActionsDialogComponent implements OnInit {
     this.addEvenSplitItems();
   }
 
-  // TODO: implement split even with optional parts
   private splitEvenlyWithOptionalParts(): void {
     let amount = Number.parseFloat(this.parentForm.get('amount')?.value);
     const users: User[] = this.usersFormArray.value;
-    const items = this.parentForm.get('receiptItems') as FormArray;
 
     // Build optional parts first
     users.forEach((u) => {
@@ -123,20 +124,18 @@ export class QuickActionsDialogComponent implements OnInit {
           this.originalReceipt?.id?.toString()
         );
 
-        items.push(formGroup);
+        this.receiptItems.push(formGroup);
       }
     });
 
     // Build even split items
     this.addEvenSplitItems(amount);
-    console.warn(this.parentForm.get('receiptItems')?.value);
   }
 
   private addEvenSplitItems(amount?: number): void {
     const users: User[] = this.usersFormArray.controls.map((c) => c.value);
     const receiptAmount =
       amount ?? Number.parseInt(this.parentForm.get('amount')?.value ?? 1);
-    const receiptItems = this.parentForm.get('receiptItems') as FormArray;
 
     users.forEach((u) => {
       const item = this.buildSplitItem(
@@ -149,7 +148,7 @@ export class QuickActionsDialogComponent implements OnInit {
         item,
         this.originalReceipt?.id?.toString()
       );
-      receiptItems.push(formGroup);
+      this.receiptItems.push(formGroup);
     });
   }
 
