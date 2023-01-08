@@ -14,7 +14,12 @@
     </app-user-autocomplete>
     <ng-container [ngSwitch]="(localForm | formGet : 'quickAction')?.value">
       <div *ngSwitchCase="radioValues[1].value">
-        even withs pli optional parts
+        <div *ngFor="let user of (localForm | formGet : 'usersToSplit').value">
+          <app-input
+            [label]="user.displayName + '`s Optional Part'"
+            [inputFormControl]="localForm | formGet : user.id.toString()"
+          ></app-input>
+        </div>
       </div>
     </ng-container>
     <app-button type="submit" buttonText="Split"></app-button>
