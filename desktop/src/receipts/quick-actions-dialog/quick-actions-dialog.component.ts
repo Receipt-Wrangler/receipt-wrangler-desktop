@@ -91,7 +91,7 @@ export class QuickActionsDialogComponent implements OnInit {
       if (
         this.localForm.get('quickAction')?.value === this.radioValues[0].value
       ) {
-        this.splitEvenly();
+        this.addEvenSplitItems();
       } else {
         this.splitEvenlyWithOptionalParts();
       }
@@ -99,8 +99,24 @@ export class QuickActionsDialogComponent implements OnInit {
     }
   }
 
-  private splitEvenly(): void {
-    this.addEvenSplitItems();
+  private addEvenSplitItems(amount?: number): void {
+    const users: User[] = this.usersFormArray.controls.map((c) => c.value);
+    const receiptAmount =
+      amount ?? Number.parseInt(this.parentForm.get('amount')?.value ?? 1);
+
+    users.forEach((u) => {
+      const item = this.buildSplitItem(
+        u,
+        `${u.displayName}'s even Split`,
+        Number.parseFloat((receiptAmount / users.length).toFixed(2))
+      );
+
+      const formGroup = buildItemForm(
+        item,
+        this.originalReceipt?.id?.toString()
+      );
+      this.receiptItems.push(formGroup);
+    });
   }
 
   private splitEvenlyWithOptionalParts(): void {
@@ -130,26 +146,6 @@ export class QuickActionsDialogComponent implements OnInit {
 
     // Build even split items
     this.addEvenSplitItems(amount);
-  }
-
-  private addEvenSplitItems(amount?: number): void {
-    const users: User[] = this.usersFormArray.controls.map((c) => c.value);
-    const receiptAmount =
-      amount ?? Number.parseInt(this.parentForm.get('amount')?.value ?? 1);
-
-    users.forEach((u) => {
-      const item = this.buildSplitItem(
-        u,
-        `${u.displayName}'s even Split`,
-        Number.parseFloat((receiptAmount / users.length).toFixed(2))
-      );
-
-      const formGroup = buildItemForm(
-        item,
-        this.originalReceipt?.id?.toString()
-      );
-      this.receiptItems.push(formGroup);
-    });
   }
 
   private buildSplitItem(u: User, name: string, amount: number): Item {
