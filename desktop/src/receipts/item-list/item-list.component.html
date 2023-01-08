@@ -18,15 +18,10 @@
         [inputFormControl]="newItemFormGroup | formGet : 'amount'"
       >
       </app-input>
-      <app-autocomlete
+      <app-user-autocomplete
         label="Charge to"
-        optionFilterKey="displayName"
-        optionValueKey="id"
         [inputFormControl]="newItemFormGroup | formGet : 'chargedToUserId'"
-        [options]="(users | async) ?? []"
-        [optionTemplate]="optionTemplate"
-        [displayWith]="paidByDisplayWith.bind(this)"
-      ></app-autocomlete>
+      ></app-user-autocomplete>
     </div>
     <app-button type="submit" buttonText="Done"></app-button>
     <app-button buttonText="Cancel" (click)="exitAddMode()"></app-button>
@@ -69,7 +64,3 @@
     </ng-container>
   </mat-expansion-panel>
 </mat-accordion>
-
-<ng-template #optionTemplate let-option="option"
-  >{{ option.displayName }}
-</ng-template>

@@ -14,13 +14,17 @@ import { DatepickerModule } from 'src/datepicker/datepicker.module';
 import { ItemListComponent } from './item-list/item-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UserTotalPipe } from './user-total.pipe';
-
+import { QuickActionsDialogComponent } from './quick-actions-dialog/quick-actions-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { RadioGroupModule } from 'src/radio-group/radio-group.module';
+import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
 @NgModule({
   declarations: [
     ReceiptsTableComponent,
     ReceiptFormComponent,
     ItemListComponent,
     UserTotalPipe,
+    QuickActionsDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -34,6 +38,9 @@ import { UserTotalPipe } from './user-total.pipe';
     AutocompleteModule,
     DatepickerModule,
     MatExpansionModule,
+    MatDialogModule,
+    RadioGroupModule,
+    UserAutocompleteModule,
   ],
 })
 export class ReceiptsModule {}

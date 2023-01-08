@@ -1,0 +1,25 @@
+<app-autocomlete
+  *ngIf="multiple"
+  optionFilterKey="displayName"
+  [label]="label"
+  [inputFormControl]="inputFormControl"
+  [options]="(users | async) ?? []"
+  [optionTemplate]="optionTemplate"
+  [optionChipTemplate]="optionTemplate"
+  [multiple]="true"
+></app-autocomlete>
+
+<app-autocomlete
+  *ngIf="!multiple"
+  optionFilterKey="displayName"
+  optionValueKey="id"
+  [label]="label"
+  [inputFormControl]="inputFormControl"
+  [options]="(users | async) ?? []"
+  [optionTemplate]="optionTemplate"
+  [displayWith]="displayWith.bind(this)"
+></app-autocomlete>
+
+<ng-template #optionTemplate let-option="option"
+  >{{ option.displayName }}
+</ng-template>

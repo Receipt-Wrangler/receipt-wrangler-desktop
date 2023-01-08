@@ -16,6 +16,7 @@ import { Receipt } from 'src/models';
 import { Item } from 'src/models/item';
 import { User } from 'src/models/user';
 import { UserState } from 'src/store/user.state';
+import { buildItemForm } from '../utils/form.utils';
 
 export interface ItemData {
   item: Item;
@@ -42,8 +43,7 @@ export class ItemListComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private store: Store
+    private formBuilder: FormBuilder
   ) {}
 
   public ngOnInit(): void {
@@ -58,7 +58,7 @@ export class ItemListComponent implements OnInit {
       this.formBuilder.array(
         this.originalReceipt?.receiptItems
           ? this.originalReceipt.receiptItems.map((item) =>
-              this.buildItemForm(item)
+              buildItemForm(item, this.originalReceipt?.id?.toString())
             )
           : []
       )
@@ -92,23 +92,12 @@ export class ItemListComponent implements OnInit {
     }
   }
 
-  private buildItemForm(item?: Item): FormGroup {
-    return this.formBuilder.group({
-      name: [item?.name ?? '', Validators.required],
-      chargedToUserId: [item?.chargedToUserId ?? '', Validators.required],
-      receiptId: item?.receiptId ?? this.originalReceipt?.id,
-      amount: new FormControl(item?.amount ?? 1, [
-        Validators.required,
-        Validators.min(1),
-        itemTotalValidator(),
-      ]),
-      isTaxed: item?.isTaxed ?? false,
-    });
-  }
-
   public initAddMode(): void {
     this.isAdding = true;
-    this.newItemFormGroup = this.buildItemForm();
+    this.newItemFormGroup = buildItemForm(
+      undefined,
+      this.originalReceipt?.id?.toString()
+    );
   }
 
   public exitAddMode(): void {
@@ -125,60 +114,9 @@ export class ItemListComponent implements OnInit {
     }
   }
 
-  // TODO: move into shared component
-  public paidByDisplayWith(id: number): string {
-    const user = this.store.selectSnapshot(
-      UserState.getUserById(id.toString())
-    );
-
-    if (user) {
-      return user.displayName;
-    }
-    return '';
-  }
-
   public removeItem(itemData: ItemData): void {
     const formArray = this.form.get('receiptItems') as FormArray;
     formArray.removeAt(itemData.arrayIndex);
     this.setUserItemMap();
   }
-}
-
-export function itemTotalValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const errKey = 'itemLargerThanTotal';
-
-    const formArray = control.parent?.parent as FormArray;
-    const amountControl = control?.parent?.parent?.parent;
-    let receiptTotal: number = 1;
-    if (amountControl) {
-      const amountValue = amountControl.get('amount')?.value;
-      if (amountValue !== undefined) {
-        receiptTotal = Number.parseFloat(amountValue ?? '1');
-      }
-    }
-
-    if (!formArray) {
-      return null;
-    }
-
-    const itemControls = formArray.controls;
-    const itemsAmounts: number[] = itemControls
-      .map((c) => c.get('amount')?.value ?? 0)
-      .map((amount: any) => Number.parseFloat(amount) ?? 1);
-    const itemsTotal = itemsAmounts.reduce((a, b) => a + b);
-
-    if (itemsTotal > receiptTotal) {
-      return { [errKey]: 'Error message' };
-    } else {
-      itemControls.forEach((c) => {
-        if (c.errors && c.hasError(errKey)) {
-          let newErrors = c.errors;
-          delete newErrors[errKey];
-          c.setErrors(newErrors);
-        }
-      });
-      return null;
-    }
-  };
 }

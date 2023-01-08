@@ -35,27 +35,22 @@
       label="Date"
       [inputFormControl]="form | formGet : 'date'"
     ></app-datepicker>
-    <app-autocomlete
-      label="Paid by"
-      optionFilterKey="displayName"
-      optionValueKey="id"
+    <app-user-autocomplete
+      label="Paid By"
       [inputFormControl]="form | formGet : 'paidByUserId'"
-      [options]="(users | async) ?? []"
-      [optionTemplate]="optionTemplate"
-      [displayWith]="paidByDisplayWith.bind(this)"
-    ></app-autocomlete>
+    ></app-user-autocomplete>
     <app-input
       label="Is Resolved"
       [inputFormControl]="form | formGet : 'isResolved'"
     ></app-input>
   </div>
+  <app-button
+    buttonText="Quick Actions"
+    (click)="openQuickActionsModal()"
+  ></app-button>
   <app-item-list [form]="form"></app-item-list>
   <app-button type="submit" buttonText="Submit"></app-button>
 </form>
-
-<ng-template #optionTemplate let-option="option"
-  >{{ option.displayName }}
-</ng-template>
 
 <ng-template #categoryOptionTemplate let-option="option"
   >{{ option.name }}
