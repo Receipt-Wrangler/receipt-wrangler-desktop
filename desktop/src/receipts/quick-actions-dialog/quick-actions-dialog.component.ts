@@ -81,7 +81,9 @@ export class QuickActionsDialogComponent implements OnInit {
   }
 
   public addSplits(): void {
-    const receiptAmount = Number.parseInt(this.parentForm.get('amount')?.value);
+    const receiptAmount = Number.parseFloat(
+      this.parentForm.get('amount')?.value
+    );
     if (receiptAmount < 0 || !receiptAmount) {
       this.matSnackbar.open('Receipt amount does not exist or is invalid!');
       return;
@@ -102,7 +104,7 @@ export class QuickActionsDialogComponent implements OnInit {
   private addEvenSplitItems(amount?: number): void {
     const users: User[] = this.usersFormArray.controls.map((c) => c.value);
     const receiptAmount =
-      amount ?? Number.parseInt(this.parentForm.get('amount')?.value ?? 1);
+      amount ?? Number.parseFloat(this.parentForm.get('amount')?.value ?? 1);
 
     users.forEach((u) => {
       const item = this.buildSplitItem(

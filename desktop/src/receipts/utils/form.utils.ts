@@ -27,6 +27,7 @@ export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
 
 function itemTotalValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
+    const epsilon = 0.01;
     const errKey = 'itemLargerThanTotal';
 
     const formArray = control.parent?.parent as FormArray;
@@ -49,7 +50,7 @@ function itemTotalValidator(): ValidatorFn {
       .map((amount: any) => Number.parseFloat(amount) ?? 1);
     const itemsTotal = itemsAmounts.reduce((a, b) => a + b);
 
-    if (itemsTotal > receiptTotal) {
+    if (itemsTotal > receiptTotal + epsilon) {
       return { [errKey]: 'Error message' };
     } else {
       itemControls.forEach((c) => {
