@@ -18,6 +18,7 @@ import { QuickActionsDialogComponent } from './quick-actions-dialog/quick-action
 import { MatDialogModule } from '@angular/material/dialog';
 import { RadioGroupModule } from 'src/radio-group/radio-group.module';
 import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
+import { UploadImageComponent } from './upload-image/upload-image.component';
 @NgModule({
   declarations: [
     ReceiptsTableComponent,
@@ -25,6 +26,7 @@ import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.
     ItemListComponent,
     UserTotalPipe,
     QuickActionsDialogComponent,
+    UploadImageComponent,
   ],
   imports: [
     CommonModule,
