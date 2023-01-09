@@ -10,12 +10,12 @@ import {
   DEFAULT_SNACKBAR_ACTION,
 } from 'constants/index';
 
-import { Observable, take, tap } from 'rxjs';
+import { take, tap } from 'rxjs';
 import { ReceiptImagesService } from 'src/api/receipt-images.service';
 import { ReceiptsService } from 'src/api/receipts.service';
+import { FormMode } from 'src/enums/form-mode.enum';
 import { Category, Receipt, Tag } from 'src/models';
-import { User } from 'src/models/user';
-import { UserState } from 'src/store/user.state';
+import { FileData } from 'src/models/file-data';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
 
@@ -32,6 +32,10 @@ export class ReceiptFormComponent implements OnInit {
   public tags: Tag[] = [];
 
   public originalReceipt?: Receipt;
+
+  public images: FileData[] = [];
+
+  public mode: FormMode = FormMode.view;
 
   constructor(
     private receiptsService: ReceiptsService,
@@ -50,6 +54,7 @@ export class ReceiptFormComponent implements OnInit {
     this.originalReceipt = this.activatedRoute.snapshot.data['receipt'];
     this.initForm();
     this.getImageFiles();
+    this.images = this.originalReceipt?.imageFiles ?? [];
   }
 
   private initForm(): void {
