@@ -1,3 +1,5 @@
+import { FileData } from './file-data';
+
 export interface Receipt {
   id: number;
   name: string;
@@ -8,6 +10,6 @@ export interface Receipt {
   isResolved: boolean;
   tags: any[];
   categories: any[];
-  imageFiles: any[];
+  imageFiles: FileData[];
   receiptItems: any[];
 }

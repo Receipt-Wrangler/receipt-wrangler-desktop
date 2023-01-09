@@ -11,6 +11,7 @@ import {
 } from 'constants/index';
 
 import { Observable, take, tap } from 'rxjs';
+import { ReceiptImagesService } from 'src/api/receipt-images.service';
 import { ReceiptsService } from 'src/api/receipts.service';
 import { Category, Receipt, Tag } from 'src/models';
 import { User } from 'src/models/user';
@@ -34,6 +35,7 @@ export class ReceiptFormComponent implements OnInit {
 
   constructor(
     private receiptsService: ReceiptsService,
+    private receiptImagesService: ReceiptImagesService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private snackbar: MatSnackBar,
@@ -47,6 +49,7 @@ export class ReceiptFormComponent implements OnInit {
     this.tags = this.activatedRoute.snapshot.data['tags'];
     this.originalReceipt = this.activatedRoute.snapshot.data['receipt'];
     this.initForm();
+    this.getImageFiles();
   }
 
   private initForm(): void {
@@ -67,6 +70,21 @@ export class ReceiptFormComponent implements OnInit {
       ],
       isResolved: this.originalReceipt?.isResolved ?? false,
     });
+  }
+
+  private getImageFiles(): void {
+    if (this.originalReceipt?.imageFiles) {
+      this.originalReceipt?.imageFiles.forEach((file) => {
+        this.receiptImagesService
+          .getImageFiles(file.id.toString())
+          .pipe(
+            tap((data) => {
+              file.imageData = data;
+            })
+          )
+          .subscribe();
+      });
+    }
   }
 
   public openQuickActionsModal(): void {
