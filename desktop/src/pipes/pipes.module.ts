@@ -5,10 +5,25 @@ import { NamePipe } from './name.pipe';
 import { MapKeyPipe } from './map-key.pipe';
 import { MapGetPipe } from './map-get.pipe';
 import { UserPipe } from './user.pipe';
+import { InputReadonlyPipe } from './input-readonly.pipe';
 
 @NgModule({
-  declarations: [FormGetPipe, NamePipe, MapKeyPipe, MapGetPipe, UserPipe],
+  declarations: [
+    FormGetPipe,
+    NamePipe,
+    MapKeyPipe,
+    MapGetPipe,
+    UserPipe,
+    InputReadonlyPipe,
+  ],
   imports: [CommonModule],
-  exports: [FormGetPipe, NamePipe, MapKeyPipe, MapGetPipe, UserPipe],
+  exports: [
+    FormGetPipe,
+    NamePipe,
+    MapKeyPipe,
+    MapGetPipe,
+    UserPipe,
+    InputReadonlyPipe,
+  ],
 })
 export class PipesModule {}

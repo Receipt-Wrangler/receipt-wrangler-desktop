@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { FileData } from 'src/models/file-data';
 
@@ -16,16 +17,46 @@ export class UploadImageComponent {
 
   public acceptFileType: string = 'image/*';
 
-  public onFileChange(event: any): void {
-    console.log(event);
-    console.log(event?.target?.files, 'files');
+  constructor(private activatedRoute: ActivatedRoute) {
+    this.mode = this.activatedRoute.snapshot.data['mode'];
+  }
+
+  public async onFileChange(event: any): Promise<void> {
+    this.mode = this.activatedRoute.snapshot.data['mode'];
     const files: File[] = Array.from(event?.target?.files ?? []);
     const acceptedFiles = files.filter((f) =>
       new RegExp(this.acceptFileType).test(f.type)
     );
 
-    acceptedFiles.forEach((f) => {
-      const fileData = {} as FileData;
+    const fileDataArr: FileData[] = [];
+
+    acceptedFiles.forEach(async (f) => {
+      const data = await f.arrayBuffer();
+      const fileData = {
+        name: f.name,
+        fileType: f.type,
+        imageData: data as any,
+        size: f.size,
+        receiptId: this.receiptId,
+      } as FileData;
+
+      fileDataArr.push(fileData);
     });
+
+    this.handleFile(fileDataArr);
+  }
+
+  private handleFile(filesToHandle: FileData[]): void {
+    switch (this.mode) {
+      case FormMode.view:
+        filesToHandle.forEach((f) => this.images.push(f));
+        break;
+      case FormMode.edit:
+        // we can upload each, then
+        break;
+
+      default:
+        break;
+    }
   }
 }

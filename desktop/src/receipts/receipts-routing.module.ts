@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FormMode } from 'src/enums/form-mode.enum';
 import { CategoriesResolverService } from 'src/resolvers/categories-resolver.service';
 import { ReceiptResolverService } from 'src/resolvers/receipt-resolver.service';
 import { TagsResolverService } from 'src/resolvers/tags-resolver.service';
@@ -17,14 +18,32 @@ const routes: Routes = [
       tags: TagsResolverService,
       categories: CategoriesResolverService,
     },
+    data: {
+      mode: FormMode.add,
+    },
   },
   {
-    path: ':id',
+    path: ':id/view',
     component: ReceiptFormComponent,
     resolve: {
       tags: TagsResolverService,
       categories: CategoriesResolverService,
       receipt: ReceiptResolverService,
+    },
+    data: {
+      mode: FormMode.view,
+    },
+  },
+  {
+    path: ':id/edit',
+    component: ReceiptFormComponent,
+    resolve: {
+      tags: TagsResolverService,
+      categories: CategoriesResolverService,
+      receipt: ReceiptResolverService,
+    },
+    data: {
+      mode: FormMode.edit,
     },
   },
   {

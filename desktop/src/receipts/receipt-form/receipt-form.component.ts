@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
 import {
   DEFAULT_SNACKBAR_CONFIG,
   DEFAULT_SNACKBAR_ACTION,
@@ -55,6 +54,7 @@ export class ReceiptFormComponent implements OnInit {
     this.initForm();
     this.getImageFiles();
     this.images = this.originalReceipt?.imageFiles ?? [];
+    this.mode = this.activatedRoute.snapshot.data['mode'];
   }
 
   private initForm(): void {

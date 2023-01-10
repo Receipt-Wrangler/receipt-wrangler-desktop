@@ -21,6 +21,8 @@ export class UserAutocompleteComponent {
 
   @Input() public multiple: boolean = false;
 
+  @Input() public readonly: boolean = false;
+
   public displayWith(id: number): string {
     const user = this.store.selectSnapshot(
       UserState.getUserById(id.toString())

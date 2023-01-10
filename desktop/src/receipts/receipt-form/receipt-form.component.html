@@ -8,11 +8,13 @@
         <app-input
           label="Name"
           [inputFormControl]="form | formGet : 'name'"
+          [readonly]="mode | inputReadonly"
         ></app-input>
         <app-input
           label="Amount"
           type="number"
           [inputFormControl]="form | formGet : 'amount'"
+          [readonly]="mode | inputReadonly"
         ></app-input>
         <app-autocomlete
           label="Categories"
@@ -24,6 +26,7 @@
           [optionChipTemplate]="categoryOptionTemplate"
           [multiple]="true"
           [creatable]="true"
+          [readonly]="mode | inputReadonly"
         ></app-autocomlete>
         <app-autocomlete
           label="Tags"
@@ -35,24 +38,29 @@
           [optionChipTemplate]="tagOptionTemplate"
           [multiple]="true"
           [creatable]="true"
+          [readonly]="mode | inputReadonly"
         ></app-autocomlete>
         <app-datepicker
           label="Date"
           [inputFormControl]="form | formGet : 'date'"
+          [readonly]="mode | inputReadonly"
         ></app-datepicker>
         <app-user-autocomplete
           label="Paid By"
           [inputFormControl]="form | formGet : 'paidByUserId'"
+          [readonly]="mode | inputReadonly"
         ></app-user-autocomplete>
         <app-input
           label="Is Resolved"
           [inputFormControl]="form | formGet : 'isResolved'"
+          [readonly]="mode | inputReadonly"
         ></app-input>
       </div>
     </div>
   </div>
   <app-button
     buttonText="Quick Actions"
+    [disabled]="mode | inputReadonly"
     (click)="openQuickActionsModal()"
   ></app-button>
   <app-item-list [form]="form"></app-item-list>

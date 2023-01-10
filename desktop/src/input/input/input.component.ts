@@ -21,6 +21,8 @@ export class InputComponent implements OnInit, OnChanges, InputInterface {
 
   @Input() type: string = 'text';
 
+  @Input() public readonly: boolean = false;
+
   public errorMessages: { [key: string]: string } = {};
 
   public formControlErrors!: Observable<InputErrorMessage[]>;
