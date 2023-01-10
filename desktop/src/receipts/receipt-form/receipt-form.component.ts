@@ -53,7 +53,6 @@ export class ReceiptFormComponent implements OnInit {
     this.originalReceipt = this.activatedRoute.snapshot.data['receipt'];
     this.initForm();
     this.getImageFiles();
-    this.images = this.originalReceipt?.imageFiles ?? [];
     this.mode = this.activatedRoute.snapshot.data['mode'];
   }
 
@@ -85,6 +84,7 @@ export class ReceiptFormComponent implements OnInit {
           .pipe(
             tap((data) => {
               file.imageData = data;
+              this.images.push(file);
             })
           )
           .subscribe();

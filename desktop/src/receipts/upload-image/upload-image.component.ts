@@ -34,7 +34,6 @@ export class UploadImageComponent {
       const f = acceptedFiles[i];
 
       reader.onload = () => {
-        console.warn(reader.result);
         const fileData = {
           name: f.name,
           fileType: f.type,

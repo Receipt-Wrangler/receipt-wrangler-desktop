@@ -10,7 +10,9 @@ export class ReceiptImagesService {
   constructor(private httpClient: HttpClient) {}
 
   public getImageFiles(id: string): Observable<string> {
-    return this.httpClient.get<string>(`/api/receiptImage/${id}`).pipe(take(1));
+    return this.httpClient
+      .get<string>(`/api/receiptImage/${id}`, { responseType: 'text' as any })
+      .pipe(take(1));
   }
 
   public uploadImage(fileData: FileData): Observable<void> {
