@@ -7,6 +7,8 @@ import { MapGetPipe } from './map-get.pipe';
 import { UserPipe } from './user.pipe';
 import { InputReadonlyPipe } from './input-readonly.pipe';
 
+import { ImagePipe } from './image.pipe';
+
 @NgModule({
   declarations: [
     FormGetPipe,
@@ -15,6 +17,7 @@ import { InputReadonlyPipe } from './input-readonly.pipe';
     MapGetPipe,
     UserPipe,
     InputReadonlyPipe,
+    ImagePipe,
   ],
   imports: [CommonModule],
   exports: [
@@ -24,6 +27,7 @@ import { InputReadonlyPipe } from './input-readonly.pipe';
     MapGetPipe,
     UserPipe,
     InputReadonlyPipe,
+    ImagePipe,
   ],
 })
 export class PipesModule {}

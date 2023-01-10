@@ -19,6 +19,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RadioGroupModule } from 'src/radio-group/radio-group.module';
 import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
 import { UploadImageComponent } from './upload-image/upload-image.component';
+import { CarouselModule } from 'src/carousel/carousel.module';
 @NgModule({
   declarations: [
     ReceiptsTableComponent,
@@ -43,6 +44,7 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
     MatDialogModule,
     RadioGroupModule,
     UserAutocompleteModule,
+    CarouselModule,
   ],
 })
 export class ReceiptsModule {}

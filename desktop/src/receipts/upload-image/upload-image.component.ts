@@ -1,3 +1,4 @@
+import { ReadVarExpr } from '@angular/compiler';
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormMode } from 'src/enums/form-mode.enum';
@@ -28,28 +29,31 @@ export class UploadImageComponent {
       new RegExp(this.acceptFileType).test(f.type)
     );
 
-    const fileDataArr: FileData[] = [];
+    for (let i = 0; i < acceptedFiles.length; i++) {
+      const reader = new FileReader();
+      const f = acceptedFiles[i];
 
-    acceptedFiles.forEach(async (f) => {
-      const data = await f.arrayBuffer();
-      const fileData = {
-        name: f.name,
-        fileType: f.type,
-        imageData: data as any,
-        size: f.size,
-        receiptId: this.receiptId,
-      } as FileData;
+      reader.onload = () => {
+        console.warn(reader.result);
+        const fileData = {
+          name: f.name,
+          fileType: f.type,
+          imageData: reader.result as string,
+          size: f.size,
+          receiptId: this.receiptId,
+        } as FileData;
 
-      fileDataArr.push(fileData);
-    });
+        this.handleFile(fileData);
+      };
 
-    this.handleFile(fileDataArr);
+      reader.readAsBinaryString(f);
+    }
   }
 
-  private handleFile(filesToHandle: FileData[]): void {
+  private handleFile(fileData: FileData): void {
     switch (this.mode) {
-      case FormMode.view:
-        filesToHandle.forEach((f) => this.images.push(f));
+      case FormMode.add:
+        this.images.push(fileData);
         break;
       case FormMode.edit:
         // we can upload each, then
