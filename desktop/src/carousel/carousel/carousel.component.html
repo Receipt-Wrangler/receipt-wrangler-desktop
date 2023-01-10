@@ -1,4 +1,4 @@
-<carousel>
+<carousel [interval]="0" [isAnimated]="true">
   <slide *ngFor="let image of images">
     img
     <img [src]="image | image" />
