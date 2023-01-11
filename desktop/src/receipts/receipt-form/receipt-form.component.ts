@@ -37,6 +37,10 @@ export class ReceiptFormComponent implements OnInit {
 
   public mode: FormMode = FormMode.view;
 
+  public formMode = FormMode;
+
+  public editLink = '';
+
   constructor(
     private receiptsService: ReceiptsService,
     private receiptImagesService: ReceiptImagesService,
@@ -52,6 +56,7 @@ export class ReceiptFormComponent implements OnInit {
     this.categories = this.activatedRoute.snapshot.data['categories'];
     this.tags = this.activatedRoute.snapshot.data['tags'];
     this.originalReceipt = this.activatedRoute.snapshot.data['receipt'];
+    this.editLink = `/receipts/${this.originalReceipt?.id}/edit`;
     this.initForm();
     this.getImageFiles();
     this.mode = this.activatedRoute.snapshot.data['mode'];

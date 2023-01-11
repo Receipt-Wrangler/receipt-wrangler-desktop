@@ -1,8 +1,18 @@
+<app-button
+  *ngIf="mode === formMode.view"
+  buttonText="edit"
+  [routerLink]="[editLink]"
+></app-button>
 <form [formGroup]="form" (ngSubmit)="submit()">
   <div class="d-flex">
     <div class="w-50">
       <div class="mb-4">
-        <app-upload-image [images]="images"> </app-upload-image>
+        <app-upload-image
+          [images]="images"
+          [mode]="mode"
+          [receiptId]="originalReceipt?.id?.toString()"
+        >
+        </app-upload-image>
       </div>
       <app-carousel [images]="images"></app-carousel>
     </div>

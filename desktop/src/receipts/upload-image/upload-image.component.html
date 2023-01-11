@@ -6,4 +6,8 @@
   [accept]="acceptFileType"
   (change)="onFileChange($event)"
 />
-<app-button buttonText="upload" (click)="uploadInput.click()"></app-button>
+<app-button
+  buttonText="upload"
+  (click)="uploadInput.click()"
+  [disabled]="mode === formMode.view"
+></app-button>
