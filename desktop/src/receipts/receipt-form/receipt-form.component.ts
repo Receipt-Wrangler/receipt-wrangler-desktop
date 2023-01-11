@@ -17,6 +17,7 @@ import { Category, Receipt, Tag } from 'src/models';
 import { FileData } from 'src/models/file-data';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
+import { formatImageData } from '../utils/form.utils';
 
 @Component({
   selector: 'app-receipt-form',
@@ -123,9 +124,6 @@ export class ReceiptFormComponent implements OnInit {
         )
         .subscribe();
     } else if (this.mode === FormMode.add && this.form.valid) {
-      // UPload receipt images after uploading. Note: they will be in binary string format. I would like to save them taht way, but the api only supports uint array rn, which is a byte array so we'll do that
-      // Array.from(new Uint8Array(data)) will do it
-      // use spread to create object so we don't need to modify it
       this.receiptsService
         .createReceipt(this.form.value)
         .pipe(
@@ -141,15 +139,9 @@ export class ReceiptFormComponent implements OnInit {
               () => this.images.length > 0,
               forkJoin(
                 this.images.map((image) =>
-                  this.receiptImagesService.uploadImage({
-                    ...image,
-                    receiptId: Number.parseInt(r.id.toString()) as any,
-                    imageData: Array.from(
-                      Uint8Array.from(
-                        image.imageData.split('').map((c) => c.charCodeAt(0))
-                      )
-                    ) as any,
-                  })
+                  this.receiptImagesService.uploadImage(
+                    formatImageData(image, r.id)
+                  )
                 )
               ),
               of('')
