@@ -1,17 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable, of, startWith, take, tap } from 'rxjs';
+import { FormMode } from 'src/enums/form-mode.enum';
 import { Receipt } from 'src/models';
 import { Item } from 'src/models/item';
 import { User } from 'src/models/user';
@@ -41,6 +33,8 @@ export class ItemListComponent implements OnInit {
 
   public isAdding: boolean = false;
 
+  public mode: FormMode = FormMode.view;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder
@@ -48,6 +42,7 @@ export class ItemListComponent implements OnInit {
 
   public ngOnInit(): void {
     this.originalReceipt = this.activatedRoute.snapshot.data['receipt'];
+    this.mode = this.activatedRoute.snapshot.data['mode'];
     this.initForm();
     this.setUserItemMap();
   }

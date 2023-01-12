@@ -1,7 +1,7 @@
 <app-button
   type="button"
   buttonText="Add Item"
-  [disabled]="isAdding"
+  [disabled]="isAdding || (mode | inputReadonly)"
   (click)="initAddMode()"
 ></app-button>
 <ng-container *ngIf="isAdding">
@@ -16,11 +16,13 @@
         label="Amount"
         type="number"
         [inputFormControl]="newItemFormGroup | formGet : 'amount'"
+        [readonly]="mode | inputReadonly"
       >
       </app-input>
       <app-user-autocomplete
         label="Charge to"
         [inputFormControl]="newItemFormGroup | formGet : 'chargedToUserId'"
+        [readonly]="mode | inputReadonly"
       ></app-user-autocomplete>
     </div>
     <app-button type="submit" buttonText="Done"></app-button>
@@ -43,6 +45,7 @@
           <app-button
             class="w-25"
             buttonText="remove"
+            [disabled]="mode | inputReadonly"
             (click)="removeItem(itemData)"
           ></app-button>
         </div>
@@ -51,6 +54,7 @@
           [inputFormControl]="
             form | formGet : 'receiptItems.' + itemData.arrayIndex + '.name'
           "
+          [readonly]="mode | inputReadonly"
         >
         </app-input>
         <app-input
@@ -58,6 +62,7 @@
           [inputFormControl]="
             form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
           "
+          [readonly]="mode | inputReadonly"
         >
         </app-input>
       </div>

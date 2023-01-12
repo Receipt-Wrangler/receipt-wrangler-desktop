@@ -4,19 +4,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
 import {
   DEFAULT_SNACKBAR_CONFIG,
   DEFAULT_SNACKBAR_ACTION,
 } from 'constants/index';
 
-import { Observable, take, tap } from 'rxjs';
+import { forkJoin, iif, of, switchMap, take, tap } from 'rxjs';
+import { ReceiptImagesService } from 'src/api/receipt-images.service';
 import { ReceiptsService } from 'src/api/receipts.service';
+import { FormMode } from 'src/enums/form-mode.enum';
 import { Category, Receipt, Tag } from 'src/models';
-import { User } from 'src/models/user';
-import { UserState } from 'src/store/user.state';
+import { FileData } from 'src/models/file-data';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
+import { formatImageData } from '../utils/form.utils';
 
 @Component({
   selector: 'app-receipt-form',
@@ -32,8 +33,17 @@ export class ReceiptFormComponent implements OnInit {
 
   public originalReceipt?: Receipt;
 
+  public images: FileData[] = [];
+
+  public mode: FormMode = FormMode.view;
+
+  public formMode = FormMode;
+
+  public editLink = '';
+
   constructor(
     private receiptsService: ReceiptsService,
+    private receiptImagesService: ReceiptImagesService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private snackbar: MatSnackBar,
@@ -46,7 +56,10 @@ export class ReceiptFormComponent implements OnInit {
     this.categories = this.activatedRoute.snapshot.data['categories'];
     this.tags = this.activatedRoute.snapshot.data['tags'];
     this.originalReceipt = this.activatedRoute.snapshot.data['receipt'];
+    this.editLink = `/receipts/${this.originalReceipt?.id}/edit`;
     this.initForm();
+    this.getImageFiles();
+    this.mode = this.activatedRoute.snapshot.data['mode'];
   }
 
   private initForm(): void {
@@ -69,6 +82,22 @@ export class ReceiptFormComponent implements OnInit {
     });
   }
 
+  private getImageFiles(): void {
+    if (this.originalReceipt?.imageFiles) {
+      this.originalReceipt?.imageFiles.forEach((file) => {
+        this.receiptImagesService
+          .getImageFiles(file.id.toString())
+          .pipe(
+            tap((data) => {
+              file.imageData = data;
+              this.images.push(file);
+            })
+          )
+          .subscribe();
+      });
+    }
+  }
+
   public openQuickActionsModal(): void {
     const dialogRef = this.matDialog.open(QuickActionsDialogComponent);
 
@@ -85,6 +114,18 @@ export class ReceiptFormComponent implements OnInit {
       });
   }
 
+  public removeImage(index: number): void {
+    const image = this.images[index];
+    this.receiptImagesService
+      .deleteImage(image.id.toString())
+      .pipe(
+        tap(() => {
+          this.images.splice(index, 1);
+        })
+      )
+      .subscribe();
+  }
+
   public submit(): void {
     if (this.originalReceipt && this.form.valid) {
       this.receiptsService
@@ -99,7 +140,7 @@ export class ReceiptFormComponent implements OnInit {
           })
         )
         .subscribe();
-    } else if (!this.originalReceipt && this.form.valid) {
+    } else if (this.mode === FormMode.add && this.form.valid) {
       this.receiptsService
         .createReceipt(this.form.value)
         .pipe(
@@ -109,7 +150,20 @@ export class ReceiptFormComponent implements OnInit {
               DEFAULT_SNACKBAR_ACTION,
               DEFAULT_SNACKBAR_CONFIG
             );
-          })
+          }),
+          switchMap((r) =>
+            iif(
+              () => this.images.length > 0,
+              forkJoin(
+                this.images.map((image) =>
+                  this.receiptImagesService.uploadImage(
+                    formatImageData(image, r.id)
+                  )
+                )
+              ),
+              of('')
+            )
+          )
         )
         .subscribe();
     }

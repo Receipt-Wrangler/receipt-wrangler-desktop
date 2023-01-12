@@ -23,8 +23,8 @@ export class ReceiptsService {
       .pipe(take(1));
   }
 
-  public createReceipt(receipt: Receipt): Observable<void> {
-    return this.httpClient.post<void>(`/api/receipt`, receipt).pipe(take(1));
+  public createReceipt(receipt: Receipt): Observable<Receipt> {
+    return this.httpClient.post<Receipt>(`/api/receipt`, receipt).pipe(take(1));
   }
 
   public updateReceipt(id: string, receipt: Receipt): Observable<void> {

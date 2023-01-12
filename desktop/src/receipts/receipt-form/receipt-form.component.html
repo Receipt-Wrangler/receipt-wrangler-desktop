@@ -1,51 +1,83 @@
+<app-button
+  *ngIf="mode === formMode.view"
+  buttonText="edit"
+  [routerLink]="[editLink]"
+></app-button>
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="d-flex flex-column">
-    <app-input
-      label="Name"
-      [inputFormControl]="form | formGet : 'name'"
-    ></app-input>
-    <app-input
-      label="Amount"
-      type="number"
-      [inputFormControl]="form | formGet : 'amount'"
-    ></app-input>
-    <app-autocomlete
-      label="Categories"
-      optionFilterKey="name"
-      creatableValueKey="name"
-      [inputFormControl]="form | formGet : 'categories'"
-      [options]="categories"
-      [optionTemplate]="categoryOptionTemplate"
-      [optionChipTemplate]="categoryOptionTemplate"
-      [multiple]="true"
-      [creatable]="true"
-    ></app-autocomlete>
-    <app-autocomlete
-      label="Tags"
-      optionFilterKey="name"
-      creatableValueKey="name"
-      [inputFormControl]="form | formGet : 'tags'"
-      [options]="tags"
-      [optionTemplate]="tagOptionTemplate"
-      [optionChipTemplate]="tagOptionTemplate"
-      [multiple]="true"
-      [creatable]="true"
-    ></app-autocomlete>
-    <app-datepicker
-      label="Date"
-      [inputFormControl]="form | formGet : 'date'"
-    ></app-datepicker>
-    <app-user-autocomplete
-      label="Paid By"
-      [inputFormControl]="form | formGet : 'paidByUserId'"
-    ></app-user-autocomplete>
-    <app-input
-      label="Is Resolved"
-      [inputFormControl]="form | formGet : 'isResolved'"
-    ></app-input>
+  <div class="d-flex">
+    <div class="w-50">
+      <div class="mb-4">
+        <app-upload-image
+          [images]="images"
+          [mode]="mode"
+          [receiptId]="originalReceipt?.id?.toString()"
+        >
+        </app-upload-image>
+      </div>
+      <app-carousel
+        [images]="images"
+        [disabled]="mode !== formMode.edit"
+        (removeButtonClicked)="removeImage($event)"
+      ></app-carousel>
+    </div>
+    <div class="w-50">
+      <div class="d-flex flex-column">
+        <app-input
+          label="Name"
+          [inputFormControl]="form | formGet : 'name'"
+          [readonly]="mode | inputReadonly"
+        ></app-input>
+        <app-input
+          label="Amount"
+          type="number"
+          [inputFormControl]="form | formGet : 'amount'"
+          [readonly]="mode | inputReadonly"
+        ></app-input>
+        <app-autocomlete
+          label="Categories"
+          optionFilterKey="name"
+          creatableValueKey="name"
+          [inputFormControl]="form | formGet : 'categories'"
+          [options]="categories"
+          [optionTemplate]="categoryOptionTemplate"
+          [optionChipTemplate]="categoryOptionTemplate"
+          [multiple]="true"
+          [creatable]="true"
+          [readonly]="mode | inputReadonly"
+        ></app-autocomlete>
+        <app-autocomlete
+          label="Tags"
+          optionFilterKey="name"
+          creatableValueKey="name"
+          [inputFormControl]="form | formGet : 'tags'"
+          [options]="tags"
+          [optionTemplate]="tagOptionTemplate"
+          [optionChipTemplate]="tagOptionTemplate"
+          [multiple]="true"
+          [creatable]="true"
+          [readonly]="mode | inputReadonly"
+        ></app-autocomlete>
+        <app-datepicker
+          label="Date"
+          [inputFormControl]="form | formGet : 'date'"
+          [readonly]="mode | inputReadonly"
+        ></app-datepicker>
+        <app-user-autocomplete
+          label="Paid By"
+          [inputFormControl]="form | formGet : 'paidByUserId'"
+          [readonly]="mode | inputReadonly"
+        ></app-user-autocomplete>
+        <app-input
+          label="Is Resolved"
+          [inputFormControl]="form | formGet : 'isResolved'"
+          [readonly]="mode | inputReadonly"
+        ></app-input>
+      </div>
+    </div>
   </div>
   <app-button
     buttonText="Quick Actions"
+    [disabled]="mode | inputReadonly"
     (click)="openQuickActionsModal()"
   ></app-button>
   <app-item-list [form]="form"></app-item-list>

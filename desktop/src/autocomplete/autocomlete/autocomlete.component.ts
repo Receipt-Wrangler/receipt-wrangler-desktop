@@ -34,6 +34,8 @@ export class AutocomleteComponent implements OnInit {
 
   @Input() public creatableValueKey: string = '';
 
+  @Input() public readonly: boolean = false;
+
   public filteredOptions: Observable<any[]> = of([]);
 
   public filterFormControl: FormControl = new FormControl('');

@@ -10,4 +10,6 @@ export class DatepickerComponent {
   @Input() public label: string = '';
 
   @Input() public inputFormControl: FormControl = new FormControl();
+
+  @Input() public readonly: boolean = false;
 }

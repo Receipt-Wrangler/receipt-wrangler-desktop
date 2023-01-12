@@ -1,0 +1,14 @@
+<carousel [interval]="0" [isAnimated]="true">
+  <slide *ngFor="let image of images; let i = index">
+    <button
+      mat-icon-button
+      class="remove-button m-2"
+      color="primary"
+      [disabled]="disabled"
+      (click)="emitRemoveButtonClicked(i)"
+    >
+      <mat-icon aria-label="delete icon">delete</mat-icon>
+    </button>
+    <img [src]="image | image" />
+  </slide>
+</carousel>

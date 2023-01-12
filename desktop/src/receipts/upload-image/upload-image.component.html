@@ -1,0 +1,13 @@
+<input
+  #uploadInput
+  class="upload-input"
+  type="file"
+  multiple
+  [accept]="acceptFileType"
+  (change)="onFileChange($event)"
+/>
+<app-button
+  buttonText="upload"
+  (click)="uploadInput.click()"
+  [disabled]="mode === formMode.view"
+></app-button>

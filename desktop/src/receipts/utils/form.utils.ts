@@ -7,6 +7,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { FileData } from 'src/models/file-data';
 import { Item } from 'src/models/item';
 
 export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
@@ -62,5 +63,14 @@ function itemTotalValidator(): ValidatorFn {
       });
       return null;
     }
+  };
+}
+export function formatImageData(image: FileData, receiptId: number): any {
+  return {
+    ...image,
+    receiptId: receiptId,
+    imageData: Array.from(
+      Uint8Array.from(image.imageData.split('').map((c) => c.charCodeAt(0)))
+    ),
   };
 }

@@ -11,7 +11,7 @@
             option: option
           }"
         ></ng-template>
-        <button matChipRemove>
+        <button *ngIf="!readonly" matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button></mat-chip-row
       >
@@ -23,6 +23,7 @@
       [formControl]="filterFormControl"
       [matAutocomplete]="auto"
       [matChipInputFor]="chipGrid"
+      [readonly]="readonly"
     />
   </ng-container>
   <input
@@ -31,6 +32,7 @@
     type="text"
     [formControl]="filterFormControl"
     [matAutocomplete]="auto"
+    [readonly]="readonly"
   />
   <mat-autocomplete
     autoActiveFirstOption
