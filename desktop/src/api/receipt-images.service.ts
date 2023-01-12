@@ -20,4 +20,10 @@ export class ReceiptImagesService {
       .post<void>(`/api/receiptImage`, fileData)
       .pipe(take(1));
   }
+
+  public deleteImage(id: string): Observable<void> {
+    return this.httpClient
+      .delete<void>(`/api/receiptImage/${id}`)
+      .pipe(take(1));
+  }
 }

@@ -14,7 +14,11 @@
         >
         </app-upload-image>
       </div>
-      <app-carousel [images]="images"></app-carousel>
+      <app-carousel
+        [images]="images"
+        [disabled]="mode !== formMode.edit"
+        (removeButtonClicked)="removeImage($event)"
+      ></app-carousel>
     </div>
     <div class="w-50">
       <div class="d-flex flex-column">

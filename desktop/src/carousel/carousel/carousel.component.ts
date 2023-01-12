@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FileData } from 'src/models/file-data';
 
 @Component({
@@ -8,5 +15,14 @@ import { FileData } from 'src/models/file-data';
   encapsulation: ViewEncapsulation.None,
 })
 export class CarouselComponent {
-  @Input() images: FileData[] = [];
+  @Input() public images: FileData[] = [];
+
+  @Input() public disabled: boolean = false;
+
+  @Output() public removeButtonClicked: EventEmitter<number> =
+    new EventEmitter<number>();
+
+  public emitRemoveButtonClicked(index: number): void {
+    this.removeButtonClicked.emit(index);
+  }
 }

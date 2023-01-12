@@ -114,6 +114,18 @@ export class ReceiptFormComponent implements OnInit {
       });
   }
 
+  public removeImage(index: number): void {
+    const image = this.images[index];
+    this.receiptImagesService
+      .deleteImage(image.id.toString())
+      .pipe(
+        tap(() => {
+          this.images.splice(index, 1);
+        })
+      )
+      .subscribe();
+  }
+
   public submit(): void {
     if (this.originalReceipt && this.form.valid) {
       this.receiptsService

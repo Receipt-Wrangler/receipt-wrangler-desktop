@@ -1,1 +1,9 @@
 @import "../../../node_modules/bootstrap/dist/css/bootstrap";
+
+.carousel-control-prev {
+  top: 10% !important;
+}
+
+.remove-button {
+  position: absolute !important;
+}
