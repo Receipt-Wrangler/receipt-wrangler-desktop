@@ -52,7 +52,7 @@ function itemTotalValidator(): ValidatorFn {
     const itemsTotal = itemsAmounts.reduce((a, b) => a + b);
 
     if (itemsTotal > receiptTotal + epsilon) {
-      return { [errKey]: 'Error message' };
+      return { [errKey]: 'Item total cannot be larger than receipt total' };
     } else {
       itemControls.forEach((c) => {
         if (c.errors && c.hasError(errKey)) {

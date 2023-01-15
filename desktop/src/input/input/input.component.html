@@ -8,5 +8,8 @@
   />
 </mat-form-field>
 <ng-container *ngFor="let err of formControlErrors | async">
-  <mat-error *ngIf="inputFormControl.touched">{{ err.message }}</mat-error>
+  <mat-error *ngIf="err.error === 'required' && inputFormControl.touched">{{
+    err.message
+  }}</mat-error>
+  <mat-error *ngIf="err.error !== 'required'">{{ err.message }}</mat-error>
 </ng-container>

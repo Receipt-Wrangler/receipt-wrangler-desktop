@@ -18,6 +18,7 @@ import { UsersService } from 'src/api/users.service';
 import { Store } from '@ngxs/store';
 import { SetUsers } from 'src/store/user.state.actions';
 import { User } from 'src/models/user';
+import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -35,10 +36,12 @@ export class SignUpComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private usersService: UsersService,
-    private store: Store
+    private store: Store,
+    private snackbarService: SnackbarService
   ) {}
 
   public ngOnInit(): void {
+    this.snackbarService.error('test');
     this.route.data
       .pipe(
         tap((data) => {
@@ -75,7 +78,11 @@ export class SignUpComponent implements OnInit {
               DEFAULT_SNACKBAR_CONFIG
             );
           }),
-          catchError((err) => of(applyApiErrors(this.form, err)))
+          catchError((err) =>
+            of(
+              this.snackbarService.error(err.error['username'] ?? err['errMsg'])
+            )
+          )
         )
         .subscribe();
     } else if (isValid && !this.isSignUp) {
