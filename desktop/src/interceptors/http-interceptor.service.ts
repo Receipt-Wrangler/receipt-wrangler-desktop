@@ -1,12 +1,15 @@
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
-import { Observable, of, take } from 'rxjs';
+import { catchError, Observable, of, switchMap, take, throwError } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
 import { AuthState } from 'src/store/auth.state';
 
@@ -14,37 +17,51 @@ import { AuthState } from 'src/store/auth.state';
   providedIn: 'root',
 })
 export class HttpInterceptorService implements HttpInterceptor {
-  constructor(private store: Store, private authService: AuthService) {}
+  constructor(
+    private store: Store,
+    private authService: AuthService,
+    private snackbar: MatSnackBar
+  ) {}
 
   public intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const url = req.url.toString();
-    if (!(url.includes('signup') || url.includes('login'))) {
-      const isTokenExpired = this.store.selectSnapshot(
-        AuthState.isTokenExpired
-      );
-      if (isTokenExpired) {
-        // try and get another one
-        this.authService
-          .getNewRefreshToken()
-          .pipe(take(1))
-          .subscribe(() => {
-            return next.handle(this.addTokenToRequest(req));
-          });
-      }
-      return next.handle(this.addTokenToRequest(req));
-    }
-    return next.handle(req);
+    return next.handle(this.addTokenToRequest(req)).pipe(
+      catchError((e: HttpErrorResponse) => {
+        const regex = new RegExp('5d{2}');
+        if (e.status === HttpStatusCode.Unauthorized) {
+          return this.refreshToken(req, next);
+        } else if (regex.test(e.status.toString())) {
+          this.snackbar.open(e.message);
+        }
+
+        return next.handle(req);
+      })
+    );
+  }
+
+  private refreshToken(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    return this.authService.getNewRefreshToken().pipe(
+      take(1),
+      switchMap(() => next.handle(req)),
+      catchError((e) => throwError(() => e))
+    );
   }
 
   private addTokenToRequest(req: HttpRequest<any>): HttpRequest<any> {
     const token = this.store.selectSnapshot(AuthState.token);
-    return req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    if (token) {
+      return req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } else {
+      return req.clone();
+    }
   }
 }
