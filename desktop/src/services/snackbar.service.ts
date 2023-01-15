@@ -17,4 +17,11 @@ export class SnackbarService {
       panelClass: ['error-snackbar'],
     });
   }
+
+  public success(message: string): void {
+    this.snackbar.open(message, DEFAULT_SNACKBAR_ACTION, {
+      ...DEFAULT_SNACKBAR_CONFIG,
+      panelClass: ['success-snackbar'],
+    });
+  }
 }

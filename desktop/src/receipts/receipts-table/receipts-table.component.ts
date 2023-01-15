@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {
-  DEFAULT_SNACKBAR_CONFIG,
-  DEFAULT_SNACKBAR_ACTION,
-} from 'constants/index';
 import { tap } from 'rxjs';
 import { ReceiptsService } from 'src/api/receipts.service';
 import { Receipt } from 'src/models/receipt';
+import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-receipts-table',
@@ -16,7 +12,7 @@ import { Receipt } from 'src/models/receipt';
 export class ReceiptsTableComponent implements OnInit {
   constructor(
     private receiptsService: ReceiptsService,
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {}
 
   public receipts: Receipt[] = [];
@@ -61,11 +57,7 @@ export class ReceiptsTableComponent implements OnInit {
       .pipe(
         tap(() => {
           this.receipts = this.receipts.filter((r) => r.id !== row.id);
-          this.snackbar.open(
-            'Receipt successfully deleted!',
-            DEFAULT_SNACKBAR_ACTION,
-            DEFAULT_SNACKBAR_CONFIG
-          );
+          this.snackbarService.success('Receipt successfully deleted');
         })
       )
       .subscribe();

@@ -32,7 +32,6 @@ export class SignUpComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private snackbar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router,
     private usersService: UsersService,
@@ -41,7 +40,6 @@ export class SignUpComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.snackbarService.error('test');
     this.route.data
       .pipe(
         tap((data) => {
@@ -72,11 +70,7 @@ export class SignUpComponent implements OnInit {
         .signUp(this.form.value)
         .pipe(
           tap(() => {
-            this.snackbar.open(
-              'Successfully registered!',
-              DEFAULT_SNACKBAR_ACTION,
-              DEFAULT_SNACKBAR_CONFIG
-            );
+            this.snackbarService.success('User successfully signed up');
           }),
           catchError((err) =>
             of(
@@ -90,11 +84,7 @@ export class SignUpComponent implements OnInit {
         .login(this.form.value)
         .pipe(
           tap(() => {
-            this.snackbar.open(
-              'Successfully logged in!',
-              DEFAULT_SNACKBAR_ACTION,
-              DEFAULT_SNACKBAR_CONFIG
-            );
+            this.snackbarService.success('Successfully logged in');
           }),
           switchMap(() => this.usersService.getAllUsers()),
           switchMap((users: User[]) =>

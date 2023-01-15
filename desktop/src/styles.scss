@@ -24,3 +24,14 @@ body {
     color: white !important;
   }
 }
+.success-snackbar {
+  color: white;
+
+  .mdc-snackbar__surface {
+    background-color: green !important;
+  }
+
+  .mat-mdc-snack-bar-label {
+    color: white !important;
+  }
+}
