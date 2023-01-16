@@ -1,19 +1,22 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { FormArray, FormControl } from '@angular/forms';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
+import { FormArray, FormControl, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { map, Observable, of, startWith } from 'rxjs';
+import { BaseInputComponent } from 'src/base-input/base-input/base-input.component';
 
 @Component({
   selector: 'app-autocomlete',
   templateUrl: './autocomlete.component.html',
   styleUrls: ['./autocomlete.component.scss'],
 })
-export class AutocomleteComponent implements OnInit {
-  @Input() public label: string = '';
-
-  @Input() public inputFormControl: FormControl = new FormControl();
-
+export class AutocomleteComponent extends BaseInputComponent implements OnInit {
   @Input() public options: any[] = [];
 
   @Input() public optionTemplate!: TemplateRef<any>;
@@ -34,8 +37,6 @@ export class AutocomleteComponent implements OnInit {
 
   @Input() public creatableValueKey: string = '';
 
-  @Input() public readonly: boolean = false;
-
   public filteredOptions: Observable<any[]> = of([]);
 
   public filterFormControl: FormControl = new FormControl('');
@@ -44,7 +45,15 @@ export class AutocomleteComponent implements OnInit {
 
   public duplicateValuesFound: any[] = [];
 
-  public ngOnInit(): void {
+  public isRequired: boolean = false;
+
+  constructor() {
+    super();
+  }
+
+  public override ngOnInit(): void {
+    super.ngOnInit();
+    this.isRequired = this.inputFormControl.hasValidator(Validators.required);
     this.filteredOptions = this.filterFormControl.valueChanges.pipe(
       startWith(this.filterFormControl.value),
       map((value) => {
@@ -59,6 +68,7 @@ export class AutocomleteComponent implements OnInit {
 
   private initSingleAutocomplete(): void {
     this.filterFormControl.setValue(this.inputFormControl.value);
+    this.filterFormControl.valueChanges;
   }
 
   private _filter(value: string): string[] {
