@@ -47,6 +47,8 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
 
   public isRequired: boolean = false;
 
+  public singleOptionSelected: boolean = false;
+
   constructor() {
     super();
   }
@@ -114,6 +116,7 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
       }
       // TODO: set as null
     } else {
+      this.singleOptionSelected = true;
       this.inputFormControl.setValue(event.option.value);
     }
   }
@@ -123,5 +126,10 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
       const formArray = this.inputFormControl as any as FormArray;
       formArray.removeAt(index);
     }
+  }
+
+  public removeSingleOption(): void {
+    this.inputFormControl.setValue(null);
+    this.singleOptionSelected = false;
   }
 }

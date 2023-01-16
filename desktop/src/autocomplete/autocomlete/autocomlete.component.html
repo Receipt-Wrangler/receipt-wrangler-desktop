@@ -27,15 +27,24 @@
       [required]="isRequired"
     />
   </ng-container>
-  <input
-    *ngIf="!multiple"
-    matInput
-    type="text"
-    [formControl]="filterFormControl"
-    [matAutocomplete]="auto"
-    [readonly]="readonly"
-    [required]="isRequired"
-  />
+  <div class="d-flex justify-content-between">
+    <input
+      *ngIf="!multiple"
+      matInput
+      type="text"
+      [formControl]="filterFormControl"
+      [matAutocomplete]="auto"
+      [readonly]="readonly || singleOptionSelected"
+      [required]="isRequired"
+    />
+    <app-button
+      *ngIf="singleOptionSelected"
+      matButtonType="iconButton"
+      icon="close"
+      color="secondary"
+      (click)="removeSingleOption()"
+    ></app-button>
+  </div>
   <mat-autocomplete
     autoActiveFirstOption
     [displayWith]="displayWith"
