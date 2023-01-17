@@ -24,16 +24,27 @@
       [matAutocomplete]="auto"
       [matChipInputFor]="chipGrid"
       [readonly]="readonly"
+      [required]="isRequired"
     />
   </ng-container>
-  <input
-    *ngIf="!multiple"
-    matInput
-    type="text"
-    [formControl]="filterFormControl"
-    [matAutocomplete]="auto"
-    [readonly]="readonly"
-  />
+  <div class="d-flex justify-content-between">
+    <input
+      *ngIf="!multiple"
+      matInput
+      type="text"
+      [formControl]="filterFormControl"
+      [matAutocomplete]="auto"
+      [readonly]="readonly || singleOptionSelected"
+      [required]="isRequired"
+    />
+    <app-button
+      *ngIf="singleOptionSelected"
+      matButtonType="iconButton"
+      icon="close"
+      color="secondary"
+      (click)="removeSingleOption()"
+    ></app-button>
+  </div>
   <mat-autocomplete
     autoActiveFirstOption
     [displayWith]="displayWith"
@@ -57,3 +68,13 @@
     </ng-container>
   </mat-autocomplete>
 </mat-form-field>
+<ng-container [ngTemplateOutlet]="errors"></ng-container>
+
+<ng-template #errors>
+  <ng-container *ngFor="let err of formControlErrors | async">
+    <mat-error *ngIf="err.error === 'required' && filterFormControl.touched">{{
+      err.message
+    }}</mat-error>
+    <mat-error *ngIf="err.error !== 'required'">{{ err.message }}</mat-error>
+  </ng-container>
+</ng-template>

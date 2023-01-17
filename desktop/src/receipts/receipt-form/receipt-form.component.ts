@@ -15,6 +15,7 @@ import { ReceiptsService } from 'src/api/receipts.service';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { Category, Receipt, Tag } from 'src/models';
 import { FileData } from 'src/models/file-data';
+import { SnackbarService } from 'src/services/snackbar.service';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
 import { formatImageData } from '../utils/form.utils';
@@ -46,7 +47,7 @@ export class ReceiptFormComponent implements OnInit {
     private receiptImagesService: ReceiptImagesService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private snackbar: MatSnackBar,
+    private snackbarService: SnackbarService,
     private matDialog: MatDialog
   ) {}
 
@@ -132,11 +133,7 @@ export class ReceiptFormComponent implements OnInit {
         .updateReceipt(this.originalReceipt.id.toString(), this.form.value)
         .pipe(
           tap(() => {
-            this.snackbar.open(
-              'Successfully updated receipt',
-              DEFAULT_SNACKBAR_ACTION,
-              DEFAULT_SNACKBAR_CONFIG
-            );
+            this.snackbarService.success('Successfully updated receipt');
           })
         )
         .subscribe();
@@ -145,11 +142,7 @@ export class ReceiptFormComponent implements OnInit {
         .createReceipt(this.form.value)
         .pipe(
           tap(() => {
-            this.snackbar.open(
-              'Successfully added receipt',
-              DEFAULT_SNACKBAR_ACTION,
-              DEFAULT_SNACKBAR_CONFIG
-            );
+            this.snackbarService.success('Successfully added receipt');
           }),
           switchMap((r) =>
             iif(

@@ -1,13 +1,10 @@
-import { ReadVarExpr } from '@angular/compiler';
 import { Component, Input } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { DEFAULT_SNACKBAR_CONFIG } from 'constants';
-import { DEFAULT_SNACKBAR_ACTION } from 'constants';
 import { tap } from 'rxjs';
 import { ReceiptImagesService } from 'src/api/receipt-images.service';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { FileData } from 'src/models/file-data';
+import { SnackbarService } from 'src/services/snackbar.service';
 import { formatImageData } from '../utils/form.utils';
 
 @Component({
@@ -29,7 +26,7 @@ export class UploadImageComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private receiptImagesService: ReceiptImagesService,
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {
     this.mode = this.activatedRoute.snapshot.data['mode'];
   }
@@ -75,11 +72,7 @@ export class UploadImageComponent {
           .uploadImage(uploadData)
           .pipe(
             tap(() => {
-              this.snackbar.open(
-                'Successfully uploaded image',
-                DEFAULT_SNACKBAR_ACTION,
-                DEFAULT_SNACKBAR_CONFIG
-              );
+              this.snackbarService.success('Successfully uploaded image(s)');
               this.images.push(fileData);
             })
           )
