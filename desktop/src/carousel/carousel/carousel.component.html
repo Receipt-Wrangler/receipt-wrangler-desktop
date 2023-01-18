@@ -13,16 +13,13 @@
         tooltip="Zoom Out"
         (click)="zoomOut()"
       ></app-button>
+      <app-button
+        matButtonType="iconButton"
+        icon="delete"
+        tooltip="Remove Image"
+        (click)="emitRemoveButtonClicked(i)"
+      ></app-button>
     </div>
-    <button
-      mat-icon-button
-      class="remove-button m-2"
-      color="primary"
-      [disabled]="disabled"
-      (click)="emitRemoveButtonClicked(i)"
-    >
-      <mat-icon aria-label="delete icon">delete</mat-icon>
-    </button>
     <image-cropper
       [imageBase64]="image | image"
       [hideResizeSquares]="true"
