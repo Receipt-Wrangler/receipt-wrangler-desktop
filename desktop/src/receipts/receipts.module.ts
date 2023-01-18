@@ -20,6 +20,8 @@ import { RadioGroupModule } from 'src/radio-group/radio-group.module';
 import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { CarouselModule } from 'src/carousel/carousel.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 @NgModule({
   declarations: [
     ReceiptsTableComponent,
@@ -45,6 +47,7 @@ import { CarouselModule } from 'src/carousel/carousel.module';
     RadioGroupModule,
     UserAutocompleteModule,
     CarouselModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class ReceiptsModule {}
