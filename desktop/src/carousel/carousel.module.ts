@@ -5,6 +5,8 @@ import { CarouselModule as NgxCarouselModule } from 'ngx-bootstrap/carousel';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { ButtonModule } from 'src/button/button.module';
 
 @NgModule({
   declarations: [CarouselComponent],
@@ -14,6 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
     NgxCarouselModule.forRoot(),
     MatButtonModule,
     MatIconModule,
+    ImageCropperModule,
+    ButtonModule,
   ],
   exports: [CarouselComponent],
 })

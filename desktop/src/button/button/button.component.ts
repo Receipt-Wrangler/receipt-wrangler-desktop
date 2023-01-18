@@ -13,4 +13,5 @@ export class ButtonComponent {
   @Input() matButtonType: 'matRaisedButton' | 'iconButton' = 'matRaisedButton';
   @Input() icon: string = '';
   @Input() disabled: boolean = false;
+  @Input() public tooltip: string = '';
 }
