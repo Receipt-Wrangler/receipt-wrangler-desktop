@@ -1,15 +1,9 @@
-import { DEFAULT_INTERPOLATION_CONFIG } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import {
-  DEFAULT_SNACKBAR_CONFIG,
-  DEFAULT_SNACKBAR_ACTION,
-} from 'constants/index';
 
-import { forkJoin, iif, of, switchMap, take, tap } from 'rxjs';
+import { finalize, forkJoin, iif, of, switchMap, take, tap } from 'rxjs';
 import { ReceiptImagesService } from 'src/api/receipt-images.service';
 import { ReceiptsService } from 'src/api/receipts.service';
 import { FormMode } from 'src/enums/form-mode.enum';
@@ -41,6 +35,8 @@ export class ReceiptFormComponent implements OnInit {
   public formMode = FormMode;
 
   public editLink = '';
+
+  public imagesLoading: boolean = false;
 
   constructor(
     private receiptsService: ReceiptsService,
@@ -84,7 +80,11 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   private getImageFiles(): void {
-    if (this.originalReceipt?.imageFiles) {
+    if (
+      this.originalReceipt?.imageFiles &&
+      this.originalReceipt?.imageFiles?.length > 0
+    ) {
+      this.imagesLoading = true;
       this.originalReceipt?.imageFiles.forEach((file) => {
         this.receiptImagesService
           .getImageFiles(file.id.toString())
@@ -92,7 +92,8 @@ export class ReceiptFormComponent implements OnInit {
             tap((data) => {
               file.imageData = data;
               this.images.push(file);
-            })
+            }),
+            finalize(() => (this.imagesLoading = false))
           )
           .subscribe();
       });

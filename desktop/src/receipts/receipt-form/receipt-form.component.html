@@ -14,6 +14,11 @@
         >
         </app-upload-image>
       </div>
+      <ng-container *ngIf="imagesLoading">
+        <div class="d-flex justify-content-center align-items-center">
+          <mat-spinner></mat-spinner>
+        </div>
+      </ng-container>
       <app-carousel
         [images]="images"
         [disabled]="mode !== formMode.edit"
