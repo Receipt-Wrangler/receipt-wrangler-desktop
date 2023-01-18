@@ -80,7 +80,10 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   private getImageFiles(): void {
-    if (this.originalReceipt?.imageFiles) {
+    if (
+      this.originalReceipt?.imageFiles &&
+      this.originalReceipt?.imageFiles?.length > 0
+    ) {
       this.imagesLoading = true;
       this.originalReceipt?.imageFiles.forEach((file) => {
         this.receiptImagesService
