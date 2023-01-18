@@ -1,5 +1,19 @@
 <carousel [interval]="0" [isAnimated]="true">
   <slide *ngFor="let image of images; let i = index">
+    <div class="d-flex justify-content-center">
+      <app-button
+        matButtonType="iconButton"
+        icon="zoom_in"
+        tooltip="Zoom In"
+        (click)="zoomIn()"
+      ></app-button>
+      <app-button
+        matButtonType="iconButton"
+        icon="zoom_out"
+        tooltip="Zoom Out"
+        (click)="zoomOut()"
+      ></app-button>
+    </div>
     <button
       mat-icon-button
       class="remove-button m-2"
@@ -9,6 +23,11 @@
     >
       <mat-icon aria-label="delete icon">delete</mat-icon>
     </button>
-    <img [src]="image | image" />
+    <image-cropper
+      [imageBase64]="image | image"
+      [hideResizeSquares]="true"
+      [transform]="transform"
+      [allowMoveImage]="true"
+    ></image-cropper>
   </slide>
 </carousel>

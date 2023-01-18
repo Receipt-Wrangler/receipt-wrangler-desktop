@@ -7,6 +7,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FileData } from 'src/models/file-data';
+import {
+  Dimensions,
+  ImageCroppedEvent,
+  ImageTransform,
+} from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-carousel',
@@ -24,5 +29,24 @@ export class CarouselComponent {
 
   public emitRemoveButtonClicked(index: number): void {
     this.removeButtonClicked.emit(index);
+  }
+
+  public scale: number = 1;
+  public transform: ImageTransform = {};
+
+  public zoomOut() {
+    this.scale -= 0.1;
+    this.transform = {
+      ...this.transform,
+      scale: this.scale,
+    };
+  }
+
+  public zoomIn() {
+    this.scale += 0.1;
+    this.transform = {
+      ...this.transform,
+      scale: this.scale,
+    };
   }
 }

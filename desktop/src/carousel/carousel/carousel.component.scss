@@ -7,3 +7,11 @@
 .remove-button {
   position: absolute !important;
 }
+
+.ngx-ic-cropper {
+  display: none !important;
+}
+
+.image-container {
+  max-height: 25vh;
+}
