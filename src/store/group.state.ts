@@ -8,13 +8,13 @@ export interface GroupStateInterface {
 }
 
 @State<GroupStateInterface>({
-  name: 'users',
+  name: 'groups',
   defaults: {
     groups: [],
   },
 })
 @Injectable()
-export class UserState {
+export class GroupState {
   @Selector()
   static(state: GroupStateInterface): Group[] {
     return state.groups;

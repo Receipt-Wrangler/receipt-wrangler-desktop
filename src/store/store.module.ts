@@ -4,12 +4,13 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { AuthState } from './auth.state';
 import { UserState } from './user.state';
+import { GroupState } from './group.state';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    NgxsModule.forRoot([AuthState, UserState]),
+    NgxsModule.forRoot([AuthState, GroupState, UserState]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
   ],
 })

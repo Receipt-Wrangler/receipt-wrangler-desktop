@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { EventType, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { switchMap, take, tap } from 'rxjs';
+import { forkJoin, Observable, switchMap, take, tap } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
+import { GroupsService } from 'src/api/groups.service';
 import { UsersService } from 'src/api/users.service';
+import { Group } from 'src/models/group';
+import { User } from 'src/models/user';
 import { AuthState } from 'src/store/auth.state';
 import { SetAuthState } from 'src/store/auth.state.actions';
+import { SetGroups } from 'src/store/group.state.actions';
 import { SetUsers } from 'src/store/user.state.actions';
 
 @Component({
@@ -20,6 +24,7 @@ export class AppComponent implements OnInit {
     private store: Store,
     private authService: AuthService,
     private userService: UsersService,
+    private groupsService: GroupsService,
     private router: Router
   ) {}
 
@@ -27,30 +32,34 @@ export class AppComponent implements OnInit {
     this.listenForNavigationStart();
     this.store.dispatch(new SetAuthState());
     const hasToken = this.store.selectSnapshot(AuthState.token);
-    let isLoggedIn = this.store.selectSnapshot(AuthState.isLoggedIn);
 
     if (hasToken) {
       this.authService
         .getNewRefreshToken()
         .pipe(
           take(1),
-          tap(() => {
-            isLoggedIn = this.store.selectSnapshot(AuthState.isLoggedIn);
-          }),
-          switchMap(() => {
-            return this.userService.getAllUsers().pipe(take(1));
-          }),
-          switchMap((users) => this.store.dispatch(new SetUsers(users)))
+          switchMap(() => this.getAppData())
         )
         .subscribe();
     } else {
-      this.userService
-        .getAllUsers()
-        .pipe(take(1))
-        .subscribe((users) => {
-          this.store.dispatch(new SetUsers(users));
-        });
+      this.getAppData().pipe(take(1)).subscribe();
     }
+  }
+
+  private getAppData(): Observable<[User[], Group[]]> {
+    const usersCall = this.userService.getAllUsers().pipe(
+      take(1),
+      tap((users) => this.store.dispatch(new SetUsers(users)))
+    );
+
+    const groupsCall = this.groupsService.GetGroupsForUser().pipe(
+      take(1),
+      tap((groups) => {
+        this.store.dispatch(new SetGroups(groups));
+      })
+    );
+
+    return forkJoin(usersCall, groupsCall);
   }
 
   private listenForNavigationStart(): void {
