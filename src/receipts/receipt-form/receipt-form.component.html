@@ -67,6 +67,16 @@
           [inputFormControl]="form | formGet : 'date'"
           [readonly]="mode | inputReadonly"
         ></app-datepicker>
+        <app-autocomlete
+          label="Group"
+          optionFilterKey="name"
+          optionValueKey="id"
+          [inputFormControl]="form | formGet : 'groupId'"
+          [options]="(groups | async) ?? []"
+          [optionTemplate]="groupOptionTemplate"
+          [readonly]="mode | inputReadonly"
+          [displayWith]="groupDisplayWith.bind(this)"
+        ></app-autocomlete>
         <app-user-autocomplete
           label="Paid By"
           [inputFormControl]="form | formGet : 'paidByUserId'"
@@ -94,5 +104,9 @@
 </ng-template>
 
 <ng-template #tagOptionTemplate let-option="option"
+  >{{ option.name }}
+</ng-template>
+
+<ng-template #groupOptionTemplate let-option="option"
   >{{ option.name }}
 </ng-template>
