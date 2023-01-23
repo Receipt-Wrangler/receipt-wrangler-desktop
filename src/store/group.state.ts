@@ -50,14 +50,20 @@ export class GroupState {
   }
 
   @Action(SetSelectedGroupId)
-  setSelectedGroupId({
-    getState,
-    patchState,
-  }: StateContext<GroupStateInterface>) {
-    const groups = getState().groups;
+  setSelectedGroupId(
+    { getState, patchState }: StateContext<GroupStateInterface>,
+    payload: SetSelectedGroupId
+  ) {
+    let groupId = '';
+    if (payload?.groupId) {
+      groupId = payload.groupId;
+    } else {
+      const groups = getState().groups;
+      groupId = groups[0].id.toString();
+    }
 
     patchState({
-      selectedGroupId: groups[0].id.toString() ?? '',
+      selectedGroupId: groupId,
     });
   }
 }

@@ -7,5 +7,5 @@ export class SetGroups {
 
 export class SetSelectedGroupId {
   static readonly type = '[Group] Set Selected Group Id';
-  constructor() {}
+  constructor(public groupId?: string) {}
 }
