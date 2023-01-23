@@ -28,6 +28,11 @@ export class GroupState {
     return state.groups;
   }
 
+  @Selector()
+  static selectedGroupId(state: GroupStateInterface): string {
+    return state.selectedGroupId;
+  }
+
   static getGroupById(groupId: string) {
     return createSelector([GroupState], (state: GroupStateInterface) => {
       return state.groups.find((g) => g.id.toString() === groupId.toString());

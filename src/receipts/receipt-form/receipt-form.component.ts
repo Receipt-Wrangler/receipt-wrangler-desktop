@@ -76,6 +76,9 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   private initForm(): void {
+    const selectedGroupId = this.store.selectSnapshot(
+      GroupState.selectedGroupId
+    );
     this.form = this.formBuilder.group({
       name: [this.originalReceipt?.name ?? '', Validators.required],
       amount: [
@@ -91,20 +94,12 @@ export class ReceiptFormComponent implements OnInit {
         this.originalReceipt?.paidByUserId ?? '',
         Validators.required,
       ],
-      groupId: [this.originalReceipt?.groupId ?? null, Validators.required],
+      groupId: [
+        this.originalReceipt?.groupId ?? selectedGroupId,
+        Validators.required,
+      ],
       isResolved: this.originalReceipt?.isResolved ?? false,
     });
-    this.groups
-      .pipe(
-        filter((g) => g.length > 0),
-        take(1),
-        tap((g) => {
-          if (!this.form.get('groupId')?.value) {
-            this.form.get('groupId')?.setValue(g[0].id);
-          }
-        })
-      )
-      .subscribe();
   }
 
   private getImageFiles(): void {
