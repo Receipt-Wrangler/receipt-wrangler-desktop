@@ -1,7 +1,7 @@
 <ng-container *ngIf="!!(isLoggedIn | async)">
   <div class="m-4">
     <a class="me-2" [routerLink]="['/dashboard']">Dashboard</a>
-    <a [routerLink]="['/receipts']">Receipts</a>
+    <a [routerLink]="receiptHeaderLink | async">Receipts</a>
   </div>
   <hr class="horizontal-line" size="1" />
 </ng-container>
