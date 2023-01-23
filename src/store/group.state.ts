@@ -7,16 +7,18 @@ import {
   StateContext,
 } from '@ngxs/store';
 import { Group } from 'src/models/group';
-import { SetGroups } from './group.state.actions';
+import { SetGroups, SetSelectedGroupId } from './group.state.actions';
 
 export interface GroupStateInterface {
   groups: Group[];
+  selectedGroupId: string;
 }
 
 @State<GroupStateInterface>({
   name: 'groups',
   defaults: {
     groups: [],
+    selectedGroupId: '',
   },
 })
 @Injectable()
@@ -39,6 +41,18 @@ export class GroupState {
   ) {
     patchState({
       groups: payload.groups,
+    });
+  }
+
+  @Action(SetSelectedGroupId)
+  setSelectedGroupId({
+    getState,
+    patchState,
+  }: StateContext<GroupStateInterface>) {
+    const groups = getState().groups;
+
+    patchState({
+      selectedGroupId: groups[0].id.toString() ?? '',
     });
   }
 }

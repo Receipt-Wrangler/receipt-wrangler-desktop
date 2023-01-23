@@ -17,7 +17,7 @@ import { Group } from 'src/models/group';
 import { User } from 'src/models/user';
 import { AuthState } from 'src/store/auth.state';
 import { SetAuthState } from 'src/store/auth.state.actions';
-import { SetGroups } from 'src/store/group.state.actions';
+import { SetGroups, SetSelectedGroupId } from 'src/store/group.state.actions';
 import { SetUsers } from 'src/store/user.state.actions';
 
 @Injectable({
@@ -31,7 +31,7 @@ export class AppInitService {
     private groupsService: GroupsService
   ) {}
 
-  public initAppData(): Promise<any> {
+  public initAppData(): Promise<boolean> {
     return new Promise((resolve) => {
       this.store.dispatch(new SetAuthState());
       const hasToken = this.store.selectSnapshot(AuthState.token);
@@ -66,6 +66,7 @@ export class AppInitService {
       take(1),
       tap((groups) => {
         this.store.dispatch(new SetGroups(groups));
+        this.store.dispatch(new SetSelectedGroupId());
       })
     );
 
