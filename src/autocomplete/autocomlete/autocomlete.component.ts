@@ -80,7 +80,6 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
 
   private initSingleAutocomplete(): void {
     this.filterFormControl.setValue(this.inputFormControl.value);
-    this.filterFormControl.valueChanges;
   }
 
   private _filter(value: string): string[] {

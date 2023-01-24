@@ -95,7 +95,7 @@ export class ReceiptFormComponent implements OnInit {
         Validators.required,
       ],
       groupId: [
-        this.originalReceipt?.groupId ?? selectedGroupId,
+        this.originalReceipt?.groupId ?? Number(selectedGroupId),
         Validators.required,
       ],
       isResolved: this.originalReceipt?.isResolved ?? false,
