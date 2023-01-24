@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { tap } from 'rxjs';
 import { ReceiptsService } from 'src/api/receipts.service';
 import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { GroupState } from 'src/store/group.state';
 
 @Component({
   selector: 'app-receipts-table',
@@ -12,7 +14,8 @@ import { SnackbarService } from 'src/services/snackbar.service';
 export class ReceiptsTableComponent implements OnInit {
   constructor(
     private receiptsService: ReceiptsService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private store: Store
   ) {}
 
   public receipts: Receipt[] = [];
@@ -29,8 +32,11 @@ export class ReceiptsTableComponent implements OnInit {
   ];
 
   public ngOnInit(): void {
+    const selectedGroupId = this.store.selectSnapshot(
+      GroupState.selectedGroupId
+    );
     this.receiptsService
-      .getAllReceipts()
+      .getReceiptsForGroup(selectedGroupId)
       .pipe(tap((receipts) => (this.receipts = receipts)))
       .subscribe();
   }

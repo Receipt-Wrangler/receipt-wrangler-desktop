@@ -1,15 +1,28 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { Select, Selector, Store } from '@ngxs/store';
 
-import { finalize, forkJoin, iif, of, switchMap, take, tap } from 'rxjs';
+import {
+  filter,
+  finalize,
+  forkJoin,
+  iif,
+  Observable,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { ReceiptImagesService } from 'src/api/receipt-images.service';
 import { ReceiptsService } from 'src/api/receipts.service';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { Category, Receipt, Tag } from 'src/models';
 import { FileData } from 'src/models/file-data';
+import { Group } from 'src/models/group';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { GroupState } from 'src/store/group.state';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
 import { formatImageData } from '../utils/form.utils';
@@ -21,6 +34,8 @@ import { formatImageData } from '../utils/form.utils';
 })
 export class ReceiptFormComponent implements OnInit {
   @ViewChild(ItemListComponent) itemsListComponent!: ItemListComponent;
+
+  @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
   public categories: Category[] = [];
 
@@ -44,7 +59,8 @@ export class ReceiptFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private snackbarService: SnackbarService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private store: Store
   ) {}
 
   public form: FormGroup = new FormGroup({});
@@ -60,6 +76,9 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   private initForm(): void {
+    const selectedGroupId = this.store.selectSnapshot(
+      GroupState.selectedGroupId
+    );
     this.form = this.formBuilder.group({
       name: [this.originalReceipt?.name ?? '', Validators.required],
       amount: [
@@ -73,6 +92,10 @@ export class ReceiptFormComponent implements OnInit {
       date: [this.originalReceipt?.date ?? new Date(), Validators.required],
       paidByUserId: [
         this.originalReceipt?.paidByUserId ?? '',
+        Validators.required,
+      ],
+      groupId: [
+        this.originalReceipt?.groupId ?? Number(selectedGroupId),
         Validators.required,
       ],
       isResolved: this.originalReceipt?.isResolved ?? false,
@@ -126,6 +149,17 @@ export class ReceiptFormComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  public groupDisplayWith(id: number): string {
+    const group = this.store.selectSnapshot(
+      GroupState.getGroupById(id?.toString())
+    );
+
+    if (group) {
+      return group.name;
+    }
+    return '';
   }
 
   public submit(): void {

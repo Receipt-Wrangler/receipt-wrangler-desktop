@@ -6,7 +6,7 @@ export interface Receipt {
   amount: number;
   date: Date;
   paidByUserId: number;
-  ownedByUserId: number;
+  groupId: number;
   isResolved: boolean;
   tags: any[];
   categories: any[];

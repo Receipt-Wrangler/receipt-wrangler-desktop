@@ -9,8 +9,10 @@ import { Receipt } from 'src/models/receipt';
 export class ReceiptsService {
   constructor(private httpClient: HttpClient) {}
 
-  public getAllReceipts(): Observable<Receipt[]> {
-    return this.httpClient.get<Receipt[]>('/api/receipt').pipe(take(1));
+  public getReceiptsForGroup(groupId: string): Observable<Receipt[]> {
+    return this.httpClient
+      .get<Receipt[]>(`/api/receipt/group/${groupId}`)
+      .pipe(take(1));
   }
 
   public getReceiptById(id: string): Observable<Receipt> {

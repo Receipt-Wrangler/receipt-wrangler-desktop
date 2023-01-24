@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { FormArray, FormControl, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { map, Observable, of, startWith } from 'rxjs';
 import { BaseInputComponent } from 'src/base-input/base-input/base-input.component';
 
@@ -56,6 +55,7 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
   public override ngOnInit(): void {
     super.ngOnInit();
     this.isRequired = this.inputFormControl.hasValidator(Validators.required);
+    this.setSingleOptionSelected();
     this.filteredOptions = this.filterFormControl.valueChanges.pipe(
       startWith(this.filterFormControl.value),
       map((value) => {
@@ -68,9 +68,18 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
     }
   }
 
+  private setSingleOptionSelected(): void {
+    if (!this.multiple) {
+      this.inputFormControl.valueChanges
+        .pipe(startWith(this.inputFormControl.value))
+        .subscribe((v) => {
+          this.singleOptionSelected = !!v;
+        });
+    }
+  }
+
   private initSingleAutocomplete(): void {
     this.filterFormControl.setValue(this.inputFormControl.value);
-    this.filterFormControl.valueChanges;
   }
 
   private _filter(value: string): string[] {
@@ -116,7 +125,6 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
       }
       // TODO: set as null
     } else {
-      this.singleOptionSelected = true;
       this.inputFormControl.setValue(event.option.value);
     }
   }
@@ -130,6 +138,5 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
 
   public removeSingleOption(): void {
     this.inputFormControl.setValue(null);
-    this.singleOptionSelected = false;
   }
 }
