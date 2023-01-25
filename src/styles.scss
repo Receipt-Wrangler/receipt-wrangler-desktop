@@ -2,7 +2,91 @@
 @use "sass:map";
 @use "@angular/material" as mat;
 
+@include mat.core();
+
 @import "../node_modules/bootstrap/dist/css/bootstrap-utilities.css";
+
+$font-family: "Raleway";
+
+$my-custom-level: mat.define-typography-level(
+  $font-family: $font-family,
+  $font-weight: 400,
+  $font-size: 1rem,
+  $line-height: 1,
+  $letter-spacing: normal,
+);
+$my-custom-typography-config: mat.define-typography-config(
+  $headline-1:
+    mat.define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
+  $headline-2:
+    mat.define-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
+  $headline-3:
+    mat.define-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
+  $headline-4: mat.define-typography-level(34px, 40px, 400),
+  $headline-5: mat.define-typography-level(24px, 32px, 400),
+);
+
+$primary-palette: (
+  50: #ccecff,
+  100: #bbe6ff,
+  200: #a4deff,
+  300: #85d2ff,
+  400: #5dc4ff,
+  500: #27b1ff,
+  600: #009efa,
+  700: #0086d4,
+  800: #0072b4,
+  900: #006199,
+  // ... continues to 900
+  contrast:
+    (
+      50: rgba(black, 0.87),
+      100: rgba(black, 0.87),
+      200: rgba(black, 0.87),
+      300: white,
+      // ... continues to 900
+    ),
+);
+$my-primary: mat.define-palette($primary-palette);
+$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+$warn-palette: (
+  50: #f5cfcf,
+  100: #f2bfbf,
+  200: #eea9a9,
+  300: #e88c8c,
+  400: #e06666,
+  500: #d63333,
+  600: #bc2626,
+  700: #a02020,
+  800: #881b1b,
+  900: #731717,
+  // ... continues to 900
+  contrast:
+    (
+      50: rgba(black, 0.87),
+      100: rgba(black, 0.87),
+      200: rgba(black, 0.87),
+      300: white,
+      // ... continues to 900
+    ),
+);
+$my-warn: mat.define-palette($warn-palette);
+
+$my-typography: mat.define-typography-config();
+
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+      warn: $my-warn,
+    ),
+    typography: $my-typography,
+  )
+);
+
+@include mat.all-component-themes($my-theme);
 
 html,
 body {
