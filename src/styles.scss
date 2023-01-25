@@ -125,7 +125,7 @@ body {
 $global-shadow: 0px 2px 7px -1px rgba(0, 67, 104, 0.18);
 
 .mat-mdc-card {
-  box-shadow: $global-shadow;
+  box-shadow: $global-shadow !important;
 }
 
 .mat-mdc-raised-button {
@@ -137,5 +137,9 @@ $global-shadow: 0px 2px 7px -1px rgba(0, 67, 104, 0.18);
 }
 
 .mat-datepicker-content {
-  box-shadow: $global-shadow;
+  box-shadow: $global-shadow !important;
+}
+
+.mdc-switch__shadow {
+  box-shadow: $global-shadow !important;
 }
