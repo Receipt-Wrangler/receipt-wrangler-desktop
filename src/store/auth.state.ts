@@ -3,6 +3,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { SetAuthState } from './auth.state.actions';
 import Cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
+import { User } from 'src/models';
 
 export interface AuthStateInterface {
   userId?: string;
@@ -35,6 +36,15 @@ export class AuthState {
     } else {
       return true;
     }
+  }
+
+  @Selector()
+  static loggedInUser(state: AuthStateInterface): User {
+    return {
+      id: Number(state.userId) ?? '',
+      displayName: state.displayname ?? '',
+      username: state.username ?? '',
+    } as User;
   }
 
   @Action(SetAuthState)

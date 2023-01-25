@@ -1,19 +1,21 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterModule } from '@angular/router';
+import { AvatarModule } from '../avatar';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [HeaderComponent],
   imports: [
+    AvatarModule,
     CommonModule,
-    RouterModule,
     MatButtonModule,
-    MatTooltipModule,
     MatCardModule,
+    MatTooltipModule,
+    RouterModule,
   ],
   exports: [HeaderComponent],
 })
