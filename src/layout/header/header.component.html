@@ -1,7 +1,46 @@
 <ng-container *ngIf="!!(isLoggedIn | async)">
   <div class="m-4">
-    <a class="me-2" [routerLink]="['/dashboard']">Dashboard</a>
-    <a [routerLink]="receiptHeaderLink | async">Receipts</a>
+    <img src="../../assets/navigation/group.svg" />
+    <ng-template
+      [ngTemplateOutlet]="navButton"
+      [ngTemplateOutletContext]="{
+        srcPath: '../../assets/navigation/dashboard.svg',
+        tooltip: 'Dashboard',
+        routerLink: ['/dashboard']
+      }"
+    ></ng-template>
+    <ng-template
+      [ngTemplateOutlet]="navButton"
+      [ngTemplateOutletContext]="{
+        srcPath: '../../assets/navigation/receipt-list.svg',
+        tooltip: 'Receipt List',
+        routerLink: receiptHeaderLink | async
+      }"
+    ></ng-template>
+    <ng-template
+      [ngTemplateOutlet]="navButton"
+      [ngTemplateOutletContext]="{
+        srcPath: '../../assets/navigation/add-receipt.svg',
+        tooltip: 'Add Receipt',
+        routerLink: ['/receipts/add']
+      }"
+    ></ng-template>
   </div>
-  <hr class="horizontal-line" size="1" />
 </ng-container>
+
+<ng-template
+  #navButton
+  let-srcPath="srcPath"
+  let-routerLink="routerLink"
+  let-tooltip="tooltip"
+>
+  <button
+    mat-icon-button
+    color="primary"
+    class="nav-button"
+    [routerLink]="routerLink"
+    [matTooltip]="tooltip"
+  >
+    <img [src]="srcPath" />
+  </button>
+</ng-template>
