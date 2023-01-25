@@ -4,7 +4,7 @@
 
 @include mat.core();
 
-@import "../node_modules/bootstrap/dist/css/bootstrap-utilities.css";
+@import "/node_modules/bootstrap/dist/css/bootstrap-utilities.css";
 
 $font-family: "Raleway";
 
@@ -118,4 +118,24 @@ body {
   .mat-mdc-snack-bar-label {
     color: white !important;
   }
+}
+
+// Global Style Changes
+
+$global-shadow: 0px 2px 7px -1px rgba(0, 67, 104, 0.18);
+
+.mat-mdc-card {
+  box-shadow: $global-shadow;
+}
+
+.mat-mdc-raised-button {
+  box-shadow: $global-shadow !important;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  box-shadow: $global-shadow !important;
+}
+
+.mat-datepicker-content {
+  box-shadow: $global-shadow;
 }
