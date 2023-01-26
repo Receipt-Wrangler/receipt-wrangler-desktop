@@ -3,7 +3,8 @@
 @use "@angular/material" as mat;
 
 @include mat.core();
-
+@import "material-icons/iconfont/filled.css";
+@import "material-icons/iconfont/outlined.css";
 @import "/node_modules/bootstrap/dist/css/bootstrap-utilities.css";
 @import "@fontsource/raleway";
 
