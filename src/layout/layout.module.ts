@@ -9,14 +9,21 @@ import { HeaderComponent } from './header/header.component';
 import { AddReceiptIconComponent } from './add-receipt-icon/add-receipt-icon.component';
 import { ReceiptListIconComponent } from './receipt-list-icon/receipt-list-icon.component';
 import { DashboardIconComponent } from './dashboard-icon/dashboard-icon.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [HeaderComponent, AddReceiptIconComponent, ReceiptListIconComponent, DashboardIconComponent],
+  declarations: [
+    HeaderComponent,
+    AddReceiptIconComponent,
+    ReceiptListIconComponent,
+    DashboardIconComponent,
+  ],
   imports: [
     AvatarModule,
     CommonModule,
     MatButtonModule,
     MatCardModule,
+    MatIconModule,
     MatTooltipModule,
     RouterModule,
   ],
