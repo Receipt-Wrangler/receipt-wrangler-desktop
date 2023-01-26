@@ -2,31 +2,40 @@
   <div class="d-flex justify-content-between align-items-center mb-4">
     <mat-card class="nav-card">
       <mat-card-content>
-        <img src="../../assets/navigation/group.svg" />
-        <ng-template
-          [ngTemplateOutlet]="navButton"
-          [ngTemplateOutletContext]="{
-            srcPath: '../../assets/navigation/dashboard.svg',
-            tooltip: 'Dashboard',
-            routerLink: ['/dashboard']
-          }"
-        ></ng-template>
-        <ng-template
-          [ngTemplateOutlet]="navButton"
-          [ngTemplateOutletContext]="{
-            srcPath: '../../assets/navigation/receipt-list.svg',
-            tooltip: 'Receipt List',
-            routerLink: receiptHeaderLink | async
-          }"
-        ></ng-template>
-        <ng-template
-          [ngTemplateOutlet]="navButton"
-          [ngTemplateOutletContext]="{
-            srcPath: '../../assets/navigation/add-receipt.svg',
-            tooltip: 'Add Receipt',
-            routerLink: ['/receipts/add']
-          }"
-        ></ng-template>
+        <div class="d-flex jusfity-content-center align-items-center">
+          <img src="../../assets/navigation/group.svg" />
+          <button
+            mat-icon-button
+            color="primary"
+            class="nav-button"
+            matTooltip="Dashboard"
+            routerLinkActive="active-link"
+            [routerLink]="['/dashboard']"
+          >
+            <app-dashboard-icon></app-dashboard-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="primary"
+            class="nav-button"
+            matTooltip="Receipt List"
+            routerLinkActive="active-link"
+            [routerLink]="receiptHeaderLink | async"
+          >
+            <app-receipt-list-icon></app-receipt-list-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            color="primary"
+            class="nav-button"
+            matTooltip="Add Receipt"
+            routerLinkActive="active-link"
+            [routerLink]="['/receipts/add']"
+          >
+            <app-add-receipt-icon></app-add-receipt-icon>
+          </button>
+        </div>
       </mat-card-content>
     </mat-card>
     <div>
