@@ -1,4 +1,4 @@
-<div class="example-container mat-elevation-z8">
+<div class="table-container">
   <div class="d-flex justify-content-end">
     <app-button
       buttonText="Add Receipt"
@@ -52,6 +52,7 @@
       <mat-header-cell *matHeaderCellDef> Is Resolved </mat-header-cell>
       <mat-cell *matCellDef="let element; let i = index">
         <app-slide-toggle
+          color="primary"
           [checked]="element.isResolved"
           (click)="toggleIsResolved(element, i)"
         ></app-slide-toggle>
@@ -66,6 +67,7 @@
             matButtonType="iconButton"
             icon="delete"
             buttonText="hello"
+            color="warn"
             (click)="deleteReceipt(element)"
           ></app-button>
         </div>

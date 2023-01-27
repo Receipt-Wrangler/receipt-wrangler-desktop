@@ -1,7 +1,69 @@
 <ng-container *ngIf="!!(isLoggedIn | async)">
-  <div class="m-4">
-    <a class="me-2" [routerLink]="['/dashboard']">Dashboard</a>
-    <a [routerLink]="receiptHeaderLink | async">Receipts</a>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <mat-card class="nav-card">
+      <mat-card-content>
+        <div class="d-flex jusfity-content-center align-items-center">
+          <button mat-button color="primary" class="nav-button home-button">
+            <div class="d-flex justify-content-center align-items-center">
+              <mat-icon class="me-1" fontSet="material-icons-outlined"
+                >folder</mat-icon
+              >
+              <span>Home</span>
+            </div>
+          </button>
+          <button
+            mat-icon-button
+            color="primary"
+            class="nav-button"
+            matTooltip="Dashboard"
+            routerLinkActive="active-link"
+            [routerLink]="['/dashboard']"
+          >
+            <app-dashboard-icon></app-dashboard-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="primary"
+            class="nav-button"
+            matTooltip="Receipt List"
+            routerLinkActive="active-link"
+            [routerLink]="receiptHeaderLink | async"
+          >
+            <app-receipt-list-icon></app-receipt-list-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            color="primary"
+            class="nav-button"
+            matTooltip="Add Receipt"
+            routerLinkActive="active-link"
+            [routerLink]="['/receipts/add']"
+          >
+            <app-add-receipt-icon></app-add-receipt-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div>
+      <app-avatar [user]="(loggedInUser | async) ?? $any({})"></app-avatar>
+    </div>
   </div>
-  <hr class="horizontal-line" size="1" />
 </ng-container>
+
+<ng-template
+  #navButton
+  let-srcPath="srcPath"
+  let-routerLink="routerLink"
+  let-tooltip="tooltip"
+>
+  <button
+    mat-icon-button
+    color="primary"
+    class="nav-button"
+    [routerLink]="routerLink"
+    [matTooltip]="tooltip"
+  >
+    <img [src]="srcPath" />
+  </button>
+</ng-template>

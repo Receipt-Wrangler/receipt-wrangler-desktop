@@ -1,3 +1,33 @@
-.horizontal-line {
-  color: gray;
+.nav-button {
+  width: 75px;
+  height: 75px;
+
+  img {
+    width: 50px;
+    height: 50px;
+  }
+
+  svg {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.nav-card {
+  width: fit-content;
+  padding: 0px;
+  border-radius: 50px;
+
+  .mat-mdc-card-content {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+}
+
+.active-link > * {
+  fill: blue !important;
+}
+
+.home-button {
+  border-radius: 50%;
 }

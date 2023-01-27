@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { map, Observable, of } from 'rxjs';
+import { User } from 'src/models';
 import { AuthState } from 'src/store/auth.state';
 import { GroupState } from 'src/store/group.state';
 
@@ -14,6 +15,8 @@ export class HeaderComponent implements OnInit {
 
   @Select(GroupState.selectedGroupId)
   public selectedGroupId!: Observable<boolean>;
+
+  @Select(AuthState.loggedInUser) public loggedInUser!: Observable<User>;
 
   public receiptHeaderLink: Observable<string[]> = of(['']);
 
