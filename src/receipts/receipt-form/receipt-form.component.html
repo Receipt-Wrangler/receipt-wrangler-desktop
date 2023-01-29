@@ -94,14 +94,23 @@
         <div class="button-container sticky-top d-flex flex-column">
           <app-button
             class="mb-4"
+            icon="add"
+            matButtonType="iconButton"
+            tooltip="Add Item"
+            (click)="itemsListComponent.initAddMode()"
+          ></app-button>
+          <app-button
+            class="mb-4"
             customIcon="split"
             matButtonType="iconButton"
             tooltip="Split"
+            (click)="openQuickActionsModal()"
           ></app-button>
           <app-button
             class="mb-4"
             icon="done"
             matButtonType="iconButton"
+            type="submit"
             tooltip="Save"
           ></app-button>
           <app-button
@@ -114,13 +123,7 @@
       </div>
     </div>
   </div>
-  <app-button
-    buttonText="Quick Actions"
-    [disabled]="mode | inputReadonly"
-    (click)="openQuickActionsModal()"
-  ></app-button>
   <app-item-list [form]="form"></app-item-list>
-  <app-button type="submit" buttonText="Submit"></app-button>
 </form>
 
 <ng-template #categoryOptionTemplate let-option="option"

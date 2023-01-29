@@ -1,9 +1,3 @@
-<app-button
-  type="button"
-  buttonText="Add Item"
-  [disabled]="isAdding || (mode | inputReadonly)"
-  (click)="initAddMode()"
-></app-button>
 <ng-container *ngIf="isAdding">
   <form [formGroup]="newItemFormGroup" (ngSubmit)="submitNewItemFormGroup()">
     <div class="d-flex flex-column">
