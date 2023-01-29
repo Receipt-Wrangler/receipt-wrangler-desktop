@@ -51,9 +51,6 @@ import { MatIconModule } from '@angular/material/icon';
     UserAutocompleteModule,
     CarouselModule,
     MatProgressSpinnerModule,
-    MatTooltipModule,
-    MatButtonModule,
-    MatIconModule,
   ],
 })
 export class ReceiptsModule {}
