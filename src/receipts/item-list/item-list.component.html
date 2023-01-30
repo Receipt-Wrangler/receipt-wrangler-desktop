@@ -1,4 +1,10 @@
-<ng-container *ngIf="isAdding">
+<app-button
+  type="button"
+  buttonText="Add Item"
+  (click)="initAddMode()"
+></app-button>
+
+<!-- <ng-container *ngIf="isAdding">
   <form [formGroup]="newItemFormGroup" (ngSubmit)="submitNewItemFormGroup()">
     <div class="d-flex flex-column">
       <app-input
@@ -22,8 +28,33 @@
     <app-button type="submit" buttonText="Done"></app-button>
     <app-button buttonText="Cancel" (click)="exitAddMode()"></app-button>
   </form>
-</ng-container>
+</ng-container> -->
 <mat-accordion multi>
+  <ng-container *ngIf="isAdding">
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header class="h-100">
+        <app-user-autocomplete
+          label="Charge to"
+          [inputFormControl]="newItemFormGroup | formGet : 'chargedToUserId'"
+          [readonly]="mode | inputReadonly"
+        ></app-user-autocomplete
+      ></mat-expansion-panel-header>
+      <div class="d-flex">
+        <app-input
+          label="Name"
+          [inputFormControl]="newItemFormGroup | formGet : 'name'"
+        >
+        </app-input>
+        <app-input
+          label="Amount"
+          type="number"
+          [inputFormControl]="newItemFormGroup | formGet : 'amount'"
+          [readonly]="mode | inputReadonly"
+        >
+        </app-input>
+      </div>
+    </mat-expansion-panel>
+  </ng-container>
   <mat-expansion-panel *ngFor="let key of userItemMap | mapKey; let i = index">
     <mat-expansion-panel-header>
       <mat-panel-title> {{ (key | user)?.displayName }} </mat-panel-title>
