@@ -68,25 +68,27 @@
             (click)="removeItem(itemData)"
           ></app-button>
         </div>
-        <app-input
-          label="Name"
-          [inputId]="'name-' + i"
-          [inputFormControl]="
-            form | formGet : 'receiptItems.' + itemData.arrayIndex + '.name'
-          "
-          [readonly]="mode | inputReadonly"
-          (inputBlur)="addInlineItemOnBlur(key, i)"
-        >
-        </app-input>
-        <app-input
-          label="Amount"
-          [inputFormControl]="
-            form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
-          "
-          [readonly]="mode | inputReadonly"
-          (inputBlur)="addInlineItemOnBlur(key, i)"
-        >
-        </app-input>
+        <div class="d-flex">
+          <app-input
+            label="Name"
+            [inputId]="'name-' + i"
+            [inputFormControl]="
+              form | formGet : 'receiptItems.' + itemData.arrayIndex + '.name'
+            "
+            [readonly]="mode | inputReadonly"
+            (inputBlur)="addInlineItemOnBlur(key, i)"
+          >
+          </app-input>
+          <app-input
+            label="Amount"
+            [inputFormControl]="
+              form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
+            "
+            [readonly]="mode | inputReadonly"
+            (inputBlur)="addInlineItemOnBlur(key, i)"
+          >
+          </app-input>
+        </div>
       </div>
     </ng-container>
   </mat-expansion-panel>
