@@ -19,6 +19,8 @@ import { Store } from '@ngxs/store';
 import { SetUsers } from 'src/store/user.state.actions';
 import { User } from 'src/models/user';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { AppInitService } from 'src/services/app-init.service';
+import { SetAuthState } from 'src/store/auth.state.actions';
 
 @Component({
   selector: 'app-sign-up',
@@ -36,7 +38,8 @@ export class SignUpComponent implements OnInit {
     private router: Router,
     private usersService: UsersService,
     private store: Store,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private appInitService: AppInitService
   ) {}
 
   public ngOnInit(): void {
@@ -86,10 +89,8 @@ export class SignUpComponent implements OnInit {
           tap(() => {
             this.snackbarService.success('Successfully logged in');
           }),
-          switchMap(() => this.usersService.getAllUsers()),
-          switchMap((users: User[]) =>
-            this.store.dispatch(new SetUsers(users))
-          ),
+          switchMap(() => this.store.dispatch(new SetAuthState())),
+          switchMap(() => this.appInitService.getAppData()),
           tap(() => this.router.navigate(['/dashboard']))
         )
         .subscribe();
