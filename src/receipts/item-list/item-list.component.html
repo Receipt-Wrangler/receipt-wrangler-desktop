@@ -39,7 +39,7 @@
           [readonly]="mode | inputReadonly"
         ></app-user-autocomplete
       ></mat-expansion-panel-header>
-      <div class="d-flex">
+      <div class="d-flex align-items-center">
         <app-input
           label="Name"
           [inputFormControl]="newItemFormGroup | formGet : 'name'"
@@ -52,6 +52,18 @@
           [readonly]="mode | inputReadonly"
         >
         </app-input>
+        <app-button
+          matButtonType="iconButton"
+          icon="done"
+          tooltip="Done"
+          (click)="submitNewItemFormGroup()"
+        ></app-button>
+        <app-button
+          matButtonType="iconButton"
+          icon="close"
+          tooltip="cancel"
+          (click)="exitAddMode()"
+        ></app-button>
       </div>
     </mat-expansion-panel>
   </ng-container>
