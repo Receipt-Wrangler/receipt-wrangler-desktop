@@ -16,7 +16,7 @@ export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
     chargedToUserId: new FormControl(item?.chargedToUserId ?? '', [
       Validators.required,
     ]),
-    receiptId: new FormControl(item?.receiptId ?? receiptId),
+    receiptId: new FormControl(Number(item?.receiptId ?? receiptId)),
     amount: new FormControl(item?.amount ?? 1, [
       Validators.required,
       Validators.min(1),

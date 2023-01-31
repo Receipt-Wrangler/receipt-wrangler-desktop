@@ -1,5 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable, of, startWith, take, tap } from 'rxjs';
@@ -21,6 +29,9 @@ export interface ItemData {
   styleUrls: ['./item-list.component.scss'],
 })
 export class ItemListComponent implements OnInit {
+  @ViewChildren('userExpansionPanel')
+  public userExpansionPanels!: QueryList<MatExpansionPanel>;
+
   @Select(UserState.users) public users!: Observable<User[]>;
 
   @Input() public form!: FormGroup;
@@ -34,6 +45,10 @@ export class ItemListComponent implements OnInit {
   public isAdding: boolean = false;
 
   public mode: FormMode = FormMode.view;
+
+  public get receiptItems(): FormArray {
+    return this.form.get('receiptItems') as FormArray;
+  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -113,5 +128,31 @@ export class ItemListComponent implements OnInit {
     const formArray = this.form.get('receiptItems') as FormArray;
     formArray.removeAt(itemData.arrayIndex);
     this.setUserItemMap();
+  }
+
+  public addInlineItem(userId: string): void {
+    this.receiptItems.push(
+      buildItemForm(
+        {
+          name: '',
+
+          chargedToUserId: Number(userId),
+        } as Item,
+        this.originalReceipt?.id?.toString()
+      )
+    );
+    this.setUserItemMap();
+  }
+
+  public checkLastInlineItem(userId: string): void {
+    const items = this.userItemMap.get(userId);
+    if (items) {
+      const lastItem = items[items.length - 1];
+      const formGroup = this.receiptItems.at(lastItem.arrayIndex);
+      if (formGroup.pristine) {
+        this.receiptItems.removeAt(lastItem.arrayIndex);
+        this.setUserItemMap();
+      }
+    }
   }
 }

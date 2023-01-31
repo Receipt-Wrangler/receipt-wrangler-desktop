@@ -67,7 +67,12 @@
       </div>
     </mat-expansion-panel>
   </ng-container>
-  <mat-expansion-panel *ngFor="let key of userItemMap | mapKey; let i = index">
+  <mat-expansion-panel
+    #userExpansionPanel
+    *ngFor="let key of userItemMap | mapKey; let i = index"
+    (opened)="addInlineItem(key)"
+    (closed)="checkLastInlineItem(key)"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title> {{ (key | user)?.displayName }} </mat-panel-title>
       <mat-panel-description>

@@ -32,7 +32,6 @@ export class BaseInputComponent implements OnInit {
       map(() => {
         const errors = this.inputFormControl.errors;
         if (errors) {
-          console.warn(errors, 'errors');
           const keys = Object.keys(this.inputFormControl.errors as any);
           return keys.map((k: string) => {
             const value = errors[k];
@@ -54,10 +53,6 @@ export class BaseInputComponent implements OnInit {
         }
       })
     );
-
-    this.formControlErrors.subscribe((e) => console.log(e));
-
-    console.warn(this.errorMessages);
 
     if (this.additionalErrorMessages) {
       this.errorMessages = {
