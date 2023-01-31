@@ -17,7 +17,7 @@ export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
       Validators.required,
     ]),
     receiptId: new FormControl(Number(item?.receiptId ?? receiptId)),
-    amount: new FormControl(item?.amount ?? 1, [
+    amount: new FormControl(item?.amount ?? undefined, [
       Validators.required,
       Validators.min(1),
       itemTotalValidator(),
