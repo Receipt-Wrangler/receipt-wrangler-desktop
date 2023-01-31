@@ -21,6 +21,9 @@ import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { CarouselModule } from 'src/carousel/carousel.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [

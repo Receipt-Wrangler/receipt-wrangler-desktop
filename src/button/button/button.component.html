@@ -20,7 +20,8 @@
     [disabled]="disabled"
     [matTooltip]="tooltip"
   >
-    <mat-icon>
+    <mat-icon *ngIf="customIcon" [svgIcon]="customIcon"></mat-icon>
+    <mat-icon *ngIf="icon">
       {{ icon }}
     </mat-icon>
   </button>

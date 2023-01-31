@@ -26,77 +26,97 @@
       ></app-carousel>
     </div>
     <div class="w-50">
-      <div class="d-flex flex-column">
-        <app-input
-          label="Name"
-          [inputFormControl]="form | formGet : 'name'"
-          [readonly]="mode | inputReadonly"
-        ></app-input>
-        <app-input
-          label="Amount"
-          type="number"
-          [inputFormControl]="form | formGet : 'amount'"
-          [readonly]="mode | inputReadonly"
-        ></app-input>
-        <app-autocomlete
-          label="Categories"
-          optionFilterKey="name"
-          creatableValueKey="name"
-          [inputFormControl]="form | formGet : 'categories'"
-          [options]="categories"
-          [optionTemplate]="categoryOptionTemplate"
-          [optionChipTemplate]="categoryOptionTemplate"
-          [multiple]="true"
-          [creatable]="true"
-          [readonly]="mode | inputReadonly"
-        ></app-autocomlete>
-        <app-autocomlete
-          label="Tags"
-          optionFilterKey="name"
-          creatableValueKey="name"
-          [inputFormControl]="form | formGet : 'tags'"
-          [options]="tags"
-          [optionTemplate]="tagOptionTemplate"
-          [optionChipTemplate]="tagOptionTemplate"
-          [multiple]="true"
-          [creatable]="true"
-          [readonly]="mode | inputReadonly"
-        ></app-autocomlete>
-        <app-datepicker
-          label="Date"
-          [inputFormControl]="form | formGet : 'date'"
-          [readonly]="mode | inputReadonly"
-        ></app-datepicker>
-        <app-autocomlete
-          label="Group"
-          optionFilterKey="name"
-          optionValueKey="id"
-          [inputFormControl]="form | formGet : 'groupId'"
-          [options]="(groups | async) ?? []"
-          [optionTemplate]="groupOptionTemplate"
-          [readonly]="mode | inputReadonly"
-          [displayWith]="groupDisplayWith.bind(this)"
-        ></app-autocomlete>
-        <app-user-autocomplete
-          label="Paid By"
-          [inputFormControl]="form | formGet : 'paidByUserId'"
-          [readonly]="mode | inputReadonly"
-        ></app-user-autocomplete>
-        <app-input
-          label="Is Resolved"
-          [inputFormControl]="form | formGet : 'isResolved'"
-          [readonly]="mode | inputReadonly"
-        ></app-input>
+      <div class="d-flex justify-content-between">
+        <div
+          class="d-flex flex-column justify-content-center align-items-center"
+        >
+          <app-input
+            label="Name"
+            [inputFormControl]="form | formGet : 'name'"
+            [readonly]="mode | inputReadonly"
+          ></app-input>
+          <app-input
+            label="Amount"
+            type="number"
+            [inputFormControl]="form | formGet : 'amount'"
+            [readonly]="mode | inputReadonly"
+          ></app-input>
+          <app-autocomlete
+            label="Categories"
+            optionFilterKey="name"
+            creatableValueKey="name"
+            [inputFormControl]="form | formGet : 'categories'"
+            [options]="categories"
+            [optionTemplate]="categoryOptionTemplate"
+            [optionChipTemplate]="categoryOptionTemplate"
+            [multiple]="true"
+            [creatable]="true"
+            [readonly]="mode | inputReadonly"
+          ></app-autocomlete>
+          <app-autocomlete
+            label="Tags"
+            optionFilterKey="name"
+            creatableValueKey="name"
+            [inputFormControl]="form | formGet : 'tags'"
+            [options]="tags"
+            [optionTemplate]="tagOptionTemplate"
+            [optionChipTemplate]="tagOptionTemplate"
+            [multiple]="true"
+            [creatable]="true"
+            [readonly]="mode | inputReadonly"
+          ></app-autocomlete>
+          <app-datepicker
+            label="Date"
+            [inputFormControl]="form | formGet : 'date'"
+            [readonly]="mode | inputReadonly"
+          ></app-datepicker>
+          <app-autocomlete
+            label="Group"
+            optionFilterKey="name"
+            optionValueKey="id"
+            [inputFormControl]="form | formGet : 'groupId'"
+            [options]="(groups | async) ?? []"
+            [optionTemplate]="groupOptionTemplate"
+            [readonly]="mode | inputReadonly"
+            [displayWith]="groupDisplayWith.bind(this)"
+          ></app-autocomlete>
+          <app-user-autocomplete
+            label="Paid By"
+            [inputFormControl]="form | formGet : 'paidByUserId'"
+            [readonly]="mode | inputReadonly"
+          ></app-user-autocomplete>
+          <app-input
+            label="Is Resolved"
+            [inputFormControl]="form | formGet : 'isResolved'"
+            [readonly]="mode | inputReadonly"
+          ></app-input>
+        </div>
+        <div class="button-container sticky-top d-flex flex-column">
+          <app-button
+            class="mb-4"
+            customIcon="split"
+            matButtonType="iconButton"
+            tooltip="Split"
+            (click)="openQuickActionsModal()"
+          ></app-button>
+          <app-button
+            class="mb-4"
+            icon="done"
+            matButtonType="iconButton"
+            type="submit"
+            tooltip="Save"
+          ></app-button>
+          <app-button
+            class="mb-4"
+            icon="close"
+            matButtonType="iconButton"
+            tooltip="Cancel"
+          ></app-button>
+        </div>
       </div>
+      <app-item-list [form]="form"></app-item-list>
     </div>
   </div>
-  <app-button
-    buttonText="Quick Actions"
-    [disabled]="mode | inputReadonly"
-    (click)="openQuickActionsModal()"
-  ></app-button>
-  <app-item-list [form]="form"></app-item-list>
-  <app-button type="submit" buttonText="Submit"></app-button>
 </form>
 
 <ng-template #categoryOptionTemplate let-option="option"

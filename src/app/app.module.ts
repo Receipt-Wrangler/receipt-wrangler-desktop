@@ -10,6 +10,8 @@ import { StoreModule } from 'src/store/store.module';
 import { LayoutModule } from 'src/layout/layout.module';
 import { HttpInterceptorService } from 'src/interceptors/http-interceptor.service';
 import { AppInitService, initAppData } from 'src/services/app-init.service';
+import { IconModule } from 'src/icon/icon.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +23,8 @@ import { AppInitService, initAppData } from 'src/services/app-init.service';
     HttpClientModule,
     StoreModule,
     LayoutModule,
+    IconModule,
+    MatTooltipModule,
   ],
   providers: [
     {

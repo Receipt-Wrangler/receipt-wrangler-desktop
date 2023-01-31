@@ -7,11 +7,13 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None,
 })
 export class ButtonComponent {
+  // add custom icon input
   @Input() color: string = 'primary';
   @Input() buttonText: string = '';
   @Input() type: 'button' | 'menu' | 'submit' | 'reset' = 'button';
   @Input() matButtonType: 'matRaisedButton' | 'iconButton' = 'matRaisedButton';
   @Input() icon: string = '';
+  @Input() customIcon: string = '';
   @Input() disabled: boolean = false;
   @Input() public tooltip: string = '';
 }

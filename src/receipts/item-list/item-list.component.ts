@@ -1,8 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { map, Observable, of, startWith, take, tap } from 'rxjs';
+import { map, Observable, of, startWith, take, takeUntil, tap } from 'rxjs';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { Receipt } from 'src/models';
 import { Item } from 'src/models/item';
@@ -21,6 +30,9 @@ export interface ItemData {
   styleUrls: ['./item-list.component.scss'],
 })
 export class ItemListComponent implements OnInit {
+  @ViewChildren('userExpansionPanel')
+  public userExpansionPanels!: QueryList<MatExpansionPanel>;
+
   @Select(UserState.users) public users!: Observable<User[]>;
 
   @Input() public form!: FormGroup;
@@ -35,9 +47,14 @@ export class ItemListComponent implements OnInit {
 
   public mode: FormMode = FormMode.view;
 
+  public get receiptItems(): FormArray {
+    return this.form.get('receiptItems') as FormArray;
+  }
+
   constructor(
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -113,5 +130,43 @@ export class ItemListComponent implements OnInit {
     const formArray = this.form.get('receiptItems') as FormArray;
     formArray.removeAt(itemData.arrayIndex);
     this.setUserItemMap();
+  }
+
+  public addInlineItem(userId: string): void {
+    this.receiptItems.push(
+      buildItemForm(
+        {
+          name: '',
+          chargedToUserId: Number(userId),
+        } as Item,
+        this.originalReceipt?.id?.toString()
+      )
+    );
+    this.setUserItemMap();
+  }
+
+  public addInlineItemOnBlur(userId: string, index: number): void {
+    const userItems = this.userItemMap.get(userId);
+    if (userItems && userItems.length - 1 === index) {
+      const item = userItems.at(index) as ItemData;
+      const itemInput = this.receiptItems.at(item?.arrayIndex).value;
+      if (itemInput.name && itemInput.amount) {
+        this.addInlineItem(userId);
+        this.cdr.detectChanges();
+        document.getElementById(`name-${index + 1}`)?.focus();
+      }
+    }
+  }
+
+  public checkLastInlineItem(userId: string): void {
+    const items = this.userItemMap.get(userId);
+    if (items) {
+      const lastItem = items[items.length - 1];
+      const formGroup = this.receiptItems.at(lastItem.arrayIndex);
+      if (formGroup.pristine) {
+        this.receiptItems.removeAt(lastItem.arrayIndex);
+        this.setUserItemMap();
+      }
+    }
   }
 }

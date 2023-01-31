@@ -1,36 +1,53 @@
 <app-button
   type="button"
   buttonText="Add Item"
-  [disabled]="isAdding || (mode | inputReadonly)"
   (click)="initAddMode()"
 ></app-button>
-<ng-container *ngIf="isAdding">
-  <form [formGroup]="newItemFormGroup" (ngSubmit)="submitNewItemFormGroup()">
-    <div class="d-flex flex-column">
-      <app-input
-        label="Name"
-        [inputFormControl]="newItemFormGroup | formGet : 'name'"
-      >
-      </app-input>
-      <app-input
-        label="Amount"
-        type="number"
-        [inputFormControl]="newItemFormGroup | formGet : 'amount'"
-        [readonly]="mode | inputReadonly"
-      >
-      </app-input>
-      <app-user-autocomplete
-        label="Charge to"
-        [inputFormControl]="newItemFormGroup | formGet : 'chargedToUserId'"
-        [readonly]="mode | inputReadonly"
-      ></app-user-autocomplete>
-    </div>
-    <app-button type="submit" buttonText="Done"></app-button>
-    <app-button buttonText="Cancel" (click)="exitAddMode()"></app-button>
-  </form>
-</ng-container>
+
 <mat-accordion multi>
-  <mat-expansion-panel *ngFor="let key of userItemMap | mapKey; let i = index">
+  <ng-container *ngIf="isAdding">
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header class="h-100">
+        <app-user-autocomplete
+          label="Charge to"
+          [inputFormControl]="newItemFormGroup | formGet : 'chargedToUserId'"
+          [readonly]="mode | inputReadonly"
+        ></app-user-autocomplete
+      ></mat-expansion-panel-header>
+      <div class="d-flex align-items-center">
+        <app-input
+          label="Name"
+          [inputFormControl]="newItemFormGroup | formGet : 'name'"
+        >
+        </app-input>
+        <app-input
+          label="Amount"
+          type="number"
+          [inputFormControl]="newItemFormGroup | formGet : 'amount'"
+          [readonly]="mode | inputReadonly"
+        >
+        </app-input>
+        <app-button
+          matButtonType="iconButton"
+          icon="done"
+          tooltip="Done"
+          (click)="submitNewItemFormGroup()"
+        ></app-button>
+        <app-button
+          matButtonType="iconButton"
+          icon="close"
+          tooltip="cancel"
+          (click)="exitAddMode()"
+        ></app-button>
+      </div>
+    </mat-expansion-panel>
+  </ng-container>
+  <mat-expansion-panel
+    #userExpansionPanel
+    *ngFor="let key of userItemMap | mapKey; let i = index"
+    (opened)="addInlineItem(key)"
+    (closed)="checkLastInlineItem(key)"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title> {{ (key | user)?.displayName }} </mat-panel-title>
       <mat-panel-description>
@@ -39,8 +56,10 @@
         </div>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <ng-container *ngFor="let itemData of userItemMap | mapGet : key">
-      <div class="d-flex flex-column border">
+    <ng-container
+      *ngFor="let itemData of userItemMap | mapGet : key; let i = index"
+    >
+      <div class="d-flex flex-column item-form-container">
         <div class="d-flex justify-content-end">
           <app-button
             class="w-25"
@@ -49,22 +68,27 @@
             (click)="removeItem(itemData)"
           ></app-button>
         </div>
-        <app-input
-          label="Name"
-          [inputFormControl]="
-            form | formGet : 'receiptItems.' + itemData.arrayIndex + '.name'
-          "
-          [readonly]="mode | inputReadonly"
-        >
-        </app-input>
-        <app-input
-          label="Amount"
-          [inputFormControl]="
-            form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
-          "
-          [readonly]="mode | inputReadonly"
-        >
-        </app-input>
+        <div class="d-flex">
+          <app-input
+            label="Name"
+            [inputId]="'name-' + i"
+            [inputFormControl]="
+              form | formGet : 'receiptItems.' + itemData.arrayIndex + '.name'
+            "
+            [readonly]="mode | inputReadonly"
+            (inputBlur)="addInlineItemOnBlur(key, i)"
+          >
+          </app-input>
+          <app-input
+            label="Amount"
+            [inputFormControl]="
+              form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
+            "
+            [readonly]="mode | inputReadonly"
+            (inputBlur)="addInlineItemOnBlur(key, i)"
+          >
+          </app-input>
+        </div>
       </div>
     </ng-container>
   </mat-expansion-panel>

@@ -1,6 +1,8 @@
+import { ThisReceiver } from '@angular/compiler';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Selector, Store } from '@ngxs/store';
 
@@ -60,7 +62,8 @@ export class ReceiptFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private snackbarService: SnackbarService,
     private matDialog: MatDialog,
-    private store: Store
+    private store: Store,
+    private cdr: ChangeDetectorRef
   ) {}
 
   public form: FormGroup = new FormGroup({});
@@ -163,6 +166,11 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public submit(): void {
+    if (this.itemsListComponent.userExpansionPanels.length > 0) {
+      this.itemsListComponent.userExpansionPanels.forEach(
+        (p: MatExpansionPanel) => p.close()
+      );
+    }
     if (this.originalReceipt && this.form.valid) {
       this.receiptsService
         .updateReceipt(this.originalReceipt.id.toString(), this.form.value)
