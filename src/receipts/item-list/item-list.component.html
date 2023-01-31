@@ -4,31 +4,6 @@
   (click)="initAddMode()"
 ></app-button>
 
-<!-- <ng-container *ngIf="isAdding">
-  <form [formGroup]="newItemFormGroup" (ngSubmit)="submitNewItemFormGroup()">
-    <div class="d-flex flex-column">
-      <app-input
-        label="Name"
-        [inputFormControl]="newItemFormGroup | formGet : 'name'"
-      >
-      </app-input>
-      <app-input
-        label="Amount"
-        type="number"
-        [inputFormControl]="newItemFormGroup | formGet : 'amount'"
-        [readonly]="mode | inputReadonly"
-      >
-      </app-input>
-      <app-user-autocomplete
-        label="Charge to"
-        [inputFormControl]="newItemFormGroup | formGet : 'chargedToUserId'"
-        [readonly]="mode | inputReadonly"
-      ></app-user-autocomplete>
-    </div>
-    <app-button type="submit" buttonText="Done"></app-button>
-    <app-button buttonText="Cancel" (click)="exitAddMode()"></app-button>
-  </form>
-</ng-container> -->
 <mat-accordion multi>
   <ng-container *ngIf="isAdding">
     <mat-expansion-panel expanded>
@@ -81,7 +56,9 @@
         </div>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <ng-container *ngFor="let itemData of userItemMap | mapGet : key">
+    <ng-container
+      *ngFor="let itemData of userItemMap | mapGet : key; let i = index"
+    >
       <div class="d-flex flex-column border">
         <div class="d-flex justify-content-end">
           <app-button
@@ -93,10 +70,12 @@
         </div>
         <app-input
           label="Name"
+          [inputId]="'name-' + i"
           [inputFormControl]="
             form | formGet : 'receiptItems.' + itemData.arrayIndex + '.name'
           "
           [readonly]="mode | inputReadonly"
+          (inputBlur)="addInlineItemOnBlur(key, i)"
         >
         </app-input>
         <app-input
@@ -105,6 +84,7 @@
             form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
           "
           [readonly]="mode | inputReadonly"
+          (inputBlur)="addInlineItemOnBlur(key, i)"
         >
         </app-input>
       </div>

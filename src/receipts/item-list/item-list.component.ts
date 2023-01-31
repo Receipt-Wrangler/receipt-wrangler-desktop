@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   Input,
   OnInit,
@@ -10,7 +11,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { map, Observable, of, startWith, take, tap } from 'rxjs';
+import { map, Observable, of, startWith, take, takeUntil, tap } from 'rxjs';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { Receipt } from 'src/models';
 import { Item } from 'src/models/item';
@@ -52,7 +53,8 @@ export class ItemListComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -135,13 +137,25 @@ export class ItemListComponent implements OnInit {
       buildItemForm(
         {
           name: '',
-
           chargedToUserId: Number(userId),
         } as Item,
         this.originalReceipt?.id?.toString()
       )
     );
     this.setUserItemMap();
+  }
+
+  public addInlineItemOnBlur(userId: string, index: number): void {
+    const userItems = this.userItemMap.get(userId);
+    if (userItems && userItems.length - 1 === index) {
+      const item = userItems.at(index) as ItemData;
+      const itemInput = this.receiptItems.at(item?.arrayIndex).value;
+      if (itemInput.name && itemInput.amount) {
+        this.addInlineItem(userId);
+        this.cdr.detectChanges();
+        document.getElementById(`name-${index + 1}`)?.focus();
+      }
+    }
   }
 
   public checkLastInlineItem(userId: string): void {
