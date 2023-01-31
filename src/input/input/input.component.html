@@ -2,9 +2,11 @@
   <mat-label>{{ label }}</mat-label>
   <input
     matInput
+    [id]="inputId"
     [type]="type"
     [readonly]="readonly"
     [formControl]="inputFormControl"
+    (blur)="inputBlur.emit($event)"
   />
 </mat-form-field>
 <ng-container *ngFor="let err of formControlErrors | async">

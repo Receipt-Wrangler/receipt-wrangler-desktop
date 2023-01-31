@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { map, Observable, of, startWith } from 'rxjs';
 import { BaseInputComponent } from 'src/base-input/base-input/base-input.component';
@@ -17,7 +24,11 @@ export class InputComponent
   extends BaseInputComponent
   implements InputInterface
 {
+  @Input() inputId: string = '';
   @Input() type: string = 'text';
+  @Output() public inputBlur: EventEmitter<any> = new EventEmitter<any>(
+    undefined
+  );
 
   // TODO: Figure this out as apart of validation issues
   // private getMinValue(): string {
