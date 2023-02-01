@@ -1,4 +1,11 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -16,4 +23,9 @@ export class ButtonComponent {
   @Input() customIcon: string = '';
   @Input() disabled: boolean = false;
   @Input() public tooltip: string = '';
+  @Output() public clicked: EventEmitter<void> = new EventEmitter<void>();
+
+  public emitClicked(): void {
+    this.clicked.emit();
+  }
 }

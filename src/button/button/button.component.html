@@ -7,6 +7,7 @@
     [color]="color"
     [disabled]="disabled"
     [matTooltip]="tooltip"
+    (click)="emitClicked()"
   >
     {{ buttonText }}
   </button>
@@ -19,6 +20,7 @@
     [color]="color"
     [disabled]="disabled"
     [matTooltip]="tooltip"
+    (click)="emitClicked()"
   >
     <mat-icon *ngIf="customIcon" [svgIcon]="customIcon"></mat-icon>
     <mat-icon *ngIf="icon">

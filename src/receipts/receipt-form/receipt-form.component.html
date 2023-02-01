@@ -1,19 +1,6 @@
-<app-button
-  *ngIf="mode === formMode.view"
-  buttonText="edit"
-  [routerLink]="[editLink]"
-></app-button>
 <form [formGroup]="form" (ngSubmit)="submit()">
   <div class="d-flex">
     <div class="w-50">
-      <div class="mb-4">
-        <app-upload-image
-          [images]="images"
-          [mode]="mode"
-          [receiptId]="originalReceipt?.id?.toString()"
-        >
-        </app-upload-image>
-      </div>
       <ng-container *ngIf="imagesLoading">
         <div class="d-flex justify-content-center align-items-center">
           <mat-spinner></mat-spinner>
@@ -24,6 +11,12 @@
         [disabled]="mode !== formMode.edit"
         (removeButtonClicked)="removeImage($event)"
       ></app-carousel>
+      <app-upload-image
+        [images]="images"
+        [mode]="mode"
+        [receiptId]="originalReceipt?.id?.toString()"
+      >
+      </app-upload-image>
     </div>
     <div class="w-50">
       <div class="d-flex justify-content-between">
@@ -93,11 +86,20 @@
         </div>
         <div class="button-container sticky-top d-flex flex-column">
           <app-button
+            *ngIf="mode === formMode.view"
+            class="mb-4"
+            matButtonType="iconButton"
+            tooltip="Edit"
+            icon="edit"
+            [routerLink]="[editLink]"
+          ></app-button>
+          <app-button
             class="mb-4"
             customIcon="split"
             matButtonType="iconButton"
             tooltip="Split"
-            (click)="openQuickActionsModal()"
+            (clicked)="openQuickActionsModal()"
+            [disabled]="mode !== formMode.edit"
           ></app-button>
           <app-button
             class="mb-4"
@@ -105,12 +107,14 @@
             matButtonType="iconButton"
             type="submit"
             tooltip="Save"
+            [disabled]="mode !== formMode.edit"
           ></app-button>
           <app-button
             class="mb-4"
             icon="close"
             matButtonType="iconButton"
             tooltip="Cancel"
+            [disabled]="mode !== formMode.edit"
           ></app-button>
         </div>
       </div>
