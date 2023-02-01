@@ -99,7 +99,7 @@
             matButtonType="iconButton"
             tooltip="Split"
             (clicked)="openQuickActionsModal()"
-            [disabled]="mode !== formMode.edit"
+            [disabled]="mode === formMode.view"
           ></app-button>
           <app-button
             class="mb-4"
@@ -107,14 +107,14 @@
             matButtonType="iconButton"
             type="submit"
             tooltip="Save"
-            [disabled]="mode !== formMode.edit"
+            [disabled]="mode === formMode.view"
           ></app-button>
           <app-button
             class="mb-4"
             icon="close"
             matButtonType="iconButton"
             tooltip="Cancel"
-            [disabled]="mode !== formMode.edit"
+            [disabled]="mode === formMode.view"
           ></app-button>
         </div>
       </div>
