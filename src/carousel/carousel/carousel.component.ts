@@ -35,15 +35,22 @@ export class CarouselComponent {
   public transform: ImageTransform = {};
 
   public zoomOut() {
-    this.scale -= 0.1;
-    this.transform = {
-      ...this.transform,
-      scale: this.scale,
-    };
+    this.adjustScale(-0.1);
   }
 
   public zoomIn() {
-    this.scale += 0.1;
+    this.adjustScale(0.1);
+  }
+
+  public onScroll(event: WheelEvent): void {
+    event.preventDefault();
+    let value = event.deltaY * -0.01;
+    this.adjustScale(value);
+  }
+
+  public adjustScale(amount: number): void {
+    const newScale = this.scale + amount;
+    this.scale = Math.max(newScale, 0.1);
     this.transform = {
       ...this.transform,
       scale: this.scale,
