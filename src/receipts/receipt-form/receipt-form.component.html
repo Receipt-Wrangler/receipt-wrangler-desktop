@@ -24,17 +24,20 @@
           class="d-flex flex-column justify-content-center align-items-center"
         >
           <app-input
+            class="w-100"
             label="Name"
             [inputFormControl]="form | formGet : 'name'"
             [readonly]="mode | inputReadonly"
           ></app-input>
           <app-input
+            class="w-100"
             label="Amount"
             type="number"
             [inputFormControl]="form | formGet : 'amount'"
             [readonly]="mode | inputReadonly"
           ></app-input>
           <app-autocomlete
+            class="w-100"
             label="Categories"
             optionFilterKey="name"
             creatableValueKey="name"
@@ -47,6 +50,7 @@
             [readonly]="mode | inputReadonly"
           ></app-autocomlete>
           <app-autocomlete
+            class="w-100"
             label="Tags"
             optionFilterKey="name"
             creatableValueKey="name"
@@ -64,6 +68,7 @@
             [readonly]="mode | inputReadonly"
           ></app-datepicker>
           <app-autocomlete
+            class="w-100"
             label="Group"
             optionFilterKey="name"
             optionValueKey="id"
@@ -74,11 +79,13 @@
             [displayWith]="groupDisplayWith.bind(this)"
           ></app-autocomlete>
           <app-user-autocomplete
+            class="w-100"
             label="Paid By"
             [inputFormControl]="form | formGet : 'paidByUserId'"
             [readonly]="mode | inputReadonly"
           ></app-user-autocomplete>
           <app-input
+            class="w-100"
             label="Is Resolved"
             [inputFormControl]="form | formGet : 'isResolved'"
             [readonly]="mode | inputReadonly"
