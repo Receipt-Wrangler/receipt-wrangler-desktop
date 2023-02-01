@@ -51,6 +51,8 @@ export class ItemListComponent implements OnInit {
 
   public mode: FormMode = FormMode.view;
 
+  public formMode = FormMode;
+
   public get receiptItems(): FormArray {
     return this.form.get('receiptItems') as FormArray;
   }

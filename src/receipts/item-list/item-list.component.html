@@ -1,6 +1,7 @@
 <app-button
   type="button"
   buttonText="Add Item"
+  [disabled]="mode === formMode.view"
   (clicked)="initAddMode()"
 ></app-button>
 
