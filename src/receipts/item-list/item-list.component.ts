@@ -137,16 +137,18 @@ export class ItemListComponent implements OnInit {
   }
 
   public addInlineItem(userId: string): void {
-    this.receiptItems.push(
-      buildItemForm(
-        {
-          name: '',
-          chargedToUserId: Number(userId),
-        } as Item,
-        this.originalReceipt?.id?.toString()
-      )
-    );
-    this.setUserItemMap();
+    if (this.mode !== FormMode.view) {
+      this.receiptItems.push(
+        buildItemForm(
+          {
+            name: '',
+            chargedToUserId: Number(userId),
+          } as Item,
+          this.originalReceipt?.id?.toString()
+        )
+      );
+      this.setUserItemMap();
+    }
   }
 
   public addInlineItemOnBlur(userId: string, index: number): void {
