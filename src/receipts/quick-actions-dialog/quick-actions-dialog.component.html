@@ -16,7 +16,7 @@
       <div *ngSwitchCase="radioValues[1].value">
         <div *ngFor="let user of (localForm | formGet : 'usersToSplit').value">
           <app-input
-            [label]="user.displayName + '`s Optional Part'"
+            [label]="user.displayName + '`s Portion'"
             [inputFormControl]="localForm | formGet : user.id.toString()"
           ></app-input>
         </div>
