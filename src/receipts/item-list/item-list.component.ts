@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable, of, startWith, take, takeUntil, tap } from 'rxjs';
 import { FormMode } from 'src/enums/form-mode.enum';
+import { InputComponent } from 'src/input/input/input.component';
 import { Receipt } from 'src/models';
 import { Item } from 'src/models/item';
 import { User } from 'src/models/user';
@@ -32,6 +33,9 @@ export interface ItemData {
 export class ItemListComponent implements OnInit {
   @ViewChildren('userExpansionPanel')
   public userExpansionPanels!: QueryList<MatExpansionPanel>;
+
+  @ViewChildren('nameField')
+  public nameFields!: QueryList<InputComponent>;
 
   @Select(UserState.users) public users!: Observable<User[]>;
 
