@@ -2,19 +2,12 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
-  OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { map, Observable, of, startWith } from 'rxjs';
+
 import { BaseInputComponent } from 'src/base-input/base-input/base-input.component';
 import { InputInterface } from '../input.interface';
-interface InputErrorMessage {
-  error: string;
-  message: string;
-}
-
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
@@ -24,6 +17,7 @@ export class InputComponent
   extends BaseInputComponent
   implements InputInterface
 {
+  @ViewChild('nativeInput') public nativeInput!: { nativeElement: HTMLElement };
   @Input() inputId: string = '';
   @Input() type: string = 'text';
   @Output() public inputBlur: EventEmitter<any> = new EventEmitter<any>(

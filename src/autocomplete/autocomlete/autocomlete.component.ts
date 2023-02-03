@@ -82,7 +82,7 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
     this.filterFormControl.setValue(this.inputFormControl.value);
   }
 
-  private _filter(value: string): string[] {
+  public _filter(value: string): any[] {
     value = value ?? '';
     const filterValue = value.toString()?.toLowerCase();
 
@@ -116,7 +116,6 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
           })
         );
       } else if (customOptionSelected && this.optionValueKey) {
-        // TODO: not sure if this works
         formArray.push(new FormControl(this.filterFormControl.value));
       } else {
         (this.inputFormControl as any as FormArray).push(

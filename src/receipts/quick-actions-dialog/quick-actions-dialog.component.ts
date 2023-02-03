@@ -16,7 +16,7 @@ import { buildItemForm } from '../utils/form.utils';
 
 enum QuickActions {
   'SplitEvenly' = 'Split Evenly',
-  'SplitEvenlyWithOptionalParts' = 'Split Evenly With Optional Parts',
+  'SplitEvenlyWithOptionalParts' = 'Split Evenly With Portions',
 }
 
 @Component({
@@ -109,7 +109,7 @@ export class QuickActionsDialogComponent implements OnInit {
     users.forEach((u) => {
       const item = this.buildSplitItem(
         u,
-        `${u.displayName}'s even Split`,
+        `${u.displayName}'s Even Portion`,
         Number.parseFloat((receiptAmount / users.length).toFixed(2))
       );
 
@@ -130,11 +130,11 @@ export class QuickActionsDialogComponent implements OnInit {
       const userOptionalPart = Number.parseFloat(
         this.localForm.get(u.id.toString())?.value
       );
-      if (!Number.isNaN(userOptionalPart)) {
+      if (!Number.isNaN(userOptionalPart) && Number(userOptionalPart) > 0) {
         amount -= userOptionalPart;
         const item = this.buildSplitItem(
           u,
-          `${u.displayName}'s Optional Part`,
+          `${u.displayName}'s Portion`,
           this.localForm.get(u.id.toString())?.value
         );
         const formGroup = buildItemForm(

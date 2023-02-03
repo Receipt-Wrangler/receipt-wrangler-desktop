@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable, of, startWith, take, takeUntil, tap } from 'rxjs';
 import { FormMode } from 'src/enums/form-mode.enum';
+import { InputComponent } from 'src/input/input/input.component';
 import { Receipt } from 'src/models';
 import { Item } from 'src/models/item';
 import { User } from 'src/models/user';
@@ -33,6 +34,9 @@ export class ItemListComponent implements OnInit {
   @ViewChildren('userExpansionPanel')
   public userExpansionPanels!: QueryList<MatExpansionPanel>;
 
+  @ViewChildren('nameField')
+  public nameFields!: QueryList<InputComponent>;
+
   @Select(UserState.users) public users!: Observable<User[]>;
 
   @Input() public form!: FormGroup;
@@ -46,6 +50,8 @@ export class ItemListComponent implements OnInit {
   public isAdding: boolean = false;
 
   public mode: FormMode = FormMode.view;
+
+  public formMode = FormMode;
 
   public get receiptItems(): FormArray {
     return this.form.get('receiptItems') as FormArray;
@@ -133,16 +139,18 @@ export class ItemListComponent implements OnInit {
   }
 
   public addInlineItem(userId: string): void {
-    this.receiptItems.push(
-      buildItemForm(
-        {
-          name: '',
-          chargedToUserId: Number(userId),
-        } as Item,
-        this.originalReceipt?.id?.toString()
-      )
-    );
-    this.setUserItemMap();
+    if (this.mode !== FormMode.view) {
+      this.receiptItems.push(
+        buildItemForm(
+          {
+            name: '',
+            chargedToUserId: Number(userId),
+          } as Item,
+          this.originalReceipt?.id?.toString()
+        )
+      );
+      this.setUserItemMap();
+    }
   }
 
   public addInlineItemOnBlur(userId: string, index: number): void {
@@ -159,13 +167,15 @@ export class ItemListComponent implements OnInit {
   }
 
   public checkLastInlineItem(userId: string): void {
-    const items = this.userItemMap.get(userId);
-    if (items) {
-      const lastItem = items[items.length - 1];
-      const formGroup = this.receiptItems.at(lastItem.arrayIndex);
-      if (formGroup.pristine) {
-        this.receiptItems.removeAt(lastItem.arrayIndex);
-        this.setUserItemMap();
+    if (this.mode !== FormMode.view) {
+      const items = this.userItemMap.get(userId);
+      if (items) {
+        const lastItem = items[items.length - 1];
+        const formGroup = this.receiptItems.at(lastItem.arrayIndex);
+        if (formGroup.pristine) {
+          this.receiptItems.removeAt(lastItem.arrayIndex);
+          this.setUserItemMap();
+        }
       }
     }
   }

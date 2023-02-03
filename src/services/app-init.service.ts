@@ -56,7 +56,7 @@ export class AppInitService {
     });
   }
 
-  private getAppData(): Observable<[User[], Group[]]> {
+  public getAppData(): Observable<[User[], Group[]]> {
     const usersCall = this.userService.getAllUsers().pipe(
       take(1),
       tap((users) => this.store.dispatch(new SetUsers(users)))

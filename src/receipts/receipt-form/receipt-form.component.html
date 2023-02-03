@@ -1,19 +1,6 @@
-<app-button
-  *ngIf="mode === formMode.view"
-  buttonText="edit"
-  [routerLink]="[editLink]"
-></app-button>
 <form [formGroup]="form" (ngSubmit)="submit()">
   <div class="d-flex">
     <div class="w-50">
-      <div class="mb-4">
-        <app-upload-image
-          [images]="images"
-          [mode]="mode"
-          [receiptId]="originalReceipt?.id?.toString()"
-        >
-        </app-upload-image>
-      </div>
       <ng-container *ngIf="imagesLoading">
         <div class="d-flex justify-content-center align-items-center">
           <mat-spinner></mat-spinner>
@@ -24,24 +11,33 @@
         [disabled]="mode !== formMode.edit"
         (removeButtonClicked)="removeImage($event)"
       ></app-carousel>
+      <app-upload-image
+        [images]="images"
+        [mode]="mode"
+        [receiptId]="originalReceipt?.id?.toString()"
+      >
+      </app-upload-image>
     </div>
     <div class="w-50">
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between form-container">
         <div
           class="d-flex flex-column justify-content-center align-items-center"
         >
           <app-input
+            class="w-100"
             label="Name"
             [inputFormControl]="form | formGet : 'name'"
             [readonly]="mode | inputReadonly"
           ></app-input>
           <app-input
+            class="w-100"
             label="Amount"
             type="number"
             [inputFormControl]="form | formGet : 'amount'"
             [readonly]="mode | inputReadonly"
           ></app-input>
           <app-autocomlete
+            class="w-100"
             label="Categories"
             optionFilterKey="name"
             creatableValueKey="name"
@@ -54,6 +50,7 @@
             [readonly]="mode | inputReadonly"
           ></app-autocomlete>
           <app-autocomlete
+            class="w-100"
             label="Tags"
             optionFilterKey="name"
             creatableValueKey="name"
@@ -71,6 +68,7 @@
             [readonly]="mode | inputReadonly"
           ></app-datepicker>
           <app-autocomlete
+            class="w-100"
             label="Group"
             optionFilterKey="name"
             optionValueKey="id"
@@ -81,11 +79,13 @@
             [displayWith]="groupDisplayWith.bind(this)"
           ></app-autocomlete>
           <app-user-autocomplete
+            class="w-100"
             label="Paid By"
             [inputFormControl]="form | formGet : 'paidByUserId'"
             [readonly]="mode | inputReadonly"
           ></app-user-autocomplete>
           <app-input
+            class="w-100"
             label="Is Resolved"
             [inputFormControl]="form | formGet : 'isResolved'"
             [readonly]="mode | inputReadonly"
@@ -93,11 +93,20 @@
         </div>
         <div class="button-container sticky-top d-flex flex-column">
           <app-button
+            *ngIf="mode === formMode.view"
+            class="mb-4"
+            matButtonType="iconButton"
+            tooltip="Edit"
+            icon="edit"
+            [routerLink]="[editLink]"
+          ></app-button>
+          <app-button
             class="mb-4"
             customIcon="split"
             matButtonType="iconButton"
             tooltip="Split"
-            (click)="openQuickActionsModal()"
+            (clicked)="openQuickActionsModal()"
+            [disabled]="mode === formMode.view"
           ></app-button>
           <app-button
             class="mb-4"
@@ -105,12 +114,14 @@
             matButtonType="iconButton"
             type="submit"
             tooltip="Save"
+            [disabled]="mode === formMode.view"
           ></app-button>
           <app-button
             class="mb-4"
             icon="close"
             matButtonType="iconButton"
             tooltip="Cancel"
+            [disabled]="mode === formMode.view"
           ></app-button>
         </div>
       </div>

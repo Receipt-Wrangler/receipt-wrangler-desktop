@@ -1,7 +1,8 @@
 <app-button
   type="button"
   buttonText="Add Item"
-  (click)="initAddMode()"
+  [disabled]="mode === formMode.view"
+  (clicked)="initAddMode()"
 ></app-button>
 
 <mat-accordion multi>
@@ -31,13 +32,13 @@
           matButtonType="iconButton"
           icon="done"
           tooltip="Done"
-          (click)="submitNewItemFormGroup()"
+          (clicked)="submitNewItemFormGroup()"
         ></app-button>
         <app-button
           matButtonType="iconButton"
           icon="close"
           tooltip="cancel"
-          (click)="exitAddMode()"
+          (clicked)="exitAddMode()"
         ></app-button>
       </div>
     </mat-expansion-panel>
@@ -65,11 +66,12 @@
             class="w-25"
             buttonText="remove"
             [disabled]="mode | inputReadonly"
-            (click)="removeItem(itemData)"
+            (clicked)="removeItem(itemData)"
           ></app-button>
         </div>
         <div class="d-flex">
           <app-input
+            #nameField
             label="Name"
             [inputId]="'name-' + i"
             [inputFormControl]="
