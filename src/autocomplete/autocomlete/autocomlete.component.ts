@@ -116,7 +116,6 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
           })
         );
       } else if (customOptionSelected && this.optionValueKey) {
-        // TODO: not sure if this works
         formArray.push(new FormControl(this.filterFormControl.value));
       } else {
         (this.inputFormControl as any as FormArray).push(
