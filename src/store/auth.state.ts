@@ -22,6 +22,11 @@ export interface AuthStateInterface {
 @Injectable()
 export class AuthState {
   @Selector()
+  static userRole(state: AuthStateInterface): string {
+    return state.userRole ?? '';
+  }
+
+  @Selector()
   static isLoggedIn(state: AuthStateInterface): boolean {
     return !AuthState.isTokenExpired(state);
   }
