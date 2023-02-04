@@ -4,12 +4,14 @@ import { SetAuthState } from './auth.state.actions';
 import Cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { User } from 'src/models';
+import { UserRole } from 'src/enums/user_role.enum';
 
 export interface AuthStateInterface {
   userId?: string;
   displayname?: string;
   username?: string;
   expirationDate?: string;
+  userRole?: UserRole;
   token?: string;
 }
 
@@ -58,6 +60,7 @@ export class AuthState {
           displayname: claims['Displayname'],
           username: claims['Username'],
           expirationDate: claims['exp'],
+          userRole: claims['UserRole'],
           token: jwt,
         });
       }
