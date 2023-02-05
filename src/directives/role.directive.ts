@@ -16,8 +16,7 @@ export class RoleDirective {
   ) {}
 
   @Input() set appRole(role: string) {
-    const userRole = this.store.selectSnapshot(AuthState.userRole);
-    const hasRole = role === userRole;
+    const hasRole = this.store.selectSnapshot(AuthState.hasRole(role));
 
     if (hasRole) {
       this.viewContainer.createEmbeddedView(this.templateRef);
