@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import {
+  Action,
+  createSelector,
+  Selector,
+  State,
+  StateContext,
+} from '@ngxs/store';
 import { SetAuthState } from './auth.state.actions';
 import Cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { User } from 'src/models';
 import { UserRole } from 'src/enums/user_role.enum';
+import { UserStateInterface } from './user.state';
 
 export interface AuthStateInterface {
   userId?: string;
@@ -52,6 +59,12 @@ export class AuthState {
       displayName: state.displayname ?? '',
       username: state.username ?? '',
     } as User;
+  }
+
+  static hasRole(role: string) {
+    return createSelector([AuthState], (state: AuthStateInterface) => {
+      return state.userRole === role;
+    });
   }
 
   @Action(SetAuthState)
