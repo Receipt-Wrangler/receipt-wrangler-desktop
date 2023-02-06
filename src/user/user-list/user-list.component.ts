@@ -15,6 +15,7 @@ export class UserListComponent {
   public displayedColumns = [
     'username',
     'displayname',
+    'userRole',
     'createdAt',
     'updatedAt',
   ];

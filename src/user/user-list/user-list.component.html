@@ -12,6 +12,13 @@
       </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="userRole">
+      <mat-header-cell *matHeaderCellDef> Role </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.userRole }}
+      </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="createdAt">
       <mat-header-cell *matHeaderCellDef> Created At </mat-header-cell>
       <mat-cell *matCellDef="let element">
