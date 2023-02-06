@@ -12,5 +12,10 @@ import { UserState } from 'src/store/user.state';
 export class UserListComponent {
   @Select(UserState.users) public users!: Observable<User[]>;
 
-  public displayedColumns = ['username', 'displayname'];
+  public displayedColumns = [
+    'username',
+    'displayname',
+    'createdAt',
+    'updatedAt',
+  ];
 }
