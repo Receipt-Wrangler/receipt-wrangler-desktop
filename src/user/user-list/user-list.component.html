@@ -1,1 +1,18 @@
-<p>user-list works!</p>
+<div class="table-container">
+  <mat-table #table [dataSource]="users">
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef> Username </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.username }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="displayname">
+      <mat-header-cell *matHeaderCellDef> Displayname </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.displayName }}
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</div>

@@ -132,3 +132,7 @@ $global-shadow: 0px 2px 7px -1px rgba(0, 67, 104, 0.18);
 .mdc-switch__shadow {
   box-shadow: $global-shadow !important;
 }
+
+.table-container {
+  box-shadow: $global-shadow;
+}
