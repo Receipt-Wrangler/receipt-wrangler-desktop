@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { UserRole } from 'src/enums/user_role.enum';
 import { User } from 'src/models';
 
@@ -11,7 +12,10 @@ import { User } from 'src/models';
 export class UserFormComponent implements OnInit {
   @Input() public user!: User;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private matDialogRef: MatDialogRef<UserFormComponent>
+  ) {}
 
   public form: FormGroup = new FormGroup({});
 
@@ -28,5 +32,14 @@ export class UserFormComponent implements OnInit {
       username: [this.user?.username ?? '', Validators.required],
       userRole: [this.user?.userRole ?? '', Validators.required],
     });
+  }
+
+  public submit(): void {
+    if (this.form.valid) {
+    }
+  }
+
+  public closeModal(): void {
+    this.matDialogRef.close();
   }
 }

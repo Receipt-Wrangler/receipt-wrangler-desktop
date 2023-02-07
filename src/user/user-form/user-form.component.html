@@ -1,6 +1,6 @@
 <div class="p-4">
   <h2 class="header-text">{{ user ? "Edit User" : "Create User" }}</h2>
-  <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="submit()">
     <app-input
       label="Username"
       [inputFormControl]="form | formGet : 'username'"
@@ -15,4 +15,8 @@
       [options]="userRoleOptions"
     ></app-select>
   </form>
+  <div class="d-flex justify-content-end">
+    <app-button buttonText="submit"></app-button>
+    <app-button buttonText="cancel" (clicked)="closeModal()"></app-button>
+  </div>
 </div>
