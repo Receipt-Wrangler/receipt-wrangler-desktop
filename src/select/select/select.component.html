@@ -1,0 +1,17 @@
+<mat-form-field class="w-100">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select [formControl]="inputFormControl">
+    <mat-option
+      *ngFor="let option of options"
+      [value]="optionValueKey ? option[optionValueKey] : option"
+    >
+      {{ optionDisplayKey ? option[optionDisplayKey] : option }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<ng-container *ngFor="let err of formControlErrors | async">
+  <mat-error *ngIf="err.error === 'required' && inputFormControl.touched">{{
+    err.message
+  }}</mat-error>
+  <mat-error *ngIf="err.error !== 'required'">{{ err.message }}</mat-error>
+</ng-container>
