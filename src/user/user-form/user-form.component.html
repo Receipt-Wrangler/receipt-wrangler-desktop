@@ -1,1 +1,18 @@
-<p>user-form works!</p>
+<div class="p-4">
+  <h2 class="header-text">{{ user ? "Edit User" : "Create User" }}</h2>
+  <form [formGroup]="form">
+    <app-input
+      label="Username"
+      [inputFormControl]="form | formGet : 'username'"
+    ></app-input>
+    <app-input
+      label="Displayname"
+      [inputFormControl]="form | formGet : 'displayName'"
+    ></app-input>
+    <app-select
+      label="User Role"
+      [inputFormControl]="form | formGet : 'userRole'"
+      [options]="userRoleOptions"
+    ></app-select>
+  </form>
+</div>

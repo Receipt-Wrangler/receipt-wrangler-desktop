@@ -25,7 +25,9 @@ export class UserListComponent {
     'actions',
   ];
 
-  public openUserFormModal(): void {
-    this.matDialog.open(UserFormComponent);
+  public openUserFormModal(user: User): void {
+    const dialogRef = this.matDialog.open(UserFormComponent);
+
+    dialogRef.componentInstance.user = user;
   }
 }
