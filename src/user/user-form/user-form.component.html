@@ -14,9 +14,9 @@
       [inputFormControl]="form | formGet : 'userRole'"
       [options]="userRoleOptions"
     ></app-select>
+    <div class="d-flex justify-content-end align-items-center">
+      <app-submit-button></app-submit-button>
+      <app-button buttonText="cancel" (clicked)="closeModal()"></app-button>
+    </div>
   </form>
-  <div class="d-flex justify-content-end">
-    <app-button buttonText="submit"></app-button>
-    <app-button buttonText="cancel" (clicked)="closeModal()"></app-button>
-  </div>
 </div>
