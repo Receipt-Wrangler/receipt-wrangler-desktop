@@ -1,8 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { tap } from 'rxjs';
+import { UsersService } from 'src/api/users.service';
 import { UserRole } from 'src/enums/user_role.enum';
 import { User } from 'src/models';
+import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-user-form',
@@ -14,6 +17,8 @@ export class UserFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private usersService: UsersService,
+    private snackbarService: SnackbarService,
     private matDialogRef: MatDialogRef<UserFormComponent>
   ) {}
 
@@ -35,7 +40,16 @@ export class UserFormComponent implements OnInit {
   }
 
   public submit(): void {
-    if (this.form.valid) {
+    if (this.form.valid && this.user) {
+      this.usersService
+        .updateUser(this.user.id.toString(), this.user)
+        .pipe(
+          tap(() => {
+            this.snackbarService.success('User successfully updated');
+            // need to update in state
+          })
+        )
+        .subscribe();
     }
   }
 

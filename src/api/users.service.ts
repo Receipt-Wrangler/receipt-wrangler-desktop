@@ -12,4 +12,8 @@ export class UsersService {
   public getAllUsers(): Observable<User[]> {
     return this.httpClient.get<User[]>('/api/user').pipe(take(1));
   }
+
+  public updateUser(id: string, user: User): Observable<void> {
+    return this.httpClient.post<void>(`/api/user/${id}`, user).pipe(take(1));
+  }
 }
