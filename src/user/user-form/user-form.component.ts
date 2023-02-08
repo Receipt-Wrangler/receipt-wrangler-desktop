@@ -42,7 +42,7 @@ export class UserFormComponent implements OnInit {
   public submit(): void {
     if (this.form.valid && this.user) {
       this.usersService
-        .updateUser(this.user.id.toString(), this.user)
+        .updateUser(this.user.id.toString(), this.form.value)
         .pipe(
           tap(() => {
             this.snackbarService.success('User successfully updated');
