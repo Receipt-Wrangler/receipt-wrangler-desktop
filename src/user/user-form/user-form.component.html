@@ -9,6 +9,11 @@
       label="Displayname"
       [inputFormControl]="form | formGet : 'displayName'"
     ></app-input>
+    <app-input
+      *ngIf="!user"
+      label="Password"
+      [inputFormControl]="form | formGet : 'password'"
+    ></app-input>
     <app-select
       label="User Role"
       [inputFormControl]="form | formGet : 'userRole'"

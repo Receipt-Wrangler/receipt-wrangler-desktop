@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { tap } from 'rxjs';
 import { UsersService } from 'src/api/users.service';
@@ -13,7 +18,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
   styleUrls: ['./user-form.component.scss'],
 })
 export class UserFormComponent implements OnInit {
-  @Input() public user!: User;
+  @Input() public user?: User;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,6 +42,13 @@ export class UserFormComponent implements OnInit {
       username: [this.user?.username ?? '', Validators.required],
       userRole: [this.user?.userRole ?? '', Validators.required],
     });
+
+    if (!this.user) {
+      this.form.addControl(
+        'password',
+        new FormControl('', Validators.required)
+      );
+    }
   }
 
   public submit(): void {
