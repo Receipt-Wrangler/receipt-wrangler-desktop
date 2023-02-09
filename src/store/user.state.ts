@@ -7,7 +7,7 @@ import {
   StateContext,
 } from '@ngxs/store';
 import { User } from 'src/models/user';
-import { SetUsers } from './user.state.actions';
+import { SetUsers, UpdateUser } from './user.state.actions';
 
 export interface UserStateInterface {
   users: User[];
@@ -28,8 +28,16 @@ export class UserState {
 
   static getUserById(userId: string) {
     return createSelector([UserState], (state: UserStateInterface) => {
-      return state.users.find((u) => u.id.toString() === userId);
+      return UserState.findUserById(userId, state.users);
     });
+  }
+
+  static findUserById(userId: string, users: User[]): User | undefined {
+    return users.find((u) => u.id.toString() === userId);
+  }
+
+  static findUserIndexById(userId: string, users: User[]): number {
+    return users.findIndex((u) => u.id.toString() === userId);
   }
 
   @Action(SetUsers)
@@ -40,5 +48,20 @@ export class UserState {
     patchState({
       users: payload.users,
     });
+  }
+
+  @Action(UpdateUser)
+  updateUser(
+    { getState, patchState }: StateContext<UserStateInterface>,
+    payload: UpdateUser
+  ) {
+    const users = Array.from(getState().users);
+    const index = UserState.findUserIndexById(payload.userId, users);
+    if (index >= 0) {
+      users.splice(index, 1, payload.user);
+      patchState({
+        users: users,
+      });
+    }
   }
 }

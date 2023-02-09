@@ -6,11 +6,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { finalize, take, tap } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { finalize, iif, of, switchMap, take, tap } from 'rxjs';
+import { AuthService } from 'src/api/auth.service';
 import { UsersService } from 'src/api/users.service';
 import { UserRole } from 'src/enums/user_role.enum';
 import { User } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { AuthState } from 'src/store/auth.state';
+import { UpdateUser } from 'src/store/user.state.actions';
 
 @Component({
   selector: 'app-user-form',
@@ -24,7 +28,9 @@ export class UserFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usersService: UsersService,
     private snackbarService: SnackbarService,
-    private matDialogRef: MatDialogRef<UserFormComponent>
+    private matDialogRef: MatDialogRef<UserFormComponent>,
+    private store: Store,
+    private authService: AuthService
   ) {}
 
   public form: FormGroup = new FormGroup({});
@@ -59,8 +65,24 @@ export class UserFormComponent implements OnInit {
           take(1),
           tap(() => {
             this.snackbarService.success('User successfully updated');
-            // need to update in state
           }),
+          switchMap(() =>
+            this.store.dispatch(
+              new UpdateUser(this.user?.id.toString() as string, {
+                ...this.user,
+                ...this.form.value,
+              })
+            )
+          ),
+          switchMap(() =>
+            iif(
+              () =>
+                this.store.selectSnapshot(AuthState.loggedInUser).id ===
+                this.user?.id,
+              this.authService.getNewRefreshToken(),
+              of(undefined)
+            )
+          ),
           finalize(() => this.matDialogRef.close())
         )
         .subscribe();
