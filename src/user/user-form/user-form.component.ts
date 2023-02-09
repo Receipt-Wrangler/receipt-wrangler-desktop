@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { tap } from 'rxjs';
+import { finalize, take, tap } from 'rxjs';
 import { UsersService } from 'src/api/users.service';
 import { UserRole } from 'src/enums/user_role.enum';
 import { User } from 'src/models';
@@ -56,10 +56,23 @@ export class UserFormComponent implements OnInit {
       this.usersService
         .updateUser(this.user.id.toString(), this.form.value)
         .pipe(
+          take(1),
           tap(() => {
             this.snackbarService.success('User successfully updated');
             // need to update in state
-          })
+          }),
+          finalize(() => this.matDialogRef.close())
+        )
+        .subscribe();
+    } else if (this.form.valid && !this.user) {
+      this.usersService
+        .createUser(this.form.value)
+        .pipe(
+          take(1),
+          tap(() => {
+            this.snackbarService.success('User successfully created');
+          }),
+          finalize(() => this.matDialogRef.close())
         )
         .subscribe();
     }

@@ -14,6 +14,10 @@ export class UsersService {
   }
 
   public updateUser(id: string, user: User): Observable<void> {
-    return this.httpClient.post<void>(`/api/user/${id}`, user).pipe(take(1));
+    return this.httpClient.post<void>(`/api/user/${id}`, user);
+  }
+
+  public createUser(user: User): Observable<void> {
+    return this.httpClient.post<void>(`/api/user`, user);
   }
 }
