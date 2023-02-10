@@ -14,7 +14,8 @@ import { UserRole } from 'src/enums/user_role.enum';
 import { User } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
-import { UpdateUser } from 'src/store/user.state.actions';
+import { UserState } from 'src/store/user.state';
+import { AddUser, UpdateUser } from 'src/store/user.state.actions';
 
 @Component({
   selector: 'app-user-form',
@@ -91,6 +92,7 @@ export class UserFormComponent implements OnInit {
         .createUser(this.form.value)
         .pipe(
           take(1),
+          switchMap((u) => this.store.dispatch(new AddUser(u))),
           tap(() => {
             this.snackbarService.success('User successfully created');
           }),

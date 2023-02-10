@@ -17,7 +17,7 @@ export class UsersService {
     return this.httpClient.post<void>(`/api/user/${id}`, user);
   }
 
-  public createUser(user: User): Observable<void> {
-    return this.httpClient.post<void>(`/api/user`, user);
+  public createUser(user: User): Observable<User> {
+    return this.httpClient.post<User>(`/api/user`, user);
   }
 }
