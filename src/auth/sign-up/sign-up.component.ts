@@ -5,19 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {
-  DEFAULT_SNACKBAR_ACTION,
-  DEFAULT_SNACKBAR_CONFIG,
-} from '../../../constants';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
-import { applyApiErrors } from 'src/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from 'src/api/users.service';
 import { Store } from '@ngxs/store';
-import { SetUsers } from 'src/store/user.state.actions';
-import { User } from 'src/models/user';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AppInitService } from 'src/services/app-init.service';
 import { SetAuthState } from 'src/store/auth.state.actions';

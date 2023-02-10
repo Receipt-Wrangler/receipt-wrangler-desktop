@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
-import { finalize, iif, of, switchMap, take, tap } from 'rxjs';
+import { catchError, finalize, iif, of, switchMap, take, tap } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
 import { UsersService } from 'src/api/users.service';
 import { UserRole } from 'src/enums/user_role.enum';
@@ -84,7 +84,8 @@ export class UserFormComponent implements OnInit {
               of(undefined)
             )
           ),
-          finalize(() => this.matDialogRef.close())
+
+          tap(() => this.matDialogRef.close())
         )
         .subscribe();
     } else if (this.form.valid && !this.user) {
@@ -96,7 +97,13 @@ export class UserFormComponent implements OnInit {
           tap(() => {
             this.snackbarService.success('User successfully created');
           }),
-          finalize(() => this.matDialogRef.close())
+          catchError((err) => {
+            console.warn(err);
+            return of(
+              this.snackbarService.error(err.error['username'] ?? err['errMsg'])
+            );
+          }),
+          tap(() => this.matDialogRef.close())
         )
         .subscribe();
     }

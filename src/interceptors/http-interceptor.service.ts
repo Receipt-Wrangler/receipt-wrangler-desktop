@@ -30,6 +30,9 @@ export class HttpInterceptorService implements HttpInterceptor {
     return next.handle(this.addTokenToRequest(req)).pipe(
       catchError((e: HttpErrorResponse) => {
         const regex = new RegExp('5d{2}');
+        if (e.error?.errMsg) {
+          this.snackbar.open(e.error?.errMsg);
+        }
         if (e.status === HttpStatusCode.Unauthorized) {
           return this.refreshToken(req, next);
         } else if (regex.test(e.status.toString())) {
