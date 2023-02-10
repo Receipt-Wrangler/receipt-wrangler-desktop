@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
 import { catchError, Observable, of, switchMap, take, throwError } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
+import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
 
 @Injectable({
@@ -20,7 +21,7 @@ export class HttpInterceptorService implements HttpInterceptor {
   constructor(
     private store: Store,
     private authService: AuthService,
-    private snackbar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {}
 
   public intercept(
@@ -30,13 +31,13 @@ export class HttpInterceptorService implements HttpInterceptor {
     return next.handle(this.addTokenToRequest(req)).pipe(
       catchError((e: HttpErrorResponse) => {
         const regex = new RegExp('5d{2}');
-        if (e.error?.errMsg) {
-          this.snackbar.open(e.error?.errMsg);
+        if (e.error?.errorMsg) {
+          this.snackbarService.error(e.error?.errorMsg);
         }
         if (e.status === HttpStatusCode.Unauthorized) {
           return this.refreshToken(req, next);
         } else if (regex.test(e.status.toString())) {
-          this.snackbar.open(e.message);
+          this.snackbarService.error(e.message);
         }
 
         return next.handle(req);
