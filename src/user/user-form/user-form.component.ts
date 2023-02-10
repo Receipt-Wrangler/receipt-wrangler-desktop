@@ -7,20 +7,21 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
-import { catchError, finalize, iif, of, switchMap, take, tap } from 'rxjs';
+import { catchError, iif, of, switchMap, take, tap } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
 import { UsersService } from 'src/api/users.service';
 import { UserRole } from 'src/enums/user_role.enum';
 import { User } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
-import { UserState } from 'src/store/user.state';
 import { AddUser, UpdateUser } from 'src/store/user.state.actions';
+import { UserValidators } from 'src/validators/user-validators';
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
+  providers: [UserValidators],
 })
 export class UserFormComponent implements OnInit {
   @Input() public user?: User;
@@ -31,7 +32,8 @@ export class UserFormComponent implements OnInit {
     private snackbarService: SnackbarService,
     private matDialogRef: MatDialogRef<UserFormComponent>,
     private store: Store,
-    private authService: AuthService
+    private authService: AuthService,
+    private userValidators: UserValidators
   ) {}
 
   public form: FormGroup = new FormGroup({});
@@ -46,7 +48,11 @@ export class UserFormComponent implements OnInit {
     this.userRoleOptions = Object.keys(UserRole);
     this.form = this.formBuilder.group({
       displayName: [this.user?.displayName ?? '', Validators.required],
-      username: [this.user?.username ?? '', Validators.required],
+      username: [
+        this.user?.username ?? '',
+        Validators.required,
+        this.userValidators.uniqueUsername(0, this.user?.username ?? ''),
+      ],
       userRole: [this.user?.userRole ?? '', Validators.required],
     });
 

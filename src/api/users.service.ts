@@ -20,4 +20,8 @@ export class UsersService {
   public createUser(user: User): Observable<User> {
     return this.httpClient.post<User>(`/api/user`, user);
   }
+
+  public getUsernameCount(username: string): Observable<number> {
+    return this.httpClient.get<number>(`/api/user/${username}`);
+  }
 }
