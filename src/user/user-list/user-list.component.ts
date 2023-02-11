@@ -4,6 +4,7 @@ import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { User } from 'src/models';
 import { UserState } from 'src/store/user.state';
+import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 import { UserFormComponent } from '../user-form/user-form.component';
 
 @Component({
@@ -25,9 +26,15 @@ export class UserListComponent {
     'actions',
   ];
 
-  public openUserFormModal(user?: User): void {
+  public openUserFormDialog(user?: User): void {
     const dialogRef = this.matDialog.open(UserFormComponent, {});
 
     dialogRef.componentInstance.user = user;
+  }
+
+  public openResetPasswordDialog(user?: User): void {
+    const dialogRef = this.matDialog.open(ResetPasswordComponent, {});
+
+    //dialogRef.componentInstance.user = user;
   }
 }

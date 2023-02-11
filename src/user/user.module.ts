@@ -11,9 +11,10 @@ import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { UserFormComponent } from './user-form/user-form.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserRoutingModule } from './user-routing.module';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
-  declarations: [UserListComponent, UserFormComponent],
+  declarations: [UserListComponent, UserFormComponent, ResetPasswordComponent],
   imports: [
     ButtonModule,
     CommonModule,
