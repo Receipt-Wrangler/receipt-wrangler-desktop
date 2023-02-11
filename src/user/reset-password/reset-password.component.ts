@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { take } from 'rxjs';
+import { UsersService } from 'src/api/users.service';
 import { User } from 'src/models';
 
 @Component({
@@ -15,7 +17,8 @@ export class ResetPasswordComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private matDialogRef: MatDialogRef<ResetPasswordComponent>
+    private matDialogRef: MatDialogRef<ResetPasswordComponent>,
+    private usersService: UsersService
   ) {}
 
   public ngOnInit(): void {
@@ -28,7 +31,14 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
-  public submit(): void {}
+  public submit(): void {
+    if (this.form.valid) {
+      this.usersService
+        .setUserPassword(this.user.id.toString(), this.form.value)
+        .pipe(take(1))
+        .subscribe();
+    }
+  }
 
   public closeModal(): void {
     this.matDialogRef.close();
