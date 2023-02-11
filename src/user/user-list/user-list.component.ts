@@ -32,9 +32,9 @@ export class UserListComponent {
     dialogRef.componentInstance.user = user;
   }
 
-  public openResetPasswordDialog(user?: User): void {
+  public openResetPasswordDialog(user: User): void {
     const dialogRef = this.matDialog.open(ResetPasswordComponent, {});
 
-    //dialogRef.componentInstance.user = user;
+    dialogRef.componentInstance.user = user;
   }
 }
