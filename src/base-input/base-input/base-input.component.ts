@@ -24,6 +24,7 @@ export class BaseInputComponent implements OnInit {
   public ngOnInit(): void {
     this.errorMessages = {
       required: `${this.label} is required.`,
+      duplicate: `${this.label} must be unique.`,
       min: `Value must be larger than 0`,
     };
 

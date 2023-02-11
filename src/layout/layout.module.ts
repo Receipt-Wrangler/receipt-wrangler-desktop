@@ -10,6 +10,8 @@ import { AddReceiptIconComponent } from './add-receipt-icon/add-receipt-icon.com
 import { ReceiptListIconComponent } from './receipt-list-icon/receipt-list-icon.component';
 import { DashboardIconComponent } from './dashboard-icon/dashboard-icon.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { DirectivesModule } from 'src/directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatCardModule,
     MatIconModule,
     MatTooltipModule,
+    MatMenuModule,
     RouterModule,
+    DirectivesModule,
   ],
   exports: [HeaderComponent, AddReceiptIconComponent],
 })

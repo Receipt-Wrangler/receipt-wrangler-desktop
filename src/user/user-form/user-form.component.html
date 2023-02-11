@@ -1,0 +1,27 @@
+<div class="p-4">
+  <h2 class="header-text">{{ user ? "Edit User" : "Create User" }}</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <app-input
+      label="Username"
+      [inputFormControl]="form | formGet : 'username'"
+    ></app-input>
+    <app-input
+      label="Displayname"
+      [inputFormControl]="form | formGet : 'displayName'"
+    ></app-input>
+    <app-input
+      *ngIf="!user"
+      label="Password"
+      [inputFormControl]="form | formGet : 'password'"
+    ></app-input>
+    <app-select
+      label="User Role"
+      [inputFormControl]="form | formGet : 'userRole'"
+      [options]="userRoleOptions"
+    ></app-select>
+    <div class="d-flex justify-content-end align-items-center">
+      <app-submit-button></app-submit-button>
+      <app-cancel-button (clicked)="closeModal()"></app-cancel-button>
+    </div>
+  </form>
+</div>

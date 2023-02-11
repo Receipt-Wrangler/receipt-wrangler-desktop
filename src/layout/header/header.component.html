@@ -46,7 +46,15 @@
       </mat-card-content>
     </mat-card>
     <div>
-      <app-avatar [user]="(loggedInUser | async) ?? $any({})"></app-avatar>
+      <app-avatar
+        [user]="(loggedInUser | async) ?? $any({})"
+        [matMenuTriggerFor]="menu"
+      ></app-avatar>
+      <mat-menu #menu="matMenu">
+        <button *appRole="'ADMIN'" [routerLink]="['/users']" mat-menu-item>
+          Manage Users
+        </button>
+      </mat-menu>
     </div>
   </div>
 </ng-container>
