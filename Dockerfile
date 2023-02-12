@@ -12,6 +12,7 @@ RUN ng build
 # Deploy via nginx
 FROM nginx:alpine
 COPY --from=node /desktop/dist/receipt-wrangler /usr/share/nginx/html
+COPY --from=node /desktop/docker/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
