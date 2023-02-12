@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { take } from 'rxjs';
+import { take, tap } from 'rxjs';
 import { UsersService } from 'src/api/users.service';
 import { User } from 'src/models';
+import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -18,7 +19,8 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private matDialogRef: MatDialogRef<ResetPasswordComponent>,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private snackbarService: SnackbarService
   ) {}
 
   public ngOnInit(): void {
@@ -35,7 +37,13 @@ export class ResetPasswordComponent implements OnInit {
     if (this.form.valid) {
       this.usersService
         .setUserPassword(this.user.id.toString(), this.form.value)
-        .pipe(take(1))
+        .pipe(
+          take(1),
+          tap(() => {
+            this.snackbarService.success('Password successfully set');
+            this.matDialogRef.close();
+          })
+        )
         .subscribe();
     }
   }
