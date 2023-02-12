@@ -32,7 +32,29 @@ $primary-palette: (
     ),
 );
 $my-primary: mat.define-palette($primary-palette);
-$my-accent: mat.define-palette($primary-palette);
+
+$accent-palette: (
+  50: #8ea1ac,
+  100: #8ea1ac,
+  200: #8ea1ac,
+  300: #8ea1ac,
+  400: #8ea1ac,
+  500: #8ea1ac,
+  600: #8ea1ac,
+  700: #8ea1ac,
+  800: #8ea1ac,
+  900: #8ea1ac,
+  // ... continues to 900
+  contrast:
+    (
+      50: rgba(black, 0.87),
+      100: rgba(black, 0.87),
+      200: rgba(black, 0.87),
+      300: white,
+      // ... continues to 900
+    ),
+);
+$my-accent: mat.define-palette($accent-palette);
 
 $warn-palette: (
   50: #f5cfcf,

@@ -24,4 +24,11 @@ export class UsersService {
   public getUsernameCount(username: string): Observable<number> {
     return this.httpClient.get<number>(`/api/user/${username}`);
   }
+
+  public setUserPassword(
+    id: string,
+    data: { password: string }
+  ): Observable<void> {
+    return this.httpClient.post<void>(`/api/user/${id}`, data);
+  }
 }

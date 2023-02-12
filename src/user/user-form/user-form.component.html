@@ -1,5 +1,7 @@
 <div class="p-4">
-  <h2 class="header-text">{{ user ? "Edit User" : "Create User" }}</h2>
+  <h2 class="header-text">
+    {{ user ? "Edit " + user.displayName : "Create User" }}
+  </h2>
   <form [formGroup]="form" (ngSubmit)="submit()">
     <app-input
       label="Username"

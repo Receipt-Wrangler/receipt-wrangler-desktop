@@ -3,7 +3,7 @@
     <app-button
       class="mb-3"
       buttonText="Create User"
-      (clicked)="openUserFormModal()"
+      (clicked)="openUserFormDialog()"
     ></app-button>
   </div>
   <div class="table-container">
@@ -48,7 +48,15 @@
             matButtonType="iconButton"
             icon="edit"
             tooltip="Edit User"
-            (clicked)="openUserFormModal(element)"
+            color="accent"
+            (clicked)="openUserFormDialog(element)"
+          ></app-button>
+          <app-button
+            matButtonType="iconButton"
+            icon="password"
+            tooltip="Set password"
+            color="accent"
+            (clicked)="openResetPasswordDialog(element)"
           ></app-button>
         </mat-cell>
       </ng-container>
