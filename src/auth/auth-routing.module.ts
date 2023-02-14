@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FeatureGuard } from 'src/guards/feature.guard';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
 const routes: Routes = [
@@ -8,7 +9,9 @@ const routes: Routes = [
     component: SignUpComponent,
     data: {
       isSignUp: true,
+      feature: 'enableLocalSignUp',
     },
+    canActivate: [FeatureGuard],
   },
   {
     path: 'login',

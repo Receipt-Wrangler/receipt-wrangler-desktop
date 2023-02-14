@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import {
+  Action,
+  createSelector,
+  Selector,
+  State,
+  StateContext,
+} from '@ngxs/store';
 import { SetFeatureConfig } from './feature-config.state.actions';
 
 export interface FeatureConfigStateInterface {
@@ -15,6 +21,15 @@ export class FeatureConfigState {
   @Selector()
   static enableLocalSignUp(state: FeatureConfigStateInterface): boolean {
     return state.enableLocalSignUp;
+  }
+
+  static hasFeature(feature: string) {
+    return createSelector(
+      [FeatureConfigState],
+      (state: FeatureConfigStateInterface) => {
+        return !!(state as any)[feature];
+      }
+    );
   }
 
   @Action(SetFeatureConfig)
