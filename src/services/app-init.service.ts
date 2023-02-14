@@ -11,12 +11,14 @@ import {
   tap,
 } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
+import { FeatureConfigService } from 'src/api/feature-config.service';
 import { GroupsService } from 'src/api/groups.service';
 import { UsersService } from 'src/api/users.service';
 import { Group } from 'src/models/group';
 import { User } from 'src/models/user';
 import { AuthState } from 'src/store/auth.state';
 import { SetAuthState } from 'src/store/auth.state.actions';
+import { SetFeatureConfig } from 'src/store/feature-config.state.actions';
 import { SetGroups, SetSelectedGroupId } from 'src/store/group.state.actions';
 import { SetUsers } from 'src/store/user.state.actions';
 
@@ -28,7 +30,8 @@ export class AppInitService {
     private store: Store,
     private authService: AuthService,
     private userService: UsersService,
-    private groupsService: GroupsService
+    private groupsService: GroupsService,
+    private featureConfigService: FeatureConfigService
   ) {}
 
   public initAppData(): Promise<boolean> {
@@ -56,7 +59,7 @@ export class AppInitService {
     });
   }
 
-  public getAppData(): Observable<[User[], Group[]]> {
+  public getAppData(): Observable<[User[], Group[], any]> {
     const usersCall = this.userService.getAllUsers().pipe(
       take(1),
       tap((users) => this.store.dispatch(new SetUsers(users)))
@@ -70,7 +73,12 @@ export class AppInitService {
       })
     );
 
-    return forkJoin(usersCall, groupsCall);
+    const featureConfigCall = this.featureConfigService.GetFeatureConfig().pipe(
+      take(1),
+      switchMap((config) => this.store.dispatch(new SetFeatureConfig(config)))
+    );
+
+    return forkJoin(usersCall, groupsCall, featureConfigCall);
   }
 }
 

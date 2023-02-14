@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { take } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
 import { AuthState } from 'src/store/auth.state';
-import { SetFeatureConfig } from 'src/store/feature-config.state.actions';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,7 +20,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.store.dispatch(new SetFeatureConfig());
     this.listenForNavigationStart();
   }
 
