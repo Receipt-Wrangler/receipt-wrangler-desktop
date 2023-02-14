@@ -26,6 +26,7 @@
       [buttonText]="isSignUp ? 'Sign Up' : 'Login'"
     ></app-button>
     <app-button
+      *appFeature="enableLocalSignUp"
       class="d-inline-block w-100"
       type="button"
       [buttonText]="isSignUp ? 'Back to Login' : 'Sign Up'"

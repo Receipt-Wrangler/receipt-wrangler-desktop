@@ -4,6 +4,7 @@ import { Store } from '@ngxs/store';
 import { take } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
 import { AuthState } from 'src/store/auth.state';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
