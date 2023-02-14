@@ -30,7 +30,5 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true
   }
 }
