@@ -17,8 +17,8 @@ export class FeatureDirective {
     private store: Store
   ) {}
 
-  @Input() set appRole(feature: string) {
-    const hasFeature = this.store.dispatch(
+  @Input() set appFeature(feature: string) {
+    const hasFeature = this.store.selectSnapshot(
       FeatureConfigState.hasFeature(feature)
     );
 
