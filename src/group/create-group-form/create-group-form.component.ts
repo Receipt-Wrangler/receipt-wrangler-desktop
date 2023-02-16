@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ROLE_OPTIONS } from '../role-options';
 
 @Component({
   selector: 'app-create-group-form',
@@ -9,6 +10,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class CreateGroupFormComponent {
   public form: FormGroup = new FormGroup({});
+
+  public get groupMembers(): FormArray {
+    return this.form.get('groupMembers') as FormArray;
+  }
+
+  public roleOptions: string[] = ROLE_OPTIONS;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,6 +29,19 @@ export class CreateGroupFormComponent {
   private initForm(): void {
     this.form = this.formBuilder.group({
       name: '',
+      groupMembers: this.formBuilder.array([]),
+    });
+  }
+
+  public addGroupMember(): void {
+    this.groupMembers.push(this.buildGroupMemberForm());
+  }
+
+  private buildGroupMemberForm(): FormGroup {
+    return this.formBuilder.group({
+      userId: '',
+      groupRole: '',
+      groupId: '',
     });
   }
 

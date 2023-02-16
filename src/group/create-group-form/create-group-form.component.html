@@ -1,10 +1,27 @@
 <div class="p-4">
-  <h2>Create Group</h2>
+  <div class="d-flex justify-content-between align-items center">
+    <h2>Create Group</h2>
+    <app-button
+      matButtonType="iconButton"
+      icon="add"
+      tooltip="Add User to Group"
+      (clicked)="addGroupMember()"
+    ></app-button>
+  </div>
   <form [formGroup]="form">
     <app-input
       label="Name"
       [inputFormControl]="form | formGet : 'name'"
     ></app-input>
+    <mat-list role="list" *ngFor="let form of groupMembers.controls">
+      <mat-list-item role="listitem" class="w-100">
+        <div class="d-flex justify-content-end">
+          <app-input></app-input>
+          <app-select label="Role"></app-select>
+        </div>
+      </mat-list-item>
+    </mat-list>
+
     <div class="d-flex justify-content-end align-items-center">
       <app-submit-button></app-submit-button>
       <app-cancel-button (clicked)="closeModal()"></app-cancel-button>
