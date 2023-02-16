@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ROLE_OPTIONS } from '../role-options';
 
@@ -25,7 +25,7 @@ export class CreateGroupFormComponent {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      name: '',
+      name: ['', Validators.required],
       groupMembers: this.formBuilder.array([]),
     });
   }
@@ -36,8 +36,8 @@ export class CreateGroupFormComponent {
 
   private buildGroupMemberForm(): FormGroup {
     return this.formBuilder.group({
-      userId: '',
-      groupRole: '',
+      userId: ['', Validators.required],
+      groupRole: ['', Validators.required],
       groupId: '',
     });
   }
