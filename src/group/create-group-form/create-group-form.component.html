@@ -41,7 +41,17 @@
                   form | formGet : 'groupMembers.' + i + '.userId'
                 "
               ></app-user-autocomplete>
-              <app-select label="Role" [options]="roleOptions"></app-select>
+              <app-select
+                class="me-1"
+                label="Role"
+                [options]="roleOptions"
+              ></app-select>
+              <app-button
+                matButtonType="iconButton"
+                icon="close"
+                color="warn"
+                (clicked)="removeGroupMember(i)"
+              ></app-button>
             </div>
           </mat-list-item>
         </mat-list>

@@ -41,4 +41,8 @@ export class CreateGroupFormComponent {
       groupId: '',
     });
   }
+
+  public removeGroupMember(index: number): void {
+    this.groupMembers.removeAt(index);
+  }
 }
