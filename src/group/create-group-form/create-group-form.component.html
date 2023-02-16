@@ -33,8 +33,9 @@
           *ngFor="let groupMemberForm of groupMembers.controls; let i = index"
         >
           <mat-list-item role="listitem" class="w-50 h-100">
-            <div class="d-flex justify-content-between">
+            <div class="d-flex">
               <app-user-autocomplete
+                class="me-2"
                 label="User"
                 [inputFormControl]="
                   form | formGet : 'groupMembers.' + i + '.userId'
