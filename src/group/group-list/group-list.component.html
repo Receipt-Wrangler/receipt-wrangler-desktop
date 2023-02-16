@@ -1,6 +1,10 @@
 <div class="d-flex flex-column">
   <div class="d-flex justify-content-end">
-    <app-button class="mb-3" buttonText="Create User"></app-button>
+    <app-button
+      class="mb-3"
+      buttonText="Create User"
+      (clicked)="openCreateGroupDialog()"
+    ></app-button>
   </div>
   <div class="table-container">
     <mat-table #table [dataSource]="(groups | async) ?? []">

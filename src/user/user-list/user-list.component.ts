@@ -13,8 +13,6 @@ import { UserFormComponent } from '../user-form/user-form.component';
   styleUrls: ['./user-list.component.scss'],
 })
 export class UserListComponent {
-  constructor(private matDialog: MatDialog) {}
-
   @Select(UserState.users) public users!: Observable<User[]>;
 
   public displayedColumns = [
@@ -25,6 +23,8 @@ export class UserListComponent {
     'updatedAt',
     'actions',
   ];
+
+  constructor(private matDialog: MatDialog) {}
 
   public openUserFormDialog(user?: User): void {
     const dialogRef = this.matDialog.open(UserFormComponent, {});
