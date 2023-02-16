@@ -24,8 +24,4 @@ export class GroupListComponent {
     'updatedAt',
     'actions',
   ];
-
-  public openCreateGroupDialog(): void {
-    this.matDialog.open(CreateGroupFormComponent);
-  }
 }

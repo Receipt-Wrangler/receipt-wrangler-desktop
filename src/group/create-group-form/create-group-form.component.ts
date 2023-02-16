@@ -17,10 +17,7 @@ export class CreateGroupFormComponent {
 
   public roleOptions: string[] = ROLE_OPTIONS;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private matDialogRef: MatDialogRef<CreateGroupFormComponent>
-  ) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.initForm();
@@ -43,9 +40,5 @@ export class CreateGroupFormComponent {
       groupRole: '',
       groupId: '',
     });
-  }
-
-  public closeModal(): void {
-    this.matDialogRef.close();
   }
 }
