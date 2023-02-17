@@ -1,66 +1,67 @@
-<div class="p-4">
-  <div class="d-flex justify-content-between align-items center">
-    <h2>Create Group</h2>
-  </div>
-  <form [formGroup]="form">
-    <mat-card class="mb-4">
-      <mat-card-header>
-        <mat-card-title> Group Details </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <app-input
-          label="Group Name"
-          [inputFormControl]="form | formGet : 'name'"
-        ></app-input>
-      </mat-card-content>
-    </mat-card>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>
-          <div class="d-flex justify-content-between aling-items-center">
-            <div>Group Members</div>
-            <app-button
-              matButtonType="iconButton"
-              icon="add"
-              tooltip="Add User to Group"
-              (clicked)="addGroupMember()"
-            ></app-button></div
-        ></mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-list
-          role="list"
-          *ngFor="let groupMemberForm of groupMembers.controls; let i = index"
-        >
-          <mat-list-item role="listitem" class="w-50 h-100">
-            <div class="d-flex">
-              <app-user-autocomplete
-                class="me-2"
-                label="User"
-                [inputFormControl]="
-                  form | formGet : 'groupMembers.' + i + '.userId'
-                "
-              ></app-user-autocomplete>
-              <app-select
-                class="me-1"
-                label="Role"
-                [options]="roleOptions"
-              ></app-select>
+<form [formGroup]="form" class="d-flex justify-content-between">
+  <div class="w-100">
+    <div class="p-4">
+      <div class="d-flex justify-content-between align-items center">
+        <h2>Create Group</h2>
+      </div>
+      <mat-card class="mb-4">
+        <mat-card-header>
+          <mat-card-title> Group Details </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-input
+            label="Group Name"
+            [inputFormControl]="form | formGet : 'name'"
+          ></app-input>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <div class="d-flex justify-content-between aling-items-center">
+              <div>Group Members</div>
               <app-button
                 matButtonType="iconButton"
-                icon="close"
-                color="warn"
-                (clicked)="removeGroupMember(i)"
-              ></app-button>
-            </div>
-          </mat-list-item>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
-
-    <div class="d-flex justify-content-end align-items-center">
-      <app-submit-button></app-submit-button>
-      <app-cancel-button></app-cancel-button>
+                icon="add"
+                tooltip="Add User to Group"
+                (clicked)="addGroupMember()"
+              ></app-button></div
+          ></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list
+            role="list"
+            *ngFor="let groupMemberForm of groupMembers.controls; let i = index"
+          >
+            <mat-list-item role="listitem" class="w-50 h-100">
+              <div class="d-flex">
+                <app-user-autocomplete
+                  class="me-2"
+                  label="User"
+                  [inputFormControl]="
+                    form | formGet : 'groupMembers.' + i + '.userId'
+                  "
+                ></app-user-autocomplete>
+                <app-select
+                  class="me-1"
+                  label="Role"
+                  [options]="roleOptions"
+                ></app-select>
+                <app-button
+                  matButtonType="iconButton"
+                  icon="close"
+                  color="warn"
+                  (clicked)="removeGroupMember(i)"
+                ></app-button>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
     </div>
-  </form>
-</div>
+  </div>
+  <app-form-button-bar>
+    <app-submit-button></app-submit-button>
+    <app-cancel-button></app-cancel-button>
+  </app-form-button-bar>
+</form>
