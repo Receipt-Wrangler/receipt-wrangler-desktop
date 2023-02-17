@@ -12,4 +12,8 @@ export class GroupsService {
   public GetGroupsForUser(): Observable<Group[]> {
     return this.httpClient.get<Group[]>('/api/group').pipe(take(1));
   }
+
+  public createGroup(group: Group): Observable<any> {
+    return this.httpClient.post<any>('/api/group', group).pipe();
+  }
 }

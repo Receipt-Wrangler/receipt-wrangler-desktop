@@ -1,4 +1,8 @@
-<form [formGroup]="form" class="d-flex justify-content-between">
+<form
+  [formGroup]="form"
+  class="d-flex justify-content-between"
+  (ngSubmit)="submit()"
+>
   <div class="w-100">
     <div class="p-4">
       <div class="d-flex justify-content-between align-items center">

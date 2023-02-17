@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { take } from 'rxjs';
+import { GroupsService } from 'src/api/groups.service';
 import { ROLE_OPTIONS } from '../role-options';
 
 @Component({
@@ -17,7 +19,10 @@ export class CreateGroupFormComponent {
 
   public roleOptions: string[] = ROLE_OPTIONS;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private groupsService: GroupsService
+  ) {}
 
   public ngOnInit(): void {
     this.initForm();
@@ -37,12 +42,18 @@ export class CreateGroupFormComponent {
   private buildGroupMemberForm(): FormGroup {
     return this.formBuilder.group({
       userId: ['', Validators.required],
-      groupRole: ['', Validators.required],
+      groupRole: [''],
       groupId: '',
     });
   }
 
   public removeGroupMember(index: number): void {
     this.groupMembers.removeAt(index);
+  }
+
+  public submit(): void {
+    if (this.form.valid) {
+      this.groupsService.createGroup(this.form.value).pipe(take(1)).subscribe();
+    }
   }
 }
