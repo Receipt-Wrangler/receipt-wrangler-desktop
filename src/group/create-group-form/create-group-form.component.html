@@ -22,8 +22,8 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title>
-            <div class="d-flex justify-content-between aling-items-center">
-              <div>Group Members</div>
+            <div class="d-flex justify-content-between align-items-center">
+              <span>Group Members</span>
               <app-button
                 matButtonType="iconButton"
                 icon="add"
@@ -70,6 +70,6 @@
   </div>
   <app-form-button-bar>
     <app-submit-button></app-submit-button>
-    <app-cancel-button></app-cancel-button>
+    <app-cancel-button [routerLink]="['/groups']"></app-cancel-button>
   </app-form-button-bar>
 </form>
