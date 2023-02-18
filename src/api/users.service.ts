@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Observable, take } from 'rxjs';
 import { User } from 'src/models/user';
+import { GroupState } from 'src/store/group.state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private store: Store) {}
 
   public getAllUsers(): Observable<User[]> {
     return this.httpClient.get<User[]>('/api/user').pipe(take(1));
@@ -26,7 +28,12 @@ export class UsersService {
   }
 
   public geAmountOwedForUser(): Observable<any> {
-    return this.httpClient.get<any>(`/api/user/amountOwedForUser`);
+    const selectedGroupId = this.store.selectSnapshot(
+      GroupState.selectedGroupId
+    );
+    return this.httpClient.get<any>(
+      `/api/user/amountOwedForUser/${selectedGroupId}`
+    );
   }
 
   public setUserPassword(
