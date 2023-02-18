@@ -42,7 +42,7 @@ export class CreateGroupFormComponent {
   private buildGroupMemberForm(): FormGroup {
     return this.formBuilder.group({
       userId: ['', Validators.required],
-      groupRole: [''],
+      groupRole: ['', Validators.required],
       groupId: '',
     });
   }
@@ -52,8 +52,9 @@ export class CreateGroupFormComponent {
   }
 
   public submit(): void {
+    console.warn(this.form.value);
     if (this.form.valid) {
-      this.groupsService.createGroup(this.form.value).pipe(take(1)).subscribe();
+      //this.groupsService.createGroup(this.form.value).pipe(take(1)).subscribe();
     }
   }
 }

@@ -50,6 +50,9 @@
                   class="me-1"
                   label="Role"
                   [options]="roleOptions"
+                  [inputFormControl]="
+                    form | formGet : 'groupMembers.' + i + '.groupRole'
+                  "
                 ></app-select>
                 <app-button
                   matButtonType="iconButton"
