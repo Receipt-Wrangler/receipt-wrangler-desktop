@@ -91,7 +91,7 @@
             [readonly]="mode | inputReadonly"
           ></app-input>
         </div>
-        <div class="button-container sticky-top d-flex flex-column">
+        <app-form-button-bar>
           <app-button
             *ngIf="mode === formMode.view"
             class="mb-4"
@@ -123,7 +123,7 @@
             tooltip="Cancel"
             [disabled]="mode === formMode.view"
           ></app-button>
-        </div>
+        </app-form-button-bar>
       </div>
       <app-item-list [form]="form"></app-item-list>
     </div>

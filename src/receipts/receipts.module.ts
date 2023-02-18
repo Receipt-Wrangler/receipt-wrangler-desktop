@@ -24,33 +24,35 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 
 @NgModule({
   declarations: [
-    ReceiptsTableComponent,
-    ReceiptFormComponent,
     ItemListComponent,
-    UserTotalPipe,
     QuickActionsDialogComponent,
+    ReceiptFormComponent,
+    ReceiptsTableComponent,
     UploadImageComponent,
+    UserTotalPipe,
   ],
   imports: [
+    AutocompleteModule,
+    ButtonModule,
+    CarouselModule,
     CommonModule,
-    ReceiptsRoutingModule,
+    DatepickerModule,
+    InputModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatProgressSpinnerModule,
     MatTableModule,
     PipesModule,
-    SlideToggleModule,
-    ButtonModule,
-    ReactiveFormsModule,
-    InputModule,
-    AutocompleteModule,
-    DatepickerModule,
-    MatExpansionModule,
-    MatDialogModule,
     RadioGroupModule,
+    ReactiveFormsModule,
+    ReceiptsRoutingModule,
+    SharedUiModule,
+    SlideToggleModule,
     UserAutocompleteModule,
-    CarouselModule,
-    MatProgressSpinnerModule,
   ],
 })
 export class ReceiptsModule {}

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DirectivesModule } from 'src/directives/directives.module';
 import { FeatureGuard } from 'src/guards/feature.guard';
 import { SignUpComponent } from './sign-up/sign-up.component';
 

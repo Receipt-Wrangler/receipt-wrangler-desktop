@@ -44,6 +44,11 @@ export class AuthState {
   }
 
   @Selector()
+  static userId(state: AuthStateInterface): string {
+    return state.userId ?? '';
+  }
+
+  @Selector()
   static isTokenExpired(state: AuthStateInterface): boolean {
     if (state.expirationDate) {
       return new Date() >= new Date(Number(state.expirationDate) * 1000);

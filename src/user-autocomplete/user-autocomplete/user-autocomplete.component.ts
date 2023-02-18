@@ -13,8 +13,6 @@ import { UserState } from 'src/store/user.state';
 export class UserAutocompleteComponent {
   constructor(private store: Store) {}
 
-  @Select(UserState.users) public users!: Observable<User[]>;
-
   @Input() public inputFormControl!: FormControl;
 
   @Input() public label = '';
@@ -22,6 +20,24 @@ export class UserAutocompleteComponent {
   @Input() public multiple: boolean = false;
 
   @Input() public readonly: boolean = false;
+
+  @Input() public usersToOmit: string[] = [];
+
+  public users: User[] = [];
+
+  public ngOnInit(): void {
+    if (this.usersToOmit.length > 0) {
+      this.filterUsers();
+    } else {
+      this.users = this.store.selectSnapshot(UserState.users);
+    }
+  }
+
+  private filterUsers(): void {
+    this.users = this.store
+      .selectSnapshot(UserState.users)
+      .filter((u) => !this.usersToOmit.includes(u.id.toString()));
+  }
 
   public displayWith(id: number): string {
     const user = this.store.selectSnapshot(
