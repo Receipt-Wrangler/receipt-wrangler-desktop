@@ -45,6 +45,7 @@
                   [inputFormControl]="
                     form | formGet : 'groupMembers.' + i + '.userId'
                   "
+                  [usersToOmit]="[(userId | async) ?? '']"
                 ></app-user-autocomplete>
                 <app-select
                   class="me-1"

@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { take } from 'rxjs';
+import { Router } from '@angular/router';
+import { Select } from '@ngxs/store';
+import { Observable, take, tap } from 'rxjs';
 import { GroupsService } from 'src/api/groups.service';
+import { SnackbarService } from 'src/services/snackbar.service';
+import { AuthState } from 'src/store/auth.state';
 import { ROLE_OPTIONS } from '../role-options';
 
 @Component({
@@ -11,6 +14,8 @@ import { ROLE_OPTIONS } from '../role-options';
   styleUrls: ['./create-group-form.component.scss'],
 })
 export class CreateGroupFormComponent {
+  @Select(AuthState.userId) public userId!: Observable<string>;
+
   public form: FormGroup = new FormGroup({});
 
   public get groupMembers(): FormArray {
@@ -21,7 +26,9 @@ export class CreateGroupFormComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private groupsService: GroupsService
+    private groupsService: GroupsService,
+    private snackbarService: SnackbarService,
+    private router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -52,9 +59,17 @@ export class CreateGroupFormComponent {
   }
 
   public submit(): void {
-    console.warn(this.form.value);
     if (this.form.valid) {
-      //this.groupsService.createGroup(this.form.value).pipe(take(1)).subscribe();
+      this.groupsService
+        .createGroup(this.form.value)
+        .pipe(
+          take(1),
+          tap(() => {
+            this.snackbarService.success('Group successfully created');
+            this.router.navigateByUrl('/groups');
+          })
+        )
+        .subscribe();
     }
   }
 }

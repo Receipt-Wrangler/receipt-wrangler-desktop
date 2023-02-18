@@ -13,7 +13,7 @@ export class GroupsService {
     return this.httpClient.get<Group[]>('/api/group').pipe(take(1));
   }
 
-  public createGroup(group: Group): Observable<any> {
-    return this.httpClient.post<any>('/api/group', group).pipe();
+  public createGroup(group: Group): Observable<Group> {
+    return this.httpClient.post<Group>('/api/group', group).pipe();
   }
 }
