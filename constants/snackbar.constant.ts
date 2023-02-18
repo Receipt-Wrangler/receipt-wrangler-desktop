@@ -5,4 +5,5 @@ export const DEFAULT_SNACKBAR_ACTION: string = 'Ok';
 export const DEFAULT_SNACKBAR_CONFIG: MatSnackBarConfig<any> = {
   horizontalPosition: 'right',
   verticalPosition: 'top',
+  duration: 3000,
 };
