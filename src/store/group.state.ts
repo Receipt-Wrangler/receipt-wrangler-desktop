@@ -7,7 +7,7 @@ import {
   StateContext,
 } from '@ngxs/store';
 import { Group } from 'src/models/group';
-import { SetGroups, SetSelectedGroupId } from './group.state.actions';
+import { AddGroup, SetGroups, SetSelectedGroupId } from './group.state.actions';
 
 export interface GroupStateInterface {
   groups: Group[];
@@ -36,6 +36,19 @@ export class GroupState {
   static getGroupById(groupId: string) {
     return createSelector([GroupState], (state: GroupStateInterface) => {
       return state.groups.find((g) => g.id.toString() === groupId.toString());
+    });
+  }
+
+  @Action(AddGroup)
+  addGroup(
+    { getState, patchState }: StateContext<GroupStateInterface>,
+    payload: AddGroup
+  ) {
+    const groups = Array.from(getState().groups);
+    groups.push(payload.group);
+
+    patchState({
+      groups: groups,
     });
   }
 

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Select } from '@ngxs/store';
-import { Observable, take, tap } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { Observable, switchMap, take, tap } from 'rxjs';
 import { GroupsService } from 'src/api/groups.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
+import { AddGroup } from 'src/store/group.state.actions';
 import { ROLE_OPTIONS } from '../role-options';
 
 @Component({
@@ -28,7 +29,8 @@ export class CreateGroupFormComponent {
     private formBuilder: FormBuilder,
     private groupsService: GroupsService,
     private snackbarService: SnackbarService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {}
 
   public ngOnInit(): void {
@@ -66,8 +68,9 @@ export class CreateGroupFormComponent {
           take(1),
           tap(() => {
             this.snackbarService.success('Group successfully created');
-            this.router.navigateByUrl('/groups');
-          })
+          }),
+          switchMap((group) => this.store.dispatch(new AddGroup(group))),
+          tap(() => this.router.navigateByUrl('/groups'))
         )
         .subscribe();
     }
