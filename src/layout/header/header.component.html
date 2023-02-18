@@ -3,12 +3,7 @@
     <mat-card class="nav-card">
       <mat-card-content>
         <div class="d-flex jusfity-content-center align-items-center">
-          <button
-            mat-button
-            color="accent"
-            class="nav-button home-button"
-            [matMenuTriggerFor]="groupMenu"
-          >
+          <button mat-button color="accent" class="nav-button home-button">
             <div class="d-flex justify-content-center align-items-center">
               <mat-icon class="me-1" fontSet="material-icons-outlined"
                 >folder</mat-icon
@@ -16,11 +11,6 @@
               <span>Home</span>
             </div>
           </button>
-          <mat-menu #groupMenu="matMenu">
-            <button [routerLink]="['/groups']" mat-menu-item>
-              Manage Groups
-            </button>
-          </mat-menu>
           <button
             mat-icon-button
             color="accent"
@@ -64,6 +54,7 @@
         <button *appRole="'ADMIN'" [routerLink]="['/users']" mat-menu-item>
           Manage Users
         </button>
+        <button [routerLink]="['/groups']" mat-menu-item>Manage Groups</button>
       </mat-menu>
     </div>
   </div>

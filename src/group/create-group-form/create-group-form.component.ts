@@ -52,7 +52,7 @@ export class CreateGroupFormComponent {
     return this.formBuilder.group({
       userId: ['', Validators.required],
       groupRole: ['', Validators.required],
-      groupId: '',
+      groupId: undefined,
     });
   }
 
