@@ -25,6 +25,10 @@ export class UsersService {
     return this.httpClient.get<number>(`/api/user/${username}`);
   }
 
+  public geAmountOwedForUser(): Observable<any> {
+    return this.httpClient.get<any>(`/api/user/amountOwedForUser`);
+  }
+
   public setUserPassword(
     id: string,
     data: { password: string }
