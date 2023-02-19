@@ -108,9 +108,10 @@
             (clicked)="openQuickActionsModal()"
             [disabled]="mode === formMode.view"
           ></app-button>
-          <app-submit-button class="mb-4"></app-submit-button>
+          <app-submit-button class="mb-4" [mode]="mode"></app-submit-button>
           <app-cancel-button
             class="mb-4"
+            [mode]="mode"
             [routerLink]="[cancelLink]"
           ></app-cancel-button>
         </app-form-button-bar>
