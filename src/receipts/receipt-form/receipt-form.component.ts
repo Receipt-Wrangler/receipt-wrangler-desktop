@@ -27,6 +27,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { GroupState } from 'src/store/group.state';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
+import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
 
 @Component({
@@ -36,6 +37,8 @@ import { formatImageData } from '../utils/form.utils';
 })
 export class ReceiptFormComponent implements OnInit {
   @ViewChild(ItemListComponent) itemsListComponent!: ItemListComponent;
+
+  @ViewChild(UploadImageComponent) uploadImageComponent!: UploadImageComponent;
 
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
@@ -174,6 +177,10 @@ export class ReceiptFormComponent implements OnInit {
       return group.name;
     }
     return '';
+  }
+
+  public uploadImageButtonClicked(): void {
+    this.uploadImageComponent.clickInput();
   }
 
   public submit(): void {
