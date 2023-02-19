@@ -53,6 +53,8 @@ export class ReceiptFormComponent implements OnInit {
 
   public editLink = '';
 
+  public cancelLink = '';
+
   public imagesLoading: boolean = false;
 
   constructor(
@@ -73,9 +75,17 @@ export class ReceiptFormComponent implements OnInit {
     this.tags = this.activatedRoute.snapshot.data['tags'];
     this.originalReceipt = this.activatedRoute.snapshot.data['receipt'];
     this.editLink = `/receipts/${this.originalReceipt?.id}/edit`;
+    this.setCancelLink();
     this.initForm();
     this.getImageFiles();
     this.mode = this.activatedRoute.snapshot.data['mode'];
+  }
+
+  private setCancelLink(): void {
+    const selectedGroupId = this.store.selectSnapshot(
+      GroupState.selectedGroupId
+    );
+    this.cancelLink = `/receipts/group/${selectedGroupId}`;
   }
 
   private initForm(): void {
