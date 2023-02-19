@@ -1,9 +1,9 @@
-<div class="d-flex justify-content-end mb-3">
+<app-table-header headerText="Receipts">
   <app-button
     buttonText="Add Receipt"
     [routerLink]="['/receipts/add']"
   ></app-button>
-</div>
+</app-table-header>
 <div class="table-container">
   <div class="d-flex justify-content-end"></div>
   <mat-table #table [dataSource]="receipts">

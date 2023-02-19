@@ -1,11 +1,10 @@
 <div class="d-flex flex-column">
-  <div class="d-flex justify-content-end">
+  <app-table-header headerText="Users">
     <app-button
-      class="mb-3"
       buttonText="Create User"
       (clicked)="openUserFormDialog()"
     ></app-button>
-  </div>
+  </app-table-header>
   <div class="table-container">
     <mat-table #table [dataSource]="users">
       <ng-container matColumnDef="username">
