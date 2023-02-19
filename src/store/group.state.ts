@@ -40,6 +40,11 @@ export class GroupState {
     return state.selectedGroupId;
   }
 
+  @Selector()
+  static dashboardLink(state: GroupStateInterface): string {
+    return `/dashboard/group/${state.selectedGroupId}`;
+  }
+
   static getGroupById(groupId: string) {
     return createSelector([GroupState], (state: GroupStateInterface) => {
       return state.groups.find((g) => g.id.toString() === groupId.toString());

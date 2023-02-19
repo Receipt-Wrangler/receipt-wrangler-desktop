@@ -6,10 +6,7 @@ import { AuthState } from './auth.state';
 import { UserState } from './user.state';
 import { GroupState } from './group.state';
 import { FeatureConfigState } from './feature-config.state';
-import {
-  NgxsStoragePlugin,
-  NgxsStoragePluginModule,
-} from '@ngxs/storage-plugin';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 
 @NgModule({
   declarations: [],

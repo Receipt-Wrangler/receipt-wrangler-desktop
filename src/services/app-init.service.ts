@@ -19,6 +19,7 @@ import { User } from 'src/models/user';
 import { AuthState } from 'src/store/auth.state';
 import { SetAuthState } from 'src/store/auth.state.actions';
 import { SetFeatureConfig } from 'src/store/feature-config.state.actions';
+import { GroupState } from 'src/store/group.state';
 import { SetGroups, SetSelectedGroupId } from 'src/store/group.state.actions';
 import { SetUsers } from 'src/store/user.state.actions';
 
@@ -69,7 +70,10 @@ export class AppInitService {
       take(1),
       tap((groups) => {
         this.store.dispatch(new SetGroups(groups));
-        this.store.dispatch(new SetSelectedGroupId());
+        const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
+        if (!groupId) {
+          this.store.dispatch(new SetSelectedGroupId());
+        }
       })
     );
 
