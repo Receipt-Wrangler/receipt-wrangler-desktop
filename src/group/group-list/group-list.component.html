@@ -1,11 +1,10 @@
 <div class="d-flex flex-column">
-  <div class="d-flex justify-content-end">
+  <app-table-header headerText="Groups">
     <app-button
-      class="mb-3"
       buttonText="Create Group"
       [routerLink]="['create']"
     ></app-button>
-  </div>
+  </app-table-header>
   <div class="table-container">
     <mat-table #table [dataSource]="(groups | async) ?? []">
       <ng-container matColumnDef="name">

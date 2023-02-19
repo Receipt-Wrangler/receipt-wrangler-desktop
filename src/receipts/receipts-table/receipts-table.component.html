@@ -1,10 +1,11 @@
+<app-table-header headerText="Receipts">
+  <app-button
+    buttonText="Add Receipt"
+    [routerLink]="['/receipts/add']"
+  ></app-button>
+</app-table-header>
 <div class="table-container">
-  <div class="d-flex justify-content-end">
-    <app-button
-      buttonText="Add Receipt"
-      [routerLink]="['/receipts/add']"
-    ></app-button>
-  </div>
+  <div class="d-flex justify-content-end"></div>
   <mat-table #table [dataSource]="receipts">
     <ng-container matColumnDef="date">
       <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>

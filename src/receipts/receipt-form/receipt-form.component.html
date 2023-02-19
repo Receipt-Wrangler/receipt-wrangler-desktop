@@ -102,27 +102,26 @@
           ></app-button>
           <app-button
             class="mb-4"
+            matButtonType="iconButton"
+            icon="add"
+            tooltip="Upload Image"
+            [disabled]="mode === formMode.view"
+            (clicked)="uploadImageButtonClicked()"
+          ></app-button>
+          <app-button
+            class="mb-4"
             customIcon="split"
             matButtonType="iconButton"
             tooltip="Split"
             (clicked)="openQuickActionsModal()"
             [disabled]="mode === formMode.view"
           ></app-button>
-          <app-button
+          <app-submit-button class="mb-4" [mode]="mode"></app-submit-button>
+          <app-cancel-button
             class="mb-4"
-            icon="done"
-            matButtonType="iconButton"
-            type="submit"
-            tooltip="Save"
-            [disabled]="mode === formMode.view"
-          ></app-button>
-          <app-button
-            class="mb-4"
-            icon="close"
-            matButtonType="iconButton"
-            tooltip="Cancel"
-            [disabled]="mode === formMode.view"
-          ></app-button>
+            [mode]="mode"
+            [routerLink]="[cancelLink]"
+          ></app-cancel-button>
         </app-form-button-bar>
       </div>
       <app-item-list [form]="form"></app-item-list>

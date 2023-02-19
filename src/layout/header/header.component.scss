@@ -1,3 +1,5 @@
+@import "../../variables.scss";
+
 .nav-button {
   width: 75px;
   height: 75px;
@@ -25,7 +27,7 @@
 }
 
 .active-link > * {
-  fill: blue !important;
+  fill: map-get($primary-palette, 400) !important;
 }
 
 .home-button {

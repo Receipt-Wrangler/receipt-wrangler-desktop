@@ -7,76 +7,12 @@
 @import "material-icons/iconfont/outlined.css";
 @import "/node_modules/bootstrap/dist/css/bootstrap-utilities.css";
 @import "@fontsource/raleway";
+@import "./variables.scss";
 
 $font-family: Raleway, sans-serif;
 
-$primary-palette: (
-  50: #ccecff,
-  100: #bbe6ff,
-  200: #a4deff,
-  300: #85d2ff,
-  400: #5dc4ff,
-  500: #27b1ff,
-  600: #009efa,
-  700: #0086d4,
-  800: #0072b4,
-  900: #006199,
-  // ... continues to 900
-  contrast:
-    (
-      50: rgba(black, 0.87),
-      100: rgba(black, 0.87),
-      200: rgba(black, 0.87),
-      300: white,
-      // ... continues to 900
-    ),
-);
 $my-primary: mat.define-palette($primary-palette);
-
-$accent-palette: (
-  50: #8ea1ac,
-  100: #8ea1ac,
-  200: #8ea1ac,
-  300: #8ea1ac,
-  400: #8ea1ac,
-  500: #8ea1ac,
-  600: #8ea1ac,
-  700: #8ea1ac,
-  800: #8ea1ac,
-  900: #8ea1ac,
-  // ... continues to 900
-  contrast:
-    (
-      50: rgba(black, 0.87),
-      100: rgba(black, 0.87),
-      200: rgba(black, 0.87),
-      300: white,
-      // ... continues to 900
-    ),
-);
 $my-accent: mat.define-palette($accent-palette);
-
-$warn-palette: (
-  50: #f5cfcf,
-  100: #f2bfbf,
-  200: #eea9a9,
-  300: #e88c8c,
-  400: #e06666,
-  500: #d63333,
-  600: #bc2626,
-  700: #a02020,
-  800: #881b1b,
-  900: #731717,
-  // ... continues to 900
-  contrast:
-    (
-      50: rgba(black, 0.87),
-      100: rgba(black, 0.87),
-      200: rgba(black, 0.87),
-      300: white,
-      // ... continues to 900
-    ),
-);
 $my-warn: mat.define-palette($warn-palette);
 
 $my-typography: mat.define-typography-config(
@@ -132,9 +68,6 @@ body {
 }
 
 // Global Style Changes
-
-$global-shadow: 0px 2px 7px -1px rgba(0, 67, 104, 0.18);
-
 .mat-mdc-card {
   box-shadow: $global-shadow !important;
 }
@@ -157,4 +90,8 @@ $global-shadow: 0px 2px 7px -1px rgba(0, 67, 104, 0.18);
 
 .table-container {
   box-shadow: $global-shadow;
+}
+
+.mat-mdc-raised-button.mat-primary {
+  color: white !important;
 }

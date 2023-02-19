@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Selector, Store } from '@ngxs/store';
 
 import {
@@ -27,6 +27,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { GroupState } from 'src/store/group.state';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
+import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
 
 @Component({
@@ -36,6 +37,8 @@ import { formatImageData } from '../utils/form.utils';
 })
 export class ReceiptFormComponent implements OnInit {
   @ViewChild(ItemListComponent) itemsListComponent!: ItemListComponent;
+
+  @ViewChild(UploadImageComponent) uploadImageComponent!: UploadImageComponent;
 
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
@@ -53,6 +56,8 @@ export class ReceiptFormComponent implements OnInit {
 
   public editLink = '';
 
+  public cancelLink = '';
+
   public imagesLoading: boolean = false;
 
   constructor(
@@ -63,6 +68,7 @@ export class ReceiptFormComponent implements OnInit {
     private snackbarService: SnackbarService,
     private matDialog: MatDialog,
     private store: Store,
+    private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -73,9 +79,17 @@ export class ReceiptFormComponent implements OnInit {
     this.tags = this.activatedRoute.snapshot.data['tags'];
     this.originalReceipt = this.activatedRoute.snapshot.data['receipt'];
     this.editLink = `/receipts/${this.originalReceipt?.id}/edit`;
+    this.setCancelLink();
     this.initForm();
     this.getImageFiles();
     this.mode = this.activatedRoute.snapshot.data['mode'];
+  }
+
+  private setCancelLink(): void {
+    const selectedGroupId = this.store.selectSnapshot(
+      GroupState.selectedGroupId
+    );
+    this.cancelLink = `/receipts/group/${selectedGroupId}`;
   }
 
   private initForm(): void {
@@ -165,7 +179,15 @@ export class ReceiptFormComponent implements OnInit {
     return '';
   }
 
+  public uploadImageButtonClicked(): void {
+    this.uploadImageComponent.clickInput();
+  }
+
   public submit(): void {
+    const selectedGroupId = this.store.selectSnapshot(
+      GroupState.selectedGroupId
+    );
+    const routeLink = `/receipts/group/${selectedGroupId}`;
     if (this.itemsListComponent.userExpansionPanels.length > 0) {
       this.itemsListComponent.userExpansionPanels.forEach(
         (p: MatExpansionPanel) => p.close()
@@ -177,6 +199,7 @@ export class ReceiptFormComponent implements OnInit {
         .pipe(
           tap(() => {
             this.snackbarService.success('Successfully updated receipt');
+            this.router.navigate([routeLink]);
           })
         )
         .subscribe();
@@ -186,6 +209,7 @@ export class ReceiptFormComponent implements OnInit {
         .pipe(
           tap(() => {
             this.snackbarService.success('Successfully added receipt');
+            this.router.navigate([routeLink]);
           }),
           switchMap((r) =>
             iif(

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs';
 import { ReceiptImagesService } from 'src/api/receipt-images.service';
@@ -19,6 +19,8 @@ export class UploadImageComponent {
 
   @Input() public mode: FormMode = FormMode.view;
 
+  @ViewChild('uploadInput') uploadInput!: any;
+
   public formMode = FormMode;
 
   public acceptFileType: string = 'image/*';
@@ -29,6 +31,11 @@ export class UploadImageComponent {
     private snackbarService: SnackbarService
   ) {
     this.mode = this.activatedRoute.snapshot.data['mode'];
+  }
+
+  public clickInput(): void {
+    console.warn(this.uploadInput);
+    this.uploadInput.nativeElement.click();
   }
 
   public async onFileChange(event: any): Promise<void> {

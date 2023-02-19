@@ -6,12 +6,3 @@
   [accept]="acceptFileType"
   (change)="onFileChange($event)"
 />
-<div class="d-flex justify-content-center align-items-center">
-  <app-button
-    matButtonType="iconButton"
-    icon="add"
-    tooltip="Upload Image"
-    (clicked)="uploadInput.click()"
-    [disabled]="mode === formMode.view"
-  ></app-button>
-</div>

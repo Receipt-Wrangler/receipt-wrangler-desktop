@@ -4,9 +4,13 @@ import {
   Input,
   OnInit,
   TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { FormArray, FormControl, Validators } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger,
+} from '@angular/material/autocomplete';
 import { map, Observable, of, startWith } from 'rxjs';
 import { BaseInputComponent } from 'src/base-input/base-input/base-input.component';
 
@@ -35,6 +39,9 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
   @Input() public defaultCreatableObject: any = {};
 
   @Input() public creatableValueKey: string = '';
+
+  @ViewChild(MatAutocompleteTrigger)
+  public matAutocompleteTrigger!: MatAutocompleteTrigger;
 
   public filteredOptions: Observable<any[]> = of([]);
 
@@ -122,6 +129,9 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
           new FormControl(event.option.value)
         );
       }
+      setTimeout(() => {
+        this.matAutocompleteTrigger.openPanel();
+      }, 0);
       // TODO: set as null
     } else {
       this.inputFormControl.setValue(event.option.value);
