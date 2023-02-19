@@ -1,0 +1,17 @@
+<div class="p-4">
+  <h2>Switch Group</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <app-autocomlete
+      label="Group"
+      optionFilterKey="name"
+      optionValueKey="id"
+      [options]="(groups | async) ?? []"
+      [displayWith]="displayWith.bind(this)"
+      [inputFormControl]="form | formGet : 'groupId'"
+    ></app-autocomlete>
+    <div class="d-flex justify-content-end align-items-center">
+      <app-submit-button></app-submit-button>
+      <app-cancel-button (clicked)="closeDialog()"></app-cancel-button>
+    </div>
+  </form>
+</div>

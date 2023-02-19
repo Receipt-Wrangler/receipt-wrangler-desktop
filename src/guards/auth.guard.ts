@@ -9,6 +9,7 @@ import {
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { AuthState } from 'src/store/auth.state';
+import { GroupState } from 'src/store/group.state';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,9 @@ export class AuthGuard implements CanActivate {
 
     // if user tries to go to login screens while already logged in
     if (navigatingToAuth && isLoggedIn) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate([
+        this.store.selectSnapshot(GroupState.dashboardLink),
+      ]);
       return false;
     } else if (navigatingToAuth && !isLoggedIn) {
       return true;

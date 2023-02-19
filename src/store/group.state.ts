@@ -29,8 +29,25 @@ export class GroupState {
   }
 
   @Selector()
+  static groupsWithoutSelectedGroup(state: GroupStateInterface): Group[] {
+    return state.groups.filter(
+      (g) => g.id.toString() !== state.selectedGroupId
+    );
+  }
+
+  @Selector()
   static selectedGroupId(state: GroupStateInterface): string {
     return state.selectedGroupId;
+  }
+
+  @Selector()
+  static receiptListLink(state: GroupStateInterface): string {
+    return `/receipts/group/${state.selectedGroupId}`;
+  }
+
+  @Selector()
+  static dashboardLink(state: GroupStateInterface): string {
+    return `/dashboard/group/${state.selectedGroupId}`;
   }
 
   static getGroupById(groupId: string) {
