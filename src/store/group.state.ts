@@ -29,6 +29,13 @@ export class GroupState {
   }
 
   @Selector()
+  static groupsWithoutSelectedGroup(state: GroupStateInterface): Group[] {
+    return state.groups.filter(
+      (g) => g.id.toString() !== state.selectedGroupId
+    );
+  }
+
+  @Selector()
   static selectedGroupId(state: GroupStateInterface): string {
     return state.selectedGroupId;
   }

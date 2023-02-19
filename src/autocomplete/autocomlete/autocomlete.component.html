@@ -54,12 +54,18 @@
     <mat-option
       *ngFor="let option of filteredOptions | async"
       [value]="optionValueKey ? option[optionValueKey] : option"
-      ><ng-template
+    >
+      <ng-template
+        *ngIf="optionTemplate"
         [ngTemplateOutlet]="optionTemplate"
         [ngTemplateOutletContext]="{
           option: option
         }"
-      ></ng-template>
+      >
+      </ng-template>
+      <ng-container *ngIf="!optionTemplate">{{
+        option[optionFilterKey]
+      }}</ng-container>
     </mat-option>
     <ng-container *ngIf="creatable && (filteredOptions | async)?.length === 0">
       <mat-option [id]="creatableOptionId" [value]="filterFormControl.value"

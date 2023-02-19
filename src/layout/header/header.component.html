@@ -3,7 +3,12 @@
     <mat-card class="nav-card">
       <mat-card-content>
         <div class="d-flex jusfity-content-center align-items-center">
-          <button mat-button color="accent" class="nav-button home-button">
+          <button
+            mat-button
+            color="accent"
+            class="nav-button home-button"
+            [matMenuTriggerFor]="groupMenu"
+          >
             <div class="d-flex justify-content-center align-items-center">
               <mat-icon class="me-1" fontSet="material-icons-outlined"
                 >folder</mat-icon
@@ -11,6 +16,11 @@
               <span>Home</span>
             </div>
           </button>
+          <mat-menu #groupMenu="matMenu">
+            <button mat-menu-item (click)="openSwitchGroupDialog()">
+              Switch Group
+            </button>
+          </mat-menu>
           <button
             mat-icon-button
             color="accent"

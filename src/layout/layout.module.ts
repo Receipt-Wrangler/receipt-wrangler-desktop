@@ -12,6 +12,10 @@ import { DashboardIconComponent } from './dashboard-icon/dashboard-icon.componen
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { DirectivesModule } from 'src/directives/directives.module';
+import { SwitchGroupDialogComponent } from './switch-group-dialog/switch-group-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
+import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 
 @NgModule({
   declarations: [
@@ -19,17 +23,21 @@ import { DirectivesModule } from 'src/directives/directives.module';
     AddReceiptIconComponent,
     ReceiptListIconComponent,
     DashboardIconComponent,
+    SwitchGroupDialogComponent,
   ],
   imports: [
+    AutocompleteModule,
     AvatarModule,
     CommonModule,
+    DirectivesModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatIconModule,
-    MatTooltipModule,
     MatMenuModule,
+    MatTooltipModule,
     RouterModule,
-    DirectivesModule,
+    SharedUiModule,
   ],
   exports: [HeaderComponent, AddReceiptIconComponent],
 })
