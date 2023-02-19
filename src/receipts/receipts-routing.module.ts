@@ -12,6 +12,9 @@ const routes: Routes = [
     path: 'group/:groupId',
     component: ReceiptsTableComponent,
     canActivate: [GroupGuard],
+    data: {
+      groupGuardBasePath: `/receipts/group`,
+    },
   },
   {
     path: 'add',

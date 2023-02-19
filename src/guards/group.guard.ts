@@ -4,10 +4,8 @@ import {
   CanActivate,
   Router,
   RouterStateSnapshot,
-  UrlTree,
 } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
 import { GroupState } from 'src/store/group.state';
 import { SetSelectedGroupId } from 'src/store/group.state.actions';
 
@@ -28,8 +26,9 @@ export class GroupGuard implements CanActivate {
     if (group) {
       return true;
     } else {
+      const basePath = route.data['groupGuardBasePath'];
       this.store.dispatch(new SetSelectedGroupId(newGroupId?.toString() ?? ''));
-      this.router.navigate([`/receipts/group/${newGroupId}`]);
+      this.router.navigate([`${basePath}/${newGroupId}`]);
       return false;
     }
   }
