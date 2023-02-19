@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select } from '@ngxs/store';
+import { DEFAULT_DIALOG_CONFIG } from 'constants/dialog.constant';
 import { Observable } from 'rxjs';
 import { User } from 'src/models';
 import { UserState } from 'src/store/user.state';
@@ -27,13 +28,19 @@ export class UserListComponent {
   constructor(private matDialog: MatDialog) {}
 
   public openUserFormDialog(user?: User): void {
-    const dialogRef = this.matDialog.open(UserFormComponent, {});
+    const dialogRef = this.matDialog.open(
+      UserFormComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
 
     dialogRef.componentInstance.user = user;
   }
 
   public openResetPasswordDialog(user: User): void {
-    const dialogRef = this.matDialog.open(ResetPasswordComponent, {});
+    const dialogRef = this.matDialog.open(
+      ResetPasswordComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
 
     dialogRef.componentInstance.user = user;
   }
