@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { map, Observable, of, tap } from 'rxjs';
 import { User } from 'src/models';
 import { AuthState } from 'src/store/auth.state';
@@ -25,14 +25,24 @@ export class HeaderComponent implements OnInit {
 
   public dashboardHeaderLink: string[] = [''];
 
-  constructor(private matDialog: MatDialog) {}
+  public groupName = '';
+
+  constructor(private matDialog: MatDialog, private store: Store) {}
 
   public ngOnInit(): void {
     this.selectedGroupId
       .pipe(
         tap((groupId) => {
-          this.receiptHeaderLink = [`/receipts/group/${groupId}`];
-          this.dashboardHeaderLink = [`/dashboard/group/${groupId}`];
+          this.receiptHeaderLink = [
+            this.store.selectSnapshot(GroupState.receiptListLink),
+          ];
+          this.dashboardHeaderLink = [
+            this.store.selectSnapshot(GroupState.dashboardLink),
+          ];
+          const newGroup = this.store.selectSnapshot(
+            GroupState.getGroupById(groupId)
+          );
+          this.groupName = newGroup?.name as string;
         })
       )
       .subscribe();

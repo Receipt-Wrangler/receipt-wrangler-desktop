@@ -41,6 +41,11 @@ export class GroupState {
   }
 
   @Selector()
+  static receiptListLink(state: GroupStateInterface): string {
+    return `/receipts/group/${state.selectedGroupId}`;
+  }
+
+  @Selector()
   static dashboardLink(state: GroupStateInterface): string {
     return `/dashboard/group/${state.selectedGroupId}`;
   }
