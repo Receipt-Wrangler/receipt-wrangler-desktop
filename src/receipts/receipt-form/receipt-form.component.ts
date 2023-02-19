@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Selector, Store } from '@ngxs/store';
 
 import {
@@ -65,6 +65,7 @@ export class ReceiptFormComponent implements OnInit {
     private snackbarService: SnackbarService,
     private matDialog: MatDialog,
     private store: Store,
+    private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -176,6 +177,10 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public submit(): void {
+    const selectedGroupId = this.store.selectSnapshot(
+      GroupState.selectedGroupId
+    );
+    const routeLink = `/receipts/group/${selectedGroupId}`;
     if (this.itemsListComponent.userExpansionPanels.length > 0) {
       this.itemsListComponent.userExpansionPanels.forEach(
         (p: MatExpansionPanel) => p.close()
@@ -187,6 +192,7 @@ export class ReceiptFormComponent implements OnInit {
         .pipe(
           tap(() => {
             this.snackbarService.success('Successfully updated receipt');
+            this.router.navigate([routeLink]);
           })
         )
         .subscribe();
@@ -196,6 +202,7 @@ export class ReceiptFormComponent implements OnInit {
         .pipe(
           tap(() => {
             this.snackbarService.success('Successfully added receipt');
+            this.router.navigate([routeLink]);
           }),
           switchMap((r) =>
             iif(
