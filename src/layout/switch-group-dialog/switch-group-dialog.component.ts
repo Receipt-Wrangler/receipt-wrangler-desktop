@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -18,23 +23,35 @@ export class SwitchGroupDialogComponent {
     Group[]
   >;
 
-  public formControl: FormControl = new FormControl('', Validators.required);
+  public form: FormGroup = new FormGroup({});
 
   constructor(
     private matDialogRef: MatDialogRef<SwitchGroupDialogComponent>,
     private store: Store,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder
   ) {}
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.initForm();
+  }
+
+  private initForm(): void {
+    this.form = this.formBuilder.group({
+      groupId: ['', Validators.required],
+    });
+  }
 
   public closeDialog(): void {
     this.matDialogRef.close();
   }
 
   public submit(): void {
-    if (this.formControl.valid) {
-      this.store.dispatch(new SetSelectedGroupId(this.formControl.value));
+    if (this.form.valid) {
+      const groupId = this.form.get('groupId');
+      this.store.dispatch(new SetSelectedGroupId(groupId?.value));
+      this.router.navigate([`/dashboard/group/${groupId?.value}`]);
+      this.matDialogRef.close();
     }
   }
 

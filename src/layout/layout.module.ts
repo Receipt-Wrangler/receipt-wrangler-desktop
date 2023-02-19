@@ -16,6 +16,8 @@ import { SwitchGroupDialogComponent } from './switch-group-dialog/switch-group-d
 import { MatDialogModule } from '@angular/material/dialog';
 import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PipesModule } from 'src/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
     MatIconModule,
     MatMenuModule,
     MatTooltipModule,
+    PipesModule,
+    ReactiveFormsModule,
     RouterModule,
     SharedUiModule,
   ],
