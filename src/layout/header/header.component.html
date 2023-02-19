@@ -27,7 +27,7 @@
             class="nav-button"
             matTooltip="Dashboard"
             routerLinkActive="active-link"
-            [routerLink]="['/dashboard']"
+            [routerLink]="dashboardHeaderLink"
           >
             <app-dashboard-icon></app-dashboard-icon>
           </button>
@@ -37,7 +37,7 @@
             class="nav-button"
             matTooltip="Receipt List"
             routerLinkActive="active-link"
-            [routerLink]="receiptHeaderLink | async"
+            [routerLink]="receiptHeaderLink"
           >
             <app-receipt-list-icon></app-receipt-list-icon>
           </button>

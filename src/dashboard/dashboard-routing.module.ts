@@ -4,12 +4,12 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 const routes: Routes = [
   {
-    path: '',
+    path: 'group/:groupId',
     component: DashboardComponent,
   },
   {
     path: '',
-    redirectTo: '',
+    redirectTo: 'group/:groupId',
     pathMatch: 'full',
   },
 ];
