@@ -207,10 +207,7 @@ export class ReceiptFormComponent implements OnInit {
       this.receiptsService
         .createReceipt(this.form.value)
         .pipe(
-          tap(() => {
-            this.snackbarService.success('Successfully added receipt');
-            this.router.navigate([routeLink]);
-          }),
+          tap(() => this.snackbarService.success('Successfully added receipt')),
           switchMap((r) =>
             iif(
               () => this.images.length > 0,
@@ -223,7 +220,8 @@ export class ReceiptFormComponent implements OnInit {
               ),
               of('')
             )
-          )
+          ),
+          tap(() => this.router.navigate([routeLink]))
         )
         .subscribe();
     }
