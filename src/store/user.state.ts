@@ -33,7 +33,7 @@ export class UserState {
   }
 
   static findUserById(userId: string, users: User[]): User | undefined {
-    return users.find((u) => u.id.toString() === userId);
+    return users.find((u) => u.id.toString() === userId.toString());
   }
 
   static findUserIndexById(userId: string, users: User[]): number {
