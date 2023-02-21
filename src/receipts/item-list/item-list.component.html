@@ -1,7 +1,7 @@
 <app-button
+  *ngIf="!(mode | inputReadonly)"
   type="button"
   buttonText="Add Item"
-  [disabled]="mode === formMode.view"
   (clicked)="initAddMode()"
 ></app-button>
 
@@ -63,8 +63,10 @@
       <div class="d-flex flex-column item-form-container">
         <div class="d-flex justify-content-end">
           <app-button
-            class="w-25"
-            buttonText="remove"
+            *ngIf="!(mode | inputReadonly)"
+            matButtonType="iconButton"
+            icon="delete"
+            color="warn"
             [disabled]="mode | inputReadonly"
             (clicked)="removeItem(itemData)"
           ></app-button>

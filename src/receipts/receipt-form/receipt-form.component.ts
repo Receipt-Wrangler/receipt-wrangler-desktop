@@ -1,13 +1,11 @@
-import { ThisReceiver } from '@angular/compiler';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Selector, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 
 import {
-  filter,
   finalize,
   forkJoin,
   iif,

@@ -14,11 +14,11 @@
         (clicked)="zoomOut()"
       ></app-button>
       <app-button
+        *ngIf="!(mode | inputReadonly)"
         matButtonType="iconButton"
         icon="delete"
         tooltip="Remove Image"
         color="warn"
-        [disabled]="disabled"
         (clicked)="emitRemoveButtonClicked(i)"
       ></app-button>
     </div>

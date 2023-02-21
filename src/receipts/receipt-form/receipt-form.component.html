@@ -8,6 +8,7 @@
       </ng-container>
       <app-carousel
         [images]="images"
+        [mode]="mode"
         [disabled]="mode !== formMode.edit"
         (removeButtonClicked)="removeImage($event)"
       ></app-carousel>
@@ -101,23 +102,28 @@
             [routerLink]="[editLink]"
           ></app-button>
           <app-button
+            *ngIf="!(mode | inputReadonly)"
             class="mb-4"
             matButtonType="iconButton"
             icon="add"
             tooltip="Upload Image"
-            [disabled]="mode === formMode.view"
             (clicked)="uploadImageButtonClicked()"
           ></app-button>
           <app-button
+            *ngIf="!(mode | inputReadonly)"
             class="mb-4"
             customIcon="split"
             matButtonType="iconButton"
-            tooltip="Split"
+            tooltip="Quick Actions"
             (clicked)="openQuickActionsModal()"
-            [disabled]="mode === formMode.view"
           ></app-button>
-          <app-submit-button class="mb-4" [mode]="mode"></app-submit-button>
+          <app-submit-button
+            *ngIf="!(mode | inputReadonly)"
+            class="mb-4"
+            [mode]="mode"
+          ></app-submit-button>
           <app-cancel-button
+            *ngIf="!(mode | inputReadonly)"
             class="mb-4"
             [mode]="mode"
             [routerLink]="[cancelLink]"
