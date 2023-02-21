@@ -78,8 +78,9 @@ export class UploadImageComponent {
         this.receiptImagesService
           .uploadImage(uploadData)
           .pipe(
-            tap(() => {
+            tap((data: FileData) => {
               this.snackbarService.success('Successfully uploaded image(s)');
+              fileData.id = data.id;
               this.images.push(fileData);
             })
           )
