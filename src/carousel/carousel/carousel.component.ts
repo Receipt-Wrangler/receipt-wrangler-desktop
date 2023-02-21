@@ -2,16 +2,12 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   ViewEncapsulation,
 } from '@angular/core';
 import { FileData } from 'src/models/file-data';
-import {
-  Dimensions,
-  ImageCroppedEvent,
-  ImageTransform,
-} from 'ngx-image-cropper';
+import { ImageTransform } from 'ngx-image-cropper';
+import { FormMode } from 'src/enums/form-mode.enum';
 
 @Component({
   selector: 'app-carousel',
@@ -23,6 +19,8 @@ export class CarouselComponent {
   @Input() public images: FileData[] = [];
 
   @Input() public disabled: boolean = false;
+
+  @Input() public mode!: FormMode;
 
   @Output() public removeButtonClicked: EventEmitter<number> =
     new EventEmitter<number>();

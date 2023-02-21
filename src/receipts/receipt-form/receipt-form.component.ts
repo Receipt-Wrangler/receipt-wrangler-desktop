@@ -1,13 +1,11 @@
-import { ThisReceiver } from '@angular/compiler';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Selector, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 
 import {
-  filter,
   finalize,
   forkJoin,
   iif,
@@ -157,15 +155,20 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public removeImage(index: number): void {
-    const image = this.images[index];
-    this.receiptImagesService
-      .deleteImage(image.id.toString())
-      .pipe(
-        tap(() => {
-          this.images.splice(index, 1);
-        })
-      )
-      .subscribe();
+    if (this.mode === FormMode.add) {
+      this.images.splice(index, 1);
+    } else {
+      const image = this.images[index];
+      this.receiptImagesService
+        .deleteImage(image.id.toString())
+        .pipe(
+          tap(() => {
+            this.images.splice(index, 1);
+            this.snackbarService.success('Image successfully removed');
+          })
+        )
+        .subscribe();
+    }
   }
 
   public groupDisplayWith(id: number): string {

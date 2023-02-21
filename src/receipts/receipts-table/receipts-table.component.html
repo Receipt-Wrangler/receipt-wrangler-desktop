@@ -24,7 +24,7 @@
     <ng-container matColumnDef="paidBy">
       <mat-header-cell *matHeaderCellDef> Paid By </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.paidByUserId }}
+        {{ (element.paidByUserId | user)?.displayName }}
       </mat-cell>
     </ng-container>
 

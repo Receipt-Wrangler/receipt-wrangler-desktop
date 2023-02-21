@@ -13,6 +13,7 @@ import { Store } from '@ngxs/store';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AppInitService } from 'src/services/app-init.service';
 import { SetAuthState } from 'src/store/auth.state.actions';
+import { GroupState } from 'src/store/group.state';
 
 @Component({
   selector: 'app-sign-up',
@@ -83,7 +84,11 @@ export class SignUpComponent implements OnInit {
           }),
           switchMap(() => this.store.dispatch(new SetAuthState())),
           switchMap(() => this.appInitService.getAppData()),
-          tap(() => this.router.navigate(['/dashboard']))
+          tap(() =>
+            this.router.navigate([
+              this.store.selectSnapshot(GroupState.dashboardLink),
+            ])
+          )
         )
         .subscribe();
     }

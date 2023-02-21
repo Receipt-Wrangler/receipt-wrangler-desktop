@@ -15,9 +15,9 @@ export class ReceiptImagesService {
       .pipe(take(1));
   }
 
-  public uploadImage(fileData: FileData): Observable<void> {
+  public uploadImage(fileData: FileData): Observable<FileData> {
     return this.httpClient
-      .post<void>(`/api/receiptImage`, fileData)
+      .post<FileData>(`/api/receiptImage`, fileData)
       .pipe(take(1));
   }
 
