@@ -6,7 +6,7 @@
   <div class="w-100">
     <div class="p-4">
       <div class="d-flex justify-content-between align-items center">
-        <h2>Create Group</h2>
+        <h2>{{ formConfig.headerText }}</h2>
       </div>
       <mat-card class="mb-4">
         <mat-card-header>
@@ -15,6 +15,7 @@
         <mat-card-content>
           <app-input
             label="Group Name"
+            [readonly]="formConfig.mode | inputReadonly"
             [inputFormControl]="form | formGet : 'name'"
           ></app-input>
         </mat-card-content>
@@ -69,7 +70,14 @@
     </div>
   </div>
   <app-form-button-bar>
-    <app-submit-button></app-submit-button>
-    <app-cancel-button [routerLink]="['/groups']"></app-cancel-button>
+    <app-edit-button *ngIf="formConfig.mode | inputReadonly"></app-edit-button>
+    <app-submit-button
+      *ngIf="!(formConfig.mode | inputReadonly)"
+      class="mb-4"
+    ></app-submit-button>
+    <app-cancel-button
+      *ngIf="!(formConfig.mode | inputReadonly)"
+      [routerLink]="['/groups']"
+    ></app-cancel-button>
   </app-form-button-bar>
 </form>

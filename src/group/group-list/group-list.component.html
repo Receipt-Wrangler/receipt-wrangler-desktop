@@ -9,7 +9,11 @@
     <mat-table #table [dataSource]="(groups | async) ?? []">
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+        <mat-cell *matCellDef="let element">
+          <a [routerLink]="['/groups/' + element.id + '/view']">
+            {{ element.name }}
+          </a>
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="numberOfMembers">
