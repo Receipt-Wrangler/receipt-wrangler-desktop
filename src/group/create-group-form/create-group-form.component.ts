@@ -5,6 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, switchMap, take, tap } from 'rxjs';
 import { GroupsService } from 'src/api/groups.service';
 import { FormConfig } from 'src/interfaces/form-config.interface';
+import { Group, GroupMember } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
 import { AddGroup } from 'src/store/group.state.actions';
@@ -28,6 +29,8 @@ export class CreateGroupFormComponent {
 
   public formConfig!: FormConfig;
 
+  public originalGroup: Group | undefined = undefined;
+
   constructor(
     private formBuilder: FormBuilder,
     private groupsService: GroupsService,
@@ -38,14 +41,21 @@ export class CreateGroupFormComponent {
   ) {}
 
   public ngOnInit(): void {
-    this.initForm();
+    this.originalGroup = this.activatedRoute.snapshot.data['group'];
     this.formConfig = this.activatedRoute.snapshot.data['formConfig'];
+    this.initForm();
   }
 
   private initForm(): void {
+    let groupMembers: FormGroup[] = [];
+    if (this.originalGroup?.groupMembers) {
+      groupMembers = this.originalGroup.groupMembers.map((m) =>
+        this.buildGroupMemberForm(m)
+      );
+    }
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      groupMembers: this.formBuilder.array([]),
+      name: [this.originalGroup?.name ?? '', Validators.required],
+      groupMembers: this.formBuilder.array(groupMembers),
     });
   }
 
@@ -53,11 +63,11 @@ export class CreateGroupFormComponent {
     this.groupMembers.push(this.buildGroupMemberForm());
   }
 
-  private buildGroupMemberForm(): FormGroup {
+  private buildGroupMemberForm(groupMember?: GroupMember): FormGroup {
     return this.formBuilder.group({
-      userId: ['', Validators.required],
-      groupRole: ['', Validators.required],
-      groupId: undefined,
+      userId: [groupMember?.userId ?? '', Validators.required],
+      groupRole: [groupMember?.groupRole ?? '', Validators.required],
+      groupId: [groupMember?.groupId ?? ''],
     });
   }
 
