@@ -34,6 +34,19 @@ const routes: Routes = [
       } as FormConfig,
     },
   },
+  {
+    path: ':id/edit',
+    component: CreateGroupFormComponent,
+    resolve: {
+      group: GroupResolverService,
+    },
+    data: {
+      formConfig: {
+        mode: FormMode.edit,
+        headerText: 'Update Group',
+      } as FormConfig,
+    },
+  },
 ];
 
 @NgModule({

@@ -34,6 +34,8 @@ export class CreateGroupFormComponent {
 
   public displayedColumns: string[] = ['name', 'role'];
 
+  public editLink: string = '';
+
   constructor(
     private formBuilder: FormBuilder,
     private groupsService: GroupsService,
@@ -47,6 +49,9 @@ export class CreateGroupFormComponent {
   public ngOnInit(): void {
     this.originalGroup = this.activatedRoute.snapshot.data['group'];
     this.formConfig = this.activatedRoute.snapshot.data['formConfig'];
+    if (this.originalGroup) {
+      this.editLink = `/groups/${this.originalGroup.id}/edit`;
+    }
     this.initForm();
   }
 

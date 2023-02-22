@@ -28,6 +28,7 @@
             >
               <span>Group Members</span>
               <app-button
+                *ngIf="!(formConfig.mode | inputReadonly)"
                 matButtonType="iconButton"
                 icon="add"
                 tooltip="Add User to Group"
@@ -59,7 +60,10 @@
     </div>
   </div>
   <app-form-button-bar>
-    <app-edit-button *ngIf="formConfig.mode | inputReadonly"></app-edit-button>
+    <app-edit-button
+      [routerLink]="editLink"
+      *ngIf="formConfig.mode | inputReadonly"
+    ></app-edit-button>
     <app-submit-button
       *ngIf="!(formConfig.mode | inputReadonly)"
       class="mb-4"
