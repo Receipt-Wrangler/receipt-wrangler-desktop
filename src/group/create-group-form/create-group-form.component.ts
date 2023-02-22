@@ -12,6 +12,7 @@ import { AuthState } from 'src/store/auth.state';
 import { AddGroup } from 'src/store/group.state.actions';
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
 import { ROLE_OPTIONS } from '../role-options';
+import { buildGroupMemberForm } from '../utils/group-member.utils';
 
 @Component({
   selector: 'app-create-group-form',
@@ -55,7 +56,7 @@ export class CreateGroupFormComponent {
     let groupMembers: FormGroup[] = [];
     if (this.originalGroup?.groupMembers) {
       groupMembers = this.originalGroup.groupMembers.map((m) =>
-        this.buildGroupMemberForm(m)
+        buildGroupMemberForm(m)
       );
     }
     this.form = this.formBuilder.group({
@@ -64,16 +65,8 @@ export class CreateGroupFormComponent {
     });
   }
 
-  public addGroupMember(): void {
+  public addGroupMemberClicked(): void {
     this.matDialog.open(GroupMemberFormComponent);
-  }
-
-  private buildGroupMemberForm(groupMember?: GroupMember): FormGroup {
-    return this.formBuilder.group({
-      userId: [groupMember?.userId ?? '', Validators.required],
-      groupRole: [groupMember?.groupRole ?? '', Validators.required],
-      groupId: [groupMember?.groupId ?? ''],
-    });
   }
 
   public removeGroupMember(index: number): void {
