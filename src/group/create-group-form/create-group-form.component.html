@@ -34,37 +34,24 @@
           ></mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <mat-list
-            role="list"
-            *ngFor="let groupMemberForm of groupMembers.controls; let i = index"
-          >
-            <mat-list-item role="listitem" class="w-50 h-100">
-              <div class="d-flex">
-                <app-user-autocomplete
-                  class="me-2"
-                  label="User"
-                  [inputFormControl]="
-                    form | formGet : 'groupMembers.' + i + '.userId'
-                  "
-                  [usersToOmit]="[(userId | async) ?? '']"
-                ></app-user-autocomplete>
-                <app-select
-                  class="me-1"
-                  label="Role"
-                  [options]="roleOptions"
-                  [inputFormControl]="
-                    form | formGet : 'groupMembers.' + i + '.groupRole'
-                  "
-                ></app-select>
-                <app-button
-                  matButtonType="iconButton"
-                  icon="close"
-                  color="warn"
-                  (clicked)="removeGroupMember(i)"
-                ></app-button>
-              </div>
-            </mat-list-item>
-          </mat-list>
+          <table mat-table [dataSource]="groupMembers.value">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let element">
+                {{ (element.userId | user)?.displayName }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="role">
+              <th mat-header-cell *matHeaderCellDef>No.</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.groupRole }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
         </mat-card-content>
       </mat-card>
     </div>

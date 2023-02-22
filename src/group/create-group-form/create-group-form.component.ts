@@ -31,6 +31,8 @@ export class CreateGroupFormComponent {
 
   public originalGroup: Group | undefined = undefined;
 
+  public displayedColumns: string[] = ['name', 'role'];
+
   constructor(
     private formBuilder: FormBuilder,
     private groupsService: GroupsService,
