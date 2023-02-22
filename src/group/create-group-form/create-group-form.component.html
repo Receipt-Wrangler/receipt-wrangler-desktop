@@ -23,7 +23,9 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title>
-            <div class="d-flex justify-content-between align-items-center">
+            <div
+              class="d-flex w-100 justify-content-between align-items-center"
+            >
               <span>Group Members</span>
               <app-button
                 matButtonType="iconButton"
@@ -43,7 +45,7 @@
             </ng-container>
 
             <ng-container matColumnDef="role">
-              <th mat-header-cell *matHeaderCellDef>No.</th>
+              <th mat-header-cell *matHeaderCellDef>Group Role</th>
               <td mat-cell *matCellDef="let element">
                 {{ element.groupRole }}
               </td>

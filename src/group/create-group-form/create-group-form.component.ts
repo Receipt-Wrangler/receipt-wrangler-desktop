@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, switchMap, take, tap } from 'rxjs';
@@ -9,6 +10,7 @@ import { Group, GroupMember } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
 import { AddGroup } from 'src/store/group.state.actions';
+import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
 import { ROLE_OPTIONS } from '../role-options';
 
 @Component({
@@ -39,7 +41,8 @@ export class CreateGroupFormComponent {
     private snackbarService: SnackbarService,
     private router: Router,
     private store: Store,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private matDialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
@@ -62,7 +65,7 @@ export class CreateGroupFormComponent {
   }
 
   public addGroupMember(): void {
-    this.groupMembers.push(this.buildGroupMemberForm());
+    this.matDialog.open(GroupMemberFormComponent);
   }
 
   private buildGroupMemberForm(groupMember?: GroupMember): FormGroup {

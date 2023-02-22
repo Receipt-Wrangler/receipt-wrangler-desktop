@@ -14,9 +14,10 @@ import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.
 import { CreateGroupFormComponent } from './create-group-form/create-group-form.component';
 import { GroupListComponent } from './group-list/group-list.component';
 import { GroupRoutingModule } from './group-routing.module';
+import { GroupMemberFormComponent } from './group-member-form/group-member-form.component';
 
 @NgModule({
-  declarations: [GroupListComponent, CreateGroupFormComponent],
+  declarations: [GroupListComponent, CreateGroupFormComponent, GroupMemberFormComponent],
   imports: [
     ButtonModule,
     CommonModule,
