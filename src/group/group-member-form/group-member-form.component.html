@@ -5,7 +5,7 @@
         class="me-2"
         label="User"
         [inputFormControl]="form | formGet : 'userId'"
-        [usersToOmit]="[(userId | async) ?? '']"
+        [usersToOmit]="usersToOmit"
       ></app-user-autocomplete>
       <app-select
         class="me-1"

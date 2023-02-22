@@ -64,7 +64,15 @@ export class CreateGroupFormComponent {
   }
 
   public addGroupMemberClicked(): void {
-    this.matDialog.open(GroupMemberFormComponent);
+    const dialogRef = this.matDialog.open(GroupMemberFormComponent);
+
+    dialogRef.componentInstance.currentGroupMembers = this.groupMembers.value;
+
+    dialogRef.afterClosed().subscribe((form) => {
+      if (form) {
+        this.groupMembers.push(form);
+      }
+    });
   }
 
   public removeGroupMember(index: number): void {
