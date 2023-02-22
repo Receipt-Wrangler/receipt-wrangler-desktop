@@ -4,6 +4,7 @@ import { FormMode } from 'src/enums/form-mode.enum';
 import { FormConfig } from 'src/interfaces/form-config.interface';
 import { CreateGroupFormComponent } from './create-group-form/create-group-form.component';
 import { GroupListComponent } from './group-list/group-list.component';
+import { GroupResolverService } from './resolvers/group-resolver.service';
 
 const routes: Routes = [
   {
@@ -23,10 +24,13 @@ const routes: Routes = [
   {
     path: ':id/view',
     component: CreateGroupFormComponent,
+    resolve: {
+      group: GroupResolverService,
+    },
     data: {
       formConfig: {
         mode: FormMode.view,
-        headerText: 'Update Group',
+        headerText: 'View Group',
       } as FormConfig,
     },
   },
