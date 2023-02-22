@@ -6,6 +6,8 @@ import { CancelButtonComponent } from './cancel-button/cancel-button.component';
 import { FormButtonBarComponent } from './form-button-bar/form-button-bar.component';
 import { TableHeaderComponent } from './table-header/table-header.component';
 import { EditButtonComponent } from './edit-button/edit-button.component';
+import { DialogComponent } from './dialog/dialog.component';
+import { DialogFooterComponent } from './dialog-footer/dialog-footer.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +16,8 @@ import { EditButtonComponent } from './edit-button/edit-button.component';
     SubmitButtonComponent,
     TableHeaderComponent,
     EditButtonComponent,
+    DialogComponent,
+    DialogFooterComponent,
   ],
   imports: [CommonModule, ButtonModule],
   exports: [
@@ -22,6 +26,8 @@ import { EditButtonComponent } from './edit-button/edit-button.component';
     SubmitButtonComponent,
     TableHeaderComponent,
     EditButtonComponent,
+    DialogComponent,
+    DialogFooterComponent,
   ],
 })
 export class SharedUiModule {}

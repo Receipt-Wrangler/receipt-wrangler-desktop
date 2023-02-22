@@ -20,8 +20,6 @@ import { buildGroupMemberForm } from '../utils/group-member.utils';
   styleUrls: ['./create-group-form.component.scss'],
 })
 export class CreateGroupFormComponent {
-  @Select(AuthState.userId) public userId!: Observable<string>;
-
   public form: FormGroup = new FormGroup({});
 
   public get groupMembers(): FormArray {
