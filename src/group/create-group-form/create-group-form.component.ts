@@ -5,10 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, switchMap, take, tap } from 'rxjs';
 import { GroupsService } from 'src/api/groups.service';
+import { FormMode } from 'src/enums/form-mode.enum';
 import { FormConfig } from 'src/interfaces/form-config.interface';
 import { Group, GroupMember } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
-import { AuthState } from 'src/store/auth.state';
 import { AddGroup } from 'src/store/group.state.actions';
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
 import { ROLE_OPTIONS } from '../role-options';
@@ -86,17 +86,44 @@ export class CreateGroupFormComponent {
 
   public submit(): void {
     if (this.form.valid) {
-      this.groupsService
-        .createGroup(this.form.value)
-        .pipe(
-          take(1),
-          tap(() => {
-            this.snackbarService.success('Group successfully created');
-          }),
-          switchMap((group) => this.store.dispatch(new AddGroup(group))),
-          tap(() => this.router.navigateByUrl('/groups'))
-        )
-        .subscribe();
+      switch (this.formConfig.mode) {
+        case FormMode.add:
+          this.createGroup();
+
+          break;
+        case FormMode.edit:
+          this.updateGroup();
+          break;
+
+        default:
+          break;
+      }
     }
+  }
+
+  private createGroup(): void {
+    this.groupsService
+      .createGroup(this.form.value)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.snackbarService.success('Group successfully created');
+        }),
+        switchMap((group) => this.store.dispatch(new AddGroup(group))),
+        tap(() => this.router.navigateByUrl('/groups'))
+      )
+      .subscribe();
+  }
+
+  private updateGroup(): void {
+    this.groupsService
+      .updateGroup(this.form.value, this.originalGroup?.id.toString() as string)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.snackbarService.success('Group successfully updated');
+        })
+      )
+      .subscribe();
   }
 }
