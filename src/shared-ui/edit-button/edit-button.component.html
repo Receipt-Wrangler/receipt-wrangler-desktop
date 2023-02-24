@@ -1,6 +1,6 @@
 <app-button
   matButtonType="iconButton"
-  tooltip="Edit"
   icon="edit"
+  [tooltip]="tooltip ?? 'Edit'"
   (clicked)="clicked.emit()"
 ></app-button>
