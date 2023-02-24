@@ -8,6 +8,6 @@ export function buildGroupMemberForm(groupMember?: GroupMember): FormGroup {
       groupMember?.groupRole ?? '',
       Validators.required
     ),
-    groupId: new FormControl(groupMember?.groupId ?? ''),
+    groupId: new FormControl(groupMember?.groupId ?? undefined),
   });
 }

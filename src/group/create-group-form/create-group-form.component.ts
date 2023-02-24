@@ -118,7 +118,7 @@ export class CreateGroupFormComponent {
       const owners = (this.groupMembers.value as GroupMember[]).filter(
         (gm) => gm.groupRole === GroupRole.OWNER
       );
-      if (owners.length === 0) {
+      if (owners.length === 0 && this.formConfig.mode !== FormMode.add) {
         this.snackbarService.error('Group must have at least one owner!');
         return;
       }
