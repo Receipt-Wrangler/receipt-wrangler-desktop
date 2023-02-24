@@ -43,7 +43,7 @@ const routes: Routes = [
     data: {
       formConfig: {
         mode: FormMode.edit,
-        headerText: 'Update Group',
+        headerText: 'Edit Group',
       } as FormConfig,
     },
   },
