@@ -52,6 +52,19 @@
               </td>
             </ng-container>
 
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                <div class="d-flex">
+                  <app-delete-button
+                    tooltip="Remove group member"
+                    [disabled]="disableDeleteButton"
+                    (clicked)="removeGroupMember(i)"
+                  ></app-delete-button>
+                </div>
+              </td>
+            </ng-container>
+
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>

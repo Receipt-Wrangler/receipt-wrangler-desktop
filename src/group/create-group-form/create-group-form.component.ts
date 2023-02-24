@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, switchMap, take, tap } from 'rxjs';
+import { Observable, of, startWith, switchMap, take, tap } from 'rxjs';
 import { GroupsService } from 'src/api/groups.service';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { FormConfig } from 'src/interfaces/form-config.interface';
@@ -34,6 +34,8 @@ export class CreateGroupFormComponent {
 
   public displayedColumns: string[] = ['name', 'role'];
 
+  public disableDeleteButton: boolean = false;
+
   public editLink: string = '';
 
   constructor(
@@ -52,6 +54,9 @@ export class CreateGroupFormComponent {
     if (this.originalGroup) {
       this.editLink = `/groups/${this.originalGroup.id}/edit`;
     }
+    if (this.formConfig.mode !== FormMode.view) {
+      this.displayedColumns.push('actions');
+    }
     this.initForm();
   }
 
@@ -66,6 +71,15 @@ export class CreateGroupFormComponent {
       name: [this.originalGroup?.name ?? '', Validators.required],
       groupMembers: this.formBuilder.array(groupMembers),
     });
+
+    this.groupMembers.valueChanges
+      .pipe(
+        startWith(this.groupMembers.value),
+        tap((v) => {
+          this.disableDeleteButton = v.length === 1;
+        })
+      )
+      .subscribe();
   }
 
   public addGroupMemberClicked(): void {
