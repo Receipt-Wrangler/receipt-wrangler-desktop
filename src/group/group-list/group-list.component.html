@@ -48,8 +48,9 @@
         <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
         <mat-cell *matCellDef="let element">
           <app-edit-button
-            [routerLink]="['/groups/' + element.id + '/edit']"
+            color="accent"
             tooltip="Edit group"
+            [routerLink]="['/groups/' + element.id + '/edit']"
           ></app-edit-button>
         </mat-cell>
       </ng-container>

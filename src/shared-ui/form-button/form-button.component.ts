@@ -13,5 +13,7 @@ export class FormButtonComponent {
 
   @Input() public disabled: boolean = false;
 
+  @Input() public color: string = 'primary';
+
   @Output() public clicked: EventEmitter<void> = new EventEmitter<void>();
 }

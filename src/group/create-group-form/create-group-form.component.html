@@ -63,6 +63,7 @@
                   ></app-delete-button>
                   <app-edit-button
                     tooltip="Edit group member"
+                    color="accent"
                     (clicked)="editGroupMemberClicked(i)"
                   ></app-edit-button>
                 </div>
@@ -78,8 +79,9 @@
   </div>
   <app-form-button-bar>
     <app-edit-button
-      [routerLink]="editLink"
       *ngIf="formConfig.mode | inputReadonly"
+      color="accent"
+      [routerLink]="editLink"
     ></app-edit-button>
     <app-submit-button
       *ngIf="!(formConfig.mode | inputReadonly)"
