@@ -61,6 +61,10 @@
                     [disabled]="disableDeleteButton"
                     (clicked)="removeGroupMember(i)"
                   ></app-delete-button>
+                  <app-edit-button
+                    tooltip="Edit group member"
+                    (clicked)="editGroupMemberClicked(i)"
+                  ></app-edit-button>
                 </div>
               </td>
             </ng-container>

@@ -24,13 +24,15 @@ export class GroupMemberFormComponent implements OnInit {
 
   public currentGroupMembers: GroupMember[] = [];
 
+  public groupMember: GroupMember | undefined = undefined;
+
   constructor(
     private matDialogRef: MatDialogRef<GroupMemberFormComponent>,
     private store: Store
   ) {}
 
   public ngOnInit(): void {
-    this.form = buildGroupMemberForm();
+    this.form = buildGroupMemberForm(this.groupMember);
     this.setUsersToOmit();
   }
 

@@ -6,6 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, of, startWith, switchMap, take, tap } from 'rxjs';
 import { GroupsService } from 'src/api/groups.service';
 import { FormMode } from 'src/enums/form-mode.enum';
+import { GroupRole } from 'src/enums/group-role.enum';
 import { FormConfig } from 'src/interfaces/form-config.interface';
 import { Group, GroupMember } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -94,12 +95,33 @@ export class CreateGroupFormComponent {
     });
   }
 
+  public editGroupMemberClicked(index: number): void {
+    const groupMember = this.originalGroup?.groupMembers[index];
+    const dialogRef = this.matDialog.open(GroupMemberFormComponent);
+
+    dialogRef.componentInstance.currentGroupMembers = this.groupMembers.value;
+    dialogRef.componentInstance.groupMember = groupMember;
+
+    dialogRef.afterClosed().subscribe((form) => {
+      if (form) {
+        this.groupMembers.at(index).patchValue(form.value);
+      }
+    });
+  }
+
   public removeGroupMember(index: number): void {
     this.groupMembers.removeAt(index);
   }
 
   public submit(): void {
     if (this.form.valid) {
+      const owners = (this.groupMembers.value as GroupMember[]).filter(
+        (gm) => gm.groupRole === GroupRole.OWNER
+      );
+      if (owners.length === 0) {
+        this.snackbarService.error('Group must have at least one owner!');
+        return;
+      }
       switch (this.formConfig.mode) {
         case FormMode.add:
           this.createGroup();
