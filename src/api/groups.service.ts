@@ -13,7 +13,15 @@ export class GroupsService {
     return this.httpClient.get<Group[]>('/api/group').pipe(take(1));
   }
 
+  public getGroupById(id: string): Observable<Group> {
+    return this.httpClient.get<Group>(`/api/group/${id}`);
+  }
+
   public createGroup(group: Group): Observable<Group> {
-    return this.httpClient.post<Group>('/api/group', group).pipe();
+    return this.httpClient.post<Group>('/api/group', group);
+  }
+
+  public updateGroup(group: Group, groupId: string): Observable<void> {
+    return this.httpClient.put<void>(`/api/group/${groupId}`, group);
   }
 }

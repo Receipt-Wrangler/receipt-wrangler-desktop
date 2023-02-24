@@ -1,0 +1,93 @@
+<form
+  [formGroup]="form"
+  class="d-flex justify-content-between"
+  (ngSubmit)="submit()"
+>
+  <div class="w-100">
+    <div class="p-4">
+      <div class="d-flex justify-content-between align-items center">
+        <h2>{{ formConfig.headerText }}</h2>
+      </div>
+      <mat-card class="mb-4">
+        <mat-card-header>
+          <mat-card-title> <span> Group Details </span> </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-input
+            label="Group Name"
+            [readonly]="formConfig.mode | inputReadonly"
+            [inputFormControl]="form | formGet : 'name'"
+          ></app-input>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <div
+              class="d-flex w-100 justify-content-between align-items-center"
+            >
+              <span>Group Members</span>
+              <app-button
+                *ngIf="!(formConfig.mode | inputReadonly)"
+                matButtonType="iconButton"
+                icon="add"
+                tooltip="Add User to Group"
+                (clicked)="addGroupMemberClicked()"
+              ></app-button></div
+          ></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <table mat-table [dataSource]="groupMembers.value">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let element">
+                {{ (element.userId | user)?.displayName }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="role">
+              <th mat-header-cell *matHeaderCellDef>Group Role</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.groupRole }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                <div class="d-flex">
+                  <app-delete-button
+                    tooltip="Remove group member"
+                    [disabled]="disableDeleteButton"
+                    (clicked)="removeGroupMember(i)"
+                  ></app-delete-button>
+                  <app-edit-button
+                    tooltip="Edit group member"
+                    (clicked)="editGroupMemberClicked(i)"
+                  ></app-edit-button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <app-form-button-bar>
+    <app-edit-button
+      *ngIf="formConfig.mode | inputReadonly"
+      [routerLink]="editLink"
+    ></app-edit-button>
+    <app-submit-button
+      *ngIf="!(formConfig.mode | inputReadonly)"
+      class="mb-4"
+    ></app-submit-button>
+    <app-cancel-button
+      *ngIf="!(formConfig.mode | inputReadonly)"
+      [routerLink]="['/groups']"
+    ></app-cancel-button>
+  </app-form-button-bar>
+</form>
