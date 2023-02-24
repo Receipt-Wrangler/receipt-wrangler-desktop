@@ -8,6 +8,8 @@ import { TableHeaderComponent } from './table-header/table-header.component';
 import { EditButtonComponent } from './edit-button/edit-button.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { DialogFooterComponent } from './dialog-footer/dialog-footer.component';
+import { DeleteButtonComponent } from './delete-button/delete-button.component';
+import { FormButtonComponent } from './form-button/form-button.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { DialogFooterComponent } from './dialog-footer/dialog-footer.component';
     EditButtonComponent,
     DialogComponent,
     DialogFooterComponent,
+    DeleteButtonComponent,
+    FormButtonComponent,
   ],
   imports: [CommonModule, ButtonModule],
   exports: [
@@ -28,6 +32,7 @@ import { DialogFooterComponent } from './dialog-footer/dialog-footer.component';
     EditButtonComponent,
     DialogComponent,
     DialogFooterComponent,
+    DeleteButtonComponent,
   ],
 })
 export class SharedUiModule {}
