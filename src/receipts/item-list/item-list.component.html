@@ -3,6 +3,7 @@
   type="button"
   buttonText="Add Item"
   (clicked)="initAddMode()"
+  [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
 ></app-button>
 
 <mat-accordion multi>
@@ -67,7 +68,9 @@
             matButtonType="iconButton"
             icon="delete"
             color="warn"
-            [disabled]="mode | inputReadonly"
+            [disabled]="
+              !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
+            "
             (clicked)="removeItem(itemData)"
           ></app-button>
         </div>

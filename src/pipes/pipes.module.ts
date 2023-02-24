@@ -8,6 +8,7 @@ import { UserPipe } from './user.pipe';
 import { InputReadonlyPipe } from './input-readonly.pipe';
 
 import { ImagePipe } from './image.pipe';
+import { GroupRolePipe } from './group-role.pipe';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ImagePipe } from './image.pipe';
     UserPipe,
     InputReadonlyPipe,
     ImagePipe,
+    GroupRolePipe,
   ],
   imports: [CommonModule],
   exports: [
@@ -28,6 +30,7 @@ import { ImagePipe } from './image.pipe';
     UserPipe,
     InputReadonlyPipe,
     ImagePipe,
+    GroupRolePipe,
   ],
 })
 export class PipesModule {}
