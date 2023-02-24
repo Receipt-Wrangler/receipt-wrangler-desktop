@@ -16,7 +16,7 @@ const routes: Routes = [
     component: CreateGroupFormComponent,
     data: {
       formConfig: {
-        mode: FormMode.view,
+        mode: FormMode.add,
         headerText: 'Create Group',
       } as FormConfig,
     },
