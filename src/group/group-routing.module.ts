@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { FormConfig } from 'src/interfaces/form-config.interface';
-import { CreateGroupFormComponent } from './create-group-form/create-group-form.component';
+import { GroupFormComponent } from './group-form/group-form.component';
 import { GroupListComponent } from './group-list/group-list.component';
 import { GroupResolverService } from './resolvers/group-resolver.service';
 
@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'create',
-    component: CreateGroupFormComponent,
+    component: GroupFormComponent,
     data: {
       formConfig: {
         mode: FormMode.add,
@@ -23,7 +23,7 @@ const routes: Routes = [
   },
   {
     path: ':id/view',
-    component: CreateGroupFormComponent,
+    component: GroupFormComponent,
     resolve: {
       group: GroupResolverService,
     },
@@ -36,7 +36,7 @@ const routes: Routes = [
   },
   {
     path: ':id/edit',
-    component: CreateGroupFormComponent,
+    component: GroupFormComponent,
     resolve: {
       group: GroupResolverService,
     },

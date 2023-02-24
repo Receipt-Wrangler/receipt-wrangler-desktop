@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import { Observable, of, startWith, switchMap, take, tap } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { startWith, switchMap, take, tap } from 'rxjs';
 import { GroupsService } from 'src/api/groups.service';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { GroupRole } from 'src/enums/group-role.enum';
@@ -17,10 +17,10 @@ import { buildGroupMemberForm } from '../utils/group-member.utils';
 
 @Component({
   selector: 'app-create-group-form',
-  templateUrl: './create-group-form.component.html',
-  styleUrls: ['./create-group-form.component.scss'],
+  templateUrl: './group-form.component.html',
+  styleUrls: ['./group-form.component.scss'],
 })
-export class CreateGroupFormComponent {
+export class GroupFormComponent {
   public form: FormGroup = new FormGroup({});
 
   public get groupMembers(): FormArray {
