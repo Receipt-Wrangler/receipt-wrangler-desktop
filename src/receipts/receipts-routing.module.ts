@@ -27,7 +27,9 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.add,
+      groupRole: GroupRole.EDITOR,
     },
+    canActivate: [GroupRoleGuard],
   },
   {
     path: ':id/view',
@@ -39,7 +41,9 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.view,
+      groupRole: GroupRole.VIEWER,
     },
+    canActivate: [GroupRoleGuard],
   },
   {
     path: ':id/edit',
