@@ -11,7 +11,6 @@ import Cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { User } from 'src/models';
 import { UserRole } from 'src/enums/user_role.enum';
-import { UserStateInterface } from './user.state';
 
 export interface AuthStateInterface {
   userId?: string;
