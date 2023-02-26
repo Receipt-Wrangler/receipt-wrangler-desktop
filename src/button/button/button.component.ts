@@ -22,6 +22,7 @@ export class ButtonComponent {
   @Input() icon: string = '';
   @Input() customIcon: string = '';
   @Input() disabled: boolean = false;
+  @Input() public buttonRouterLink: string[] = [];
   @Input() public tooltip: string = '';
   @Output() public clicked: EventEmitter<void> = new EventEmitter<void>();
 

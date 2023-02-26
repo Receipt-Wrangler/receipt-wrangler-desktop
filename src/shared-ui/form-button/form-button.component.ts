@@ -15,5 +15,7 @@ export class FormButtonComponent {
 
   @Input() public color: string = 'primary';
 
+  @Input() public buttonRouterLink: string[] = [];
+
   @Output() public clicked: EventEmitter<void> = new EventEmitter<void>();
 }

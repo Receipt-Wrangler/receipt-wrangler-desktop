@@ -50,7 +50,8 @@
           <app-edit-button
             color="accent"
             tooltip="Edit group"
-            [routerLink]="['/groups/' + element.id + '/edit']"
+            [disabled]="!(element.id | groupRole : groupRole.EDITOR)"
+            [buttonRouterLink]="['/groups/' + element.id + '/edit']"
           ></app-edit-button>
         </mat-cell>
       </ng-container>

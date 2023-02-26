@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { GroupRole } from 'src/enums/group-role.enum';
 import { Group } from 'src/models';
 import { GroupState } from 'src/store/group.state';
 
@@ -11,6 +12,8 @@ import { GroupState } from 'src/store/group.state';
 })
 export class GroupListComponent {
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
+
+  public groupRole = GroupRole;
 
   constructor() {}
 
