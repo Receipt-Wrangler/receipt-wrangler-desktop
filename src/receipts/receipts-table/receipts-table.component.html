@@ -1,6 +1,7 @@
 <app-table-header headerText="Receipts">
   <app-button
     buttonText="Add Receipt"
+    [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
     [routerLink]="['/receipts/add']"
   ></app-button>
 </app-table-header>
@@ -55,6 +56,7 @@
         <app-slide-toggle
           color="primary"
           [checked]="element.isResolved"
+          [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
           (click)="toggleIsResolved(element, i)"
         ></app-slide-toggle>
       </mat-cell>

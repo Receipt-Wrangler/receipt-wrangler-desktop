@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormMode } from 'src/enums/form-mode.enum';
+import { GroupRole } from 'src/enums/group-role.enum';
+import { GroupRoleGuard } from 'src/guards/group-role.guard';
 import { GroupGuard } from 'src/guards/group.guard';
 import { CategoriesResolverService } from 'src/resolvers/categories-resolver.service';
 import { ReceiptResolverService } from 'src/resolvers/receipt-resolver.service';
@@ -25,7 +27,9 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.add,
+      groupRole: GroupRole.EDITOR,
     },
+    canActivate: [GroupRoleGuard],
   },
   {
     path: ':id/view',
@@ -37,7 +41,9 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.view,
+      groupRole: GroupRole.VIEWER,
     },
+    canActivate: [GroupRoleGuard],
   },
   {
     path: ':id/edit',
@@ -49,7 +55,9 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.edit,
+      groupRole: GroupRole.EDITOR,
     },
+    canActivate: [GroupRoleGuard],
   },
   {
     path: '',

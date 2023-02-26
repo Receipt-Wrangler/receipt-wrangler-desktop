@@ -18,6 +18,7 @@ import {
 import { ReceiptImagesService } from 'src/api/receipt-images.service';
 import { ReceiptsService } from 'src/api/receipts.service';
 import { FormMode } from 'src/enums/form-mode.enum';
+import { GroupRole } from 'src/enums/group-role.enum';
 import { Category, Receipt, Tag } from 'src/models';
 import { FileData } from 'src/models/file-data';
 import { Group } from 'src/models/group';
@@ -52,6 +53,8 @@ export class ReceiptFormComponent implements OnInit {
 
   public formMode = FormMode;
 
+  public groupRole = GroupRole;
+
   public editLink = '';
 
   public cancelLink = '';
@@ -81,6 +84,7 @@ export class ReceiptFormComponent implements OnInit {
     this.initForm();
     this.getImageFiles();
     this.mode = this.activatedRoute.snapshot.data['mode'];
+    console.warn(this.originalReceipt?.groupId);
   }
 
   private setCancelLink(): void {

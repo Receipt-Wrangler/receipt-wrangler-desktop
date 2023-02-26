@@ -94,11 +94,14 @@
         </div>
         <app-form-button-bar>
           <app-button
-            *ngIf="mode === formMode.view"
+            *ngIf="mode | inputReadonly"
             class="mb-4"
             matButtonType="iconButton"
             tooltip="Edit"
             icon="edit"
+            [disabled]="
+              !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
+            "
             [routerLink]="[editLink]"
           ></app-button>
           <app-button
@@ -107,6 +110,9 @@
             matButtonType="iconButton"
             icon="add"
             tooltip="Upload Image"
+            [disabled]="
+              !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
+            "
             (clicked)="uploadImageButtonClicked()"
           ></app-button>
           <app-button
@@ -115,12 +121,18 @@
             customIcon="split"
             matButtonType="iconButton"
             tooltip="Quick Actions"
+            [disabled]="
+              !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
+            "
             (clicked)="openQuickActionsModal()"
           ></app-button>
           <app-submit-button
             *ngIf="!(mode | inputReadonly)"
             class="mb-4"
             [mode]="mode"
+            [disabled]="
+              !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
+            "
           ></app-submit-button>
           <app-cancel-button
             *ngIf="!(mode | inputReadonly)"

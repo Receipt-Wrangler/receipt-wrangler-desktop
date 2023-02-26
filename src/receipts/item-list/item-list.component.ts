@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable, of, startWith, take, takeUntil, tap } from 'rxjs';
 import { FormMode } from 'src/enums/form-mode.enum';
+import { GroupRole } from 'src/enums/group-role.enum';
 import { InputComponent } from 'src/input/input/input.component';
 import { Receipt } from 'src/models';
 import { Item } from 'src/models/item';
@@ -52,6 +53,8 @@ export class ItemListComponent implements OnInit {
   public mode: FormMode = FormMode.view;
 
   public formMode = FormMode;
+
+  public groupRole = GroupRole;
 
   public get receiptItems(): FormArray {
     return this.form.get('receiptItems') as FormArray;
