@@ -50,7 +50,7 @@
           <app-edit-button
             color="accent"
             tooltip="Edit group"
-            [disabled]="!(element.id | groupRole : groupRole.EDITOR)"
+            [disabled]="!(element.id | groupRole : groupRole.OWNER)"
             [buttonRouterLink]="['/groups/' + element.id + '/edit']"
           ></app-edit-button>
         </mat-cell>

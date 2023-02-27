@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
+  Router,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
@@ -15,7 +16,11 @@ import { GroupUtil } from 'src/utils/group.utils';
   providedIn: 'root',
 })
 export class GroupRoleGuard implements CanActivate {
-  constructor(private store: Store, private groupUtil: GroupUtil) {}
+  constructor(
+    private store: Store,
+    private groupUtil: GroupUtil,
+    private router: Router
+  ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -24,13 +29,28 @@ export class GroupRoleGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const currentGroupId = this.store.selectSnapshot(
-      GroupState.selectedGroupId
-    );
+    let hasAccess = false;
+    let groupId: number | undefined = undefined;
     const groupRole = route.data['groupRole'] as GroupRole;
-    return this.groupUtil.hasGroupAccess(
-      Number.parseInt(currentGroupId),
-      groupRole
-    );
+
+    const useRouteId = route.data['useRouteGroupId'];
+    if (useRouteId) {
+      groupId = Number.parseInt(route.params['id']);
+    } else {
+      groupId = Number.parseInt(
+        this.store.selectSnapshot(GroupState.selectedGroupId)
+      );
+    }
+
+    console.warn(groupId);
+    hasAccess = this.groupUtil.hasGroupAccess(groupId, groupRole);
+
+    if (!hasAccess) {
+      this.router.navigate([
+        this.store.selectSnapshot(GroupState.dashboardLink),
+      ]);
+    }
+
+    return hasAccess;
   }
 }
