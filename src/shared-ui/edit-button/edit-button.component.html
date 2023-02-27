@@ -3,5 +3,7 @@
   icon="edit"
   [color]="color"
   [tooltip]="tooltip ?? 'Edit'"
+  [disabled]="disabled"
+  [buttonRouterLink]="buttonRouterLink"
   (clicked)="clicked.emit()"
 ></app-button>

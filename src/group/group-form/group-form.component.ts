@@ -39,6 +39,8 @@ export class GroupFormComponent {
 
   public editLink: string = '';
 
+  public groupRole = GroupRole;
+
   constructor(
     private formBuilder: FormBuilder,
     private groupsService: GroupsService,

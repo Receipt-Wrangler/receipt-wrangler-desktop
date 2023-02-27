@@ -79,7 +79,8 @@
   <app-form-button-bar>
     <app-edit-button
       *ngIf="formConfig.mode | inputReadonly"
-      [routerLink]="editLink"
+      [disabled]="!(originalGroup?.id ?? 0 | groupRole : groupRole.OWNER)"
+      [buttonRouterLink]="[editLink]"
     ></app-edit-button>
     <app-submit-button
       *ngIf="!(formConfig.mode | inputReadonly)"
