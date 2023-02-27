@@ -42,7 +42,6 @@ export class GroupRoleGuard implements CanActivate {
       );
     }
 
-    console.warn(groupId);
     hasAccess = this.groupUtil.hasGroupAccess(groupId, groupRole);
 
     if (!hasAccess) {
