@@ -56,6 +56,7 @@
           <app-delete-button
             *ngIf="element.id | groupRole : groupRole.OWNER"
             tooltip="Delete Group"
+            [disabled]="(groups | async)?.length === 1"
             (clicked)="deleteGroup(i)"
           ></app-delete-button>
         </mat-cell>

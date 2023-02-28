@@ -84,12 +84,18 @@ export class GroupState {
     if (group) {
       const index = state.groups.findIndex((g) => g === group);
       if (index >= 0) {
+        const newInterface = {} as GroupStateInterface;
         const newGroups = Array.from(state.groups).filter(
           (g) => g.id !== group.id
         );
-        patchState({
-          groups: newGroups,
-        });
+        newInterface.groups = newGroups;
+        if (group.id.toString() === state.selectedGroupId) {
+          newInterface.selectedGroupId = state.groups[0].id.toString();
+        }
+        // TODO: check out deleting from group that you're in
+        // TODO: add confirmation dialog
+        // TODO: add backend validation to make suer user doesn't delete last group
+        patchState(newInterface);
       }
     }
   }

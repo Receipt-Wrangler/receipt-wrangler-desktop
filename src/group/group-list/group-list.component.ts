@@ -34,16 +34,19 @@ export class GroupListComponent {
   ];
 
   public deleteGroup(index: number): void {
-    const group = this.store.selectSnapshot(GroupState.groups)[index];
-    this.groupsService
-      .deleteGroup(group.id.toString())
-      .pipe(
-        take(1),
-        tap(() => {
-          this.snackbarService.success('Group successfully deleted');
-          this.store.dispatch(new RemoveGroup(group.id.toString()));
-        })
-      )
-      .subscribe();
+    const groups = this.store.selectSnapshot(GroupState.groups);
+    if (groups.length > 1) {
+      const group = groups[index];
+      this.groupsService
+        .deleteGroup(group.id.toString())
+        .pipe(
+          take(1),
+          tap(() => {
+            this.snackbarService.success('Group successfully deleted');
+            this.store.dispatch(new RemoveGroup(group.id.toString()));
+          })
+        )
+        .subscribe();
+    }
   }
 }
