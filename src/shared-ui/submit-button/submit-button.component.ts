@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { FormButtonComponent } from '../form-button/form-button.component';
 

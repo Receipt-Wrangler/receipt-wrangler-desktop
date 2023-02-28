@@ -10,6 +10,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { DialogFooterComponent } from './dialog-footer/dialog-footer.component';
 import { DeleteButtonComponent } from './delete-button/delete-button.component';
 import { FormButtonComponent } from './form-button/form-button.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { FormButtonComponent } from './form-button/form-button.component';
     DialogFooterComponent,
     DeleteButtonComponent,
     FormButtonComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [CommonModule, ButtonModule],
   exports: [
@@ -33,6 +35,7 @@ import { FormButtonComponent } from './form-button/form-button.component';
     DialogComponent,
     DialogFooterComponent,
     DeleteButtonComponent,
+    ConfirmationDialogComponent,
   ],
 })
 export class SharedUiModule {}
