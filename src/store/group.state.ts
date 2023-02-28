@@ -89,12 +89,9 @@ export class GroupState {
           (g) => g.id !== group.id
         );
         newInterface.groups = newGroups;
-        if (group.id.toString() === state.selectedGroupId) {
+        if (group.id.toString() === state.selectedGroupId.toString()) {
           newInterface.selectedGroupId = state.groups[0].id.toString();
         }
-        // TODO: check out deleting from group that you're in
-        // TODO: add confirmation dialog
-        // TODO: add backend validation to make suer user doesn't delete last group
         patchState(newInterface);
       }
     }
