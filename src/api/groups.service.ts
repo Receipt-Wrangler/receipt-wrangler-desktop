@@ -17,6 +17,10 @@ export class GroupsService {
     return this.httpClient.get<Group>(`/api/group/${id}`);
   }
 
+  public deleteGroup(id: string): Observable<void> {
+    return this.httpClient.delete<void>(`/api/group/${id}`);
+  }
+
   public createGroup(group: Group): Observable<Group> {
     return this.httpClient.post<Group>('/api/group', group);
   }

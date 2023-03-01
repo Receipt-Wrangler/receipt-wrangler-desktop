@@ -5,6 +5,11 @@ export class AddGroup {
   constructor(public group: Group) {}
 }
 
+export class RemoveGroup {
+  static readonly type = '[Group] Remove Group';
+  constructor(public groupId: string) {}
+}
+
 export class SetGroups {
   static readonly type = '[Group] Set Groups';
   constructor(public groups: Group[]) {}

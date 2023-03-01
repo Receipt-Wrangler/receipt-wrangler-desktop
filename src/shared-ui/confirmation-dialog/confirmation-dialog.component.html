@@ -1,0 +1,7 @@
+<app-dialog [headerText]="headerText">
+  {{ dialogContent }}
+  <app-dialog-footer
+    (submitClicked)="submitButtonClicked()"
+    (cancelClicked)="cancelButtonClicked()"
+  ></app-dialog-footer>
+</app-dialog>

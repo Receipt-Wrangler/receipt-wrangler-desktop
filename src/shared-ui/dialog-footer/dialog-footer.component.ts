@@ -7,4 +7,5 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class DialogFooterComponent {
   @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>();
+  @Output() submitClicked: EventEmitter<void> = new EventEmitter<void>();
 }

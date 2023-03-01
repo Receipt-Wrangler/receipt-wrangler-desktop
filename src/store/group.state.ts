@@ -7,7 +7,12 @@ import {
   StateContext,
 } from '@ngxs/store';
 import { Group } from 'src/models/group';
-import { AddGroup, SetGroups, SetSelectedGroupId } from './group.state.actions';
+import {
+  AddGroup,
+  RemoveGroup,
+  SetGroups,
+  SetSelectedGroupId,
+} from './group.state.actions';
 
 export interface GroupStateInterface {
   groups: Group[];
@@ -67,6 +72,29 @@ export class GroupState {
     patchState({
       groups: groups,
     });
+  }
+
+  @Action(RemoveGroup)
+  removeGroup(
+    { getState, patchState }: StateContext<GroupStateInterface>,
+    payload: RemoveGroup
+  ) {
+    const state = getState();
+    const group = GroupState.getGroupById(payload.groupId)(state);
+    if (group) {
+      const index = state.groups.findIndex((g) => g === group);
+      if (index >= 0) {
+        const newInterface = {} as GroupStateInterface;
+        const newGroups = Array.from(state.groups).filter(
+          (g) => g.id !== group.id
+        );
+        newInterface.groups = newGroups;
+        if (group.id.toString() === state.selectedGroupId.toString()) {
+          newInterface.selectedGroupId = state.groups[0].id.toString();
+        }
+        patchState(newInterface);
+      }
+    }
   }
 
   @Action(SetGroups)
