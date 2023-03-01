@@ -36,6 +36,10 @@ export class UsersService {
     );
   }
 
+  public deleteUser(userId: string): Observable<void> {
+    return this.httpClient.delete<void>(`/api/user/${userId}`);
+  }
+
   public setUserPassword(
     id: string,
     data: { password: string }
