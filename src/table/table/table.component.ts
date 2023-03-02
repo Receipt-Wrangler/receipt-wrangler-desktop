@@ -12,7 +12,7 @@ import { TableColumn } from '../table-column.interface';
 export class TableComponent implements AfterViewInit {
   @Input() public columns: TableColumn[] = [];
   @Input() public displayedColumns: string[] = [];
-  @Input() public dataSource = new MatTableDataSource([]);
+  @Input() public dataSource = new MatTableDataSource<any>([]);
 
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 

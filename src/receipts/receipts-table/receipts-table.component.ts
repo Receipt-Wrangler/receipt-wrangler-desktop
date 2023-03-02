@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { tap } from 'rxjs';
 import { ReceiptsService } from 'src/api/receipts.service';
@@ -6,6 +13,7 @@ import { GroupRole } from 'src/enums/group-role.enum';
 import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { GroupState } from 'src/store/group.state';
+import { TableColumn } from 'src/table/table-column.interface';
 import { GroupUtil } from 'src/utils/group.utils';
 
 @Component({
@@ -21,31 +29,104 @@ export class ReceiptsTableComponent implements OnInit {
     private groupUtil: GroupUtil
   ) {}
 
+  @ViewChild('dateCell') dateCell!: TemplateRef<any>;
+
+  @ViewChild('nameCell') nameCell!: TemplateRef<any>;
+
+  @ViewChild('paidByCell') paidByCell!: TemplateRef<any>;
+
+  @ViewChild('amountCell') amountCell!: TemplateRef<any>;
+
+  @ViewChild('categoryCell') categoryCell!: TemplateRef<any>;
+
+  @ViewChild('tagCell') tagCell!: TemplateRef<any>;
+
+  @ViewChild('isResolvedCell') isResolvedCell!: TemplateRef<any>;
+
+  @ViewChild('actionsCell') actionsCell!: TemplateRef<any>;
+
   public receipts: Receipt[] = [];
 
   public groupId: number = 0;
 
   public groupRole = GroupRole;
 
-  public displayedColumns = [
-    'date',
-    'name',
-    'paidBy',
-    'amount',
-    'categories',
-    'tags',
-    'isResolved',
-  ];
+  public dataSource: MatTableDataSource<Receipt> =
+    new MatTableDataSource<Receipt>([]);
+
+  public displayedColumns: string[] = [];
+
+  public columns: TableColumn[] = [];
 
   public ngOnInit(): void {
     this.groupId = Number.parseInt(
       this.store.selectSnapshot(GroupState.selectedGroupId)
     );
-    this.setActionsColumnDisplay();
     this.receiptsService
       .getReceiptsForGroup(this.groupId.toString())
-      .pipe(tap((receipts) => (this.receipts = receipts)))
+      .pipe(
+        tap((receipts) => {
+          this.receipts = receipts;
+          this.dataSource = new MatTableDataSource<Receipt>(receipts);
+          this.setColumns();
+          this.setActionsColumnDisplay();
+        })
+      )
       .subscribe();
+  }
+
+  private setColumns(): void {
+    this.columns = [
+      {
+        columnHeader: 'Date',
+        matColumnDef: 'date',
+        template: this.dateCell,
+      },
+      {
+        columnHeader: 'Name',
+        matColumnDef: 'name',
+        template: this.nameCell,
+      },
+      {
+        columnHeader: 'Paid By',
+        matColumnDef: 'paidBy',
+        template: this.paidByCell,
+      },
+      {
+        columnHeader: 'Amount',
+        matColumnDef: 'amount',
+        template: this.amountCell,
+      },
+      {
+        columnHeader: 'Categories',
+        matColumnDef: 'categories',
+        template: this.categoryCell,
+      },
+      {
+        columnHeader: 'Tags',
+        matColumnDef: 'tags',
+        template: this.tagCell,
+      },
+      {
+        columnHeader: 'Is Resolved',
+        matColumnDef: 'isResolved',
+        template: this.isResolvedCell,
+      },
+      {
+        columnHeader: 'Actions',
+        matColumnDef: 'actions',
+        template: this.actionsCell,
+      },
+    ];
+    this.displayedColumns = [
+      'date',
+      'name',
+      'paidBy',
+      'amount',
+      'categories',
+      'tags',
+      'isResolved',
+    ];
   }
 
   private setActionsColumnDisplay(): void {
