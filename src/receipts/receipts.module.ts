@@ -25,6 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
+import { TableModule } from 'src/table/table.module';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
     SharedUiModule,
     SlideToggleModule,
     UserAutocompleteModule,
+    TableModule,
   ],
 })
 export class ReceiptsModule {}

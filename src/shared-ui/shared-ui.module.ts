@@ -12,7 +12,6 @@ import { FormButtonBarComponent } from './form-button-bar/form-button-bar.compon
 import { FormButtonComponent } from './form-button/form-button.component';
 import { SubmitButtonComponent } from './submit-button/submit-button.component';
 import { TableHeaderComponent } from './table-header/table-header.component';
-import { TableComponent } from './table/table.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,6 @@ import { TableComponent } from './table/table.component';
     DeleteButtonComponent,
     FormButtonComponent,
     ConfirmationDialogComponent,
-    TableComponent,
   ],
   imports: [CommonModule, ButtonModule, MatTableModule],
   exports: [
@@ -39,7 +37,6 @@ import { TableComponent } from './table/table.component';
     DialogFooterComponent,
     DeleteButtonComponent,
     ConfirmationDialogComponent,
-    TableComponent,
   ],
 })
 export class SharedUiModule {}
