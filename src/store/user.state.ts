@@ -7,7 +7,12 @@ import {
   StateContext,
 } from '@ngxs/store';
 import { User } from 'src/models/user';
-import { AddUser, SetUsers, UpdateUser } from './user.state.actions';
+import {
+  AddUser,
+  RemoveUser,
+  SetUsers,
+  UpdateUser,
+} from './user.state.actions';
 
 export interface UserStateInterface {
   users: User[];
@@ -74,6 +79,17 @@ export class UserState {
     users.push(payload.user);
     patchState({
       users: users,
+    });
+  }
+
+  @Action(RemoveUser)
+  removeUser(
+    { getState, patchState }: StateContext<UserStateInterface>,
+    payload: RemoveUser
+  ) {
+    const users = Array.from(getState().users);
+    patchState({
+      users: users.filter((u) => u.id.toString() !== payload.userId.toString()),
     });
   }
 }

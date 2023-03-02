@@ -13,3 +13,8 @@ export class AddUser {
   static readonly type = '[User] Add User';
   constructor(public user: User) {}
 }
+
+export class RemoveUser {
+  static readonly type = '[User] Remove User';
+  constructor(public userId: string) {}
+}
