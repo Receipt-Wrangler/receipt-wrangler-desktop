@@ -12,6 +12,7 @@
       mat-header-cell
       *matHeaderCellDef
       mat-sort-header
+      [disabled]="!column.sortable"
       sortActionDescription="Sort by number"
     >
       {{ column.columnHeader }}

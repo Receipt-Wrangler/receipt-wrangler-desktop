@@ -1,5 +1,14 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableColumn } from '../table-column.interface';
@@ -9,18 +18,13 @@ import { TableColumn } from '../table-column.interface';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements AfterViewInit {
+export class TableComponent {
   @Input() public columns: TableColumn[] = [];
   @Input() public displayedColumns: string[] = [];
   @Input() public dataSource = new MatTableDataSource<any>([]);
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
-
   @ViewChild(MatSort) public sort!: MatSort;
-
-  public ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  }
+  constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
   /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {

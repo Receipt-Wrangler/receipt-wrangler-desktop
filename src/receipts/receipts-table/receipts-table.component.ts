@@ -14,6 +14,7 @@ import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { GroupState } from 'src/store/group.state';
 import { TableColumn } from 'src/table/table-column.interface';
+import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
 
 @Component({
@@ -21,7 +22,7 @@ import { GroupUtil } from 'src/utils/group.utils';
   templateUrl: './receipts-table.component.html',
   styleUrls: ['./receipts-table.component.scss'],
 })
-export class ReceiptsTableComponent implements OnInit {
+export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(
     private receiptsService: ReceiptsService,
     private snackbarService: SnackbarService,
@@ -44,6 +45,8 @@ export class ReceiptsTableComponent implements OnInit {
   @ViewChild('isResolvedCell') isResolvedCell!: TemplateRef<any>;
 
   @ViewChild('actionsCell') actionsCell!: TemplateRef<any>;
+
+  @ViewChild(TableComponent) table!: TableComponent;
 
   public receipts: Receipt[] = [];
 
@@ -68,6 +71,7 @@ export class ReceiptsTableComponent implements OnInit {
         tap((receipts) => {
           this.receipts = receipts;
           this.dataSource = new MatTableDataSource<Receipt>(receipts);
+          this.dataSource.sort = this.table.sort;
           this.setColumns();
           this.setActionsColumnDisplay();
         })
@@ -75,47 +79,57 @@ export class ReceiptsTableComponent implements OnInit {
       .subscribe();
   }
 
+  public ngAfterViewInit(): void {}
+
   private setColumns(): void {
     this.columns = [
       {
         columnHeader: 'Date',
         matColumnDef: 'date',
         template: this.dateCell,
+        sortable: true,
       },
       {
         columnHeader: 'Name',
         matColumnDef: 'name',
         template: this.nameCell,
+        sortable: true,
       },
       {
         columnHeader: 'Paid By',
         matColumnDef: 'paidBy',
         template: this.paidByCell,
+        sortable: true,
       },
       {
         columnHeader: 'Amount',
         matColumnDef: 'amount',
         template: this.amountCell,
+        sortable: true,
       },
       {
         columnHeader: 'Categories',
         matColumnDef: 'categories',
         template: this.categoryCell,
+        sortable: false,
       },
       {
         columnHeader: 'Tags',
         matColumnDef: 'tags',
         template: this.tagCell,
+        sortable: false,
       },
       {
         columnHeader: 'Is Resolved',
         matColumnDef: 'isResolved',
         template: this.isResolvedCell,
+        sortable: true,
       },
       {
         columnHeader: 'Actions',
         matColumnDef: 'actions',
         template: this.actionsCell,
+        sortable: false,
       },
     ];
     this.displayedColumns = [
