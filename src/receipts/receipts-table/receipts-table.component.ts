@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { tap } from 'rxjs';
+import { take, tap } from 'rxjs';
 import { ReceiptsService } from 'src/api/receipts.service';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { Receipt } from 'src/models/receipt';
@@ -22,7 +22,7 @@ import { GroupUtil } from 'src/utils/group.utils';
   templateUrl: './receipts-table.component.html',
   styleUrls: ['./receipts-table.component.scss'],
 })
-export class ReceiptsTableComponent implements OnInit, AfterViewInit {
+export class ReceiptsTableComponent implements OnInit {
   constructor(
     private receiptsService: ReceiptsService,
     private snackbarService: SnackbarService,
@@ -48,8 +48,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild(TableComponent) table!: TableComponent;
 
-  public receipts: Receipt[] = [];
-
   public groupId: number = 0;
 
   public groupRole = GroupRole;
@@ -68,8 +66,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     this.receiptsService
       .getReceiptsForGroup(this.groupId.toString())
       .pipe(
+        take(1),
         tap((receipts) => {
-          this.receipts = receipts;
           this.dataSource = new MatTableDataSource<Receipt>(receipts);
           this.dataSource.sort = this.table.sort;
           this.setColumns();
@@ -78,8 +76,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       )
       .subscribe();
   }
-
-  public ngAfterViewInit(): void {}
 
   private setColumns(): void {
     this.columns = [
@@ -158,12 +154,12 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .toggleIsResolved(row.id.toString())
       .pipe(
         tap(() => {
-          const newReceipts = Array.from(this.receipts);
+          const newReceipts = Array.from(this.dataSource.data);
           newReceipts.splice(index, 1, {
             ...row,
             isResolved: !row.isResolved,
           });
-          this.receipts = newReceipts;
+          this.dataSource.data = newReceipts;
         })
       )
       .subscribe();
@@ -174,7 +170,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .deleteReceipt(row.id.toString())
       .pipe(
         tap(() => {
-          this.receipts = this.receipts.filter((r) => r.id !== row.id);
+          this.dataSource.data = this.dataSource.data.filter(
+            (r) => r.id !== row.id
+          );
           this.snackbarService.success('Receipt successfully deleted');
         })
       )
