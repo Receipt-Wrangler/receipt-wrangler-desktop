@@ -12,6 +12,7 @@ import { UserFormComponent } from './user-form/user-form.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserRoutingModule } from './user-routing.module';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { TableModule } from 'src/table/table.module';
 
 @NgModule({
   declarations: [UserListComponent, UserFormComponent, ResetPasswordComponent],
@@ -24,8 +25,9 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     PipesModule,
     ReactiveFormsModule,
     SelectModule,
-    UserRoutingModule,
     SharedUiModule,
+    TableModule,
+    UserRoutingModule,
   ],
 })
 export class UserModule {}

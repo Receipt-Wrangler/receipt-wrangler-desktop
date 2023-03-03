@@ -91,7 +91,7 @@ export class UserFormComponent implements OnInit {
             )
           ),
 
-          tap(() => this.matDialogRef.close())
+          tap(() => this.matDialogRef.close(true))
         )
         .subscribe();
     } else if (this.form.valid && !this.user) {
@@ -109,13 +109,13 @@ export class UserFormComponent implements OnInit {
               this.snackbarService.error(err.error['username'] ?? err['errMsg'])
             );
           }),
-          tap(() => this.matDialogRef.close())
+          tap(() => this.matDialogRef.close(true))
         )
         .subscribe();
     }
   }
 
   public closeModal(): void {
-    this.matDialogRef.close();
+    this.matDialogRef.close(false);
   }
 }
