@@ -27,7 +27,7 @@ export class GroupListComponent {
   @ViewChild('numberOfMembersCell')
   private numberOfMembersCell!: TemplateRef<any>;
 
-  @ViewChild('defaultGroupCell') private defaultGroupCell!: TemplateRef<any>;
+  @ViewChild('isDefaultGroupCell') private defaultGroupCell!: TemplateRef<any>;
 
   @ViewChild('createdAtCell') private createdAtCell!: TemplateRef<any>;
 
@@ -80,7 +80,7 @@ export class GroupListComponent {
       },
       {
         columnHeader: 'Is Default Group',
-        matColumnDef: 'defaultGroup',
+        matColumnDef: 'isDefault',
         template: this.defaultGroupCell,
         sortable: true,
       },
@@ -106,7 +106,7 @@ export class GroupListComponent {
     this.displayedColumns = [
       'name',
       'numberOfMembers',
-      'defaultGroup',
+      'isDefault',
       'createdAt',
       'updatedAt',
       'actions',
