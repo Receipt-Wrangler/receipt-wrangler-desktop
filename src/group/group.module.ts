@@ -10,6 +10,7 @@ import { InputModule } from 'src/input/input.module';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SelectModule } from 'src/select/select.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
+import { TableModule } from 'src/table/table.module';
 import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
 import { GroupFormComponent } from './group-form/group-form.component';
 import { GroupListComponent } from './group-list/group-list.component';
@@ -36,6 +37,7 @@ import { GroupRoutingModule } from './group-routing.module';
     SelectModule,
     SharedUiModule,
     UserAutocompleteModule,
+    TableModule,
   ],
   exports: [GroupListComponent],
 })
