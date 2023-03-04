@@ -19,6 +19,7 @@ import { FormConfig } from 'src/interfaces/form-config.interface';
 import { Group, GroupMember } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AddGroup } from 'src/store/group.state.actions';
+import { UserState } from 'src/store/user.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
@@ -129,7 +130,28 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
 
   public sortName(sortState: Sort): void {
     if (sortState.active === 'name') {
-      // sort data :   )
+      if (sortState.direction === '') {
+        this.dataSource.data = this.groupMembers.value;
+        return;
+      }
+
+      const newData = Array.from(this.dataSource.data);
+      newData.sort((a, b) => {
+        const aDisplayName =
+          this.store.selectSnapshot(UserState.getUserById(a.userId.toString()))
+            ?.displayName ?? '';
+        const bDisplayName =
+          this.store.selectSnapshot(UserState.getUserById(b.userId.toString()))
+            ?.displayName ?? '';
+
+        if (sortState.direction === 'asc') {
+          return aDisplayName.localeCompare(bDisplayName);
+        } else {
+          return bDisplayName.localeCompare(aDisplayName);
+        }
+      });
+
+      this.dataSource.data = newData;
     }
   }
 
