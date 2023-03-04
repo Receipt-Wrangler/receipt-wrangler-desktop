@@ -1,5 +1,6 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take, tap } from 'rxjs';
@@ -111,6 +112,26 @@ export class GroupListComponent {
       'updatedAt',
       'actions',
     ];
+  }
+
+  public sortNumberOfMembers(sortState: Sort): void {
+    if (sortState.active === 'numberOfMembers') {
+      if (sortState.direction === '') {
+        this.dataSource.data = this.store.selectSnapshot(GroupState.groups);
+        return;
+      }
+
+      const newData = Array.from(this.dataSource.data);
+      newData.sort((a, b) => {
+        if (sortState.direction == 'asc') {
+          return b.groupMembers.length - a.groupMembers.length;
+        } else {
+          return a.groupMembers.length - b.groupMembers.length;
+        }
+      });
+
+      this.dataSource.data = newData;
+    }
   }
 
   private setDataSource(): void {
