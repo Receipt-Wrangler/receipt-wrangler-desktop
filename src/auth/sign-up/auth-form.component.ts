@@ -16,11 +16,11 @@ import { SetAuthState } from 'src/store/auth.state.actions';
 import { GroupState } from 'src/store/group.state';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+  selector: 'app-auth-form',
+  templateUrl: './auth-form.component.html',
+  styleUrls: ['./auth-form.component.scss'],
 })
-export class SignUpComponent implements OnInit {
+export class AuthForm implements OnInit {
   public form: FormGroup = new FormGroup({});
   public isSignUp: boolean = true;
 

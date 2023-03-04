@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SignUpComponent } from './sign-up/sign-up.component';
+import { AuthForm } from './sign-up/auth-form.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from 'src/pipes/pipes.module';
@@ -9,7 +9,7 @@ import { ButtonModule } from 'src/button/button.module';
 import { DirectivesModule } from 'src/directives/directives.module';
 
 @NgModule({
-  declarations: [SignUpComponent],
+  declarations: [AuthForm],
   imports: [
     CommonModule,
     AuthRoutingModule,
