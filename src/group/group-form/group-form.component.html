@@ -37,41 +37,12 @@
           ></mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <table mat-table [dataSource]="groupMembers.value">
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>Name</th>
-              <td mat-cell *matCellDef="let element">
-                {{ (element.userId | user)?.displayName }}
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="role">
-              <th mat-header-cell *matHeaderCellDef>Group Role</th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.groupRole }}
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Actions</th>
-              <td mat-cell *matCellDef="let element; let i = index">
-                <div class="d-flex">
-                  <app-delete-button
-                    tooltip="Remove group member"
-                    [disabled]="disableDeleteButton"
-                    (clicked)="removeGroupMember(i)"
-                  ></app-delete-button>
-                  <app-edit-button
-                    tooltip="Edit group member"
-                    (clicked)="editGroupMemberClicked(i)"
-                  ></app-edit-button>
-                </div>
-              </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          </table>
+          <app-table
+            [columns]="columns"
+            [dataSource]="dataSource"
+            [displayedColumns]="displayedColumns"
+          >
+          </app-table>
         </mat-card-content>
       </mat-card>
     </div>
@@ -92,3 +63,25 @@
     ></app-cancel-button>
   </app-form-button-bar>
 </form>
+
+<ng-template #nameCell let-element="element">
+  {{ (element.userId | user)?.displayName }}
+</ng-template>
+
+<ng-template #groupRoleCell let-element="element">
+  {{ element.groupRole }}
+</ng-template>
+
+<ng-template #actionsCell let-index="index">
+  <div class="d-flex">
+    <app-delete-button
+      tooltip="Remove group member"
+      [disabled]="disableDeleteButton"
+      (clicked)="removeGroupMember(index)"
+    ></app-delete-button>
+    <app-edit-button
+      tooltip="Edit group member"
+      (clicked)="editGroupMemberClicked(index)"
+    ></app-edit-button>
+  </div>
+</ng-template>

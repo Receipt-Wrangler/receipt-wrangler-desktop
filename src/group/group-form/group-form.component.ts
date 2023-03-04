@@ -1,6 +1,13 @@
-import { Component } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { startWith, switchMap, take, tap } from 'rxjs';
@@ -11,6 +18,7 @@ import { FormConfig } from 'src/interfaces/form-config.interface';
 import { Group, GroupMember } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AddGroup } from 'src/store/group.state.actions';
+import { TableColumn } from 'src/table/table-column.interface';
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
 import { ROLE_OPTIONS } from '../role-options';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
@@ -20,7 +28,13 @@ import { buildGroupMemberForm } from '../utils/group-member.utils';
   templateUrl: './group-form.component.html',
   styleUrls: ['./group-form.component.scss'],
 })
-export class GroupFormComponent {
+export class GroupFormComponent implements OnInit, AfterViewInit {
+  @ViewChild('nameCell') public nameCell!: TemplateRef<any>;
+
+  @ViewChild('groupRoleCell') public groupRoleCell!: TemplateRef<any>;
+
+  @ViewChild('actionsCell') public actionsCell!: TemplateRef<any>;
+
   public form: FormGroup = new FormGroup({});
 
   public get groupMembers(): FormArray {
@@ -33,13 +47,18 @@ export class GroupFormComponent {
 
   public originalGroup: Group | undefined = undefined;
 
-  public displayedColumns: string[] = ['name', 'role'];
+  public displayedColumns: string[] = [];
+
+  public columns: TableColumn[] = [];
 
   public disableDeleteButton: boolean = false;
 
   public editLink: string = '';
 
   public groupRole = GroupRole;
+
+  public dataSource: MatTableDataSource<GroupMember> =
+    new MatTableDataSource<GroupMember>([]);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,10 +76,50 @@ export class GroupFormComponent {
     if (this.originalGroup) {
       this.editLink = `/groups/${this.originalGroup.id}/edit`;
     }
+    this.initForm();
+  }
+
+  public ngAfterViewInit(): void {
+    this.initTable();
+  }
+
+  private initTable(): void {
+    this.setColumns();
+    this.setDataSource();
+  }
+
+  private setColumns(): void {
+    this.columns = [
+      {
+        columnHeader: 'Name',
+        matColumnDef: 'name',
+        template: this.nameCell,
+        sortable: true,
+      },
+      {
+        columnHeader: 'Group Role',
+        matColumnDef: 'groupRole',
+        template: this.groupRoleCell,
+        sortable: true,
+      },
+      {
+        columnHeader: 'Actions',
+        matColumnDef: 'actions',
+        template: this.actionsCell,
+        sortable: true,
+      },
+    ];
+    this.displayedColumns = ['name', 'groupRole'];
+
     if (this.formConfig.mode !== FormMode.view) {
       this.displayedColumns.push('actions');
     }
-    this.initForm();
+  }
+
+  private setDataSource(): void {
+    this.dataSource = new MatTableDataSource<GroupMember>(
+      this.groupMembers.value ?? []
+    );
   }
 
   private initForm(): void {
