@@ -12,4 +12,7 @@
     [for]="picker"
   ></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
+  <mat-error *ngFor="let err of formControlErrors | async">{{
+    err.message
+  }}</mat-error>
 </mat-form-field>

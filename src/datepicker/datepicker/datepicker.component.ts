@@ -1,15 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { BaseInputComponent } from 'src/base-input/base-input/base-input.component';
 
 @Component({
   selector: 'app-datepicker',
   templateUrl: './datepicker.component.html',
   styleUrls: ['./datepicker.component.scss'],
 })
-export class DatepickerComponent {
-  @Input() public label: string = '';
-
-  @Input() public inputFormControl: FormControl = new FormControl();
-
-  @Input() public readonly: boolean = false;
-}
+export class DatepickerComponent extends BaseInputComponent {}

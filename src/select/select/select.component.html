@@ -8,10 +8,7 @@
       {{ optionDisplayKey ? option[optionDisplayKey] : option }}
     </mat-option>
   </mat-select>
-</mat-form-field>
-<ng-container *ngFor="let err of formControlErrors | async">
-  <mat-error *ngIf="err.error === 'required' && inputFormControl.touched">{{
+  <mat-error *ngFor="let err of formControlErrors | async">{{
     err.message
   }}</mat-error>
-  <mat-error *ngIf="err.error !== 'required'">{{ err.message }}</mat-error>
-</ng-container>
+</mat-form-field>

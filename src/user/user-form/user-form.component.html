@@ -14,7 +14,9 @@
     <app-input
       *ngIf="!user"
       label="Password"
+      type="password"
       [inputFormControl]="form | formGet : 'password'"
+      [showVisibilityEye]="true"
     ></app-input>
     <app-select
       label="User Role"
