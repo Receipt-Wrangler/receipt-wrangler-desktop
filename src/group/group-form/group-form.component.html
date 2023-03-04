@@ -41,6 +41,7 @@
             [columns]="columns"
             [dataSource]="dataSource"
             [displayedColumns]="displayedColumns"
+            (sorted)="sortName($event)"
           >
           </app-table>
         </mat-card-content>

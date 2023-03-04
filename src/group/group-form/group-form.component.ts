@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { startWith, switchMap, take, tap } from 'rxjs';
@@ -19,6 +20,7 @@ import { Group, GroupMember } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AddGroup } from 'src/store/group.state.actions';
 import { TableColumn } from 'src/table/table-column.interface';
+import { TableComponent } from 'src/table/table/table.component';
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
 import { ROLE_OPTIONS } from '../role-options';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
@@ -34,6 +36,8 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
   @ViewChild('groupRoleCell') public groupRoleCell!: TemplateRef<any>;
 
   @ViewChild('actionsCell') public actionsCell!: TemplateRef<any>;
+
+  @ViewChild(TableComponent) public table!: TableComponent;
 
   public form: FormGroup = new FormGroup({});
 
@@ -120,6 +124,13 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource<GroupMember>(
       this.groupMembers.value ?? []
     );
+    this.dataSource.sort = this.table.sort;
+  }
+
+  public sortName(sortState: Sort): void {
+    if (sortState.active === 'name') {
+      // sort data :   )
+    }
   }
 
   private initForm(): void {
