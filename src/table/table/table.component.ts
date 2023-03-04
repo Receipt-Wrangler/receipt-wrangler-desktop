@@ -1,12 +1,9 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   Output,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -23,6 +20,8 @@ export class TableComponent {
   @Input() public displayedColumns: string[] = [];
   @Input() public dataSource = new MatTableDataSource<any>([]);
 
+  @Output() public sorted: EventEmitter<Sort> = new EventEmitter<Sort>();
+
   @ViewChild(MatSort) public sort!: MatSort;
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
@@ -37,5 +36,7 @@ export class TableComponent {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+
+    this.sorted.emit(sortState);
   }
 }

@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Select, Store } from '@ngxs/store';
 import { DEFAULT_DIALOG_CONFIG } from 'constants/dialog.constant';
 import { Observable, take, tap } from 'rxjs';
@@ -10,6 +16,8 @@ import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/c
 import { AuthState } from 'src/store/auth.state';
 import { UserState } from 'src/store/user.state';
 import { RemoveUser } from 'src/store/user.state.actions';
+import { TableColumn } from 'src/table/table-column.interface';
+import { TableComponent } from 'src/table/table/table.component';
 import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 import { UserFormComponent } from '../user-form/user-form.component';
 
@@ -18,19 +26,30 @@ import { UserFormComponent } from '../user-form/user-form.component';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
 })
-export class UserListComponent {
-  @Select(UserState.users) public users!: Observable<User[]>;
-
+export class UserListComponent implements AfterViewInit {
   @Select(AuthState.userId) public userId!: Observable<string>;
 
-  public displayedColumns = [
-    'username',
-    'displayname',
-    'userRole',
-    'createdAt',
-    'updatedAt',
-    'actions',
-  ];
+  @ViewChild('usernameCell') public usernameCell!: TemplateRef<any>;
+
+  @ViewChild('displayNameCell') public displaynameCell!: TemplateRef<any>;
+
+  @ViewChild('userRoleCell') public userRoleCell!: TemplateRef<any>;
+
+  @ViewChild('createdAtCell') public createdAtCell!: TemplateRef<any>;
+
+  @ViewChild('updatedAtCell') public updatedAtCell!: TemplateRef<any>;
+
+  @ViewChild('actionsCell') public actionsCell!: TemplateRef<any>;
+
+  @ViewChild(TableComponent) public table!: TableComponent;
+
+  public displayedColumns: string[] = [];
+
+  public columns: TableColumn[] = [];
+
+  public dataSource: MatTableDataSource<User> = new MatTableDataSource<User>(
+    []
+  );
 
   constructor(
     private matDialog: MatDialog,
@@ -39,6 +58,73 @@ export class UserListComponent {
     private snackbarService: SnackbarService
   ) {}
 
+  public ngAfterViewInit(): void {
+    this.initTable();
+  }
+
+  private initTable(): void {
+    this.setColumns();
+    this.setDataSource();
+  }
+
+  private setColumns(): void {
+    this.columns = [
+      {
+        columnHeader: 'Username',
+        matColumnDef: 'username',
+        template: this.usernameCell,
+        sortable: true,
+      },
+
+      {
+        columnHeader: 'Displayname',
+        matColumnDef: 'displayName',
+        template: this.displaynameCell,
+        sortable: true,
+      },
+      {
+        columnHeader: 'Role',
+        matColumnDef: 'userRole',
+        template: this.userRoleCell,
+        sortable: true,
+      },
+      {
+        columnHeader: 'Created At',
+        matColumnDef: 'createdAt',
+        template: this.createdAtCell,
+        sortable: true,
+      },
+      {
+        columnHeader: 'Updated At',
+        matColumnDef: 'updatedAt',
+        template: this.updatedAtCell,
+        sortable: true,
+      },
+      {
+        columnHeader: 'Actions',
+        matColumnDef: 'actions',
+        template: this.actionsCell,
+        sortable: false,
+      },
+    ];
+
+    this.displayedColumns = [
+      'username',
+      'displayName',
+      'userRole',
+      'createdAt',
+      'updatedAt',
+      'actions',
+    ];
+  }
+
+  private setDataSource(): void {
+    this.dataSource = new MatTableDataSource<User>(
+      this.store.selectSnapshot(UserState.users)
+    );
+    this.dataSource.sort = this.table.sort;
+  }
+
   public openUserFormDialog(user?: User): void {
     const dialogRef = this.matDialog.open(
       UserFormComponent,
@@ -46,6 +132,12 @@ export class UserListComponent {
     );
 
     dialogRef.componentInstance.user = user;
+
+    dialogRef.afterClosed().subscribe((refresh) => {
+      if (refresh) {
+        this.dataSource.data = this.store.selectSnapshot(UserState.users);
+      }
+    });
   }
 
   public openResetPasswordDialog(user: User): void {
@@ -77,6 +169,9 @@ export class UserListComponent {
               tap(() => {
                 this.snackbarService.success('User successfully deleted');
                 this.store.dispatch(new RemoveUser(user.id.toString()));
+                this.dataSource.data = this.store.selectSnapshot(
+                  UserState.users
+                );
               })
             )
             .subscribe();
