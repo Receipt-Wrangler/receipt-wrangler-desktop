@@ -73,14 +73,7 @@
       >
     </ng-container>
   </mat-autocomplete>
+  <mat-error *ngFor="let err of formControlErrors | async">{{
+    err.message
+  }}</mat-error>
 </mat-form-field>
-<ng-container [ngTemplateOutlet]="errors"></ng-container>
-
-<ng-template #errors>
-  <ng-container *ngFor="let err of formControlErrors | async">
-    <mat-error *ngIf="err.error === 'required' && filterFormControl.touched">{{
-      err.message
-    }}</mat-error>
-    <mat-error *ngIf="err.error !== 'required'">{{ err.message }}</mat-error>
-  </ng-container>
-</ng-template>
