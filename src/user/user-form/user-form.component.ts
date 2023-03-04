@@ -104,7 +104,6 @@ export class UserFormComponent implements OnInit {
             this.snackbarService.success('User successfully created');
           }),
           catchError((err) => {
-            console.warn(err);
             return of(
               this.snackbarService.error(err.error['username'] ?? err['errMsg'])
             );

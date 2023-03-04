@@ -84,7 +84,6 @@ export class ReceiptFormComponent implements OnInit {
     this.initForm();
     this.getImageFiles();
     this.mode = this.activatedRoute.snapshot.data['mode'];
-    console.warn(this.originalReceipt?.groupId);
   }
 
   private setCancelLink(): void {

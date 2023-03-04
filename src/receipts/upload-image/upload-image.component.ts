@@ -34,7 +34,6 @@ export class UploadImageComponent {
   }
 
   public clickInput(): void {
-    console.warn(this.uploadInput);
     this.uploadInput.nativeElement.click();
   }
 

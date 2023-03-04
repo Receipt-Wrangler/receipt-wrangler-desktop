@@ -11,8 +11,5 @@ export function applyApiErrors(form: FormGroup, errors: any): void {
         error: errors.error[k],
       });
     }
-    console.warn(form.get(k)?.errors);
-    console.warn(form.get(k)?.status);
-    console.warn(form);
   });
 }
