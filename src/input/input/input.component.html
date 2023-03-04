@@ -1,18 +1,27 @@
 <mat-form-field class="w-100">
   <mat-label>{{ label }}</mat-label>
-  <input
-    #nativeInput
-    matInput
-    [id]="inputId"
-    [type]="type"
-    [readonly]="readonly"
-    [formControl]="inputFormControl"
-    (blur)="inputBlur.emit($event)"
-  />
-</mat-form-field>
-<ng-container *ngFor="let err of formControlErrors | async">
-  <mat-error *ngIf="err.error === 'required' && inputFormControl.touched">{{
+  <div class="d-flex">
+    <input
+      #nativeInput
+      matInput
+      [id]="inputId"
+      [type]="type"
+      [readonly]="readonly"
+      [formControl]="inputFormControl"
+      (blur)="inputBlur.emit($event)"
+    />
+    <button
+      *ngIf="showVisibilityEye"
+      mat-icon-button
+      type="button"
+      [matTooltip]="type === 'password' ? 'Show ' + label : 'Hide ' + label"
+      (click)="toggleVisibility()"
+    >
+      <mat-icon *ngIf="type === 'password'">visibility</mat-icon>
+      <mat-icon *ngIf="type !== 'password'">visibility_off</mat-icon>
+    </button>
+  </div>
+  <mat-error *ngFor="let err of formControlErrors | async">{{
     err.message
   }}</mat-error>
-  <mat-error *ngIf="err.error !== 'required'">{{ err.message }}</mat-error>
-</ng-container>
+</mat-form-field>

@@ -20,9 +20,18 @@ export class InputComponent
   @ViewChild('nativeInput') public nativeInput!: { nativeElement: HTMLElement };
   @Input() inputId: string = '';
   @Input() type: string = 'text';
+  @Input() showVisibilityEye = false;
   @Output() public inputBlur: EventEmitter<any> = new EventEmitter<any>(
     undefined
   );
+
+  public toggleVisibility(): void {
+    if (this.type !== 'password') {
+      this.type = 'password';
+    } else {
+      this.type = 'text';
+    }
+  }
 
   // TODO: Figure this out as apart of validation issues
   // private getMinValue(): string {
