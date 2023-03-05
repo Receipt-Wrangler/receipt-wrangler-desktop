@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { map, Observable, of, tap } from 'rxjs';
+import { map, Observable, of, switchMap, take, tap } from 'rxjs';
+import { AuthService } from 'src/api/auth.service';
 import { User } from 'src/models';
+import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
+import { Logout } from 'src/store/auth.state.actions';
 import { GroupState } from 'src/store/group.state';
 import { DEFAULT_DIALOG_CONFIG } from '../../../constants';
 import { SwitchGroupDialogComponent } from '../switch-group-dialog/switch-group-dialog.component';
@@ -27,7 +31,13 @@ export class HeaderComponent implements OnInit {
 
   public groupName = '';
 
-  constructor(private matDialog: MatDialog, private store: Store) {}
+  constructor(
+    private matDialog: MatDialog,
+    private store: Store,
+    private authService: AuthService,
+    private router: Router,
+    private snackbarService: SnackbarService
+  ) {}
 
   public ngOnInit(): void {
     this.selectedGroupId
@@ -50,5 +60,17 @@ export class HeaderComponent implements OnInit {
 
   public openSwitchGroupDialog(): void {
     this.matDialog.open(SwitchGroupDialogComponent, DEFAULT_DIALOG_CONFIG);
+  }
+
+  public logout(): void {
+    this.authService
+      .logout()
+      .pipe(
+        take(1),
+        switchMap(() => this.store.dispatch(new Logout())),
+        switchMap(() => this.router.navigate(['/'])),
+        tap(() => this.snackbarService.success('Successfully logged out'))
+      )
+      .subscribe();
   }
 }

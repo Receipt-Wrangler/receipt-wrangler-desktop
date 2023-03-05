@@ -6,7 +6,7 @@ import {
   State,
   StateContext,
 } from '@ngxs/store';
-import { SetAuthState } from './auth.state.actions';
+import { Logout, SetAuthState } from './auth.state.actions';
 import Cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { User } from 'src/models';
@@ -87,5 +87,17 @@ export class AuthState {
         });
       }
     }
+  }
+
+  @Action(Logout)
+  logout({ getState, patchState }: StateContext<AuthStateInterface>) {
+    patchState({
+      userId: '',
+      displayname: '',
+      username: '',
+      expirationDate: '',
+      userRole: undefined,
+      token: '',
+    });
   }
 }

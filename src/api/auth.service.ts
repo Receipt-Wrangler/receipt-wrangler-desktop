@@ -22,6 +22,10 @@ export class AuthService {
     return this.httpClient.post<void>('api/login', data).pipe(take(1));
   }
 
+  public logout(): Observable<void> {
+    return this.httpClient.post<void>('api/logout', {}).pipe();
+  }
+
   public getNewRefreshToken(): Observable<void> {
     return this.refreshToken().pipe(
       switchMap(() => this.store.dispatch(new SetAuthState()))
