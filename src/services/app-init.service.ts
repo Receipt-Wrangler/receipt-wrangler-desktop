@@ -37,26 +37,33 @@ export class AppInitService {
 
   public initAppData(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store.dispatch(new SetAuthState());
-      const hasToken = this.store.selectSnapshot(AuthState.token);
+      this.store
+        .dispatch(new SetAuthState())
+        .pipe(
+          take(1),
+          tap(() => {
+            const hasToken = this.store.selectSnapshot(AuthState.token);
 
-      if (hasToken) {
-        this.authService
-          .getNewRefreshToken()
-          .pipe(
-            take(1),
-            switchMap(() => this.getAppData()),
-            finalize(() => resolve(true))
-          )
-          .subscribe();
-      } else {
-        this.getAppData()
-          .pipe(
-            take(1),
-            finalize(() => resolve(true))
-          )
-          .subscribe();
-      }
+            if (hasToken) {
+              this.authService
+                .getNewRefreshToken()
+                .pipe(
+                  take(1),
+                  switchMap(() => this.getAppData()),
+                  finalize(() => resolve(true))
+                )
+                .subscribe();
+            } else {
+              this.getAppData()
+                .pipe(
+                  take(1),
+                  finalize(() => resolve(true))
+                )
+                .subscribe();
+            }
+          })
+        )
+        .subscribe();
     });
   }
 
