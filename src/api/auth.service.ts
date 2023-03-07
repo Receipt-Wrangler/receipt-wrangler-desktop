@@ -3,12 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, switchMap, take, tap } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { SetAuthState } from 'src/store/auth.state.actions';
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private httpClient: HttpClient, private store: Store) {}
+  constructor(
+    private httpClient: HttpClient,
+    private userService: UsersService
+  ) {}
 
   public signUp(data: {
     username: string;
@@ -28,7 +32,7 @@ export class AuthService {
 
   public getNewRefreshToken(): Observable<void> {
     return this.refreshToken().pipe(
-      switchMap(() => this.store.dispatch(new SetAuthState()))
+      switchMap(() => this.userService.getAndSetClaimsForLoggedInUser())
     );
   }
 

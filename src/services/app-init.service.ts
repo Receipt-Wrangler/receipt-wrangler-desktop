@@ -16,7 +16,7 @@ import { GroupsService } from 'src/api/groups.service';
 import { UsersService } from 'src/api/users.service';
 import { Group } from 'src/models/group';
 import { User } from 'src/models/user';
-import { AuthState } from 'src/store/auth.state';
+import { AuthState, AuthStateInterface } from 'src/store/auth.state';
 import { SetAuthState } from 'src/store/auth.state.actions';
 import { SetFeatureConfig } from 'src/store/feature-config.state.actions';
 import { GroupState } from 'src/store/group.state';
@@ -37,37 +37,18 @@ export class AppInitService {
 
   public initAppData(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.store
-        .dispatch(new SetAuthState())
+      this.authService
+        .getNewRefreshToken()
         .pipe(
           take(1),
-          tap(() => {
-            const hasToken = this.store.selectSnapshot(AuthState.token);
-
-            if (hasToken) {
-              this.authService
-                .getNewRefreshToken()
-                .pipe(
-                  take(1),
-                  switchMap(() => this.getAppData()),
-                  finalize(() => resolve(true))
-                )
-                .subscribe();
-            } else {
-              this.getAppData()
-                .pipe(
-                  take(1),
-                  finalize(() => resolve(true))
-                )
-                .subscribe();
-            }
-          })
+          switchMap(() => this.getAppData()),
+          finalize(() => resolve(true))
         )
         .subscribe();
     });
   }
 
-  public getAppData(): Observable<[User[], Group[], any]> {
+  public getAppData(): Observable<[User[], Group[], any, void]> {
     const usersCall = this.userService.getAllUsers().pipe(
       take(1),
       tap((users) => this.store.dispatch(new SetUsers(users)))
@@ -89,7 +70,9 @@ export class AppInitService {
       switchMap((config) => this.store.dispatch(new SetFeatureConfig(config)))
     );
 
-    return forkJoin(usersCall, groupsCall, featureConfigCall);
+    const userClaims = this.userService.getAndSetClaimsForLoggedInUser();
+
+    return forkJoin(usersCall, groupsCall, featureConfigCall, userClaims);
   }
 }
 

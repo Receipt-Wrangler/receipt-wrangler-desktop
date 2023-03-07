@@ -72,21 +72,20 @@ export class AuthState {
   }
 
   @Action(SetAuthState)
-  setAuthState({ getState, patchState }: StateContext<AuthStateInterface>) {
-    const jwt = Cookie.get('jwt');
-    if (jwt) {
-      const claims = jwtDecode(jwt) as any;
-      if (claims) {
-        patchState({
-          userId: claims['UserId']?.toString(),
-          displayname: claims['Displayname'],
-          username: claims['Username'],
-          expirationDate: claims['exp'],
-          userRole: claims['UserRole'],
-          token: jwt,
-        });
-      }
-    }
+  setAuthState(
+    { getState, patchState }: StateContext<AuthStateInterface>,
+    payload: SetAuthState
+  ) {
+    const claims = payload.userClaims as any;
+
+    patchState({
+      userId: claims['UserId']?.toString(),
+      displayname: claims['Displayname'],
+      username: claims['Username'],
+      expirationDate: claims['exp']?.toString(),
+      userRole: claims['UserRole'],
+      token: '',
+    });
   }
 
   @Action(Logout)

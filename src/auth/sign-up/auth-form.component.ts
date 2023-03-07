@@ -82,7 +82,6 @@ export class AuthForm implements OnInit {
           tap(() => {
             this.snackbarService.success('Successfully logged in');
           }),
-          switchMap(() => this.store.dispatch(new SetAuthState())),
           switchMap(() => this.appInitService.getAppData()),
           tap(() =>
             this.router.navigate([
