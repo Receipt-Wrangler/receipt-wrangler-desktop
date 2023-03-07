@@ -57,6 +57,6 @@ export class UsersService {
     id: string,
     data: { password: string }
   ): Observable<void> {
-    return this.httpClient.post<void>(`/api/user/${id}`, data);
+    return this.httpClient.post<void>(`/api/user/${id}/resetPassword`, data);
   }
 }
