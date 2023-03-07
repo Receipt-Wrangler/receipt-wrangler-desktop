@@ -86,7 +86,13 @@ export class UserFormComponent implements OnInit {
               () =>
                 this.store.selectSnapshot(AuthState.loggedInUser).id ===
                 this.user?.id,
-              this.authService.getNewRefreshToken(),
+              this.authService
+                .getNewRefreshToken()
+                .pipe(
+                  switchMap(() =>
+                    this.usersService.getAndSetClaimsForLoggedInUser()
+                  )
+                ),
               of(undefined)
             )
           ),
