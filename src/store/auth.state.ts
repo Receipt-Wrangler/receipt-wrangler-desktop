@@ -7,8 +7,6 @@ import {
   StateContext,
 } from '@ngxs/store';
 import { Logout, SetAuthState } from './auth.state.actions';
-import Cookie from 'js-cookie';
-import jwtDecode from 'jwt-decode';
 import { User } from 'src/models';
 import { UserRole } from 'src/enums/user_role.enum';
 
