@@ -26,9 +26,9 @@ export class AppComponent implements OnInit {
   private listenForNavigationStart(): void {
     this.router.events.subscribe((e: any) => {
       if (e.type === EventType.NavigationStart) {
-        const tokenExpired =
-          this.store.selectSnapshot(AuthState.isTokenExpired) &&
-          !!this.store.selectSnapshot(AuthState.token);
+        const tokenExpired = this.store.selectSnapshot(
+          AuthState.isTokenExpired
+        );
         if (tokenExpired) {
           this.authService.getNewRefreshToken().pipe(take(1)).subscribe();
         }

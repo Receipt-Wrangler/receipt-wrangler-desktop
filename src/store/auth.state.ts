@@ -18,7 +18,6 @@ export interface AuthStateInterface {
   username?: string;
   expirationDate?: string;
   userRole?: UserRole;
-  token?: string;
 }
 
 @State<AuthStateInterface>({
@@ -35,11 +34,6 @@ export class AuthState {
   @Selector()
   static isLoggedIn(state: AuthStateInterface): boolean {
     return !AuthState.isTokenExpired(state);
-  }
-
-  @Selector()
-  static token(state: AuthStateInterface): string {
-    return state.token ?? '';
   }
 
   @Selector()
@@ -84,7 +78,6 @@ export class AuthState {
       username: claims['Username'],
       expirationDate: claims['exp']?.toString(),
       userRole: claims['UserRole'],
-      token: '',
     });
   }
 
@@ -96,7 +89,6 @@ export class AuthState {
       username: '',
       expirationDate: '',
       userRole: undefined,
-      token: '',
     });
   }
 }
