@@ -14,7 +14,7 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
     CommonModule,
     NgxsModule.forRoot([AuthState, FeatureConfigState, GroupState, UserState]),
     NgxsReduxDevtoolsPluginModule.forRoot({
-      disabled: false,
+      disabled: true,
     }),
     NgxsStoragePluginModule.forRoot({
       key: ['groups'],
