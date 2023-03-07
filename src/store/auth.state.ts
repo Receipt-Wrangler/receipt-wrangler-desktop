@@ -18,7 +18,6 @@ export interface AuthStateInterface {
   username?: string;
   expirationDate?: string;
   userRole?: UserRole;
-  token?: string;
 }
 
 @State<AuthStateInterface>({
@@ -35,11 +34,6 @@ export class AuthState {
   @Selector()
   static isLoggedIn(state: AuthStateInterface): boolean {
     return !AuthState.isTokenExpired(state);
-  }
-
-  @Selector()
-  static token(state: AuthStateInterface): string {
-    return state.token ?? '';
   }
 
   @Selector()
@@ -72,21 +66,19 @@ export class AuthState {
   }
 
   @Action(SetAuthState)
-  setAuthState({ getState, patchState }: StateContext<AuthStateInterface>) {
-    const jwt = Cookie.get('jwt');
-    if (jwt) {
-      const claims = jwtDecode(jwt) as any;
-      if (claims) {
-        patchState({
-          userId: claims['UserId']?.toString(),
-          displayname: claims['Displayname'],
-          username: claims['Username'],
-          expirationDate: claims['exp'],
-          userRole: claims['UserRole'],
-          token: jwt,
-        });
-      }
-    }
+  setAuthState(
+    { getState, patchState }: StateContext<AuthStateInterface>,
+    payload: SetAuthState
+  ) {
+    const claims = payload.userClaims as any;
+
+    patchState({
+      userId: claims['UserId']?.toString(),
+      displayname: claims['Displayname'],
+      username: claims['Username'],
+      expirationDate: claims['exp']?.toString(),
+      userRole: claims['UserRole'],
+    });
   }
 
   @Action(Logout)
@@ -97,7 +89,6 @@ export class AuthState {
       username: '',
       expirationDate: '',
       userRole: undefined,
-      token: '',
     });
   }
 }

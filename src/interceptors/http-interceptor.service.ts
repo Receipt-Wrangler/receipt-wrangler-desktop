@@ -7,7 +7,6 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
 import { catchError, Observable, of, switchMap, take, throwError } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
@@ -28,8 +27,13 @@ export class HttpInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return next.handle(this.addTokenToRequest(req)).pipe(
+    return next.handle(req).pipe(
       catchError((e: HttpErrorResponse) => {
+        const isLoggedIn = this.store.selectSnapshot(AuthState.isLoggedIn);
+        if (!isLoggedIn && req.url.includes('token')) {
+          return next.handle(req);
+        }
+
         const regex = new RegExp('5d{2}');
         if (e.error?.errorMsg) {
           this.snackbarService.error(e.error?.errorMsg);
@@ -54,18 +58,5 @@ export class HttpInterceptorService implements HttpInterceptor {
       switchMap(() => next.handle(req)),
       catchError((e) => throwError(() => e))
     );
-  }
-
-  private addTokenToRequest(req: HttpRequest<any>): HttpRequest<any> {
-    const token = this.store.selectSnapshot(AuthState.token);
-    if (token) {
-      return req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } else {
-      return req.clone();
-    }
   }
 }

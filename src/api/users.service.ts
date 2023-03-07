@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable, take } from 'rxjs';
+import { Observable, switchMap, take } from 'rxjs';
 import { User } from 'src/models/user';
+import { AuthStateInterface } from 'src/store/auth.state';
+import { SetAuthState } from 'src/store/auth.state.actions';
 import { GroupState } from 'src/store/group.state';
 
 @Injectable({
@@ -13,6 +15,17 @@ export class UsersService {
 
   public getAllUsers(): Observable<User[]> {
     return this.httpClient.get<User[]>('/api/user').pipe(take(1));
+  }
+
+  public getClaimsForLoggedInUser(): Observable<AuthStateInterface> {
+    return this.httpClient.get<AuthStateInterface>('/api/user/getUserClaims');
+  }
+
+  public getAndSetClaimsForLoggedInUser(): Observable<void> {
+    return this.getClaimsForLoggedInUser().pipe(
+      take(1),
+      switchMap((claims) => this.store.dispatch(new SetAuthState(claims)))
+    );
   }
 
   public updateUser(id: string, user: User): Observable<void> {
