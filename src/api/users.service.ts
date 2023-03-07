@@ -29,7 +29,7 @@ export class UsersService {
   }
 
   public updateUser(id: string, user: User): Observable<void> {
-    return this.httpClient.post<void>(`/api/user/${id}`, user);
+    return this.httpClient.put<void>(`/api/user/${id}`, user);
   }
 
   public createUser(user: User): Observable<User> {
