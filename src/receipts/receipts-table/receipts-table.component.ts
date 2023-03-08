@@ -5,6 +5,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
@@ -16,6 +17,7 @@ import { GroupState } from 'src/store/group.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
+import { SortByDisplayName } from 'src/utils/sort-by-displayname';
 
 @Component({
   selector: 'app-receipts-table',
@@ -27,7 +29,8 @@ export class ReceiptsTableComponent implements OnInit {
     private receiptsService: ReceiptsService,
     private snackbarService: SnackbarService,
     private store: Store,
-    private groupUtil: GroupUtil
+    private groupUtil: GroupUtil,
+    private sortByDisplayName: SortByDisplayName
   ) {}
 
   @ViewChild('dateCell') dateCell!: TemplateRef<any>;
@@ -59,6 +62,8 @@ export class ReceiptsTableComponent implements OnInit {
 
   public columns: TableColumn[] = [];
 
+  public receipts: Receipt[] = [];
+
   public ngOnInit(): void {
     this.groupId = Number.parseInt(
       this.store.selectSnapshot(GroupState.selectedGroupId)
@@ -68,6 +73,7 @@ export class ReceiptsTableComponent implements OnInit {
       .pipe(
         take(1),
         tap((receipts) => {
+          this.receipts = receipts;
           this.dataSource = new MatTableDataSource<Receipt>(receipts);
           this.dataSource.sort = this.table.sort;
           this.setColumns();
@@ -146,6 +152,22 @@ export class ReceiptsTableComponent implements OnInit {
     );
     if (hasAccess) {
       this.displayedColumns.push('actions');
+    }
+  }
+
+  public sortPaidBy(sortState: Sort): void {
+    if (sortState.active === 'paidBy') {
+      if (sortState.direction === '') {
+        this.dataSource.data = this.receipts;
+      }
+
+      const newData = this.sortByDisplayName.sort(
+        this.dataSource.data,
+        sortState,
+        'paidByUserId'
+      );
+
+      this.dataSource.data = newData;
     }
   }
 
