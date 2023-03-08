@@ -22,6 +22,7 @@ import { AddGroup } from 'src/store/group.state.actions';
 import { UserState } from 'src/store/user.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
+import { SortByDisplayName } from 'src/utils/sort-by-displayname';
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
 import { ROLE_OPTIONS } from '../role-options';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
@@ -72,7 +73,8 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
     private router: Router,
     private store: Store,
     private activatedRoute: ActivatedRoute,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private sortByDisplayName: SortByDisplayName
   ) {}
 
   public ngOnInit(): void {
@@ -135,21 +137,10 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
         return;
       }
 
-      const newData = Array.from(this.dataSource.data);
-      newData.sort((a, b) => {
-        const aDisplayName =
-          this.store.selectSnapshot(UserState.getUserById(a.userId.toString()))
-            ?.displayName ?? '';
-        const bDisplayName =
-          this.store.selectSnapshot(UserState.getUserById(b.userId.toString()))
-            ?.displayName ?? '';
-
-        if (sortState.direction === 'asc') {
-          return aDisplayName.localeCompare(bDisplayName);
-        } else {
-          return bDisplayName.localeCompare(aDisplayName);
-        }
-      });
+      const newData = this.sortByDisplayName.sort(
+        this.dataSource.data,
+        sortState
+      );
 
       this.dataSource.data = newData;
     }
