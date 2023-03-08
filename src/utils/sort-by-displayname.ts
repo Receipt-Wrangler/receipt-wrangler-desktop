@@ -9,15 +9,17 @@ import { UserState } from 'src/store/user.state';
 export class SortByDisplayName {
   constructor(private store: Store) {}
 
-  public sort(data: any[], sortState: Sort): any[] {
+  public sort(data: any[], sortState: Sort, userIdKey: string): any[] {
     const newData = Array.from(data);
     newData.sort((a, b) => {
       const aDisplayName =
-        this.store.selectSnapshot(UserState.getUserById(a.userId.toString()))
-          ?.displayName ?? '';
+        this.store.selectSnapshot(
+          UserState.getUserById(a[userIdKey].toString())
+        )?.displayName ?? '';
       const bDisplayName =
-        this.store.selectSnapshot(UserState.getUserById(b.userId.toString()))
-          ?.displayName ?? '';
+        this.store.selectSnapshot(
+          UserState.getUserById(b[userIdKey].toString())
+        )?.displayName ?? '';
 
       if (sortState.direction === 'asc') {
         return aDisplayName.localeCompare(bDisplayName);

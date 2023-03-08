@@ -139,7 +139,8 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
 
       const newData = this.sortByDisplayName.sort(
         this.dataSource.data,
-        sortState
+        sortState,
+        'userId'
       );
 
       this.dataSource.data = newData;
