@@ -147,6 +147,7 @@ export class AutocomleteComponent
       }
       setTimeout(() => {
         this.matAutocompleteTrigger.openPanel();
+        this.filterFormControl.setValue(null);
       }, 0);
       // TODO: set as null
     } else {
