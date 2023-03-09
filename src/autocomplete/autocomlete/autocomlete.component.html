@@ -39,7 +39,7 @@
       [required]="isRequired"
     />
     <app-button
-      *ngIf="singleOptionSelected"
+      *ngIf="singleOptionSelected && !readonly"
       matButtonType="iconButton"
       icon="close"
       color="secondary"
