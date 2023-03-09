@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnChanges,
   OnInit,
@@ -47,6 +48,9 @@ export class AutocomleteComponent
 
   @ViewChild(MatAutocompleteTrigger)
   public matAutocompleteTrigger!: MatAutocompleteTrigger;
+
+  @ViewChild('inputMultiple')
+  public inputMultiple!: ElementRef;
 
   public filteredOptions: Observable<any[]> = of([]);
 
@@ -149,7 +153,6 @@ export class AutocomleteComponent
         this.matAutocompleteTrigger.openPanel();
         this.filterFormControl.setValue(null);
       }, 0);
-      // TODO: set as null
     } else {
       this.inputFormControl.setValue(event.option.value);
     }
@@ -159,6 +162,8 @@ export class AutocomleteComponent
     if (this.multiple) {
       const formArray = this.inputFormControl as any as FormArray;
       formArray.removeAt(index);
+      this.filterFormControl.setValue(null);
+      this.inputMultiple.nativeElement.focus();
     }
   }
 
