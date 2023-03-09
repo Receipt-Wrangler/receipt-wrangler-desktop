@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
-
 import {
   finalize,
   forkJoin,
@@ -32,6 +32,7 @@ import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actio
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
 
+@UntilDestroy()
 @Component({
   selector: 'app-receipt-form',
   templateUrl: './receipt-form.component.html',
@@ -77,8 +78,7 @@ export class ReceiptFormComponent implements OnInit {
     private snackbarService: SnackbarService,
     private matDialog: MatDialog,
     private store: Store,
-    private router: Router,
-    private cdr: ChangeDetectorRef
+    private router: Router
   ) {}
 
   public form: FormGroup = new FormGroup({});
@@ -134,6 +134,7 @@ export class ReceiptFormComponent implements OnInit {
     this.form
       .get('groupId')
       ?.valueChanges.pipe(
+        untilDestroyed(this),
         startWith(this.form.get('groupId')?.value),
         tap((groupId) => {
           const paidBy = this.form.get('paidByUserId');
@@ -240,6 +241,7 @@ export class ReceiptFormComponent implements OnInit {
       this.receiptsService
         .updateReceipt(this.originalReceipt.id.toString(), this.form.value)
         .pipe(
+          take(1),
           tap(() => {
             this.snackbarService.success('Successfully updated receipt');
             this.router.navigate([routeLink]);
@@ -250,6 +252,7 @@ export class ReceiptFormComponent implements OnInit {
       this.receiptsService
         .createReceipt(this.form.value)
         .pipe(
+          take(1),
           tap(() => this.snackbarService.success('Successfully added receipt')),
           switchMap((r) =>
             iif(
