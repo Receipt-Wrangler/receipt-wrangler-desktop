@@ -1,7 +1,14 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { AutocomleteComponent } from 'src/autocomplete/autocomlete/autocomlete.component';
 import { User } from 'src/models/user';
 import { UserState } from 'src/store/user.state';
 
@@ -10,8 +17,11 @@ import { UserState } from 'src/store/user.state';
   templateUrl: './user-autocomplete.component.html',
   styleUrls: ['./user-autocomplete.component.scss'],
 })
-export class UserAutocompleteComponent {
+export class UserAutocompleteComponent implements OnInit, OnChanges {
   constructor(private store: Store) {}
+
+  @ViewChild(AutocomleteComponent)
+  public autocompleteComponent!: AutocomleteComponent;
 
   @Input() public inputFormControl!: FormControl;
 
@@ -25,12 +35,16 @@ export class UserAutocompleteComponent {
 
   public users: User[] = [];
 
-  public ngOnInit(): void {
-    if (this.usersToOmit.length > 0) {
-      this.filterUsers();
-    } else {
-      this.users = this.store.selectSnapshot(UserState.users);
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['usersToOmit']) {
+      if (this.usersToOmit.length > 0) {
+        this.filterUsers();
+      }
     }
+  }
+
+  public ngOnInit(): void {
+    this.users = this.store.selectSnapshot(UserState.users);
   }
 
   private filterUsers(): void {

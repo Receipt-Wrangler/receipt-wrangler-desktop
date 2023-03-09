@@ -17,6 +17,7 @@
       >
     </mat-chip-grid>
     <input
+      #inputMultiple
       *ngIf="multiple"
       matInput
       type="text"
@@ -38,7 +39,7 @@
       [required]="isRequired"
     />
     <app-button
-      *ngIf="singleOptionSelected"
+      *ngIf="singleOptionSelected && !readonly"
       matButtonType="iconButton"
       icon="close"
       color="secondary"
@@ -67,7 +68,13 @@
         option[optionFilterKey]
       }}</ng-container>
     </mat-option>
-    <ng-container *ngIf="creatable && (filteredOptions | async)?.length === 0">
+    <ng-container
+      *ngIf="
+        creatable &&
+        (filteredOptions | async)?.length === 0 &&
+        filterFormControl.value.length > 0
+      "
+    >
       <mat-option [id]="creatableOptionId" [value]="filterFormControl.value"
         >Add {{ filterFormControl.value }}</mat-option
       >

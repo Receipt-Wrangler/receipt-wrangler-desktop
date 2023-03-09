@@ -1,16 +1,17 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
-
 import {
   finalize,
   forkJoin,
   iif,
   Observable,
   of,
+  startWith,
   switchMap,
   take,
   tap,
@@ -24,11 +25,14 @@ import { FileData } from 'src/models/file-data';
 import { Group } from 'src/models/group';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { GroupState } from 'src/store/group.state';
+import { UserState } from 'src/store/user.state';
+import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomplete/user-autocomplete.component';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
 
+@UntilDestroy()
 @Component({
   selector: 'app-receipt-form',
   templateUrl: './receipt-form.component.html',
@@ -38,6 +42,9 @@ export class ReceiptFormComponent implements OnInit {
   @ViewChild(ItemListComponent) itemsListComponent!: ItemListComponent;
 
   @ViewChild(UploadImageComponent) uploadImageComponent!: UploadImageComponent;
+
+  @ViewChild('paidByAutocomplete')
+  paidByAutocomplete!: UserAutocompleteComponent;
 
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
@@ -61,6 +68,8 @@ export class ReceiptFormComponent implements OnInit {
 
   public imagesLoading: boolean = false;
 
+  public usersToOmit: string[] = [];
+
   constructor(
     private receiptsService: ReceiptsService,
     private receiptImagesService: ReceiptImagesService,
@@ -69,8 +78,7 @@ export class ReceiptFormComponent implements OnInit {
     private snackbarService: SnackbarService,
     private matDialog: MatDialog,
     private store: Store,
-    private router: Router,
-    private cdr: ChangeDetectorRef
+    private router: Router
   ) {}
 
   public form: FormGroup = new FormGroup({});
@@ -118,6 +126,36 @@ export class ReceiptFormComponent implements OnInit {
       ],
       isResolved: this.originalReceipt?.isResolved ?? false,
     });
+
+    this.listenForGroupChanges();
+  }
+
+  private listenForGroupChanges(): void {
+    this.form
+      .get('groupId')
+      ?.valueChanges.pipe(
+        untilDestroyed(this),
+        startWith(this.form.get('groupId')?.value),
+        tap((groupId) => {
+          const paidBy = this.form.get('paidByUserId');
+          const users = this.store.selectSnapshot(UserState.users);
+          if (!groupId) {
+            this.usersToOmit = users.map((u) => u.id.toString());
+            this.paidByAutocomplete.autocompleteComponent.clearFilter();
+          } else {
+            const group = this.store.selectSnapshot(
+              GroupState.getGroupById(groupId)
+            );
+            const groupMembers = group?.groupMembers.map((u) =>
+              u.userId.toString()
+            );
+            this.usersToOmit = users
+              .filter((u) => !groupMembers?.includes(u.id.toString()))
+              .map((u) => u.id.toString());
+          }
+        })
+      )
+      .subscribe();
   }
 
   private getImageFiles(): void {
@@ -203,6 +241,7 @@ export class ReceiptFormComponent implements OnInit {
       this.receiptsService
         .updateReceipt(this.originalReceipt.id.toString(), this.form.value)
         .pipe(
+          take(1),
           tap(() => {
             this.snackbarService.success('Successfully updated receipt');
             this.router.navigate([routeLink]);
@@ -213,6 +252,7 @@ export class ReceiptFormComponent implements OnInit {
       this.receiptsService
         .createReceipt(this.form.value)
         .pipe(
+          take(1),
           tap(() => this.snackbarService.success('Successfully added receipt')),
           switchMap((r) =>
             iif(

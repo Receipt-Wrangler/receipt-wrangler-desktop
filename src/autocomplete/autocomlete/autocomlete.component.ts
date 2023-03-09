@@ -1,8 +1,10 @@
 import {
-  ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -19,7 +21,10 @@ import { BaseInputComponent } from 'src/base-input/base-input/base-input.compone
   templateUrl: './autocomlete.component.html',
   styleUrls: ['./autocomlete.component.scss'],
 })
-export class AutocomleteComponent extends BaseInputComponent implements OnInit {
+export class AutocomleteComponent
+  extends BaseInputComponent
+  implements OnInit, OnChanges
+{
   @Input() public options: any[] = [];
 
   @Input() public optionTemplate!: TemplateRef<any>;
@@ -43,6 +48,9 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
   @ViewChild(MatAutocompleteTrigger)
   public matAutocompleteTrigger!: MatAutocompleteTrigger;
 
+  @ViewChild('inputMultiple')
+  public inputMultiple!: ElementRef;
+
   public filteredOptions: Observable<any[]> = of([]);
 
   public filterFormControl: FormControl = new FormControl('');
@@ -57,6 +65,17 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
 
   constructor() {
     super();
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['options']) {
+      this.filteredOptions = this.filterFormControl.valueChanges.pipe(
+        startWith(this.filterFormControl.value),
+        map((value) => {
+          return this._filter(value);
+        })
+      );
+    }
   }
 
   public override ngOnInit(): void {
@@ -131,8 +150,8 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
       }
       setTimeout(() => {
         this.matAutocompleteTrigger.openPanel();
+        this.filterFormControl.setValue(null);
       }, 0);
-      // TODO: set as null
     } else {
       this.inputFormControl.setValue(event.option.value);
     }
@@ -142,10 +161,21 @@ export class AutocomleteComponent extends BaseInputComponent implements OnInit {
     if (this.multiple) {
       const formArray = this.inputFormControl as any as FormArray;
       formArray.removeAt(index);
+      this.filterFormControl.setValue(null);
+      this.inputMultiple.nativeElement.focus();
     }
   }
 
   public removeSingleOption(): void {
-    this.inputFormControl.setValue(null);
+    this.clearFilter();
+  }
+
+  public clearFilter(): void {
+    if (this.multiple) {
+      this.inputFormControl.setValue([]);
+    } else {
+      this.inputFormControl.setValue(null);
+    }
+    this.filterFormControl.setValue('');
   }
 }

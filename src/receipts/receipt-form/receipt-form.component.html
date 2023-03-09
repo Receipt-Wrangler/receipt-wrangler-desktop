@@ -80,9 +80,11 @@
             [displayWith]="groupDisplayWith.bind(this)"
           ></app-autocomlete>
           <app-user-autocomplete
+            #paidByAutocomplete
             class="w-100"
             label="Paid By"
             [inputFormControl]="form | formGet : 'paidByUserId'"
+            [usersToOmit]="usersToOmit"
             [readonly]="mode | inputReadonly"
           ></app-user-autocomplete>
           <app-input
