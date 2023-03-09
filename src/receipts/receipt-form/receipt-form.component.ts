@@ -11,6 +11,7 @@ import {
   iif,
   Observable,
   of,
+  startWith,
   switchMap,
   take,
   tap,
@@ -24,6 +25,8 @@ import { FileData } from 'src/models/file-data';
 import { Group } from 'src/models/group';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { GroupState } from 'src/store/group.state';
+import { UserState } from 'src/store/user.state';
+import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomplete/user-autocomplete.component';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
@@ -38,6 +41,9 @@ export class ReceiptFormComponent implements OnInit {
   @ViewChild(ItemListComponent) itemsListComponent!: ItemListComponent;
 
   @ViewChild(UploadImageComponent) uploadImageComponent!: UploadImageComponent;
+
+  @ViewChild('paidByAutocomplete')
+  paidByAutocomplete!: UserAutocompleteComponent;
 
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
@@ -60,6 +66,8 @@ export class ReceiptFormComponent implements OnInit {
   public cancelLink = '';
 
   public imagesLoading: boolean = false;
+
+  public usersToOmit: string[] = [];
 
   constructor(
     private receiptsService: ReceiptsService,
@@ -118,6 +126,35 @@ export class ReceiptFormComponent implements OnInit {
       ],
       isResolved: this.originalReceipt?.isResolved ?? false,
     });
+
+    this.listenForGroupChanges();
+  }
+
+  private listenForGroupChanges(): void {
+    this.form
+      .get('groupId')
+      ?.valueChanges.pipe(
+        startWith(this.form.get('groupId')?.value),
+        tap((groupId) => {
+          const paidBy = this.form.get('paidByUserId');
+          const users = this.store.selectSnapshot(UserState.users);
+          if (!groupId) {
+            this.usersToOmit = users.map((u) => u.id.toString());
+            this.paidByAutocomplete.autocompleteComponent.clearFilter();
+          } else {
+            const group = this.store.selectSnapshot(
+              GroupState.getGroupById(groupId)
+            );
+            const groupMembers = group?.groupMembers.map((u) =>
+              u.userId.toString()
+            );
+            this.usersToOmit = users
+              .filter((u) => !groupMembers?.includes(u.id.toString()))
+              .map((u) => u.id.toString());
+          }
+        })
+      )
+      .subscribe();
   }
 
   private getImageFiles(): void {
