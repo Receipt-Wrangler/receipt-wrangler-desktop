@@ -37,9 +37,7 @@ export class UserAutocompleteComponent implements OnInit, OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['usersToOmit']) {
-      if (this.usersToOmit.length > 0) {
-        this.filterUsers();
-      }
+      this.filterUsers();
     }
   }
 
