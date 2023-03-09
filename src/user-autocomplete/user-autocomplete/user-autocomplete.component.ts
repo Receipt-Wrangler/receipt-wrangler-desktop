@@ -2,6 +2,7 @@ import {
   Component,
   Input,
   OnChanges,
+  OnInit,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -16,7 +17,7 @@ import { UserState } from 'src/store/user.state';
   templateUrl: './user-autocomplete.component.html',
   styleUrls: ['./user-autocomplete.component.scss'],
 })
-export class UserAutocompleteComponent implements OnChanges {
+export class UserAutocompleteComponent implements OnInit, OnChanges {
   constructor(private store: Store) {}
 
   @ViewChild(AutocomleteComponent)
@@ -38,10 +39,12 @@ export class UserAutocompleteComponent implements OnChanges {
     if (changes['usersToOmit']) {
       if (this.usersToOmit.length > 0) {
         this.filterUsers();
-      } else {
-        this.users = this.store.selectSnapshot(UserState.users);
       }
     }
+  }
+
+  public ngOnInit(): void {
+    this.users = this.store.selectSnapshot(UserState.users);
   }
 
   private filterUsers(): void {
