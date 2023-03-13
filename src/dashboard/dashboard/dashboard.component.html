@@ -1,1 +1,38 @@
-<p>dashboard works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Receipt Summary</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-template
+      [ngTemplateOutlet]="owedTemplate"
+      [ngTemplateOutletContext]="{
+        map: usersOweMap,
+        headerText: 'Users Owe Me',
+        emptyText: 'Nobody owes me'
+      }"
+    ></ng-template>
+    <ng-template
+      [ngTemplateOutlet]="owedTemplate"
+      [ngTemplateOutletContext]="{
+        map: userOwesMap,
+        headerText: 'I Owe',
+        emptyText: 'I owe nothing'
+      }"
+    ></ng-template>
+  </mat-card-content>
+</mat-card>
+
+<ng-template
+  let-map="map"
+  let-headerText="headerText"
+  let-emptyText="emptyText"
+  #owedTemplate
+>
+  <div>
+    <span>{{ headerText }}</span>
+    <div *ngIf="map.size === 0">{{ emptyText }}</div>
+    <div *ngFor="let e of map | keyvalue">
+      {{ ($any(e.key) | user)?.displayName }} - {{ $any(e.value) | currency }}
+    </div>
+  </div>
+</ng-template>
