@@ -1,6 +1,8 @@
 <table
   mat-table
   matSort
+  [matSortActive]="defaultSort?.active ?? ''"
+  [matSortDirection]="defaultSort?.direction ?? ''"
   [dataSource]="dataSource"
   (matSortChange)="announceSortChange($event)"
 >
@@ -12,8 +14,8 @@
       mat-header-cell
       *matHeaderCellDef
       mat-sort-header
-      [disabled]="!column.sortable"
       sortActionDescription="Sort by number"
+      [disabled]="!column.sortable"
     >
       {{ column.columnHeader }}
     </th>
