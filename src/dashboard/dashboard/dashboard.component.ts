@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs';
+import { take, tap } from 'rxjs';
 import { UsersService } from 'src/api/users.service';
 
 @Component({
@@ -7,10 +7,4 @@ import { UsersService } from 'src/api/users.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
-  constructor(private usersService: UsersService) {}
-
-  public ngOnInit(): void {
-    this.usersService.geAmountOwedForUser().pipe(take(1)).subscribe();
-  }
-}
+export class DashboardComponent {}
