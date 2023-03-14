@@ -5,9 +5,10 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MatCardModule } from '@angular/material/card';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { MatListModule } from '@angular/material/list';
+import { SummaryCardComponent } from './summary-card/summary-card.component';
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, SummaryCardComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
