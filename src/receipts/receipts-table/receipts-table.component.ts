@@ -88,6 +88,7 @@ export class ReceiptsTableComponent implements OnInit {
       {
         columnHeader: 'Date',
         matColumnDef: 'date',
+        defaultSortDirection: 'desc',
         template: this.dateCell,
         sortable: true,
       },

@@ -6,4 +6,5 @@ export interface TableColumn {
   sortable: boolean;
   elementKey?: string;
   template?: TemplateRef<any>;
+  defaultSortDirection?: 'asc' | 'desc';
 }
