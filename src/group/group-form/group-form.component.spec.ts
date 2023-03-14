@@ -23,7 +23,7 @@ import { GroupMemberFormComponent } from '../group-member-form/group-member-form
 import { buildGroupMemberForm } from '../utils/group-member.utils';
 import { GroupFormComponent } from './group-form.component';
 
-fdescribe('GroupFormComponent', () => {
+describe('GroupFormComponent', () => {
   let component: GroupFormComponent;
   let fixture: ComponentFixture<GroupFormComponent>;
 
