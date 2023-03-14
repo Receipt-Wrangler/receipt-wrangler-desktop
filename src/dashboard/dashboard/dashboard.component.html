@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>Receipt Summary</mat-card-title>
+    <mat-card-title> <h3>Receipt Summary</h3></mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <ng-template
@@ -8,7 +8,7 @@
       [ngTemplateOutletContext]="{
         map: usersOweMap,
         headerText: 'Users Owe Me',
-        emptyText: 'Nobody owes me'
+        emptyText: 'Nobody owes me!'
       }"
     ></ng-template>
     <ng-template
@@ -16,7 +16,7 @@
       [ngTemplateOutletContext]="{
         map: userOwesMap,
         headerText: 'I Owe',
-        emptyText: 'I owe nothing'
+        emptyText: 'Phew, I don\'t owe anything!'
       }"
     ></ng-template>
   </mat-card-content>
@@ -28,11 +28,11 @@
   let-emptyText="emptyText"
   #owedTemplate
 >
-  <div>
-    <span>{{ headerText }}</span>
-    <div *ngIf="map.size === 0">{{ emptyText }}</div>
-    <div *ngFor="let e of map | keyvalue">
+  <mat-list>
+    <strong>{{ headerText }}</strong>
+    <mat-list-item *ngIf="map.size === 0">{{ emptyText }}</mat-list-item>
+    <mat-list-item *ngFor="let e of map | keyvalue">
       {{ ($any(e.key) | user)?.displayName }} - {{ $any(e.value) | currency }}
-    </div>
-  </div>
+    </mat-list-item>
+  </mat-list>
 </ng-template>
