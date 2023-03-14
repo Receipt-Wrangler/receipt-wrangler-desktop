@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngxs/store';
 import { startWith, switchMap, take, tap } from 'rxjs';
 import { GroupsService } from 'src/api/groups.service';
@@ -27,6 +28,7 @@ import { GroupMemberFormComponent } from '../group-member-form/group-member-form
 import { ROLE_OPTIONS } from '../role-options';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
 
+@UntilDestroy()
 @Component({
   selector: 'app-create-group-form',
   templateUrl: './group-form.component.html',
@@ -93,6 +95,18 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
   private initTable(): void {
     this.setColumns();
     this.setDataSource();
+    this.listenForGroupMemberChanges();
+  }
+
+  private listenForGroupMemberChanges(): void {
+    this.groupMembers.valueChanges
+      .pipe(
+        untilDestroyed(this),
+        tap((v) => {
+          this.dataSource.data = Array.from(v);
+        })
+      )
+      .subscribe();
   }
 
   private setColumns(): void {
@@ -161,6 +175,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
 
     this.groupMembers.valueChanges
       .pipe(
+        untilDestroyed(this),
         startWith(this.groupMembers.value),
         tap((v) => {
           this.disableDeleteButton = v.length === 1;
@@ -174,11 +189,14 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
 
     dialogRef.componentInstance.currentGroupMembers = this.groupMembers.value;
 
-    dialogRef.afterClosed().subscribe((form) => {
-      if (form) {
-        this.groupMembers.push(form);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((form) => {
+        if (form) {
+          this.groupMembers.push(form);
+        }
+      });
   }
 
   public editGroupMemberClicked(index: number): void {
@@ -188,11 +206,14 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
     dialogRef.componentInstance.currentGroupMembers = this.groupMembers.value;
     dialogRef.componentInstance.groupMember = groupMember;
 
-    dialogRef.afterClosed().subscribe((form) => {
-      if (form) {
-        this.groupMembers.at(index).patchValue(form.value);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((form) => {
+        if (form) {
+          this.groupMembers.at(index).patchValue(form.value);
+        }
+      });
   }
 
   public removeGroupMember(index: number): void {
