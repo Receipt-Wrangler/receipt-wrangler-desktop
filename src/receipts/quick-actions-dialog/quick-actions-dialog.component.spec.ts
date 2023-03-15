@@ -16,7 +16,7 @@ import { RadioGroupModule } from 'src/radio-group/radio-group.module';
 import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
 import { QuickActionsDialogComponent } from './quick-actions-dialog.component';
 
-fdescribe('QuickActionsDialogComponent', () => {
+describe('QuickActionsDialogComponent', () => {
   let component: QuickActionsDialogComponent;
   let fixture: ComponentFixture<QuickActionsDialogComponent>;
 
