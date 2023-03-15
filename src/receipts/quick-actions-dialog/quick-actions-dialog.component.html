@@ -10,6 +10,7 @@
       label="Users to Split Between"
       [inputFormControl]="localForm | formGet : 'usersToSplit'"
       [multiple]="true"
+      [usersToOmit]="usersToOmit"
     >
     </app-user-autocomplete>
     <ng-container [ngSwitch]="(localForm | formGet : 'quickAction')?.value">

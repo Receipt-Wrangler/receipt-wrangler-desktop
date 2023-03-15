@@ -184,6 +184,7 @@ export class ReceiptFormComponent implements OnInit {
 
     dialogRef.componentInstance.parentForm = this.form;
     dialogRef.componentInstance.originalReceipt = this.originalReceipt;
+    dialogRef.componentInstance.usersToOmit = this.usersToOmit;
 
     dialogRef
       .afterClosed()

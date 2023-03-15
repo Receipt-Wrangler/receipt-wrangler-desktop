@@ -27,6 +27,8 @@ enum QuickActions {
 export class QuickActionsDialogComponent implements OnInit {
   @Input() public originalReceipt?: Receipt;
 
+  @Input() public usersToOmit: string[] = [];
+
   public parentForm!: FormGroup;
 
   public localForm: FormGroup = new FormGroup({});
