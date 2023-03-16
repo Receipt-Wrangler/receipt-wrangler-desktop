@@ -7,5 +7,5 @@ import { User } from 'src/models';
   styleUrls: ['./avatar.component.scss'],
 })
 export class AvatarComponent {
-  @Input() public user!: User;
+  @Input() public user?: User;
 }
