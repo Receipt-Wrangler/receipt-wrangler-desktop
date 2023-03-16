@@ -17,6 +17,8 @@ export class BaseInputComponent implements OnInit {
 
   @Input() public readonly: boolean = false;
 
+  @Input() public placeholder?: string;
+
   public formControlErrors!: Observable<InputErrorMessage[]>;
 
   public errorMessages: { [key: string]: string } = {};
