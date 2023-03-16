@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -20,15 +20,14 @@ export class ReceiptCommentsComponent implements OnInit {
   @Input() public comments: Comment[] = [];
   @Input() public mode!: FormMode;
   @Input() public receiptId?: number;
+  @Output() public commentsUpdated: EventEmitter<FormArray> =
+    new EventEmitter<FormArray>();
 
   public formMode = FormMode;
 
   public commentsArray: FormArray<any> = new FormArray<any>([]);
 
-  public newCommentFormControl: FormControl = new FormControl(
-    '',
-    Validators.required
-  );
+  public newCommentFormControl: FormControl = new FormControl('');
 
   constructor(private formBuilder: FormBuilder, private store: Store) {}
 
@@ -40,11 +39,12 @@ export class ReceiptCommentsComponent implements OnInit {
     if (this.newCommentFormControl.valid) {
       const newComment = {
         comment: this.newCommentFormControl.value,
-        userId: this.store.selectSnapshot(AuthState.userId),
+        userId: Number.parseInt(this.store.selectSnapshot(AuthState.userId)),
         receiptId: this.receiptId,
       } as any;
       this.commentsArray.push(this.buildCommentFormGroup(newComment));
       this.newCommentFormControl.reset();
+      this.commentsUpdated.emit(this.commentsArray);
     }
   }
 
@@ -57,7 +57,10 @@ export class ReceiptCommentsComponent implements OnInit {
   private buildCommentFormGroup(comment?: Comment): FormGroup {
     return this.formBuilder.group({
       comment: [comment?.comment ?? '', Validators.required],
-      userId: [comment?.userId ?? this.store.selectSnapshot(AuthState.userId)],
+      userId: [
+        comment?.userId ??
+          Number.parseInt(this.store.selectSnapshot(AuthState.userId)),
+      ],
       receiptId: [comment?.receiptId ?? this.receiptId],
     });
   }

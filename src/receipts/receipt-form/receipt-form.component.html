@@ -149,6 +149,7 @@
         [receiptId]="originalReceipt?.id"
         [comments]="originalReceipt?.comments ?? []"
         [mode]="mode"
+        (commentsUpdated)="updateComments($event)"
       ></app-receipt-comments>
     </div>
   </div>
