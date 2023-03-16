@@ -1,1 +1,27 @@
-<p>receipt-comments works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title><strong>Comments</strong></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <app-textarea
+      placeholder="Leave a comment"
+      [inputFormControl]="newCommentFormControl"
+    ></app-textarea>
+    <ng-container
+      *ngIf="mode === formMode.add"
+      [ngTemplateOutlet]="add"
+    ></ng-container>
+    <div *ngFor="let comment of commentsArray.value">
+      <div class="d-flex mb-2 align-items-center">
+        <app-avatar class="me-2" [user]="comment?.userId | user"></app-avatar>
+        <span>{{ comment.comment }}</span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #add>
+  <div class="d-flex justify-content-end">
+    <app-button buttonText="Add Comment" (clicked)="addComment()"></app-button>
+  </div>
+</ng-template>
