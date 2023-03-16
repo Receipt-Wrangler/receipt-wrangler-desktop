@@ -1,1 +1,11 @@
-<p>textarea works!</p>
+<mat-form-field class="w-100">
+  <mat-label>{{ label }}</mat-label>
+  <textarea
+    matInput
+    [readonly]="readonly"
+    [formControl]="inputFormControl"
+  ></textarea>
+  <mat-error *ngFor="let err of formControlErrors | async">{{
+    err.message
+  }}</mat-error>
+</mat-form-field>
