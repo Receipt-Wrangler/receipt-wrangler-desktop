@@ -25,7 +25,10 @@ export class ReceiptCommentsComponent implements OnInit {
 
   public commentsArray: FormArray<any> = new FormArray<any>([]);
 
-  public newCommentFormControl: FormControl = new FormControl(['']);
+  public newCommentFormControl: FormControl = new FormControl(
+    '',
+    Validators.required
+  );
 
   constructor(private formBuilder: FormBuilder, private store: Store) {}
 
