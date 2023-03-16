@@ -26,6 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { TableModule } from 'src/table/table.module';
+import { ReceiptCommentsComponent } from './receipt-comments/receipt-comments.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { TableModule } from 'src/table/table.module';
     ReceiptsTableComponent,
     UploadImageComponent,
     UserTotalPipe,
+    ReceiptCommentsComponent,
   ],
   imports: [
     AutocompleteModule,
