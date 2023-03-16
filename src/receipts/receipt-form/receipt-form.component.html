@@ -146,6 +146,7 @@
       </div>
       <app-item-list [form]="form"></app-item-list>
       <app-receipt-comments
+        [receiptId]="originalReceipt?.id"
         [comments]="originalReceipt?.comments ?? []"
         [mode]="mode"
       ></app-receipt-comments>
