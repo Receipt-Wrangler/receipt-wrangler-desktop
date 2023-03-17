@@ -61,9 +61,11 @@ export class ReceiptCommentsComponent implements OnInit {
         .addComment(newComment)
         .pipe(
           take(1),
-          tap(() => {
+          tap((comment: Comment) => {
+            this.comments.push(comment);
             this.commentsArray.push(this.buildCommentFormGroup(newComment));
             this.snackbarService.success('Comment successfully added');
+            this.newCommentFormControl.reset();
           })
         )
         .subscribe();
