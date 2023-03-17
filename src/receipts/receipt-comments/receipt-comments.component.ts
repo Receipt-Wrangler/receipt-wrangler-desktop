@@ -7,7 +7,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngxs/store';
+import { take, tap } from 'rxjs';
+import { CommentsService } from 'src/api/comments.service';
 import { FormMode } from 'src/enums/form-mode.enum';
+import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
 import { Comment } from '../../models/comment';
 
@@ -29,22 +32,41 @@ export class ReceiptCommentsComponent implements OnInit {
 
   public newCommentFormControl: FormControl = new FormControl('');
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private store: Store,
+    private commentsService: CommentsService,
+    private snackbarService: SnackbarService
+  ) {}
 
   public ngOnInit(): void {
     this.initForm();
   }
 
   public addComment(): void {
-    if (this.newCommentFormControl.valid) {
-      const newComment = {
-        comment: this.newCommentFormControl.value,
-        userId: Number.parseInt(this.store.selectSnapshot(AuthState.userId)),
-        receiptId: this.receiptId,
-      } as any;
+    const isValid = this.newCommentFormControl.valid;
+    const newComment = {
+      comment: this.newCommentFormControl.value,
+      userId: Number.parseInt(this.store.selectSnapshot(AuthState.userId)),
+      receiptId: this.receiptId,
+    } as any;
+
+    if (isValid && this.mode === FormMode.add) {
       this.commentsArray.push(this.buildCommentFormGroup(newComment));
       this.newCommentFormControl.reset();
       this.commentsUpdated.emit(this.commentsArray);
+    } else if (isValid && this.mode === FormMode.view) {
+      //make api call
+      this.commentsService
+        .addComment(newComment)
+        .pipe(
+          take(1),
+          tap(() => {
+            this.commentsArray.push(this.buildCommentFormGroup(newComment));
+            this.snackbarService.success('Comment successfully added');
+          })
+        )
+        .subscribe();
     }
   }
 

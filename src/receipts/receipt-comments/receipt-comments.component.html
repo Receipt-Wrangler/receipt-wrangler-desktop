@@ -9,7 +9,7 @@
       [inputFormControl]="newCommentFormControl"
     ></app-textarea>
     <ng-container
-      *ngIf="mode === formMode.add"
+      *ngIf="mode === formMode.add || mode === formMode.view"
       [ngTemplateOutlet]="add"
     ></ng-container>
     <div *ngFor="let comment of commentsArray.value; let index = index">
