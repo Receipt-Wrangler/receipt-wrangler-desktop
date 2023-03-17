@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
+<form class="mb-4" [formGroup]="form" (ngSubmit)="submit()">
   <div class="d-flex">
     <div class="w-50">
       <ng-container *ngIf="imagesLoading">
@@ -148,6 +148,12 @@
     </div>
   </div>
 </form>
+<app-receipt-comments
+  [receiptId]="originalReceipt?.id"
+  [comments]="originalReceipt?.comments ?? []"
+  [mode]="mode"
+  (commentsUpdated)="updateComments($event)"
+></app-receipt-comments>
 
 <ng-template #categoryOptionTemplate let-option="option"
   >{{ option.name }}

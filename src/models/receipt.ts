@@ -1,4 +1,8 @@
+import { Category } from './category';
+import { Comment } from './comment';
 import { FileData } from './file-data';
+import { Item } from './item';
+import { Tag } from './tag';
 
 export interface Receipt {
   id: number;
@@ -8,8 +12,9 @@ export interface Receipt {
   paidByUserId: number;
   groupId: number;
   isResolved: boolean;
-  tags: any[];
-  categories: any[];
+  tags: Tag[];
+  categories: Category[];
   imageFiles: FileData[];
-  receiptItems: any[];
+  receiptItems: Item[];
+  comments: Comment[];
 }

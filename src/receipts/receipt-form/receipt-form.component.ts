@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -226,6 +226,11 @@ export class ReceiptFormComponent implements OnInit {
 
   public uploadImageButtonClicked(): void {
     this.uploadImageComponent.clickInput();
+  }
+
+  public updateComments(commentsArray: FormArray): void {
+    this.form.removeControl('comments');
+    this.form.addControl('comments', commentsArray);
   }
 
   public submit(): void {

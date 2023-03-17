@@ -1,0 +1,39 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title><strong>Comments</strong></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <app-textarea
+      label="Comment"
+      placeholder="Leave a comment"
+      [inputFormControl]="newCommentFormControl"
+    ></app-textarea>
+    <ng-container
+      *ngIf="mode === formMode.add"
+      [ngTemplateOutlet]="add"
+    ></ng-container>
+    <div *ngFor="let comment of commentsArray.value; let index = index">
+      <div class="d-flex mb-2 align-items-center">
+        <app-avatar class="me-2" [user]="comment?.userId | user"></app-avatar>
+        <div class="d-flex flex-column">
+          <div>
+            <strong>
+              {{ (comment?.userId | user)?.displayName }}
+            </strong>
+            <small *ngIf="comments[index]?.updatedAt"
+              ><span> - </span
+              >{{ comments[index]?.updatedAt | date : "medium" }}</small
+            >
+          </div>
+          <span>{{ comment.comment }}</span>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #add>
+  <div class="d-flex justify-content-end">
+    <app-button buttonText="Add Comment" (clicked)="addComment()"></app-button>
+  </div>
+</ng-template>
