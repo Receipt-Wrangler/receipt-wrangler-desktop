@@ -12,4 +12,8 @@ export class CommentsService {
   public addComment(comment: Comment): Observable<Comment> {
     return this.httpClient.post<Comment>(`/api/comment/`, comment);
   }
+
+  public deleteComment(commentId: string): Observable<void> {
+    return this.httpClient.delete<void>(`/api/comment/${commentId}`);
+  }
 }

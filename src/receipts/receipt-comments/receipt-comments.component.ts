@@ -6,8 +6,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Store } from '@ngxs/store';
-import { take, tap } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { Observable, take, tap } from 'rxjs';
 import { CommentsService } from 'src/api/comments.service';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -20,6 +20,7 @@ import { Comment } from '../../models/comment';
   styleUrls: ['./receipt-comments.component.scss'],
 })
 export class ReceiptCommentsComponent implements OnInit {
+  @Select(AuthState.userId) public loggedInUserId!: Observable<string>;
   @Input() public comments: Comment[] = [];
   @Input() public mode!: FormMode;
   @Input() public receiptId?: number;
@@ -70,6 +71,20 @@ export class ReceiptCommentsComponent implements OnInit {
         )
         .subscribe();
     }
+  }
+
+  public deleteComment(index: number): void {
+    const comment = this.comments[index];
+    this.commentsService
+      .deleteComment(comment.id.toString())
+      .pipe(
+        take(1),
+        tap(() => {
+          this.commentsArray.removeAt(index);
+          this.snackbarService.success('Comment succesfully deleted');
+        })
+      )
+      .subscribe();
   }
 
   private initForm(): void {

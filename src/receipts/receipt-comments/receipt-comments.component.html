@@ -13,20 +13,29 @@
       [ngTemplateOutlet]="add"
     ></ng-container>
     <div *ngFor="let comment of commentsArray.value; let index = index">
-      <div class="d-flex mb-2 align-items-center">
-        <app-avatar class="me-2" [user]="comment?.userId | user"></app-avatar>
-        <div class="d-flex flex-column">
-          <div>
-            <strong>
-              {{ (comment?.userId | user)?.displayName }}
-            </strong>
-            <small *ngIf="comments[index]?.updatedAt"
-              ><span> - </span
-              >{{ comments[index]?.updatedAt | date : "medium" }}</small
-            >
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex mb-2 align-items-center">
+          <app-avatar class="me-2" [user]="comment?.userId | user"></app-avatar>
+          <div class="d-flex flex-column">
+            <div>
+              <strong>
+                {{ (comment?.userId | user)?.displayName }}
+              </strong>
+              <small *ngIf="comments[index]?.updatedAt"
+                ><span> - </span
+                >{{ comments[index]?.updatedAt | date : "medium" }}</small
+              >
+            </div>
+            <span>{{ comment.comment }}</span>
           </div>
-          <span>{{ comment.comment }}</span>
         </div>
+        <ng-container
+          *ngIf="comment.userId.toString() === (loggedInUserId | async)"
+        >
+          <app-delete-button
+            (clicked)="deleteComment(index)"
+          ></app-delete-button>
+        </ng-container>
       </div>
     </div>
   </mat-card-content>
