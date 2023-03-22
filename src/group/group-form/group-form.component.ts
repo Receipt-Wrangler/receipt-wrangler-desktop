@@ -19,7 +19,7 @@ import { GroupRole } from 'src/enums/group-role.enum';
 import { FormConfig } from 'src/interfaces/form-config.interface';
 import { Group, GroupMember } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
-import { AddGroup } from 'src/store/group.state.actions';
+import { AddGroup, UpdateGroup } from 'src/store/group.state.actions';
 import { UserState } from 'src/store/user.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
@@ -265,8 +265,9 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
       .updateGroup(this.form.value, this.originalGroup?.id.toString() as string)
       .pipe(
         take(1),
-        tap(() => {
+        tap((group: Group) => {
           this.snackbarService.success('Group successfully updated');
+          this.store.dispatch(new UpdateGroup(group));
           this.router.navigateByUrl(`/groups/${this.originalGroup?.id}/view`);
         })
       )

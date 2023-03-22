@@ -15,6 +15,11 @@ export class SetGroups {
   constructor(public groups: Group[]) {}
 }
 
+export class UpdateGroup {
+  static readonly type = '[Group] Update Group';
+  constructor(public group: Group) {}
+}
+
 export class SetSelectedGroupId {
   static readonly type = '[Group] Set Selected Group Id';
   constructor(public groupId?: string) {}
