@@ -110,8 +110,8 @@
             *ngIf="!(mode | inputReadonly)"
             class="mb-4"
             matButtonType="iconButton"
-            icon="add"
-            tooltip="Upload Image"
+            icon="photo_library"
+            tooltip="Upload Image(s)"
             [disabled]="
               !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
             "
