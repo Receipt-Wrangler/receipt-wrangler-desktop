@@ -1,8 +1,6 @@
 <table
   mat-table
   matSort
-  [matSortActive]="defaultSort?.active ?? ''"
-  [matSortDirection]="defaultSort?.direction ?? ''"
   [dataSource]="dataSource"
   (matSortChange)="announceSortChange($event)"
 >
