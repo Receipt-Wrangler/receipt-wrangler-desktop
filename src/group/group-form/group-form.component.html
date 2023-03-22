@@ -49,6 +49,11 @@
     </div>
   </div>
   <app-form-button-bar>
+    <app-back-button
+      class="mb-4"
+      tooltip="Return to list"
+      [buttonRouterLink]="['/groups']"
+    ></app-back-button>
     <app-edit-button
       *ngIf="formConfig.mode | inputReadonly"
       [disabled]="!(originalGroup?.id ?? 0 | groupRole : groupRole.OWNER)"
