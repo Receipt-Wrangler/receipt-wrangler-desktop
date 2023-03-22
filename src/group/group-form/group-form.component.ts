@@ -252,8 +252,10 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
         tap(() => {
           this.snackbarService.success('Group successfully created');
         }),
-        switchMap((group) => this.store.dispatch(new AddGroup(group))),
-        tap(() => this.router.navigateByUrl('/groups'))
+        tap((group: Group) => {
+          this.store.dispatch(new AddGroup(group));
+          this.router.navigateByUrl(`/groups/${group.id}/view`);
+        })
       )
       .subscribe();
   }
@@ -265,6 +267,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
         take(1),
         tap(() => {
           this.snackbarService.success('Group successfully updated');
+          this.router.navigateByUrl(`/groups/${this.originalGroup?.id}/view`);
         })
       )
       .subscribe();
