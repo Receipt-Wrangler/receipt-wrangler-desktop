@@ -237,7 +237,6 @@ export class ReceiptFormComponent implements OnInit {
     const selectedGroupId = this.store.selectSnapshot(
       GroupState.selectedGroupId
     );
-    const routeLink = `/receipts/group/${selectedGroupId}`;
     if (this.itemsListComponent.userExpansionPanels.length > 0) {
       this.itemsListComponent.userExpansionPanels.forEach(
         (p: MatExpansionPanel) => p.close()
@@ -250,16 +249,22 @@ export class ReceiptFormComponent implements OnInit {
           take(1),
           tap(() => {
             this.snackbarService.success('Successfully updated receipt');
-            this.router.navigate([routeLink]);
+            this.router.navigate([
+              `/receipts/${this.originalReceipt?.id}/view`,
+            ]);
           })
         )
         .subscribe();
     } else if (this.mode === FormMode.add && this.form.valid) {
+      let route: string;
       this.receiptsService
         .createReceipt(this.form.value)
         .pipe(
           take(1),
-          tap(() => this.snackbarService.success('Successfully added receipt')),
+          tap((r: Receipt) => {
+            this.snackbarService.success('Successfully added receipt');
+            route = `/receipts/${r.id}/view`;
+          }),
           switchMap((r) =>
             iif(
               () => this.images.length > 0,
@@ -273,7 +278,9 @@ export class ReceiptFormComponent implements OnInit {
               of('')
             )
           ),
-          tap(() => this.router.navigate([routeLink]))
+          tap(() => {
+            this.router.navigate([route]);
+          })
         )
         .subscribe();
     }
