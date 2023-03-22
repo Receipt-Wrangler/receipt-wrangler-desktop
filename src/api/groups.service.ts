@@ -25,7 +25,7 @@ export class GroupsService {
     return this.httpClient.post<Group>('/api/group', group);
   }
 
-  public updateGroup(group: Group, groupId: string): Observable<void> {
-    return this.httpClient.put<void>(`/api/group/${groupId}`, group);
+  public updateGroup(group: Group, groupId: string): Observable<Group> {
+    return this.httpClient.put<Group>(`/api/group/${groupId}`, group);
   }
 }

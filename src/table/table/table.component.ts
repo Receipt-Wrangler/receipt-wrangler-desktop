@@ -37,6 +37,11 @@ export class TableComponent implements OnChanges {
           active: column.matColumnDef,
           direction: column.defaultSortDirection ?? 'desc',
         };
+        this.sort.sort({
+          id: column.matColumnDef,
+          start: column.defaultSortDirection as any,
+          disableClear: true,
+        });
       } else {
         this.defaultSort = {
           active: '',

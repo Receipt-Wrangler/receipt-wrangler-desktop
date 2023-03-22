@@ -12,6 +12,7 @@ import {
   RemoveGroup,
   SetGroups,
   SetSelectedGroupId,
+  UpdateGroup,
 } from './group.state.actions';
 
 export interface GroupStateInterface {
@@ -105,6 +106,24 @@ export class GroupState {
     patchState({
       groups: payload.groups,
     });
+  }
+
+  @Action(UpdateGroup)
+  updateGroup(
+    { getState, patchState }: StateContext<GroupStateInterface>,
+    payload: UpdateGroup
+  ) {
+    const groupIndex = getState().groups.findIndex(
+      (g) => g.id?.toString() === payload?.group?.id?.toString()
+    );
+    if (groupIndex > -1) {
+      const newGroups = Array.from(getState().groups);
+      newGroups[groupIndex] = payload.group;
+
+      patchState({
+        groups: newGroups,
+      });
+    }
   }
 
   @Action(SetSelectedGroupId)

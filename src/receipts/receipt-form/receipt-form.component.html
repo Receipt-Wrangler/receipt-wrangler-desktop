@@ -95,6 +95,11 @@
           ></app-input>
         </div>
         <app-form-button-bar>
+          <app-back-button
+            class="mb-4"
+            tooltip="Return to list"
+            [buttonRouterLink]="[(receiptListLink | async) ?? '']"
+          ></app-back-button>
           <app-button
             *ngIf="mode | inputReadonly"
             class="mb-4"
@@ -110,8 +115,8 @@
             *ngIf="!(mode | inputReadonly)"
             class="mb-4"
             matButtonType="iconButton"
-            icon="add"
-            tooltip="Upload Image"
+            icon="photo_library"
+            tooltip="Upload Image(s)"
             [disabled]="
               !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
             "
