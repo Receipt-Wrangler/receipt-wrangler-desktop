@@ -48,6 +48,9 @@ export class ReceiptFormComponent implements OnInit {
 
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
+  @Select(GroupState.receiptListLink)
+  public receiptListLink!: Observable<string>;
+
   public categories: Category[] = [];
 
   public tags: Tag[] = [];

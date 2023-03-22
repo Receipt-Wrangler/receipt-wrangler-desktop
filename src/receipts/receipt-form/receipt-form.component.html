@@ -95,6 +95,11 @@
           ></app-input>
         </div>
         <app-form-button-bar>
+          <app-back-button
+            class="mb-4"
+            tooltip="Return to list"
+            [buttonRouterLink]="[(receiptListLink | async) ?? '']"
+          ></app-back-button>
           <app-button
             *ngIf="mode | inputReadonly"
             class="mb-4"
