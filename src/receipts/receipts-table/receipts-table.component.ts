@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
 import { ReceiptsService } from 'src/api/receipts.service';
@@ -30,7 +31,8 @@ export class ReceiptsTableComponent implements OnInit {
     private snackbarService: SnackbarService,
     private store: Store,
     private groupUtil: GroupUtil,
-    private sortByDisplayName: SortByDisplayName
+    private sortByDisplayName: SortByDisplayName,
+    private router: Router
   ) {}
 
   @ViewChild('dateCell') dateCell!: TemplateRef<any>;
@@ -197,6 +199,18 @@ export class ReceiptsTableComponent implements OnInit {
             (r) => r.id !== row.id
           );
           this.snackbarService.success('Receipt successfully deleted');
+        })
+      )
+      .subscribe();
+  }
+
+  public duplicateReceipt(id: string): void {
+    this.receiptsService
+      .duplicateReceipt(id)
+      .pipe(
+        tap((r: Receipt) => {
+          this.snackbarService.success('Receipt successfully duplicated');
+          this.router.navigateByUrl(`/receipts/${r.id}/view`);
         })
       )
       .subscribe();
