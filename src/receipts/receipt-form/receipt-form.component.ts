@@ -1,7 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EmbeddedViewRef,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
@@ -46,6 +53,9 @@ export class ReceiptFormComponent implements OnInit {
   @ViewChild('paidByAutocomplete')
   paidByAutocomplete!: UserAutocompleteComponent;
 
+  @ViewChild('successDuplciateSnackbar')
+  successDuplciateSnackbar!: TemplateRef<any>;
+
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
   @Select(GroupState.receiptListLink)
@@ -72,6 +82,10 @@ export class ReceiptFormComponent implements OnInit {
   public imagesLoading: boolean = false;
 
   public usersToOmit: string[] = [];
+
+  public duplicatedReceiptId: string = '';
+
+  public duplicatedSnackbarRef!: MatSnackBarRef<EmbeddedViewRef<any>>;
 
   constructor(
     private receiptsService: ReceiptsService,
@@ -234,6 +248,26 @@ export class ReceiptFormComponent implements OnInit {
   public updateComments(commentsArray: FormArray): void {
     this.form.removeControl('comments');
     this.form.addControl('comments', commentsArray);
+  }
+
+  public duplicateReceipt(): void {
+    this.receiptsService
+      .duplicateReceipt(this.originalReceipt?.id?.toString() ?? '')
+      .pipe(
+        take(1),
+        tap((r: Receipt) => {
+          this.duplicatedReceiptId = r.id.toString();
+          this.duplicatedSnackbarRef = this.snackbarService.successFromTemplate(
+            this.successDuplciateSnackbar,
+            { duration: 8000 }
+          );
+        })
+      )
+      .subscribe();
+  }
+
+  public closeSuccessDuplicateSnackbar(): void {
+    this.duplicatedSnackbarRef.dismiss();
   }
 
   public submit(): void {

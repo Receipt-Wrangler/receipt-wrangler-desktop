@@ -1,5 +1,19 @@
 <div [ngSwitch]="matButtonType">
   <button
+    mat-button
+    *ngSwitchCase="'basic'"
+    class="w-100"
+    [type]="type"
+    [color]="color"
+    [disabled]="disabled"
+    [matTooltip]="tooltip"
+    [routerLink]="buttonRouterLink"
+    (click)="emitClicked()"
+  >
+    {{ buttonText }}
+  </button>
+
+  <button
     mat-raised-button
     *ngSwitchCase="'matRaisedButton'"
     class="w-100"
