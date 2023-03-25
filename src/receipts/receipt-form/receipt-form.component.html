@@ -101,6 +101,7 @@
             [buttonRouterLink]="[(receiptListLink | async) ?? '']"
           ></app-back-button>
           <app-button
+            *ngIf="mode | inputReadonly"
             class="mb-4"
             matButtonType="iconButton"
             tooltip="Duplicate"
