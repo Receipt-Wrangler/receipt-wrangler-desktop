@@ -18,7 +18,8 @@ export class ButtonComponent {
   @Input() color: string = 'primary';
   @Input() buttonText: string = '';
   @Input() type: 'button' | 'menu' | 'submit' | 'reset' = 'button';
-  @Input() matButtonType: 'matRaisedButton' | 'iconButton' = 'matRaisedButton';
+  @Input() matButtonType: 'matRaisedButton' | 'iconButton' | 'basic' =
+    'matRaisedButton';
   @Input() icon: string = '';
   @Input() customIcon: string = '';
   @Input() disabled: boolean = false;

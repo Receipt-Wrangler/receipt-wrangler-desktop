@@ -53,6 +53,13 @@
   <div class="d-flex w-100">
     <app-button
       matButtonType="iconButton"
+      icon="file_copy"
+      tooltip="Duplciate"
+      color="accent"
+      (clicked)="duplicateReceipt(element.id)"
+    ></app-button>
+    <app-button
+      matButtonType="iconButton"
       icon="delete"
       buttonText="hello"
       color="warn"

@@ -38,4 +38,8 @@ export class ReceiptsService {
   public deleteReceipt(id: string): Observable<void> {
     return this.httpClient.delete<void>(`/api/receipt/${id}`).pipe(take(1));
   }
+
+  public duplicateReceipt(id: string): Observable<Receipt> {
+    return this.httpClient.post<Receipt>(`/api/receipt/${id}/duplicate`, {});
+  }
 }

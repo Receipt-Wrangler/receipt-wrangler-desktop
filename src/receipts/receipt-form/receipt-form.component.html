@@ -104,6 +104,18 @@
             *ngIf="mode | inputReadonly"
             class="mb-4"
             matButtonType="iconButton"
+            tooltip="Duplicate"
+            icon="file_copy"
+            color="primary"
+            [disabled]="
+              !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
+            "
+            (clicked)="duplicateReceipt()"
+          ></app-button>
+          <app-button
+            *ngIf="mode | inputReadonly"
+            class="mb-4"
+            matButtonType="iconButton"
             tooltip="Edit"
             icon="edit"
             [disabled]="
@@ -170,4 +182,20 @@
 
 <ng-template #groupOptionTemplate let-option="option"
   >{{ option.name }}
+</ng-template>
+
+<ng-template #successDuplciateSnackbar>
+  <div class="d-flex justify-content-end align-items-center">
+    <span class="me-4">
+      Receipt successfully duplicated. Click navigate to view duplicated
+      receipt.
+    </span>
+    <app-button
+      buttonText="Navigate"
+      matButtonType="basic"
+      color="secondary"
+      [buttonRouterLink]="['/receipts/' + duplicatedReceiptId + '/view']"
+      (clicked)="closeSuccessDuplicateSnackbar()"
+    ></app-button>
+  </div>
 </ng-template>
