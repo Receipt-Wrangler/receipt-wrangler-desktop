@@ -13,11 +13,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
 import {
+  distinctUntilChanged,
   finalize,
   forkJoin,
   iif,
   Observable,
   of,
+  skip,
   startWith,
   switchMap,
   take,
@@ -109,6 +111,19 @@ export class ReceiptFormComponent implements OnInit {
     this.initForm();
     this.getImageFiles();
     this.mode = this.activatedRoute.snapshot.data['mode'];
+    this.listenForParamChanges();
+  }
+
+  private listenForParamChanges(): void {
+    this.activatedRoute.params
+      .pipe(
+        distinctUntilChanged(),
+        skip(1),
+        tap(() => {
+          location.reload();
+        })
+      )
+      .subscribe();
   }
 
   private setCancelLink(): void {
