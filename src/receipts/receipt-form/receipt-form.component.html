@@ -101,12 +101,11 @@
             [buttonRouterLink]="[(receiptListLink | async) ?? '']"
           ></app-back-button>
           <app-button
-            *ngIf="mode | inputReadonly"
             class="mb-4"
             matButtonType="iconButton"
             tooltip="Duplicate"
             icon="file_copy"
-            color="secondary"
+            color="accent"
             [disabled]="
               !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
             "
