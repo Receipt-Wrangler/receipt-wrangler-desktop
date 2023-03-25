@@ -5,6 +5,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -14,6 +15,7 @@ import { ReceiptsService } from 'src/api/receipts.service';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 import { GroupState } from 'src/store/group.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
@@ -32,7 +34,8 @@ export class ReceiptsTableComponent implements OnInit {
     private store: Store,
     private groupUtil: GroupUtil,
     private sortByDisplayName: SortByDisplayName,
-    private router: Router
+    private router: Router,
+    private matDialog: MatDialog
   ) {}
 
   @ViewChild('dateCell') dateCell!: TemplateRef<any>;
@@ -191,14 +194,30 @@ export class ReceiptsTableComponent implements OnInit {
   }
 
   public deleteReceipt(row: Receipt): void {
-    this.receiptsService
-      .deleteReceipt(row.id.toString())
+    const dialogRef = this.matDialog.open(ConfirmationDialogComponent);
+
+    dialogRef.componentInstance.headerText = 'Delete Receipt';
+    dialogRef.componentInstance.dialogContent = `Are you sure you would like to delete the receipt ${row.name}? This actoin is irreversible.`;
+
+    dialogRef
+      .afterClosed()
       .pipe(
-        tap(() => {
-          this.dataSource.data = this.dataSource.data.filter(
-            (r) => r.id !== row.id
-          );
-          this.snackbarService.success('Receipt successfully deleted');
+        take(1),
+        tap((r) => {
+          if (r) {
+            this.receiptsService
+              .deleteReceipt(row.id.toString())
+              .pipe(
+                take(1),
+                tap(() => {
+                  this.dataSource.data = this.dataSource.data.filter(
+                    (r) => r.id !== row.id
+                  );
+                  this.snackbarService.success('Receipt successfully deleted');
+                })
+              )
+              .subscribe();
+          }
         })
       )
       .subscribe();
