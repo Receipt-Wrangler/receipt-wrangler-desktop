@@ -12,32 +12,32 @@
       *ngIf="mode === formMode.add || mode === formMode.view"
       [ngTemplateOutlet]="add"
     ></ng-container>
-    <div
-      *ngFor="
-        let comment of (topLevelComments | async) ?? [];
-        let index = index
-      "
-    >
+    <div *ngFor="let comment of topLevelComments; let index = index">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex mb-2 align-items-center">
           <app-avatar
             class="me-2"
-            [user]="comment?.userId?.toString() ?? '' | user"
+            [user]="comment?.value?.userId?.toString() ?? '' | user"
           ></app-avatar>
           <div class="d-flex flex-column">
             <div>
               <strong>
-                {{ (comment?.userId?.toString() ?? "" | user)?.displayName }}
+                {{
+                  (comment?.value?.userId?.toString() ?? "" | user)?.displayName
+                }}
               </strong>
               <small *ngIf="comments[index]?.updatedAt"
                 ><span> - </span
                 >{{ comments[index]?.updatedAt | date : "medium" }}</small
               >
             </div>
-            <span class="mb-2">{{ comment.comment }}</span>
+            <span class="mb-2">{{ comment?.value?.comment }}</span>
             <div class="d-flex">
               <ng-container
-                *ngIf="comment?.replies?.length && comment.replies.length > 0"
+                *ngIf="
+                  comment?.value?.replies?.length &&
+                  comment.value.replies.length > 0
+                "
               >
                 <app-button
                   class="reply-button"
@@ -49,24 +49,32 @@
                 class="reply-button"
                 matButtonType="basic"
                 buttonText="Reply"
-                (clicked)="replyClicked(comment)"
+                (clicked)="replyClicked(comment, index)"
               ></app-button>
             </div>
           </div>
         </div>
         <ng-container
-          *ngIf="comment.userId.toString() === (loggedInUserId | async)"
+          *ngIf="
+            comment?.value?.userId?.toString() === (loggedInUserId | async)
+          "
         >
           <app-delete-button
             (clicked)="deleteComment(index)"
           ></app-delete-button>
         </ng-container>
       </div>
-      <ng-container *ngIf="comment.isReplyOpen">
+      <ng-container *ngIf="comment?.value?.isReplyOpen">
         <app-textarea
           label="Comment"
           placeholder="Leave a comment"
-          [inputFormControl]="comment.replyFormGroup | formGet : 'comment'"
+          [inputFormControl]="
+            comment
+              | formGet
+                : 'replies.' +
+                    ((comments[index]?.replies ?? [1]).length - 1) +
+                    '.comment'
+          "
         ></app-textarea>
         <div class="d-flex justify-content-end">
           <app-submit-button></app-submit-button>

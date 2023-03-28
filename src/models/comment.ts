@@ -1,6 +1,6 @@
 import { FormControl, FormGroup } from '@angular/forms';
 
-export interface Comment extends ReceiptComment {
+export interface Comment {
   id: number;
   comment: string;
   receiptId: number;
@@ -10,9 +10,4 @@ export interface Comment extends ReceiptComment {
   commentId?: number;
   createdAt: Date;
   updatedAt: Date;
-}
-
-interface ReceiptComment {
-  isReplyOpen: boolean;
-  replyFormGroup: FormGroup;
 }

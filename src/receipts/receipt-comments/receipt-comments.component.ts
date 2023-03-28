@@ -42,7 +42,7 @@ export class ReceiptCommentsComponent implements OnInit {
 
   public newCommentFormControl: FormControl = new FormControl('');
 
-  public topLevelComments: Observable<Comment[]> = of([]);
+  public topLevelComments: FormGroup[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,18 +53,9 @@ export class ReceiptCommentsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initForm();
-    this.comments.forEach((c) => {
-      const commentFormGroup = this.buildCommentFormGroup();
-      commentFormGroup.get('commentId')?.patchValue({
-        commentId: c.id,
-      });
-      c.replyFormGroup = commentFormGroup;
-    });
-    this.topLevelComments = this.commentsArray.valueChanges.pipe(
-      untilDestroyed(this),
-      startWith(this.commentsArray.value),
-      map((c: Comment[]) => c.filter((f) => !f.commentId))
-    );
+    this.topLevelComments = this.commentsArray.controls.filter(
+      (c) => !c.get('commentId')?.value
+    ) as FormGroup[];
   }
 
   public addComment(): void {
@@ -129,24 +120,19 @@ export class ReceiptCommentsComponent implements OnInit {
     });
   }
 
-  public replyClicked(comment: Comment): void {
-    const control = this.getCommentControl(comment);
-    control?.get('isReplyOpen')?.setValue(true);
-    const repliesArray = control?.get('replies ') as FormArray;
+  public replyClicked(comment: FormGroup, index: number): void {
+    comment.get('isReplyOpen')?.setValue(true);
+    const repliesArray = comment?.get('replies') as FormArray;
     const reply = this.buildCommentFormGroup();
-    reply.get('commentId')?.setValue(comment.id);
+    reply.get('commentId')?.setValue(this.comments[index].id);
 
     repliesArray.push(reply);
   }
 
-  private getCommentControl(comment: Comment): FormGroup {
-    return this.commentsArray.controls.find(
-      (c) => c.value === comment
-    ) as FormGroup;
-  }
+  public replyCancelButtonClicked(comment: FormGroup): void {
+    comment.get('isReplyOpen')?.setValue(false);
+    const replies = comment.get('replies') as FormArray;
 
-  public replyCancelButtonClicked(comment: Comment): void {
-    const control = this.getCommentControl(comment);
-    control.get('isReplyOpen')?.setValue(false);
+    replies.removeAt(replies.length - 1);
   }
 }
