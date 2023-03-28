@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -6,14 +13,16 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
-import { Observable, take, tap } from 'rxjs';
+import { filter, map, Observable, of, startWith, take, tap } from 'rxjs';
 import { CommentsService } from 'src/api/comments.service';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
 import { Comment } from '../../models/comment';
 
+@UntilDestroy()
 @Component({
   selector: 'app-receipt-comments',
   templateUrl: './receipt-comments.component.html',
@@ -33,6 +42,8 @@ export class ReceiptCommentsComponent implements OnInit {
 
   public newCommentFormControl: FormControl = new FormControl('');
 
+  public topLevelComments: Observable<Comment[]> = of([]);
+
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
@@ -42,6 +53,18 @@ export class ReceiptCommentsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initForm();
+    this.comments.forEach((c) => {
+      const commentFormGroup = this.buildCommentFormGroup();
+      commentFormGroup.get('commentId')?.patchValue({
+        commentId: c.id,
+      });
+      c.replyFormGroup = commentFormGroup;
+    });
+    this.topLevelComments = this.commentsArray.valueChanges.pipe(
+      untilDestroyed(this),
+      startWith(this.commentsArray.value),
+      map((c: Comment[]) => c.filter((f) => !f.commentId))
+    );
   }
 
   public addComment(): void {
@@ -57,7 +80,6 @@ export class ReceiptCommentsComponent implements OnInit {
       this.newCommentFormControl.reset();
       this.commentsUpdated.emit(this.commentsArray);
     } else if (isValid && this.mode === FormMode.view) {
-      //make api call
       this.commentsService
         .addComment(newComment)
         .pipe(
@@ -101,6 +123,30 @@ export class ReceiptCommentsComponent implements OnInit {
           Number.parseInt(this.store.selectSnapshot(AuthState.userId)),
       ],
       receiptId: [comment?.receiptId ?? this.receiptId],
+      commentId: 0,
+      replies: this.formBuilder.array([]),
+      isReplyOpen: false,
     });
+  }
+
+  public replyClicked(comment: Comment): void {
+    const control = this.getCommentControl(comment);
+    control?.get('isReplyOpen')?.setValue(true);
+    const repliesArray = control?.get('replies ') as FormArray;
+    const reply = this.buildCommentFormGroup();
+    reply.get('commentId')?.setValue(comment.id);
+
+    repliesArray.push(reply);
+  }
+
+  private getCommentControl(comment: Comment): FormGroup {
+    return this.commentsArray.controls.find(
+      (c) => c.value === comment
+    ) as FormGroup;
+  }
+
+  public replyCancelButtonClicked(comment: Comment): void {
+    const control = this.getCommentControl(comment);
+    control.get('isReplyOpen')?.setValue(false);
   }
 }

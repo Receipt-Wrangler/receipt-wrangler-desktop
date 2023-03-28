@@ -12,21 +12,46 @@
       *ngIf="mode === formMode.add || mode === formMode.view"
       [ngTemplateOutlet]="add"
     ></ng-container>
-    <div *ngFor="let comment of commentsArray.value; let index = index">
+    <div
+      *ngFor="
+        let comment of (topLevelComments | async) ?? [];
+        let index = index
+      "
+    >
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex mb-2 align-items-center">
-          <app-avatar class="me-2" [user]="comment?.userId | user"></app-avatar>
+          <app-avatar
+            class="me-2"
+            [user]="comment?.userId?.toString() ?? '' | user"
+          ></app-avatar>
           <div class="d-flex flex-column">
             <div>
               <strong>
-                {{ (comment?.userId | user)?.displayName }}
+                {{ (comment?.userId?.toString() ?? "" | user)?.displayName }}
               </strong>
               <small *ngIf="comments[index]?.updatedAt"
                 ><span> - </span
                 >{{ comments[index]?.updatedAt | date : "medium" }}</small
               >
             </div>
-            <span>{{ comment.comment }}</span>
+            <span class="mb-2">{{ comment.comment }}</span>
+            <div class="d-flex">
+              <ng-container
+                *ngIf="comment?.replies?.length && comment.replies.length > 0"
+              >
+                <app-button
+                  class="reply-button"
+                  matButtonType="basic"
+                  buttonText="View Replies"
+                ></app-button>
+              </ng-container>
+              <app-button
+                class="reply-button"
+                matButtonType="basic"
+                buttonText="Reply"
+                (clicked)="replyClicked(comment)"
+              ></app-button>
+            </div>
           </div>
         </div>
         <ng-container
@@ -37,6 +62,19 @@
           ></app-delete-button>
         </ng-container>
       </div>
+      <ng-container *ngIf="comment.isReplyOpen">
+        <app-textarea
+          label="Comment"
+          placeholder="Leave a comment"
+          [inputFormControl]="comment.replyFormGroup | formGet : 'comment'"
+        ></app-textarea>
+        <div class="d-flex justify-content-end">
+          <app-submit-button></app-submit-button>
+          <app-cancel-button
+            (clicked)="replyCancelButtonClicked(comment)"
+          ></app-cancel-button>
+        </div>
+      </ng-container>
     </div>
   </mat-card-content>
 </mat-card>
