@@ -110,7 +110,9 @@ export class ReceiptCommentsComponent implements OnInit {
       ],
       receiptId: [comment?.receiptId ?? this.receiptId],
       commentId: [comment?.commentId ?? undefined],
-      replies: this.formBuilder.array([]),
+      replies: this.formBuilder.array([
+        comment?.replies?.map((c) => this.buildCommentFormGroup(c)),
+      ]),
       isReplyOpen: false,
     });
   }

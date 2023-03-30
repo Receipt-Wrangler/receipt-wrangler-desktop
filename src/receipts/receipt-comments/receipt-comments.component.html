@@ -16,7 +16,7 @@
       *ngFor="let comment of commentsArray | topLevelComment; let index = index"
     >
       <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex mb-2 align-items-center">
+        <div class="d-flex align-items-center">
           <app-avatar
             class="me-2"
             [user]="comment?.value?.userId?.toString() ?? '' | user"
@@ -33,28 +33,7 @@
                 >{{ comments[index]?.updatedAt | date : "medium" }}</small
               >
             </div>
-            <span class="mb-2">{{ comment?.value?.comment }}</span>
-            <div class="d-flex">
-              <ng-container
-                *ngIf="
-                  comment?.value?.replies?.length &&
-                  comment.value.replies.length > 0
-                "
-              >
-                <app-button
-                  class="reply-button"
-                  matButtonType="basic"
-                  buttonText="View Replies"
-                ></app-button>
-              </ng-container>
-              <app-button
-                *ngIf="mode === formMode.view"
-                class="reply-button"
-                matButtonType="basic"
-                buttonText="Reply"
-                (clicked)="replyClicked(comment, index)"
-              ></app-button>
-            </div>
+            <span>{{ comment?.value?.comment }}</span>
           </div>
         </div>
         <ng-container
@@ -67,8 +46,29 @@
           ></app-delete-button>
         </ng-container>
       </div>
+      <div class="d-flex content-margin">
+        <ng-container
+          *ngIf="
+            comment?.value?.replies?.length && comment.value.replies.length > 0
+          "
+        >
+          <app-button
+            class="reply-button"
+            matButtonType="basic"
+            buttonText="View Replies"
+          ></app-button>
+        </ng-container>
+        <app-button
+          *ngIf="mode === formMode.view"
+          class="reply-button"
+          matButtonType="basic"
+          buttonText="Reply"
+          (clicked)="replyClicked(comment, index)"
+        ></app-button>
+      </div>
       <ng-container *ngIf="comment?.value?.isReplyOpen">
         <app-textarea
+          class="content-margin"
           label="Comment"
           placeholder="Leave a reply"
           [inputFormControl]="
