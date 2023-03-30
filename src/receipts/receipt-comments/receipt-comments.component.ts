@@ -15,7 +15,7 @@ import {
 } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
-import { filter, map, Observable, of, startWith, take, tap } from 'rxjs';
+import { filter, map, Observable, of, pipe, startWith, take, tap } from 'rxjs';
 import { CommentsService } from 'src/api/comments.service';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -38,11 +38,9 @@ export class ReceiptCommentsComponent implements OnInit {
 
   public formMode = FormMode;
 
-  public commentsArray: FormArray<any> = new FormArray<any>([]);
+  public commentsArray: FormArray<FormGroup> = new FormArray<FormGroup>([]);
 
   public newCommentFormControl: FormControl = new FormControl('');
-
-  public topLevelComments: FormGroup[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,9 +51,6 @@ export class ReceiptCommentsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initForm();
-    this.topLevelComments = this.commentsArray.controls.filter(
-      (c) => !c.get('commentId')?.value
-    ) as FormGroup[];
   }
 
   public addComment(): void {
@@ -114,7 +109,7 @@ export class ReceiptCommentsComponent implements OnInit {
           Number.parseInt(this.store.selectSnapshot(AuthState.userId)),
       ],
       receiptId: [comment?.receiptId ?? this.receiptId],
-      commentId: 0,
+      commentId: [comment?.commentId ?? undefined],
       replies: this.formBuilder.array([]),
       isReplyOpen: false,
     });
@@ -124,7 +119,9 @@ export class ReceiptCommentsComponent implements OnInit {
     comment.get('isReplyOpen')?.setValue(true);
     const repliesArray = comment?.get('replies') as FormArray;
     const reply = this.buildCommentFormGroup();
-    reply.get('commentId')?.setValue(this.comments[index].id);
+    if (this.mode === FormMode.view) {
+      reply.get('commentId')?.setValue(this.comments[index]?.id);
+    }
 
     repliesArray.push(reply);
   }
@@ -134,5 +131,28 @@ export class ReceiptCommentsComponent implements OnInit {
     const replies = comment.get('replies') as FormArray;
 
     replies.removeAt(replies.length - 1);
+  }
+
+  public replySaveButtonClicked(comment: FormGroup, index: number): void {
+    const replies = comment.get('replies') as FormArray;
+    const replyToSave = replies.at(replies.length - 1);
+    const valid = replyToSave.valid;
+
+    if (valid && this.mode === FormMode.view) {
+      this.commentsService
+        .addComment(replyToSave.value)
+        .pipe(
+          take(1),
+          tap((reply: Comment) => {
+            this.snackbarService.success('Reply successfully added');
+            this.comments.at(index)?.replies?.push(reply);
+          })
+        )
+        .subscribe();
+    }
+
+    comment.patchValue({
+      isReplyOpen: false,
+    });
   }
 }

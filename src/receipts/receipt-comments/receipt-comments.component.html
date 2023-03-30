@@ -12,7 +12,9 @@
       *ngIf="mode === formMode.add || mode === formMode.view"
       [ngTemplateOutlet]="add"
     ></ng-container>
-    <div *ngFor="let comment of topLevelComments; let index = index">
+    <div
+      *ngFor="let comment of commentsArray | topLevelComment; let index = index"
+    >
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex mb-2 align-items-center">
           <app-avatar
@@ -46,6 +48,7 @@
                 ></app-button>
               </ng-container>
               <app-button
+                *ngIf="mode === formMode.view"
                 class="reply-button"
                 matButtonType="basic"
                 buttonText="Reply"
@@ -67,17 +70,15 @@
       <ng-container *ngIf="comment?.value?.isReplyOpen">
         <app-textarea
           label="Comment"
-          placeholder="Leave a comment"
+          placeholder="Leave a reply"
           [inputFormControl]="
-            comment
-              | formGet
-                : 'replies.' +
-                    ((comments[index]?.replies ?? [1]).length - 1) +
-                    '.comment'
+            $any(comment.get('replies')) | formArrayLast | formGet : 'comment'
           "
         ></app-textarea>
         <div class="d-flex justify-content-end">
-          <app-submit-button></app-submit-button>
+          <app-submit-button
+            (clicked)="replySaveButtonClicked(comment, index)"
+          ></app-submit-button>
           <app-cancel-button
             (clicked)="replyCancelButtonClicked(comment)"
           ></app-cancel-button>
