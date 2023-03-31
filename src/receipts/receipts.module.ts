@@ -28,6 +28,7 @@ import { ReceiptsTableComponent } from './receipts-table/receipts-table.componen
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { UserTotalPipe } from './user-total.pipe';
 import { TopLevelCommentPipe } from './receipt-comments/top-level-comment.pipe';
+import { ReplyButtonTextPipe } from './receipt-comments/reply-button-text.pipe';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { TopLevelCommentPipe } from './receipt-comments/top-level-comment.pipe';
     UserTotalPipe,
     ReceiptCommentsComponent,
     TopLevelCommentPipe,
+    ReplyButtonTextPipe,
   ],
   imports: [
     AutocompleteModule,

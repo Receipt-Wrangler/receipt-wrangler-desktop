@@ -31,7 +31,7 @@
           <app-button
             class="reply-button"
             matButtonType="basic"
-            [buttonText]="'View ' + comment.value.replies.length + ' Replies'"
+            [buttonText]="comment | replyButtonText"
             (clicked)="viewRepliesClicked(comment)"
           ></app-button>
         </ng-container>
