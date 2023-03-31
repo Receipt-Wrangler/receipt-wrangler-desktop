@@ -83,15 +83,38 @@ export class ReceiptCommentsComponent implements OnInit {
     }
   }
 
-  public deleteComment(index: number): void {
+  public deleteComment(index: number, replyIndex?: number): void {
     const comment = this.comments[index];
+    let commentIdToDelete = comment.id;
+    if (replyIndex !== undefined && replyIndex >= 0) {
+      commentIdToDelete = comment.replies[replyIndex].id;
+    }
+
     this.commentsService
-      .deleteComment(comment.id.toString())
+      .deleteComment(commentIdToDelete.toString())
       .pipe(
         take(1),
         tap(() => {
-          this.commentsArray.removeAt(index);
-          this.snackbarService.success('Comment succesfully deleted');
+          if (replyIndex === undefined) {
+            this.commentsArray.removeAt(index);
+            this.comments = this.comments.filter((c) => c.id !== comment.id);
+            this.snackbarService.success('Comment succesfully deleted');
+          } else {
+            (this.commentsArray.at(index).get('replies') as FormArray).removeAt(
+              replyIndex as number
+            );
+            let replies: Comment[];
+            if (!comment.replies) {
+              replies = [];
+            } else {
+              replies = comment.replies;
+            }
+
+            comment.replies = replies.filter(
+              (r) => r.id !== comment.replies[replyIndex as number].id
+            );
+            this.snackbarService.success('Reply succesfully deleted');
+          }
         })
       )
       .subscribe();

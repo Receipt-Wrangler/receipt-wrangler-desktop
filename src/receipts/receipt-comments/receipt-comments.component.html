@@ -19,7 +19,7 @@
         [ngTemplateOutlet]="commentDisplay"
         [ngTemplateOutletContext]="{
           commentControl: comment,
-          index: index
+          commentIndex: index
         }"
       ></ng-container>
       <div class="d-flex content-margin">
@@ -73,7 +73,8 @@
             [ngTemplateOutlet]="commentDisplay"
             [ngTemplateOutletContext]="{
               commentControl: reply,
-              index: replyIndex
+              commentIndex: index,
+              replyIndex: replyIndex
             }"
           ></ng-container>
         </div>
@@ -85,7 +86,8 @@
 <ng-template
   #commentDisplay
   let-commentControl="commentControl"
-  let-index="index"
+  let-commentIndex="commentIndex"
+  let-replyIndex="replyIndex"
 >
   {{ commentControl.value | json }}
   <div class="d-flex justify-content-between align-items-center">
@@ -102,9 +104,9 @@
                 ?.displayName
             }}
           </strong>
-          <small *ngIf="comments[index]?.updatedAt"
+          <small *ngIf="comments[commentIndex]?.updatedAt"
             ><span> - </span
-            >{{ comments[index]?.updatedAt | date : "medium" }}</small
+            >{{ comments[commentIndex]?.updatedAt | date : "medium" }}</small
           >
         </div>
         <span>{{ commentControl?.value?.comment }}</span>
@@ -115,7 +117,9 @@
         commentControl?.value?.userId?.toString() === (loggedInUserId | async)
       "
     >
-      <app-delete-button (clicked)="deleteComment(index)"></app-delete-button>
+      <app-delete-button
+        (clicked)="deleteComment(commentIndex, replyIndex)"
+      ></app-delete-button>
     </ng-container>
   </div>
 </ng-template>
