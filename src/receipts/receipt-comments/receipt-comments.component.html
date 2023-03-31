@@ -49,7 +49,7 @@
           label="Comment"
           placeholder="Leave a reply"
           [inputFormControl]="
-            $any(comment.get('replies')) | formArrayLast | formGet : 'comment'
+            newCommentReplyMap[comments[index].id] | formGet : 'comment'
           "
         ></app-textarea>
         <div class="d-flex justify-content-end">
@@ -87,6 +87,7 @@
   let-commentControl="commentControl"
   let-index="index"
 >
+  {{ commentControl.value | json }}
   <div class="d-flex justify-content-between align-items-center">
     <div class="d-flex align-items-center">
       <app-avatar

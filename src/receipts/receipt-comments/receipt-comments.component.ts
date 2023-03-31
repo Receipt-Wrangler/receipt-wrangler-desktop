@@ -42,6 +42,8 @@ export class ReceiptCommentsComponent implements OnInit {
 
   public newCommentFormControl: FormControl = new FormControl('');
 
+  public newCommentReplyMap: { [key: number]: FormGroup } = {};
+
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
@@ -98,6 +100,7 @@ export class ReceiptCommentsComponent implements OnInit {
   private initForm(): void {
     this.comments.forEach((c) => {
       if (!c.commentId) {
+        console.warn(c.replies);
         this.commentsArray.push(this.buildCommentFormGroup(c));
       }
     });
@@ -121,14 +124,17 @@ export class ReceiptCommentsComponent implements OnInit {
   }
 
   public replyClicked(comment: FormGroup, index: number): void {
-    comment.get('isReplyOpen')?.setValue(true);
-    const repliesArray = comment?.get('replies') as FormArray;
-    const reply = this.buildCommentFormGroup();
-    if (this.mode === FormMode.view) {
-      reply.get('commentId')?.setValue(this.comments[index]?.id);
+    const originalComment = this.comments[index];
+    const newFormGroup = this.newCommentReplyMap[originalComment.id];
+
+    if (!newFormGroup) {
+      this.newCommentReplyMap[this.comments[index].id] =
+        this.buildReplyFormGroup(index);
     }
 
-    repliesArray.push(reply);
+    comment.patchValue({
+      isReplyOpen: !comment.get('isReplyOpen')?.value,
+    });
   }
 
   public viewRepliesClicked(comment: FormGroup): void {
@@ -138,24 +144,23 @@ export class ReceiptCommentsComponent implements OnInit {
 
   public replyCancelButtonClicked(comment: FormGroup): void {
     comment.get('isReplyOpen')?.setValue(false);
-    const replies = comment.get('replies') as FormArray;
-
-    replies.removeAt(replies.length - 1);
   }
 
   public replySaveButtonClicked(comment: FormGroup, index: number): void {
-    const replies = comment.get('replies') as FormArray;
-    const replyToSave = replies.at(replies.length - 1);
-    const valid = replyToSave.valid;
+    const reply = this.newCommentReplyMap[this.comments[index].id];
 
-    if (valid && this.mode === FormMode.view) {
+    if (reply.valid && this.mode === FormMode.view) {
       this.commentsService
-        .addComment(replyToSave.value)
+        .addComment(reply.value)
         .pipe(
           take(1),
           tap((reply: Comment) => {
             this.snackbarService.success('Reply successfully added');
             this.comments.at(index)?.replies?.push(reply);
+
+            (comment.get('replies') as FormArray).push(
+              this.buildReplyFormGroup(index, reply)
+            );
           })
         )
         .subscribe();
@@ -164,5 +169,22 @@ export class ReceiptCommentsComponent implements OnInit {
     comment.patchValue({
       isReplyOpen: false,
     });
+  }
+
+  private buildReplyFormGroup(index: number, reply?: Comment): FormGroup {
+    const originalParentComment = this.comments[index];
+
+    let formGroup: FormGroup;
+    if (reply) {
+      formGroup = this.buildCommentFormGroup(reply);
+    } else {
+      formGroup = this.buildCommentFormGroup();
+    }
+
+    formGroup.patchValue({
+      commentId: originalParentComment.id,
+    });
+
+    return formGroup;
   }
 }
