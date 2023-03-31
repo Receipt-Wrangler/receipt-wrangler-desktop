@@ -123,7 +123,6 @@ export class ReceiptCommentsComponent implements OnInit {
   private initForm(): void {
     this.comments.forEach((c) => {
       if (!c.commentId) {
-        console.warn(c.replies);
         this.commentsArray.push(this.buildCommentFormGroup(c));
       }
     });
