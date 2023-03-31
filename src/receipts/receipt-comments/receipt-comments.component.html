@@ -120,6 +120,7 @@
       "
     >
       <app-delete-button
+        *ngIf="(commentControl.value?.replies ?? []).length === 0"
         (clicked)="deleteComment(commentIndex, replyIndex)"
       ></app-delete-button>
     </ng-container>
