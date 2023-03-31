@@ -103,10 +103,13 @@
                 ?.displayName
             }}
           </strong>
-          <small *ngIf="comments[commentIndex]?.updatedAt"
-            ><span> - </span
-            >{{ comments[commentIndex]?.updatedAt | date : "medium" }}</small
-          >
+          <ng-container
+            [ngTemplateOutlet]="dateWrapper"
+            [ngTemplateOutletContext]="{
+              commentIndex: commentIndex,
+              replyIndex: replyIndex
+            }"
+          ></ng-container>
         </div>
         <span>{{ commentControl?.value?.comment }}</span>
       </div>
@@ -121,6 +124,34 @@
       ></app-delete-button>
     </ng-container>
   </div>
+</ng-template>
+
+<ng-template
+  #dateWrapper
+  let-commentIndex="commentIndex"
+  let-replyIndex="replyIndex"
+>
+  <ng-template
+    *ngIf="replyIndex >= 0"
+    [ngTemplateOutlet]="date"
+    [ngTemplateOutletContext]="{
+      comment: comments[commentIndex].replies[replyIndex]
+    }"
+  ></ng-template>
+  <ng-template
+    *ngIf="replyIndex === undefined"
+    [ngTemplateOutlet]="date"
+    [ngTemplateOutletContext]="{
+      comment: comments[commentIndex]
+    }"
+  ></ng-template>
+</ng-template>
+
+<ng-template #date let-comment="comment">
+  <small>
+    <span> - </span>
+    {{ comment.updatedAt | date : "medium" }}
+  </small>
 </ng-template>
 
 <ng-template #add>
