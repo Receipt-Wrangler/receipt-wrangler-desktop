@@ -97,7 +97,9 @@ export class ReceiptCommentsComponent implements OnInit {
 
   private initForm(): void {
     this.comments.forEach((c) => {
-      this.commentsArray.push(this.buildCommentFormGroup(c));
+      if (!c.commentId) {
+        this.commentsArray.push(this.buildCommentFormGroup(c));
+      }
     });
   }
 
@@ -110,10 +112,11 @@ export class ReceiptCommentsComponent implements OnInit {
       ],
       receiptId: [comment?.receiptId ?? this.receiptId],
       commentId: [comment?.commentId ?? undefined],
-      replies: this.formBuilder.array([
-        comment?.replies?.map((c) => this.buildCommentFormGroup(c)),
-      ]),
+      replies: this.formBuilder.array(
+        comment?.replies?.map((c) => this.buildCommentFormGroup(c)) ?? []
+      ),
       isReplyOpen: false,
+      isViewRepliesOpen: false,
     });
   }
 
@@ -126,6 +129,11 @@ export class ReceiptCommentsComponent implements OnInit {
     }
 
     repliesArray.push(reply);
+  }
+
+  public viewRepliesClicked(comment: FormGroup): void {
+    const isViewRepliesOpen = comment.value.isViewRepliesOpen;
+    comment.get('isViewRepliesOpen')?.setValue(!isViewRepliesOpen);
   }
 
   public replyCancelButtonClicked(comment: FormGroup): void {
