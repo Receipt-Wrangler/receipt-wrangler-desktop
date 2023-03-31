@@ -170,20 +170,26 @@ export class ReceiptCommentsComponent implements OnInit {
   }
 
   public replySaveButtonClicked(comment: FormGroup, index: number): void {
-    const reply = this.newCommentReplyMap[this.comments[index].id];
+    const replyFormGroup = this.newCommentReplyMap[this.comments[index].id];
 
-    if (reply.valid && this.mode === FormMode.view) {
+    if (replyFormGroup.valid && this.mode === FormMode.view) {
       this.commentsService
-        .addComment(reply.value)
+        .addComment(replyFormGroup.value)
         .pipe(
           take(1),
           tap((reply: Comment) => {
             this.snackbarService.success('Reply successfully added');
-            this.comments.at(index)?.replies?.push(reply);
 
+            this.comments.at(index)?.replies?.push(reply);
             (comment.get('replies') as FormArray).push(
               this.buildReplyFormGroup(index, reply)
             );
+
+            replyFormGroup.patchValue({
+              comment: '',
+            });
+            replyFormGroup.markAsPristine();
+            replyFormGroup.markAsUntouched();
           })
         )
         .subscribe();
