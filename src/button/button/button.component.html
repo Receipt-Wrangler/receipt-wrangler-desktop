@@ -1,7 +1,8 @@
-<div [ngSwitch]="matButtonType">
+<ng-container [ngSwitch]="matButtonType">
   <button
     mat-button
     *ngSwitchCase="'basic'"
+    [class]="buttonClass"
     [type]="type"
     [color]="color"
     [disabled]="disabled"
@@ -15,6 +16,7 @@
   <button
     mat-raised-button
     *ngSwitchCase="'matRaisedButton'"
+    [class]="buttonClass"
     [type]="type"
     [color]="color"
     [disabled]="disabled"
@@ -28,6 +30,7 @@
   <button
     mat-icon-button
     *ngSwitchCase="'iconButton'"
+    [class]="buttonClass"
     [type]="type"
     [color]="color"
     [disabled]="disabled"
@@ -40,4 +43,4 @@
       {{ icon }}
     </mat-icon>
   </button>
-</div>
+</ng-container>
