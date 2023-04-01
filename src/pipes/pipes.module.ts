@@ -9,6 +9,7 @@ import { InputReadonlyPipe } from './input-readonly.pipe';
 
 import { ImagePipe } from './image.pipe';
 import { GroupRolePipe } from './group-role.pipe';
+import { FormArrayLastPipe } from './form-array-last.pipe';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { GroupRolePipe } from './group-role.pipe';
     InputReadonlyPipe,
     ImagePipe,
     GroupRolePipe,
+    FormArrayLastPipe,
   ],
   imports: [CommonModule],
   exports: [
@@ -31,6 +33,7 @@ import { GroupRolePipe } from './group-role.pipe';
     InputReadonlyPipe,
     ImagePipe,
     GroupRolePipe,
+    FormArrayLastPipe,
   ],
 })
 export class PipesModule {}

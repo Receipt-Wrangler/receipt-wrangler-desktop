@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  HostListener,
   Input,
   Output,
   ViewEncapsulation,
@@ -15,6 +14,7 @@ import {
 })
 export class ButtonComponent {
   // add custom icon input
+  @Input() buttonClass: string = '';
   @Input() color: string = 'primary';
   @Input() buttonText: string = '';
   @Input() type: 'button' | 'menu' | 'submit' | 'reset' = 'button';

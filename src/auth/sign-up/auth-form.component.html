@@ -23,13 +23,13 @@
       </app-input>
     </div>
     <app-button
-      class="d-inline-block w-100 mb-2"
+      buttonClass="w-100 mb-2"
       type="submit"
       [buttonText]="isSignUp ? 'Sign Up' : 'Login'"
     ></app-button>
     <app-button
       *appFeature="'enableLocalSignUp'"
-      class="d-inline-block w-100"
+      buttonClass="w-100 "
       type="button"
       [buttonText]="isSignUp ? 'Back to Login' : 'Sign Up'"
       [routerLink]="isSignUp ? ['/auth/login'] : ['/auth/sign-up']"
