@@ -44,12 +44,12 @@ const routes: Routes = [
           role: UserRole.ADMIN,
         },
       },
+      {
+        path: '',
+        redirectTo: '/auth/login',
+        pathMatch: 'full',
+      },
     ],
-  },
-  {
-    path: '',
-    redirectTo: '/auth/login',
-    pathMatch: 'full',
   },
 ];
 
