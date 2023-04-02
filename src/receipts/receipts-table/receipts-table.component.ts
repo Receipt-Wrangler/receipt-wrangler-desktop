@@ -182,11 +182,8 @@ export class ReceiptsTableComponent implements OnInit {
       .toggleIsResolved(row.id.toString())
       .pipe(
         tap(() => {
-          const newReceipts = Array.from(this.dataSource.data);
-          newReceipts.splice(index, 1, {
-            ...row,
-            isResolved: !row.isResolved,
-          });
+          let newReceipts = Array.from(this.dataSource.data);
+          newReceipts[index].isResolved = !newReceipts[index].isResolved;
           this.dataSource.data = newReceipts;
         })
       )
