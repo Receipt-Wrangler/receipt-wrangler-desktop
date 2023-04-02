@@ -42,7 +42,7 @@ export class CarouselComponent {
 
   public onScroll(event: WheelEvent): void {
     event.preventDefault();
-    let value = event.deltaY * -0.01;
+    let value = event.deltaY * -0.001;
     this.adjustScale(value);
   }
 
