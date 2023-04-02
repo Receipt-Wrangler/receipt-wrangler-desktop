@@ -18,6 +18,7 @@ import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from 'src/pipes/pipes.module';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { PipesModule } from 'src/pipes/pipes.module';
     ReceiptListIconComponent,
     DashboardIconComponent,
     SwitchGroupDialogComponent,
+    SidebarComponent,
   ],
   imports: [
     AutocompleteModule,
