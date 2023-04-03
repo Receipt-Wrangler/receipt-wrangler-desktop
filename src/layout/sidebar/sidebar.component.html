@@ -1,6 +1,6 @@
 <mat-drawer-container class="h-100">
   <mat-drawer *ngIf="isLoggedIn | async" mode="side" opened>
-    <div class="drawer-container">
+    <div class="drawer-container p-2">
       <app-avatar
         class="cursor-pointer"
         [user]="(loggedInUser | async) ?? $any({})"
@@ -15,8 +15,8 @@
       <button mat-menu-item (click)="logout()">Logout</button>
     </mat-menu>
 
-    <hr />
-    <div *ngFor="let group of groups | async" class="mb-2">
+    <hr class="mx-2" />
+    <div *ngFor="let group of groups | async" class="p-2">
       <app-avatar
         class="cursor-pointer"
         [group]="group"
