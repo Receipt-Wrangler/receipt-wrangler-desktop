@@ -3,10 +3,12 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { take, switchMap, tap, Observable } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
-import { User } from 'src/models';
+import { Group, User } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
 import { Logout } from 'src/store/auth.state.actions';
+import { GroupState } from 'src/store/group.state';
+import { SetSelectedGroupId } from 'src/store/group.state.actions';
 
 @Component({
   selector: 'app-sidebar',
@@ -24,6 +26,14 @@ export class SidebarComponent {
   @Select(AuthState.loggedInUser) public loggedInUser!: Observable<User>;
 
   @Select(AuthState.isLoggedIn) public isLoggedIn!: Observable<boolean>;
+
+  @Select(GroupState.groups) public groups!: Observable<Group[]>;
+
+  public groupClicked(groupId: number): void {
+    this.store.dispatch(new SetSelectedGroupId(groupId.toString()));
+    const dashboardLink = this.store.selectSnapshot(GroupState.dashboardLink);
+    this.router.navigate([dashboardLink]);
+  }
 
   public logout(): void {
     this.authService
