@@ -1,72 +1,28 @@
 <ng-container *ngIf="!!(isLoggedIn | async)">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <mat-card class="nav-card">
-      <mat-card-content>
-        <div class="d-flex jusfity-content-center align-items-center">
-          <button
-            mat-button
-            color="accent"
-            class="nav-button home-button"
-            [matMenuTriggerFor]="groupMenu"
-          >
-            <div class="d-flex justify-content-center align-items-center">
-              <mat-icon class="me-1" fontSet="material-icons-outlined"
-                >folder</mat-icon
-              >
-              <div>{{ groupName }}</div>
-            </div>
-          </button>
-          <mat-menu #groupMenu="matMenu">
-            <button mat-menu-item (click)="openSwitchGroupDialog()">
-              Switch Group
-            </button>
-          </mat-menu>
-          <button
-            mat-icon-button
-            color="accent"
-            class="nav-button"
-            matTooltip="Dashboard"
-            routerLinkActive="active-link"
-            [routerLink]="dashboardHeaderLink"
-          >
-            <app-dashboard-icon></app-dashboard-icon>
-          </button>
-          <button
-            mat-icon-button
-            color="accent"
-            class="nav-button"
-            matTooltip="Receipt List"
-            routerLinkActive="active-link"
-            [routerLink]="receiptHeaderLink"
-          >
-            <app-receipt-list-icon></app-receipt-list-icon>
-          </button>
-
-          <button
-            mat-icon-button
-            color="accent"
-            class="nav-button"
-            matTooltip="Add Receipt"
-            routerLinkActive="active-link"
-            [routerLink]="['/receipts/add']"
-          >
-            <app-add-receipt-icon></app-add-receipt-icon>
-          </button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-    <div>
-      <app-avatar
-        [user]="(loggedInUser | async) ?? $any({})"
-        [matMenuTriggerFor]="menu"
-      ></app-avatar>
-      <mat-menu #menu="matMenu">
-        <button *appRole="'ADMIN'" [routerLink]="['/users']" mat-menu-item>
-          Manage Users
-        </button>
-        <button [routerLink]="['/groups']" mat-menu-item>Manage Groups</button>
-        <button mat-menu-item (click)="logout()">Logout</button>
-      </mat-menu>
+  <div
+    class="header-container d-flex justify-content-between align-items-center mb-4"
+  >
+    <div class="d-flex jusfity-content-center align-items-center">
+      <button
+        mat-icon-button
+        color="accent"
+        class="nav-button"
+        matTooltip="Dashboard"
+        routerLinkActive="active-link"
+        [routerLink]="dashboardHeaderLink"
+      >
+        <app-dashboard-icon></app-dashboard-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="accent"
+        class="nav-button"
+        matTooltip="Receipt List"
+        routerLinkActive="active-link"
+        [routerLink]="receiptHeaderLink"
+      >
+        <app-receipt-list-icon></app-receipt-list-icon>
+      </button>
     </div>
   </div>
 </ng-container>
