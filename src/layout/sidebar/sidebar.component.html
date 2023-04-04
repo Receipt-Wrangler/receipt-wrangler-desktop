@@ -17,11 +17,19 @@
 
     <hr class="mx-2" />
     <div *ngFor="let group of groups | async" class="p-2">
-      <app-avatar
-        class="cursor-pointer"
-        [group]="group"
-        (click)="groupClicked(group.id)"
-      ></app-avatar>
+      <div class="d-flex align-items-center group-avatar-container">
+        <div
+          [ngClass]="{
+            'active-group': (selectedGroupId | async) === group?.id?.toString()
+          }"
+          class="active-dot"
+        ></div>
+        <app-avatar
+          class="cursor-pointer"
+          [group]="group"
+          (click)="groupClicked(group.id)"
+        ></app-avatar>
+      </div>
     </div>
   </mat-drawer>
   <mat-drawer-content>

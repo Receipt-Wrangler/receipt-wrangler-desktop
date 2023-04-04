@@ -29,6 +29,9 @@ export class SidebarComponent {
 
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
+  @Select(GroupState.selectedGroupId)
+  public selectedGroupId!: Observable<string>;
+
   public groupClicked(groupId: number): void {
     this.store.dispatch(new SetSelectedGroupId(groupId.toString()));
     const dashboardLink = this.store.selectSnapshot(GroupState.dashboardLink);

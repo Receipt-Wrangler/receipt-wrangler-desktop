@@ -9,6 +9,65 @@
   cursor: pointer;
 }
 
+@keyframes active-dot-active {
+  from {
+    height: 25px;
+  }
+  to {
+    height: 35px;
+  }
+}
+
+@keyframes active-dot-spread {
+  from {
+    height: 10px;
+  }
+  to {
+    height: 25px;
+  }
+}
+
+@keyframes active-dot-revert {
+  from {
+    height: 25px;
+  }
+  to {
+    height: 10px;
+  }
+}
+
+.active-dot {
+  position: absolute;
+  left: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: #27b1ff;
+  border-radius: 50px;
+  box-shadow: $global-shadow;
+}
+
+.group-avatar-container {
+  .active-dot:hover:after {
+    animation-name: active-dot-revert;
+    animation-duration: 0.5;
+    animation-fill-mode: forwards;
+  }
+}
+
+.group-avatar-container:hover {
+  .active-dot {
+    animation-name: active-dot-spread;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+  }
+}
+
+.active-group {
+  animation-name: active-dot-active;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+}
+
 hr {
   color: $mat-drawer-background-color;
 }
