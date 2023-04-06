@@ -10,6 +10,9 @@
         mat-fab
         class="add-button mt-2"
         (click)="toggleAddButtonExpanded()"
+        [ngClass]="{
+          'add-button-rotated': this.addButtonExpanded
+        }"
       >
         <mat-icon>add</mat-icon>
       </button>

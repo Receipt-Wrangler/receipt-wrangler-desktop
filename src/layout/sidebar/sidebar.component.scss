@@ -9,6 +9,13 @@
   cursor: pointer;
 }
 
+.add-button-rotated {
+  transform: rotate(45deg);
+  border-radius: 5px !important;
+  background-color: map-get($primary-palette, 100) !important;
+  color: map-get($primary-palette, 400) !important;
+}
+
 .add-button {
   background-color: white;
   color: gray;
