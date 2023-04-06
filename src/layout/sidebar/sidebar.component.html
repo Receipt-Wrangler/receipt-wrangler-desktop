@@ -1,6 +1,6 @@
 <mat-drawer-container class="h-100">
   <mat-drawer *ngIf="isLoggedIn | async" mode="side" opened>
-    <div class="drawer-container p-2">
+    <div class="drawer-container pt-2 ps-2 pe-2">
       <app-avatar
         class="cursor-pointer"
         [user]="(loggedInUser | async) ?? $any({})"
@@ -20,9 +20,36 @@
           'add-buttons-close': this.addButtonExpanded === false
         }"
       >
-        <button>one</button>
-        <button>two</button>
-        <button>three</button>
+        <!-- <button
+          mat-icon-button
+          routerLinkActive="active-sub-button"
+          matTooltip="Add User"
+          type="button"
+          color="accent"
+        >
+          <mat-icon>person</mat-icon>
+        </button> -->
+        <button
+          class="mt-4"
+          mat-icon-button
+          [routerLink]="['/receipts/add']"
+          routerLinkActive="active-sub-button"
+          matTooltip="Add Receipt"
+          type="button"
+          color="accent"
+        >
+          <mat-icon>article</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          [routerLink]="['/groups/create']"
+          routerLinkActive="active-sub-button"
+          matTooltip="Add Group"
+          type="button"
+          color="accent"
+        >
+          <mat-icon>group</mat-icon>
+        </button>
       </div>
     </div>
     <mat-menu #menu="matMenu">

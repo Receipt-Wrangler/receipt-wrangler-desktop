@@ -14,6 +14,7 @@
   color: gray;
   height: 50px;
   width: 50px;
+  z-index: 1;
 }
 
 @keyframes add-buttons-slide-open {
@@ -46,6 +47,9 @@
   animation-name: add-buttons-slide-open;
   animation-duration: 0.5s;
   animation-fill-mode: forwards;
+  background-color: whitesmoke;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
 .add-button-close {
@@ -56,6 +60,17 @@
 
 .add-buttons-container {
   display: none;
+  position: relative;
+  top: -20px;
+  z-index: 0;
+}
+
+.add-sub-button {
+  color: $basic-gray;
+}
+
+.active-sub-button {
+  color: map-get($primary-palette, 400) !important;
 }
 
 @keyframes active-dot-active {

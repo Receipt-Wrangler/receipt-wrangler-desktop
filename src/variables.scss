@@ -2,6 +2,8 @@
 
 $basic-gray: #8ea1ac;
 
+$mat-drawer-background-color: #fafafa;
+
 $primary-palette: (
   50: #ccecff,
   100: #bbe6ff,
@@ -67,7 +69,5 @@ $warn-palette: (
       // ... continues to 900
     ),
 );
-
-$mat-drawer-background-color: #fafafa;
 
 $global-shadow: 0px 2px 7px -1px rgba(0, 67, 104, 0.18);
