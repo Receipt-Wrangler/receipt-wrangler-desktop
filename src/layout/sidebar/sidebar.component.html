@@ -6,6 +6,24 @@
         [user]="(loggedInUser | async) ?? $any({})"
         [matMenuTriggerFor]="menu"
       ></app-avatar>
+      <button
+        mat-fab
+        class="add-button mt-2"
+        (click)="toggleAddButtonExpanded()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <div
+        class="add-buttons-container"
+        [ngClass]="{
+          'add-button-container-expanded': this.addButtonExpanded,
+          'add-buttons-close': this.addButtonExpanded === false
+        }"
+      >
+        <button>one</button>
+        <button>two</button>
+        <button>three</button>
+      </div>
     </div>
     <mat-menu #menu="matMenu">
       <button *appRole="'ADMIN'" [routerLink]="['/users']" mat-menu-item>

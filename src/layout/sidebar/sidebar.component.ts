@@ -32,10 +32,16 @@ export class SidebarComponent {
   @Select(GroupState.selectedGroupId)
   public selectedGroupId!: Observable<string>;
 
+  public addButtonExpanded: boolean | null = null;
+
   public groupClicked(groupId: number): void {
     this.store.dispatch(new SetSelectedGroupId(groupId.toString()));
     const dashboardLink = this.store.selectSnapshot(GroupState.dashboardLink);
     this.router.navigate([dashboardLink]);
+  }
+
+  public toggleAddButtonExpanded(): void {
+    this.addButtonExpanded = !this.addButtonExpanded;
   }
 
   public logout(): void {

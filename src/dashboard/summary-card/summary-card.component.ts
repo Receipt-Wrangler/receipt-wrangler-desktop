@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Route } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { take, tap } from 'rxjs';
 import { UsersService } from 'src/api/users.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-summary-card',
   templateUrl: './summary-card.component.html',
@@ -24,11 +26,11 @@ export class SummaryCardComponent {
   private listenForRouteChanges(): void {
     this.route.params
       .pipe(
+        untilDestroyed(this),
         tap(() => {
           this.usersService
             .geAmountOwedForUser()
             .pipe(
-              take(1),
               tap((result) => {
                 this.userOwesMap = new Map();
                 this.userOwesMap = new Map();

@@ -9,6 +9,55 @@
   cursor: pointer;
 }
 
+.add-button {
+  background-color: white;
+  color: gray;
+  height: 50px;
+  width: 50px;
+}
+
+@keyframes add-buttons-slide-open {
+  from {
+    height: 0px;
+    opacity: 0;
+  }
+  to {
+    height: fit-content;
+    opacity: 1;
+  }
+}
+
+@keyframes add-buttons-slide-closed {
+  from {
+    display: flex !important;
+    height: fit-content;
+    opacity: 1;
+  }
+
+  to {
+    height: 0px;
+    opacity: 0;
+  }
+}
+
+.add-button-container-expanded {
+  display: flex !important;
+  flex-direction: column;
+  animation-name: add-buttons-slide-open;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.add-button-close {
+  animation-name: add-buttons-slide-closed;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.add-buttons-container {
+  display: none;
+}
+
 @keyframes active-dot-active {
   from {
     height: 25px;
@@ -49,7 +98,7 @@
 .group-avatar-container {
   .active-dot:hover:after {
     animation-name: active-dot-revert;
-    animation-duration: 0.5;
+    animation-duration: 0.5s;
     animation-fill-mode: forwards;
   }
 }

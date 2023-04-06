@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +10,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
+import { ButtonModule } from 'src/button/button.module';
 import { DirectivesModule } from 'src/directives/directives.module';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
@@ -33,6 +34,7 @@ import { SwitchGroupDialogComponent } from './switch-group-dialog/switch-group-d
   imports: [
     AutocompleteModule,
     AvatarModule,
+    ButtonModule,
     CommonModule,
     DirectivesModule,
     MatButtonModule,
@@ -40,12 +42,12 @@ import { SwitchGroupDialogComponent } from './switch-group-dialog/switch-group-d
     MatDialogModule,
     MatIconModule,
     MatMenuModule,
+    MatSidenavModule,
     MatTooltipModule,
     PipesModule,
     ReactiveFormsModule,
     RouterModule,
     SharedUiModule,
-    MatSidenavModule,
   ],
   exports: [HeaderComponent, AddReceiptIconComponent],
 })
