@@ -121,7 +121,7 @@ app-sidebar {
   }
 
   .group-avatar-container {
-    .active-dot:hover:after {
+    .active-dot {
       animation-name: active-dot-revert;
       animation-duration: 0.5s;
       animation-fill-mode: forwards;
@@ -137,7 +137,7 @@ app-sidebar {
   }
 
   .active-group {
-    animation-name: active-dot-active;
+    animation-name: active-dot-active !important;
     animation-duration: 0.2s;
     animation-fill-mode: forwards;
   }
