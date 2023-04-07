@@ -1,144 +1,148 @@
 @import "/node_modules/bootstrap/scss/bootstrap-grid.scss";
 @import "../../variables.scss";
 
-:host {
+app-sidebar {
   height: 100%;
-}
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.add-button-rotated {
-  transform: rotate(45deg);
-  border-radius: 5px !important;
-  background-color: map-get($primary-palette, 100) !important;
-  color: map-get($primary-palette, 400) !important;
-}
-
-.add-button {
-  background-color: white;
-  color: gray;
-  height: 50px;
-  width: 50px;
-  z-index: 1;
-}
-
-@keyframes add-buttons-slide-open {
-  from {
-    height: 0px;
-    opacity: 0;
+  .cursor-pointer {
+    cursor: pointer;
   }
-  to {
-    height: fit-content;
-    opacity: 1;
-  }
-}
 
-@keyframes add-buttons-slide-closed {
-  from {
+  .add-button-rotated {
+    transform: rotate(45deg) !important;
+    border-radius: 5px !important;
+    background-color: map-get($primary-palette, 100) !important;
+    color: map-get($primary-palette, 400) !important;
+
+    .mat-mdc-button-persistent-ripple {
+      border-radius: 5px !important;
+    }
+  }
+
+  .add-button {
+    background-color: white;
+    color: gray;
+    height: 50px;
+    width: 50px;
+    z-index: 1;
+  }
+
+  @keyframes add-buttons-slide-open {
+    from {
+      height: 0px;
+      opacity: 0;
+    }
+    to {
+      height: fit-content;
+      opacity: 1;
+    }
+  }
+
+  @keyframes add-buttons-slide-closed {
+    from {
+      display: flex !important;
+      height: fit-content;
+      opacity: 1;
+    }
+
+    to {
+      height: 0px;
+      opacity: 0;
+    }
+  }
+
+  .add-button-container-expanded {
     display: flex !important;
-    height: fit-content;
-    opacity: 1;
+    flex-direction: column;
+    animation-name: add-buttons-slide-open;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    background-color: whitesmoke;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
   }
 
-  to {
-    height: 0px;
-    opacity: 0;
-  }
-}
-
-.add-button-container-expanded {
-  display: flex !important;
-  flex-direction: column;
-  animation-name: add-buttons-slide-open;
-  animation-duration: 0.5s;
-  animation-fill-mode: forwards;
-  background-color: whitesmoke;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-
-.add-button-close {
-  animation-name: add-buttons-slide-closed;
-  animation-duration: 0.5s;
-  animation-fill-mode: forwards;
-}
-
-.add-buttons-container {
-  display: none;
-  position: relative;
-  top: -20px;
-  z-index: 0;
-}
-
-.add-sub-button {
-  color: $basic-gray;
-}
-
-.active-sub-button {
-  color: map-get($primary-palette, 400) !important;
-}
-
-@keyframes active-dot-active {
-  from {
-    height: 25px;
-  }
-  to {
-    height: 35px;
-  }
-}
-
-@keyframes active-dot-spread {
-  from {
-    height: 10px;
-  }
-  to {
-    height: 25px;
-  }
-}
-
-@keyframes active-dot-revert {
-  from {
-    height: 25px;
-  }
-  to {
-    height: 10px;
-  }
-}
-
-.active-dot {
-  position: absolute;
-  left: -5px;
-  width: 10px;
-  height: 10px;
-  background-color: #27b1ff;
-  border-radius: 50px;
-  box-shadow: $global-shadow;
-}
-
-.group-avatar-container {
-  .active-dot:hover:after {
-    animation-name: active-dot-revert;
+  .add-button-close {
+    animation-name: add-buttons-slide-closed;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
   }
-}
 
-.group-avatar-container:hover {
+  .add-buttons-container {
+    display: none;
+    position: relative;
+    top: -20px;
+    z-index: 0;
+  }
+
+  .add-sub-button {
+    color: $basic-gray;
+  }
+
+  .active-sub-button {
+    color: map-get($primary-palette, 400) !important;
+  }
+
+  @keyframes active-dot-active {
+    from {
+      height: 25px;
+    }
+    to {
+      height: 35px;
+    }
+  }
+
+  @keyframes active-dot-spread {
+    from {
+      height: 10px;
+    }
+    to {
+      height: 25px;
+    }
+  }
+
+  @keyframes active-dot-revert {
+    from {
+      height: 25px;
+    }
+    to {
+      height: 10px;
+    }
+  }
+
   .active-dot {
-    animation-name: active-dot-spread;
+    position: absolute;
+    left: -5px;
+    width: 10px;
+    height: 10px;
+    background-color: #27b1ff;
+    border-radius: 50px;
+    box-shadow: $global-shadow;
+  }
+
+  .group-avatar-container {
+    .active-dot:hover:after {
+      animation-name: active-dot-revert;
+      animation-duration: 0.5s;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  .group-avatar-container:hover {
+    .active-dot {
+      animation-name: active-dot-spread;
+      animation-duration: 0.2s;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  .active-group {
+    animation-name: active-dot-active;
     animation-duration: 0.2s;
     animation-fill-mode: forwards;
   }
-}
 
-.active-group {
-  animation-name: active-dot-active;
-  animation-duration: 0.2s;
-  animation-fill-mode: forwards;
-}
-
-hr {
-  color: $mat-drawer-background-color;
+  hr {
+    color: $mat-drawer-background-color;
+  }
 }

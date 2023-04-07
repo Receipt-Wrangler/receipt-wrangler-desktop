@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { take, switchMap, tap, Observable } from 'rxjs';
@@ -14,6 +14,7 @@ import { SetSelectedGroupId } from 'src/store/group.state.actions';
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SidebarComponent {
   constructor(
