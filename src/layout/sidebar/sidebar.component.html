@@ -4,6 +4,7 @@
       <app-avatar
         class="cursor-pointer"
         [user]="(loggedInUser | async) ?? $any({})"
+        [ngClass]="{ 'mb-4': addButtonExpanded }"
         [matMenuTriggerFor]="menu"
       ></app-avatar>
       <button
@@ -11,7 +12,7 @@
         class="add-button mt-2"
         (click)="toggleAddButtonExpanded()"
         [ngClass]="{
-          'add-button-rotated': this.addButtonExpanded
+          'add-button-rotated mt-4': addButtonExpanded
         }"
       >
         <mat-icon>add</mat-icon>
