@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { User } from 'src/models';
+import { Group, User } from 'src/models';
 
 @Component({
   selector: 'app-avatar',
@@ -8,4 +8,5 @@ import { User } from 'src/models';
 })
 export class AvatarComponent {
   @Input() public user?: User;
+  @Input() public group?: Group;
 }

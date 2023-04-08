@@ -92,6 +92,10 @@ body {
   box-shadow: $global-shadow;
 }
 
+.mat-mdc-fab {
+  box-shadow: $global-shadow !important;
+}
+
 .mat-mdc-raised-button.mat-primary {
   color: white !important;
 }

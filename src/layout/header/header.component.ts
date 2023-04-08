@@ -11,6 +11,7 @@ import { Logout } from 'src/store/auth.state.actions';
 import { GroupState } from 'src/store/group.state';
 import { DEFAULT_DIALOG_CONFIG } from '../../../constants';
 import { SwitchGroupDialogComponent } from '../switch-group-dialog/switch-group-dialog.component';
+import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';
 
 @Component({
   selector: 'app-header',
@@ -56,6 +57,10 @@ export class HeaderComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  public toggleSidebar(): void {
+    this.store.dispatch(new ToggleIsSidebarOpen());
   }
 
   public openSwitchGroupDialog(): void {

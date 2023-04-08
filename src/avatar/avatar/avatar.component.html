@@ -1,3 +1,9 @@
-<div class="avatar d-flex justify-content-center align-items-center">
-  {{ user?.displayName | slice : 0 : 1 }}
+<div
+  [matTooltip]="user?.displayName ?? group?.name ?? ''"
+  class="avatar d-flex justify-content-center align-items-center"
+>
+  {{
+    user?.displayName?.toUpperCase() ?? group?.name?.toUpperCase()
+      | slice : 0 : 1
+  }}
 </div>
