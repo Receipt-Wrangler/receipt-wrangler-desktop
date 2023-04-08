@@ -10,7 +10,7 @@ app-sidebar {
 
   .add-button-rotated {
     transform: rotate(45deg) !important;
-    border-radius: 5px !important;
+    border-radius: 10px !important;
     background-color: map-get($primary-palette, 100) !important;
     color: map-get($primary-palette, 400) !important;
 
@@ -144,5 +144,6 @@ app-sidebar {
 
   hr {
     color: $mat-drawer-background-color;
+    width: 100%;
   }
 }
