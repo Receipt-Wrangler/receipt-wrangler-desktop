@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { take, tap } from 'rxjs';
-import { UsersService } from 'src/api/users.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
