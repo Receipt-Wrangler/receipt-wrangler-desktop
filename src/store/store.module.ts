@@ -7,17 +7,24 @@ import { UserState } from './user.state';
 import { GroupState } from './group.state';
 import { FeatureConfigState } from './feature-config.state';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+import { LayoutState } from './layout.state';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    NgxsModule.forRoot([AuthState, FeatureConfigState, GroupState, UserState]),
+    NgxsModule.forRoot([
+      AuthState,
+      FeatureConfigState,
+      GroupState,
+      LayoutState,
+      UserState,
+    ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: true,
     }),
     NgxsStoragePluginModule.forRoot({
-      key: ['groups'],
+      key: ['groups', 'layout'],
     }),
   ],
 })

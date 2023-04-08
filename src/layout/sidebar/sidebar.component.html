@@ -1,5 +1,9 @@
 <mat-drawer-container class="h-100">
-  <mat-drawer *ngIf="isLoggedIn | async" mode="side" opened>
+  <mat-drawer
+    *ngIf="isLoggedIn | async"
+    mode="side"
+    [opened]="isSidebarOpen | async"
+  >
     <div
       class="drawer-container d-flex flex-column align-items-center pt-3 ps-3 pe-3"
     >

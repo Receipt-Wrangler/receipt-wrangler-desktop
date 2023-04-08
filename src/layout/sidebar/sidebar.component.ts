@@ -9,6 +9,7 @@ import { AuthState } from 'src/store/auth.state';
 import { Logout } from 'src/store/auth.state.actions';
 import { GroupState } from 'src/store/group.state';
 import { SetSelectedGroupId } from 'src/store/group.state.actions';
+import { LayoutState } from 'src/store/layout.state';
 
 @Component({
   selector: 'app-sidebar',
@@ -27,6 +28,8 @@ export class SidebarComponent {
   @Select(AuthState.loggedInUser) public loggedInUser!: Observable<User>;
 
   @Select(AuthState.isLoggedIn) public isLoggedIn!: Observable<boolean>;
+
+  @Select(LayoutState.isSidebarOpen) public isSidebarOpen!: Observable<boolean>;
 
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 

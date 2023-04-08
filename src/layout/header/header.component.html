@@ -7,6 +7,15 @@
         mat-icon-button
         color="accent"
         class="nav-button"
+        matTooltip="Toggle sidebar"
+        (click)="toggleSidebar()"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="accent"
+        class="nav-button"
         matTooltip="Dashboard"
         routerLinkActive="active-link"
         [routerLink]="dashboardHeaderLink"
