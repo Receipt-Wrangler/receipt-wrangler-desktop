@@ -11,6 +11,7 @@ import {
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableColumn } from '../table-column.interface';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-table',
@@ -18,15 +19,18 @@ import { TableColumn } from '../table-column.interface';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnChanges {
+  @ViewChild(MatSort) public sort!: MatSort;
+  @ViewChild(MatPaginator) public paginator!: MatPaginator;
+
   @Input() public columns: TableColumn[] = [];
   @Input() public displayedColumns: string[] = [];
   @Input() public dataSource = new MatTableDataSource<any>([]);
+  @Input() public pagination: boolean = false;
 
   @Output() public sorted: EventEmitter<Sort> = new EventEmitter<Sort>();
 
   public defaultSort?: Sort;
 
-  @ViewChild(MatSort) public sort!: MatSort;
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
   public ngOnChanges(changes: SimpleChanges): void {

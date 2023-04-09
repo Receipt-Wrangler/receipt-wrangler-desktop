@@ -80,6 +80,7 @@ export class ReceiptsTableComponent implements OnInit {
         tap((receipts) => {
           this.receipts = receipts;
           this.dataSource = new MatTableDataSource<Receipt>(receipts);
+          this.dataSource.paginator = this.table.paginator;
           this.dataSource.sort = this.table.sort;
           this.setColumns();
           this.setActionsColumnDisplay();
