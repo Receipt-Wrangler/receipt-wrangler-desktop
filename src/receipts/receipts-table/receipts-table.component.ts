@@ -74,7 +74,7 @@ export class ReceiptsTableComponent implements OnInit {
       this.store.selectSnapshot(GroupState.selectedGroupId)
     );
     this.receiptsService
-      .getReceiptsForGroup(this.groupId.toString())
+      .getPagedReceiptsForGroups(this.groupId.toString())
       .pipe(
         take(1),
         tap((receipts) => {

@@ -9,9 +9,11 @@ import { Receipt } from 'src/models/receipt';
 export class ReceiptsService {
   constructor(private httpClient: HttpClient) {}
 
-  public getReceiptsForGroup(groupId: string): Observable<Receipt[]> {
+  public getPagedReceiptsForGroups(groupId: string): Observable<Receipt[]> {
     return this.httpClient
-      .get<Receipt[]>(`/api/receipt/group/${groupId}`)
+      .get<Receipt[]>(`/api/receipt/group/${groupId}`, {
+        params: { page: 1, pageSize: 4 },
+      })
       .pipe(take(1));
   }
 
