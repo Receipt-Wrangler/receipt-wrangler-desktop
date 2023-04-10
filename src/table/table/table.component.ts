@@ -11,7 +11,7 @@ import {
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableColumn } from '../table-column.interface';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-table',
@@ -26,9 +26,12 @@ export class TableComponent implements OnChanges {
   @Input() public displayedColumns: string[] = [];
   @Input() public dataSource = new MatTableDataSource<any>([]);
   @Input() public pagination: boolean = false;
+  @Input() public pageSize: number = 50;
   @Input() public length: number = 0;
 
   @Output() public sorted: EventEmitter<Sort> = new EventEmitter<Sort>();
+  @Output() public pageChange: EventEmitter<PageEvent> =
+    new EventEmitter<PageEvent>();
 
   public defaultSort?: Sort;
 
@@ -69,5 +72,9 @@ export class TableComponent implements OnChanges {
     }
 
     this.sorted.emit(sortState);
+  }
+
+  public pageChanged(pageEvent: PageEvent): void {
+    this.pageChange.emit(pageEvent);
   }
 }

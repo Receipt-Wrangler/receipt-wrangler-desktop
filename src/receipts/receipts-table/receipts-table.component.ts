@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -70,6 +71,7 @@ export class ReceiptsTableComponent implements OnInit {
   public receipts: Receipt[] = [];
 
   public ngOnInit(): void {
+    // TODO: Set up shit to use state
     this.groupId = Number.parseInt(
       this.store.selectSnapshot(GroupState.selectedGroupId)
     );
@@ -232,4 +234,6 @@ export class ReceiptsTableComponent implements OnInit {
       )
       .subscribe();
   }
+
+  public updatePageData(pageEvent: PageEvent): void {}
 }

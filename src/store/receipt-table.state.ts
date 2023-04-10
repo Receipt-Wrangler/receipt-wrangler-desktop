@@ -9,7 +9,7 @@ export interface ReceiptTableInterface {
 
 @State<ReceiptTableInterface>({
   name: 'receiptTable',
-  defaults: { page: 1, pageSize: 25 },
+  defaults: { page: 1, pageSize: 50 },
 })
 @Injectable()
 export class ReceiptTableState {
