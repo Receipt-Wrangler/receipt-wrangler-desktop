@@ -8,6 +8,7 @@ import { GroupState } from './group.state';
 import { FeatureConfigState } from './feature-config.state';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { LayoutState } from './layout.state';
+import { ReceiptTableState } from './receipt-table.state';
 
 @NgModule({
   declarations: [],
@@ -18,6 +19,7 @@ import { LayoutState } from './layout.state';
       FeatureConfigState,
       GroupState,
       LayoutState,
+      ReceiptTableState,
       UserState,
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
