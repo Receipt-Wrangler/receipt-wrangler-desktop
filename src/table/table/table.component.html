@@ -35,6 +35,8 @@
 </table>
 
 <mat-paginator
+  *ngIf="pagination"
   showFirstLastButtons
   [pageSizeOptions]="[5, 15, 25, 50, 100]"
+  [length]="length ? length : null"
 ></mat-paginator>

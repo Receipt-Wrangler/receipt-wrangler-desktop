@@ -26,6 +26,7 @@ export class TableComponent implements OnChanges {
   @Input() public displayedColumns: string[] = [];
   @Input() public dataSource = new MatTableDataSource<any>([]);
   @Input() public pagination: boolean = false;
+  @Input() public length: number = 0;
 
   @Output() public sorted: EventEmitter<Sort> = new EventEmitter<Sort>();
 
