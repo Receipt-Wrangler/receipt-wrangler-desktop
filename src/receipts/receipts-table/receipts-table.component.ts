@@ -18,6 +18,8 @@ import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 import { GroupState } from 'src/store/group.state';
+import { SetPage, SetPageSize } from 'src/store/receipt-table.actions';
+import { ReceiptTableState } from 'src/store/receipt-table.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
@@ -77,8 +79,11 @@ export class ReceiptsTableComponent implements OnInit {
     this.groupId = Number.parseInt(
       this.store.selectSnapshot(GroupState.selectedGroupId)
     );
+
+    const page = this.store.selectSnapshot(ReceiptTableState.page);
+    const pageSize = this.store.selectSnapshot(ReceiptTableState.pageSize);
     this.receiptsService
-      .getPagedReceiptsForGroups(this.groupId.toString())
+      .getPagedReceiptsForGroups(this.groupId.toString(), page, pageSize)
       .pipe(
         take(1),
         tap((pagedData) => {
@@ -237,5 +242,26 @@ export class ReceiptsTableComponent implements OnInit {
       .subscribe();
   }
 
-  public updatePageData(pageEvent: PageEvent): void {}
+  public updatePageData(pageEvent: PageEvent): void {
+    const newPage = pageEvent.pageIndex + 1;
+    this.store.dispatch(new SetPage(newPage));
+    this.store.dispatch(new SetPageSize(pageEvent.pageSize));
+
+    this.receiptsService
+      .getPagedReceiptsForGroups(
+        this.groupId.toString(),
+        newPage,
+        pageEvent.pageSize
+      )
+      .pipe(
+        take(1),
+        tap((pagedData) => {
+          this.receipts = pagedData.data;
+          this.dataSource.data = pagedData.data;
+          this.dataSource.sort = this.table.sort;
+          this.totalCount = pagedData.totalCount;
+        })
+      )
+      .subscribe();
+  }
 }

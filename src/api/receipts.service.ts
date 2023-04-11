@@ -10,9 +10,13 @@ import { Receipt } from 'src/models/receipt';
 export class ReceiptsService {
   constructor(private httpClient: HttpClient) {}
 
-  public getPagedReceiptsForGroups(groupId: string): Observable<PagedData> {
+  public getPagedReceiptsForGroups(
+    groupId: string,
+    page: number,
+    pageSize: number
+  ): Observable<PagedData> {
     return this.httpClient.get<PagedData>(`/api/receipt/group/${groupId}`, {
-      params: { page: 1, pageSize: 4 },
+      params: { page: page, pageSize: pageSize },
     });
   }
 
