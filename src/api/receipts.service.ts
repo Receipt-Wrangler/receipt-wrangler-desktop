@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
+import { PagedData } from 'src/models/paged-data';
 import { Receipt } from 'src/models/receipt';
 
 @Injectable({
@@ -9,12 +10,10 @@ import { Receipt } from 'src/models/receipt';
 export class ReceiptsService {
   constructor(private httpClient: HttpClient) {}
 
-  public getPagedReceiptsForGroups(groupId: string): Observable<Receipt[]> {
-    return this.httpClient
-      .get<Receipt[]>(`/api/receipt/group/${groupId}`, {
-        params: { page: 1, pageSize: 4 },
-      })
-      .pipe(take(1));
+  public getPagedReceiptsForGroups(groupId: string): Observable<PagedData> {
+    return this.httpClient.get<PagedData>(`/api/receipt/group/${groupId}`, {
+      params: { page: 1, pageSize: 4 },
+    });
   }
 
   public getReceiptById(id: string): Observable<Receipt> {

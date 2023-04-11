@@ -11,6 +11,7 @@
     [displayedColumns]="displayedColumns"
     [dataSource]="dataSource"
     [pagination]="true"
+    [length]="totalCount"
     (sorted)="sortPaidBy($event)"
     (pageChange)="updatePageData($event)"
   ></app-table>

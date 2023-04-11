@@ -70,6 +70,8 @@ export class ReceiptsTableComponent implements OnInit {
 
   public receipts: Receipt[] = [];
 
+  public totalCount: number = 0;
+
   public ngOnInit(): void {
     // TODO: Set up shit to use state
     this.groupId = Number.parseInt(
@@ -79,11 +81,11 @@ export class ReceiptsTableComponent implements OnInit {
       .getPagedReceiptsForGroups(this.groupId.toString())
       .pipe(
         take(1),
-        tap((receipts) => {
-          this.receipts = receipts;
-          this.dataSource = new MatTableDataSource<Receipt>(receipts);
-          this.dataSource.paginator = this.table.paginator;
+        tap((pagedData) => {
+          this.receipts = pagedData.data;
+          this.dataSource = new MatTableDataSource<Receipt>(pagedData.data);
           this.dataSource.sort = this.table.sort;
+          this.totalCount = pagedData.totalCount;
           this.setColumns();
           this.setActionsColumnDisplay();
         })
