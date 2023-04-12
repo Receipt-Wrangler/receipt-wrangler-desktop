@@ -259,11 +259,7 @@ export class ReceiptsTableComponent implements OnInit {
     this.store.dispatch(new SetPageSize(pageEvent.pageSize));
 
     this.receiptsService
-      .getPagedReceiptsForGroups(
-        this.groupId.toString(),
-        newPage,
-        pageEvent.pageSize
-      )
+      .getPagedReceiptsForGroups(this.groupId.toString())
       .pipe(
         take(1),
         tap((pagedData) => {

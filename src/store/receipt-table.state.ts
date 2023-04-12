@@ -51,7 +51,7 @@ export class ReceiptTableState {
     payload: SetPageSize
   ) {
     patchState({
-      page: payload.pageSize,
+      pageSize: payload.pageSize,
     });
   }
 
