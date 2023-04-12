@@ -10,7 +10,10 @@
     [columns]="columns"
     [displayedColumns]="displayedColumns"
     [dataSource]="dataSource"
-    (sorted)="sortPaidBy($event)"
+    [pagination]="true"
+    [length]="totalCount"
+    (sorted)="sort($event)"
+    (pageChange)="updatePageData($event)"
   ></app-table>
 </div>
 

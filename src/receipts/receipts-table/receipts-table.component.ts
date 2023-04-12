@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -17,6 +18,12 @@ import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 import { GroupState } from 'src/store/group.state';
+import {
+  SetPage,
+  SetPageSize,
+  SetReceiptFilterData,
+} from 'src/store/receipt-table.actions';
+import { ReceiptTableState } from 'src/store/receipt-table.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
@@ -69,18 +76,22 @@ export class ReceiptsTableComponent implements OnInit {
 
   public receipts: Receipt[] = [];
 
+  public totalCount: number = 0;
+
   public ngOnInit(): void {
+    // TODO: Set up shit to use state
     this.groupId = Number.parseInt(
       this.store.selectSnapshot(GroupState.selectedGroupId)
     );
+
     this.receiptsService
-      .getReceiptsForGroup(this.groupId.toString())
+      .getPagedReceiptsForGroups(this.groupId.toString())
       .pipe(
         take(1),
-        tap((receipts) => {
-          this.receipts = receipts;
-          this.dataSource = new MatTableDataSource<Receipt>(receipts);
-          this.dataSource.sort = this.table.sort;
+        tap((pagedData) => {
+          this.receipts = pagedData.data;
+          this.dataSource = new MatTableDataSource<Receipt>(pagedData.data);
+          this.totalCount = pagedData.totalCount;
           this.setColumns();
           this.setActionsColumnDisplay();
         })
@@ -161,20 +172,30 @@ export class ReceiptsTableComponent implements OnInit {
     }
   }
 
-  public sortPaidBy(sortState: Sort): void {
-    if (sortState.active === 'paidBy') {
-      if (sortState.direction === '') {
-        this.dataSource.data = this.receipts;
-      }
+  public sort(sortState: Sort): void {
+    const page = this.store.selectSnapshot(ReceiptTableState.page);
+    const pageSize = this.store.selectSnapshot(ReceiptTableState.pageSize);
 
-      const newData = this.sortByDisplayName.sort(
-        this.dataSource.data,
-        sortState,
-        'paidByUserId'
-      );
+    this.store.dispatch(
+      new SetReceiptFilterData({
+        page: page,
+        pageSize: pageSize,
+        orderBy: sortState.active,
+        sortDirection: sortState.direction,
+      })
+    );
 
-      this.dataSource.data = newData;
-    }
+    this.receiptsService
+      .getPagedReceiptsForGroups(this.groupId.toString())
+      .pipe(
+        take(1),
+        tap((pagedData) => {
+          this.receipts = pagedData.data;
+          this.dataSource.data = pagedData.data;
+          this.totalCount = pagedData.totalCount;
+        })
+      )
+      .subscribe();
   }
 
   public toggleIsResolved(row: Receipt, index: number): void {
@@ -227,6 +248,24 @@ export class ReceiptsTableComponent implements OnInit {
         tap((r: Receipt) => {
           this.snackbarService.success('Receipt successfully duplicated');
           this.router.navigateByUrl(`/receipts/${r.id}/view`);
+        })
+      )
+      .subscribe();
+  }
+
+  public updatePageData(pageEvent: PageEvent): void {
+    const newPage = pageEvent.pageIndex + 1;
+    this.store.dispatch(new SetPage(newPage));
+    this.store.dispatch(new SetPageSize(pageEvent.pageSize));
+
+    this.receiptsService
+      .getPagedReceiptsForGroups(this.groupId.toString())
+      .pipe(
+        take(1),
+        tap((pagedData) => {
+          this.receipts = pagedData.data;
+          this.dataSource.data = pagedData.data;
+          this.totalCount = pagedData.totalCount;
         })
       )
       .subscribe();
