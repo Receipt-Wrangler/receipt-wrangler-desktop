@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AvatarComponent } from './avatar.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('AvatarComponent', () => {
   let component: AvatarComponent;
@@ -8,9 +9,9 @@ describe('AvatarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AvatarComponent ]
-    })
-    .compileComponents();
+      declarations: [AvatarComponent],
+      imports: [MatTooltipModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AvatarComponent);
     component = fixture.componentInstance;

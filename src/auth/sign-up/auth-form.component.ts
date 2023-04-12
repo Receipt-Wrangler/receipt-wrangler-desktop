@@ -5,14 +5,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngxs/store';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UsersService } from 'src/api/users.service';
-import { Store } from '@ngxs/store';
-import { SnackbarService } from 'src/services/snackbar.service';
 import { AppInitService } from 'src/services/app-init.service';
-import { SetAuthState } from 'src/store/auth.state.actions';
+import { SnackbarService } from 'src/services/snackbar.service';
 import { GroupState } from 'src/store/group.state';
 
 @Component({
@@ -29,7 +27,6 @@ export class AuthForm implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private usersService: UsersService,
     private store: Store,
     private snackbarService: SnackbarService,
     private appInitService: AppInitService
