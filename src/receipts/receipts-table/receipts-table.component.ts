@@ -18,7 +18,11 @@ import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 import { GroupState } from 'src/store/group.state';
-import { SetPage, SetPageSize } from 'src/store/receipt-table.actions';
+import {
+  SetPage,
+  SetPageSize,
+  SetReceiptFilterData,
+} from 'src/store/receipt-table.actions';
 import { ReceiptTableState } from 'src/store/receipt-table.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
@@ -80,16 +84,13 @@ export class ReceiptsTableComponent implements OnInit {
       this.store.selectSnapshot(GroupState.selectedGroupId)
     );
 
-    const page = this.store.selectSnapshot(ReceiptTableState.page);
-    const pageSize = this.store.selectSnapshot(ReceiptTableState.pageSize);
     this.receiptsService
-      .getPagedReceiptsForGroups(this.groupId.toString(), page, pageSize)
+      .getPagedReceiptsForGroups(this.groupId.toString())
       .pipe(
         take(1),
         tap((pagedData) => {
           this.receipts = pagedData.data;
           this.dataSource = new MatTableDataSource<Receipt>(pagedData.data);
-          this.dataSource.sort = this.table.sort;
           this.totalCount = pagedData.totalCount;
           this.setColumns();
           this.setActionsColumnDisplay();
@@ -172,19 +173,29 @@ export class ReceiptsTableComponent implements OnInit {
   }
 
   public sortPaidBy(sortState: Sort): void {
-    if (sortState.active === 'paidBy') {
-      if (sortState.direction === '') {
-        this.dataSource.data = this.receipts;
-      }
+    const page = this.store.selectSnapshot(ReceiptTableState.page);
+    const pageSize = this.store.selectSnapshot(ReceiptTableState.pageSize);
 
-      const newData = this.sortByDisplayName.sort(
-        this.dataSource.data,
-        sortState,
-        'paidByUserId'
-      );
+    this.store.dispatch(
+      new SetReceiptFilterData({
+        page: page,
+        pageSize: pageSize,
+        orderBy: sortState.active,
+        sortDirection: sortState.direction,
+      })
+    );
 
-      this.dataSource.data = newData;
-    }
+    this.receiptsService
+      .getPagedReceiptsForGroups(this.groupId.toString())
+      .pipe(
+        take(1),
+        tap((pagedData) => {
+          this.receipts = pagedData.data;
+          this.dataSource.data = pagedData.data;
+          this.totalCount = pagedData.totalCount;
+        })
+      )
+      .subscribe();
   }
 
   public toggleIsResolved(row: Receipt, index: number): void {
@@ -258,7 +269,6 @@ export class ReceiptsTableComponent implements OnInit {
         tap((pagedData) => {
           this.receipts = pagedData.data;
           this.dataSource.data = pagedData.data;
-          this.dataSource.sort = this.table.sort;
           this.totalCount = pagedData.totalCount;
         })
       )

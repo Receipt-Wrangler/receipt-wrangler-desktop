@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { SetPage, SetPageSize } from './receipt-table.actions';
+import {
+  SetPage,
+  SetPageSize,
+  SetReceiptFilterData,
+} from './receipt-table.actions';
+import { SortDirection } from '@angular/material/sort';
 
 export interface ReceiptTableInterface {
   page: number;
   pageSize: number;
+  orderBy: string;
+  sortDirection: SortDirection;
 }
 
 @State<ReceiptTableInterface>({
   name: 'receiptTable',
-  defaults: { page: 1, pageSize: 50 },
+  defaults: { page: 1, pageSize: 50, orderBy: 'date', sortDirection: 'desc' },
 })
 @Injectable()
 export class ReceiptTableState {
@@ -21,6 +28,11 @@ export class ReceiptTableState {
   @Selector()
   static pageSize(state: ReceiptTableInterface): number {
     return state.pageSize;
+  }
+
+  @Selector()
+  static filterData(state: ReceiptTableInterface): ReceiptTableInterface {
+    return state;
   }
 
   @Action(SetPage)
@@ -41,5 +53,13 @@ export class ReceiptTableState {
     patchState({
       page: payload.pageSize,
     });
+  }
+
+  @Action(SetReceiptFilterData)
+  setReceiptFilterData(
+    { patchState }: StateContext<ReceiptTableInterface>,
+    payload: SetReceiptFilterData
+  ) {
+    patchState(payload.data);
   }
 }
