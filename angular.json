@@ -83,7 +83,9 @@
               "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "karmaConfig": "./karma.conf.js",
+            "codeCoverage": true
           }
         }
       }
