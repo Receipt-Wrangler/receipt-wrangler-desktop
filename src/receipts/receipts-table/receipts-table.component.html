@@ -12,7 +12,7 @@
     [dataSource]="dataSource"
     [pagination]="true"
     [length]="totalCount"
-    (sorted)="sortPaidBy($event)"
+    (sorted)="sort($event)"
     (pageChange)="updatePageData($event)"
   ></app-table>
 </div>

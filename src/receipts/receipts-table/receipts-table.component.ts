@@ -172,7 +172,7 @@ export class ReceiptsTableComponent implements OnInit {
     }
   }
 
-  public sortPaidBy(sortState: Sort): void {
+  public sort(sortState: Sort): void {
     const page = this.store.selectSnapshot(ReceiptTableState.page);
     const pageSize = this.store.selectSnapshot(ReceiptTableState.pageSize);
 
