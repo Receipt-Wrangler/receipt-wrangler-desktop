@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
 import { GroupRoleGuard } from './group-role.guard';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule } from '@ngxs/store';
 
 describe('GroupRoleGuard', () => {
   let guard: GroupRoleGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, NgxsModule.forRoot([])],
+    });
     guard = TestBed.inject(GroupRoleGuard);
   });
 
