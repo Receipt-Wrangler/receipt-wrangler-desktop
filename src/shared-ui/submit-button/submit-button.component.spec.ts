@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ButtonModule } from 'src/button/button.module';
 import { SubmitButtonComponent } from './submit-button.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('SubmitButtonComponent', () => {
   let component: SubmitButtonComponent;
@@ -8,9 +9,15 @@ describe('SubmitButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SubmitButtonComponent ]
-    })
-    .compileComponents();
+      declarations: [SubmitButtonComponent],
+      imports: [ButtonModule],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {},
+        },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SubmitButtonComponent);
     component = fixture.componentInstance;

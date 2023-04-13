@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserAutocompleteComponent } from './user-autocomplete.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgxsModule } from '@ngxs/store';
 
 describe('UserAutocompleteComponent', () => {
   let component: UserAutocompleteComponent;
@@ -8,9 +10,10 @@ describe('UserAutocompleteComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserAutocompleteComponent ]
-    })
-    .compileComponents();
+      declarations: [UserAutocompleteComponent],
+      imports: [NgxsModule.forRoot([])],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UserAutocompleteComponent);
     component = fixture.componentInstance;

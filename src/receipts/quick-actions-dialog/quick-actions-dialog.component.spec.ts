@@ -15,6 +15,8 @@ import { PipesModule } from 'src/pipes/pipes.module';
 import { RadioGroupModule } from 'src/radio-group/radio-group.module';
 import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
 import { QuickActionsDialogComponent } from './quick-actions-dialog.component';
+import { GroupState } from 'src/store/group.state';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('QuickActionsDialogComponent', () => {
   let component: QuickActionsDialogComponent;
@@ -31,16 +33,8 @@ describe('QuickActionsDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [QuickActionsDialogComponent],
-      imports: [
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        MatDialogModule,
-        RadioGroupModule,
-        PipesModule,
-        UserAutocompleteModule,
-        ButtonModule,
-        NgxsModule.forRoot([]),
-      ],
+      imports: [NgxsModule.forRoot([]), PipesModule, ReactiveFormsModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: MatDialogRef, useValue: mockDialogRef },
         { provide: MatSnackBar, useValue: mockSnackBar },

@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditButtonComponent } from './edit-button.component';
+import { ButtonModule } from 'src/button/button.module';
+import { ActivatedRoute } from '@angular/router';
 
 describe('EditButtonComponent', () => {
   let component: EditButtonComponent;
@@ -8,9 +10,15 @@ describe('EditButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditButtonComponent ]
-    })
-    .compileComponents();
+      declarations: [EditButtonComponent],
+      imports: [ButtonModule],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {},
+        },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EditButtonComponent);
     component = fixture.componentInstance;

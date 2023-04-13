@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CancelButtonComponent } from './cancel-button.component';
+import { ButtonModule } from 'src/button/button.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 describe('CancelButtonComponent', () => {
   let component: CancelButtonComponent;
@@ -8,9 +11,11 @@ describe('CancelButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CancelButtonComponent ]
-    })
-    .compileComponents();
+      declarations: [CancelButtonComponent],
+      imports: [ButtonModule],
+      providers: [{ provide: ActivatedRoute, useValue: {} }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CancelButtonComponent);
     component = fixture.componentInstance;
