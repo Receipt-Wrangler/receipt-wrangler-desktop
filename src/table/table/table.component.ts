@@ -12,6 +12,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableColumn } from '../table-column.interface';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-table',
@@ -26,6 +27,7 @@ export class TableComponent implements OnChanges {
   @Input() public displayedColumns: string[] = [];
   @Input() public dataSource = new MatTableDataSource<any>([]);
   @Input() public pagination: boolean = false;
+  @Input() public selectionCheckboxes: boolean = false;
   @Input() public pageSize: number = 50;
   @Input() public length: number = 0;
 
@@ -34,6 +36,7 @@ export class TableComponent implements OnChanges {
     new EventEmitter<PageEvent>();
 
   public defaultSort?: Sort;
+  public selection = new SelectionModel<any>(true, []);
 
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
@@ -57,6 +60,22 @@ export class TableComponent implements OnChanges {
         };
       }
     }
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
   }
 
   /** Announce the change in sort state for assistive technology. */

@@ -152,6 +152,7 @@ export class ReceiptsTableComponent implements OnInit {
       },
     ];
     this.displayedColumns = [
+      'select',
       'date',
       'name',
       'paidBy',

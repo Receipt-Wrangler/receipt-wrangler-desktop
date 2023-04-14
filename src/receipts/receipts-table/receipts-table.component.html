@@ -12,6 +12,7 @@
     [dataSource]="dataSource"
     [pagination]="true"
     [length]="totalCount"
+    [selectionCheckboxes]="true"
     (sorted)="sort($event)"
     (pageChange)="updatePageData($event)"
   ></app-table>
