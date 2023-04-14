@@ -17,6 +17,7 @@ import { AutocomleteComponent } from './autocomlete.component';
 describe('AutocomleteComponent', () => {
   let component: AutocomleteComponent;
   let fixture: ComponentFixture<AutocomleteComponent>;
+  jasmine.clock().install();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
