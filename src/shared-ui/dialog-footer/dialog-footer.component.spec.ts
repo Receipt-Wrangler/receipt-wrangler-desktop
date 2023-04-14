@@ -1,5 +1,6 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ButtonModule } from 'src/button/button.module';
 import { DialogFooterComponent } from './dialog-footer.component';
 
 describe('DialogFooterComponent', () => {
@@ -8,9 +9,10 @@ describe('DialogFooterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialogFooterComponent ]
-    })
-    .compileComponents();
+      declarations: [DialogFooterComponent],
+      imports: [ButtonModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DialogFooterComponent);
     component = fixture.componentInstance;

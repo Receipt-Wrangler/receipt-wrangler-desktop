@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
 import { RoleGuard } from './role.guard';
+import { NgxsModule } from '@ngxs/store';
 
 describe('RoleGuard', () => {
   let guard: RoleGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [NgxsModule.forRoot([])],
+    });
     guard = TestBed.inject(RoleGuard);
   });
 

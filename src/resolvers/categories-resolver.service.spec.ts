@@ -1,12 +1,14 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
 import { CategoriesResolverService } from './categories-resolver.service';
 
 describe('CategoriesResolverService', () => {
   let service: CategoriesResolverService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+    });
     service = TestBed.inject(CategoriesResolverService);
   });
 
