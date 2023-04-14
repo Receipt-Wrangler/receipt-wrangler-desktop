@@ -11,7 +11,7 @@ module.exports = function(config) {
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false
     },
     coverageReporter: {
       dir: require('path').join(__dirname, './coverage/receipt-wrangler-desktop'),
