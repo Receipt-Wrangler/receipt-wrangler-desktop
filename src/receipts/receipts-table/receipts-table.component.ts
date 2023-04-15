@@ -28,6 +28,7 @@ import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
 import { SortByDisplayName } from 'src/utils/sort-by-displayname';
+import { BulkResolveDialogComponent } from '../bulk-resolve-dialog/bulk-resolve-dialog.component';
 
 @Component({
   selector: 'app-receipts-table',
@@ -269,5 +270,9 @@ export class ReceiptsTableComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  public showResolveDialog(): void {
+    this.matDialog.open(BulkResolveDialogComponent);
   }
 }

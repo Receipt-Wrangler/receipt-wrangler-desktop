@@ -29,6 +29,7 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
 import { UserTotalPipe } from './user-total.pipe';
 import { TopLevelCommentPipe } from './receipt-comments/top-level-comment.pipe';
 import { ReplyButtonTextPipe } from './receipt-comments/reply-button-text.pipe';
+import { BulkResolveDialogComponent } from './bulk-resolve-dialog/bulk-resolve-dialog.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ReplyButtonTextPipe } from './receipt-comments/reply-button-text.pipe';
     ReceiptCommentsComponent,
     TopLevelCommentPipe,
     ReplyButtonTextPipe,
+    BulkResolveDialogComponent,
   ],
   imports: [
     AutocompleteModule,

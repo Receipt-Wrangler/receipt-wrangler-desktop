@@ -9,6 +9,7 @@
     <app-button
       *ngIf="table?.selection?.hasValue()"
       buttonText="Resolve Selected Receipts"
+      (click)="showResolveDialog()"
     ></app-button>
   </div>
 </app-table-header>
