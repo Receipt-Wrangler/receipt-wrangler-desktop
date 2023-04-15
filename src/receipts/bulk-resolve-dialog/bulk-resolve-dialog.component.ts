@@ -12,7 +12,7 @@ export class BulkResolveDialogComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private matDialogRef: MatDialogRef<BulkResolveDialogComponent>
+    public matDialogRef: MatDialogRef<BulkResolveDialogComponent>
   ) {}
 
   public ngOnInit(): void {

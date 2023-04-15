@@ -103,7 +103,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.checkboxChange = this.table.selection.changed;
+    this.checkboxChange = this.table?.selection?.changed;
   }
 
   private setColumns(): void {
