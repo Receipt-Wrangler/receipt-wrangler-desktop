@@ -40,7 +40,6 @@ export class ReceiptsTableComponent implements OnInit {
     private snackbarService: SnackbarService,
     private store: Store,
     private groupUtil: GroupUtil,
-    private sortByDisplayName: SortByDisplayName,
     private router: Router,
     private matDialog: MatDialog
   ) {}

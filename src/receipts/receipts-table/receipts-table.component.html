@@ -1,9 +1,16 @@
 <app-table-header headerText="Receipts">
-  <app-button
-    buttonText="Add Receipt"
-    [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
-    [routerLink]="['/receipts/add']"
-  ></app-button>
+  <div>
+    <app-button
+      class="me-2"
+      buttonText="Add Receipt"
+      [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
+      [routerLink]="['/receipts/add']"
+    ></app-button>
+    <app-button
+      *ngIf="table?.selection?.hasValue()"
+      buttonText="Resolve Selected Receipts"
+    ></app-button>
+  </div>
 </app-table-header>
 <div class="table-container">
   <app-table
