@@ -1,3 +1,4 @@
+import { SelectionChange } from '@angular/cdk/collections';
 import {
   AfterViewInit,
   Component,
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { DEFAULT_DIALOG_CONFIG } from 'constants';
 import { Subject, take, tap } from 'rxjs';
-import { ReceiptsService } from 'src/api/receipts.service';
+import { BulkResolve, ReceiptsService } from 'src/api/receipts.service';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -29,7 +30,6 @@ import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
 import { BulkResolveDialogComponent } from '../bulk-resolve-dialog/bulk-resolve-dialog.component';
-import { SelectionChange } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-receipts-table',
@@ -289,9 +289,41 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .afterClosed()
       .pipe(
         take(1),
-        tap((result) => {
-          console.warn(result);
-        })
+        tap(
+          (
+            commentForm:
+              | {
+                  comment: string;
+                }
+              | undefined
+          ) => {
+            if (this.table.selection.hasValue()) {
+              const receiptIds = (
+                this.table.selection.selected as Receipt[]
+              ).map((r) => r.id);
+
+              const bulkResolve: BulkResolve = {
+                comment: commentForm?.comment ?? '',
+                receiptIds: receiptIds,
+              };
+              this.receiptsService
+                .bulkResolveReceipts(bulkResolve)
+                .pipe(
+                  take(1),
+                  tap(() => {
+                    let newReceipts = Array.from(this.receipts);
+                    newReceipts.forEach((r) => {
+                      if (receiptIds.includes(r.id)) {
+                        r.isResolved = true;
+                      }
+                    });
+                    this.receipts = newReceipts;
+                  })
+                )
+                .subscribe();
+            }
+          }
+        )
       )
       .subscribe();
   }

@@ -7,6 +7,11 @@ import { PagedData } from 'src/models/paged-data';
 import { Receipt } from 'src/models/receipt';
 import { ReceiptTableState } from 'src/store/receipt-table.state';
 
+export interface BulkResolve {
+  receiptIds: number[];
+  comment: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -42,6 +47,10 @@ export class ReceiptsService {
     return this.httpClient
       .put<void>(`/api/receipt/${id}/toggleIsResolved`, {})
       .pipe(take(1));
+  }
+
+  public bulkResolveReceipts(bulkResolve: BulkResolve): Observable<void> {
+    return this.httpClient.post<void>(`/api/receipt/bulkResolve`, bulkResolve);
   }
 
   public createReceipt(receipt: Receipt): Observable<Receipt> {
