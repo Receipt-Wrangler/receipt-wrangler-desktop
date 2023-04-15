@@ -1,9 +1,17 @@
 <app-table-header headerText="Receipts">
-  <app-button
-    buttonText="Add Receipt"
-    [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
-    [routerLink]="['/receipts/add']"
-  ></app-button>
+  <div>
+    <app-button
+      class="me-2"
+      buttonText="Add Receipt"
+      [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
+      [routerLink]="['/receipts/add']"
+    ></app-button>
+    <app-button
+      *ngIf="(checkboxChange | async)?.source?.selected?.length ?? false"
+      buttonText="Resolve Selected Receipts"
+      (click)="showResolveDialog()"
+    ></app-button>
+  </div>
 </app-table-header>
 <div class="table-container">
   <app-table
@@ -12,6 +20,7 @@
     [dataSource]="dataSource"
     [pagination]="true"
     [length]="totalCount"
+    [selectionCheckboxes]="true"
     (sorted)="sort($event)"
     (pageChange)="updatePageData($event)"
   ></app-table>
