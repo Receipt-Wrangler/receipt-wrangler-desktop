@@ -7,7 +7,7 @@
       [routerLink]="['/receipts/add']"
     ></app-button>
     <app-button
-      *ngIf="table?.selection?.hasValue()"
+      *ngIf="(checkboxChange | async)?.source?.selected?.length ?? false"
       buttonText="Resolve Selected Receipts"
       (click)="showResolveDialog()"
     ></app-button>

@@ -1,4 +1,10 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
@@ -6,7 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { DEFAULT_DIALOG_CONFIG } from 'constants';
-import { take, tap } from 'rxjs';
+import { Subject, take, tap } from 'rxjs';
 import { ReceiptsService } from 'src/api/receipts.service';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { Receipt } from 'src/models/receipt';
@@ -23,13 +29,14 @@ import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
 import { BulkResolveDialogComponent } from '../bulk-resolve-dialog/bulk-resolve-dialog.component';
+import { SelectionChange } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-receipts-table',
   templateUrl: './receipts-table.component.html',
   styleUrls: ['./receipts-table.component.scss'],
 })
-export class ReceiptsTableComponent implements OnInit {
+export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(
     private receiptsService: ReceiptsService,
     private snackbarService: SnackbarService,
@@ -72,6 +79,8 @@ export class ReceiptsTableComponent implements OnInit {
 
   public totalCount: number = 0;
 
+  public checkboxChange: Subject<SelectionChange<any>> = new Subject();
+
   public ngOnInit(): void {
     // TODO: Set up shit to use state
     this.groupId = Number.parseInt(
@@ -91,6 +100,10 @@ export class ReceiptsTableComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  public ngAfterViewInit(): void {
+    this.checkboxChange = this.table.selection.changed;
   }
 
   private setColumns(): void {
