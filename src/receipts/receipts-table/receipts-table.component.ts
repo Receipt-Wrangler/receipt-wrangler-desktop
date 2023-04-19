@@ -60,6 +60,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild('isResolvedCell') isResolvedCell!: TemplateRef<any>;
 
+  @ViewChild('resolvedDateCell') resolvedDateCell!: TemplateRef<any>;
+
   @ViewChild('actionsCell') actionsCell!: TemplateRef<any>;
 
   @ViewChild(TableComponent) table!: TableComponent;
@@ -152,6 +154,12 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         sortable: true,
       },
       {
+        columnHeader: 'Resolved Date',
+        matColumnDef: 'resolvedDate',
+        template: this.resolvedDateCell,
+        sortable: true,
+      },
+      {
         columnHeader: 'Actions',
         matColumnDef: 'actions',
         template: this.actionsCell,
@@ -167,6 +175,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       'categories',
       'tags',
       'isResolved',
+      'resolvedDate',
     ];
   }
 

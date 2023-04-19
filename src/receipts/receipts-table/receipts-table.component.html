@@ -61,6 +61,10 @@
   ></app-slide-toggle>
 </ng-template>
 
+<ng-template #resolvedDateCell let-element="element" let-i="i">
+  {{ element.resolvedDate | date }}
+</ng-template>
+
 <ng-template #actionsCell let-element="element" let-i="i">
   <div class="d-flex w-100">
     <app-button
