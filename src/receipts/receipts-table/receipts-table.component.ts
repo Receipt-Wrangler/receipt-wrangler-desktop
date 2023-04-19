@@ -319,11 +319,15 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
                 .bulkResolveReceipts(bulkResolve)
                 .pipe(
                   take(1),
-                  tap(() => {
+                  tap((receipts) => {
                     let newReceipts = Array.from(this.receipts);
-                    newReceipts.forEach((r) => {
-                      if (receiptIds.includes(r.id)) {
-                        r.isResolved = true;
+                    receipts.forEach((r) => {
+                      const receiptInTable = newReceipts.find(
+                        (nr) => r.id === nr.id
+                      );
+                      if (receiptInTable) {
+                        receiptInTable.isResolved = true;
+                        receiptInTable.resolvedDate = r.resolvedDate;
                       }
                     });
                     this.receipts = newReceipts;

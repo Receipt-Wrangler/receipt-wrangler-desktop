@@ -49,8 +49,11 @@ export class ReceiptsService {
       .pipe(take(1));
   }
 
-  public bulkResolveReceipts(bulkResolve: BulkResolve): Observable<void> {
-    return this.httpClient.post<void>(`/api/receipt/bulkResolve`, bulkResolve);
+  public bulkResolveReceipts(bulkResolve: BulkResolve): Observable<Receipt[]> {
+    return this.httpClient.post<Receipt[]>(
+      `/api/receipt/bulkResolve`,
+      bulkResolve
+    );
   }
 
   public createReceipt(receipt: Receipt): Observable<Receipt> {

@@ -8,10 +8,11 @@ export interface Receipt {
   id: number;
   name: string;
   amount: number;
-  date: Date;
+  date: string;
   paidByUserId: number;
   groupId: number;
   isResolved: boolean;
+  resolvedDate: string;
   tags: Tag[];
   categories: Category[];
   imageFiles: FileData[];
