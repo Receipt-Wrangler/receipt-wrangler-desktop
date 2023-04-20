@@ -77,8 +77,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public columns: TableColumn[] = [];
 
-  public receipts: Receipt[] = [];
-
   public totalCount: number = 0;
 
   public checkboxChange: Subject<SelectionChange<any>> = new Subject();
@@ -94,7 +92,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.receipts = pagedData.data;
           this.dataSource = new MatTableDataSource<Receipt>(pagedData.data);
           this.totalCount = pagedData.totalCount;
           this.setColumns();
@@ -207,7 +204,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.receipts = pagedData.data;
           this.dataSource.data = pagedData.data;
           this.totalCount = pagedData.totalCount;
         })
@@ -281,7 +277,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.receipts = pagedData.data;
           this.dataSource.data = pagedData.data;
           this.totalCount = pagedData.totalCount;
         })
@@ -321,7 +316,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
                 .pipe(
                   take(1),
                   tap((receipts) => {
-                    let newReceipts = Array.from(this.receipts);
+                    let newReceipts = Array.from(this.dataSource.data);
                     receipts.forEach((r) => {
                       const receiptInTable = newReceipts.find(
                         (nr) => r.id === nr.id
@@ -331,7 +326,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
                         receiptInTable.resolvedDate = r.resolvedDate;
                       }
                     });
-                    this.receipts = newReceipts;
+                    this.dataSource.data = newReceipts;
                   })
                 )
                 .subscribe();
