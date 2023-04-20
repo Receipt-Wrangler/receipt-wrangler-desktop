@@ -108,7 +108,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   private setColumns(): void {
     this.columns = [
       {
-        columnHeader: 'Date',
+        columnHeader: 'Receipt Date',
         matColumnDef: 'date',
         defaultSortDirection: 'desc',
         template: this.dateCell,
