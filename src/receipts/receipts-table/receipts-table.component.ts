@@ -60,6 +60,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild('isResolvedCell') isResolvedCell!: TemplateRef<any>;
 
+  @ViewChild('resolvedDateCell') resolvedDateCell!: TemplateRef<any>;
+
   @ViewChild('actionsCell') actionsCell!: TemplateRef<any>;
 
   @ViewChild(TableComponent) table!: TableComponent;
@@ -74,8 +76,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   public displayedColumns: string[] = [];
 
   public columns: TableColumn[] = [];
-
-  public receipts: Receipt[] = [];
 
   public totalCount: number = 0;
 
@@ -92,7 +92,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.receipts = pagedData.data;
           this.dataSource = new MatTableDataSource<Receipt>(pagedData.data);
           this.totalCount = pagedData.totalCount;
           this.setColumns();
@@ -109,7 +108,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   private setColumns(): void {
     this.columns = [
       {
-        columnHeader: 'Date',
+        columnHeader: 'Receipt Date',
         matColumnDef: 'date',
         defaultSortDirection: 'desc',
         template: this.dateCell,
@@ -152,6 +151,12 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         sortable: true,
       },
       {
+        columnHeader: 'Resolved Date',
+        matColumnDef: 'resolvedDate',
+        template: this.resolvedDateCell,
+        sortable: true,
+      },
+      {
         columnHeader: 'Actions',
         matColumnDef: 'actions',
         template: this.actionsCell,
@@ -167,6 +172,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       'categories',
       'tags',
       'isResolved',
+      'resolvedDate',
     ];
   }
 
@@ -198,7 +204,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.receipts = pagedData.data;
           this.dataSource.data = pagedData.data;
           this.totalCount = pagedData.totalCount;
         })
@@ -210,9 +215,10 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     this.receiptsService
       .toggleIsResolved(row.id.toString())
       .pipe(
-        tap(() => {
+        tap((receipt) => {
           let newReceipts = Array.from(this.dataSource.data);
-          newReceipts[index].isResolved = !newReceipts[index].isResolved;
+          newReceipts[index].isResolved = receipt.isResolved;
+          newReceipts[index].resolvedDate = receipt.resolvedDate;
           this.dataSource.data = newReceipts;
         })
       )
@@ -271,7 +277,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.receipts = pagedData.data;
           this.dataSource.data = pagedData.data;
           this.totalCount = pagedData.totalCount;
         })
@@ -310,14 +315,18 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
                 .bulkResolveReceipts(bulkResolve)
                 .pipe(
                   take(1),
-                  tap(() => {
-                    let newReceipts = Array.from(this.receipts);
-                    newReceipts.forEach((r) => {
-                      if (receiptIds.includes(r.id)) {
-                        r.isResolved = true;
+                  tap((receipts) => {
+                    let newReceipts = Array.from(this.dataSource.data);
+                    receipts.forEach((r) => {
+                      const receiptInTable = newReceipts.find(
+                        (nr) => r.id === nr.id
+                      );
+                      if (receiptInTable) {
+                        receiptInTable.isResolved = true;
+                        receiptInTable.resolvedDate = r.resolvedDate;
                       }
                     });
-                    this.receipts = newReceipts;
+                    this.dataSource.data = newReceipts;
                   })
                 )
                 .subscribe();

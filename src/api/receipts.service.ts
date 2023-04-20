@@ -43,14 +43,17 @@ export class ReceiptsService {
     return this.httpClient.get<Receipt>(`/api/receipt/${id}`).pipe(take(1));
   }
 
-  public toggleIsResolved(id: string): Observable<void> {
+  public toggleIsResolved(id: string): Observable<Receipt> {
     return this.httpClient
-      .put<void>(`/api/receipt/${id}/toggleIsResolved`, {})
+      .put<Receipt>(`/api/receipt/${id}/toggleIsResolved`, {})
       .pipe(take(1));
   }
 
-  public bulkResolveReceipts(bulkResolve: BulkResolve): Observable<void> {
-    return this.httpClient.post<void>(`/api/receipt/bulkResolve`, bulkResolve);
+  public bulkResolveReceipts(bulkResolve: BulkResolve): Observable<Receipt[]> {
+    return this.httpClient.post<Receipt[]>(
+      `/api/receipt/bulkResolve`,
+      bulkResolve
+    );
   }
 
   public createReceipt(receipt: Receipt): Observable<Receipt> {
