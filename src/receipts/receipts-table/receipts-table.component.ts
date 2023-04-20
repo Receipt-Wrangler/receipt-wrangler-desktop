@@ -219,9 +219,10 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     this.receiptsService
       .toggleIsResolved(row.id.toString())
       .pipe(
-        tap(() => {
+        tap((receipt) => {
           let newReceipts = Array.from(this.dataSource.data);
-          newReceipts[index].isResolved = !newReceipts[index].isResolved;
+          newReceipts[index].isResolved = receipt.isResolved;
+          newReceipts[index].resolvedDate = receipt.resolvedDate;
           this.dataSource.data = newReceipts;
         })
       )

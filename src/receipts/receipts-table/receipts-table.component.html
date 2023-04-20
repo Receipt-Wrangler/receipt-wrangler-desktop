@@ -52,20 +52,20 @@
   {{ element.tags | name }}
 </ng-template>
 
-<ng-template #isResolvedCell let-element="element" let-i="i">
+<ng-template #isResolvedCell let-element="element" let-index="index">
   <app-slide-toggle
     color="primary"
     [checked]="element.isResolved"
     [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
-    (click)="toggleIsResolved(element, i)"
+    (click)="toggleIsResolved(element, index)"
   ></app-slide-toggle>
 </ng-template>
 
-<ng-template #resolvedDateCell let-element="element" let-i="i">
+<ng-template #resolvedDateCell let-element="element">
   {{ element.resolvedDate | date }}
 </ng-template>
 
-<ng-template #actionsCell let-element="element" let-i="i">
+<ng-template #actionsCell let-element="element" let-index="index">
   <div class="d-flex w-100">
     <app-button
       matButtonType="iconButton"
