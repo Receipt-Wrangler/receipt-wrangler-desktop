@@ -25,7 +25,7 @@
       </div>
       <div class="d-flex justify-content-between form-container">
         <div
-          class="d-flex flex-column justify-content-center align-items-center"
+          class="d-flex flex-column justify-content-center align-items-center w-50"
         >
           <app-input
             class="w-100"
@@ -68,6 +68,7 @@
           ></app-autocomlete>
           <app-datepicker
             label="Date"
+            class="w-100"
             [inputFormControl]="form | formGet : 'date'"
             [readonly]="mode | inputReadonly"
           ></app-datepicker>
