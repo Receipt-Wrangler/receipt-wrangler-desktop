@@ -83,6 +83,8 @@ export class ReceiptFormComponent implements OnInit {
 
   public imagesLoading: boolean = false;
 
+  public showImages: boolean = true;
+
   public usersToOmit: string[] = [];
 
   public duplicatedReceiptId: string = '';
@@ -303,6 +305,10 @@ export class ReceiptFormComponent implements OnInit {
 
   public closeSuccessDuplicateSnackbar(): void {
     this.duplicatedSnackbarRef.dismiss();
+  }
+
+  public toggleShowImages(): void {
+    this.showImages = !this.showImages;
   }
 
   public submit(): void {

@@ -7,7 +7,10 @@
       [receiptId]="originalReceipt?.id?.toString()"
     >
     </app-upload-image>
-    <div *ngIf="images && (images?.length ?? 0 > 0)" class="col-3">
+    <div
+      *ngIf="images && (images?.length ?? 0 > 0) && showImages"
+      class="col-3"
+    >
       <ng-container *ngIf="imagesLoading">
         <div class="d-flex justify-content-center align-items-center">
           <mat-spinner></mat-spinner>
@@ -138,6 +141,14 @@
               !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
             "
             (clicked)="uploadImageButtonClicked()"
+          ></app-button>
+          <app-button
+            *ngIf="images && (images?.length ?? 0 > 0)"
+            class="mb-4"
+            matButtonType="iconButton"
+            [icon]="showImages ? 'visibility_off' : 'visibility'"
+            [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
+            (clicked)="toggleShowImages()"
           ></app-button>
           <app-button
             *ngIf="!(mode | inputReadonly)"
