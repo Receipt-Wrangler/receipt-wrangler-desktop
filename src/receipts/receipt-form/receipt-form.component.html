@@ -1,4 +1,5 @@
 <form class="mb-4" [formGroup]="form" (ngSubmit)="submit()">
+  <h2>{{ headerText }}</h2>
   <div class="row g-1">
     <div class="col-3">
       <ng-container *ngIf="imagesLoading">
