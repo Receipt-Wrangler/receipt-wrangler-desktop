@@ -83,11 +83,15 @@ export class ReceiptFormComponent implements OnInit {
 
   public imagesLoading: boolean = false;
 
+  public showImages: boolean = true;
+
   public usersToOmit: string[] = [];
 
   public duplicatedReceiptId: string = '';
 
   public duplicatedSnackbarRef!: MatSnackBarRef<EmbeddedViewRef<any>>;
+
+  public headerText: string = '';
 
   constructor(
     private receiptsService: ReceiptsService,
@@ -107,11 +111,29 @@ export class ReceiptFormComponent implements OnInit {
     this.tags = this.activatedRoute.snapshot.data['tags'];
     this.originalReceipt = this.activatedRoute.snapshot.data['receipt'];
     this.editLink = `/receipts/${this.originalReceipt?.id}/edit`;
+    this.mode = this.activatedRoute.snapshot.data['mode'];
     this.setCancelLink();
     this.initForm();
     this.getImageFiles();
-    this.mode = this.activatedRoute.snapshot.data['mode'];
+    this.setHeaderText();
     this.listenForParamChanges();
+  }
+
+  private setHeaderText(): void {
+    let action = '';
+    switch (this.mode) {
+      case FormMode.add:
+        action = 'Add';
+        break;
+      case FormMode.view:
+        action = 'View';
+        break;
+      case FormMode.edit:
+        action = 'Edit';
+        break;
+    }
+
+    this.headerText = `${action} Receipt`;
   }
 
   private listenForParamChanges(): void {
@@ -283,6 +305,10 @@ export class ReceiptFormComponent implements OnInit {
 
   public closeSuccessDuplicateSnackbar(): void {
     this.duplicatedSnackbarRef.dismiss();
+  }
+
+  public toggleShowImages(): void {
+    this.showImages = !this.showImages;
   }
 
   public submit(): void {
