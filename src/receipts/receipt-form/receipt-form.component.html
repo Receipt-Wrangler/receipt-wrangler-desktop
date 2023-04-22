@@ -1,7 +1,13 @@
 <form class="mb-4" [formGroup]="form" (ngSubmit)="submit()">
   <h2>{{ headerText }}</h2>
   <div class="row g-1">
-    <div class="col-3">
+    <app-upload-image
+      [images]="images"
+      [mode]="mode"
+      [receiptId]="originalReceipt?.id?.toString()"
+    >
+    </app-upload-image>
+    <div *ngIf="images && (images?.length ?? 0 > 0)" class="col-3">
       <ng-container *ngIf="imagesLoading">
         <div class="d-flex justify-content-center align-items-center">
           <mat-spinner></mat-spinner>
@@ -13,12 +19,6 @@
         [disabled]="mode !== formMode.edit"
         (removeButtonClicked)="removeImage($event)"
       ></app-carousel>
-      <app-upload-image
-        [images]="images"
-        [mode]="mode"
-        [receiptId]="originalReceipt?.id?.toString()"
-      >
-      </app-upload-image>
     </div>
     <div class="col g-4">
       <div class="mb-3">
