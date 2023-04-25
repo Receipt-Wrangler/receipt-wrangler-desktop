@@ -26,7 +26,7 @@ import { ReceiptTableState } from './receipt-table.state';
       disabled: true,
     }),
     NgxsStoragePluginModule.forRoot({
-      key: ['groups', 'layout'],
+      key: ['groups', 'layout', 'receiptTable'],
     }),
   ],
 })

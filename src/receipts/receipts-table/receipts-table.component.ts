@@ -11,9 +11,9 @@ import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { DEFAULT_DIALOG_CONFIG } from 'constants';
-import { Subject, take, tap } from 'rxjs';
+import { Observable, Subject, take, tap } from 'rxjs';
 import { BulkResolve, ReceiptsService } from 'src/api/receipts.service';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { Receipt } from 'src/models/receipt';
@@ -65,6 +65,10 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   @ViewChild('actionsCell') actionsCell!: TemplateRef<any>;
 
   @ViewChild(TableComponent) table!: TableComponent;
+
+  @Select(ReceiptTableState.page) public page!: Observable<number>;
+
+  @Select(ReceiptTableState.pageSize) public pageSize!: Observable<number>;
 
   public groupId: number = 0;
 

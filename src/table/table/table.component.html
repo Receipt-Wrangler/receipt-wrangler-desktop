@@ -55,6 +55,7 @@
 <mat-paginator
   *ngIf="pagination"
   showFirstLastButtons
+  [pageIndex]="page"
   [pageSizeOptions]="[5, 15, 25, 50, 100]"
   [pageSize]="pageSize"
   [length]="length ? length : null"

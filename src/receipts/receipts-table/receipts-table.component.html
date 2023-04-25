@@ -21,6 +21,8 @@
     [pagination]="true"
     [length]="totalCount"
     [selectionCheckboxes]="true"
+    [page]="$any(page | async) - 1"
+    [pageSize]="(pageSize | async) ?? 50"
     (sorted)="sort($event)"
     (pageChange)="updatePageData($event)"
   ></app-table>
