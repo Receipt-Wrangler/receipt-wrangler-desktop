@@ -24,7 +24,12 @@
           commentIndex: index
         }"
       ></ng-container>
-      <div class="d-flex content-margin">
+      <div
+        class="d-flex content-margin"
+        [ngClass]="{
+          'mb-2': mode === formMode.edit
+        }"
+      >
         <ng-container
           *ngIf="
             comment?.value?.replies?.length && comment.value.replies.length > 0
