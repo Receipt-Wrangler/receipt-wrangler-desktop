@@ -28,6 +28,7 @@ export class TableComponent implements OnChanges {
   @Input() public dataSource = new MatTableDataSource<any>([]);
   @Input() public pagination: boolean = false;
   @Input() public selectionCheckboxes: boolean = false;
+  @Input() public page: number = 0;
   @Input() public pageSize: number = 50;
   @Input() public length: number = 0;
 
