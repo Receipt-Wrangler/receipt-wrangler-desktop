@@ -101,6 +101,13 @@
             [inputFormControl]="form | formGet : 'isResolved'"
             [readonly]="mode | inputReadonly"
           ></app-input>
+          <app-select
+            class="w-100"
+            label="Status"
+            [inputFormControl]="form | formGet : 'status'"
+            [readonly]="mode | inputReadonly"
+            [options]="receiptStatusOptions"
+          ></app-select>
         </div>
         <app-form-button-bar>
           <app-back-button

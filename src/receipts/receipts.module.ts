@@ -30,6 +30,7 @@ import { UserTotalPipe } from './user-total.pipe';
 import { TopLevelCommentPipe } from './receipt-comments/top-level-comment.pipe';
 import { ReplyButtonTextPipe } from './receipt-comments/reply-button-text.pipe';
 import { BulkResolveDialogComponent } from './bulk-resolve-dialog/bulk-resolve-dialog.component';
+import { SelectModule } from 'src/select/select.module';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { BulkResolveDialogComponent } from './bulk-resolve-dialog/bulk-resolve-d
     MatCardModule,
     TextareaModule,
     AvatarModule,
+    SelectModule,
   ],
 })
 export class ReceiptsModule {}
