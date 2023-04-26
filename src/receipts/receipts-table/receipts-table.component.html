@@ -54,15 +54,6 @@
   {{ element.tags | name }}
 </ng-template>
 
-<ng-template #isResolvedCell let-element="element" let-index="index">
-  <app-slide-toggle
-    color="primary"
-    [checked]="element.isResolved"
-    [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
-    (click)="toggleIsResolved(element, index)"
-  ></app-slide-toggle>
-</ng-template>
-
 <ng-template #statusCell let-element="element">
   {{ element.status }}
 </ng-template>

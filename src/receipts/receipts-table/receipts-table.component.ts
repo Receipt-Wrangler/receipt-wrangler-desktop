@@ -60,8 +60,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild('statusCell') statusCell!: TemplateRef<any>;
 
-  @ViewChild('isResolvedCell') isResolvedCell!: TemplateRef<any>;
-
   @ViewChild('resolvedDateCell') resolvedDateCell!: TemplateRef<any>;
 
   @ViewChild('actionsCell') actionsCell!: TemplateRef<any>;
@@ -151,12 +149,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         sortable: false,
       },
       {
-        columnHeader: 'Is Resolved',
-        matColumnDef: 'isResolved',
-        template: this.isResolvedCell,
-        sortable: true,
-      },
-      {
         columnHeader: 'Status',
         matColumnDef: 'status',
         template: this.statusCell,
@@ -183,7 +175,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       'amount',
       'categories',
       'tags',
-      'isResolved',
       'status',
       'resolvedDate',
     ];
@@ -219,20 +210,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         tap((pagedData) => {
           this.dataSource.data = pagedData.data;
           this.totalCount = pagedData.totalCount;
-        })
-      )
-      .subscribe();
-  }
-
-  public toggleIsResolved(row: Receipt, index: number): void {
-    this.receiptsService
-      .toggleIsResolved(row.id.toString())
-      .pipe(
-        tap((receipt) => {
-          let newReceipts = Array.from(this.dataSource.data);
-          newReceipts[index].isResolved = receipt.isResolved;
-          newReceipts[index].resolvedDate = receipt.resolvedDate;
-          this.dataSource.data = newReceipts;
         })
       )
       .subscribe();

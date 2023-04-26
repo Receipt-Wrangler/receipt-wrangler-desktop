@@ -182,7 +182,6 @@ export class ReceiptFormComponent implements OnInit {
         this.originalReceipt?.groupId ?? Number(selectedGroupId),
         Validators.required,
       ],
-      isResolved: this.originalReceipt?.isResolved ?? false,
       status: this.originalReceipt?.status ?? ReceiptStatus.OPEN,
     });
 
