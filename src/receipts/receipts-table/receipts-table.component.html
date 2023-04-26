@@ -63,6 +63,10 @@
   ></app-slide-toggle>
 </ng-template>
 
+<ng-template #statusCell let-element="element">
+  {{ element.status }}
+</ng-template>
+
 <ng-template #resolvedDateCell let-element="element">
   {{ element.resolvedDate | date : "medium" }}
 </ng-template>
