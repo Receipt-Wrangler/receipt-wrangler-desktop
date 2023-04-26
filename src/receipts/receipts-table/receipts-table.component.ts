@@ -30,6 +30,7 @@ import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
 import { BulkResolveDialogComponent } from '../bulk-resolve-dialog/bulk-resolve-dialog.component';
+import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 
 @Component({
   selector: 'app-receipts-table',
@@ -289,16 +290,18 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
             commentForm:
               | {
                   comment: string;
+                  status: ReceiptStatus;
                 }
               | undefined
           ) => {
-            if (this.table.selection.hasValue()) {
+            if (this.table.selection.hasValue() && commentForm) {
               const receiptIds = (
                 this.table.selection.selected as Receipt[]
               ).map((r) => r.id);
 
               const bulkResolve: BulkResolve = {
                 comment: commentForm?.comment ?? '',
+                status: commentForm?.status,
                 receiptIds: receiptIds,
               };
               this.receiptsService
@@ -312,7 +315,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
                         (nr) => r.id === nr.id
                       );
                       if (receiptInTable) {
-                        receiptInTable.isResolved = true;
+                        receiptInTable.status = r.status;
                         receiptInTable.resolvedDate = r.resolvedDate;
                       }
                     });

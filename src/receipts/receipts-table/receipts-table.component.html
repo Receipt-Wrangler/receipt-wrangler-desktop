@@ -8,7 +8,7 @@
     ></app-button>
     <app-button
       *ngIf="(checkboxChange | async)?.source?.selected?.length ?? false"
-      buttonText="Resolve Selected Receipts"
+      buttonText="Bulk Status Update"
       (click)="showResolveDialog()"
     ></app-button>
   </div>

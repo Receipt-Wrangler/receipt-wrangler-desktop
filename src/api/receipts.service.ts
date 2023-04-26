@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { SortDirection } from '@angular/material/sort';
 import { Store } from '@ngxs/store';
 import { Observable, take } from 'rxjs';
+import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 import { PagedData } from 'src/models/paged-data';
 import { Receipt } from 'src/models/receipt';
 import { ReceiptTableState } from 'src/store/receipt-table.state';
@@ -10,6 +11,7 @@ import { ReceiptTableState } from 'src/store/receipt-table.state';
 export interface BulkResolve {
   receiptIds: number[];
   comment: string;
+  status: ReceiptStatus;
 }
 
 @Injectable({
