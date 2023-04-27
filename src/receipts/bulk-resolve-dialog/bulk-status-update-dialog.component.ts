@@ -5,18 +5,18 @@ import { RECEIPT_STATUS_OPTIONS } from 'constants/receipt-status-options';
 import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 
 @Component({
-  selector: 'app-bulk-resolve-dialog',
-  templateUrl: './bulk-resolve-dialog.component.html',
-  styleUrls: ['./bulk-resolve-dialog.component.scss'],
+  selector: 'app-bulk-status-update-dialog',
+  templateUrl: './bulk-status-update-dialog.component.html',
+  styleUrls: ['./bulk-status-update-dialog.component.scss'],
 })
-export class BulkResolveDialogComponent implements OnInit {
+export class BulkStatusUpdateComponent implements OnInit {
   public form: FormGroup = new FormGroup({});
 
   public receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
 
   constructor(
     private formBuilder: FormBuilder,
-    public matDialogRef: MatDialogRef<BulkResolveDialogComponent>
+    public matDialogRef: MatDialogRef<BulkStatusUpdateComponent>
   ) {}
 
   public ngOnInit(): void {

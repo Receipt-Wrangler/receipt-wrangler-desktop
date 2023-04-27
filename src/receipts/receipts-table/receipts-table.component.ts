@@ -29,7 +29,7 @@ import { ReceiptTableState } from 'src/store/receipt-table.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
-import { BulkResolveDialogComponent } from '../bulk-resolve-dialog/bulk-resolve-dialog.component';
+import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
 import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 
 @Component({
@@ -277,7 +277,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public showStatusUpdateDialog(): void {
     const ref = this.matDialog.open(
-      BulkResolveDialogComponent,
+      BulkStatusUpdateComponent,
       DEFAULT_DIALOG_CONFIG
     );
 
