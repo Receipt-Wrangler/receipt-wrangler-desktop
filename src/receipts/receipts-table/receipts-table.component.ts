@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { DEFAULT_DIALOG_CONFIG } from 'constants';
 import { Observable, Subject, take, tap } from 'rxjs';
-import { BulkResolve, ReceiptsService } from 'src/api/receipts.service';
+import { BulkStatusUpdate, ReceiptsService } from 'src/api/receipts.service';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -275,7 +275,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
-  public showResolveDialog(): void {
+  public showStatusUpdateDialog(): void {
     const ref = this.matDialog.open(
       BulkResolveDialogComponent,
       DEFAULT_DIALOG_CONFIG
@@ -299,13 +299,13 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
                 this.table.selection.selected as Receipt[]
               ).map((r) => r.id);
 
-              const bulkResolve: BulkResolve = {
+              const bulkResolve: BulkStatusUpdate = {
                 comment: commentForm?.comment ?? '',
                 status: commentForm?.status,
                 receiptIds: receiptIds,
               };
               this.receiptsService
-                .bulkResolveReceipts(bulkResolve)
+                .bulkReceiptStatusUpdate(bulkResolve)
                 .pipe(
                   take(1),
                   tap((receipts) => {

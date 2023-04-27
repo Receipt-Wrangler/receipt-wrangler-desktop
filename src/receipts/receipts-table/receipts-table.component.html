@@ -9,7 +9,7 @@
     <app-button
       *ngIf="(checkboxChange | async)?.source?.selected?.length ?? false"
       buttonText="Bulk Status Update"
-      (click)="showResolveDialog()"
+      (click)="showStatusUpdateDialog()"
     ></app-button>
   </div>
 </app-table-header>

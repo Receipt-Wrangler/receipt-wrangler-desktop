@@ -8,7 +8,7 @@ import { PagedData } from 'src/models/paged-data';
 import { Receipt } from 'src/models/receipt';
 import { ReceiptTableState } from 'src/store/receipt-table.state';
 
-export interface BulkResolve {
+export interface BulkStatusUpdate {
   receiptIds: number[];
   comment: string;
   status: ReceiptStatus;
@@ -51,9 +51,11 @@ export class ReceiptsService {
       .pipe(take(1));
   }
 
-  public bulkResolveReceipts(bulkResolve: BulkResolve): Observable<Receipt[]> {
+  public bulkReceiptStatusUpdate(
+    bulkResolve: BulkStatusUpdate
+  ): Observable<Receipt[]> {
     return this.httpClient.post<Receipt[]>(
-      `/api/receipt/bulkResolve`,
+      `/api/receipt/bulkStatusUpdate`,
       bulkResolve
     );
   }
