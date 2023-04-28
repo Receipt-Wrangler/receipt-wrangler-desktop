@@ -185,6 +185,10 @@ export class ReceiptFormComponent implements OnInit {
       status: this.originalReceipt?.status ?? ReceiptStatus.OPEN,
     });
 
+    if (this.mode === FormMode.view) {
+      this.form.get('status')?.disable();
+    }
+
     this.listenForGroupChanges();
   }
 
