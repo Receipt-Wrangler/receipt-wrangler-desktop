@@ -12,7 +12,6 @@ export interface Receipt {
   date: string;
   paidByUserId: number;
   groupId: number;
-  isResolved: boolean;
   status: ReceiptStatus;
   resolvedDate: string;
   tags: Tag[];
