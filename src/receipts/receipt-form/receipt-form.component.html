@@ -95,12 +95,13 @@
             [usersToOmit]="usersToOmit"
             [readonly]="mode | inputReadonly"
           ></app-user-autocomplete>
-          <app-input
+          <app-select
             class="w-100"
-            label="Is Resolved"
-            [inputFormControl]="form | formGet : 'isResolved'"
+            label="Status"
+            [inputFormControl]="form | formGet : 'status'"
             [readonly]="mode | inputReadonly"
-          ></app-input>
+            [options]="receiptStatusOptions"
+          ></app-select>
         </div>
         <app-form-button-bar>
           <app-back-button

@@ -40,6 +40,8 @@ import { ItemListComponent } from '../item-list/item-list.component';
 import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
+import { ReceiptStatus } from 'src/enums/receipt-status.enum';
+import { RECEIPT_STATUS_OPTIONS } from 'constants/receipt-status-options';
 
 @UntilDestroy()
 @Component({
@@ -92,6 +94,8 @@ export class ReceiptFormComponent implements OnInit {
   public duplicatedSnackbarRef!: MatSnackBarRef<EmbeddedViewRef<any>>;
 
   public headerText: string = '';
+
+  public receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
 
   constructor(
     private receiptsService: ReceiptsService,
@@ -178,8 +182,12 @@ export class ReceiptFormComponent implements OnInit {
         this.originalReceipt?.groupId ?? Number(selectedGroupId),
         Validators.required,
       ],
-      isResolved: this.originalReceipt?.isResolved ?? false,
+      status: this.originalReceipt?.status ?? ReceiptStatus.OPEN,
     });
+
+    if (this.mode === FormMode.view) {
+      this.form.get('status')?.disable();
+    }
 
     this.listenForGroupChanges();
   }

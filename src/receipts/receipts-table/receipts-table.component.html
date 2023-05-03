@@ -8,8 +8,8 @@
     ></app-button>
     <app-button
       *ngIf="(checkboxChange | async)?.source?.selected?.length ?? false"
-      buttonText="Resolve Selected Receipts"
-      (click)="showResolveDialog()"
+      buttonText="Bulk Status Update"
+      (click)="showStatusUpdateDialog()"
     ></app-button>
   </div>
 </app-table-header>
@@ -54,13 +54,8 @@
   {{ element.tags | name }}
 </ng-template>
 
-<ng-template #isResolvedCell let-element="element" let-index="index">
-  <app-slide-toggle
-    color="primary"
-    [checked]="element.isResolved"
-    [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
-    (click)="toggleIsResolved(element, index)"
-  ></app-slide-toggle>
+<ng-template #statusCell let-element="element">
+  {{ element.status }}
 </ng-template>
 
 <ng-template #resolvedDateCell let-element="element">

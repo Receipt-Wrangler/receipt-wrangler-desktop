@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { DEFAULT_DIALOG_CONFIG } from 'constants';
 import { Observable, Subject, take, tap } from 'rxjs';
-import { BulkResolve, ReceiptsService } from 'src/api/receipts.service';
+import { BulkStatusUpdate, ReceiptsService } from 'src/api/receipts.service';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -29,7 +29,8 @@ import { ReceiptTableState } from 'src/store/receipt-table.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
-import { BulkResolveDialogComponent } from '../bulk-resolve-dialog/bulk-resolve-dialog.component';
+import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
+import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 
 @Component({
   selector: 'app-receipts-table',
@@ -58,7 +59,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild('tagCell') tagCell!: TemplateRef<any>;
 
-  @ViewChild('isResolvedCell') isResolvedCell!: TemplateRef<any>;
+  @ViewChild('statusCell') statusCell!: TemplateRef<any>;
 
   @ViewChild('resolvedDateCell') resolvedDateCell!: TemplateRef<any>;
 
@@ -149,9 +150,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         sortable: false,
       },
       {
-        columnHeader: 'Is Resolved',
-        matColumnDef: 'isResolved',
-        template: this.isResolvedCell,
+        columnHeader: 'Status',
+        matColumnDef: 'status',
+        template: this.statusCell,
         sortable: true,
       },
       {
@@ -175,7 +176,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       'amount',
       'categories',
       'tags',
-      'isResolved',
+      'status',
       'resolvedDate',
     ];
   }
@@ -210,20 +211,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         tap((pagedData) => {
           this.dataSource.data = pagedData.data;
           this.totalCount = pagedData.totalCount;
-        })
-      )
-      .subscribe();
-  }
-
-  public toggleIsResolved(row: Receipt, index: number): void {
-    this.receiptsService
-      .toggleIsResolved(row.id.toString())
-      .pipe(
-        tap((receipt) => {
-          let newReceipts = Array.from(this.dataSource.data);
-          newReceipts[index].isResolved = receipt.isResolved;
-          newReceipts[index].resolvedDate = receipt.resolvedDate;
-          this.dataSource.data = newReceipts;
         })
       )
       .subscribe();
@@ -288,9 +275,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
-  public showResolveDialog(): void {
+  public showStatusUpdateDialog(): void {
     const ref = this.matDialog.open(
-      BulkResolveDialogComponent,
+      BulkStatusUpdateComponent,
       DEFAULT_DIALOG_CONFIG
     );
 
@@ -303,20 +290,22 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
             commentForm:
               | {
                   comment: string;
+                  status: ReceiptStatus;
                 }
               | undefined
           ) => {
-            if (this.table.selection.hasValue()) {
+            if (this.table.selection.hasValue() && commentForm) {
               const receiptIds = (
                 this.table.selection.selected as Receipt[]
               ).map((r) => r.id);
 
-              const bulkResolve: BulkResolve = {
+              const bulkResolve: BulkStatusUpdate = {
                 comment: commentForm?.comment ?? '',
+                status: commentForm?.status,
                 receiptIds: receiptIds,
               };
               this.receiptsService
-                .bulkResolveReceipts(bulkResolve)
+                .bulkReceiptStatusUpdate(bulkResolve)
                 .pipe(
                   take(1),
                   tap((receipts) => {
@@ -326,7 +315,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
                         (nr) => r.id === nr.id
                       );
                       if (receiptInTable) {
-                        receiptInTable.isResolved = true;
+                        receiptInTable.status = r.status;
                         receiptInTable.resolvedDate = r.resolvedDate;
                       }
                     });

@@ -1,5 +1,10 @@
-<app-dialog headerText="Resolve Receipts">
+<app-dialog headerText="Bulk Status Update">
   <form [formGroup]="form">
+    <app-select
+      label="Status"
+      [inputFormControl]="form | formGet : 'status'"
+      [options]="receiptStatusOptions"
+    ></app-select>
     <app-textarea
       label="Comment"
       placeholder="Paid via venmo..."

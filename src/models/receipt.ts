@@ -1,3 +1,4 @@
+import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 import { Category } from './category';
 import { Comment } from './comment';
 import { FileData } from './file-data';
@@ -11,7 +12,7 @@ export interface Receipt {
   date: string;
   paidByUserId: number;
   groupId: number;
-  isResolved: boolean;
+  status: ReceiptStatus;
   resolvedDate: string;
   tags: Tag[];
   categories: Category[];
