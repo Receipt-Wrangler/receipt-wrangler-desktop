@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 
 @Component({
   selector: 'app-status-chip',
@@ -7,4 +8,6 @@ import { Component, Input } from '@angular/core';
 })
 export class StatusChipComponent {
   @Input() public status: string = "";
+
+  public receiptStatus = ReceiptStatus;
 }
