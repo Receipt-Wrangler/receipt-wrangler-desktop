@@ -1,39 +1,41 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGetPipe } from './form-get.pipe';
-import { NamePipe } from './name.pipe';
-import { MapKeyPipe } from './map-key.pipe';
-import { MapGetPipe } from './map-get.pipe';
-import { UserPipe } from './user.pipe';
-import { InputReadonlyPipe } from './input-readonly.pipe';
-
-import { ImagePipe } from './image.pipe';
-import { GroupRolePipe } from './group-role.pipe';
+import { NgModule } from '@angular/core';
 import { FormArrayLastPipe } from './form-array-last.pipe';
+import { FormGetPipe } from './form-get.pipe';
+import { GroupRolePipe } from './group-role.pipe';
+import { ImagePipe } from './image.pipe';
+import { InputReadonlyPipe } from './input-readonly.pipe';
+import { MapGetPipe } from './map-get.pipe';
+import { MapKeyPipe } from './map-key.pipe';
+import { NamePipe } from './name.pipe';
+import { StatusPipe } from './status.pipe';
+import { UserPipe } from './user.pipe';
 
 @NgModule({
   declarations: [
-    FormGetPipe,
-    NamePipe,
-    MapKeyPipe,
-    MapGetPipe,
-    UserPipe,
-    InputReadonlyPipe,
-    ImagePipe,
-    GroupRolePipe,
     FormArrayLastPipe,
+    FormGetPipe,
+    GroupRolePipe,
+    ImagePipe,
+    InputReadonlyPipe,
+    MapGetPipe,
+    MapKeyPipe,
+    NamePipe,
+    StatusPipe,
+    UserPipe,
   ],
   imports: [CommonModule],
   exports: [
-    FormGetPipe,
-    NamePipe,
-    MapKeyPipe,
-    MapGetPipe,
-    UserPipe,
-    InputReadonlyPipe,
-    ImagePipe,
-    GroupRolePipe,
     FormArrayLastPipe,
+    FormGetPipe,
+    GroupRolePipe,
+    ImagePipe,
+    InputReadonlyPipe,
+    MapGetPipe,
+    MapKeyPipe,
+    NamePipe,
+    StatusPipe,
+    UserPipe,
   ],
 })
 export class PipesModule {}

@@ -55,7 +55,7 @@
 </ng-template>
 
 <ng-template #statusCell let-element="element">
-  {{ element.status }}
+  <app-status-chip [status]="element.status"></app-status-chip>
 </ng-template>
 
 <ng-template #resolvedDateCell let-element="element">

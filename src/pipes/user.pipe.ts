@@ -9,7 +9,7 @@ import { UserState } from 'src/store/user.state';
 export class UserPipe implements PipeTransform {
   constructor(private store: Store) {}
 
-  public transform(userId: string): User | undefined {
-    return this.store.selectSnapshot(UserState.getUserById(userId));
+  public transform(userId?: string): User | undefined {
+    return this.store.selectSnapshot(UserState.getUserById(userId ?? ""));
   }
 }

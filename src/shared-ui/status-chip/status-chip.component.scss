@@ -1,0 +1,10 @@
+@import "../../variables.scss";
+
+.needs-attention {
+  background-color: map-get($warn-palette, 100) !important;
+  color: white!important;
+}
+
+.resolved {
+  background-color: lightgreen !important;
+}
