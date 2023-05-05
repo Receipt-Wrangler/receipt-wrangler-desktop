@@ -25,6 +25,13 @@
     </div>
     <div class="col g-4">
       <div class="mb-3">
+        <strong>Audit Details</strong>
+      </div>
+      <div class="d-flex flex-column mb-3">
+        <span class="mb-1"> Created at: {{ originalReceipt?.createdAt | date: "medium" }} </span>
+        <span> Updated at: {{ originalReceipt?.updatedAt | date: "medium" }} </span>
+      </div>
+      <div class="mb-3">
         <strong>Details</strong>
       </div>
       <div class="d-flex justify-content-between form-container">

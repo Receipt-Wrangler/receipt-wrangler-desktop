@@ -19,4 +19,6 @@ export interface Receipt {
   imageFiles: FileData[];
   receiptItems: Item[];
   comments: Comment[];
+  createdAt: string;
+  updatedAt: string;
 }
