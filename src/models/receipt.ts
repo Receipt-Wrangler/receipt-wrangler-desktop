@@ -21,4 +21,5 @@ export interface Receipt {
   comments: Comment[];
   createdAt: string;
   updatedAt: string;
+  createdBy: number;
 }
