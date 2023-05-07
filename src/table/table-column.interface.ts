@@ -1,4 +1,5 @@
 import { TemplateRef } from '@angular/core';
+import { SortDirection } from '@angular/material/sort';
 
 export interface TableColumn {
   columnHeader: string;
@@ -6,5 +7,5 @@ export interface TableColumn {
   sortable: boolean;
   elementKey?: string;
   template?: TemplateRef<any>;
-  defaultSortDirection?: 'asc' | 'desc';
+  defaultSortDirection?: SortDirection;
 }
