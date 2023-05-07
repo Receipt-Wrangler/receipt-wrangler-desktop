@@ -12,10 +12,10 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { DEFAULT_DIALOG_CONFIG } from 'constants';
 import { Observable, Subject, take, tap } from 'rxjs';
 import { BulkStatusUpdate, ReceiptsService } from 'src/api/receipts.service';
 import { GroupRole } from 'src/enums/group-role.enum';
+import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
@@ -29,8 +29,8 @@ import { ReceiptTableState } from 'src/store/receipt-table.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
+import { DEFAULT_DIALOG_CONFIG } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
-import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 
 @Component({
   selector: 'app-receipts-table',
@@ -86,8 +86,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public checkboxChange: Subject<SelectionChange<any>> = new Subject();
 
+  public firstSort: boolean = true;
+
   public ngOnInit(): void {
-    // TODO: Set up shit to use state
     this.groupId = Number.parseInt(
       this.store.selectSnapshot(GroupState.selectedGroupId)
     );
@@ -102,8 +103,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
           this.setColumns();
           this.setActionsColumnDisplay();
         })
-      )
-      .subscribe();
+        )
+        .subscribe();
   }
 
   public ngAfterViewInit(): void {
@@ -111,11 +112,10 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   private setColumns(): void {
-    this.columns = [
+    const columns = [
       {
         columnHeader: 'Receipt Date',
         matColumnDef: 'date',
-        defaultSortDirection: 'desc',
         template: this.dateCell,
         sortable: true,
       },
@@ -167,7 +167,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         template: this.actionsCell,
         sortable: false,
       },
-    ];
+    ] as TableColumn[];
     this.displayedColumns = [
       'select',
       'date',
@@ -179,6 +179,16 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       'status',
       'resolvedDate',
     ];
+    const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
+    const orderByIndex = columns.findIndex(c => c.matColumnDef === filter.orderBy);
+
+    if (orderByIndex >= 0) {
+      columns[orderByIndex].defaultSortDirection = filter.sortDirection;
+    } else {
+      columns[0].defaultSortDirection = "desc";
+    }
+
+    this.columns = columns;
   }
 
   private setActionsColumnDisplay(): void {
@@ -192,28 +202,31 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   public sort(sortState: Sort): void {
-    const page = this.store.selectSnapshot(ReceiptTableState.page);
-    const pageSize = this.store.selectSnapshot(ReceiptTableState.pageSize);
-
-    this.store.dispatch(
-      new SetReceiptFilterData({
-        page: page,
-        pageSize: pageSize,
-        orderBy: sortState.active,
-        sortDirection: sortState.direction,
-      })
-    );
-
-    this.receiptsService
-      .getPagedReceiptsForGroups(this.groupId.toString())
-      .pipe(
-        take(1),
-        tap((pagedData) => {
-          this.dataSource.data = pagedData.data;
-          this.totalCount = pagedData.totalCount;
+    if (!this.firstSort) {
+      const page = this.store.selectSnapshot(ReceiptTableState.page);
+      const pageSize = this.store.selectSnapshot(ReceiptTableState.pageSize);
+  
+      this.store.dispatch(
+        new SetReceiptFilterData({
+          page: page,
+          pageSize: pageSize,
+          orderBy: sortState.active,
+          sortDirection: sortState.direction,
         })
-      )
-      .subscribe();
+      );
+  
+      this.receiptsService
+        .getPagedReceiptsForGroups(this.groupId.toString())
+        .pipe(
+          take(1),
+          tap((pagedData) => {
+            this.dataSource.data = pagedData.data;
+            this.totalCount = pagedData.totalCount;
+          })
+        )
+        .subscribe();
+    }
+    this.firstSort = false;
   }
 
   public deleteReceipt(row: Receipt): void {

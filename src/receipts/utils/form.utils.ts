@@ -19,7 +19,7 @@ export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
     receiptId: new FormControl(Number(item?.receiptId ?? receiptId)),
     amount: new FormControl(item?.amount ?? undefined, [
       Validators.required,
-      Validators.min(1),
+      Validators.min(0),
       itemTotalValidator(),
     ]),
     isTaxed: new FormControl(item?.isTaxed ?? false),

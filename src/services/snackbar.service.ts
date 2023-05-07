@@ -7,7 +7,7 @@ import {
 import {
   DEFAULT_SNACKBAR_ACTION,
   DEFAULT_SNACKBAR_CONFIG,
-} from 'constants/snackbar.constant';
+} from 'src/constants/snackbar.constant';
 
 @Injectable({
   providedIn: 'root',

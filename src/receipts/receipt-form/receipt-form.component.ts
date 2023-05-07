@@ -41,7 +41,7 @@ import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actio
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
 import { ReceiptStatus } from 'src/enums/receipt-status.enum';
-import { RECEIPT_STATUS_OPTIONS } from 'constants/receipt-status-options';
+import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 
 @UntilDestroy()
 @Component({

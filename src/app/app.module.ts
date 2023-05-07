@@ -1,17 +1,16 @@
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IconModule } from '../icon/icon.module';
+import { HttpInterceptorService } from '../interceptors/http-interceptor.service';
+import { LayoutModule } from '../layout/layout.module';
+import { AppInitService, initAppData } from '../services/app-init.service';
+import { StoreModule } from '../store/store.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { StoreModule } from 'src/store/store.module';
-import { LayoutModule } from 'src/layout/layout.module';
-import { HttpInterceptorService } from 'src/interceptors/http-interceptor.service';
-import { AppInitService, initAppData } from 'src/services/app-init.service';
-import { IconModule } from 'src/icon/icon.module';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [AppComponent],
