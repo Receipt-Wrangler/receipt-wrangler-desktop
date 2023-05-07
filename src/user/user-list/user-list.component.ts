@@ -7,7 +7,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Select, Store } from '@ngxs/store';
-import { DEFAULT_DIALOG_CONFIG } from 'constants/dialog.constant';
+import { DEFAULT_DIALOG_CONFIG } from 'src/constants/dialog.constant';
 import { Observable, take, tap } from 'rxjs';
 import { UsersService } from 'src/api/users.service';
 import { User } from 'src/models';

@@ -12,10 +12,10 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { DEFAULT_DIALOG_CONFIG } from 'constants';
 import { Observable, Subject, take, tap } from 'rxjs';
 import { BulkStatusUpdate, ReceiptsService } from 'src/api/receipts.service';
 import { GroupRole } from 'src/enums/group-role.enum';
+import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
@@ -29,8 +29,8 @@ import { ReceiptTableState } from 'src/store/receipt-table.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
+import { DEFAULT_DIALOG_CONFIG } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
-import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 
 @Component({
   selector: 'app-receipts-table',

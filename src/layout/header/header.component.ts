@@ -9,7 +9,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
 import { Logout } from 'src/store/auth.state.actions';
 import { GroupState } from 'src/store/group.state';
-import { DEFAULT_DIALOG_CONFIG } from '../../../constants';
+import { DEFAULT_DIALOG_CONFIG } from '../../constants';
 import { SwitchGroupDialogComponent } from '../switch-group-dialog/switch-group-dialog.component';
 import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';
 

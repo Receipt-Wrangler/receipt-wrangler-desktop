@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { RECEIPT_STATUS_OPTIONS } from 'constants/receipt-status-options';
+import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 
 @Component({
