@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { GroupState } from 'src/store/group.state';
 import { SetSelectedGroupId } from 'src/store/group.state.actions';
@@ -12,7 +7,7 @@ import { SetSelectedGroupId } from 'src/store/group.state.actions';
 @Injectable({
   providedIn: 'root',
 })
-export class GroupGuard implements CanActivate {
+export class GroupGuard  {
   constructor(private store: Store, private router: Router) {}
 
   canActivate(
