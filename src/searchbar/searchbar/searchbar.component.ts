@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { tap } from 'rxjs';
+import { of, switchMap, take, tap } from 'rxjs';
+import { SearchService } from 'src/api/search.service';
 
 @UntilDestroy()
 @Component({
@@ -18,13 +19,15 @@ export class SearchbarComponent {
     return '';
   };
 
+  constructor(private searchService: SearchService) {}
+
   public ngOnInit(): void {
     this.searchFormControl.valueChanges
       .pipe(
         untilDestroyed(this),
-        tap((value) => {
-          console.warn(value);
-        })
+        switchMap((value) =>
+          value ? this.searchService.search(value ?? '').pipe(take(1)) : of([])
+        )
       )
       .subscribe();
   }
