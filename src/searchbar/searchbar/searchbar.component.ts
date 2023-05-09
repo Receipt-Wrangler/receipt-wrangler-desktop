@@ -27,8 +27,17 @@ export class SearchbarComponent {
         untilDestroyed(this),
         switchMap((value) =>
           value ? this.searchService.search(value ?? '').pipe(take(1)) : of([])
-        )
+        ),
+        tap((results) => {
+          this.results = results;
+        })
       )
       .subscribe();
+  }
+
+  public navigateToResult(result: any) {
+    // switch groups if it is different, than your current
+    // then navigate
+    console.warn(result);
   }
 }
