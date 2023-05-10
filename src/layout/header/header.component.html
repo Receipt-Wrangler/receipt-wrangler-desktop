@@ -1,8 +1,8 @@
 <ng-container *ngIf="!!(isLoggedIn | async)">
   <div
-    class="header-container d-flex justify-content-between align-items-center"
+    class="row header-container d-flex justify-content-between align-items-center"
   >
-    <div class="d-flex jusfity-content-center align-items-center">
+    <div class="col d-flex jusfity-content-center align-items-center">
       <button
         mat-icon-button
         color="accent"
@@ -33,7 +33,7 @@
         <app-receipt-list-icon></app-receipt-list-icon>
       </button>
     </div>
-    <div class="d-flex justify-content-center align-items-center">
+    <div class="col d-flex align-items-center justify-content-end">
       <app-searchbar></app-searchbar>
       <svg
         class="me-4"
