@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { of, switchMap, take, tap } from 'rxjs';
@@ -9,6 +9,7 @@ import { SearchService } from 'src/api/search.service';
   selector: 'app-searchbar',
   templateUrl: './searchbar.component.html',
   styleUrls: ['./searchbar.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SearchbarComponent {
   public results: any[] = [];

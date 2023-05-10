@@ -5,14 +5,16 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [SearchbarComponent],
   imports: [
     CommonModule,
     MatAutocompleteModule,
-    MatInputModule,
     MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
     ReactiveFormsModule,
   ],
   exports: [SearchbarComponent],
