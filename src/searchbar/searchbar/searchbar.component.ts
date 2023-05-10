@@ -3,6 +3,8 @@ import { FormControl } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { of, switchMap, take, tap } from 'rxjs';
 import { SearchService } from 'src/api/search.service';
+import { SearchResult } from '../../models';
+import { Router } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -16,11 +18,11 @@ export class SearchbarComponent {
 
   public searchFormControl = new FormControl('');
 
-  public displayFn = () => {
-    return '';
+  public displayWith = (searchResult: SearchResult) => {
+    return searchResult?.name;
   };
 
-  constructor(private searchService: SearchService) {}
+  constructor(private searchService: SearchService, private router: Router) {}
 
   public ngOnInit(): void {
     this.searchFormControl.valueChanges
@@ -36,9 +38,11 @@ export class SearchbarComponent {
       .subscribe();
   }
 
-  public navigateToResult(result: any) {
-    // switch groups if it is different, than your current
-    // then navigate
-    console.warn(result);
+  public navigateToResult(result: SearchResult) {
+    switch (result.type) {
+      case 'Receipt':
+        this.router.navigateByUrl(`/receipts/${result.id}/view`);
+        break;
+    }
   }
 }

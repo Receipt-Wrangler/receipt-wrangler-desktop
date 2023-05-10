@@ -1,5 +1,5 @@
-<form class="form">
-  <mat-form-field class="example-full-width" appearance="outline">
+<form class="w-100" class="form">
+  <mat-form-field class="w-100" appearance="outline">
     <span matPrefix><mat-icon>search</mat-icon></span>
     <input
       type="text"
@@ -8,15 +8,13 @@
       [formControl]="searchFormControl"
       [matAutocomplete]="auto"
     />
-    <mat-autocomplete #auto="matAutocomplete">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayWith">
       <mat-option
         *ngFor="let result of results"
-        [value]="result.name"
+        [value]="result"
         (click)="navigateToResult(result)"
       >
-        <div>
-          {{ result.name }}
-        </div>
+        <div>{{ result.date | date }} - {{ result.name }}</div>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
