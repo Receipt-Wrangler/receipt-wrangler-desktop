@@ -21,6 +21,7 @@ import { HeaderComponent } from './header/header.component';
 import { ReceiptListIconComponent } from './receipt-list-icon/receipt-list-icon.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SwitchGroupDialogComponent } from './switch-group-dialog/switch-group-dialog.component';
+import { SearchbarModule } from 'src/searchbar/searchbar.module';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { SwitchGroupDialogComponent } from './switch-group-dialog/switch-group-d
     PipesModule,
     ReactiveFormsModule,
     RouterModule,
+    SearchbarModule,
     SharedUiModule,
   ],
   exports: [HeaderComponent, AddReceiptIconComponent],
