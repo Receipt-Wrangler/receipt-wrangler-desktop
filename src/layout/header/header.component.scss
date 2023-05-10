@@ -23,3 +23,7 @@
 .active-link > * {
   fill: map-get($primary-palette, 400) !important;
 }
+
+.receipt-searchbar {
+  width: 25rem !important;
+}

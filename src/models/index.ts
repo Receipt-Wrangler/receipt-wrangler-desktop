@@ -6,3 +6,4 @@ export * from './group-member';
 export * from './group';
 export * from './item';
 export * from './user';
+export * from './search-result.interface';
