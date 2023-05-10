@@ -1,4 +1,4 @@
-import { ReceiptTableInterface } from './receipt-table.state';
+import { ReceiptTableInterface } from '../interfaces';
 
 export class SetPage {
   static readonly type = '[ReceiptTable] Set Page';

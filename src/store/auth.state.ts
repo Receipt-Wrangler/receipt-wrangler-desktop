@@ -6,17 +6,9 @@ import {
   State,
   StateContext,
 } from '@ngxs/store';
+import { AuthStateInterface } from '../interfaces';
+import { User } from '../models';
 import { Logout, SetAuthState } from './auth.state.actions';
-import { User } from 'src/models';
-import { UserRole } from 'src/enums/user_role.enum';
-
-export interface AuthStateInterface {
-  userId?: string;
-  displayname?: string;
-  username?: string;
-  expirationDate?: string;
-  userRole?: UserRole;
-}
 
 @State<AuthStateInterface>({
   name: 'auth',

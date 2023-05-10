@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, switchMap, take } from 'rxjs';
 import { User } from 'src/models/user';
-import { AuthStateInterface } from 'src/store/auth.state';
 import { SetAuthState } from 'src/store/auth.state.actions';
 import { GroupState } from 'src/store/group.state';
+import { AuthStateInterface } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
