@@ -1,28 +1,31 @@
-<h2 mat-dialog-title>Quick Actions</h2>
-<mat-dialog-content>
-  <app-radio-group
-    [inputFormControl]="localForm | formGet : 'quickAction'"
-    [radioButtonData]="radioValues"
-  ></app-radio-group>
+<app-dialog headerText="Quick Actions">
+  <mat-dialog-content>
+    <app-radio-group
+      [inputFormControl]="localForm | formGet : 'quickAction'"
+      [radioButtonData]="radioValues"
+    ></app-radio-group>
 
-  <form [formGroup]="localForm" (ngSubmit)="addSplits()">
-    <app-user-autocomplete
-      label="Users to Split Between"
-      [inputFormControl]="localForm | formGet : 'usersToSplit'"
-      [multiple]="true"
-      [usersToOmit]="usersToOmit"
-    >
-    </app-user-autocomplete>
-    <ng-container [ngSwitch]="(localForm | formGet : 'quickAction')?.value">
-      <div *ngSwitchCase="radioValues[1].value">
-        <div *ngFor="let user of (localForm | formGet : 'usersToSplit').value">
-          <app-input
-            [label]="user.displayName + '`s Portion'"
-            [inputFormControl]="localForm | formGet : user.id.toString()"
-          ></app-input>
+    <form [formGroup]="localForm" (ngSubmit)="addSplits()">
+      <app-user-autocomplete
+        label="Users to Split Between"
+        [inputFormControl]="localForm | formGet : 'usersToSplit'"
+        [multiple]="true"
+        [usersToOmit]="usersToOmit"
+      >
+      </app-user-autocomplete>
+      <ng-container [ngSwitch]="(localForm | formGet : 'quickAction')?.value">
+        <div *ngSwitchCase="radioValues[1].value">
+          <div
+            *ngFor="let user of (localForm | formGet : 'usersToSplit').value"
+          >
+            <app-input
+              [label]="user.displayName + '`s Portion'"
+              [inputFormControl]="localForm | formGet : user.id.toString()"
+            ></app-input>
+          </div>
         </div>
-      </div>
-    </ng-container>
-    <app-button type="submit" buttonText="Split"></app-button>
-  </form>
-</mat-dialog-content>
+      </ng-container>
+      <app-button type="submit" buttonText="Split"></app-button>
+    </form>
+  </mat-dialog-content>
+</app-dialog>
