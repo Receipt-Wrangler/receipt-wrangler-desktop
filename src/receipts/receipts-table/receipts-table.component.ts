@@ -103,8 +103,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
           this.setColumns();
           this.setActionsColumnDisplay();
         })
-        )
-        .subscribe();
+      )
+      .subscribe();
   }
 
   public ngAfterViewInit(): void {
@@ -180,12 +180,14 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       'resolvedDate',
     ];
     const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
-    const orderByIndex = columns.findIndex(c => c.matColumnDef === filter.orderBy);
+    const orderByIndex = columns.findIndex(
+      (c) => c.matColumnDef === filter.orderBy
+    );
 
     if (orderByIndex >= 0) {
       columns[orderByIndex].defaultSortDirection = filter.sortDirection;
     } else {
-      columns[0].defaultSortDirection = "desc";
+      columns[0].defaultSortDirection = 'desc';
     }
 
     this.columns = columns;
@@ -205,7 +207,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     if (!this.firstSort) {
       const page = this.store.selectSnapshot(ReceiptTableState.page);
       const pageSize = this.store.selectSnapshot(ReceiptTableState.pageSize);
-  
+
       this.store.dispatch(
         new SetReceiptFilterData({
           page: page,
@@ -214,7 +216,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
           sortDirection: sortState.direction,
         })
       );
-  
+
       this.receiptsService
         .getPagedReceiptsForGroups(this.groupId.toString())
         .pipe(
@@ -233,7 +235,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     const dialogRef = this.matDialog.open(ConfirmationDialogComponent);
 
     dialogRef.componentInstance.headerText = 'Delete Receipt';
-    dialogRef.componentInstance.dialogContent = `Are you sure you would like to delete the receipt ${row.name}? This actoin is irreversible.`;
+    dialogRef.componentInstance.dialogContent = `Are you sure you would like to delete the receipt ${row.name}? This action is irreversible.`;
 
     dialogRef
       .afterClosed()
