@@ -13,11 +13,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
 import {
+  Observable,
   distinctUntilChanged,
   finalize,
   forkJoin,
   iif,
-  Observable,
   of,
   skip,
   startWith,
@@ -27,8 +27,11 @@ import {
 } from 'rxjs';
 import { ReceiptImagesService } from 'src/api/receipt-images.service';
 import { ReceiptsService } from 'src/api/receipts.service';
+import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
+import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { GroupRole } from 'src/enums/group-role.enum';
+import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 import { Category, Receipt, Tag } from 'src/models';
 import { FileData } from 'src/models/file-data';
 import { Group } from 'src/models/group';
@@ -37,11 +40,8 @@ import { GroupState } from 'src/store/group.state';
 import { UserState } from 'src/store/user.state';
 import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomplete/user-autocomplete.component';
 import { ItemListComponent } from '../item-list/item-list.component';
-import { QuickActionsDialogComponent } from '../quick-actions-dialog/quick-actions-dialog.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
-import { ReceiptStatus } from 'src/enums/receipt-status.enum';
-import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 
 @UntilDestroy()
 @Component({
@@ -246,11 +246,10 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public openQuickActionsModal(): void {
-    const dialogRef = this.matDialog.open(this.quickActionsDialog);
-
-    dialogRef.componentInstance.parentForm = this.form;
-    dialogRef.componentInstance.originalReceipt = this.originalReceipt;
-    dialogRef.componentInstance.usersToOmit = this.usersToOmit;
+    const dialogRef = this.matDialog.open(
+      this.quickActionsDialog,
+      DEFAULT_DIALOG_CONFIG
+    );
 
     dialogRef
       .afterClosed()
