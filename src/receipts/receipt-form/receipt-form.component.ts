@@ -50,15 +50,19 @@ import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
   styleUrls: ['./receipt-form.component.scss'],
 })
 export class ReceiptFormComponent implements OnInit {
-  @ViewChild(ItemListComponent) itemsListComponent!: ItemListComponent;
+  @ViewChild(ItemListComponent) public itemsListComponent!: ItemListComponent;
 
-  @ViewChild(UploadImageComponent) uploadImageComponent!: UploadImageComponent;
+  @ViewChild(UploadImageComponent)
+  public uploadImageComponent!: UploadImageComponent;
 
   @ViewChild('paidByAutocomplete')
-  paidByAutocomplete!: UserAutocompleteComponent;
+  public paidByAutocomplete!: UserAutocompleteComponent;
 
   @ViewChild('successDuplciateSnackbar')
-  successDuplciateSnackbar!: TemplateRef<any>;
+  public successDuplciateSnackbar!: TemplateRef<any>;
+
+  @ViewChild('quickActionsDialog')
+  public quickActionsDialog!: TemplateRef<any>;
 
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
@@ -242,7 +246,7 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public openQuickActionsModal(): void {
-    const dialogRef = this.matDialog.open(QuickActionsDialogComponent);
+    const dialogRef = this.matDialog.open(this.quickActionsDialog);
 
     dialogRef.componentInstance.parentForm = this.form;
     dialogRef.componentInstance.originalReceipt = this.originalReceipt;
