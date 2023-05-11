@@ -29,7 +29,7 @@ export class QuickActionsDialogComponent implements OnInit {
 
   @Input() public usersToOmit: string[] = [];
 
-  public parentForm!: FormGroup;
+  @Input() public parentForm!: FormGroup;
 
   public localForm: FormGroup = new FormGroup({});
 

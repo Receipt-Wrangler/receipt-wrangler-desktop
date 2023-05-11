@@ -29,9 +29,16 @@
           <strong>Audit Details</strong>
         </div>
         <div class="d-flex flex-column mb-3">
-          <span *ngIf="originalReceipt?.createdBy" class="mb-1"> Added by: {{ (originalReceipt?.createdBy?.toString() | user)?.displayName}} </span>
-          <span class="mb-1"> Added at: {{ originalReceipt?.createdAt | date: "medium" }} </span>
-          <span> Updated at: {{ originalReceipt?.updatedAt | date: "medium" }} </span>
+          <span *ngIf="originalReceipt?.createdBy" class="mb-1">
+            Added by:
+            {{ (originalReceipt?.createdBy?.toString() | user)?.displayName }}
+          </span>
+          <span class="mb-1">
+            Added at: {{ originalReceipt?.createdAt | date : "medium" }}
+          </span>
+          <span>
+            Updated at: {{ originalReceipt?.updatedAt | date : "medium" }}
+          </span>
         </div>
       </ng-container>
       <div class="mb-3">
@@ -235,4 +242,15 @@
       (clicked)="closeSuccessDuplicateSnackbar()"
     ></app-button>
   </div>
+</ng-template>
+
+<ng-template #quickActionsDialog>
+  <app-quick-actions-dialog
+    cdkDrag
+    cdkDragHandle
+    cdkDragRootElement=".cdk-overlay-pane"
+    [parentForm]="form"
+    [originalReceipt]="originalReceipt"
+    [usersToOmit]="usersToOmit"
+  ></app-quick-actions-dialog>
 </ng-template>

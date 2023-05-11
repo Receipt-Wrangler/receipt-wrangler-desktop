@@ -1,9 +1,10 @@
-<h2 mat-dialog-title>Quick Actions</h2>
-<mat-dialog-content>
-  <app-radio-group
-    [inputFormControl]="localForm | formGet : 'quickAction'"
-    [radioButtonData]="radioValues"
-  ></app-radio-group>
+<app-dialog headerText="Quick Actions">
+  <div class="mb-2">
+    <app-radio-group
+      [inputFormControl]="localForm | formGet : 'quickAction'"
+      [radioButtonData]="radioValues"
+    ></app-radio-group>
+  </div>
 
   <form [formGroup]="localForm" (ngSubmit)="addSplits()">
     <app-user-autocomplete
@@ -25,4 +26,4 @@
     </ng-container>
     <app-button type="submit" buttonText="Split"></app-button>
   </form>
-</mat-dialog-content>
+</app-dialog>
