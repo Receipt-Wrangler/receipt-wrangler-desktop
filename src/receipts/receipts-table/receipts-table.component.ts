@@ -29,7 +29,7 @@ import { ReceiptTableState } from 'src/store/receipt-table.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
-import { DEFAULT_DIALOG_CONFIG } from '../../constants';
+import { ALL_GROUP, DEFAULT_DIALOG_CONFIG } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
 
 @Component({
@@ -71,7 +71,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   @Select(ReceiptTableState.pageSize) public pageSize!: Observable<number>;
 
-  public groupId: number = 0;
+  public groupId: string = '0';
 
   public groupRole = GroupRole;
 
@@ -89,9 +89,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   public firstSort: boolean = true;
 
   public ngOnInit(): void {
-    this.groupId = Number.parseInt(
-      this.store.selectSnapshot(GroupState.selectedGroupId)
-    );
+    this.groupId = this.store
+      .selectSnapshot(GroupState.selectedGroupId)
+      ?.toString();
 
     this.receiptsService
       .getPagedReceiptsForGroups(this.groupId.toString())
@@ -194,12 +194,16 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   private setActionsColumnDisplay(): void {
-    const hasAccess = this.groupUtil.hasGroupAccess(
-      this.groupId,
-      GroupRole.EDITOR
-    );
-    if (hasAccess) {
-      this.displayedColumns.push('actions');
+    if (this.groupId === ALL_GROUP) {
+    } else {
+      const groupIdNumber = Number.parseInt(this.groupId);
+      const hasAccess = this.groupUtil.hasGroupAccess(
+        groupIdNumber,
+        GroupRole.EDITOR
+      );
+      if (hasAccess) {
+        this.displayedColumns.push('actions');
+      }
     }
   }
 

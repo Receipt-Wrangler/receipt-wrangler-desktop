@@ -8,7 +8,18 @@ import { GroupUtil } from 'src/utils/group.utils';
 export class GroupRolePipe implements PipeTransform {
   constructor(private groupUtil: GroupUtil) {}
 
-  public transform(groupId: number | undefined, groupRole: GroupRole): boolean {
-    return this.groupUtil.hasGroupAccess(groupId, groupRole);
+  public transform(
+    groupId: number | string | undefined,
+    groupRole: GroupRole
+  ): boolean {
+    // if group id is just a number
+    if (groupId) {
+      const parsed = Number.parseInt(groupId.toString());
+      if (parsed !== undefined) {
+        return this.groupUtil.hasGroupAccess(parsed, groupRole);
+      }
+    }
+
+    return false;
   }
 }

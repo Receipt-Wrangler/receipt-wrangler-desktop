@@ -45,6 +45,14 @@ export class ReceiptsService {
     return this.httpClient.get<Receipt>(`/api/receipt/${id}`).pipe(take(1));
   }
 
+  public getReceiptsForGroupIds(ids: string[]): Observable<Receipt[]> {
+    return this.httpClient.get<Receipt[]>(`/api/receipt/`, {
+      params: {
+        groupIds: ids,
+      },
+    });
+  }
+
   public toggleIsResolved(id: string): Observable<Receipt> {
     return this.httpClient
       .put<Receipt>(`/api/receipt/${id}/toggleIsResolved`, {})

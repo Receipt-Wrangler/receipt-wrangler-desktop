@@ -37,7 +37,7 @@ export class SummaryCardComponent {
             if (Number(result[k]) > 0) {
               this.userOwesMap.set(key, result[k].toString());
             } else {
-              this.usersOweMap.set(key, result[k].toString());
+              this.usersOweMap.set(key, Math.abs(result[k]).toString());
             }
           });
         })
