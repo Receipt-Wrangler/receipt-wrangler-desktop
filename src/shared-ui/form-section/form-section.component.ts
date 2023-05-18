@@ -9,4 +9,6 @@ export class FormSectionComponent {
   @Input() public headerText: string = '';
 
   @Input() public headerButtonsTemplate?: TemplateRef<any>;
+
+  @Input() public indent: boolean = true;
 }

@@ -1,4 +1,4 @@
-<div class="mb-3">
+<div class="mb-3" [ngClass]="{ 'mx-2': indent }">
   <div class="d-flex align-items-center">
     <strong> {{ headerText }}</strong>
     <ng-container
@@ -8,4 +8,6 @@
     </ng-container>
   </div>
 </div>
-<ng-content></ng-content>
+<div [ngClass]="{ 'mx-2': indent }">
+  <ng-content></ng-content>
+</div>
