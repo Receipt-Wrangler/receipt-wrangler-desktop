@@ -1,4 +1,11 @@
 <div class="mb-3">
-  <strong> {{ headerText }}</strong>
+  <div class="d-flex align-items-center">
+    <strong> {{ headerText }}</strong>
+    <ng-container
+      *ngIf="headerButtonsTemplate"
+      [ngTemplateOutlet]="headerButtonsTemplate"
+    >
+    </ng-container>
+  </div>
 </div>
 <ng-content></ng-content>

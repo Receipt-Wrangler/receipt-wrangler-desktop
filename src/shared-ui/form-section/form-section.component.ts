@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-form-section',
@@ -7,4 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class FormSectionComponent {
   @Input() public headerText: string = '';
+
+  @Input() public headerButtonsTemplate?: TemplateRef<any>;
 }
