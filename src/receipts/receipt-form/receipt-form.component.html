@@ -25,7 +25,7 @@
     </div>
     <div class="col g-4">
       <ng-container *ngIf="mode !== formMode.add">
-        <app-form-section headerText="Audit Details">
+        <app-form-section headerText="Audit Details" [indent]="false">
           <div class="d-flex flex-column mb-3">
             <span *ngIf="originalReceipt?.createdBy" class="mb-1">
               Added by:
@@ -40,7 +40,7 @@
           </div>
         </app-form-section>
       </ng-container>
-      <app-form-section headerText="Details">
+      <app-form-section headerText="Details" [indent]="false">
         <div class="d-flex justify-content-between form-container">
           <div
             class="d-flex flex-column justify-content-center align-items-center w-50"
@@ -193,7 +193,7 @@
           </app-form-button-bar>
         </div>
       </app-form-section>
-      <app-form-section headerText="Split With">
+      <app-form-section headerText="Split With" [indent]="false">
         <app-item-list [form]="form"></app-item-list>
       </app-form-section>
     </div>
