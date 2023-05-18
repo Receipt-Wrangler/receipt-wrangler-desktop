@@ -25,187 +25,177 @@
     </div>
     <div class="col g-4">
       <ng-container *ngIf="mode !== formMode.add">
-        <div class="mb-3">
-          <strong>Audit Details</strong>
-        </div>
-        <div class="d-flex flex-column mb-3">
-          <span *ngIf="originalReceipt?.createdBy" class="mb-1">
-            Added by:
-            {{ (originalReceipt?.createdBy?.toString() | user)?.displayName }}
-          </span>
-          <span class="mb-1">
-            Added at: {{ originalReceipt?.createdAt | date : "medium" }}
-          </span>
-          <span>
-            Updated at: {{ originalReceipt?.updatedAt | date : "medium" }}
-          </span>
-        </div>
-      </ng-container>
-      <div class="mb-3">
-        <strong>Details</strong>
-      </div>
-      <div class="d-flex justify-content-between form-container">
-        <div
-          class="d-flex flex-column justify-content-center align-items-center w-50"
-        >
-          <app-input
-            class="w-100"
-            label="Name"
-            [inputFormControl]="form | formGet : 'name'"
-            [readonly]="mode | inputReadonly"
-          ></app-input>
-          <app-input
-            class="w-100"
-            label="Amount"
-            type="number"
-            [inputFormControl]="form | formGet : 'amount'"
-            [readonly]="mode | inputReadonly"
-          ></app-input>
-          <app-autocomlete
-            class="w-100"
-            label="Categories"
-            optionFilterKey="name"
-            creatableValueKey="name"
-            [inputFormControl]="form | formGet : 'categories'"
-            [options]="categories"
-            [optionTemplate]="categoryOptionTemplate"
-            [optionChipTemplate]="categoryOptionTemplate"
-            [multiple]="true"
-            [creatable]="true"
-            [readonly]="mode | inputReadonly"
-          ></app-autocomlete>
-          <app-autocomlete
-            class="w-100"
-            label="Tags"
-            optionFilterKey="name"
-            creatableValueKey="name"
-            [inputFormControl]="form | formGet : 'tags'"
-            [options]="tags"
-            [optionTemplate]="tagOptionTemplate"
-            [optionChipTemplate]="tagOptionTemplate"
-            [multiple]="true"
-            [creatable]="true"
-            [readonly]="mode | inputReadonly"
-          ></app-autocomlete>
-          <app-datepicker
-            label="Date"
-            class="w-100"
-            [inputFormControl]="form | formGet : 'date'"
-            [readonly]="mode | inputReadonly"
-          ></app-datepicker>
-          <app-autocomlete
-            class="w-100"
-            label="Group"
-            optionFilterKey="name"
-            optionValueKey="id"
-            [inputFormControl]="form | formGet : 'groupId'"
-            [options]="(groups | async) ?? []"
-            [optionTemplate]="groupOptionTemplate"
-            [readonly]="mode | inputReadonly"
-            [displayWith]="groupDisplayWith.bind(this)"
-          ></app-autocomlete>
-          <app-user-autocomplete
-            #paidByAutocomplete
-            class="w-100"
-            label="Paid By"
-            [inputFormControl]="form | formGet : 'paidByUserId'"
-            [usersToOmit]="usersToOmit"
-            [readonly]="mode | inputReadonly"
-          ></app-user-autocomplete>
-          <app-select
-            class="w-100"
-            label="Status"
-            [inputFormControl]="form | formGet : 'status'"
-            [readonly]="mode | inputReadonly"
-            [options]="receiptStatusOptions"
-          ></app-select>
-        </div>
-        <app-form-button-bar>
-          <app-back-button
-            class="mb-4"
-            tooltip="Return to list"
-            [buttonRouterLink]="[(receiptListLink | async) ?? '']"
-          ></app-back-button>
-          <app-button
-            *ngIf="mode | inputReadonly"
-            class="mb-4"
-            matButtonType="iconButton"
-            tooltip="Duplicate"
-            icon="file_copy"
-            color="primary"
-            [disabled]="
-              !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
-            "
-            (clicked)="duplicateReceipt()"
-          ></app-button>
-          <app-button
-            *ngIf="mode | inputReadonly"
-            class="mb-4"
-            matButtonType="iconButton"
-            tooltip="Edit"
-            icon="edit"
-            [disabled]="
-              !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
-            "
-            [routerLink]="[editLink]"
-          ></app-button>
-          <app-button
-            *ngIf="!(mode | inputReadonly)"
-            class="mb-4"
-            matButtonType="iconButton"
-            icon="photo_library"
-            tooltip="Upload Image(s)"
-            [disabled]="
-              !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
-            "
-            (clicked)="uploadImageButtonClicked()"
-          ></app-button>
-          <app-button
-            *ngIf="images && (images?.length ?? 0 > 0)"
-            class="mb-4"
-            matButtonType="iconButton"
-            [icon]="showImages ? 'visibility_off' : 'visibility'"
-            [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
-            (clicked)="toggleShowImages()"
-          ></app-button>
-          <app-button
-            *ngIf="!(mode | inputReadonly)"
-            class="mb-4"
-            customIcon="split"
-            matButtonType="iconButton"
-            tooltip="Quick Actions"
-            [disabled]="
-              !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
-            "
-            (clicked)="openQuickActionsModal()"
-          ></app-button>
-          <app-submit-button
-            *ngIf="!(mode | inputReadonly)"
-            class="mb-4"
-            [mode]="mode"
-            [disabled]="
-              !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
-            "
-          ></app-submit-button>
-          <app-cancel-button
-            *ngIf="!(mode | inputReadonly)"
-            class="mb-4"
-            [mode]="mode"
-            [routerLink]="[cancelLink]"
-          ></app-cancel-button>
-        </app-form-button-bar>
-      </div>
-      <div class="mb-3">
-        <strong>Split With</strong>
-        <!-- <div class="d-flex justify-content-between mt-1">
-          <div><small>Shared Users</small></div>
-          <div>
-            <small class="me-2">You owe $ 0</small>
-            <small>You owe $ 0</small>
+        <app-form-section headerText="Audit Details">
+          <div class="d-flex flex-column mb-3">
+            <span *ngIf="originalReceipt?.createdBy" class="mb-1">
+              Added by:
+              {{ (originalReceipt?.createdBy?.toString() | user)?.displayName }}
+            </span>
+            <span class="mb-1">
+              Added at: {{ originalReceipt?.createdAt | date : "medium" }}
+            </span>
+            <span>
+              Updated at: {{ originalReceipt?.updatedAt | date : "medium" }}
+            </span>
           </div>
-        </div> -->
-      </div>
-      <app-item-list [form]="form"></app-item-list>
+        </app-form-section>
+      </ng-container>
+      <app-form-section headerText="Details">
+        <div class="d-flex justify-content-between form-container">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center w-50"
+          >
+            <app-input
+              class="w-100"
+              label="Name"
+              [inputFormControl]="form | formGet : 'name'"
+              [readonly]="mode | inputReadonly"
+            ></app-input>
+            <app-input
+              class="w-100"
+              label="Amount"
+              type="number"
+              [inputFormControl]="form | formGet : 'amount'"
+              [readonly]="mode | inputReadonly"
+            ></app-input>
+            <app-autocomlete
+              class="w-100"
+              label="Categories"
+              optionFilterKey="name"
+              creatableValueKey="name"
+              [inputFormControl]="form | formGet : 'categories'"
+              [options]="categories"
+              [optionTemplate]="categoryOptionTemplate"
+              [optionChipTemplate]="categoryOptionTemplate"
+              [multiple]="true"
+              [creatable]="true"
+              [readonly]="mode | inputReadonly"
+            ></app-autocomlete>
+            <app-autocomlete
+              class="w-100"
+              label="Tags"
+              optionFilterKey="name"
+              creatableValueKey="name"
+              [inputFormControl]="form | formGet : 'tags'"
+              [options]="tags"
+              [optionTemplate]="tagOptionTemplate"
+              [optionChipTemplate]="tagOptionTemplate"
+              [multiple]="true"
+              [creatable]="true"
+              [readonly]="mode | inputReadonly"
+            ></app-autocomlete>
+            <app-datepicker
+              label="Date"
+              class="w-100"
+              [inputFormControl]="form | formGet : 'date'"
+              [readonly]="mode | inputReadonly"
+            ></app-datepicker>
+            <app-autocomlete
+              class="w-100"
+              label="Group"
+              optionFilterKey="name"
+              optionValueKey="id"
+              [inputFormControl]="form | formGet : 'groupId'"
+              [options]="(groups | async) ?? []"
+              [optionTemplate]="groupOptionTemplate"
+              [readonly]="mode | inputReadonly"
+              [displayWith]="groupDisplayWith.bind(this)"
+            ></app-autocomlete>
+            <app-user-autocomplete
+              #paidByAutocomplete
+              class="w-100"
+              label="Paid By"
+              [inputFormControl]="form | formGet : 'paidByUserId'"
+              [usersToOmit]="usersToOmit"
+              [readonly]="mode | inputReadonly"
+            ></app-user-autocomplete>
+            <app-select
+              class="w-100"
+              label="Status"
+              [inputFormControl]="form | formGet : 'status'"
+              [readonly]="mode | inputReadonly"
+              [options]="receiptStatusOptions"
+            ></app-select>
+          </div>
+          <app-form-button-bar>
+            <app-back-button
+              class="mb-4"
+              tooltip="Return to list"
+              [buttonRouterLink]="[(receiptListLink | async) ?? '']"
+            ></app-back-button>
+            <app-button
+              *ngIf="mode | inputReadonly"
+              class="mb-4"
+              matButtonType="iconButton"
+              tooltip="Duplicate"
+              icon="file_copy"
+              color="primary"
+              [disabled]="
+                !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
+              "
+              (clicked)="duplicateReceipt()"
+            ></app-button>
+            <app-button
+              *ngIf="mode | inputReadonly"
+              class="mb-4"
+              matButtonType="iconButton"
+              tooltip="Edit"
+              icon="edit"
+              [disabled]="
+                !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
+              "
+              [routerLink]="[editLink]"
+            ></app-button>
+            <app-button
+              *ngIf="!(mode | inputReadonly)"
+              class="mb-4"
+              matButtonType="iconButton"
+              icon="photo_library"
+              tooltip="Upload Image(s)"
+              [disabled]="
+                !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
+              "
+              (clicked)="uploadImageButtonClicked()"
+            ></app-button>
+            <app-button
+              *ngIf="images && (images?.length ?? 0 > 0)"
+              class="mb-4"
+              matButtonType="iconButton"
+              [icon]="showImages ? 'visibility_off' : 'visibility'"
+              [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
+              (clicked)="toggleShowImages()"
+            ></app-button>
+            <app-button
+              *ngIf="!(mode | inputReadonly)"
+              class="mb-4"
+              customIcon="split"
+              matButtonType="iconButton"
+              tooltip="Quick Actions"
+              [disabled]="
+                !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
+              "
+              (clicked)="openQuickActionsModal()"
+            ></app-button>
+            <app-submit-button
+              *ngIf="!(mode | inputReadonly)"
+              class="mb-4"
+              [mode]="mode"
+              [disabled]="
+                !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
+              "
+            ></app-submit-button>
+            <app-cancel-button
+              *ngIf="!(mode | inputReadonly)"
+              class="mb-4"
+              [mode]="mode"
+              [routerLink]="[cancelLink]"
+            ></app-cancel-button>
+          </app-form-button-bar>
+        </div>
+      </app-form-section>
+      <app-form-section headerText="Split With">
+        <app-item-list [form]="form"></app-item-list>
+      </app-form-section>
     </div>
   </div>
 </form>

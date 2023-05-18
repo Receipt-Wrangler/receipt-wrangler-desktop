@@ -16,6 +16,7 @@ import { FormButtonComponent } from './form-button/form-button.component';
 import { StatusChipComponent } from './status-chip/status-chip.component';
 import { SubmitButtonComponent } from './submit-button/submit-button.component';
 import { TableHeaderComponent } from './table-header/table-header.component';
+import { FormSectionComponent } from './form-section/form-section.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { TableHeaderComponent } from './table-header/table-header.component';
     StatusChipComponent,
     SubmitButtonComponent,
     TableHeaderComponent,
+    FormSectionComponent,
   ],
   imports: [CommonModule, ButtonModule, MatTableModule, MatChipsModule, PipesModule],
   exports: [
@@ -45,6 +47,7 @@ import { TableHeaderComponent } from './table-header/table-header.component';
     StatusChipComponent,
     SubmitButtonComponent,
     TableHeaderComponent,
+    FormSectionComponent,
   ],
 })
 export class SharedUiModule {}
