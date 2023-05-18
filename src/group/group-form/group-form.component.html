@@ -8,44 +8,25 @@
       <div class="d-flex justify-content-between align-items center">
         <h2>{{ formConfig.headerText }}</h2>
       </div>
-      <mat-card class="mb-4">
-        <mat-card-header>
-          <mat-card-title> <span> Group Details </span> </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-input
-            label="Group Name"
-            [readonly]="formConfig.mode | inputReadonly"
-            [inputFormControl]="form | formGet : 'name'"
-          ></app-input>
-        </mat-card-content>
-      </mat-card>
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            <div
-              class="d-flex w-100 justify-content-between align-items-center"
-            >
-              <span>Group Members</span>
-              <app-button
-                *ngIf="!(formConfig.mode | inputReadonly)"
-                matButtonType="iconButton"
-                icon="add"
-                tooltip="Add User to Group"
-                (clicked)="addGroupMemberClicked()"
-              ></app-button></div
-          ></mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-table
-            [columns]="columns"
-            [dataSource]="dataSource"
-            [displayedColumns]="displayedColumns"
-            (sorted)="sortName($event)"
-          >
-          </app-table>
-        </mat-card-content>
-      </mat-card>
+      <app-form-section headerText="Group Details">
+        <app-input
+          label="Group Name"
+          [readonly]="formConfig.mode | inputReadonly"
+          [inputFormControl]="form | formGet : 'name'"
+        ></app-input>
+      </app-form-section>
+      <app-form-section
+        headerText="Group Members"
+        [headerButtonsTemplate]="buttonTemplate"
+      >
+        <app-table
+          [columns]="columns"
+          [dataSource]="dataSource"
+          [displayedColumns]="displayedColumns"
+          (sorted)="sortName($event)"
+        >
+        </app-table>
+      </app-form-section>
     </div>
   </div>
   <app-form-button-bar>
@@ -69,6 +50,16 @@
     ></app-cancel-button>
   </app-form-button-bar>
 </form>
+
+<ng-template #buttonTemplate>
+  <app-button
+    *ngIf="!(formConfig.mode | inputReadonly)"
+    matButtonType="iconButton"
+    icon="add"
+    tooltip="Add User to Group"
+    (clicked)="addGroupMemberClicked()"
+  ></app-button>
+</ng-template>
 
 <ng-template #nameCell let-element="element">
   {{ (element.userId | user)?.displayName }}
