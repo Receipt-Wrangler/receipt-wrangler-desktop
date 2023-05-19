@@ -38,7 +38,7 @@ export class HttpInterceptorService implements HttpInterceptor {
         if (e.error?.errorMsg) {
           this.snackbarService.error(e.error?.errorMsg);
         }
-        if (e.status === HttpStatusCode.Unauthorized) {
+        if (e.status === HttpStatusCode.BadRequest) {
           return this.refreshToken(req, next);
         } else if (regex.test(e.status.toString())) {
           this.snackbarService.error(e.message);

@@ -1,0 +1,13 @@
+<div class="mb-3" [ngClass]="{ 'mx-2': indent }">
+  <div class="d-flex align-items-center">
+    <strong> {{ headerText }}</strong>
+    <ng-container
+      *ngIf="headerButtonsTemplate"
+      [ngTemplateOutlet]="headerButtonsTemplate"
+    >
+    </ng-container>
+  </div>
+</div>
+<div [ngClass]="{ 'mx-2': indent }">
+  <ng-content></ng-content>
+</div>
