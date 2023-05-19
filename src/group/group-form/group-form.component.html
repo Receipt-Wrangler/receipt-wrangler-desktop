@@ -1,54 +1,57 @@
+<div class="d-flex justify-content-between align-items center">
+  <h2>{{ formConfig.headerText }}</h2>
+</div>
 <form
   [formGroup]="form"
   class="d-flex justify-content-between"
   (ngSubmit)="submit()"
 >
   <div class="w-100">
-    <div>
-      <div class="d-flex justify-content-between align-items center">
-        <h2>{{ formConfig.headerText }}</h2>
-      </div>
-      <app-form-section headerText="Group Details">
-        <app-input
-          label="Group Name"
-          [readonly]="formConfig.mode | inputReadonly"
-          [inputFormControl]="form | formGet : 'name'"
-        ></app-input>
-      </app-form-section>
-      <app-form-section
-        headerText="Group Members"
-        [headerButtonsTemplate]="buttonTemplate"
-      >
-        <app-table
-          [columns]="columns"
-          [dataSource]="dataSource"
-          [displayedColumns]="displayedColumns"
-          (sorted)="sortName($event)"
+    <div class="d-flex align-items-baseline">
+      <div class="w-100 p-4">
+        <app-form-section headerText="Group Details" [indent]="true">
+          <app-input
+            label="Group Name"
+            [readonly]="formConfig.mode | inputReadonly"
+            [inputFormControl]="form | formGet : 'name'"
+          ></app-input>
+        </app-form-section>
+        <app-form-section
+          headerText="Group Members"
+          [headerButtonsTemplate]="buttonTemplate"
+          [indent]="true"
         >
-        </app-table>
-      </app-form-section>
+          <app-table
+            [columns]="columns"
+            [dataSource]="dataSource"
+            [displayedColumns]="displayedColumns"
+            (sorted)="sortName($event)"
+          >
+          </app-table>
+        </app-form-section>
+      </div>
+      <app-form-button-bar>
+        <app-back-button
+          class="mb-4"
+          tooltip="Return to list"
+          [buttonRouterLink]="['/groups']"
+        ></app-back-button>
+        <app-edit-button
+          *ngIf="formConfig.mode | inputReadonly"
+          [disabled]="!(originalGroup?.id ?? 0 | groupRole : groupRole.OWNER)"
+          [buttonRouterLink]="[editLink]"
+        ></app-edit-button>
+        <app-submit-button
+          *ngIf="!(formConfig.mode | inputReadonly)"
+          class="mb-4"
+        ></app-submit-button>
+        <app-cancel-button
+          *ngIf="!(formConfig.mode | inputReadonly)"
+          [routerLink]="['/groups']"
+        ></app-cancel-button>
+      </app-form-button-bar>
     </div>
   </div>
-  <app-form-button-bar>
-    <app-back-button
-      class="mb-4"
-      tooltip="Return to list"
-      [buttonRouterLink]="['/groups']"
-    ></app-back-button>
-    <app-edit-button
-      *ngIf="formConfig.mode | inputReadonly"
-      [disabled]="!(originalGroup?.id ?? 0 | groupRole : groupRole.OWNER)"
-      [buttonRouterLink]="[editLink]"
-    ></app-edit-button>
-    <app-submit-button
-      *ngIf="!(formConfig.mode | inputReadonly)"
-      class="mb-4"
-    ></app-submit-button>
-    <app-cancel-button
-      *ngIf="!(formConfig.mode | inputReadonly)"
-      [routerLink]="['/groups']"
-    ></app-cancel-button>
-  </app-form-button-bar>
 </form>
 
 <ng-template #buttonTemplate>
