@@ -94,7 +94,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       ?.toString();
 
     this.receiptsService
-      .getPagedReceiptsForGroups(this.groupId.toString())
+      .getPagedReceiptsForGroups(this.groupId?.toString())
       .pipe(
         take(1),
         tap((pagedData) => {

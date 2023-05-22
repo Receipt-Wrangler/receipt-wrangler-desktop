@@ -15,9 +15,11 @@ export class GroupRolePipe implements PipeTransform {
     // if group id is just a number
     if (groupId) {
       const parsed = Number.parseInt(groupId.toString());
-      if (parsed !== undefined) {
+      if (parsed !== undefined && !Number.isNaN(parsed)) {
         return this.groupUtil.hasGroupAccess(parsed, groupRole);
       }
+    } else {
+      return true;
     }
 
     return false;
