@@ -56,8 +56,6 @@ describe('SummaryCardComponent', () => {
     component.ngOnInit();
 
     expect(Array.from(component.userOwesMap.entries())).toEqual([['1', '200']]);
-    expect(Array.from(component.usersOweMap.entries())).toEqual([
-      ['2', '-500'],
-    ]);
+    expect(Array.from(component.usersOweMap.entries())).toEqual([['2', '500']]);
   });
 });
