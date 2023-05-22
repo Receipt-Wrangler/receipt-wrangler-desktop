@@ -13,6 +13,9 @@ export class GroupRolePipe implements PipeTransform {
     groupRole: GroupRole
   ): boolean {
     // if group id is just a number
+    if (groupId === 'all') {
+      return true;
+    }
     if (groupId) {
       const parsed = Number.parseInt(groupId.toString());
       if (parsed !== undefined && !Number.isNaN(parsed)) {

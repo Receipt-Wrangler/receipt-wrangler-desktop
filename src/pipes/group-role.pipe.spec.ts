@@ -66,4 +66,22 @@ describe('GroupRolePipe', () => {
 
     expect(result).toEqual(false);
   });
+
+  it('should return true if the groupId is all', () => {
+    store.reset({
+      auth: { userId: 1 },
+      groups: {
+        groups: [
+          {
+            id: 1,
+            groupMembers: [{ userId: 1, groupRole: GroupRole.EDITOR }],
+          },
+        ],
+      },
+    });
+
+    const result = pipe.transform('all', GroupRole.OWNER);
+
+    expect(result).toEqual(true);
+  });
 });
