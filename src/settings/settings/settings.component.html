@@ -1,1 +1,14 @@
-<p>settings works!</p>
+<nav mat-tab-nav-bar [tabPanel]="tabPanel">
+  <a
+    mat-tab-link
+    *ngFor="let link of links"
+    (click)="activeLink = link"
+    [active]="activeLink == link"
+    [routerLink]="['user-profile']"
+  >
+    {{ link }}
+  </a>
+</nav>
+<mat-tab-nav-panel #tabPanel>
+  <router-outlet></router-outlet>
+</mat-tab-nav-panel>
