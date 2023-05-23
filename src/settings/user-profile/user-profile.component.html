@@ -1,1 +1,12 @@
-<p>user-profile works!</p>
+<form [formGroup]="form">
+  <app-form-section headerText="User Details">
+    <app-input
+      label="Username"
+      [inputFormControl]="form | formGet : 'username'"
+    ></app-input>
+    <app-input
+      label="Displayname"
+      [inputFormControl]="form | formGet : 'displayName'"
+    ></app-input>
+  </app-form-section>
+</form>
