@@ -2,7 +2,7 @@
   matButtonType="iconButton"
   icon="edit"
   [color]="color"
-  [tooltip]="tooltip"
+  [tooltip]="tooltip ? tooltip : 'Edit'"
   [disabled]="disabled"
   [buttonRouterLink]="buttonRouterLink"
   (clicked)="clicked.emit()"

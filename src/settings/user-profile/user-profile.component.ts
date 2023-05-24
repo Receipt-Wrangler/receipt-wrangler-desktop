@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
+import { FormMode } from 'src/enums/form-mode.enum';
+import { FormConfig } from 'src/interfaces';
 import { User } from 'src/models';
 import { AuthState } from 'src/store/auth.state';
 
@@ -14,10 +17,17 @@ export class UserProfileComponent implements OnInit {
 
   public user!: User;
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {}
+  public formConfig!: FormConfig;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private store: Store,
+    private route: ActivatedRoute
+  ) {}
 
   public ngOnInit(): void {
     this.user = this.store.selectSnapshot(AuthState.loggedInUser);
+    this.formConfig = this.route?.snapshot?.data?.['formConfig'];
     this.initForm();
   }
 
