@@ -7,6 +7,9 @@
           label="Username"
           [inputFormControl]="form | formGet : 'username'"
           [readonly]="true"
+          [matTooltip]="
+            formConfig.mode === formMode.edit ? usernameTooltip : ''
+          "
         ></app-input>
         <app-input
           label="Displayname"

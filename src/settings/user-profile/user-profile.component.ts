@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { FormConfig } from 'src/interfaces';
 import { User } from 'src/models';
@@ -18,6 +18,11 @@ export class UserProfileComponent implements OnInit {
   public user!: User;
 
   public formConfig!: FormConfig;
+
+  public formMode = FormMode;
+
+  public usernameTooltip: string =
+    'Only system admin may change your username.';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,5 +41,9 @@ export class UserProfileComponent implements OnInit {
       username: this.user?.username ?? '',
       displayName: this.user?.displayName ?? '',
     });
+
+    if (this.formConfig.mode === FormMode.edit) {
+      this.form.get('username')?.disable();
+    }
   }
 }

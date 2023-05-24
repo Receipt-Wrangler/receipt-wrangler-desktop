@@ -9,17 +9,19 @@ import { InputModule } from 'src/input/input.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from 'src/pipes/pipes.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [SettingsComponent, UserProfileComponent],
   imports: [
     CommonModule,
-    SettingsRoutingModule,
-    MatTabsModule,
     InputModule,
-    SharedUiModule,
-    ReactiveFormsModule,
+    MatTabsModule,
+    MatTooltipModule,
     PipesModule,
+    ReactiveFormsModule,
+    SettingsRoutingModule,
+    SharedUiModule,
   ],
 })
 export class SettingsModule {}
