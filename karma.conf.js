@@ -1,3 +1,5 @@
+process.env.CHROME_BIN = require('puppeteer').executablePath()
+
 // Karma configuration file
 module.exports = function(config) {
   config.set({
@@ -34,7 +36,7 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome' ],
+    browsers: ['Chrome', "ChromeHeadless"],
     singleRun: false,
     restartOnFileChange: true
   });
