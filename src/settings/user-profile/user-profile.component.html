@@ -1,7 +1,8 @@
 <h2>{{ formConfig.headerText }}</h2>
-<div class="d-flex">
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <div>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="d-flex">
+    <div class="p-4 w-100">
       <app-form-section headerText="User Details">
         <app-input
           label="Username"
@@ -29,5 +30,5 @@
         *ngIf="!(formConfig.mode | inputReadonly)"
       ></app-submit-button>
     </app-form-button-bar>
-  </form>
-</div>
+  </div>
+</form>
