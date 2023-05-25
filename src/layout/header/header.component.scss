@@ -22,6 +22,7 @@
 
 .active-link > * {
   fill: map-get($primary-palette, 400) !important;
+  color: map-get($primary-palette, 400) !important;
 }
 
 .receipt-searchbar {

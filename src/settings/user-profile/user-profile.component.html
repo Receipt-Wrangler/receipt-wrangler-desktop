@@ -1,0 +1,34 @@
+<h2>{{ formConfig.headerText }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="d-flex">
+    <div class="p-4 w-100">
+      <app-form-section headerText="User Details">
+        <app-input
+          label="Username"
+          [inputFormControl]="form | formGet : 'username'"
+          [readonly]="true"
+          [matTooltip]="
+            formConfig.mode === formMode.edit ? usernameTooltip : ''
+          "
+        ></app-input>
+        <app-input
+          label="Displayname"
+          [inputFormControl]="form | formGet : 'displayName'"
+          [readonly]="formConfig.mode | inputReadonly"
+        ></app-input>
+      </app-form-section>
+    </div>
+    <app-form-button-bar>
+      <app-edit-button
+        class="mb-3"
+        *ngIf="formConfig.mode | inputReadonly"
+        [buttonRouterLink]="['/settings/user-profile/edit']"
+      >
+      </app-edit-button>
+      <app-submit-button
+        *ngIf="!(formConfig.mode | inputReadonly)"
+      ></app-submit-button>
+    </app-form-button-bar>
+  </div>
+</form>

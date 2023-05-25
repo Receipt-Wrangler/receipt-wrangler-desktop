@@ -75,6 +75,9 @@
         Manage Users
       </button>
       <button [routerLink]="['/groups']" mat-menu-item>Manage Groups</button>
+      <button mat-menu-item [routerLink]="['/settings/user-profile/view']">
+        Settings
+      </button>
       <button mat-menu-item (click)="logout()">Logout</button>
     </mat-menu>
   </mat-drawer>

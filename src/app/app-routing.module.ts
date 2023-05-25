@@ -24,15 +24,21 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'groups',
+        loadChildren: () =>
+          import('../group/group.module').then((m) => m.GroupsModule),
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'receipts',
         loadChildren: () =>
           import('../receipts/receipts.module').then((m) => m.ReceiptsModule),
         canActivate: [AuthGuard],
       },
       {
-        path: 'groups',
+        path: 'settings',
         loadChildren: () =>
-          import('../group/group.module').then((m) => m.GroupsModule),
+          import('../settings/settings.module').then((m) => m.SettingsModule),
         canActivate: [AuthGuard],
       },
       {
