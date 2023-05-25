@@ -10,6 +10,7 @@ import { FormConfig } from 'src/interfaces';
 import { User } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
+import { UpdateUser } from 'src/store/user.state.actions';
 
 @Component({
   selector: 'app-user-profile',
@@ -61,6 +62,14 @@ export class UserProfileComponent implements OnInit {
         .pipe(
           take(1),
           switchMap(() => this.authService.getNewRefreshToken()),
+          switchMap(() => {
+            const loggedInUser = this.store.selectSnapshot(
+              AuthState.loggedInUser
+            );
+            return this.store.dispatch(
+              new UpdateUser(loggedInUser.id.toString(), loggedInUser)
+            );
+          }),
           tap(() => {
             this.snackbarService.success('User profile successfully updated');
           })

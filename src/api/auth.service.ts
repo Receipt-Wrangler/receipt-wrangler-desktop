@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, switchMap, take, tap } from 'rxjs';
-import { Store } from '@ngxs/store';
-import { SetAuthState } from 'src/store/auth.state.actions';
+import { Injectable } from '@angular/core';
+import { Observable, switchMap, take } from 'rxjs';
 import { UsersService } from './users.service';
 
 @Injectable({
