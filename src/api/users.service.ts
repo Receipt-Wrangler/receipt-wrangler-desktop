@@ -6,6 +6,7 @@ import { User } from 'src/models/user';
 import { SetAuthState } from 'src/store/auth.state.actions';
 import { GroupState } from 'src/store/group.state';
 import { AuthStateInterface } from '../interfaces';
+import { UpdateUserProfileCommand } from './commands/update-user-profile-command';
 
 @Injectable({
   providedIn: 'root',
@@ -58,5 +59,11 @@ export class UsersService {
     data: { password: string }
   ): Observable<void> {
     return this.httpClient.post<void>(`/api/user/${id}/resetPassword`, data);
+  }
+
+  public updateUserProfile(
+    command: UpdateUserProfileCommand
+  ): Observable<void> {
+    return this.httpClient.put<void>(`/api/user/updateUserProfile`, command);
   }
 }
