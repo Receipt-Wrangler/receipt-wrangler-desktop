@@ -1,7 +1,7 @@
 <h2>{{ formConfig.headerText }}</h2>
 <div class="d-flex">
-  <div class="w-100 p-4">
-    <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div>
       <app-form-section headerText="User Details">
         <app-input
           label="Username"
@@ -17,17 +17,17 @@
           [readonly]="formConfig.mode | inputReadonly"
         ></app-input>
       </app-form-section>
-    </form>
-  </div>
-  <app-form-button-bar>
-    <app-edit-button
-      class="mb-3"
-      *ngIf="formConfig.mode | inputReadonly"
-      [buttonRouterLink]="['/settings/user-profile/edit']"
-    >
-    </app-edit-button>
-    <app-submit-button
-      *ngIf="!(formConfig.mode | inputReadonly)"
-    ></app-submit-button>
-  </app-form-button-bar>
+    </div>
+    <app-form-button-bar>
+      <app-edit-button
+        class="mb-3"
+        *ngIf="formConfig.mode | inputReadonly"
+        [buttonRouterLink]="['/settings/user-profile/edit']"
+      >
+      </app-edit-button>
+      <app-submit-button
+        *ngIf="!(formConfig.mode | inputReadonly)"
+      ></app-submit-button>
+    </app-form-button-bar>
+  </form>
 </div>
