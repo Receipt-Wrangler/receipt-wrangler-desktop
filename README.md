@@ -1,3 +1,5 @@
+[![Build](https://github.com/Noah231515/receipt-wrangler-desktop/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Noah231515/receipt-wrangler-desktop/actions/workflows/docker-image.yml)
+
 [![codecov](https://codecov.io/gh/Noah231515/receipt-wrangler-desktop/branch/main/graph/badge.svg?token=TCTGKLHIW1)](https://codecov.io/gh/Noah231515/receipt-wrangler-desktop)
 # MyApp
 
