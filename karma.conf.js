@@ -17,11 +17,8 @@ module.exports = function(config) {
     },
     coverageReporter: {
       dir: require('path').join(__dirname, './coverage/receipt-wrangler-desktop'),
+      type: "cobertura",
       subdir: '.',
-      reporters: [
-        { type: 'html' },
-        { type: 'text-summary' }
-      ],
       check: {
         global: {
           statements: 1,
