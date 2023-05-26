@@ -46,6 +46,7 @@ jobs:
       #     path: code-coverage-results.md
 
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
