@@ -8,6 +8,6 @@ export interface Comment {
   replies: Comment[];
   additionalInfo?: string;
   commentId?: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
