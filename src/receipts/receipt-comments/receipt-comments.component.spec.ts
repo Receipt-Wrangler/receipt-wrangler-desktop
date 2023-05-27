@@ -11,7 +11,7 @@ import { TopLevelCommentPipe } from './top-level-comment.pipe';
 import { Comment } from '../../models';
 import { AuthState } from 'src/store/auth.state';
 
-fdescribe('ReceiptCommentsComponent', () => {
+describe('ReceiptCommentsComponent', () => {
   let component: ReceiptCommentsComponent;
   let fixture: ComponentFixture<ReceiptCommentsComponent>;
   let comments: Comment[];
