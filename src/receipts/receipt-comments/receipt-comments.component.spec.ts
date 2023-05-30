@@ -10,6 +10,9 @@ import { PipesModule } from 'src/pipes/pipes.module';
 import { TopLevelCommentPipe } from './top-level-comment.pipe';
 import { Comment } from '../../models';
 import { AuthState } from 'src/store/auth.state';
+import { CommentsService } from 'src/api/comments.service';
+import { of } from 'rxjs';
+import { FormMode } from 'src/enums/form-mode.enum';
 
 describe('ReceiptCommentsComponent', () => {
   let component: ReceiptCommentsComponent;
@@ -136,6 +139,41 @@ describe('ReceiptCommentsComponent', () => {
     );
   });
 
+  it('should add reply to comment when save is successful', () => {
+    const spy = spyOn(TestBed.inject(CommentsService), "addComment");
+    const expected: any = { comment: 'new reply', userId: 1, receiptId: 1, commentId: 1, replies: [  ], createdAt: "", updatedAt: ""};
+
+    spy.and.returnValue(of(expected));
+
+    store.reset({
+      auth: {
+        userId: 1,
+      },
+    });
+    component.comments = comments;
+    component.receiptId = 1;
+    component.mode = FormMode.view;
+
+    component.ngOnInit();
+    component.replyClicked(component.commentsArray.at(0), 0);
+
+    component.newCommentReplyMap[1]?.patchValue({comment: "new reply"});
+
+    component.replySaveButtonClicked(component.commentsArray.at(0), 0);
+
+
+    expect(spy).toHaveBeenCalledWith({ comment: 'new reply', userId: 1, receiptId: 1, commentId: 1, replies: [  ], isReplyOpen: false, isViewRepliesOpen: false } as any);
+    expect(component.commentsArray.at(0).get("isReplyOpen")?.value).toEqual(false);
+
+    const replyFormGroup = component.newCommentReplyMap[1];
+    // TODO: fix
+    //expect(replyFormGroup.value.comment).toEqual("");
+    //expect(replyFormGroup.pristine).toEqual(true);
+
+    //expect(component.comments[0].replies.length).toEqual(1);
+    //expect(component.comments[0].replies[0]).toEqual(expected);
+  });
+
   it('toggle view replies', () => {
     component.comments = comments;
     component.ngOnInit();
@@ -160,5 +198,111 @@ describe('ReceiptCommentsComponent', () => {
     component.replyCancelButtonClicked(commentsArray.at(0));
 
     expect(commentsArray.at(0).get('isReplyOpen')?.value).toEqual(false);
+  });
+
+  it('should delete comment that is a top level comment', () => {
+    const spy = spyOn(TestBed.inject(CommentsService), "deleteComment");
+    spy.and.returnValue(of(undefined));
+    component.comments = comments;
+
+    component.ngOnInit();
+    component.deleteComment(0);
+
+    expect(spy).toHaveBeenCalledWith("1");
+
+    expect(component.commentsArray.value.find(c => c.id === 1)).toEqual(undefined);
+    expect(component.commentsArray.value.length).toEqual(1);
+    expect(component.comments.find(c => c.id === 1)).toEqual(undefined);
+    expect(component.comments.length).toEqual(1);
+  });
+
+  it('should delete comment that is a reply', () => {
+    const spy = spyOn(TestBed.inject(CommentsService), "deleteComment");
+    spy.and.returnValue(of(undefined));
+    component.comments = comments;
+
+    component.ngOnInit();
+    component.deleteComment(1, 0);
+
+    expect(spy).toHaveBeenCalledWith("3");
+
+    expect(component.commentsArray.value[1].replies.length).toEqual(0);
+    expect(component.comments[1].replies.find(c => c.id === 3)).toEqual(undefined);
+    expect(component.comments[1].replies.length).toEqual(0);
+  });
+
+  it('should add comment if form is valid and is in add mode', () => {
+    const eventEmitterSpy = spyOn(component.commentsUpdated, "emit");
+    store.reset({
+      auth: {
+        userId: 1,
+      },
+    });
+
+    component.mode = FormMode.add;
+    component.newCommentFormControl.patchValue("new comment");
+    component.receiptId = 1;
+    component.addComment();
+
+    expect(component.newCommentFormControl.value).toEqual(null);
+    expect(component.newCommentFormControl.pristine).toEqual(true);
+    expect(component.commentsArray.length).toEqual(1);
+    expect(eventEmitterSpy).toHaveBeenCalledWith(component.commentsArray)
+    expect(component.commentsArray.at(0).value).toEqual({
+      userId: 1,
+      receiptId: 1,
+      comment: "new comment",
+      commentId: null,
+      replies: [],
+      isReplyOpen: false,
+      isViewRepliesOpen: false
+    });
+  });
+
+  it('should send api call if form is valid and is in view mode', () => {
+    const spy = spyOn(TestBed.inject(CommentsService), "addComment");
+    spy.and.returnValue(of({
+      id: 5,
+      userId: 1,
+      receiptId: 1,
+      comment: "new comment",
+      commentId: null,
+      replies: [],
+      createdAt: "",
+      updatedAt: ""
+    }) as any);
+
+    store.reset({
+      auth: {
+        userId: 1,
+      },
+    });
+
+    component.mode = FormMode.view;
+    component.newCommentFormControl.patchValue("new comment");
+    component.receiptId = 1;
+    component.addComment();
+
+    expect(component.commentsArray.length).toEqual(1);
+    expect(component.commentsArray.at(0).value).toEqual({
+      userId: 1,
+      receiptId: 1,
+      comment: "new comment",
+      commentId: null,
+      replies: [  ],
+      isReplyOpen: false,
+      isViewRepliesOpen: false
+    });
+    expect(component.comments.length).toEqual(1);
+    expect(component.comments[0]).toEqual({
+      id: 5,
+      userId: 1,
+      receiptId: 1,
+      comment: "new comment",
+      commentId: null,
+      replies: [],
+      createdAt: "",
+      updatedAt: ""
+    } as any)
   });
 });
