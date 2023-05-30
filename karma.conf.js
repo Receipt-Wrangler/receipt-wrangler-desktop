@@ -27,6 +27,8 @@ module.exports = function(config) {
           lines: 1
         }
       }
+    },coveragePreprocessor: {
+      exclude: [ "src/api/*.ts" ]
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
