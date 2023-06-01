@@ -13,7 +13,7 @@ import { GroupState } from 'src/store/group.state';
 import { RemoveGroup } from 'src/store/group.state.actions';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
-import { DEFAULT_DIALOG_CONFIG } from '../../constants';
+import { ALL_GROUP, DEFAULT_DIALOG_CONFIG } from '../../constants';
 
 @Component({
   selector: 'app-group-list',
@@ -117,7 +117,9 @@ export class GroupListComponent {
   public sortNumberOfMembers(sortState: Sort): void {
     if (sortState.active === 'numberOfMembers') {
       if (sortState.direction === '') {
-        this.dataSource.data = this.store.selectSnapshot(GroupState.groups);
+        this.dataSource.data = this.store.selectSnapshot(
+          GroupState.groupsWithoutAll
+        );
         return;
       }
 
@@ -135,7 +137,7 @@ export class GroupListComponent {
   }
 
   private setDataSource(): void {
-    const groups = this.store.selectSnapshot(GroupState.groups);
+    const groups = this.store.selectSnapshot(GroupState.groupsWithoutAll);
     this.dataSource = new MatTableDataSource<Group>(groups);
     this.dataSource.sort = this.table.sort;
   }
@@ -162,7 +164,7 @@ export class GroupListComponent {
                 this.snackbarService.success('Group successfully deleted');
                 this.store.dispatch(new RemoveGroup(group.id.toString()));
                 this.dataSource.data = this.store.selectSnapshot(
-                  GroupState.groups
+                  GroupState.groupsWithoutAll
                 );
               })
             )

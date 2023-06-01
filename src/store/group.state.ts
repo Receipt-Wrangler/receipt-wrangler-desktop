@@ -14,6 +14,7 @@ import {
   SetSelectedGroupId,
   UpdateGroup,
 } from './group.state.actions';
+import { ALL_GROUP } from 'src/constants';
 
 export interface GroupStateInterface {
   groups: Group[];
@@ -32,6 +33,11 @@ export class GroupState {
   @Selector()
   static groups(state: GroupStateInterface): Group[] {
     return state.groups;
+  }
+
+  @Selector()
+  static groupsWithoutAll(state: GroupStateInterface): Group[] {
+    return state.groups.filter((g) => (g.id as any) !== ALL_GROUP);
   }
 
   @Selector()
