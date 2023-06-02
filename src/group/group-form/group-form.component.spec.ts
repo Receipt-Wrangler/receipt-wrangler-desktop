@@ -6,17 +6,20 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
+import { GroupsService } from 'src/api/groups.service';
 import { ButtonModule } from 'src/button/button.module';
+import { FormMode } from 'src/enums/form-mode.enum';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { InputModule } from 'src/input/input.module';
-import { FormGetPipe } from 'src/pipes/form-get.pipe';
+import { Group } from 'src/models';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SelectModule } from 'src/select/select.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
+import { AddGroup, UpdateGroup } from 'src/store/group.state.actions';
 import { TableModule } from 'src/table/table.module';
 import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
@@ -182,5 +185,131 @@ describe('GroupFormComponent', () => {
 
     expect(component.groupMembers.value).toEqual([result]);
     expect(component.dataSource.data).toEqual([result] as any);
+  });
+
+  it('should create group', () => {
+    const createSpy = spyOn(TestBed.inject(GroupsService), 'createGroup');
+    const storeSpy = spyOn(TestBed.inject(Store), 'dispatch');
+    const routerSpy = spyOn(TestBed.inject(Router), 'navigateByUrl');
+
+    const group: Group = {
+      id: 1,
+      name: 'test',
+      isDefault: true,
+      groupMembers: [],
+    };
+
+    const route = TestBed.inject(ActivatedRoute);
+    route.snapshot.data = {
+      formConfig: {
+        mode: FormMode.add,
+      },
+    };
+
+    component.ngOnInit();
+    component.ngAfterViewInit();
+
+    component.form.patchValue({
+      name: group.name,
+      isDefault: group.isDefault,
+    });
+
+    const returnValue = {
+      ...component.form.value,
+      id: 1,
+    };
+
+    createSpy.and.returnValue(of(returnValue));
+
+    component.submit();
+
+    expect(createSpy).toHaveBeenCalledWith({
+      name: 'test',
+      groupMembers: [],
+    } as any);
+    expect(storeSpy).toHaveBeenCalledWith(new AddGroup(returnValue));
+    expect(routerSpy).toHaveBeenCalledWith('/groups/1/view');
+  });
+
+  it('should update group', () => {
+    const updateSpy = spyOn(TestBed.inject(GroupsService), 'updateGroup');
+    const storeSpy = spyOn(TestBed.inject(Store), 'dispatch');
+    const routerSpy = spyOn(TestBed.inject(Router), 'navigateByUrl');
+
+    const group: Group = {
+      id: 1,
+      name: 'test',
+      isDefault: true,
+      groupMembers: [
+        {
+          userId: 2,
+          groupId: 1,
+          groupRole: GroupRole.OWNER,
+        },
+        {
+          userId: 1,
+          groupId: 1,
+          groupRole: GroupRole.VIEWER,
+        },
+      ],
+    };
+
+    const route = TestBed.inject(ActivatedRoute);
+    route.snapshot.data = {
+      group: group,
+      formConfig: {
+        mode: FormMode.edit,
+      },
+    };
+
+    component.ngOnInit();
+    component.ngAfterViewInit();
+
+    component.form.patchValue({
+      name: 'new name',
+    });
+
+    component.groupMembers.push(
+      new FormGroup({
+        userId: new FormControl(3),
+        groupId: new FormControl(1),
+        groupRole: new FormControl(GroupRole.EDITOR),
+      })
+    );
+
+    const returnValue = {
+      ...component.form.value,
+      id: 1,
+    };
+
+    updateSpy.and.returnValue(of(returnValue));
+
+    component.submit();
+
+    expect(updateSpy).toHaveBeenCalledWith(
+      {
+        name: 'new name',
+        groupMembers: [
+          {
+            userId: 2,
+            groupId: 1,
+            groupRole: GroupRole.OWNER,
+          },
+          {
+            userId: 1,
+            groupId: 1,
+            groupRole: GroupRole.VIEWER,
+          },
+          {
+            userId: 3,
+            groupId: 1,
+            groupRole: GroupRole.EDITOR,
+          },
+        ],
+      } as Group,
+      component.originalGroup?.id.toString() as string
+    );
+    expect(storeSpy).toHaveBeenCalledWith(new UpdateGroup(returnValue));
+    expect(routerSpy).toHaveBeenCalledWith('/groups/1/view');
   });
 });
