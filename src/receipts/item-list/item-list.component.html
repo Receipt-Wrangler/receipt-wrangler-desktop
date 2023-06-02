@@ -1,49 +1,53 @@
 <app-button
-  *ngIf="!(mode | inputReadonly)"
+  *ngIf="!(mode | inputReadonly) && !isAdding"
   type="button"
-  buttonText="Add Item"
+  buttonText="Add Share"
   (clicked)="initAddMode()"
   [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
 ></app-button>
 
 <mat-accordion multi>
   <ng-container *ngIf="isAdding">
-    <mat-expansion-panel expanded>
-      <mat-expansion-panel-header class="h-100">
+    <mat-card class="w-100 mt-2">
+      <mat-card-header>
+        <mat-card-title> Add Share </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
         <app-user-autocomplete
-          label="Charge to"
+          label="Shared with"
           [inputFormControl]="newItemFormGroup | formGet : 'chargedToUserId'"
           [readonly]="mode | inputReadonly"
-        ></app-user-autocomplete
-      ></mat-expansion-panel-header>
-      <div class="d-flex align-items-center">
-        <app-input
-          label="Name"
-          [inputFormControl]="newItemFormGroup | formGet : 'name'"
-        >
-        </app-input>
-        <app-input
-          label="Amount"
-          type="number"
-          [inputFormControl]="newItemFormGroup | formGet : 'amount'"
-          [readonly]="mode | inputReadonly"
-        >
-        </app-input>
-        <app-button
-          matButtonType="iconButton"
-          icon="done"
-          tooltip="Done"
-          (clicked)="submitNewItemFormGroup()"
-        ></app-button>
-        <app-button
-          matButtonType="iconButton"
-          icon="close"
-          tooltip="cancel"
-          (clicked)="exitAddMode()"
-        ></app-button>
-      </div>
-    </mat-expansion-panel>
+        ></app-user-autocomplete>
+        <div class="d-flex align-items-center mt-2">
+          <app-input
+            label="Name"
+            [inputFormControl]="newItemFormGroup | formGet : 'name'"
+          >
+          </app-input>
+          <app-input
+            label="Amount"
+            type="number"
+            [inputFormControl]="newItemFormGroup | formGet : 'amount'"
+            [readonly]="mode | inputReadonly"
+          >
+          </app-input>
+          <app-submit-button
+            tooltip="Done"
+            (clicked)="submitNewItemFormGroup()"
+          ></app-submit-button>
+          <app-cancel-button
+            matButtonType="iconButton"
+            tooltip="Cancel"
+            (clicked)="exitAddMode()"
+          ></app-cancel-button>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </ng-container>
+
+  <div *ngIf="userItemMap.keys.length === 0 && mode === formMode.view">
+    No shares
+  </div>
   <mat-expansion-panel
     #userExpansionPanel
     *ngFor="let key of userItemMap | mapKey; let i = index"
@@ -63,16 +67,14 @@
     >
       <div class="d-flex flex-column item-form-container">
         <div class="d-flex justify-content-end">
-          <app-button
+          <app-delete-button
             *ngIf="!(mode | inputReadonly)"
-            matButtonType="iconButton"
-            icon="delete"
-            color="warn"
+            tooltip="Remove Share"
             [disabled]="
               !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
             "
             (clicked)="removeItem(itemData)"
-          ></app-button>
+          ></app-delete-button>
         </div>
         <div class="row g-0">
           <app-input
