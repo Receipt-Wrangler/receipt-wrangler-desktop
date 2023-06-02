@@ -207,7 +207,7 @@ export class ReceiptFormComponent implements OnInit {
           const users = this.store.selectSnapshot(UserState.users);
           if (!groupId) {
             this.usersToOmit = users.map((u) => u.id.toString());
-            this.paidByAutocomplete.autocompleteComponent.clearFilter();
+            this.paidByAutocomplete?.autocompleteComponent?.clearFilter();
           } else {
             const group = this.store.selectSnapshot(
               GroupState.getGroupById(groupId)
