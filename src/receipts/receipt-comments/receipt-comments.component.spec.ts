@@ -1,18 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ReceiptCommentsComponent } from './receipt-comments.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgxsModule, Store } from '@ngxs/store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { TopLevelCommentPipe } from './top-level-comment.pipe';
-import { Comment } from '../../models';
-import { AuthState } from 'src/store/auth.state';
-import { CommentsService } from 'src/api/comments.service';
+import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
+import { CommentsService } from 'src/api/comments.service';
 import { FormMode } from 'src/enums/form-mode.enum';
+import { PipesModule } from 'src/pipes/pipes.module';
+import { AuthState } from 'src/store/auth.state';
+import { Comment } from '../../models';
+import { ReceiptCommentsComponent } from './receipt-comments.component';
+import { TopLevelCommentPipe } from './top-level-comment.pipe';
 
 describe('ReceiptCommentsComponent', () => {
   let component: ReceiptCommentsComponent;
@@ -140,8 +139,16 @@ describe('ReceiptCommentsComponent', () => {
   });
 
   it('should add reply to comment when save is successful', () => {
-    const spy = spyOn(TestBed.inject(CommentsService), "addComment");
-    const expected: any = { comment: 'new reply', userId: 1, receiptId: 1, commentId: 1, replies: [  ], createdAt: "", updatedAt: ""};
+    const spy = spyOn(TestBed.inject(CommentsService), 'addComment');
+    const expected: any = {
+      comment: 'new reply',
+      userId: 1,
+      receiptId: 1,
+      commentId: 1,
+      replies: [],
+      createdAt: '',
+      updatedAt: '',
+    };
 
     spy.and.returnValue(of(expected));
 
@@ -157,13 +164,22 @@ describe('ReceiptCommentsComponent', () => {
     component.ngOnInit();
     component.replyClicked(component.commentsArray.at(0), 0);
 
-    component.newCommentReplyMap[1]?.patchValue({comment: "new reply"});
+    component.newCommentReplyMap[1]?.patchValue({ comment: 'new reply' });
 
     component.replySaveButtonClicked(component.commentsArray.at(0), 0);
 
-
-    expect(spy).toHaveBeenCalledWith({ comment: 'new reply', userId: 1, receiptId: 1, commentId: 1, replies: [  ], isReplyOpen: false, isViewRepliesOpen: false } as any);
-    expect(component.commentsArray.at(0).get("isReplyOpen")?.value).toEqual(false);
+    expect(spy).toHaveBeenCalledWith({
+      comment: 'new reply',
+      userId: 1,
+      receiptId: 1,
+      commentId: 1,
+      replies: [],
+      isReplyOpen: false,
+      isViewRepliesOpen: false,
+    } as any);
+    expect(component.commentsArray.at(0).get('isReplyOpen')?.value).toEqual(
+      false
+    );
 
     const replyFormGroup = component.newCommentReplyMap[1];
     // TODO: fix
@@ -201,38 +217,58 @@ describe('ReceiptCommentsComponent', () => {
   });
 
   it('should delete comment that is a top level comment', () => {
-    const spy = spyOn(TestBed.inject(CommentsService), "deleteComment");
+    const spy = spyOn(TestBed.inject(CommentsService), 'deleteComment');
     spy.and.returnValue(of(undefined));
     component.comments = comments;
 
     component.ngOnInit();
+    component.mode = FormMode.view;
     component.deleteComment(0);
 
-    expect(spy).toHaveBeenCalledWith("1");
+    expect(spy).toHaveBeenCalledWith('1');
 
-    expect(component.commentsArray.value.find(c => c.id === 1)).toEqual(undefined);
+    expect(component.commentsArray.value.find((c) => c.id === 1)).toEqual(
+      undefined
+    );
     expect(component.commentsArray.value.length).toEqual(1);
-    expect(component.comments.find(c => c.id === 1)).toEqual(undefined);
+    expect(component.comments.find((c) => c.id === 1)).toEqual(undefined);
     expect(component.comments.length).toEqual(1);
   });
 
   it('should delete comment that is a reply', () => {
-    const spy = spyOn(TestBed.inject(CommentsService), "deleteComment");
+    const spy = spyOn(TestBed.inject(CommentsService), 'deleteComment');
     spy.and.returnValue(of(undefined));
     component.comments = comments;
 
     component.ngOnInit();
+    component.mode = FormMode.view;
     component.deleteComment(1, 0);
 
-    expect(spy).toHaveBeenCalledWith("3");
+    expect(spy).toHaveBeenCalledWith('3');
 
     expect(component.commentsArray.value[1].replies.length).toEqual(0);
-    expect(component.comments[1].replies.find(c => c.id === 3)).toEqual(undefined);
+    expect(component.comments[1].replies.find((c) => c.id === 3)).toEqual(
+      undefined
+    );
     expect(component.comments[1].replies.length).toEqual(0);
   });
 
+  it('should delete comment in add mode', () => {
+    component.ngOnInit();
+    component.mode = FormMode.add;
+    component.commentsArray.push(new FormGroup({}));
+
+    expect(component.commentsArray.length).toEqual(1);
+    expect(component.comments.length).toEqual(0);
+
+    component.deleteComment(0, 0);
+
+    expect(component.commentsArray.length).toEqual(0);
+    expect(component.comments.length).toEqual(0);
+  });
+
   it('should add comment if form is valid and is in add mode', () => {
-    const eventEmitterSpy = spyOn(component.commentsUpdated, "emit");
+    const eventEmitterSpy = spyOn(component.commentsUpdated, 'emit');
     store.reset({
       auth: {
         userId: 1,
@@ -240,37 +276,39 @@ describe('ReceiptCommentsComponent', () => {
     });
 
     component.mode = FormMode.add;
-    component.newCommentFormControl.patchValue("new comment");
+    component.newCommentFormControl.patchValue('new comment');
     component.receiptId = 1;
     component.addComment();
 
     expect(component.newCommentFormControl.value).toEqual(null);
     expect(component.newCommentFormControl.pristine).toEqual(true);
     expect(component.commentsArray.length).toEqual(1);
-    expect(eventEmitterSpy).toHaveBeenCalledWith(component.commentsArray)
+    expect(eventEmitterSpy).toHaveBeenCalledWith(component.commentsArray);
     expect(component.commentsArray.at(0).value).toEqual({
       userId: 1,
       receiptId: 1,
-      comment: "new comment",
+      comment: 'new comment',
       commentId: null,
       replies: [],
       isReplyOpen: false,
-      isViewRepliesOpen: false
+      isViewRepliesOpen: false,
     });
   });
 
   it('should send api call if form is valid and is in view mode', () => {
-    const spy = spyOn(TestBed.inject(CommentsService), "addComment");
-    spy.and.returnValue(of({
-      id: 5,
-      userId: 1,
-      receiptId: 1,
-      comment: "new comment",
-      commentId: null,
-      replies: [],
-      createdAt: "",
-      updatedAt: ""
-    }) as any);
+    const spy = spyOn(TestBed.inject(CommentsService), 'addComment');
+    spy.and.returnValue(
+      of({
+        id: 5,
+        userId: 1,
+        receiptId: 1,
+        comment: 'new comment',
+        commentId: null,
+        replies: [],
+        createdAt: '',
+        updatedAt: '',
+      }) as any
+    );
 
     store.reset({
       auth: {
@@ -279,7 +317,7 @@ describe('ReceiptCommentsComponent', () => {
     });
 
     component.mode = FormMode.view;
-    component.newCommentFormControl.patchValue("new comment");
+    component.newCommentFormControl.patchValue('new comment');
     component.receiptId = 1;
     component.addComment();
 
@@ -287,22 +325,22 @@ describe('ReceiptCommentsComponent', () => {
     expect(component.commentsArray.at(0).value).toEqual({
       userId: 1,
       receiptId: 1,
-      comment: "new comment",
+      comment: 'new comment',
       commentId: null,
-      replies: [  ],
+      replies: [],
       isReplyOpen: false,
-      isViewRepliesOpen: false
+      isViewRepliesOpen: false,
     });
     expect(component.comments.length).toEqual(1);
     expect(component.comments[0]).toEqual({
       id: 5,
       userId: 1,
       receiptId: 1,
-      comment: "new comment",
+      comment: 'new comment',
       commentId: null,
       replies: [],
-      createdAt: "",
-      updatedAt: ""
-    } as any)
+      createdAt: '',
+      updatedAt: '',
+    } as any);
   });
 });
