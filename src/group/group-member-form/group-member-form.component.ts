@@ -7,6 +7,8 @@ import { GroupMember } from 'src/models';
 import { AuthState } from 'src/store/auth.state';
 import { ROLE_OPTIONS } from '../role-options';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
+import { ActivatedRoute } from '@angular/router';
+import { FormConfig } from 'src/interfaces';
 
 @Component({
   selector: 'app-group-member-form',
@@ -15,6 +17,8 @@ import { buildGroupMemberForm } from '../utils/group-member.utils';
 })
 export class GroupMemberFormComponent implements OnInit {
   @Select(AuthState.userId) public userId!: Observable<string>;
+
+  public headerText: string = '';
 
   public form: FormGroup = new FormGroup({});
 
