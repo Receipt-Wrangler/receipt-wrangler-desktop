@@ -188,6 +188,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
     const dialogRef = this.matDialog.open(GroupMemberFormComponent);
 
     dialogRef.componentInstance.currentGroupMembers = this.groupMembers.value;
+    dialogRef.componentInstance.headerText = 'Add Group Member';
 
     dialogRef
       .afterClosed()
@@ -200,11 +201,12 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
   }
 
   public editGroupMemberClicked(index: number): void {
-    const groupMember = this.originalGroup?.groupMembers[index];
+    const groupMember = this.groupMembers.at(index).value;
     const dialogRef = this.matDialog.open(GroupMemberFormComponent);
 
     dialogRef.componentInstance.currentGroupMembers = this.groupMembers.value;
     dialogRef.componentInstance.groupMember = groupMember;
+    dialogRef.componentInstance.headerText = 'Edit Group Member';
 
     dialogRef
       .afterClosed()
