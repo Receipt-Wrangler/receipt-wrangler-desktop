@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GroupRole } from 'src/enums/group-role.enum';
@@ -15,7 +9,7 @@ import { GroupUtil } from 'src/utils/group.utils';
 @Injectable({
   providedIn: 'root',
 })
-export class GroupRoleGuard implements CanActivate {
+export class GroupRoleGuard  {
   constructor(
     private store: Store,
     private groupUtil: GroupUtil,

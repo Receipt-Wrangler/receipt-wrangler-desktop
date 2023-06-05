@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Resolve,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CategoriesService } from 'src/api/categories.service';
 import { Category } from 'src/models';
@@ -11,7 +7,7 @@ import { Category } from 'src/models';
 @Injectable({
   providedIn: 'root',
 })
-export class CategoriesResolverService implements Resolve<Category[]> {
+export class CategoriesResolverService  {
   constructor(private categoriesService: CategoriesService) {}
 
   public resolve(
