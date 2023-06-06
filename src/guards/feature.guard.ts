@@ -1,16 +1,12 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { FeatureConfigState } from 'src/store/feature-config.state';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FeatureGuard implements CanActivate {
+export class FeatureGuard  {
   constructor(private store: Store) {}
   canActivate(
     route: ActivatedRouteSnapshot,

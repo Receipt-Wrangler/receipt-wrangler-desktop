@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Resolve,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ReceiptsService } from 'src/api/receipts.service';
 import { Receipt } from 'src/models';
@@ -11,7 +7,7 @@ import { Receipt } from 'src/models';
 @Injectable({
   providedIn: 'root',
 })
-export class ReceiptResolverService implements Resolve<Receipt> {
+export class ReceiptResolverService  {
   constructor(private receiptsService: ReceiptsService) {}
 
   resolve(
