@@ -14,7 +14,7 @@
         [value]="result"
         (click)="navigateToResult(result)"
       >
-        <div>{{ result.date | date }} - {{ result.name }}</div>
+        <div>{{ result | searchResult }}</div>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
