@@ -8,16 +8,18 @@ import { InputModule } from 'src/input/input.module';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SelectModule } from 'src/select/select.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
+import { TableModule } from 'src/table/table.module';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserRoutingModule } from './user-routing.module';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { TableModule } from 'src/table/table.module';
+import { CheckboxModule } from 'src/checkbox/checkbox.module';
 
 @NgModule({
   declarations: [UserListComponent, UserFormComponent, ResetPasswordComponent],
   imports: [
     ButtonModule,
+    CheckboxModule,
     CommonModule,
     InputModule,
     MatDialogModule,
