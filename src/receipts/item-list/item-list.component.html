@@ -26,7 +26,8 @@
           </app-input>
           <app-input
             label="Amount"
-            type="number"
+            type="text"
+            [isCurrency]="true"
             [inputFormControl]="newItemFormGroup | formGet : 'amount'"
             [readonly]="mode | inputReadonly"
           >
@@ -92,6 +93,7 @@
           <app-input
             class="col"
             label="Amount"
+            [isCurrency]="true"
             [inputFormControl]="
               form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
             "
