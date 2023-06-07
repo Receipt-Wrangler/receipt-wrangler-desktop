@@ -55,9 +55,7 @@
               class="w-100"
               label="Amount"
               type="text"
-              maskPrefix="$ "
-              mask="separator.2"
-              thousandSeparator=","
+              [isCurrency]="true"
               [inputFormControl]="form | formGet : 'amount'"
               [readonly]="mode | inputReadonly"
             ></app-input>
