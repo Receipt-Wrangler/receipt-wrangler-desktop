@@ -54,6 +54,7 @@ export class UserFormComponent implements OnInit {
         this.userValidators.uniqueUsername(0, this.user?.username ?? ''),
       ],
       userRole: [this.user?.userRole ?? '', Validators.required],
+      isDummyUser: [this.user?.isDummyUser ?? false],
     });
 
     if (!this.user) {
