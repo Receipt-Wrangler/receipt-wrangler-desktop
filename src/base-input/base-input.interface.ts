@@ -6,4 +6,5 @@ export interface BaseInputInterface {
   additionalErrorMessages?: { [key: string]: string };
   readonly: boolean;
   placeholder?: string;
+  helpText?: string;
 }

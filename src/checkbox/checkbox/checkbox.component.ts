@@ -19,4 +19,6 @@ export class CheckboxComponent implements BaseInputInterface {
   @Input() public readonly: boolean = false;
 
   @Input() public placeholder?: string | undefined;
+
+  @Input() public helpText?: string;
 }

@@ -26,6 +26,9 @@ import { UserValidators } from 'src/validators/user-validators';
 export class UserFormComponent implements OnInit {
   @Input() public user?: User;
 
+  public isDummerUserHelpText: string =
+    'A dummy user is a user who cannot log in, but can still act as a receipt payer, or be charged shares.';
+
   constructor(
     private formBuilder: FormBuilder,
     private usersService: UsersService,

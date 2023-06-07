@@ -26,6 +26,7 @@
       ></app-select>
       <app-checkbox
         label="Is Dummy User?"
+        [helpText]="isDummerUserHelpText"
         [inputFormControl]="form | formGet : 'isDummyUser'"
       ></app-checkbox>
     </app-form-section>
