@@ -4,6 +4,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { IconModule } from '../icon/icon.module';
 import { HttpInterceptorService } from '../interceptors/http-interceptor.service';
 import { LayoutModule } from '../layout/layout.module';
@@ -15,15 +16,17 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatSnackBarModule,
+    BrowserModule,
     HttpClientModule,
-    StoreModule,
-    LayoutModule,
     IconModule,
+    LayoutModule,
+    MatSnackBarModule,
     MatTooltipModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
+    StoreModule,
   ],
   providers: [
     {
@@ -37,6 +40,7 @@ import { AppComponent } from './app.component';
       deps: [AppInitService],
       multi: true,
     },
+    provideNgxMask(),
   ],
   bootstrap: [AppComponent],
 })

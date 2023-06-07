@@ -2,7 +2,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChange,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 
@@ -15,15 +18,29 @@ import { InputInterface } from '../input.interface';
 })
 export class InputComponent
   extends BaseInputComponent
-  implements InputInterface
+  implements InputInterface, OnChanges
 {
   @ViewChild('nativeInput') public nativeInput!: { nativeElement: HTMLElement };
-  @Input() inputId: string = '';
-  @Input() type: string = 'text';
-  @Input() showVisibilityEye = false;
+
+  @Input() public inputId: string = '';
+
+  @Input() public type: string = 'text';
+
+  @Input() public showVisibilityEye = false;
+
+  @Input() public isCurrency: boolean = false;
+
   @Output() public inputBlur: EventEmitter<any> = new EventEmitter<any>(
     undefined
   );
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['isCurrency']?.currentValue) {
+      this.maskPrefix = '$ ';
+      this.mask = 'separator.2';
+      this.thousandSeparator = ',';
+    }
+  }
 
   public toggleVisibility(): void {
     if (this.type !== 'password') {

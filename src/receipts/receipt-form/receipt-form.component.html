@@ -54,7 +54,8 @@
             <app-input
               class="w-100"
               label="Amount"
-              type="number"
+              type="text"
+              [isCurrency]="true"
               [inputFormControl]="form | formGet : 'amount'"
               [readonly]="mode | inputReadonly"
             ></app-input>

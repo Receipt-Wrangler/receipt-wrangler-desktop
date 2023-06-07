@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { InputComponent } from './input.component';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 describe('InputComponent', () => {
   let component: InputComponent;
@@ -25,7 +26,9 @@ describe('InputComponent', () => {
         MatTooltipModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
+        NgxMaskDirective,
       ],
+      providers: [provideNgxMask()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InputComponent);
