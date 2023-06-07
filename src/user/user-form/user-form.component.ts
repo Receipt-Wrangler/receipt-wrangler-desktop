@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
-import { catchError, iif, of, switchMap, take, tap } from 'rxjs';
+import { catchError, defer, iif, of, switchMap, take, tap } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
 import { UsersService } from 'src/api/users.service';
 import { UserRole } from 'src/enums/user_role.enum';
@@ -30,7 +30,7 @@ export class UserFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usersService: UsersService,
     private snackbarService: SnackbarService,
-    private matDialogRef: MatDialogRef<UserFormComponent>,
+    public matDialogRef: MatDialogRef<UserFormComponent>,
     private store: Store,
     private authService: AuthService,
     private userValidators: UserValidators
@@ -87,17 +87,10 @@ export class UserFormComponent implements OnInit {
               () =>
                 this.store.selectSnapshot(AuthState.loggedInUser).id ===
                 this.user?.id,
-              this.authService
-                .getNewRefreshToken()
-                .pipe(
-                  switchMap(() =>
-                    this.usersService.getAndSetClaimsForLoggedInUser()
-                  )
-                ),
+              defer(() => this.authService.getNewRefreshToken()),
               of(undefined)
             )
           ),
-
           tap(() => this.matDialogRef.close(true))
         )
         .subscribe();
