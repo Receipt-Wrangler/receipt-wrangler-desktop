@@ -30,6 +30,12 @@ export class InputComponent
 
   @Input() public isCurrency: boolean = false;
 
+  @Input() public mask: string = '';
+
+  @Input() public maskPrefix: string = '';
+
+  @Input() public thousandSeparator: string = '';
+
   @Output() public inputBlur: EventEmitter<any> = new EventEmitter<any>(
     undefined
   );

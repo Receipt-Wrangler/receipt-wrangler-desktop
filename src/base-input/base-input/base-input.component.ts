@@ -2,13 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { InputErrorMessage } from './input-error-message';
+import { BaseInputInterface } from '../base-input.interface';
 
 @Component({
   selector: 'app-base-input',
   templateUrl: './base-input.component.html',
   styleUrls: ['./base-input.component.scss'],
 })
-export class BaseInputComponent implements OnInit {
+export class BaseInputComponent implements OnInit, BaseInputInterface {
   @Input() public inputFormControl: FormControl = new FormControl();
 
   @Input() public label: string = '';
@@ -18,12 +19,6 @@ export class BaseInputComponent implements OnInit {
   @Input() public readonly: boolean = false;
 
   @Input() public placeholder?: string;
-
-  @Input() public mask: string = '';
-
-  @Input() public maskPrefix: string = '';
-
-  @Input() public thousandSeparator: string = '';
 
   public formControlErrors!: Observable<InputErrorMessage[]>;
 
