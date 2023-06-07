@@ -54,7 +54,10 @@
             <app-input
               class="w-100"
               label="Amount"
-              type="number"
+              type="text"
+              maskPrefix="$ "
+              mask="separator.2"
+              thousandSeparator=","
               [inputFormControl]="form | formGet : 'amount'"
               [readonly]="mode | inputReadonly"
             ></app-input>

@@ -1,12 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InputComponent } from './input/input.component';
-import { MatInputModule } from '@angular/material/input';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { InputComponent } from './input/input.component';
 
 @NgModule({
   declarations: [InputComponent],
@@ -17,8 +18,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatIconModule,
     MatInputModule,
     MatTooltipModule,
+    NgxMaskDirective,
     ReactiveFormsModule,
   ],
   exports: [InputComponent],
+  providers: [provideNgxMask()],
 })
 export class InputModule {}

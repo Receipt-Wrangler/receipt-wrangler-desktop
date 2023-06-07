@@ -19,6 +19,12 @@ export class BaseInputComponent implements OnInit {
 
   @Input() public placeholder?: string;
 
+  @Input() public mask: string = '';
+
+  @Input() public maskPrefix: string = '';
+
+  @Input() public thousandSeparator: string = '';
+
   public formControlErrors!: Observable<InputErrorMessage[]>;
 
   public errorMessages: { [key: string]: string } = {};

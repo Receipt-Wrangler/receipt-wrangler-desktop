@@ -8,6 +8,9 @@
       [type]="type"
       [readonly]="readonly"
       [formControl]="inputFormControl"
+      [prefix]="maskPrefix"
+      [mask]="mask"
+      [thousandSeparator]="thousandSeparator"
       (blur)="inputBlur.emit($event)"
     />
     <button
