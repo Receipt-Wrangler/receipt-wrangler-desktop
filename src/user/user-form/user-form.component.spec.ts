@@ -3,7 +3,7 @@ import { UserFormComponent } from './user-form.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -16,6 +16,7 @@ import { AddUser, UpdateUser } from 'src/store/user.state.actions';
 import { UserState } from 'src/store/user.state';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
+import { compileComponentFromMetadata } from '@angular/compiler';
 
 describe('UserFormComponent', () => {
   let component: UserFormComponent;
@@ -80,12 +81,14 @@ describe('UserFormComponent', () => {
     component.user = user;
     component.ngOnInit();
 
+    console.warn(component.form.value);
+
     expect(component.form.value).toEqual({
       displayName: 'Pizza man',
       username: 'Waffle guy',
       userRole: UserRole.ADMIN,
-      isDummyUser: false,
     });
+    expect(component.form.get('isDummyUser')?.value).toEqual(false);
   });
 
   it('should attempt to update user on submit and get refresh token if the user is updating his/her own record', () => {
@@ -129,7 +132,6 @@ describe('UserFormComponent', () => {
     expect(userServiceSpy).toHaveBeenCalledWith('1', {
       displayName: 'Pizza man',
       username: 'Waffle guy',
-      isDummyUser: false,
       userRole: UserRole.ADMIN,
     } as User);
 
@@ -186,7 +188,6 @@ describe('UserFormComponent', () => {
     expect(userServiceSpy).toHaveBeenCalledWith('1', {
       displayName: 'Pizza man',
       username: 'Waffle guy',
-      isDummyUser: false,
       userRole: UserRole.ADMIN,
     } as User);
 
@@ -196,6 +197,7 @@ describe('UserFormComponent', () => {
         ...component.form.value,
       })
     );
+    expect(component.form.get('isDummyUser')?.value).toEqual(false);
 
     expect(authServiceSpy).toHaveBeenCalledTimes(0);
 
@@ -245,5 +247,45 @@ describe('UserFormComponent', () => {
     expect(storeSpy).toHaveBeenCalledOnceWith(new AddUser(user));
 
     expect(dialogRefSpy).toHaveBeenCalledWith(true);
+  });
+
+  it('should disable empty and disable password field if isDummyUser is true', () => {
+    component.ngOnInit();
+    component.form.patchValue({
+      isDummyUser: true,
+    });
+
+    const passwordField = component.form.get('password');
+
+    expect(passwordField?.disabled).toEqual(true);
+    expect(passwordField?.value).toEqual('');
+    expect(passwordField?.hasValidator(Validators.required)).toEqual(false);
+  });
+
+  it('should disable empty and disable password field if isDummyUser is false', () => {
+    component.ngOnInit();
+    component.form.patchValue({
+      isDummyUser: true,
+    });
+
+    component.form.patchValue({
+      isDummyUser: false,
+    });
+
+    const passwordField = component.form.get('password');
+
+    expect(passwordField?.disabled).toEqual(false);
+    expect(passwordField?.value).toEqual('');
+    expect(passwordField?.hasValidator(Validators.required)).toEqual(true);
+  });
+
+  it('should disable isDummyUser if user is defined', () => {
+    component.user = {} as User;
+
+    component.ngOnInit();
+
+    const isDummyUserField = component.form.get('isDummyUser');
+
+    expect(isDummyUserField?.disabled).toEqual(true);
   });
 });

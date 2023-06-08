@@ -56,6 +56,7 @@ export class UserFormComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initForm();
+    console.warn(this.form.value);
     if (!this.user) {
       this.listenToIsDummyChanges();
     }
