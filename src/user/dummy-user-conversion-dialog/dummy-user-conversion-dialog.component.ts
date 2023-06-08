@@ -19,8 +19,8 @@ export class DummyUserConversionDialogComponent implements OnInit {
   public form: FormGroup = new FormGroup({});
 
   constructor(
+    public matDialogRef: MatDialogRef<DummyUserConversionDialogComponent>,
     private formBuilder: FormBuilder,
-    private matDialogRef: MatDialogRef<DummyUserConversionDialogComponent>,
     private usersService: UsersService,
     private snackbarService: SnackbarService,
     private store: Store
