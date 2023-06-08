@@ -14,9 +14,10 @@ import { UserFormComponent } from './user-form/user-form.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserRoutingModule } from './user-routing.module';
 import { CheckboxModule } from 'src/checkbox/checkbox.module';
+import { DummyUserConversionDialogComponent } from './dummy-user-conversion-dialog/dummy-user-conversion-dialog.component';
 
 @NgModule({
-  declarations: [UserListComponent, UserFormComponent, ResetPasswordComponent],
+  declarations: [UserListComponent, UserFormComponent, ResetPasswordComponent, DummyUserConversionDialogComponent],
   imports: [
     ButtonModule,
     CheckboxModule,
