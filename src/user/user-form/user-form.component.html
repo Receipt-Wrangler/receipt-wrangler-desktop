@@ -25,7 +25,6 @@
         [options]="userRoleOptions"
       ></app-select>
       <app-checkbox
-        *ngIf="!user"
         label="Is Dummy User?"
         [helpText]="isDummerUserHelpText"
         [inputFormControl]="form | formGet : 'isDummyUser'"

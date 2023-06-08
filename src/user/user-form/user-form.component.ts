@@ -92,6 +92,7 @@ export class UserFormComponent implements OnInit {
         this.userValidators.uniqueUsername(0, this.user?.username ?? ''),
       ],
       userRole: [this.user?.userRole ?? '', Validators.required],
+      isDummyUser: [false],
     });
 
     if (!this.user) {
@@ -99,7 +100,8 @@ export class UserFormComponent implements OnInit {
         'password',
         new FormControl('', Validators.required)
       );
-      this.form.addControl('isDummyUser', new FormControl(false));
+    } else {
+      this.form.get('isDummyUser')?.disable();
     }
   }
 
