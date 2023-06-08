@@ -1,7 +1,12 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngxs/store';
+import { switchMap, take, tap } from 'rxjs';
+import { UsersService } from 'src/api/users.service';
 import { User } from 'src/models';
+import { SnackbarService } from 'src/services/snackbar.service';
+import { UpdateUser } from 'src/store/user.state.actions';
 
 @Component({
   selector: 'app-dummy-user-conversion-dialog',
@@ -15,7 +20,10 @@ export class DummyUserConversionDialogComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private matDialogRef: MatDialogRef<DummyUserConversionDialogComponent>
+    private matDialogRef: MatDialogRef<DummyUserConversionDialogComponent>,
+    private usersService: UsersService,
+    private snackbarService: SnackbarService,
+    private store: Store
   ) {}
 
   public ngOnInit(): void {
@@ -30,6 +38,24 @@ export class DummyUserConversionDialogComponent implements OnInit {
 
   public submitButtonClicked(): void {
     if (this.form.valid) {
+      let userId: string = this.user?.id?.toString();
+      this.usersService
+        .convertDummyUserToNormalUser(userId, this.form.value)
+        .pipe(
+          take(1),
+          tap(() => {
+            this.snackbarService.success(
+              `${this.user.displayName} sucessfully converted to normal user`
+            );
+          }),
+          switchMap(() =>
+            this.store.dispatch(
+              new UpdateUser(userId, { ...this.user, isDummyUser: false })
+            )
+          ),
+          tap(() => this.matDialogRef.close(true))
+        )
+        .subscribe();
     }
   }
 

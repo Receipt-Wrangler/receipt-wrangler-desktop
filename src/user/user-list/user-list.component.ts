@@ -21,7 +21,9 @@ import { TableComponent } from 'src/table/table/table.component';
 import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 import { UserFormComponent } from '../user-form/user-form.component';
 import { DummyUserConversionDialogComponent } from '../dummy-user-conversion-dialog/dummy-user-conversion-dialog.component';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -120,10 +122,18 @@ export class UserListComponent implements AfterViewInit {
   }
 
   private setDataSource(): void {
-    this.dataSource = new MatTableDataSource<User>(
-      this.store.selectSnapshot(UserState.users)
-    );
-    this.dataSource.sort = this.table.sort;
+    this.store
+      .select(UserState.users)
+      .pipe(
+        untilDestroyed(this),
+        tap(() => {
+          this.dataSource = new MatTableDataSource<User>(
+            this.store.selectSnapshot(UserState.users)
+          );
+          this.dataSource.sort = this.table.sort;
+        })
+      )
+      .subscribe();
   }
 
   public openUserFormDialog(user?: User): void {

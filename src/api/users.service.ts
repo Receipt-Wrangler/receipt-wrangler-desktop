@@ -61,6 +61,16 @@ export class UsersService {
     return this.httpClient.post<void>(`/api/user/${id}/resetPassword`, data);
   }
 
+  public convertDummyUserToNormalUser(
+    id: string,
+    data: { password: string }
+  ): Observable<void> {
+    return this.httpClient.post<void>(
+      `/api/user/${id}/convertDummyUserToNormaluser`,
+      data
+    );
+  }
+
   public updateUserProfile(
     command: UpdateUserProfileCommand
   ): Observable<void> {
