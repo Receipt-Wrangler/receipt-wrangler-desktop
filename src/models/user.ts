@@ -4,6 +4,7 @@ export interface User {
   id: number;
   displayName: string;
   username: string;
+  isDummyUser: boolean;
   userRole: UserRole;
   createdAt: string;
   updatedAt: string;

@@ -20,7 +20,10 @@ import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 import { UserFormComponent } from '../user-form/user-form.component';
+import { DummyUserConversionDialogComponent } from '../dummy-user-conversion-dialog/dummy-user-conversion-dialog.component';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -119,10 +122,18 @@ export class UserListComponent implements AfterViewInit {
   }
 
   private setDataSource(): void {
-    this.dataSource = new MatTableDataSource<User>(
-      this.store.selectSnapshot(UserState.users)
-    );
-    this.dataSource.sort = this.table.sort;
+    this.store
+      .select(UserState.users)
+      .pipe(
+        untilDestroyed(this),
+        tap(() => {
+          this.dataSource = new MatTableDataSource<User>(
+            this.store.selectSnapshot(UserState.users)
+          );
+          this.dataSource.sort = this.table.sort;
+        })
+      )
+      .subscribe();
   }
 
   public openUserFormDialog(user?: User): void {
@@ -149,13 +160,25 @@ export class UserListComponent implements AfterViewInit {
     dialogRef.componentInstance.user = user;
   }
 
+  public openDummyUserConversionDialog(user: User): void {
+    const dialogRef = this.matDialog.open(
+      DummyUserConversionDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+
+    dialogRef.componentInstance.user = user;
+  }
+
   public deleteUser(index: number) {
     const users = this.store.selectSnapshot(UserState.users);
     const userId = this.store.selectSnapshot(AuthState.userId);
     const user = users[index];
 
     if (users[index].id.toString() !== userId) {
-      const dialogRef = this.matDialog.open(ConfirmationDialogComponent);
+      const dialogRef = this.matDialog.open(
+        ConfirmationDialogComponent,
+        DEFAULT_DIALOG_CONFIG
+      );
 
       dialogRef.componentInstance.headerText = 'Delete User';
       dialogRef.componentInstance.dialogContent = `Are you sure you would like to delete the user '${user.username}'? This will remove the user from the user from groups, the user's receipt items, groups where this user is the only member, and receipts where the user paid. This action is irreversible.`;

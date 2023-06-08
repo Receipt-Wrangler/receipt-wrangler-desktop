@@ -35,7 +35,7 @@
 </ng-template>
 
 <ng-template #actionsCell let-element="element" let-index="index">
-  <div class="d-flex">
+  <div class="d-flex align-items-center">
     <app-button
       matButtonType="iconButton"
       icon="edit"
@@ -50,6 +50,15 @@
       color="accent"
       (clicked)="openResetPasswordDialog(element)"
     ></app-button>
+    <app-button
+      *ngIf="element.isDummyUser"
+      matButtonType="iconButton"
+      icon="person"
+      color="accent"
+      tooltip="Convert to normal user"
+      (clicked)="openDummyUserConversionDialog(element)"
+    >
+    </app-button>
     <app-delete-button
       *ngIf="(userId | async) !== element.id.toString()"
       (clicked)="deleteUser(index)"

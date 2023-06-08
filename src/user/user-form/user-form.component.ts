@@ -6,8 +6,18 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { Store } from '@ngxs/store';
-import { catchError, iif, of, switchMap, take, tap } from 'rxjs';
+import {
+  catchError,
+  defer,
+  iif,
+  of,
+  startWith,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
 import { UsersService } from 'src/api/users.service';
 import { UserRole } from 'src/enums/user_role.enum';
@@ -17,6 +27,7 @@ import { AuthState } from 'src/store/auth.state';
 import { AddUser, UpdateUser } from 'src/store/user.state.actions';
 import { UserValidators } from 'src/validators/user-validators';
 
+@UntilDestroy()
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
@@ -26,11 +37,14 @@ import { UserValidators } from 'src/validators/user-validators';
 export class UserFormComponent implements OnInit {
   @Input() public user?: User;
 
+  public isDummerUserHelpText: string =
+    'A dummy user is a user who cannot log in, but can still act as a receipt payer, or be charged shares. Dummy users can be converted to normal users, but normal users cannot be converted to dummy users.';
+
   constructor(
     private formBuilder: FormBuilder,
     private usersService: UsersService,
     private snackbarService: SnackbarService,
-    private matDialogRef: MatDialogRef<UserFormComponent>,
+    public matDialogRef: MatDialogRef<UserFormComponent>,
     private store: Store,
     private authService: AuthService,
     private userValidators: UserValidators
@@ -42,6 +56,31 @@ export class UserFormComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initForm();
+    console.warn(this.form.value);
+    if (!this.user) {
+      this.listenToIsDummyChanges();
+    }
+  }
+
+  private listenToIsDummyChanges(): void {
+    this.form
+      .get('isDummyUser')
+      ?.valueChanges.pipe(
+        startWith(this.form.get('isDummyUser')?.value),
+        tap((isDummyUser: boolean) => {
+          const passwordField = this.form.get('password');
+          if (isDummyUser) {
+            passwordField?.removeValidators(Validators.required);
+            passwordField?.setValue('');
+            passwordField?.disable();
+          } else {
+            passwordField?.setValue('');
+            passwordField?.enable();
+            passwordField?.addValidators(Validators.required);
+          }
+        })
+      )
+      .subscribe();
   }
 
   private initForm(): void {
@@ -54,6 +93,7 @@ export class UserFormComponent implements OnInit {
         this.userValidators.uniqueUsername(0, this.user?.username ?? ''),
       ],
       userRole: [this.user?.userRole ?? '', Validators.required],
+      isDummyUser: [false],
     });
 
     if (!this.user) {
@@ -61,6 +101,8 @@ export class UserFormComponent implements OnInit {
         'password',
         new FormControl('', Validators.required)
       );
+    } else {
+      this.form.get('isDummyUser')?.disable();
     }
   }
 
@@ -86,17 +128,10 @@ export class UserFormComponent implements OnInit {
               () =>
                 this.store.selectSnapshot(AuthState.loggedInUser).id ===
                 this.user?.id,
-              this.authService
-                .getNewRefreshToken()
-                .pipe(
-                  switchMap(() =>
-                    this.usersService.getAndSetClaimsForLoggedInUser()
-                  )
-                ),
+              defer(() => this.authService.getNewRefreshToken()),
               of(undefined)
             )
           ),
-
           tap(() => this.matDialogRef.close(true))
         )
         .subscribe();
