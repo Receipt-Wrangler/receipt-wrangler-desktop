@@ -25,9 +25,10 @@ export class ButtonComponent {
   @Input() disabled: boolean = false;
   @Input() public buttonRouterLink: string[] = [];
   @Input() public tooltip: string = '';
-  @Output() public clicked: EventEmitter<void> = new EventEmitter<void>();
+  @Output() public clicked: EventEmitter<MouseEvent> =
+    new EventEmitter<MouseEvent>();
 
-  public emitClicked(): void {
-    this.clicked.emit();
+  public emitClicked(event: MouseEvent): void {
+    this.clicked.emit(event);
   }
 }
