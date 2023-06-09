@@ -56,10 +56,20 @@
     (closed)="checkLastInlineItem(key)"
   >
     <mat-expansion-panel-header>
-      <mat-panel-title> {{ (key | user)?.displayName }} </mat-panel-title>
+      <mat-panel-title>
+        {{ (key | user)?.displayName }}
+      </mat-panel-title>
       <mat-panel-description>
-        <div class="d-flex justify-content-between w-100">
+        <div class="d-flex justify-content-between align-items-center w-100">
           <span>Total amount owed: {{ userItemMap | userTotal : key }}</span>
+          <div *ngIf="originalReceipt?.groupId | groupRole : groupRole.EDITOR">
+            <app-button
+              matButtonType="iconButton"
+              icon="check"
+              tooltip="Resolve all user's items"
+              (clicked)="resolveAllItemsClicked($event, key)"
+            ></app-button>
+          </div>
         </div>
       </mat-panel-description>
     </mat-expansion-panel-header>

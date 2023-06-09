@@ -182,4 +182,8 @@ export class ItemListComponent implements OnInit {
       }
     }
   }
+
+  public resolveAllItemsClicked(event: MouseEvent, key: string): void {
+    event.stopImmediatePropagation();
+  }
 }
