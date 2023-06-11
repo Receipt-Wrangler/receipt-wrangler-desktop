@@ -1,7 +1,17 @@
-.item-form-container:nth-child(even) {
-  background-color: #efefef;
-}
+@import "../../variables.scss";
 
-.item-form-container:nth-child(odd) {
-  background-color: #f6f6f6;
+app-item-list {
+  .item-form-container:nth-child(even) {
+    background-color: #efefef;
+  }
+
+  .item-form-container:nth-child(odd) {
+    background-color: #f6f6f6;
+  }
+
+  .green-check {
+    .mat-mdc-icon-button {
+      color: $success-green !important;
+    }
+  }
 }

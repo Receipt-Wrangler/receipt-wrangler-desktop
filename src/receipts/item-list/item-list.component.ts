@@ -6,12 +6,27 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  ViewEncapsulation,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+} from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { map, Observable, of, startWith, take, takeUntil, tap } from 'rxjs';
+import {
+  filter,
+  map,
+  Observable,
+  of,
+  startWith,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { InputComponent } from 'src/input/input/input.component';
@@ -20,6 +35,8 @@ import { Item } from 'src/models/item';
 import { User } from 'src/models/user';
 import { UserState } from 'src/store/user.state';
 import { buildItemForm } from '../utils/form.utils';
+import { ItemStatus } from 'src/enums/receipt-item.status.enum';
+import { RECEIPT_ITEM_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 
 export interface ItemData {
   item: Item;
@@ -30,6 +47,7 @@ export interface ItemData {
   selector: 'app-item-list',
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ItemListComponent implements OnInit {
   @ViewChildren('userExpansionPanel')
@@ -55,6 +73,8 @@ export class ItemListComponent implements OnInit {
   public formMode = FormMode;
 
   public groupRole = GroupRole;
+
+  public itemStatusOptions = RECEIPT_ITEM_STATUS_OPTIONS;
 
   public get receiptItems(): FormArray {
     return this.form.get('receiptItems') as FormArray;
@@ -183,7 +203,28 @@ export class ItemListComponent implements OnInit {
     }
   }
 
-  public resolveAllItemsClicked(event: MouseEvent, key: string): void {
+  public resolveAllItemsClicked(event: MouseEvent, userId: string): void {
     event.stopImmediatePropagation();
+    const filtered = this.getItemsForUser(userId);
+
+    filtered.forEach((i) =>
+      i.patchValue({
+        status: ItemStatus.RESOLVED,
+      })
+    );
+  }
+
+  public allUserItemsResolved(userId: string): boolean {
+    const userItems = this.getItemsForUser(userId);
+    console.warn('runing');
+    return userItems.every(
+      (i) => i.get('status')?.value === ItemStatus.RESOLVED
+    );
+  }
+
+  private getItemsForUser(userId: string): AbstractControl[] {
+    return this.receiptItems.controls.filter(
+      (i) => i.get('chargedToUserId')?.value?.toString() === userId
+    );
   }
 }

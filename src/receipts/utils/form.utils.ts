@@ -7,6 +7,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { ItemStatus } from 'src/enums/receipt-item.status.enum';
 import { FileData } from 'src/models/file-data';
 import { Item } from 'src/models/item';
 
@@ -23,6 +24,10 @@ export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
       itemTotalValidator(),
     ]),
     isTaxed: new FormControl(item?.isTaxed ?? false),
+    status: new FormControl(
+      item?.status ?? ItemStatus.OPEN,
+      Validators.required
+    ),
   });
 }
 
