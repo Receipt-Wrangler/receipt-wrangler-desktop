@@ -46,9 +46,7 @@
     </mat-card>
   </ng-container>
 
-  <div *ngIf="userItemMap.keys.length === 0 && mode === formMode.view">
-    No shares
-  </div>
+  <div *ngIf="userItemMap.size === 0 && mode === formMode.view">No shares</div>
   <mat-expansion-panel
     #userExpansionPanel
     *ngFor="let key of userItemMap | mapKey; let i = index"
@@ -67,6 +65,7 @@
               matButtonType="iconButton"
               icon="check"
               tooltip="Resolve all user's items"
+              [disabled]="mode === formMode.view"
               [ngClass]="{
                 'green-check': allUserItemsResolved(key)
               }"
