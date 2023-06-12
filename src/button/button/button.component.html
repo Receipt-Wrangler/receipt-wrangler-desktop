@@ -8,7 +8,7 @@
     [disabled]="disabled"
     [matTooltip]="tooltip"
     [routerLink]="buttonRouterLink"
-    (click)="emitClicked()"
+    (click)="emitClicked($event)"
   >
     {{ buttonText }}
   </button>
@@ -22,7 +22,7 @@
     [disabled]="disabled"
     [matTooltip]="tooltip"
     [routerLink]="buttonRouterLink"
-    (click)="emitClicked()"
+    (click)="emitClicked($event)"
   >
     {{ buttonText }}
   </button>
@@ -36,7 +36,7 @@
     [disabled]="disabled"
     [routerLink]="buttonRouterLink"
     [matTooltip]="tooltip"
-    (click)="emitClicked()"
+    (click)="emitClicked($event)"
   >
     <mat-icon *ngIf="customIcon" [svgIcon]="customIcon"></mat-icon>
     <mat-icon *ngIf="icon">
