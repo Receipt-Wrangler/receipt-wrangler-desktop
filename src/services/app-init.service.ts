@@ -5,6 +5,7 @@ import { AuthService } from 'src/api/auth.service';
 import { FeatureConfigService } from 'src/api/feature-config.service';
 import { GroupsService } from 'src/api/groups.service';
 import { UsersService } from 'src/api/users.service';
+import { GroupStatus } from 'src/enums/group-status.enum';
 import { Group } from 'src/models/group';
 import { User } from 'src/models/user';
 import { SetFeatureConfig } from 'src/store/feature-config.state.actions';
@@ -55,6 +56,7 @@ export class AppInitService {
           name: 'All',
           isDefault: false,
           groupMembers: [],
+          status: GroupStatus.ACTIVE,
         });
         this.store.dispatch(new SetGroups(groups));
         const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);

@@ -15,6 +15,11 @@
             [readonly]="formConfig.mode | inputReadonly"
             [inputFormControl]="form | formGet : 'name'"
           ></app-input>
+          <app-select
+            label="Status"
+            [inputFormControl]="form | formGet : 'status'"
+            [options]="groupStatusOptions"
+          ></app-select>
         </app-form-section>
         <app-form-section
           headerText="Group Members"
