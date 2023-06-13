@@ -5,4 +5,5 @@ export interface Group {
   name: string;
   isDefault: boolean;
   groupMembers: GroupMember[];
+  status: string;
 }
