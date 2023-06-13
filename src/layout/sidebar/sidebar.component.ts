@@ -1,8 +1,10 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
-import { take, switchMap, tap, Observable } from 'rxjs';
+import { take, switchMap, tap, Observable, filter, map } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
+import { GroupStatus } from 'src/enums/group-status.enum';
 import { Group, User } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
@@ -17,7 +19,7 @@ import { LayoutState } from 'src/store/layout.state';
   styleUrls: ['./sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private store: Store,
@@ -31,12 +33,18 @@ export class SidebarComponent {
 
   @Select(LayoutState.isSidebarOpen) public isSidebarOpen!: Observable<boolean>;
 
-  @Select(GroupState.groups) public groups!: Observable<Group[]>;
+  public groups!: Observable<Group[]>;
 
   @Select(GroupState.selectedGroupId)
   public selectedGroupId!: Observable<string>;
 
   public addButtonExpanded: boolean | null = null;
+
+  public ngOnInit(): void {
+    this.groups = this.store
+      .select(GroupState.groups)
+      .pipe(map((g) => g.filter((g) => g.status !== GroupStatus.ARCHIVED)));
+  }
 
   public groupClicked(groupId: number): void {
     this.store.dispatch(new SetSelectedGroupId(groupId.toString()));
