@@ -27,6 +27,8 @@ import { SortByDisplayName } from 'src/utils/sort-by-displayname';
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
 import { ROLE_OPTIONS } from '../role-options';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
+import { GroupStatus } from 'src/enums/group-status.enum';
+import { GROUP_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 
 @UntilDestroy()
 @Component({
@@ -64,6 +66,8 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
   public editLink: string = '';
 
   public groupRole = GroupRole;
+
+  public groupStatusOptions = GROUP_STATUS_OPTIONS;
 
   public dataSource: MatTableDataSource<GroupMember> =
     new MatTableDataSource<GroupMember>([]);
@@ -171,6 +175,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
     this.form = this.formBuilder.group({
       name: [this.originalGroup?.name ?? '', Validators.required],
       groupMembers: this.formBuilder.array(groupMembers),
+      status: this.originalGroup?.status ?? GroupStatus.ACTIVE,
     });
 
     this.groupMembers.valueChanges
