@@ -25,6 +25,7 @@ import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
 import { GroupFormComponent } from './group-form.component';
+import { GroupStatus } from 'src/enums/group-status.enum';
 
 describe('GroupFormComponent', () => {
   let component: GroupFormComponent;
@@ -197,6 +198,7 @@ describe('GroupFormComponent', () => {
       name: 'test',
       isDefault: true,
       groupMembers: [],
+      status: GroupStatus.ACTIVE,
     };
 
     const route = TestBed.inject(ActivatedRoute);
@@ -225,6 +227,7 @@ describe('GroupFormComponent', () => {
 
     expect(createSpy).toHaveBeenCalledWith({
       name: 'test',
+      status: GroupStatus.ACTIVE,
       groupMembers: [],
     } as any);
     expect(storeSpy).toHaveBeenCalledWith(new AddGroup(returnValue));
@@ -240,6 +243,7 @@ describe('GroupFormComponent', () => {
       id: 1,
       name: 'test',
       isDefault: true,
+      status: GroupStatus.ACTIVE,
       groupMembers: [
         {
           userId: 2,
@@ -289,6 +293,7 @@ describe('GroupFormComponent', () => {
     expect(updateSpy).toHaveBeenCalledWith(
       {
         name: 'new name',
+        status: GroupStatus.ACTIVE,
         groupMembers: [
           {
             userId: 2,
