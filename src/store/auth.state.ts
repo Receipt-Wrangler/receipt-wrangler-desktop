@@ -43,10 +43,10 @@ export class AuthState {
   @Selector()
   static loggedInUser(state: AuthStateInterface): User {
     return {
-      id: Number(state.userId) ?? '',
-      displayName: state.displayname ?? '',
-      username: state.username ?? '',
       defaultAvatarColor: state.defaultAvatarColor ?? '',
+      displayName: state.displayname ?? '',
+      id: Number(state.userId) ?? '',
+      username: state.username ?? '',
     } as User;
   }
 
@@ -64,10 +64,11 @@ export class AuthState {
     const claims = payload.userClaims as any;
 
     patchState({
-      userId: claims['UserId']?.toString(),
+      defaultAvatarColor: claims['DefaultAvatarColor'],
       displayname: claims['Displayname'],
-      username: claims['Username'],
       expirationDate: claims['exp']?.toString(),
+      userId: claims['UserId']?.toString(),
+      username: claims['Username'],
       userRole: claims['UserRole'],
     });
   }
@@ -75,10 +76,11 @@ export class AuthState {
   @Action(Logout)
   logout({ getState, patchState }: StateContext<AuthStateInterface>) {
     patchState({
-      userId: '',
+      defaultAvatarColor: '',
       displayname: '',
-      username: '',
       expirationDate: '',
+      userId: '',
+      username: '',
       userRole: undefined,
     });
   }
