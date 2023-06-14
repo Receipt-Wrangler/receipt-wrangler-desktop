@@ -1,5 +1,6 @@
 <div
   [matTooltip]="user?.displayName ?? group?.name ?? ''"
+  [style.background-color]="user?.defaultAvatarColor ?? '#27b1ff'"
   class="avatar d-flex justify-content-center align-items-center"
 >
   {{

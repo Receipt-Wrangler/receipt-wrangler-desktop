@@ -48,7 +48,10 @@ export class UserProfileComponent implements OnInit {
     this.form = this.formBuilder.group({
       username: this.user?.username ?? '',
       displayName: [this.user?.displayName ?? '', Validators.required],
-      defaultAvatarColor: [this.user?.defaultAvatarColor ?? ''],
+      defaultAvatarColor: [
+        this.user?.defaultAvatarColor ?? '',
+        Validators.pattern('^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'),
+      ],
     });
 
     if (this.formConfig.mode === FormMode.edit) {
