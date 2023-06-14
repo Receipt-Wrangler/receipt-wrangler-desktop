@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ColorPickerComponent } from './color-picker/color-picker.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ColorPickerComponent],
@@ -16,6 +17,8 @@ import { ColorPickerComponent } from './color-picker/color-picker.component';
     MatIconModule,
     MatInputModule,
     MatTooltipModule,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
   exports: [ColorPickerComponent],
 })
