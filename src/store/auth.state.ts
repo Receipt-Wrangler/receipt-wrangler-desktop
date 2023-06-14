@@ -46,6 +46,7 @@ export class AuthState {
       id: Number(state.userId) ?? '',
       displayName: state.displayname ?? '',
       username: state.username ?? '',
+      defaultAvatarColor: state.defaultAvatarColor ?? '',
     } as User;
   }
 

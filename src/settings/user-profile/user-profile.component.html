@@ -19,6 +19,7 @@
         ></app-input>
         <app-color-picker
           label="Default avatar color"
+          [inputFormControl]="form | formGet : 'defaultAvatarColor'"
           [readonly]="formConfig.mode | inputReadonly"
         ></app-color-picker>
       </app-form-section>

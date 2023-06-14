@@ -5,6 +5,7 @@ export interface User {
   displayName: string;
   username: string;
   isDummyUser: boolean;
+  defaultAvatarColor?: string;
   userRole: UserRole;
   createdAt: string;
   updatedAt: string;
