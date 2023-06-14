@@ -17,6 +17,11 @@
           [inputFormControl]="form | formGet : 'displayName'"
           [readonly]="formConfig.mode | inputReadonly"
         ></app-input>
+        <app-color-picker
+          label="Default avatar color"
+          [inputFormControl]="form | formGet : 'defaultAvatarColor'"
+          [readonly]="formConfig.mode | inputReadonly"
+        ></app-color-picker>
       </app-form-section>
     </div>
     <app-form-button-bar>

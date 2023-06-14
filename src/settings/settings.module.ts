@@ -1,19 +1,20 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SettingsComponent } from './settings/settings.component';
-import { SettingsRoutingModule } from './settings-routing.module';
-import { MatTableModule } from '@angular/material/table';
-import { MatTabsModule } from '@angular/material/tabs';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { InputModule } from 'src/input/input.module';
-import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PipesModule } from 'src/pipes/pipes.module';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ColorPickerModule } from 'src/color-picker/color-picker.module';
+import { InputModule } from 'src/input/input.module';
+import { PipesModule } from 'src/pipes/pipes.module';
+import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
+import { SettingsRoutingModule } from './settings-routing.module';
+import { SettingsComponent } from './settings/settings.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [SettingsComponent, UserProfileComponent],
   imports: [
+    ColorPickerModule,
     CommonModule,
     InputModule,
     MatTabsModule,

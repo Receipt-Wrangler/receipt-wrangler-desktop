@@ -6,4 +6,5 @@ export interface AuthStateInterface {
   username?: string;
   expirationDate?: string;
   userRole?: UserRole;
+  defaultAvatarColor?: string;
 }

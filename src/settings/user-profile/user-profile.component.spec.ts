@@ -51,6 +51,7 @@ describe('UserProfileComponent', () => {
       auth: {
         username: 'cheetos',
         displayname: 'burger',
+        defaultAvatarColor: '#CD5C5C',
       },
     });
 
@@ -59,6 +60,7 @@ describe('UserProfileComponent', () => {
     expect(component.form.value).toEqual({
       username: 'cheetos',
       displayName: 'burger',
+      defaultAvatarColor: '#CD5C5C',
     });
   });
 
@@ -87,6 +89,7 @@ describe('UserProfileComponent', () => {
         userId: '1',
         username: 'cheetos',
         displayname: 'burger',
+        defaultAvatarColor: '#CD5C5C',
       },
     });
 
@@ -104,6 +107,7 @@ describe('UserProfileComponent', () => {
     expect(serviceSpy).toHaveBeenCalledWith({
       username: 'general',
       displayName: 'store',
+      defaultAvatarColor: '#CD5C5C',
     } as any);
     expect(authSpy).toHaveBeenCalled();
 
