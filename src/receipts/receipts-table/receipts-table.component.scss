@@ -1,0 +1,11 @@
+@import "../../variables.scss";
+
+app-receipts-table {
+  .filter-button button {
+    color: $basic-gray !important;
+  }
+
+  .mat-mdc-button-persistent-ripple {
+    // todo: clean upcolor: red !important;
+  }
+}

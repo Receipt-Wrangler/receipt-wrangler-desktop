@@ -5,6 +5,7 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
@@ -36,6 +37,7 @@ import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-up
   selector: 'app-receipts-table',
   templateUrl: './receipts-table.component.html',
   styleUrls: ['./receipts-table.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(

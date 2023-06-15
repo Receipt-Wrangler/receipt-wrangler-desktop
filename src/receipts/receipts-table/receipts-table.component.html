@@ -1,10 +1,19 @@
 <app-table-header headerText="Receipts">
-  <div>
+  <div class="d-flex align-items-center">
     <app-button
       class="me-2"
-      buttonText="Add Receipt"
+      icon="add"
+      matButtonType="iconButton"
+      tooltip="Add Receipt"
       [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
       [routerLink]="['/receipts/add']"
+    ></app-button>
+    <app-button
+      class="me-2 filter-button"
+      icon="filter_alt"
+      matButtonType="iconButton"
+      tooltip="Filter Receipts"
+      [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
     ></app-button>
     <app-button
       *ngIf="(checkboxChange | async)?.source?.selected?.length ?? false"
