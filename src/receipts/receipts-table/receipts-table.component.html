@@ -14,6 +14,7 @@
       matButtonType="iconButton"
       tooltip="Filter Receipts"
       [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
+      (clicked)="toggleShowFilterCard()"
     ></app-button>
     <app-button
       *ngIf="(checkboxChange | async)?.source?.selected?.length ?? false"
@@ -22,6 +23,7 @@
     ></app-button>
   </div>
 </app-table-header>
+<app-receipt-filter *ngIf="showFilterCard"></app-receipt-filter>
 <div class="table-container">
   <app-table
     [columns]="columns"

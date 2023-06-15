@@ -90,6 +90,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public firstSort: boolean = true;
 
+  public showFilterCard: boolean = false;
+
   public ngOnInit(): void {
     this.groupId = this.store
       .selectSnapshot(GroupState.selectedGroupId)
@@ -235,6 +237,10 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         .subscribe();
     }
     this.firstSort = false;
+  }
+
+  public toggleShowFilterCard(): void {
+    this.showFilterCard = !this.showFilterCard;
   }
 
   public deleteReceipt(row: Receipt): void {
