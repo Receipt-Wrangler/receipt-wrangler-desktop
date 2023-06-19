@@ -1,7 +1,19 @@
 <app-dialog headerText="Filter Receipts">
-  <app-input label="Name"></app-input>
-  <app-input label="Amount"></app-input>
-  <app-input label="Paid by"></app-input>
+  <app-input
+    label="Name"
+    [inputFormControl]="form | formGet : 'name.value'"
+  ></app-input>
+  <app-input
+    label="Amount"
+    [inputFormControl]="form | formGet : 'amount.value'"
+  ></app-input>
+  <app-input
+    label="Paid by"
+    [inputFormControl]="form | formGet : 'paidBy.value'"
+  ></app-input>
 
-  <app-dialog-footer></app-dialog-footer>
+  <app-dialog-footer
+    (submitClicked)="submitButtonClicked()"
+    (cancelClicked)="cancelButtonClicked()"
+  ></app-dialog-footer>
 </app-dialog>

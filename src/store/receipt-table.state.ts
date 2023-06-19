@@ -3,6 +3,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import {
   SetPage,
   SetPageSize,
+  SetReceiptFilter,
   SetReceiptFilterData,
 } from './receipt-table.actions';
 import { ReceiptTableInterface } from '../interfaces';
@@ -70,5 +71,15 @@ export class ReceiptTableState {
     payload: SetReceiptFilterData
   ) {
     patchState(payload.data);
+  }
+
+  @Action(SetReceiptFilter)
+  setReceiptFilter(
+    { patchState }: StateContext<ReceiptTableInterface>,
+    payload: SetReceiptFilter
+  ) {
+    patchState({
+      filter: payload.data,
+    });
   }
 }

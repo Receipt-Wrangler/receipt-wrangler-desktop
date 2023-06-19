@@ -1,3 +1,4 @@
+import { PagedRequestFilter } from 'src/api/commands/paged-request-command';
 import { ReceiptTableInterface } from '../interfaces';
 
 export class SetPage {
@@ -16,4 +17,10 @@ export class SetReceiptFilterData {
   static readonly type = '[ReceiptTable] Set Filter Data';
 
   constructor(public data: ReceiptTableInterface) {}
+}
+
+export class SetReceiptFilter {
+  static readonly type = '[ReceiptTable] Set Filter';
+
+  constructor(public data: PagedRequestFilter) {}
 }
