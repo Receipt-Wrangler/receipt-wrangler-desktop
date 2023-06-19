@@ -7,6 +7,7 @@ import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 import { PagedData } from 'src/models/paged-data';
 import { Receipt } from 'src/models/receipt';
 import { ReceiptTableState } from 'src/store/receipt-table.state';
+import { PagedRequestCommand } from './commands/paged-request-command';
 
 export interface BulkStatusUpdate {
   receiptIds: number[];
@@ -28,7 +29,7 @@ export class ReceiptsService {
     sortDirection?: SortDirection
   ): Observable<PagedData> {
     const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
-    let filterData: any = {
+    let filterData: PagedRequestCommand = {
       page: page ?? filter.page,
       pageSize: pageSize ?? filter.pageSize,
       orderBy: orderBy ?? filter.orderBy,
