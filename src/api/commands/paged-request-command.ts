@@ -6,17 +6,17 @@ export interface PagedRequestCommand {
   filter?: PagedRequestFilter;
 }
 
-interface PagedRequestFilter {
+export interface PagedRequestFilter {
   name: PagedRequestFilterField;
   paidBy: PagedRequestFilterField;
 }
 
-interface PagedRequestFilterField {
+export interface PagedRequestFilterField {
   operation: PagedRequestFilterOperation;
   value: string;
 }
 
-enum PagedRequestFilterOperation {
+export enum PagedRequestFilterOperation {
   CONTAINS = 'CONTAINS',
   EQUALS = 'EQUALS',
   GREATER_THAN = 'GREATER_THAN',

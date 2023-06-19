@@ -13,7 +13,7 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, take, tap } from 'rxjs';
+import { Observable, Subject, filter, take, tap } from 'rxjs';
 import { BulkStatusUpdate, ReceiptsService } from 'src/api/receipts.service';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { ReceiptStatus } from 'src/enums/receipt-status.enum';
@@ -214,15 +214,17 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public sort(sortState: Sort): void {
     if (!this.firstSort) {
-      const page = this.store.selectSnapshot(ReceiptTableState.page);
-      const pageSize = this.store.selectSnapshot(ReceiptTableState.pageSize);
+      const filterData = this.store.selectSnapshot(
+        ReceiptTableState.filterData
+      );
 
       this.store.dispatch(
         new SetReceiptFilterData({
-          page: page,
-          pageSize: pageSize,
+          page: filterData.page,
+          pageSize: filterData.pageSize,
           orderBy: sortState.active,
           sortDirection: sortState.direction,
+          filter: filterData.filter,
         })
       );
 

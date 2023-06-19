@@ -6,10 +6,26 @@ import {
   SetReceiptFilterData,
 } from './receipt-table.actions';
 import { ReceiptTableInterface } from '../interfaces';
+import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-command';
 
 @State<ReceiptTableInterface>({
   name: 'receiptTable',
-  defaults: { page: 1, pageSize: 50, orderBy: 'date', sortDirection: 'desc' },
+  defaults: {
+    page: 1,
+    pageSize: 50,
+    orderBy: 'date',
+    sortDirection: 'desc',
+    filter: {
+      name: {
+        operation: PagedRequestFilterOperation.EQUALS,
+        value: '',
+      },
+      paidBy: {
+        operation: PagedRequestFilterOperation.EQUALS,
+        value: '',
+      },
+    },
+  },
 })
 @Injectable()
 export class ReceiptTableState {
