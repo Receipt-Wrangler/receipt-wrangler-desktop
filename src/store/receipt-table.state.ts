@@ -27,7 +27,7 @@ import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-comm
       },
       paidBy: {
         operation: PagedRequestFilterOperation.EQUALS,
-        value: '',
+        value: [],
       },
     },
   },

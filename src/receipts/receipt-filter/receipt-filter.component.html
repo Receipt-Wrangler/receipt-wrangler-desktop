@@ -18,10 +18,14 @@
     }"
   ></ng-template>
 
-  <app-input
-    label="Paid by"
-    [inputFormControl]="form | formGet : 'paidBy.value'"
-  ></app-input>
+  <ng-template
+    [ngTemplateOutlet]="filterField"
+    [ngTemplateOutletContext]="{
+      label: 'Paid by',
+      fieldName: 'paidBy',
+      type: 'users',
+    }"
+  ></ng-template>
 
   <app-dialog-footer
     (submitClicked)="submitButtonClicked()"
@@ -38,11 +42,19 @@
 >
   <div class="row g-1">
     <app-input
+      *ngIf="type !== 'users'"
       class="col"
       [label]="label"
       [isCurrency]="isCurrency"
       [inputFormControl]="form | formGet : fieldName + '.value'"
     ></app-input>
+    <app-user-autocomplete
+      *ngIf="type === 'users'"
+      class="col"
+      [label]="label"
+      [multiple]="true"
+      [inputFormControl]="form | formGet : fieldName + '.value'"
+    ></app-user-autocomplete>
     <app-select
       class="col"
       label="Operation"

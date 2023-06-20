@@ -114,7 +114,7 @@ export class AutocomleteComponent
 
     if (this.multiple) {
       const formArray = this.inputFormControl as any as FormArray;
-      const selectedValues = formArray.value as any[];
+      const selectedValues = (formArray.value as any[]) ?? [];
       // TODO: Restrict the user form adding an already added value
 
       return this.options

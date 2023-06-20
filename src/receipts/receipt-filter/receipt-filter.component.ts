@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Form, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, Form, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
@@ -44,16 +44,28 @@ export class ReceiptFilterComponent implements OnInit {
         filter?.name?.operation
       ),
       paidBy: this.buildFieldFormGroup(
-        filter?.paidBy?.value,
-        filter?.paidBy?.operation
+        filter?.paidBy?.value ?? [],
+        filter?.paidBy?.operation,
+        true
       ),
     });
   }
 
-  private buildFieldFormGroup(value: string, operation: string): FormGroup {
+  private buildFieldFormGroup(
+    value: string | string[],
+    operation: string,
+    isArray?: boolean
+  ): FormGroup {
+    let control: AbstractControl;
+    if (isArray) {
+      control = this.formBuilder.array(value as any);
+    } else {
+      control = this.formBuilder.control(value);
+    }
+
     return this.formBuilder.group({
       operation: operation ?? '',
-      value: value ?? '',
+      value: control,
     });
   }
 

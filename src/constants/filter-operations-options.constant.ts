@@ -7,3 +7,7 @@ export const numberOperationOptions = Object.keys(
 export const textOperationOptions = Object.keys(
   PagedRequestFilterOperation
 ).filter((k) => !k.includes('THAN'));
+
+export const usersOperationOptions = Object.keys(
+  PagedRequestFilterOperation
+).filter((k) => k === 'CONTAINS');
