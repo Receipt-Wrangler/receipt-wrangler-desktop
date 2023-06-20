@@ -7,6 +7,7 @@ export interface PagedRequestCommand {
 }
 
 export interface PagedRequestFilter {
+  amount: PagedRequestFilterField;
   name: PagedRequestFilterField;
   paidBy: PagedRequestFilterField;
 }
