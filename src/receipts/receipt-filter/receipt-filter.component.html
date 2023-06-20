@@ -1,12 +1,23 @@
 <app-dialog headerText="Filter Receipts">
-  <app-input
-    label="Name"
-    [inputFormControl]="form | formGet : 'name.value'"
-  ></app-input>
-  <app-input
-    label="Amount"
-    [inputFormControl]="form | formGet : 'amount.value'"
-  ></app-input>
+  <ng-template
+    [ngTemplateOutlet]="filterField"
+    [ngTemplateOutletContext]="{
+      label: 'Name',
+      fieldName: 'name',
+      type: 'text'
+    }"
+  ></ng-template>
+
+  <ng-template
+    [ngTemplateOutlet]="filterField"
+    [ngTemplateOutletContext]="{
+      label: 'Amount',
+      fieldName: 'amount',
+      type: 'number',
+      isCurrency: true
+    }"
+  ></ng-template>
+
   <app-input
     label="Paid by"
     [inputFormControl]="form | formGet : 'paidBy.value'"
@@ -17,3 +28,26 @@
     (cancelClicked)="cancelButtonClicked()"
   ></app-dialog-footer>
 </app-dialog>
+
+<ng-template
+  #filterField
+  let-label="label"
+  let-fieldName="fieldName"
+  let-type="type"
+  let-isCurrency="isCurrency"
+>
+  <div class="row g-1">
+    <app-input
+      class="col"
+      [label]="label"
+      [isCurrency]="isCurrency"
+      [inputFormControl]="form | formGet : fieldName + '.value'"
+    ></app-input>
+    <app-select
+      class="col"
+      label="Operation"
+      [inputFormControl]="form | formGet : fieldName + '.operation'"
+      [options]="type | operations"
+    ></app-select>
+  </div>
+</ng-template>

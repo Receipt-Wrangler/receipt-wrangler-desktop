@@ -33,6 +33,7 @@ import { ReceiptsTableComponent } from './receipts-table/receipts-table.componen
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { UserTotalPipe } from './user-total.pipe';
 import { ReceiptFilterComponent } from './receipt-filter/receipt-filter.component';
+import { OperationsPipe } from './receipt-filter/operations.pipe';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { ReceiptFilterComponent } from './receipt-filter/receipt-filter.componen
     UploadImageComponent,
     UserTotalPipe,
     ReceiptFilterComponent,
+    OperationsPipe,
   ],
   imports: [
     AutocompleteModule,

@@ -3,6 +3,7 @@ import { Form, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
+import { numberOperationOptions, textOperationOptions } from 'src/constants';
 import { SetReceiptFilter } from 'src/store/receipt-table.actions';
 import { ReceiptTableState } from 'src/store/receipt-table.state';
 
@@ -13,6 +14,10 @@ import { ReceiptTableState } from 'src/store/receipt-table.state';
 })
 export class ReceiptFilterComponent implements OnInit {
   public form: FormGroup = new FormGroup({});
+
+  public numberOperationOptions = numberOperationOptions;
+
+  public textOperationOptions = textOperationOptions;
 
   constructor(
     private formBuilder: FormBuilder,
