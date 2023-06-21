@@ -17,6 +17,7 @@ import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-comm
     orderBy: 'date',
     sortDirection: 'desc',
     filter: {
+      date: { operation: PagedRequestFilterOperation.EQUALS, value: '' },
       amount: {
         operation: PagedRequestFilterOperation.EQUALS,
         value: '',
@@ -28,6 +29,10 @@ import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-comm
       paidBy: {
         operation: PagedRequestFilterOperation.EQUALS,
         value: [],
+      },
+      resolvedDate: {
+        operation: PagedRequestFilterOperation.EQUALS,
+        value: '',
       },
     },
   },

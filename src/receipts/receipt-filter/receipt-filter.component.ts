@@ -35,6 +35,10 @@ export class ReceiptFilterComponent implements OnInit {
     ).filter;
 
     this.form = this.formBuilder.group({
+      date: this.buildFieldFormGroup(
+        filter?.date?.value,
+        filter?.date?.operation
+      ),
       amount: this.buildFieldFormGroup(
         filter?.amount?.value,
         filter?.amount?.operation
@@ -47,6 +51,10 @@ export class ReceiptFilterComponent implements OnInit {
         filter?.paidBy?.value ?? [],
         filter?.paidBy?.operation,
         true
+      ),
+      resolvedDate: this.buildFieldFormGroup(
+        filter?.resolvedDate?.value,
+        filter?.resolvedDate?.operation
       ),
     });
   }
