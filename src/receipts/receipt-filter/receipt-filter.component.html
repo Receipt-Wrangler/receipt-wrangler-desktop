@@ -29,10 +29,48 @@
   <ng-template
     [ngTemplateOutlet]="filterField"
     [ngTemplateOutletContext]="{
+      label: 'Categories',
+      fieldName: 'categories',
+      type: 'list',
+      options: categories,
+      optionFilterKey: 'name',
+      optionDisplayKey: 'name',
+      optionValueKey: 'id',
+      multiple: true
+    }"
+  ></ng-template>
+
+  <ng-template
+    [ngTemplateOutlet]="filterField"
+    [ngTemplateOutletContext]="{
+      label: 'Tags',
+      fieldName: 'tags',
+      type: 'list',
+      options: tags,
+      optionFilterKey: 'name',
+      optionDisplayKey: 'name',
+      optionValueKey: 'id',
+      multiple: true
+    }"
+  ></ng-template>
+
+  <!-- <ng-template
+    [ngTemplateOutlet]="filterField"
+    [ngTemplateOutletContext]="{
+      label: 'Status',
+      fieldName: 'status',
+      type: 'list',
+      options: receiptStatusOptions
+    }"
+  ></ng-template> -->
+
+  <ng-template
+    [ngTemplateOutlet]="filterField"
+    [ngTemplateOutletContext]="{
       label: 'Amount',
       fieldName: 'amount',
       type: 'number',
-      isCurrency: true
+      isCurrency: true,
     }"
   ></ng-template>
 
@@ -57,6 +95,11 @@
   let-fieldName="fieldName"
   let-type="type"
   let-isCurrency="isCurrency"
+  let-options="options"
+  let-optionFilterKey="optionFilterKey"
+  let-multiple="multiple"
+  let-optionDisplayKey="optionDisplayKey"
+  let-optionValueKey="optionValueKey"
 >
   <div class="row g-1">
     <app-input
@@ -80,6 +123,18 @@
       [inputFormControl]="form | formGet : fieldName + '.value'"
     >
     </app-datepicker>
+    <app-autocomlete
+      *ngIf="type === 'list'"
+      class="col"
+      [multiple]="multiple"
+      [label]="label"
+      [inputFormControl]="form | formGet : fieldName + '.value'"
+      [options]="options"
+      [optionValueKey]="optionValueKey"
+      [optionFilterKey]="optionFilterKey"
+      [optionDisplayKey]="optionDisplayKey"
+    >
+    </app-autocomlete>
     <app-select
       class="col"
       label="Operation"

@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, filter, take, tap } from 'rxjs';
 import { BulkStatusUpdate, ReceiptsService } from 'src/api/receipts.service';
@@ -33,6 +33,7 @@ import { GroupUtil } from 'src/utils/group.utils';
 import { ALL_GROUP, DEFAULT_DIALOG_CONFIG } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
 import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.component';
+import { Category, Tag } from 'src/models';
 
 @Component({
   selector: 'app-receipts-table',
@@ -47,7 +48,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     private store: Store,
     private groupUtil: GroupUtil,
     private router: Router,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   @ViewChild('dateCell') dateCell!: TemplateRef<any>;
@@ -74,6 +76,10 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   @Select(ReceiptTableState.pageSize) public pageSize!: Observable<number>;
 
+  public categories: Category[] = [];
+
+  public tags: Tag[] = [];
+
   public groupId: string = '0';
 
   public groupRole = GroupRole;
@@ -94,6 +100,12 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   public showFilterCard: boolean = false;
 
   public ngOnInit(): void {
+    const data = this.activatedRoute.snapshot.data;
+
+    this.categories = data['categories'];
+
+    this.tags = data['tags'];
+
     this.groupId = this.store
       .selectSnapshot(GroupState.selectedGroupId)
       ?.toString();
@@ -243,7 +255,13 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   public filterButtonClicked(): void {
-    this.matDialog.open(ReceiptFilterComponent, DEFAULT_DIALOG_CONFIG);
+    const dialogRef = this.matDialog.open(ReceiptFilterComponent, {
+      ...DEFAULT_DIALOG_CONFIG,
+      data: {
+        categories: this.categories,
+        tags: this.tags,
+      },
+    });
   }
 
   public deleteReceipt(row: Receipt): void {

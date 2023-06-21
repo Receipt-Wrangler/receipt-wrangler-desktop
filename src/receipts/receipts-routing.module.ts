@@ -9,11 +9,16 @@ import { ReceiptResolverService } from 'src/resolvers/receipt-resolver.service';
 import { TagsResolverService } from 'src/resolvers/tags-resolver.service';
 import { ReceiptFormComponent } from './receipt-form/receipt-form.component';
 import { ReceiptsTableComponent } from './receipts-table/receipts-table.component';
+
 const routes: Routes = [
   {
     path: 'group/:groupId',
     component: ReceiptsTableComponent,
     canActivate: [GroupGuard],
+    resolve: {
+      tags: TagsResolverService,
+      categories: CategoriesResolverService,
+    },
     data: {
       groupGuardBasePath: `/receipts/group`,
     },

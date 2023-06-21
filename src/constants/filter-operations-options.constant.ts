@@ -1,5 +1,9 @@
 import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-command';
 
+export const listOperationOptions = Object.keys(
+  PagedRequestFilterOperation
+).filter((k) => k === 'CONTAINS' || k === 'EQUALS');
+
 export const dateOperationOptions = Object.keys(
   PagedRequestFilterOperation
 ).filter((k) => !k.includes('CONTAINS'));

@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {
   dateOperationOptions,
+  listOperationOptions,
   numberOperationOptions,
   textOperationOptions,
   usersOperationOptions,
@@ -20,6 +21,9 @@ export class OperationsPipe implements PipeTransform {
 
       case 'number':
         return numberOperationOptions;
+
+      case 'list':
+        return listOperationOptions;
 
       case 'users':
         return usersOperationOptions;

@@ -6,11 +6,15 @@
         *ngFor="let option of inputFormControl.value; let i = index"
         (removed)="removeOption(i)"
         ><ng-template
+          *ngIf="optionChipTemplate"
           [ngTemplateOutlet]="optionChipTemplate"
           [ngTemplateOutletContext]="{
             option: option
           }"
         ></ng-template>
+        <div *ngIf="!optionChipTemplate">
+          {{ option?.[optionDisplayKey] ?? option }}
+        </div>
         <button *ngIf="!readonly" matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button></mat-chip-row
@@ -65,7 +69,7 @@
       >
       </ng-template>
       <ng-container *ngIf="!optionTemplate">{{
-        option[optionFilterKey]
+        option?.[optionDisplayKey]
       }}</ng-container>
     </mat-option>
     <ng-container

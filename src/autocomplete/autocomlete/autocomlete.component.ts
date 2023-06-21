@@ -35,6 +35,8 @@ export class AutocomleteComponent
 
   @Input() public optionValueKey: string = '';
 
+  @Input() public optionDisplayKey: string = '';
+
   @Input() public multiple: boolean = false;
 
   @Input() public displayWith!: (value: any) => string;

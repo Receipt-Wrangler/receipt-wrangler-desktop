@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, Form, FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
-import { numberOperationOptions, textOperationOptions } from 'src/constants';
+import { RECEIPT_STATUS_OPTIONS } from 'src/constants';
+import { Category, Tag } from 'src/models';
 import { SetReceiptFilter } from 'src/store/receipt-table.actions';
 import { ReceiptTableState } from 'src/store/receipt-table.state';
 
@@ -15,15 +16,25 @@ import { ReceiptTableState } from 'src/store/receipt-table.state';
 export class ReceiptFilterComponent implements OnInit {
   public form: FormGroup = new FormGroup({});
 
-  public numberOperationOptions = numberOperationOptions;
+  public receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
 
-  public textOperationOptions = textOperationOptions;
+  public categories: Category[] = [];
+
+  public tags: Tag[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
-    private dialogRef: MatDialogRef<ReceiptFilterComponent>
-  ) {}
+    private dialogRef: MatDialogRef<ReceiptFilterComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    data: {
+      categories: Category[];
+      tags: Tag[];
+    }
+  ) {
+    this.categories = data.categories;
+    this.tags = data.tags;
+  }
 
   public ngOnInit(): void {
     this.initForm();
@@ -52,6 +63,9 @@ export class ReceiptFilterComponent implements OnInit {
         filter?.paidBy?.operation,
         true
       ),
+      categories: this.buildFieldFormGroup([], '', true),
+      tags: this.buildFieldFormGroup([], '', true),
+      status: this.buildFieldFormGroup([], '', true),
       resolvedDate: this.buildFieldFormGroup(
         filter?.resolvedDate?.value,
         filter?.resolvedDate?.operation
