@@ -13,7 +13,9 @@
           }"
         ></ng-template>
         <div *ngIf="!optionChipTemplate">
-          {{ option?.[optionDisplayKey] ?? option }}
+          {{
+            option | optionDisplay : options : optionDisplayKey : optionValueKey
+          }}
         </div>
         <button *ngIf="!readonly" matChipRemove>
           <mat-icon>cancel</mat-icon>
