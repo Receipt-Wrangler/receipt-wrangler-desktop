@@ -30,6 +30,18 @@ import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-comm
         operation: PagedRequestFilterOperation.EQUALS,
         value: [],
       },
+      categories: {
+        operation: PagedRequestFilterOperation.EQUALS,
+        value: [],
+      },
+      tags: {
+        operation: PagedRequestFilterOperation.EQUALS,
+        value: [],
+      },
+      status: {
+        operation: PagedRequestFilterOperation.EQUALS,
+        value: [],
+      },
       resolvedDate: {
         operation: PagedRequestFilterOperation.EQUALS,
         value: '',

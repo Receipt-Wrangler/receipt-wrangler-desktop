@@ -63,9 +63,21 @@ export class ReceiptFilterComponent implements OnInit {
         filter?.paidBy?.operation,
         true
       ),
-      categories: this.buildFieldFormGroup([], '', true),
-      tags: this.buildFieldFormGroup([], '', true),
-      status: this.buildFieldFormGroup([], '', true),
+      categories: this.buildFieldFormGroup(
+        filter?.categories?.value ?? [],
+        filter?.categories?.operation,
+        true
+      ),
+      tags: this.buildFieldFormGroup(
+        filter?.tags?.value ?? [],
+        filter?.tags?.operation,
+        true
+      ),
+      status: this.buildFieldFormGroup(
+        filter?.status?.value ?? [],
+        filter?.status?.operation,
+        true
+      ),
       resolvedDate: this.buildFieldFormGroup(
         filter?.resolvedDate?.value,
         filter?.resolvedDate?.operation

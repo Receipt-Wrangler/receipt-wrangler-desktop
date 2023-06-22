@@ -11,6 +11,9 @@ export interface PagedRequestFilter {
   amount: PagedRequestFilterField;
   name: PagedRequestFilterField;
   paidBy: PagedRequestFilterField;
+  categories: PagedRequestFilterField;
+  tags: PagedRequestFilterField;
+  status: PagedRequestFilterField;
   resolvedDate: PagedRequestFilterField;
 }
 
