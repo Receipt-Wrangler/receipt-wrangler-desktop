@@ -121,9 +121,15 @@ export class AutocomleteComponent
 
       return this.options
         .filter((o) => !selectedValues.includes(o))
-        .filter((option) =>
-          option[this.optionFilterKey].toLowerCase().includes(filterValue)
-        );
+        .filter((option) => {
+          if (this.optionFilterKey) {
+            return option[this.optionFilterKey]
+              .toLowerCase()
+              .includes(filterValue);
+          } else {
+            return option.toLowerCase().includes(filterValue);
+          }
+        });
     } else {
       return this.options.filter((option) =>
         option[this.optionFilterKey].toLowerCase().includes(filterValue)

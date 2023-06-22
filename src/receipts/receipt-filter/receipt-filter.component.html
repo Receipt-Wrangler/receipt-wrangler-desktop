@@ -54,15 +54,16 @@
     }"
   ></ng-template>
 
-  <!-- <ng-template
+  <ng-template
     [ngTemplateOutlet]="filterField"
     [ngTemplateOutletContext]="{
       label: 'Status',
       fieldName: 'status',
       type: 'list',
-      options: receiptStatusOptions
+      options: receiptStatusOptions,
+      multiple: true
     }"
-  ></ng-template> -->
+  ></ng-template>
 
   <ng-template
     [ngTemplateOutlet]="filterField"

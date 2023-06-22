@@ -70,9 +70,11 @@
         }"
       >
       </ng-template>
-      <ng-container *ngIf="!optionTemplate">{{
-        option?.[optionDisplayKey]
-      }}</ng-container>
+      <ng-container *ngIf="!optionTemplate">
+        {{
+          option | optionDisplay : options : optionDisplayKey : optionValueKey
+        }}</ng-container
+      >
     </mat-option>
     <ng-container
       *ngIf="
