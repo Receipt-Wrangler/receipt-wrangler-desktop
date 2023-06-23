@@ -113,6 +113,7 @@
     <app-user-autocomplete
       *ngIf="type === 'users'"
       class="col"
+      optionValueKey="id"
       [label]="label"
       [multiple]="true"
       [inputFormControl]="form | formGet : fieldName + '.value'"

@@ -262,6 +262,27 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         tags: this.tags,
       },
     });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((applyFilter) => {
+          if (applyFilter) {
+            this.receiptsService
+              .getPagedReceiptsForGroups(this.groupId.toString())
+              .pipe(
+                take(1),
+                tap((pagedData) => {
+                  this.dataSource.data = pagedData.data;
+                  this.totalCount = pagedData.totalCount;
+                })
+              )
+              .subscribe();
+          }
+        })
+      )
+      .subscribe();
   }
 
   public deleteReceipt(row: Receipt): void {

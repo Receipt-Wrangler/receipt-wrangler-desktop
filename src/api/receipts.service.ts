@@ -34,7 +34,16 @@ export class ReceiptsService {
       pageSize: pageSize ?? filter.pageSize,
       orderBy: orderBy ?? filter.orderBy,
       sortDirection: sortDirection ?? filter.sortDirection,
+      filter: filter.filter,
     };
+
+    if (!filter?.filter?.date?.value) {
+      filter.filter.date.value = '';
+    }
+
+    if (!filter?.filter?.resolvedDate?.value) {
+      filter.filter.resolvedDate.value = '';
+    }
 
     return this.httpClient.post<PagedData>(
       `/api/receipt/group/${groupId}`,

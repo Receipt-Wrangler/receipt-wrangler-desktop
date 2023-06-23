@@ -1,19 +1,20 @@
 <app-autocomlete
   *ngIf="multiple"
   optionFilterKey="displayName"
+  optionDisplayKey="displayName"
   [label]="label"
   [inputFormControl]="inputFormControl"
   [options]="users"
   [optionTemplate]="optionTemplate"
-  [optionChipTemplate]="optionTemplate"
   [multiple]="true"
   [readonly]="readonly"
+  [optionValueKey]="optionValueKey ?? ''"
 ></app-autocomlete>
 
 <app-autocomlete
   *ngIf="!multiple"
   optionFilterKey="displayName"
-  optionValueKey="id"
+  [optionValueKey]="optionValueKey ?? 'id'"
   [label]="label"
   [inputFormControl]="inputFormControl"
   [options]="users"
