@@ -9,6 +9,7 @@ import {
 import { ReceiptTableInterface } from '../interfaces';
 import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-command';
 
+// TODO: look into fixing date equals
 @State<ReceiptTableInterface>({
   name: 'receiptTable',
   defaults: {
@@ -27,7 +28,7 @@ import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-comm
         value: '',
       },
       paidBy: {
-        operation: PagedRequestFilterOperation.EQUALS,
+        operation: PagedRequestFilterOperation.CONTAINS,
         value: [],
       },
       categories: {
