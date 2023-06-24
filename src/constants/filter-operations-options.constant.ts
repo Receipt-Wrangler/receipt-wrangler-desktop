@@ -2,7 +2,7 @@ import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-comm
 
 export const listOperationOptions = Object.keys(
   PagedRequestFilterOperation
-).filter((k) => k === 'CONTAINS' || k === 'EQUALS');
+).filter((k) => k === 'CONTAINS');
 
 export const dateOperationOptions = Object.keys(
   PagedRequestFilterOperation
