@@ -1,4 +1,11 @@
 <div class="d-flex justify-content-end align-items-center">
-  <app-submit-button (clicked)="submitClicked.emit()"></app-submit-button>
+  <app-submit-button
+    [tooltip]="submitButtonTooltip"
+    (clicked)="submitClicked.emit()"
+  ></app-submit-button>
   <app-cancel-button (clicked)="cancelClicked.emit()"></app-cancel-button>
+  <ng-container
+    *ngIf="additionalButtonsTemplate"
+    [ngTemplateOutlet]="additionalButtonsTemplate"
+  ></ng-container>
 </div>

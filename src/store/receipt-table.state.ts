@@ -1,13 +1,46 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-command';
+import { ReceiptTableInterface } from '../interfaces';
 import {
+  ResetReceiptFilter,
   SetPage,
   SetPageSize,
   SetReceiptFilter,
   SetReceiptFilterData,
 } from './receipt-table.actions';
-import { ReceiptTableInterface } from '../interfaces';
-import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-command';
+
+const defaultFilter = {
+  date: { operation: PagedRequestFilterOperation.EQUALS, value: '' },
+  amount: {
+    operation: PagedRequestFilterOperation.EQUALS,
+    value: '',
+  },
+  name: {
+    operation: PagedRequestFilterOperation.EQUALS,
+    value: '',
+  },
+  paidBy: {
+    operation: PagedRequestFilterOperation.CONTAINS,
+    value: [],
+  },
+  categories: {
+    operation: PagedRequestFilterOperation.EQUALS,
+    value: [],
+  },
+  tags: {
+    operation: PagedRequestFilterOperation.EQUALS,
+    value: [],
+  },
+  status: {
+    operation: PagedRequestFilterOperation.EQUALS,
+    value: [],
+  },
+  resolvedDate: {
+    operation: PagedRequestFilterOperation.EQUALS,
+    value: '',
+  },
+};
 
 // TODO: look into fixing date equals
 @State<ReceiptTableInterface>({
@@ -17,37 +50,7 @@ import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-comm
     pageSize: 50,
     orderBy: 'date',
     sortDirection: 'desc',
-    filter: {
-      date: { operation: PagedRequestFilterOperation.EQUALS, value: '' },
-      amount: {
-        operation: PagedRequestFilterOperation.EQUALS,
-        value: '',
-      },
-      name: {
-        operation: PagedRequestFilterOperation.EQUALS,
-        value: '',
-      },
-      paidBy: {
-        operation: PagedRequestFilterOperation.CONTAINS,
-        value: [],
-      },
-      categories: {
-        operation: PagedRequestFilterOperation.EQUALS,
-        value: [],
-      },
-      tags: {
-        operation: PagedRequestFilterOperation.EQUALS,
-        value: [],
-      },
-      status: {
-        operation: PagedRequestFilterOperation.EQUALS,
-        value: [],
-      },
-      resolvedDate: {
-        operation: PagedRequestFilterOperation.EQUALS,
-        value: '',
-      },
-    },
+    filter: defaultFilter,
   },
 })
 @Injectable()
@@ -102,6 +105,13 @@ export class ReceiptTableState {
   ) {
     patchState({
       filter: payload.data,
+    });
+  }
+
+  @Action(ResetReceiptFilter)
+  resetFilter({ patchState }: StateContext<ReceiptTableInterface>) {
+    patchState({
+      filter: defaultFilter,
     });
   }
 }

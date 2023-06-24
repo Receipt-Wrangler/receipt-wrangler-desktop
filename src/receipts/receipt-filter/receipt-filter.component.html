@@ -85,6 +85,8 @@
   ></ng-template>
 
   <app-dialog-footer
+    submitButtonTooltip="Apply filter"
+    [additionalButtonsTemplate]="resetButton"
     (submitClicked)="submitButtonClicked()"
     (cancelClicked)="cancelButtonClicked()"
   ></app-dialog-footer>
@@ -144,4 +146,14 @@
       [options]="type | operations"
     ></app-select>
   </div>
+</ng-template>
+
+<ng-template #resetButton>
+  <app-button
+    matButtonType="iconButton"
+    icon="restart_alt"
+    color="accent"
+    tooltip="Reset filter"
+    (clicked)="resetFilter()"
+  ></app-button>
 </ng-template>

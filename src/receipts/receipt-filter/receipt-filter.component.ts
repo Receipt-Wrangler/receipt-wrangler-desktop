@@ -5,7 +5,10 @@ import { Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
 import { RECEIPT_STATUS_OPTIONS } from 'src/constants';
 import { Category, Tag } from 'src/models';
-import { SetReceiptFilter } from 'src/store/receipt-table.actions';
+import {
+  ResetReceiptFilter,
+  SetReceiptFilter,
+} from 'src/store/receipt-table.actions';
 import { ReceiptTableState } from 'src/store/receipt-table.state';
 
 @Component({
@@ -101,6 +104,11 @@ export class ReceiptFilterComponent implements OnInit {
       operation: operation ?? '',
       value: control,
     });
+  }
+
+  public resetFilter(): void {
+    this.store.dispatch(new ResetReceiptFilter());
+    this.initForm();
   }
 
   public submitButtonClicked(): void {

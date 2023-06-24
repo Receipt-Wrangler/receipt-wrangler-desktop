@@ -24,3 +24,9 @@ export class SetReceiptFilter {
 
   constructor(public data: PagedRequestFilter) {}
 }
+
+export class ResetReceiptFilter {
+  static readonly type = '[ReceiptTable] Reset Filter';
+
+  constructor() {}
+}
