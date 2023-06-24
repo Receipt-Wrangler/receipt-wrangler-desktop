@@ -29,6 +29,16 @@
   <ng-template
     [ngTemplateOutlet]="filterField"
     [ngTemplateOutletContext]="{
+      label: 'Amount',
+      fieldName: 'amount',
+      type: 'number',
+      isCurrency: true,
+    }"
+  ></ng-template>
+
+  <ng-template
+    [ngTemplateOutlet]="filterField"
+    [ngTemplateOutletContext]="{
       label: 'Categories',
       fieldName: 'categories',
       type: 'list',
@@ -62,16 +72,6 @@
       type: 'list',
       options: receiptStatusOptions,
       multiple: true
-    }"
-  ></ng-template>
-
-  <ng-template
-    [ngTemplateOutlet]="filterField"
-    [ngTemplateOutletContext]="{
-      label: 'Amount',
-      fieldName: 'amount',
-      type: 'number',
-      isCurrency: true,
     }"
   ></ng-template>
 

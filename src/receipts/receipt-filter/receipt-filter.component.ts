@@ -7,7 +7,7 @@ import { RECEIPT_STATUS_OPTIONS } from 'src/constants';
 import { Category, Tag } from 'src/models';
 import { SetReceiptFilter } from 'src/store/receipt-table.actions';
 import { ReceiptTableState } from 'src/store/receipt-table.state';
-// TODO: remove equals from status
+
 @Component({
   selector: 'app-receipt-filter',
   templateUrl: './receipt-filter.component.html',
