@@ -86,7 +86,7 @@ export class ReceiptFilterComponent implements OnInit {
   }
 
   private buildFieldFormGroup(
-    value: string | string[],
+    value: string | string[] | number,
     operation: string,
     isArray?: boolean
   ): FormGroup {

@@ -19,7 +19,7 @@ export interface PagedRequestFilter {
 
 export interface PagedRequestFilterField {
   operation: PagedRequestFilterOperation;
-  value: string | string[];
+  value: string | string[] | number;
 }
 
 export enum PagedRequestFilterOperation {

@@ -34,15 +34,20 @@ export class ReceiptsService {
       pageSize: pageSize ?? filter.pageSize,
       orderBy: orderBy ?? filter.orderBy,
       sortDirection: sortDirection ?? filter.sortDirection,
-      filter: filter.filter,
+      filter: Object.assign(filter.filter, {}),
     };
 
-    if (!filter?.filter?.date?.value) {
+    if (!filterData?.filter?.date?.value) {
       filter.filter.date.value = '';
     }
 
-    if (!filter?.filter?.resolvedDate?.value) {
+    if (!filterData?.filter?.resolvedDate?.value) {
       filter.filter.resolvedDate.value = '';
+    }
+
+    // TODO: fix this value showing up as 1 for some reason
+    if (!filterData?.filter?.amount?.value) {
+      filter.filter.amount.value = 0;
     }
 
     return this.httpClient.post<PagedData>(
