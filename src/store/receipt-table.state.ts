@@ -25,15 +25,15 @@ const defaultFilter = {
     value: [],
   },
   categories: {
-    operation: PagedRequestFilterOperation.EQUALS,
+    operation: PagedRequestFilterOperation.CONTAINS,
     value: [],
   },
   tags: {
-    operation: PagedRequestFilterOperation.EQUALS,
+    operation: PagedRequestFilterOperation.CONTAINS,
     value: [],
   },
   status: {
-    operation: PagedRequestFilterOperation.EQUALS,
+    operation: PagedRequestFilterOperation.CONTAINS,
     value: [],
   },
   resolvedDate: {
