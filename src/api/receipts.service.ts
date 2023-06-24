@@ -45,7 +45,6 @@ export class ReceiptsService {
       filter.filter.resolvedDate.value = '';
     }
 
-    // TODO: fix this value showing up as 1 for some reason
     if (!filterData?.filter?.amount?.value) {
       filter.filter.amount.value = 0;
     }
