@@ -19,6 +19,7 @@ import { TableHeaderComponent } from './table-header/table-header.component';
 import { FormSectionComponent } from './form-section/form-section.component';
 import { CardComponent } from './card/card.component';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MatCardModule } from '@angular/material/card';
     MatCardModule,
     MatChipsModule,
     MatTableModule,
+    MatDialogModule,
     PipesModule,
   ],
   exports: [
