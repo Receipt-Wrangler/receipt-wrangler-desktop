@@ -13,6 +13,9 @@
       icon="filter_alt"
       matButtonType="iconButton"
       tooltip="Filter Receipts"
+      color="accent"
+      matBadgeColor="accent"
+      [matBadgeContent]="numFiltersApplied | async"
       [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
       (clicked)="filterButtonClicked()"
     ></app-button>

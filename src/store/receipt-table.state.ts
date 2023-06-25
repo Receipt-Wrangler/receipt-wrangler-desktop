@@ -70,6 +70,11 @@ export class ReceiptTableState {
     return state;
   }
 
+  @Selector()
+  static numFiltersApplied(state: ReceiptTableInterface): number {
+    return 4;
+  }
+
   @Action(SetPage)
   setPage(
     { patchState }: StateContext<ReceiptTableInterface>,

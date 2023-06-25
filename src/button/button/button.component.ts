@@ -5,6 +5,7 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-button',
@@ -13,18 +14,31 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class ButtonComponent {
-  // add custom icon input
-  @Input() buttonClass: string = '';
-  @Input() color: string = 'primary';
-  @Input() buttonText: string = '';
-  @Input() type: 'button' | 'menu' | 'submit' | 'reset' = 'button';
-  @Input() matButtonType: 'matRaisedButton' | 'iconButton' | 'basic' =
+  @Input() public buttonClass: string = '';
+
+  @Input() public color: string = 'primary';
+
+  @Input() public buttonText: string = '';
+
+  @Input() public type: 'button' | 'menu' | 'submit' | 'reset' = 'button';
+
+  @Input() public matButtonType: 'matRaisedButton' | 'iconButton' | 'basic' =
     'matRaisedButton';
-  @Input() icon: string = '';
-  @Input() customIcon: string = '';
-  @Input() disabled: boolean = false;
+
+  @Input() public icon: string = '';
+
+  @Input() public customIcon: string = '';
+
+  @Input() public disabled: boolean = false;
+
   @Input() public buttonRouterLink: string[] = [];
+
   @Input() public tooltip: string = '';
+
+  @Input() public matBadgeContent?: any;
+
+  @Input() public matBadgeColor: ThemePalette = 'primary';
+
   @Output() public clicked: EventEmitter<MouseEvent> =
     new EventEmitter<MouseEvent>();
 

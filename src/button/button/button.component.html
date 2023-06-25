@@ -8,6 +8,8 @@
     [disabled]="disabled"
     [matTooltip]="tooltip"
     [routerLink]="buttonRouterLink"
+    [matBadgeColor]="matBadgeColor"
+    [matBadge]="matBadgeContent"
     (click)="emitClicked($event)"
   >
     {{ buttonText }}
@@ -21,6 +23,8 @@
     [color]="color"
     [disabled]="disabled"
     [matTooltip]="tooltip"
+    [matBadgeColor]="matBadgeColor"
+    [matBadge]="matBadgeContent"
     [routerLink]="buttonRouterLink"
     (click)="emitClicked($event)"
   >
@@ -36,6 +40,8 @@
     [disabled]="disabled"
     [routerLink]="buttonRouterLink"
     [matTooltip]="tooltip"
+    [matBadgeColor]="matBadgeColor"
+    [matBadge]="matBadgeContent"
     (click)="emitClicked($event)"
   >
     <mat-icon *ngIf="customIcon" [svgIcon]="customIcon"></mat-icon>
