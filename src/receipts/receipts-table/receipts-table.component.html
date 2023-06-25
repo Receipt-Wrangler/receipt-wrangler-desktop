@@ -1,10 +1,32 @@
 <app-table-header headerText="Receipts">
-  <div>
+  <div class="d-flex align-items-center">
     <app-button
       class="me-2"
-      buttonText="Add Receipt"
+      icon="add"
+      matButtonType="iconButton"
+      tooltip="Add Receipt"
       [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
       [routerLink]="['/receipts/add']"
+    ></app-button>
+    <app-button
+      class="me-2 filter-button"
+      icon="filter_alt"
+      matButtonType="iconButton"
+      tooltip="Filter Receipts"
+      color="accent"
+      matBadgeColor="accent"
+      [matBadgeContent]="numFiltersApplied | async"
+      [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
+      (clicked)="filterButtonClicked()"
+    ></app-button>
+    <app-button
+      *ngIf="(numFiltersApplied | async) ?? 0 > 0"
+      class="me-2"
+      icon="restart_alt"
+      matButtonType="iconButton"
+      tooltip="Reset filter"
+      color="accent"
+      (clicked)="resetFilterButtonClicked()"
     ></app-button>
     <app-button
       *ngIf="(checkboxChange | async)?.source?.selected?.length ?? false"
@@ -13,6 +35,7 @@
     ></app-button>
   </div>
 </app-table-header>
+<app-receipt-filter *ngIf="showFilterCard"></app-receipt-filter>
 <div class="table-container">
   <app-table
     [columns]="columns"

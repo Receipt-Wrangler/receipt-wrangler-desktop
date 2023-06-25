@@ -5,22 +5,25 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, take, tap } from 'rxjs';
+import { Observable, Subject, map, take, tap } from 'rxjs';
 import { BulkStatusUpdate, ReceiptsService } from 'src/api/receipts.service';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { ReceiptStatus } from 'src/enums/receipt-status.enum';
+import { Category, Tag } from 'src/models';
 import { Receipt } from 'src/models/receipt';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 import { GroupState } from 'src/store/group.state';
 import {
+  ResetReceiptFilter,
   SetPage,
   SetPageSize,
   SetReceiptFilterData,
@@ -31,11 +34,13 @@ import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
 import { ALL_GROUP, DEFAULT_DIALOG_CONFIG } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
+import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.component';
 
 @Component({
   selector: 'app-receipts-table',
   templateUrl: './receipts-table.component.html',
   styleUrls: ['./receipts-table.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(
@@ -44,7 +49,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     private store: Store,
     private groupUtil: GroupUtil,
     private router: Router,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   @ViewChild('dateCell') dateCell!: TemplateRef<any>;
@@ -71,6 +77,12 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   @Select(ReceiptTableState.pageSize) public pageSize!: Observable<number>;
 
+  public numFiltersApplied!: Observable<number | undefined>;
+
+  public categories: Category[] = [];
+
+  public tags: Tag[] = [];
+
   public groupId: string = '0';
 
   public groupRole = GroupRole;
@@ -88,7 +100,26 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public firstSort: boolean = true;
 
+  public showFilterCard: boolean = false;
+
   public ngOnInit(): void {
+    this.numFiltersApplied = this.store
+      .select(ReceiptTableState.numFiltersApplied)
+      .pipe(
+        map((num) => {
+          if (num > 0) {
+            return num;
+          } else {
+            return undefined;
+          }
+        })
+      );
+    const data = this.activatedRoute.snapshot.data;
+
+    this.categories = data['categories'];
+
+    this.tags = data['tags'];
+
     this.groupId = this.store
       .selectSnapshot(GroupState.selectedGroupId)
       ?.toString();
@@ -209,15 +240,17 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public sort(sortState: Sort): void {
     if (!this.firstSort) {
-      const page = this.store.selectSnapshot(ReceiptTableState.page);
-      const pageSize = this.store.selectSnapshot(ReceiptTableState.pageSize);
+      const filterData = this.store.selectSnapshot(
+        ReceiptTableState.filterData
+      );
 
       this.store.dispatch(
         new SetReceiptFilterData({
-          page: page,
-          pageSize: pageSize,
+          page: filterData.page,
+          pageSize: filterData.pageSize,
           orderBy: sortState.active,
           sortDirection: sortState.direction,
+          filter: filterData.filter,
         })
       );
 
@@ -233,6 +266,46 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         .subscribe();
     }
     this.firstSort = false;
+  }
+
+  public filterButtonClicked(): void {
+    const dialogRef = this.matDialog.open(ReceiptFilterComponent, {
+      ...DEFAULT_DIALOG_CONFIG,
+      data: {
+        categories: this.categories,
+        tags: this.tags,
+      },
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((applyFilter) => {
+          if (applyFilter) {
+            this.getFilteredReceipts();
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  public resetFilterButtonClicked(): void {
+    this.store.dispatch(new ResetReceiptFilter());
+    this.getFilteredReceipts();
+  }
+
+  private getFilteredReceipts(): void {
+    this.receiptsService
+      .getPagedReceiptsForGroups(this.groupId.toString())
+      .pipe(
+        take(1),
+        tap((pagedData) => {
+          this.dataSource.data = pagedData.data;
+          this.totalCount = pagedData.totalCount;
+        })
+      )
+      .subscribe();
   }
 
   public deleteReceipt(row: Receipt): void {

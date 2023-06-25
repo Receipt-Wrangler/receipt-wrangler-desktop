@@ -8,9 +8,10 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ButtonModule } from 'src/button/button.module';
+import { OptionDisplayPipe } from './autocomlete/option-display.pipe';
 
 @NgModule({
-  declarations: [AutocomleteComponent],
+  declarations: [AutocomleteComponent, OptionDisplayPipe],
   imports: [
     CommonModule,
     MatAutocompleteModule,

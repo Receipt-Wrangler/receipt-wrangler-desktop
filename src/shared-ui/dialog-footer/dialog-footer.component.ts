@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+} from '@angular/core';
 
 @Component({
   selector: 'app-dialog-footer',
@@ -6,6 +12,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./dialog-footer.component.scss'],
 })
 export class DialogFooterComponent {
-  @Output() cancelClicked: EventEmitter<void> = new EventEmitter<void>();
-  @Output() submitClicked: EventEmitter<void> = new EventEmitter<void>();
+  @Input() public additionalButtonsTemplate?: TemplateRef<any>;
+  @Input() public submitButtonTooltip: string = 'Save';
+  @Output() public cancelClicked: EventEmitter<void> = new EventEmitter<void>();
+  @Output() public submitClicked: EventEmitter<void> = new EventEmitter<void>();
 }

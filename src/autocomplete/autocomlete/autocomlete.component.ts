@@ -35,6 +35,8 @@ export class AutocomleteComponent
 
   @Input() public optionValueKey: string = '';
 
+  @Input() public optionDisplayKey: string = '';
+
   @Input() public multiple: boolean = false;
 
   @Input() public displayWith!: (value: any) => string;
@@ -114,14 +116,20 @@ export class AutocomleteComponent
 
     if (this.multiple) {
       const formArray = this.inputFormControl as any as FormArray;
-      const selectedValues = formArray.value as any[];
+      const selectedValues = (formArray.value as any[]) ?? [];
       // TODO: Restrict the user form adding an already added value
 
       return this.options
         .filter((o) => !selectedValues.includes(o))
-        .filter((option) =>
-          option[this.optionFilterKey].toLowerCase().includes(filterValue)
-        );
+        .filter((option) => {
+          if (this.optionFilterKey) {
+            return option[this.optionFilterKey]
+              .toLowerCase()
+              .includes(filterValue);
+          } else {
+            return option.toLowerCase().includes(filterValue);
+          }
+        });
     } else {
       return this.options.filter((option) =>
         option[this.optionFilterKey].toLowerCase().includes(filterValue)

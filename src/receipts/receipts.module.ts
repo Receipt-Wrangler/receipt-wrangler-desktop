@@ -32,6 +32,8 @@ import { ReceiptsRoutingModule } from './receipts-routing.module';
 import { ReceiptsTableComponent } from './receipts-table/receipts-table.component';
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { UserTotalPipe } from './user-total.pipe';
+import { ReceiptFilterComponent } from './receipt-filter/receipt-filter.component';
+import { OperationsPipe } from './receipt-filter/operations.pipe';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { UserTotalPipe } from './user-total.pipe';
     TopLevelCommentPipe,
     UploadImageComponent,
     UserTotalPipe,
+    ReceiptFilterComponent,
+    OperationsPipe,
   ],
   imports: [
     AutocompleteModule,

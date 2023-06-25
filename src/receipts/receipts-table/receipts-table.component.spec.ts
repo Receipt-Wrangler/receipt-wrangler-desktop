@@ -10,6 +10,7 @@ import { ReceiptsTableComponent } from './receipts-table.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { ReceiptTableState } from 'src/store/receipt-table.state';
+import { ActivatedRoute } from '@angular/router';
 
 describe('ReceiptsTableComponent', () => {
   let component: ReceiptsTableComponent;
@@ -26,6 +27,19 @@ describe('ReceiptsTableComponent', () => {
         MatTooltipModule,
         MatDialogModule,
         PipesModule,
+      ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              data: {
+                categories: [],
+                tags: [],
+              },
+            },
+          },
+        },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

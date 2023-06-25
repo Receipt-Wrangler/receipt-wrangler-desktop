@@ -4,6 +4,7 @@ import { ButtonComponent } from './button.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatBadgeModule } from '@angular/material/badge';
 
 describe('ButtonComponent', () => {
   let component: ButtonComponent;
@@ -12,7 +13,12 @@ describe('ButtonComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ButtonComponent],
-      imports: [MatButtonModule, MatTooltipModule, RouterTestingModule],
+      imports: [
+        MatBadgeModule,
+        MatButtonModule,
+        MatTooltipModule,
+        RouterTestingModule,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ButtonComponent);

@@ -2,7 +2,7 @@
   icon="done"
   matButtonType="iconButton"
   type="submit"
-  tooltip="Save"
+  [tooltip]="tooltip ?? 'Save'"
   (clicked)="clicked.emit()"
   [disabled]="mode === formMode.view || disabled"
 ></app-button>
