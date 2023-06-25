@@ -20,6 +20,15 @@
       (clicked)="filterButtonClicked()"
     ></app-button>
     <app-button
+      *ngIf="(numFiltersApplied | async) ?? 0 > 0"
+      class="me-2"
+      icon="restart_alt"
+      matButtonType="iconButton"
+      tooltip="Reset filter"
+      color="accent"
+      (clicked)="resetFilterButtonClicked()"
+    ></app-button>
+    <app-button
       *ngIf="(checkboxChange | async)?.source?.selected?.length ?? false"
       buttonText="Bulk Status Update"
       (click)="showStatusUpdateDialog()"
