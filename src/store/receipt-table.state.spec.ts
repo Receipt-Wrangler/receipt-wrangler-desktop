@@ -10,6 +10,7 @@ import { GroupRolePipe } from 'src/pipes/group-role.pipe';
 import {
   ResetReceiptFilter,
   SetPage,
+  SetPageSize,
   SetReceiptFilter,
   SetReceiptFilterData,
 } from './receipt-table.actions';
@@ -69,8 +70,8 @@ describe('ReceiptTableState', () => {
     expect(result).toEqual(1);
   });
 
-  it('should return page pageSize', () => {
-    const result = store.selectSnapshot(ReceiptTableState.page);
+  it('should return pageSize', () => {
+    const result = store.selectSnapshot(ReceiptTableState.pageSize);
 
     expect(result).toEqual(50);
   });
@@ -112,7 +113,7 @@ describe('ReceiptTableState', () => {
   });
 
   it('should set page size', () => {
-    store.dispatch(new SetPage(100));
+    store.dispatch(new SetPageSize(100));
 
     const result = store.selectSnapshot(ReceiptTableState.pageSize);
     expect(result).toEqual(100);
@@ -133,10 +134,10 @@ describe('ReceiptTableState', () => {
   });
 
   it('should set filter receipt filter', () => {
-    store.dispatch(new SetReceiptFilter({} as any));
+    store.dispatch(new SetReceiptFilter(filledFilter));
 
     const result = store.selectSnapshot(ReceiptTableState.filterData);
-    expect(result).toEqual({} as any);
+    expect(result.filter).toEqual(filledFilter);
   });
 
   it('should reset filter', () => {
