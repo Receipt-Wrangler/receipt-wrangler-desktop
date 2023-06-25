@@ -270,7 +270,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public filterButtonClicked(): void {
     const dialogRef = this.matDialog.open(ReceiptFilterComponent, {
-      ...DEFAULT_DIALOG_CONFIG,
+      minWidth: '50%',
+      maxWidth: '100%',
       data: {
         categories: this.categories,
         tags: this.tags,
