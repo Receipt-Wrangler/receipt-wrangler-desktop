@@ -72,7 +72,16 @@ export class ReceiptTableState {
 
   @Selector()
   static numFiltersApplied(state: ReceiptTableInterface): number {
-    return 4;
+    let filtersApplied = 0;
+    const filter: any = state.filter;
+
+    Object.keys(filter).forEach((key) => {
+      if (filter[key]?.value?.length > 0) {
+        filtersApplied += 1;
+      }
+    });
+
+    return filtersApplied;
   }
 
   @Action(SetPage)
