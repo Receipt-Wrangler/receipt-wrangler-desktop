@@ -76,7 +76,8 @@ export class ReceiptTableState {
     const filter: any = state.filter;
 
     Object.keys(filter).forEach((key) => {
-      if (filter[key]?.value?.length > 0) {
+      const stringValue = filter[key]?.value?.toString();
+      if (filter[key]?.value?.toString()?.length > 0 && stringValue !== '0') {
         filtersApplied += 1;
       }
     });
