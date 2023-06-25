@@ -1,5 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 3;
 import { Store } from '@ngxs/store';
@@ -10,7 +15,10 @@ import {
   ResetReceiptFilter,
   SetReceiptFilter,
 } from 'src/store/receipt-table.actions';
-import { ReceiptTableState } from 'src/store/receipt-table.state';
+import {
+  ReceiptTableState,
+  defaultReceiptFilter,
+} from 'src/store/receipt-table.state';
 
 @Component({
   selector: 'app-receipt-filter',
@@ -96,7 +104,7 @@ export class ReceiptFilterComponent implements OnInit {
   ): FormGroup {
     let control: AbstractControl;
     if (isArray) {
-      control = this.formBuilder.array(value as any);
+      control = this.formBuilder.array(value as any) as FormArray;
     } else {
       control = this.formBuilder.control(value);
     }
@@ -108,8 +116,11 @@ export class ReceiptFilterComponent implements OnInit {
   }
 
   public resetFilter(): void {
-    this.store.dispatch(new ResetReceiptFilter());
-    this.initForm();
+    this.form.patchValue(defaultReceiptFilter);
+    (this.form.get('paidBy.value') as FormArray).clear();
+    (this.form.get('categories.value') as FormArray).clear();
+    (this.form.get('tags.value') as FormArray).clear();
+    (this.form.get('status.value') as FormArray).clear();
   }
 
   public submitButtonClicked(): void {

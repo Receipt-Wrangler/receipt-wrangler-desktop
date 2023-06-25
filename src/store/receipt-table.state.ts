@@ -10,7 +10,7 @@ import {
   SetReceiptFilterData,
 } from './receipt-table.actions';
 
-const defaultFilter = {
+export const defaultReceiptFilter = {
   date: { operation: PagedRequestFilterOperation.EQUALS, value: '' },
   amount: {
     operation: PagedRequestFilterOperation.EQUALS,
@@ -50,7 +50,7 @@ const defaultFilter = {
     pageSize: 50,
     orderBy: 'date',
     sortDirection: 'desc',
-    filter: defaultFilter,
+    filter: defaultReceiptFilter,
   },
 })
 @Injectable()
@@ -125,7 +125,7 @@ export class ReceiptTableState {
   @Action(ResetReceiptFilter)
   resetFilter({ patchState }: StateContext<ReceiptTableInterface>) {
     patchState({
-      filter: defaultFilter,
+      filter: defaultReceiptFilter,
     });
   }
 }
