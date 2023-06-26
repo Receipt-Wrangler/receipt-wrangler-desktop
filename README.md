@@ -2,7 +2,14 @@
 [![codecov](https://codecov.io/gh/Noah231515/receipt-wrangler-desktop/branch/main/graph/badge.svg?token=TCTGKLHIW1)](https://codecov.io/gh/Noah231515/receipt-wrangler-desktop)
 # Receipt Wrangler
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
+## Tech Overview
+This project uses:
+* Angular framework
+* Ngxs for state management
+* Bootstrap for utils, layouts, grids
+* Angular Material for UI Library
+* Karma/Jasmine used for unit tests
+* No E2E Tests currently
 
 ## Development server
 
