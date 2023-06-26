@@ -1,12 +1,14 @@
 [![Build](https://github.com/Noah231515/receipt-wrangler-desktop/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Noah231515/receipt-wrangler-desktop/actions/workflows/docker-image.yml)
 [![codecov](https://codecov.io/gh/Noah231515/receipt-wrangler-desktop/branch/main/graph/badge.svg?token=TCTGKLHIW1)](https://codecov.io/gh/Noah231515/receipt-wrangler-desktop)
-# MyApp
+# Receipt Wrangler
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `npm run start` for a dev server with a proxy to the development API. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files. 
+
+(Note: I have been wrestling with an odd issue where locally the app will only start with node version: lts/gallium. Make sure this version is installed for development!)
 
 ## Code scaffolding
 
@@ -18,11 +20,8 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io). Unit tests are expected with contributions to ensure the already subpar coverage doesn't get worse!
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
 ## Further help
 
