@@ -121,12 +121,14 @@
           <app-form-button-bar>
             <app-back-button
               class="mb-4"
+              color="accent"
               tooltip="Return to list"
               [buttonRouterLink]="[(receiptListLink | async) ?? '']"
             ></app-back-button>
             <app-button
               *ngIf="mode | inputReadonly"
               class="mb-4"
+              color="accent"
               matButtonType="iconButton"
               tooltip="Duplicate"
               icon="file_copy"
@@ -139,6 +141,7 @@
             <app-button
               *ngIf="mode | inputReadonly"
               class="mb-4"
+              color="accent"
               matButtonType="iconButton"
               tooltip="Edit"
               icon="edit"
@@ -150,6 +153,7 @@
             <app-button
               *ngIf="!(mode | inputReadonly)"
               class="mb-4"
+              color="accent"
               matButtonType="iconButton"
               icon="photo_library"
               tooltip="Upload Image(s)"
@@ -161,6 +165,7 @@
             <app-button
               *ngIf="images && (images?.length ?? 0 > 0)"
               class="mb-4"
+              color="accent"
               matButtonType="iconButton"
               [icon]="showImages ? 'visibility_off' : 'visibility'"
               [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
@@ -170,6 +175,7 @@
               *ngIf="!(mode | inputReadonly)"
               class="mb-4"
               customIcon="split"
+              color="accent"
               matButtonType="iconButton"
               tooltip="Quick Actions"
               [disabled]="

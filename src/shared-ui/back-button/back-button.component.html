@@ -1,9 +1,9 @@
 <app-button
   matButtonType="iconButton"
   icon="arrow_back"
-  color="primary"
+  color="accent"
   [buttonRouterLink]="buttonRouterLink"
   [disabled]="disabled"
-  [tooltip]="tooltip"
+  [tooltip]="tooltip ?? 'Back'"
   (clicked)="clicked.emit()"
 ></app-button>
