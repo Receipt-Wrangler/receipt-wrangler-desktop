@@ -6,10 +6,10 @@ app-submit-button {
   }
 
   .mat-success:hover {
-    background-color: map-get($success-palette, 100);
+    background-color: map-get($success-palette, 50);
   }
 
   .mat-success:active {
-    background-color: map-get($success-palette, 50);
+    background-color: map-get($success-palette, 100);
   }
 }
