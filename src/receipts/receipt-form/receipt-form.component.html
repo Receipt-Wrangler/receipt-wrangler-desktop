@@ -2,6 +2,7 @@
   <app-form-header
     [headerText]="headerText"
     [buttonRouterLink]="[(receiptListLink | async) ?? '']"
+    [headerButtonsTemplate]="formHeaderButtons"
   ></app-form-header>
   <div class="row g-1">
     <app-upload-image
@@ -44,83 +45,81 @@
         </app-form-section>
       </ng-container>
       <app-form-section headerText="Details" [indent]="false">
-        <div class="d-flex justify-content-between form-container">
-          <div
-            class="d-flex flex-column justify-content-center align-items-center w-50"
-          >
-            <app-input
-              class="w-100"
-              label="Name"
-              [inputFormControl]="form | formGet : 'name'"
-              [readonly]="mode | inputReadonly"
-            ></app-input>
-            <app-input
-              class="w-100"
-              label="Amount"
-              type="text"
-              [isCurrency]="true"
-              [inputFormControl]="form | formGet : 'amount'"
-              [readonly]="mode | inputReadonly"
-            ></app-input>
-            <app-autocomlete
-              class="w-100"
-              label="Categories"
-              optionFilterKey="name"
-              creatableValueKey="name"
-              [inputFormControl]="form | formGet : 'categories'"
-              [options]="categories"
-              [optionTemplate]="categoryOptionTemplate"
-              [optionChipTemplate]="categoryOptionTemplate"
-              [multiple]="true"
-              [creatable]="true"
-              [readonly]="mode | inputReadonly"
-            ></app-autocomlete>
-            <app-autocomlete
-              class="w-100"
-              label="Tags"
-              optionFilterKey="name"
-              creatableValueKey="name"
-              [inputFormControl]="form | formGet : 'tags'"
-              [options]="tags"
-              [optionTemplate]="tagOptionTemplate"
-              [optionChipTemplate]="tagOptionTemplate"
-              [multiple]="true"
-              [creatable]="true"
-              [readonly]="mode | inputReadonly"
-            ></app-autocomlete>
-            <app-datepicker
-              label="Date"
-              class="w-100"
-              [inputFormControl]="form | formGet : 'date'"
-              [readonly]="mode | inputReadonly"
-            ></app-datepicker>
-            <app-autocomlete
-              class="w-100"
-              label="Group"
-              optionFilterKey="name"
-              optionValueKey="id"
-              [inputFormControl]="form | formGet : 'groupId'"
-              [options]="(groups | async) ?? []"
-              [optionTemplate]="groupOptionTemplate"
-              [readonly]="mode | inputReadonly"
-              [displayWith]="groupDisplayWith.bind(this)"
-            ></app-autocomlete>
-            <app-user-autocomplete
-              #paidByAutocomplete
-              class="w-100"
-              label="Paid By"
-              [inputFormControl]="form | formGet : 'paidByUserId'"
-              [usersToOmit]="usersToOmit"
-              [readonly]="mode | inputReadonly"
-            ></app-user-autocomplete>
-            <app-select
-              class="w-100"
-              label="Status"
-              [inputFormControl]="form | formGet : 'status'"
-              [readonly]="mode | inputReadonly"
-              [options]="receiptStatusOptions"
-            ></app-select>
-          </div>
+        <div
+          class="d-flex flex-column justify-content-center align-items-center"
+        >
+          <app-input
+            class="w-100"
+            label="Name"
+            [inputFormControl]="form | formGet : 'name'"
+            [readonly]="mode | inputReadonly"
+          ></app-input>
+          <app-input
+            class="w-100"
+            label="Amount"
+            type="text"
+            [isCurrency]="true"
+            [inputFormControl]="form | formGet : 'amount'"
+            [readonly]="mode | inputReadonly"
+          ></app-input>
+          <app-autocomlete
+            class="w-100"
+            label="Categories"
+            optionFilterKey="name"
+            creatableValueKey="name"
+            [inputFormControl]="form | formGet : 'categories'"
+            [options]="categories"
+            [optionTemplate]="categoryOptionTemplate"
+            [optionChipTemplate]="categoryOptionTemplate"
+            [multiple]="true"
+            [creatable]="true"
+            [readonly]="mode | inputReadonly"
+          ></app-autocomlete>
+          <app-autocomlete
+            class="w-100"
+            label="Tags"
+            optionFilterKey="name"
+            creatableValueKey="name"
+            [inputFormControl]="form | formGet : 'tags'"
+            [options]="tags"
+            [optionTemplate]="tagOptionTemplate"
+            [optionChipTemplate]="tagOptionTemplate"
+            [multiple]="true"
+            [creatable]="true"
+            [readonly]="mode | inputReadonly"
+          ></app-autocomlete>
+          <app-datepicker
+            label="Date"
+            class="w-100"
+            [inputFormControl]="form | formGet : 'date'"
+            [readonly]="mode | inputReadonly"
+          ></app-datepicker>
+          <app-autocomlete
+            class="w-100"
+            label="Group"
+            optionFilterKey="name"
+            optionValueKey="id"
+            [inputFormControl]="form | formGet : 'groupId'"
+            [options]="(groups | async) ?? []"
+            [optionTemplate]="groupOptionTemplate"
+            [readonly]="mode | inputReadonly"
+            [displayWith]="groupDisplayWith.bind(this)"
+          ></app-autocomlete>
+          <app-user-autocomplete
+            #paidByAutocomplete
+            class="w-100"
+            label="Paid By"
+            [inputFormControl]="form | formGet : 'paidByUserId'"
+            [usersToOmit]="usersToOmit"
+            [readonly]="mode | inputReadonly"
+          ></app-user-autocomplete>
+          <app-select
+            class="w-100"
+            label="Status"
+            [inputFormControl]="form | formGet : 'status'"
+            [readonly]="mode | inputReadonly"
+            [options]="receiptStatusOptions"
+          ></app-select>
         </div>
       </app-form-section>
       <app-form-section
@@ -142,26 +141,6 @@
   </div>
 
   <app-form-button-bar>
-    <app-button
-      *ngIf="mode | inputReadonly"
-      class="mb-4"
-      color="accent"
-      matButtonType="iconButton"
-      tooltip="Duplicate"
-      icon="file_copy"
-      [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
-      (clicked)="duplicateReceipt()"
-    ></app-button>
-    <app-button
-      *ngIf="mode | inputReadonly"
-      class="mb-4"
-      color="accent"
-      matButtonType="iconButton"
-      tooltip="Edit"
-      icon="edit"
-      [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
-      [routerLink]="[editLink]"
-    ></app-button>
     <app-button
       *ngIf="!(mode | inputReadonly)"
       class="mb-4"
@@ -234,6 +213,29 @@
     [originalReceipt]="originalReceipt"
     [usersToOmit]="usersToOmit"
   ></app-quick-actions-dialog>
+</ng-template>
+
+<ng-template #formHeaderButtons>
+  <app-button
+    *ngIf="mode | inputReadonly"
+    class="ms-1"
+    color="accent"
+    matButtonType="iconButton"
+    tooltip="Edit"
+    icon="edit"
+    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
+    [routerLink]="[editLink]"
+  ></app-button>
+  <app-button
+    *ngIf="mode | inputReadonly"
+    class="ms-1"
+    color="accent"
+    matButtonType="iconButton"
+    tooltip="Duplicate"
+    icon="file_copy"
+    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
+    (clicked)="duplicateReceipt()"
+  ></app-button>
 </ng-template>
 
 <ng-template #sharesSectionHeaderButtons>

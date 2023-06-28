@@ -1,8 +1,13 @@
 <div class="d-flex align-items-center">
+  <h2>{{ headerText }}</h2>
   <app-back-button
+    class="ms-1"
     color="accent"
     tooltip="Return to list"
     [buttonRouterLink]="buttonRouterLink"
   ></app-back-button>
-  <h2>{{ headerText }}</h2>
+  <ng-container
+    *ngIf="headerButtonsTemplate"
+    [ngTemplateOutlet]="headerButtonsTemplate"
+  ></ng-container>
 </div>

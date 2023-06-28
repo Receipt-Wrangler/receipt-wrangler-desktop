@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-form-header',
@@ -9,4 +9,6 @@ export class FormHeaderComponent {
   @Input() public headerText: string = '';
 
   @Input() public buttonRouterLink: string[] = [];
+
+  @Input() public headerButtonsTemplate?: TemplateRef<any>;
 }
