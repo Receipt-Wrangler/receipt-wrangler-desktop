@@ -1,7 +1,20 @@
 <app-button
+  *ngIf="onlyIcon"
   icon="done"
   matButtonType="iconButton"
-  buttonClass="mat-success"
+  buttonClass="mat-success-icon"
+  type="submit"
+  [tooltip]="tooltip ?? 'Save'"
+  (clicked)="clicked.emit()"
+  [disabled]="mode === formMode.view || disabled"
+></app-button>
+
+<app-button
+  *ngIf="!onlyIcon"
+  icon="done"
+  matButtonType="matRaisedButton"
+  buttonClass="mat-success-full"
+  [buttonText]="buttonText ?? 'Save'"
   type="submit"
   [tooltip]="tooltip ?? 'Save'"
   (clicked)="clicked.emit()"

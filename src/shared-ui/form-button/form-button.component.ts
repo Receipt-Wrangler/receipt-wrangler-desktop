@@ -17,5 +17,7 @@ export class FormButtonComponent {
 
   @Input() public buttonRouterLink: string[] = [];
 
+  @Input() public buttonText?: string;
+
   @Output() public clicked: EventEmitter<void> = new EventEmitter<void>();
 }

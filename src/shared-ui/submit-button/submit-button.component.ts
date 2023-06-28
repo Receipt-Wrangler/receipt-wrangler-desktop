@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { FormButtonComponent } from '../form-button/form-button.component';
 
@@ -9,5 +9,7 @@ import { FormButtonComponent } from '../form-button/form-button.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class SubmitButtonComponent extends FormButtonComponent {
+  @Input() public onlyIcon: boolean = true;
+
   public formMode = FormMode;
 }

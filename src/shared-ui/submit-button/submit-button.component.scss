@@ -1,15 +1,19 @@
 @import "../../variables.scss";
 
 app-submit-button {
-  .mat-success {
+  .mat-success-icon {
     color: map-get($success-palette, 800);
   }
 
-  .mat-success:hover {
+  .mat-success-icon:hover {
     background-color: map-get($success-palette, 50);
   }
 
-  .mat-success:active {
+  .mat-success-icon:active {
     background-color: map-get($success-palette, 100);
+  }
+
+  .mat-success-full {
+    background-color: map-get($success-palette, 800) !important;
   }
 }

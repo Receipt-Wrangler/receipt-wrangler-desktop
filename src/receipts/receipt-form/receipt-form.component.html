@@ -193,6 +193,7 @@
     <app-submit-button
       *ngIf="!(mode | inputReadonly)"
       class="mb-4"
+      [onlyIcon]="false"
       [mode]="mode"
       [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
     ></app-submit-button>
