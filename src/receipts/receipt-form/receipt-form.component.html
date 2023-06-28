@@ -120,7 +120,11 @@
           </div>
         </div>
       </app-form-section>
-      <app-form-section headerText="Shares" [indent]="false">
+      <app-form-section
+        headerText="Shares"
+        [indent]="false"
+        [headerButtonsTemplate]="sharesSectionHeaderButtons"
+      >
         <app-item-list [form]="form"></app-item-list>
       </app-form-section>
     </div>
@@ -180,16 +184,6 @@
       [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
       (clicked)="toggleShowImages()"
     ></app-button>
-    <app-button
-      *ngIf="!(mode | inputReadonly)"
-      class="mb-4"
-      customIcon="split"
-      color="accent"
-      matButtonType="iconButton"
-      tooltip="Quick Actions"
-      [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
-      (clicked)="openQuickActionsModal()"
-    ></app-button>
     <app-submit-button
       *ngIf="!(mode | inputReadonly)"
       class="mb-4"
@@ -243,4 +237,27 @@
     [originalReceipt]="originalReceipt"
     [usersToOmit]="usersToOmit"
   ></app-quick-actions-dialog>
+</ng-template>
+
+<ng-template #sharesSectionHeaderButtons>
+  <app-button
+    *ngIf="!(mode | inputReadonly)"
+    type="button"
+    matButtonType="iconButton"
+    icon="add"
+    tooltip="Add share"
+    color="accent"
+    (clicked)="initItemListAddMode()"
+    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
+  ></app-button>
+  <app-button
+    *ngIf="!(mode | inputReadonly)"
+    class="mb-4"
+    customIcon="split"
+    color="accent"
+    matButtonType="iconButton"
+    tooltip="Quick Actions"
+    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
+    (clicked)="openQuickActionsModal()"
+  ></app-button>
 </ng-template>

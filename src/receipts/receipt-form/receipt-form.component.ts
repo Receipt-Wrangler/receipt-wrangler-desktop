@@ -64,6 +64,9 @@ export class ReceiptFormComponent implements OnInit {
   @ViewChild('quickActionsDialog')
   public quickActionsDialog!: TemplateRef<any>;
 
+  @ViewChild(ItemListComponent)
+  public itemListComponent!: ItemListComponent;
+
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
   @Select(GroupState.receiptListLink)
@@ -320,6 +323,10 @@ export class ReceiptFormComponent implements OnInit {
 
   public toggleShowImages(): void {
     this.showImages = !this.showImages;
+  }
+
+  public initItemListAddMode(): void {
+    this.itemListComponent.initAddMode();
   }
 
   public submit(): void {
