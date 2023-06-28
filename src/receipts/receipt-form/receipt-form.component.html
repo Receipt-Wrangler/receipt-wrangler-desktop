@@ -167,12 +167,6 @@
       [mode]="mode"
       [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
     ></app-submit-button>
-    <app-cancel-button
-      *ngIf="!(mode | inputReadonly)"
-      class="mb-4"
-      [mode]="mode"
-      [routerLink]="[cancelLink]"
-    ></app-cancel-button>
   </app-form-button-bar>
 </form>
 
