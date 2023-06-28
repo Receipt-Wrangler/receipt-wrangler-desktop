@@ -1,5 +1,8 @@
 <form class="mb-4" [formGroup]="form" (ngSubmit)="submit()">
-  <h2>{{ headerText }}</h2>
+  <app-form-header
+    [headerText]="headerText"
+    [buttonRouterLink]="[(receiptListLink | async) ?? '']"
+  ></app-form-header>
   <div class="row g-1">
     <app-upload-image
       [images]="images"
@@ -139,12 +142,6 @@
   </div>
 
   <app-form-button-bar>
-    <app-back-button
-      class="mb-4"
-      color="accent"
-      tooltip="Return to list"
-      [buttonRouterLink]="[(receiptListLink | async) ?? '']"
-    ></app-back-button>
     <app-button
       *ngIf="mode | inputReadonly"
       class="mb-4"
