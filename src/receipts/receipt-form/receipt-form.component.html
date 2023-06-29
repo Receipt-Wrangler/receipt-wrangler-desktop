@@ -5,28 +5,6 @@
     [headerButtonsTemplate]="formHeaderButtons"
   ></app-form-header>
   <div class="row g-1">
-    <app-upload-image
-      [images]="images"
-      [mode]="mode"
-      [receiptId]="originalReceipt?.id?.toString()"
-    >
-    </app-upload-image>
-    <div
-      *ngIf="images && (images?.length ?? 0 > 0) && showImages"
-      class="col-3"
-    >
-      <ng-container *ngIf="imagesLoading">
-        <div class="d-flex justify-content-center align-items-center">
-          <mat-spinner></mat-spinner>
-        </div>
-      </ng-container>
-      <app-carousel
-        [images]="images"
-        [mode]="mode"
-        [disabled]="mode !== formMode.edit"
-        (removeButtonClicked)="removeImage($event)"
-      ></app-carousel>
-    </div>
     <div class="col g-4">
       <ng-container *ngIf="mode !== formMode.add">
         <app-form-section headerText="Audit Details" [indent]="false">
@@ -44,6 +22,36 @@
           </div>
         </app-form-section>
       </ng-container>
+      <app-form-section
+        headerText="Images"
+        [headerButtonsTemplate]="imagesSectionHeaderButtons"
+        [indent]="false"
+      >
+        <div class="">
+          <app-upload-image
+            [images]="images"
+            [mode]="mode"
+            [receiptId]="originalReceipt?.id?.toString()"
+          >
+          </app-upload-image>
+          <div
+            *ngIf="images && (images?.length ?? 0 > 0) && showImages"
+            class="col-3"
+          >
+            <ng-container *ngIf="imagesLoading">
+              <div class="d-flex justify-content-center align-items-center">
+                <mat-spinner></mat-spinner>
+              </div>
+            </ng-container>
+            <app-carousel
+              [images]="images"
+              [mode]="mode"
+              [disabled]="mode !== formMode.edit"
+              (removeButtonClicked)="removeImage($event)"
+            ></app-carousel>
+          </div>
+        </div>
+      </app-form-section>
       <app-form-section headerText="Details" [indent]="false">
         <div
           class="d-flex flex-column justify-content-center align-items-center"
@@ -141,25 +149,6 @@
   </div>
 
   <app-form-button-bar [mode]="mode">
-    <app-button
-      *ngIf="!(mode | inputReadonly)"
-      class="mb-4"
-      color="accent"
-      matButtonType="iconButton"
-      icon="photo_library"
-      tooltip="Upload Image(s)"
-      [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
-      (clicked)="uploadImageButtonClicked()"
-    ></app-button>
-    <app-button
-      *ngIf="images && (images?.length ?? 0 > 0)"
-      class="mb-4"
-      color="accent"
-      matButtonType="iconButton"
-      [icon]="showImages ? 'visibility_off' : 'visibility'"
-      [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
-      (clicked)="toggleShowImages()"
-    ></app-button>
     <app-submit-button
       *ngIf="!(mode | inputReadonly)"
       class="mb-4"
@@ -252,5 +241,27 @@
     tooltip="Quick Actions"
     [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
     (clicked)="openQuickActionsModal()"
+  ></app-button>
+</ng-template>
+
+<ng-template #imagesSectionHeaderButtons>
+  <app-button
+    *ngIf="!(mode | inputReadonly)"
+    class="mb-4"
+    color="accent"
+    matButtonType="iconButton"
+    icon="photo_library"
+    tooltip="Upload Image(s)"
+    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
+    (clicked)="uploadImageButtonClicked()"
+  ></app-button>
+  <app-button
+    *ngIf="images && (images?.length ?? 0 > 0)"
+    class="mb-4"
+    color="accent"
+    matButtonType="iconButton"
+    [icon]="showImages ? 'visibility_off' : 'visibility'"
+    [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
+    (clicked)="toggleShowImages()"
   ></app-button>
 </ng-template>
