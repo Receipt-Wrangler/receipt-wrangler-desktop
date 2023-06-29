@@ -140,7 +140,7 @@
     ></app-receipt-comments>
   </div>
 
-  <app-form-button-bar>
+  <app-form-button-bar [mode]="mode">
     <app-button
       *ngIf="!(mode | inputReadonly)"
       class="mb-4"
