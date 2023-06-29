@@ -45,6 +45,11 @@ body {
   margin: 0;
 }
 
+.content-width {
+  min-width: 75%;
+  max-width: 100%;
+}
+
 .error-snackbar {
   color: white;
 

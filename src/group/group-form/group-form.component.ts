@@ -29,12 +29,14 @@ import { ROLE_OPTIONS } from '../role-options';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
 import { GroupStatus } from 'src/enums/group-status.enum';
 import { GROUP_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
+import { DEFAULT_HOST_CLASS } from 'src/constants';
 
 @UntilDestroy()
 @Component({
   selector: 'app-create-group-form',
   templateUrl: './group-form.component.html',
   styleUrls: ['./group-form.component.scss'],
+  host: DEFAULT_HOST_CLASS,
 })
 export class GroupFormComponent implements OnInit, AfterViewInit {
   @ViewChild('nameCell') public nameCell!: TemplateRef<any>;

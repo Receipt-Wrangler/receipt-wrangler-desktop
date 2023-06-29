@@ -27,7 +27,7 @@ import {
 } from 'rxjs';
 import { ReceiptImagesService } from 'src/api/receipt-images.service';
 import { ReceiptsService } from 'src/api/receipts.service';
-import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
 import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { GroupRole } from 'src/enums/group-role.enum';
@@ -48,6 +48,7 @@ import { formatImageData } from '../utils/form.utils';
   selector: 'app-receipt-form',
   templateUrl: './receipt-form.component.html',
   styleUrls: ['./receipt-form.component.scss'],
+  host: DEFAULT_HOST_CLASS,
 })
 export class ReceiptFormComponent implements OnInit {
   @ViewChild(ItemListComponent) public itemsListComponent!: ItemListComponent;
