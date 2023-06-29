@@ -8,7 +8,7 @@ import { Component, Input, TemplateRef } from '@angular/core';
 export class FormHeaderComponent {
   @Input() public headerText: string = '';
 
-  @Input() public buttonRouterLink: string[] = [];
+  @Input() public buttonRouterLink?: string[];
 
   @Input() public headerButtonsTemplate?: TemplateRef<any>;
 }
