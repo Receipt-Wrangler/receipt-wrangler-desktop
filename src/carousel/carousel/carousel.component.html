@@ -1,4 +1,8 @@
-<carousel [interval]="0" [isAnimated]="true">
+<carousel
+  [interval]="0"
+  [isAnimated]="true"
+  (activeSlideChange)="updateCurrentlyShownImage($event)"
+>
   <slide *ngFor="let image of images; let i = index">
     <div *ngIf="!hideButtonControls" class="row justify-content-center">
       <app-button

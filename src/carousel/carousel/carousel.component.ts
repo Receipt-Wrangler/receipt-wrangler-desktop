@@ -32,7 +32,10 @@ export class CarouselComponent {
   }
 
   public scale: number = 1;
+
   public transform: ImageTransform = {};
+
+  public currentlyShownImageIndex: number = -1;
 
   public zoomOut() {
     this.adjustScale(-0.1);
@@ -46,6 +49,10 @@ export class CarouselComponent {
     event.preventDefault();
     let value = event.deltaY * -0.001;
     this.adjustScale(value);
+  }
+
+  public updateCurrentlyShownImage(index: number): void {
+    this.currentlyShownImageIndex = index;
   }
 
   public adjustScale(amount: number): void {

@@ -48,7 +48,6 @@
               [mode]="mode"
               [hideButtonControls]="true"
               [disabled]="mode !== formMode.edit"
-              (removeButtonClicked)="removeImage($event)"
             ></app-carousel>
           </div>
         </div>
@@ -285,6 +284,6 @@
     icon="delete"
     tooltip="Remove Image"
     color="warn"
-    (clicked)="removeImage(0)"
+    (clicked)="removeImage()"
   ></app-button>
 </ng-template>

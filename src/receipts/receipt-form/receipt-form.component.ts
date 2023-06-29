@@ -269,7 +269,9 @@ export class ReceiptFormComponent implements OnInit {
       });
   }
 
-  public removeImage(index: number): void {
+  public removeImage(): void {
+    const index = this.carouselComponent.currentlyShownImageIndex;
+
     if (this.mode === FormMode.add) {
       this.images.splice(index, 1);
     } else {
