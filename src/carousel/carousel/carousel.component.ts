@@ -22,6 +22,8 @@ export class CarouselComponent {
 
   @Input() public mode!: FormMode;
 
+  @Input() public hideButtonControls: boolean = false;
+
   @Output() public removeButtonClicked: EventEmitter<number> =
     new EventEmitter<number>();
 

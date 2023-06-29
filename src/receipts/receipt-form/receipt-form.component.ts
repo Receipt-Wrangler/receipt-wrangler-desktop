@@ -42,6 +42,7 @@ import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomple
 import { ItemListComponent } from '../item-list/item-list.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
+import { CarouselComponent } from 'src/carousel/carousel/carousel.component';
 
 @UntilDestroy()
 @Component({
@@ -67,6 +68,9 @@ export class ReceiptFormComponent implements OnInit {
 
   @ViewChild(ItemListComponent)
   public itemListComponent!: ItemListComponent;
+
+  @ViewChild(CarouselComponent)
+  public carouselComponent!: CarouselComponent;
 
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
@@ -324,6 +328,14 @@ export class ReceiptFormComponent implements OnInit {
 
   public toggleShowImages(): void {
     this.showImages = !this.showImages;
+  }
+
+  public zoomImageIn(): void {
+    this.carouselComponent.zoomIn();
+  }
+
+  public zoomImageOut(): void {
+    this.carouselComponent.zoomOut();
   }
 
   public initItemListAddMode(): void {

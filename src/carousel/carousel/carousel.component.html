@@ -1,6 +1,6 @@
 <carousel [interval]="0" [isAnimated]="true">
   <slide *ngFor="let image of images; let i = index">
-    <div class="row justify-content-center">
+    <div *ngIf="!hideButtonControls" class="row justify-content-center">
       <app-button
         class="col-auto"
         matButtonType="iconButton"

@@ -46,8 +46,9 @@ body {
 }
 
 .content-width {
-  min-width: 75%;
-  max-width: 100%;
+  // TODO: Revisit min-width: 75%;
+  width: 100% !important;
+  // emax-width: 100%;
 }
 
 .error-snackbar {
