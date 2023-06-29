@@ -1,0 +1,19 @@
+@import "../../variables.scss";
+
+app-submit-button {
+  .mat-success-icon {
+    color: map-get($success-palette, 800);
+  }
+
+  .mat-success-icon:hover {
+    background-color: map-get($success-palette, 50);
+  }
+
+  .mat-success-icon:active {
+    background-color: map-get($success-palette, 100);
+  }
+
+  .mat-success-full {
+    background-color: map-get($success-palette, 800) !important;
+  }
+}

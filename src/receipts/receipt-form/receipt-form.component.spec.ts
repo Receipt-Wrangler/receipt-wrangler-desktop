@@ -9,6 +9,7 @@ import { NgxsModule } from '@ngxs/store';
 import { of } from 'rxjs';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { ReceiptFormComponent } from './receipt-form.component';
+import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 
 describe('ReceiptFormComponent', () => {
   let component: ReceiptFormComponent;
@@ -24,6 +25,7 @@ describe('ReceiptFormComponent', () => {
         PipesModule,
         MatSnackBarModule,
         MatDialogModule,
+        SharedUiModule,
       ],
       providers: [
         {

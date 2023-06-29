@@ -5,11 +5,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
-import { DEFAULT_DIALOG_CONFIG } from 'src/constants/dialog.constant';
 import { Observable, take, tap } from 'rxjs';
 import { UsersService } from 'src/api/users.service';
+import { DEFAULT_HOST_CLASS } from 'src/constants';
+import { DEFAULT_DIALOG_CONFIG } from 'src/constants/dialog.constant';
 import { User } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
@@ -18,16 +20,16 @@ import { UserState } from 'src/store/user.state';
 import { RemoveUser } from 'src/store/user.state.actions';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
+import { DummyUserConversionDialogComponent } from '../dummy-user-conversion-dialog/dummy-user-conversion-dialog.component';
 import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 import { UserFormComponent } from '../user-form/user-form.component';
-import { DummyUserConversionDialogComponent } from '../dummy-user-conversion-dialog/dummy-user-conversion-dialog.component';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
+  host: DEFAULT_HOST_CLASS,
 })
 export class UserListComponent implements AfterViewInit {
   @Select(AuthState.userId) public userId!: Observable<string>;

@@ -13,12 +13,13 @@ import { GroupState } from 'src/store/group.state';
 import { RemoveGroup } from 'src/store/group.state.actions';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
-import { ALL_GROUP, DEFAULT_DIALOG_CONFIG } from '../../constants';
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
 
 @Component({
   selector: 'app-group-list',
   templateUrl: './group-list.component.html',
   styleUrls: ['./group-list.component.scss'],
+  host: DEFAULT_HOST_CLASS,
 })
 export class GroupListComponent {
   @Select(GroupState.groups) public groups!: Observable<Group[]>;

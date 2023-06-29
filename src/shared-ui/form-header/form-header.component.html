@@ -1,0 +1,16 @@
+<div class="d-flex flex-column">
+  <div *ngIf="buttonRouterLink" class="d-flex align-items-center">
+    <app-back-button
+      color="accent"
+      tooltip="Return to list"
+      [buttonRouterLink]="buttonRouterLink"
+    ></app-back-button>
+  </div>
+  <div class="d-flex align-items-center">
+    <h2>{{ headerText }}</h2>
+    <ng-container
+      *ngIf="headerButtonsTemplate"
+      [ngTemplateOutlet]="headerButtonsTemplate"
+    ></ng-container>
+  </div>
+</div>

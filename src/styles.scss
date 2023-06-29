@@ -45,6 +45,12 @@ body {
   margin: 0;
 }
 
+.content-width {
+  // TODO: Revisit min-width: 75%;
+  width: 100% !important;
+  // emax-width: 100%;
+}
+
 .error-snackbar {
   color: white;
 

@@ -32,7 +32,11 @@ import { ReceiptTableState } from 'src/store/receipt-table.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
-import { ALL_GROUP, DEFAULT_DIALOG_CONFIG } from '../../constants';
+import {
+  ALL_GROUP,
+  DEFAULT_DIALOG_CONFIG,
+  DEFAULT_HOST_CLASS,
+} from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
 import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.component';
 
@@ -41,6 +45,7 @@ import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.compone
   templateUrl: './receipts-table.component.html',
   styleUrls: ['./receipts-table.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  host: DEFAULT_HOST_CLASS,
 })
 export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(

@@ -27,7 +27,7 @@ import {
 } from 'rxjs';
 import { ReceiptImagesService } from 'src/api/receipt-images.service';
 import { ReceiptsService } from 'src/api/receipts.service';
-import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
 import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { GroupRole } from 'src/enums/group-role.enum';
@@ -42,12 +42,14 @@ import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomple
 import { ItemListComponent } from '../item-list/item-list.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
+import { CarouselComponent } from 'src/carousel/carousel/carousel.component';
 
 @UntilDestroy()
 @Component({
   selector: 'app-receipt-form',
   templateUrl: './receipt-form.component.html',
   styleUrls: ['./receipt-form.component.scss'],
+  host: DEFAULT_HOST_CLASS,
 })
 export class ReceiptFormComponent implements OnInit {
   @ViewChild(ItemListComponent) public itemsListComponent!: ItemListComponent;
@@ -63,6 +65,12 @@ export class ReceiptFormComponent implements OnInit {
 
   @ViewChild('quickActionsDialog')
   public quickActionsDialog!: TemplateRef<any>;
+
+  @ViewChild(ItemListComponent)
+  public itemListComponent!: ItemListComponent;
+
+  @ViewChild(CarouselComponent)
+  public carouselComponent!: CarouselComponent;
 
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
@@ -261,7 +269,9 @@ export class ReceiptFormComponent implements OnInit {
       });
   }
 
-  public removeImage(index: number): void {
+  public removeImage(): void {
+    const index = this.carouselComponent.currentlyShownImageIndex;
+
     if (this.mode === FormMode.add) {
       this.images.splice(index, 1);
     } else {
@@ -320,6 +330,18 @@ export class ReceiptFormComponent implements OnInit {
 
   public toggleShowImages(): void {
     this.showImages = !this.showImages;
+  }
+
+  public zoomImageIn(): void {
+    this.carouselComponent.zoomIn();
+  }
+
+  public zoomImageOut(): void {
+    this.carouselComponent.zoomOut();
+  }
+
+  public initItemListAddMode(): void {
+    this.itemListComponent.initAddMode();
   }
 
   public submit(): void {

@@ -1,39 +1,40 @@
-<h2>{{ formConfig.headerText }}</h2>
-
+<app-form-header
+  [headerText]="formConfig.headerText"
+  [headerButtonsTemplate]="headerButtonsTemplate"
+></app-form-header>
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="d-flex">
-    <div class="p-4 w-100">
-      <app-form-section headerText="User Details">
-        <app-input
-          label="Username"
-          [inputFormControl]="form | formGet : 'username'"
-          [readonly]="true"
-          [matTooltip]="
-            formConfig.mode === formMode.edit ? usernameTooltip : ''
-          "
-        ></app-input>
-        <app-input
-          label="Displayname"
-          [inputFormControl]="form | formGet : 'displayName'"
-          [readonly]="formConfig.mode | inputReadonly"
-        ></app-input>
-        <app-color-picker
-          label="Default avatar color"
-          [inputFormControl]="form | formGet : 'defaultAvatarColor'"
-          [readonly]="formConfig.mode | inputReadonly"
-        ></app-color-picker>
-      </app-form-section>
-    </div>
-    <app-form-button-bar>
-      <app-edit-button
-        class="mb-3"
-        *ngIf="formConfig.mode | inputReadonly"
-        [buttonRouterLink]="['/settings/user-profile/edit']"
-      >
-      </app-edit-button>
-      <app-submit-button
-        *ngIf="!(formConfig.mode | inputReadonly)"
-      ></app-submit-button>
-    </app-form-button-bar>
+  <div class="w-100">
+    <app-form-section headerText="User Details">
+      <app-input
+        label="Username"
+        [inputFormControl]="form | formGet : 'username'"
+        [readonly]="true"
+        [matTooltip]="formConfig.mode === formMode.edit ? usernameTooltip : ''"
+      ></app-input>
+      <app-input
+        label="Displayname"
+        [inputFormControl]="form | formGet : 'displayName'"
+        [readonly]="formConfig.mode | inputReadonly"
+      ></app-input>
+      <app-color-picker
+        label="Default avatar color"
+        [inputFormControl]="form | formGet : 'defaultAvatarColor'"
+        [readonly]="formConfig.mode | inputReadonly"
+      ></app-color-picker>
+    </app-form-section>
   </div>
+  <app-form-button-bar [mode]="formConfig.mode">
+    <app-submit-button
+      *ngIf="!(formConfig.mode | inputReadonly)"
+      [onlyIcon]="false"
+    ></app-submit-button>
+  </app-form-button-bar>
 </form>
+
+<ng-template #headerButtonsTemplate>
+  <app-edit-button
+    *ngIf="formConfig.mode | inputReadonly"
+    [buttonRouterLink]="['/settings/user-profile/edit']"
+  >
+  </app-edit-button>
+</ng-template>

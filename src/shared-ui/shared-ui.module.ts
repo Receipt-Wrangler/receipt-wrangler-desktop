@@ -20,6 +20,7 @@ import { FormSectionComponent } from './form-section/form-section.component';
 import { CardComponent } from './card/card.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FormHeaderComponent } from './form-header/form-header.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     TableHeaderComponent,
     FormSectionComponent,
     CardComponent,
+    FormHeaderComponent,
   ],
   imports: [
     ButtonModule,
@@ -61,6 +63,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     TableHeaderComponent,
     FormSectionComponent,
     CardComponent,
+    FormHeaderComponent,
   ],
 })
 export class SharedUiModule {}

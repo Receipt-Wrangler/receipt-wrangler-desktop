@@ -1,11 +1,3 @@
-<app-button
-  *ngIf="!(mode | inputReadonly) && !isAdding"
-  type="button"
-  buttonText="Add Share"
-  (clicked)="initAddMode()"
-  [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
-></app-button>
-
 <mat-accordion multi>
   <ng-container *ngIf="isAdding">
     <mat-card class="w-100 mt-2">

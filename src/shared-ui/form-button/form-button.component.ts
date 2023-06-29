@@ -9,13 +9,15 @@ import { FormMode } from 'src/enums/form-mode.enum';
 export class FormButtonComponent {
   @Input() public mode!: FormMode;
 
-  @Input() public tooltip: string = '';
+  @Input() public tooltip?: string;
 
   @Input() public disabled: boolean = false;
 
   @Input() public color: string = 'primary';
 
   @Input() public buttonRouterLink: string[] = [];
+
+  @Input() public buttonText?: string;
 
   @Output() public clicked: EventEmitter<void> = new EventEmitter<void>();
 }
