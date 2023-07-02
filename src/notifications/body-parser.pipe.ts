@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { GroupState } from 'src/store/group.state';
 import { UserState } from 'src/store/user.state';
 
 @Pipe({
@@ -47,6 +48,11 @@ export class BodyParserPipe implements PipeTransform {
           return (user as any)[key];
         }
         break;
+      case 'groupId':
+        const group = this.store.selectSnapshot(GroupState.getGroupById(id));
+        if (group && key) {
+          return (group as any)[key];
+        }
     }
 
     return '';
