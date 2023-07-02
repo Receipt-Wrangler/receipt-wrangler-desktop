@@ -4,7 +4,7 @@
 </div>
 <hr />
 <ul>
-  <li *ngFor="let notification of notifications">
+  <mat-list-item *ngFor="let notification of notifications">
     <app-notification [notification]="notification"></app-notification>
-  </li>
+  </mat-list-item>
 </ul>
