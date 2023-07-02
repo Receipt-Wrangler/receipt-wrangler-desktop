@@ -5,9 +5,10 @@ import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { ButtonModule } from 'src/button/button.module';
 import { MatListModule } from '@angular/material/list';
 import { NotificationComponent } from './notification/notification.component';
+import { BodyParserPipe } from './body-parser.pipe';
 
 @NgModule({
-  declarations: [NotificationsListComponent, NotificationComponent],
+  declarations: [NotificationsListComponent, NotificationComponent, BodyParserPipe],
   imports: [CommonModule, ButtonModule, SharedUiModule, MatListModule],
   exports: [NotificationsListComponent],
 })
