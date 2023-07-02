@@ -73,6 +73,11 @@ body {
 }
 
 // Global Style Changes
+hr {
+  color: $mat-drawer-background-color;
+  width: 100%;
+}
+
 ngb-popover-window {
   box-shadow: $global-shadow;
 }

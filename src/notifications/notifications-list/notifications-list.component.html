@@ -1,1 +1,10 @@
-<p>notifications-list works!</p>
+<div class="d-flex justify-items-end align-items-center">
+  <strong class="me-3">Notifications</strong>
+  <app-button matButtonType="basic" buttonText="Mark all as read"></app-button>
+</div>
+<hr />
+<ul>
+  <li *ngFor="let notification of notifications">
+    <app-notification [notification]="notification"></app-notification>
+  </li>
+</ul>

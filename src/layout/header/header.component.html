@@ -37,10 +37,14 @@
     <div class="col-auto d-flex align-items-center justify-content-end">
       <app-searchbar class="receipt-searchbar w-100 me-2"></app-searchbar>
       <app-button
+        #notificationsPopover="ngbPopover"
         class="notifications-bell"
         matButtonType="iconButton"
         icon="notifications"
+        triggers="manual"
         [ngbPopover]="notifications"
+        [autoClose]="false"
+        (clicked)="notificationsPopover.open()"
       ></app-button>
 
       <svg
@@ -92,6 +96,6 @@
   </button>
 </ng-template>
 
-<ng-template #notifications
-  ><app-notifications-list></app-notifications-list
-></ng-template>
+<ng-template #notifications>
+  <app-notifications-list></app-notifications-list>
+</ng-template>
