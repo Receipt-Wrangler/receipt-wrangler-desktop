@@ -23,6 +23,7 @@ import { ReceiptListIconComponent } from './receipt-list-icon/receipt-list-icon.
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SwitchGroupDialogComponent } from './switch-group-dialog/switch-group-dialog.component';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationsModule } from 'src/notifications/notifications.module';
 
 @NgModule({
   declarations: [
@@ -46,8 +47,9 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
     MatMenuModule,
     MatSidenavModule,
     MatTooltipModule,
-    PipesModule,
     NgbPopoverModule,
+    NotificationsModule,
+    PipesModule,
     ReactiveFormsModule,
     RouterModule,
     SearchbarModule,
