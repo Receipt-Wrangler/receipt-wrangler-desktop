@@ -9,7 +9,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
-import { PopoverModule } from 'ngx-bootstrap/popover';
 import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
 import { ButtonModule } from 'src/button/button.module';
 import { DirectivesModule } from 'src/directives/directives.module';
@@ -23,6 +22,7 @@ import { HeaderComponent } from './header/header.component';
 import { ReceiptListIconComponent } from './receipt-list-icon/receipt-list-icon.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SwitchGroupDialogComponent } from './switch-group-dialog/switch-group-dialog.component';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,7 @@ import { SwitchGroupDialogComponent } from './switch-group-dialog/switch-group-d
     MatSidenavModule,
     MatTooltipModule,
     PipesModule,
-    PopoverModule,
+    NgbPopoverModule,
     ReactiveFormsModule,
     RouterModule,
     SearchbarModule,
