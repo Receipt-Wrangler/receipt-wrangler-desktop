@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { take, tap } from 'rxjs';
 import { NotificationsService } from 'src/api/notifications.service';
+import { Notification } from '../../models/notification';
 
 @Component({
   selector: 'app-notifications-list',

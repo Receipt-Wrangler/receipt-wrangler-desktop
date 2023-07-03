@@ -4,4 +4,5 @@ export interface Notification {
   userId: number;
   type: string;
   title: string;
+  createdAt: string;
 }
