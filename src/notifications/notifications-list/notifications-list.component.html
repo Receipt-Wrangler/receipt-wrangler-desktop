@@ -4,6 +4,7 @@
     matButtonType="basic"
     buttonText="Mark all as read"
     (clicked)="deleteAllNotifications()"
+    [disabled]="notifications.length === 0"
   ></app-button>
 </div>
 <hr />
