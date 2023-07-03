@@ -28,4 +28,6 @@ export class NotificationsListComponent implements OnInit {
       )
       .subscribe();
   }
+
+  public deleteAllNotifications(): void {}
 }

@@ -8,4 +8,8 @@ import { Notification } from '../../models/notification';
 })
 export class NotificationComponent {
   @Input() public notification!: Notification;
+
+  public deleteNotification(): void {
+    console.warn('hello world');
+  }
 }

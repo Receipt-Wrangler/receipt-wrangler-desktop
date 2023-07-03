@@ -1,11 +1,18 @@
 <div class="d-flex justify-items-end align-items-center">
   <strong class="me-3">Notifications</strong>
-  <app-button matButtonType="basic" buttonText="Mark all as read"></app-button>
+  <app-button
+    matButtonType="basic"
+    buttonText="Mark all as read"
+    (clicked)="deleteAllNotifications()"
+  ></app-button>
 </div>
 <hr />
 <ul>
-  <mat-list-item *ngFor="let notification of notifications">
-    <app-notification [notification]="notification"></app-notification>
+  <div *ngFor="let notification of notifications">
+    <app-notification
+      class="w-100"
+      [notification]="notification"
+    ></app-notification>
     <hr />
-  </mat-list-item>
+  </div>
 </ul>
