@@ -29,5 +29,15 @@ export class NotificationsListComponent implements OnInit {
       .subscribe();
   }
 
-  public deleteAllNotifications(): void {}
+  public deleteAllNotifications(): void {
+    this.notificationsService
+      .deleteAllNotificationsForUser()
+      .pipe(
+        take(1),
+        tap(() => {
+          this.notifications = [];
+        })
+      )
+      .subscribe();
+  }
 }

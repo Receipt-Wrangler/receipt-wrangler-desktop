@@ -12,4 +12,8 @@ export class NotificationsService {
   public getNotifications(): Observable<Notification[]> {
     return this.httpClient.get<Notification[]>(`/api/notifications`);
   }
+
+  public deleteAllNotificationsForUser(): Observable<void> {
+    return this.httpClient.delete<void>(`/api/notifications`);
+  }
 }

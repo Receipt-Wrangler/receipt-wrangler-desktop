@@ -7,7 +7,7 @@
   ></app-button>
 </div>
 <hr />
-<ul>
+<ul class="d-flex flex-column align-items-center">
   <div *ngFor="let notification of notifications">
     <app-notification
       class="w-100"
@@ -15,4 +15,5 @@
     ></app-notification>
     <hr />
   </div>
+  <div *ngIf="notifications.length === 0">All caught up!</div>
 </ul>
