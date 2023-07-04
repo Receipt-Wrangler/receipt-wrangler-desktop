@@ -1,5 +1,6 @@
 <ng-container *ngIf="!!(isLoggedIn | async)">
   <div
+    id="header-container"
     class="row header-container d-flex justify-content-between align-items-center"
   >
     <div class="col d-flex jusfity-content-center align-items-center">
@@ -35,8 +36,20 @@
     </div>
     <div class="col-auto d-flex align-items-center justify-content-end">
       <app-searchbar class="receipt-searchbar w-100 me-2"></app-searchbar>
+      <app-button
+        class="ms-4"
+        #notificationsPopover="ngbPopover"
+        matButtonType="iconButton"
+        icon="notifications"
+        triggers="click:clickouside"
+        autoClose="outside"
+        [matBadgeContent]="notificationCount"
+        [ngbPopover]="notifications"
+        (clicked)="notificationsPopover.open()"
+      ></app-button>
+
       <svg
-        class="me-4"
+        class="mx-4"
         width="81"
         height="33"
         viewBox="0 0 81 33"
@@ -82,4 +95,8 @@
   >
     <img [src]="srcPath" />
   </button>
+</ng-template>
+
+<ng-template #notifications>
+  <app-notifications-list></app-notifications-list>
 </ng-template>

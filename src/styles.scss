@@ -5,8 +5,6 @@
 @include mat.core();
 @import "material-icons/iconfont/filled.css";
 @import "material-icons/iconfont/outlined.css";
-@import "/node_modules/bootstrap/dist/css/bootstrap-utilities.css";
-@import "/node_modules/bootstrap/scss/bootstrap-grid.scss";
 @import "@fontsource/raleway";
 @import "./variables.scss";
 
@@ -75,6 +73,15 @@ body {
 }
 
 // Global Style Changes
+hr {
+  color: $mat-drawer-background-color;
+  width: 100%;
+}
+
+ngb-popover-window {
+  box-shadow: $global-shadow;
+}
+
 .mat-mdc-card {
   box-shadow: $global-shadow !important;
 }
