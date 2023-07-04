@@ -16,4 +16,8 @@ export class NotificationsService {
   public deleteAllNotificationsForUser(): Observable<void> {
     return this.httpClient.delete<void>(`/api/notifications`);
   }
+
+  public deleteNotificationById(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`/api/notifications/${id}`);
+  }
 }

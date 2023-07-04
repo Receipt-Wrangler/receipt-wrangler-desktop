@@ -40,4 +40,8 @@ export class NotificationsListComponent implements OnInit {
       )
       .subscribe();
   }
+
+  public notificationDeleted(id: number): void {
+    this.notifications = this.notifications.filter((n) => n.id !== id);
+  }
 }

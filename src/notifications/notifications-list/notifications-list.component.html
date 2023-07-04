@@ -13,6 +13,7 @@
     <app-notification
       class="w-100"
       [notification]="notification"
+      (notificationDeleted)="notificationDeleted($event)"
     ></app-notification>
     <hr />
   </div>
