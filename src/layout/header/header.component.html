@@ -41,9 +41,9 @@
         #notificationsPopover="ngbPopover"
         matButtonType="iconButton"
         icon="notifications"
-        triggers="manual"
+        triggers="click:clickouside"
+        autoClose="outside"
         [ngbPopover]="notifications"
-        [autoClose]="false"
         (clicked)="notificationsPopover.open()"
       ></app-button>
 
