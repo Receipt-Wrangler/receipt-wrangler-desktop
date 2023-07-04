@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { map, Observable, of, switchMap, take, tap } from 'rxjs';
+import { Observable, switchMap, take, tap } from 'rxjs';
 import { AuthService } from 'src/api/auth.service';
+import { NotificationsService } from 'src/api/notifications.service';
 import { User } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
 import { Logout } from 'src/store/auth.state.actions';
 import { GroupState } from 'src/store/group.state';
+import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';
 import { DEFAULT_DIALOG_CONFIG } from '../../constants';
 import { SwitchGroupDialogComponent } from '../switch-group-dialog/switch-group-dialog.component';
-import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';
 
 @Component({
   selector: 'app-header',
@@ -32,11 +33,14 @@ export class HeaderComponent implements OnInit {
 
   public groupName = '';
 
+  public notificationCount: number | undefined = undefined;
+
   constructor(
     private matDialog: MatDialog,
     private store: Store,
     private authService: AuthService,
     private router: Router,
+    private notificationsService: NotificationsService,
     private snackbarService: SnackbarService
   ) {}
 
@@ -54,6 +58,23 @@ export class HeaderComponent implements OnInit {
             GroupState.getGroupById(groupId)
           );
           this.groupName = newGroup?.name as string;
+        })
+      )
+      .subscribe();
+    this.updateNotificationCount();
+  }
+
+  private updateNotificationCount(): void {
+    this.notificationsService
+      .getNotificationCountForUser()
+      .pipe(
+        take(1),
+        tap((n) => {
+          if (n > 0) {
+            this.notificationCount = n;
+          } else {
+            this.notificationCount = undefined;
+          }
         })
       )
       .subscribe();

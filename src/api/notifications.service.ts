@@ -13,6 +13,10 @@ export class NotificationsService {
     return this.httpClient.get<Notification[]>(`/api/notifications`);
   }
 
+  public getNotificationCountForUser(): Observable<number> {
+    return this.httpClient.get<number>(`/api/notifications/notificationCount`);
+  }
+
   public deleteAllNotificationsForUser(): Observable<void> {
     return this.httpClient.delete<void>(`/api/notifications`);
   }
