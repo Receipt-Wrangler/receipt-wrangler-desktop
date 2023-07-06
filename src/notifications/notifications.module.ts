@@ -6,12 +6,14 @@ import { ButtonModule } from 'src/button/button.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { NotificationComponent } from './notification/notification.component';
 import { NotificationsListComponent } from './notifications-list/notifications-list.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [NotificationsListComponent, NotificationComponent],
   imports: [
     ButtonModule,
     CommonModule,
+    MatButtonModule,
     MatListModule,
     RouterModule,
     SharedUiModule,
