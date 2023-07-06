@@ -13,8 +13,11 @@ export class ParameterizedDataParser {
 
   public parse(body: string): string {
     let result = '';
-    const groupRegex = new RegExp('\\${(.+?)}');
-    result = body.replace(groupRegex, this.resolveParameterisedData.bind(this));
+    const groupRegex = new RegExp('\\${(.+?)}', 'g');
+    result = body.replaceAll(
+      groupRegex,
+      this.resolveParameterisedData.bind(this)
+    );
     return result;
   }
 
@@ -55,10 +58,20 @@ export class ParameterizedDataParser {
         const group = this.store.selectSnapshot(GroupState.getGroupById(id));
         if (type === 'link') {
           this.link = `/receipts/group/${id}`;
+          return '';
         }
-        if (group && key) {
+        if (group && key && type === 'string') {
           return (group as any)[key];
         }
+
+        break;
+      case 'receiptId':
+        if (type === 'link') {
+          this.link = `/receipts/${id}/view`;
+          return '';
+        }
+
+        break;
     }
 
     return '';
