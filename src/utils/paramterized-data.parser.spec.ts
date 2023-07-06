@@ -44,9 +44,10 @@ describe('ParameterizedDataParser', () => {
       },
     });
 
-    const result = parameterizedDataParser.parse('${groupId:1.name:string}');
+    const result = parameterizedDataParser.parse('${groupId:1.name:link}');
 
     expect(result).toBe('Group A');
+    expect(parameterizedDataParser.link).toEqual('/receipts/group/1');
   });
 
   it('should return empty string when id does not exist', () => {
