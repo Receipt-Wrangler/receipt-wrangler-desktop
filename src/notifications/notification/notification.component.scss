@@ -1,0 +1,10 @@
+@import "../../variables.scss";
+
+.notification {
+  text-decoration: none !important;
+  color: black !important;
+  :hover {
+    background-color: rgba(map-get($accent-palette, 50), 0.1) !important;
+    border-radius: 5% !important;
+  }
+}

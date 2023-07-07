@@ -1,15 +1,23 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NotificationsListComponent } from './notifications-list/notifications-list.component';
-import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
-import { ButtonModule } from 'src/button/button.module';
+import { NgModule } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
+import { RouterModule } from '@angular/router';
+import { ButtonModule } from 'src/button/button.module';
+import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { NotificationComponent } from './notification/notification.component';
-import { BodyParserPipe } from './body-parser.pipe';
+import { NotificationsListComponent } from './notifications-list/notifications-list.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [NotificationsListComponent, NotificationComponent, BodyParserPipe],
-  imports: [CommonModule, ButtonModule, SharedUiModule, MatListModule],
+  declarations: [NotificationsListComponent, NotificationComponent],
+  imports: [
+    ButtonModule,
+    CommonModule,
+    MatButtonModule,
+    MatListModule,
+    RouterModule,
+    SharedUiModule,
+  ],
   exports: [NotificationsListComponent],
 })
 export class NotificationsModule {}

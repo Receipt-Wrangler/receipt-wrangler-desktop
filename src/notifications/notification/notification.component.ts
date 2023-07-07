@@ -1,20 +1,39 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { take, tap } from 'rxjs';
 import { NotificationsService } from 'src/api/notifications.service';
 import { Notification } from '../../models/notification';
+import { ParameterizedDataParser } from 'src/utils';
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss'],
 })
-export class NotificationComponent {
+export class NotificationComponent implements OnInit {
   @Input() public notification!: Notification;
 
   @Output() public notificationDeleted: EventEmitter<number> =
     new EventEmitter<number>(undefined);
 
-  constructor(private notificationsService: NotificationsService) {}
+  public link?: string;
+
+  public parsedBody: string = '';
+
+  constructor(
+    private notificationsService: NotificationsService,
+    private parameterizedDataParser: ParameterizedDataParser
+  ) {}
+
+  public ngOnInit(): void {
+    this.parseBody();
+  }
+
+  private parseBody(): void {
+    this.parsedBody = this.parameterizedDataParser.parse(
+      this.notification.body
+    );
+    this.link = this.parameterizedDataParser.link;
+  }
 
   public deleteNotification(): void {
     this.notificationsService
