@@ -6,6 +6,7 @@ import { NotificationComponent } from './notification.component';
 import { NotificationsService } from 'src/api/notifications.service';
 import { of } from 'rxjs';
 import { GroupState } from 'src/store/group.state';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('NotificationComponent', () => {
   let component: NotificationComponent;
@@ -16,7 +17,11 @@ describe('NotificationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [NotificationComponent],
-      imports: [HttpClientTestingModule, NgxsModule.forRoot([GroupState])],
+      imports: [
+        HttpClientTestingModule,
+        NgxsModule.forRoot([GroupState]),
+        RouterTestingModule,
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 
