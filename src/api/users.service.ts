@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, switchMap, take } from 'rxjs';
-import { User } from 'src/models/user';
 import { SetAuthState } from 'src/store/auth.state.actions';
 import { GroupState } from 'src/store/group.state';
 import { AuthStateInterface } from '../interfaces';
 import { UpdateUserProfileCommand } from './commands/update-user-profile-command';
+import { User } from 'src/api-new';
 
 @Injectable({
   providedIn: 'root',

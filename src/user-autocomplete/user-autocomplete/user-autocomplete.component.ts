@@ -9,7 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { AutocomleteComponent } from 'src/autocomplete/autocomlete/autocomlete.component';
-import { User } from 'src/models/user';
+import { User } from 'src/api-new';
 import { UserState } from 'src/store/user.state';
 
 @Component({

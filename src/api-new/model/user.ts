@@ -16,13 +16,13 @@ import { UserRole } from './userRole';
  */
 export interface User { 
     /**
-     * User's password  required true
+     * User's password
      */
     password?: string;
     /**
      * User's username used to login
      */
-    username: string;
+    username?: string;
     createdAt?: Date;
     createdBy?: number;
     /**

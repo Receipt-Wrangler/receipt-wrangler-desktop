@@ -21,7 +21,7 @@ import {
 import { AuthService } from 'src/api-new';
 import { UsersService } from 'src/api/users.service';
 import { UserRole } from 'src/enums/user_role.enum';
-import { User } from 'src/models';
+import { User } from 'src/api-new';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
 import { AddUser, UpdateUser } from 'src/store/user.state.actions';

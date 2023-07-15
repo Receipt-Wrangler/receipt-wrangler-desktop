@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { switchMap, take, tap } from 'rxjs';
 import { UsersService } from 'src/api/users.service';
-import { User } from 'src/models';
+import { User } from 'src/api-new';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { UpdateUser } from 'src/store/user.state.actions';
 
