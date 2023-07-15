@@ -1,10 +1,10 @@
-import { UserRole } from '../enums/user_role.enum';
+import { User } from 'src/api-new';
 
 export interface AuthStateInterface {
   userId?: string;
   displayname?: string;
   username?: string;
   expirationDate?: string;
-  userRole?: UserRole;
+  userRole?: User.UserRoleEnum;
   defaultAvatarColor?: string;
 }

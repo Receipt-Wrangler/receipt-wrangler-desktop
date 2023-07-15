@@ -9,7 +9,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { UserRole } from './userRole';
 
 /**
  * User in the system
@@ -39,5 +38,15 @@ export interface User {
      */
     isDummyUser: boolean;
     updatedAt?: Date;
-    userRole: UserRole;
+    /**
+     * User's role
+     */
+    userRole: User.UserRoleEnum;
+}
+export namespace User {
+    export type UserRoleEnum = 'ADMIN' | 'USER';
+    export const UserRoleEnum = {
+        ADMIN: 'ADMIN' as UserRoleEnum,
+        USER: 'USER' as UserRoleEnum
+    };
 }

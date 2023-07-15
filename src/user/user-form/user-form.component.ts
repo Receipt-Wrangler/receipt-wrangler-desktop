@@ -20,7 +20,6 @@ import {
 } from 'rxjs';
 import { AuthService } from 'src/api-new';
 import { UsersService } from 'src/api/users.service';
-import { UserRole } from 'src/enums/user_role.enum';
 import { User } from 'src/api-new';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
@@ -83,7 +82,7 @@ export class UserFormComponent implements OnInit {
   }
 
   private initForm(): void {
-    this.userRoleOptions = Object.keys(UserRole);
+    this.userRoleOptions = Object.keys(User.UserRoleEnum);
     this.form = this.formBuilder.group({
       displayName: [this.user?.displayName ?? '', Validators.required],
       username: [
