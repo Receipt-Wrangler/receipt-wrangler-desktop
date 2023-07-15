@@ -6,5 +6,4 @@ export * from './item';
 export * from './receipt';
 export * from './search-result.interface';
 export * from './tag';
-export * from './user';
 export * from './comment';

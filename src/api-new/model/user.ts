@@ -22,7 +22,7 @@ export interface User {
     /**
      * User's username used to login
      */
-    username?: string;
+    username: string;
     createdAt?: Date;
     createdBy?: number;
     /**
@@ -33,7 +33,7 @@ export interface User {
      * Display name
      */
     displayName: string;
-    id?: number;
+    id: number;
     /**
      * Is dummy user
      */

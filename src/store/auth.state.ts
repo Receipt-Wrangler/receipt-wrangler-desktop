@@ -6,8 +6,8 @@ import {
   State,
   StateContext,
 } from '@ngxs/store';
+import { User } from 'src/api-new';
 import { AuthStateInterface } from '../interfaces';
-import { User } from '../models';
 import { Logout, SetAuthState } from './auth.state.actions';
 
 @State<AuthStateInterface>({

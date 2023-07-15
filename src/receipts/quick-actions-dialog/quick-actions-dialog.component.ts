@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -8,9 +8,9 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { User } from 'src/api-new';
 import { Receipt } from 'src/models';
 import { Item } from 'src/models/item';
-import { User } from 'src/models/user';
 import { RadioButtonData } from 'src/radio-group/models';
 import { buildItemForm } from '../utils/form.utils';
 

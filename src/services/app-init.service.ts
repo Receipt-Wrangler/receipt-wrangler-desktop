@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { finalize, forkJoin, Observable, switchMap, take, tap } from 'rxjs';
-import { AuthService } from 'src/api-new';
+import { AuthService, User } from 'src/api-new';
 import { FeatureConfigService } from 'src/api/feature-config.service';
 import { GroupsService } from 'src/api/groups.service';
 import { UsersService } from 'src/api/users.service';
 import { GroupStatus } from 'src/enums/group-status.enum';
 import { Group } from 'src/models/group';
-import { User } from 'src/models/user';
 import { SetFeatureConfig } from 'src/store/feature-config.state.actions';
 import { GroupState } from 'src/store/group.state';
 import { SetGroups, SetSelectedGroupId } from 'src/store/group.state.actions';
