@@ -8,9 +8,8 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
-import { Tag } from 'src/api-new';
+import { Category, Tag } from 'src/api-new';
 import { RECEIPT_STATUS_OPTIONS } from 'src/constants';
-import { Category } from 'src/models';
 import { SetReceiptFilter } from 'src/store/receipt-table.actions';
 import {
   ReceiptTableState,

@@ -1,4 +1,3 @@
-export * from './category';
 export * from './file-data';
 export * from './group-member';
 export * from './group';
