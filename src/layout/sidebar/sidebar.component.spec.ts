@@ -10,6 +10,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ApiModule } from 'src/api-new';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
@@ -24,6 +25,7 @@ describe('SidebarComponent', () => {
         MatSnackBarModule,
         MatSidenavModule,
         SharedUiModule,
+        ApiModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

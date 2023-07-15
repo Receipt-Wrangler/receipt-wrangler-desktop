@@ -6,6 +6,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
 import { of } from 'rxjs';
+import { ApiModule } from 'src/api-new';
 import { ButtonModule } from 'src/button/button.module';
 import { FeatureDirective } from 'src/directives/feature.directive';
 import { InputModule } from 'src/input/input.module';
@@ -30,6 +31,7 @@ describe('AuthForm', () => {
         NoopAnimationsModule,
         PipesModule,
         ReactiveFormsModule,
+        ApiModule,
       ],
       providers: [
         SnackbarService,

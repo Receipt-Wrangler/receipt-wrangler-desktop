@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { HeaderComponent } from './header.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { NgxsModule } from '@ngxs/store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxsModule } from '@ngxs/store';
+import { ApiModule } from 'src/api-new';
+import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -14,10 +14,11 @@ describe('HeaderComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [HeaderComponent],
       imports: [
-        MatDialogModule,
-        NgxsModule.forRoot([]),
+        ApiModule,
         HttpClientTestingModule,
+        MatDialogModule,
         MatSnackBarModule,
+        NgxsModule.forRoot([]),
       ],
     }).compileComponents();
 

@@ -1,22 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UserFormComponent } from './user-form.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxsModule, Store } from '@ngxs/store';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { PipesModule } from 'src/pipes/pipes.module';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { User } from 'src/models';
-import { UserRole } from 'src/enums/user_role.enum';
-import { UsersService } from 'src/api/users.service';
-import { AuthService } from 'src/api/auth.service';
+import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { AddUser, UpdateUser } from 'src/store/user.state.actions';
-import { UserState } from 'src/store/user.state';
+import { ApiModule, AuthService, User } from 'src/api-new';
+import { UsersService } from 'src/api/users.service';
+import { PipesModule } from 'src/pipes/pipes.module';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
-import { compileComponentFromMetadata } from '@angular/compiler';
+import { UserState } from 'src/store/user.state';
+import { AddUser, UpdateUser } from 'src/store/user.state.actions';
+import { UserFormComponent } from './user-form.component';
 
 describe('UserFormComponent', () => {
   let component: UserFormComponent;
@@ -33,6 +30,7 @@ describe('UserFormComponent', () => {
         PipesModule,
         MatDialogModule,
         MatSnackBarModule,
+        ApiModule,
       ],
       providers: [
         {
@@ -75,7 +73,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     } as User;
 
     component.user = user;
@@ -86,7 +84,7 @@ describe('UserFormComponent', () => {
     expect(component.form.value).toEqual({
       displayName: 'Pizza man',
       username: 'Waffle guy',
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     });
     expect(component.form.get('isDummyUser')?.value).toEqual(false);
   });
@@ -109,7 +107,7 @@ describe('UserFormComponent', () => {
       TestBed.inject(AuthService),
       'getNewRefreshToken'
     );
-    authServiceSpy.and.returnValue(of(undefined));
+    authServiceSpy.and.returnValue(of(undefined as any));
 
     const storeSpy = spyOn(TestBed.inject(Store), 'dispatch');
     storeSpy.and.returnValue(of(undefined));
@@ -121,7 +119,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     } as User;
 
     component.user = user;
@@ -132,7 +130,7 @@ describe('UserFormComponent', () => {
     expect(userServiceSpy).toHaveBeenCalledWith('1', {
       displayName: 'Pizza man',
       username: 'Waffle guy',
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     } as User);
 
     expect(storeSpy).toHaveBeenCalledOnceWith(
@@ -165,7 +163,7 @@ describe('UserFormComponent', () => {
       TestBed.inject(AuthService),
       'getNewRefreshToken'
     );
-    authServiceSpy.and.returnValue(of(undefined));
+    authServiceSpy.and.returnValue(of(undefined as any));
 
     const storeSpy = spyOn(TestBed.inject(Store), 'dispatch');
     storeSpy.and.returnValue(of(undefined));
@@ -177,7 +175,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     } as User;
 
     component.user = user;
@@ -188,7 +186,7 @@ describe('UserFormComponent', () => {
     expect(userServiceSpy).toHaveBeenCalledWith('1', {
       displayName: 'Pizza man',
       username: 'Waffle guy',
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     } as User);
 
     expect(storeSpy).toHaveBeenCalledOnceWith(
@@ -214,7 +212,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     } as User;
 
     const userServiceSpy = spyOn(TestBed.inject(UsersService), 'createUser');
@@ -231,7 +229,7 @@ describe('UserFormComponent', () => {
       username: 'Waffle guy',
       isDummyUser: false,
       password: 'Dough boy',
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     });
 
     component.submit();
@@ -240,7 +238,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
       password: 'Dough boy',
     } as any);
 

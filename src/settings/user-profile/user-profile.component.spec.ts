@@ -1,18 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { UserProfileComponent } from './user-profile.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { NgxsModule, Store } from '@ngxs/store';
-import { ActivatedRoute } from '@angular/router';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { PipesModule } from 'src/pipes/pipes.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AuthState } from 'src/store/auth.state';
-import { UsersService } from 'src/api/users.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { AuthService } from 'src/api/auth.service';
+import { ApiModule, AuthService } from 'src/api-new';
+import { UsersService } from 'src/api/users.service';
+import { PipesModule } from 'src/pipes/pipes.module';
+import { AuthState } from 'src/store/auth.state';
 import { UserState } from 'src/store/user.state';
+import { UserProfileComponent } from './user-profile.component';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -22,6 +21,7 @@ describe('UserProfileComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [UserProfileComponent],
       imports: [
+        ApiModule,
         HttpClientModule,
         MatSnackBarModule,
         NgxsModule.forRoot([AuthState, UserState]),
@@ -81,7 +81,7 @@ describe('UserProfileComponent', () => {
     );
 
     serviceSpy.and.returnValue(of(undefined));
-    authSpy.and.returnValue(of(undefined));
+    authSpy.and.returnValue(of(undefined as any));
 
     store.reset({
       users: { users: [{ id: 1, displayName: 'cheetos', username: 'burger' }] },
