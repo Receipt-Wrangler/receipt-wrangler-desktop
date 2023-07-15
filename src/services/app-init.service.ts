@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { finalize, forkJoin, Observable, switchMap, take, tap } from 'rxjs';
-import { AuthService, User } from 'src/api-new';
+import { AuthService, User, UserService } from 'src/api-new';
 import { FeatureConfigService } from 'src/api/feature-config.service';
 import { GroupsService } from 'src/api/groups.service';
-import { UsersService } from 'src/api/users.service';
 import { GroupStatus } from 'src/enums/group-status.enum';
 import { Group } from 'src/models/group';
 import { SetFeatureConfig } from 'src/store/feature-config.state.actions';
 import { GroupState } from 'src/store/group.state';
 import { SetGroups, SetSelectedGroupId } from 'src/store/group.state.actions';
 import { SetUsers } from 'src/store/user.state.actions';
+import { ClaimsService } from './claims.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,10 +18,11 @@ import { SetUsers } from 'src/store/user.state.actions';
 export class AppInitService {
   constructor(
     private authService: AuthService,
+    private claimsService: ClaimsService,
     private featureConfigService: FeatureConfigService,
     private groupsService: GroupsService,
     private store: Store,
-    private userService: UsersService
+    private userService: UserService
   ) {}
 
   public initAppData(): Promise<boolean> {
@@ -42,7 +43,7 @@ export class AppInitService {
   }
 
   public getAppData(): Observable<[User[], Group[], void]> {
-    const usersCall = this.userService.getAllUsers().pipe(
+    const usersCall = this.userService.getUsers().pipe(
       take(1),
       tap((users) => this.store.dispatch(new SetUsers(users)))
     );
@@ -64,7 +65,7 @@ export class AppInitService {
         }
       })
     );
-    const userClaims = this.userService.getAndSetClaimsForLoggedInUser();
+    const userClaims = this.claimsService.getAndSetClaimsForLoggedInUser();
 
     return forkJoin(usersCall, groupsCall, userClaims);
   }

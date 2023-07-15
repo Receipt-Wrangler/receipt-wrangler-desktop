@@ -20,6 +20,7 @@ import { Observable }                                        from 'rxjs';
 import { ResetPasswordCommand } from '../model/resetPasswordCommand';
 import { UpdateProfileCommand } from '../model/updateProfileCommand';
 import { User } from '../model/user';
+import { UserView } from '../model/userView';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -104,7 +105,7 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('post',`${this.basePath}/users/${encodeURIComponent(String(userId))}/convertDummyUserToNormalUser`,
+        return this.httpClient.request<any>('post',`${this.basePath}/user/${encodeURIComponent(String(userId))}/convertDummyUserToNormalUser`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -157,7 +158,7 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('post',`${this.basePath}/users/`,
+        return this.httpClient.request<any>('post',`${this.basePath}/user`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -205,7 +206,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('delete',`${this.basePath}/users/${encodeURIComponent(String(userId))}`,
+        return this.httpClient.request<any>('delete',`${this.basePath}/user/${encodeURIComponent(String(userId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -252,7 +253,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/users/amountOwedForUser/${encodeURIComponent(String(groupId))}`,
+        return this.httpClient.request<any>('get',`${this.basePath}/user/amountOwedForUser/${encodeURIComponent(String(groupId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -294,7 +295,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/users/getUserClaims`,
+        return this.httpClient.request<any>('get',`${this.basePath}/user/getUserClaims`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -311,9 +312,9 @@ export class UserService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUsernameCount(username: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getUsernameCount(username: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getUsernameCount(username: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getUsernameCount(username: string, observe?: 'body', reportProgress?: boolean): Observable<number>;
+    public getUsernameCount(username: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<number>>;
+    public getUsernameCount(username: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<number>>;
     public getUsernameCount(username: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (username === null || username === undefined) {
@@ -331,6 +332,7 @@ export class UserService {
         }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -341,7 +343,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/users/${encodeURIComponent(String(username))}`,
+        return this.httpClient.request<number>('get',`${this.basePath}/user/${encodeURIComponent(String(username))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -357,9 +359,9 @@ export class UserService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUsers(observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getUsers(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getUsers(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getUsers(observe?: 'body', reportProgress?: boolean): Observable<Array<UserView>>;
+    public getUsers(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<UserView>>>;
+    public getUsers(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<UserView>>>;
     public getUsers(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
@@ -373,6 +375,7 @@ export class UserService {
         }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -383,7 +386,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/users/`,
+        return this.httpClient.request<Array<UserView>>('get',`${this.basePath}/user`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -430,7 +433,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('put',`${this.basePath}/users/${encodeURIComponent(String(userId))}/resetPassword`,
+        return this.httpClient.request<any>('put',`${this.basePath}/user/${encodeURIComponent(String(userId))}/resetPassword`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -487,7 +490,7 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/users/${encodeURIComponent(String(userId))}`,
+        return this.httpClient.request<any>('put',`${this.basePath}/user/${encodeURIComponent(String(userId))}`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -540,7 +543,7 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/users/updateUserProfile`,
+        return this.httpClient.request<any>('put',`${this.basePath}/user/updateUserProfile`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

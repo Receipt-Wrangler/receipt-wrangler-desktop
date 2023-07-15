@@ -18,9 +18,7 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { AuthService } from 'src/api-new';
-import { UsersService } from 'src/api/users.service';
-import { User } from 'src/api-new';
+import { AuthService, User, UserService } from 'src/api-new';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
 import { AddUser, UpdateUser } from 'src/store/user.state.actions';
@@ -44,7 +42,7 @@ export class UserFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackbarService: SnackbarService,
     private store: Store,
-    private usersService: UsersService,
+    private userService: UserService,
     private userValidators: UserValidators,
     public matDialogRef: MatDialogRef<UserFormComponent>
   ) {}
@@ -106,8 +104,8 @@ export class UserFormComponent implements OnInit {
 
   public submit(): void {
     if (this.form.valid && this.user) {
-      this.usersService
-        .updateUser(this.user.id.toString(), this.form.value)
+      this.userService
+        .updateUserById(this.form.value, this.user.id)
         .pipe(
           take(1),
           tap(() => {
@@ -134,7 +132,7 @@ export class UserFormComponent implements OnInit {
         )
         .subscribe();
     } else if (this.form.valid && !this.user) {
-      this.usersService
+      this.userService
         .createUser(this.form.value)
         .pipe(
           take(1),

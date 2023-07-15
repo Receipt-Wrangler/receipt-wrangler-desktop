@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { switchMap, take, tap } from 'rxjs';
-import { UsersService } from 'src/api/users.service';
-import { User } from 'src/api-new';
+import { User, UserService } from 'src/api-new';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { UpdateUser } from 'src/store/user.state.actions';
 
@@ -19,11 +18,11 @@ export class DummyUserConversionDialogComponent implements OnInit {
   public form: FormGroup = new FormGroup({});
 
   constructor(
-    public matDialogRef: MatDialogRef<DummyUserConversionDialogComponent>,
     private formBuilder: FormBuilder,
-    private usersService: UsersService,
     private snackbarService: SnackbarService,
-    private store: Store
+    private store: Store,
+    private userService: UserService,
+    public matDialogRef: MatDialogRef<DummyUserConversionDialogComponent>
   ) {}
 
   public ngOnInit(): void {
@@ -39,8 +38,8 @@ export class DummyUserConversionDialogComponent implements OnInit {
   public submitButtonClicked(): void {
     if (this.form.valid) {
       let userId: string = this.user?.id?.toString();
-      this.usersService
-        .convertDummyUserToNormalUser(userId, this.form.value)
+      this.userService
+        .convertDummyUserById(this.form.value, Number.parseInt(userId))
         .pipe(
           take(1),
           tap(() => {

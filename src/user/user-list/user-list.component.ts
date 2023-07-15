@@ -9,8 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take, tap } from 'rxjs';
-import { User } from 'src/api-new';
-import { UsersService } from 'src/api/users.service';
+import { User, UserService } from 'src/api-new';
 import { DEFAULT_HOST_CLASS } from 'src/constants';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants/dialog.constant';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -58,9 +57,9 @@ export class UserListComponent implements AfterViewInit {
 
   constructor(
     private matDialog: MatDialog,
-    private usersService: UsersService,
+    private snackbarService: SnackbarService,
     private store: Store,
-    private snackbarService: SnackbarService
+    private userService: UserService
   ) {}
 
   public ngAfterViewInit(): void {
@@ -187,8 +186,8 @@ export class UserListComponent implements AfterViewInit {
 
       dialogRef.afterClosed().subscribe((r) => {
         if (r) {
-          this.usersService
-            .deleteUser(user.id.toString())
+          this.userService
+            .deleteUserById(user.id)
             .pipe(
               take(1),
               tap(() => {

@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { switchMap, take, tap } from 'rxjs';
-import { AuthService, User } from 'src/api-new';
-import { UsersService } from 'src/api/users.service';
+import { AuthService, User, UserService } from 'src/api-new';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { FormConfig } from 'src/interfaces';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -34,7 +33,7 @@ export class UserProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private snackbarService: SnackbarService,
     private store: Store,
-    private usersService: UsersService
+    private userService: UserService
   ) {}
 
   public ngOnInit(): void {
@@ -60,7 +59,7 @@ export class UserProfileComponent implements OnInit {
 
   public submit(): void {
     if (this.form.valid) {
-      this.usersService
+      this.userService
         .updateUserProfile(this.form.value)
         .pipe(
           take(1),

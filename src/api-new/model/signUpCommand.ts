@@ -23,4 +23,12 @@ export interface SignUpCommand {
      * User's displayname
      */
     displayname: string;
+    /**
+     * Whether the user is a dummy user
+     */
+    isDummyUser?: boolean;
+    /**
+     * User's role
+     */
+    userRole?: boolean;
 }

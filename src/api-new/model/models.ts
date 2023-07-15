@@ -23,3 +23,4 @@ export * from './tag';
 export * from './updateProfileCommand';
 export * from './user';
 export * from './userRole';
+export * from './userView';

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Store } from '@ngxs/store';
 import { switchMap, tap } from 'rxjs';
-import { UsersService } from 'src/api/users.service';
+import { UserService } from 'src/api-new';
+import { GroupState } from 'src/store/group.state';
 
 @UntilDestroy()
 @Component({
@@ -12,8 +14,9 @@ import { UsersService } from 'src/api/users.service';
 })
 export class SummaryCardComponent {
   constructor(
-    private usersService: UsersService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store,
+    private userService: UserService
   ) {}
 
   public usersOweMap: Map<string, string> = new Map();
@@ -24,10 +27,13 @@ export class SummaryCardComponent {
   }
 
   private listenForRouteChanges(): void {
+    const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
     this.route.params
       .pipe(
         untilDestroyed(this),
-        switchMap(() => this.usersService.geAmountOwedForUser()),
+        switchMap(() =>
+          this.userService.getAmountOwedForUser(Number.parseInt(groupId))
+        ),
         tap((result) => {
           this.userOwesMap = new Map();
           this.usersOweMap = new Map();
