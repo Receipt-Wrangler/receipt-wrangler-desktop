@@ -17,6 +17,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { Tag } from '../model/tag';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -60,9 +61,9 @@ export class TagService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllTags(observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getAllTags(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getAllTags(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getAllTags(observe?: 'body', reportProgress?: boolean): Observable<Array<Tag>>;
+    public getAllTags(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Tag>>>;
+    public getAllTags(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Tag>>>;
     public getAllTags(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
@@ -76,6 +77,7 @@ export class TagService {
         }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -86,7 +88,7 @@ export class TagService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/tag/`,
+        return this.httpClient.request<Array<Tag>>('get',`${this.basePath}/tag/`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

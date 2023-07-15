@@ -6,19 +6,17 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-3;
 import { Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
+import { Tag } from 'src/api-new';
 import { RECEIPT_STATUS_OPTIONS } from 'src/constants';
-import { Category, Tag } from 'src/models';
-import {
-  ResetReceiptFilter,
-  SetReceiptFilter,
-} from 'src/store/receipt-table.actions';
+import { Category } from 'src/models';
+import { SetReceiptFilter } from 'src/store/receipt-table.actions';
 import {
   ReceiptTableState,
   defaultReceiptFilter,
 } from 'src/store/receipt-table.state';
+3;
 
 @Component({
   selector: 'app-receipt-filter',

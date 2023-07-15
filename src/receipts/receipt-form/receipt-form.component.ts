@@ -32,7 +32,7 @@ import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { ReceiptStatus } from 'src/enums/receipt-status.enum';
-import { Category, Receipt, Tag } from 'src/models';
+import { Category, Receipt } from 'src/models';
 import { FileData } from 'src/models/file-data';
 import { Group } from 'src/models/group';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -43,6 +43,7 @@ import { ItemListComponent } from '../item-list/item-list.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
 import { CarouselComponent } from 'src/carousel/carousel/carousel.component';
+import { Tag } from 'src/api-new';
 
 @UntilDestroy()
 @Component({

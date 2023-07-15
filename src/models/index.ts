@@ -5,5 +5,4 @@ export * from './group';
 export * from './item';
 export * from './receipt';
 export * from './search-result.interface';
-export * from './tag';
 export * from './comment';

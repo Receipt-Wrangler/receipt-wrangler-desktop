@@ -3,7 +3,7 @@ import { Category } from './category';
 import { Comment } from './comment';
 import { FileData } from './file-data';
 import { Item } from './item';
-import { Tag } from './tag';
+import { Tag } from 'src/api-new';
 
 export interface Receipt {
   id: number;
