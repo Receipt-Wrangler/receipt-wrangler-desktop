@@ -235,7 +235,7 @@ export class AuthService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('post',`${this.basePath}/signUp/`,
+        return this.httpClient.request<any>('post',`${this.basePath}/signUp`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
