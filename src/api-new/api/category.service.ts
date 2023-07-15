@@ -17,6 +17,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { Category } from '../model/category';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -60,9 +61,9 @@ export class CategoryService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllCategories(observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getAllCategories(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getAllCategories(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getAllCategories(observe?: 'body', reportProgress?: boolean): Observable<Array<Category>>;
+    public getAllCategories(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Category>>>;
+    public getAllCategories(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Category>>>;
     public getAllCategories(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
@@ -76,6 +77,7 @@ export class CategoryService {
         }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -86,7 +88,7 @@ export class CategoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/category/`,
+        return this.httpClient.request<Array<Category>>('get',`${this.basePath}/category/`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
