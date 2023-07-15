@@ -7,17 +7,19 @@ import { PipesModule } from 'src/pipes/pipes.module';
 import { InputModule } from 'src/input/input.module';
 import { ButtonModule } from 'src/button/button.module';
 import { DirectivesModule } from 'src/directives/directives.module';
+import { ApiModule } from 'src/api-new';
 
 @NgModule({
   declarations: [AuthForm],
   imports: [
-    CommonModule,
+    ApiModule,
     AuthRoutingModule,
-    ReactiveFormsModule,
-    PipesModule,
-    InputModule,
     ButtonModule,
+    CommonModule,
     DirectivesModule,
+    InputModule,
+    PipesModule,
+    ReactiveFormsModule,
   ],
 })
 export class AuthModule {}
