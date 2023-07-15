@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { switchMap, take, tap } from 'rxjs';
-import { AuthService } from 'src/api/auth.service';
+import { AuthService } from 'src/api-new';
 import { UsersService } from 'src/api/users.service';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { FormConfig } from 'src/interfaces';

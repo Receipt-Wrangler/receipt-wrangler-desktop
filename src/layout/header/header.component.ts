@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, switchMap, take, tap } from 'rxjs';
-import { AuthService } from 'src/api/auth.service';
 import { NotificationsService } from 'src/api/notifications.service';
 import { User } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -13,6 +12,7 @@ import { GroupState } from 'src/store/group.state';
 import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';
 import { DEFAULT_DIALOG_CONFIG } from '../../constants';
 import { SwitchGroupDialogComponent } from '../switch-group-dialog/switch-group-dialog.component';
+import { AuthService } from 'src/api-new';
 
 @Component({
   selector: 'app-header',
@@ -36,12 +36,12 @@ export class HeaderComponent implements OnInit {
   public notificationCount: number | undefined = undefined;
 
   constructor(
-    private matDialog: MatDialog,
-    private store: Store,
     private authService: AuthService,
-    private router: Router,
+    private matDialog: MatDialog,
     private notificationsService: NotificationsService,
-    private snackbarService: SnackbarService
+    private router: Router,
+    private snackbarService: SnackbarService,
+    private store: Store
   ) {}
 
   public ngOnInit(): void {

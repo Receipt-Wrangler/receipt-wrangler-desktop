@@ -8,8 +8,8 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { catchError, Observable, of, switchMap, take, throwError } from 'rxjs';
-import { AuthService } from 'src/api/auth.service';
+import { Observable, catchError, switchMap, take, throwError } from 'rxjs';
+import { AuthService } from 'src/api-new';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
 

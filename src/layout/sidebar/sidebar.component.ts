@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
-import { take, switchMap, tap, Observable, filter, map } from 'rxjs';
-import { AuthService } from 'src/api/auth.service';
+import { Observable, map, switchMap, take, tap } from 'rxjs';
+import { AuthService } from 'src/api-new';
 import { GroupStatus } from 'src/enums/group-status.enum';
 import { Group, User } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -22,9 +21,9 @@ import { LayoutState } from 'src/store/layout.state';
 export class SidebarComponent implements OnInit {
   constructor(
     private authService: AuthService,
-    private store: Store,
     private router: Router,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private store: Store
   ) {}
 
   @Select(AuthState.loggedInUser) public loggedInUser!: Observable<User>;

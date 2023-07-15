@@ -12,10 +12,12 @@ import { AppInitService, initAppData } from '../services/app-init.service';
 import { StoreModule } from '../store/store.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ApiModule } from 'src/api-new';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    ApiModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,

@@ -62,10 +62,10 @@ export class AuthService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTokens(observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getTokens(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getTokens(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getTokens(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getNewRefreshToken(observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getNewRefreshToken(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getNewRefreshToken(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getNewRefreshToken(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 

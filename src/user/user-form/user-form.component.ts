@@ -18,7 +18,7 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { AuthService } from 'src/api/auth.service';
+import { AuthService } from 'src/api-new';
 import { UsersService } from 'src/api/users.service';
 import { UserRole } from 'src/enums/user_role.enum';
 import { User } from 'src/models';
@@ -41,13 +41,13 @@ export class UserFormComponent implements OnInit {
     'A dummy user is a user who cannot log in, but can still act as a receipt payer, or be charged shares. Dummy users can be converted to normal users, but normal users cannot be converted to dummy users.';
 
   constructor(
-    private formBuilder: FormBuilder,
-    private usersService: UsersService,
-    private snackbarService: SnackbarService,
-    public matDialogRef: MatDialogRef<UserFormComponent>,
-    private store: Store,
     private authService: AuthService,
-    private userValidators: UserValidators
+    private formBuilder: FormBuilder,
+    private snackbarService: SnackbarService,
+    private store: Store,
+    private usersService: UsersService,
+    private userValidators: UserValidators,
+    public matDialogRef: MatDialogRef<UserFormComponent>
   ) {}
 
   public form: FormGroup = new FormGroup({});

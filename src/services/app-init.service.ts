@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { finalize, forkJoin, Observable, switchMap, take, tap } from 'rxjs';
-import { AuthService } from 'src/api/auth.service';
+import { AuthService } from 'src/api-new';
 import { FeatureConfigService } from 'src/api/feature-config.service';
 import { GroupsService } from 'src/api/groups.service';
 import { UsersService } from 'src/api/users.service';
@@ -18,11 +18,11 @@ import { SetUsers } from 'src/store/user.state.actions';
 })
 export class AppInitService {
   constructor(
-    private store: Store,
     private authService: AuthService,
-    private userService: UsersService,
+    private featureConfigService: FeatureConfigService,
     private groupsService: GroupsService,
-    private featureConfigService: FeatureConfigService
+    private store: Store,
+    private userService: UsersService
   ) {}
 
   public initAppData(): Promise<boolean> {
