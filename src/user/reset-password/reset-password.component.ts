@@ -35,7 +35,7 @@ export class ResetPasswordComponent implements OnInit {
   public submit(): void {
     if (this.form.valid) {
       this.userService
-        .resetPasswordById(this.user.id, this.form.value)
+        .resetPasswordById(this.form.value, this.user.id)
         .pipe(
           take(1),
           tap(() => {

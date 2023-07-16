@@ -399,14 +399,19 @@ export class UserService {
     /**
      * Reset password
      * This will reset a password for a user, [SYSTEM ADMIN]
+     * @param body Login credentials for new user
      * @param userId Id of user to reset password
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public resetPasswordById(userId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public resetPasswordById(userId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public resetPasswordById(userId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public resetPasswordById(userId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public resetPasswordById(body: ResetPasswordCommand, userId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public resetPasswordById(body: ResetPasswordCommand, userId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public resetPasswordById(body: ResetPasswordCommand, userId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public resetPasswordById(body: ResetPasswordCommand, userId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling resetPasswordById.');
+        }
 
         if (userId === null || userId === undefined) {
             throw new Error('Required parameter userId was null or undefined when calling resetPasswordById.');
@@ -431,10 +436,16 @@ export class UserService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
+            'application/json'
         ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/user/${encodeURIComponent(String(userId))}/resetPassword`,
+        return this.httpClient.request<any>('post',`${this.basePath}/user/${encodeURIComponent(String(userId))}/resetPassword`,
             {
+                body: body,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
