@@ -22,7 +22,7 @@ export interface SignUpCommand {
     /**
      * User's displayname
      */
-    displayname: string;
+    displayName?: string;
     /**
      * Whether the user is a dummy user
      */
