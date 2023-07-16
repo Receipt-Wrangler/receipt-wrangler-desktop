@@ -3,14 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SummaryCardComponent } from './summary-card.component';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxsStoragePlugin } from '@ngxs/storage-plugin';
-import { NgxsModule } from '@ngxs/store';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import { UsersResolverService } from 'src/resolvers/users-resolver.service';
-import { UsersService } from 'src/api/users.service';
+import { ActivatedRoute } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
+import { of } from 'rxjs';
+import { ApiModule, UserService } from 'src/api-new';
 
 describe('SummaryCardComponent', () => {
   let component: SummaryCardComponent;
@@ -20,10 +18,11 @@ describe('SummaryCardComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [SummaryCardComponent],
       imports: [
+        ApiModule,
         HttpClientTestingModule,
-        NgxsModule.forRoot([]),
         MatCardModule,
         MatListModule,
+        NgxsModule.forRoot([]),
       ],
       providers: [
         {
@@ -45,12 +44,12 @@ describe('SummaryCardComponent', () => {
   });
 
   it('should set user data correctly when there is data', () => {
-    const usersService = TestBed.inject(UsersService);
-    spyOn(usersService, 'geAmountOwedForUser').and.returnValue(
+    const usersService = TestBed.inject(UserService);
+    spyOn(usersService, 'getAmountOwedForUser').and.returnValue(
       of({
         '1': 200,
         '2': -500,
-      })
+      } as any)
     );
 
     component.ngOnInit();

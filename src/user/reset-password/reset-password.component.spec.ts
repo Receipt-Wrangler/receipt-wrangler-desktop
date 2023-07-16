@@ -7,6 +7,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxsModule } from '@ngxs/store';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { ResetPasswordComponent } from './reset-password.component';
+import { ApiModule } from 'src/api-new';
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
@@ -16,6 +17,7 @@ describe('ResetPasswordComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ResetPasswordComponent],
       imports: [
+        ApiModule,
         HttpClientTestingModule,
         HttpClientTestingModule,
         MatDialogModule,

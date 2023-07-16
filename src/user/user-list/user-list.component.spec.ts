@@ -7,6 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgxsModule } from '@ngxs/store';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TableModule } from 'src/table/table.module';
+import { ApiModule } from 'src/api-new';
 
 describe('UserListComponent', () => {
   let component: UserListComponent;
@@ -16,10 +17,11 @@ describe('UserListComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [UserListComponent],
       imports: [
-        MatDialogModule,
+        ApiModule,
         HttpClientTestingModule,
-        NgxsModule.forRoot([]),
+        MatDialogModule,
         MatSnackBarModule,
+        NgxsModule.forRoot([]),
         TableModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

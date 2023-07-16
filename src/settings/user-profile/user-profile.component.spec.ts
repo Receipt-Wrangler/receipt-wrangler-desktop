@@ -6,8 +6,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { ApiModule, AuthService } from 'src/api-new';
-import { UsersService } from 'src/api/users.service';
+import { ApiModule, AuthService, UserService } from 'src/api-new';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { AuthState } from 'src/store/auth.state';
 import { UserState } from 'src/store/user.state';
@@ -66,21 +65,18 @@ describe('UserProfileComponent', () => {
 
   it('should submit form and update state correctly', () => {
     const store = TestBed.inject(Store);
-    const serviceSpy = spyOn(TestBed.inject(UsersService), 'updateUserProfile');
+    const serviceSpy = spyOn(TestBed.inject(UserService), 'updateUserProfile');
     const authSpy = spyOn(TestBed.inject(AuthService), 'getNewRefreshToken');
 
-    spyOn(
-      TestBed.inject(UsersService),
-      'getClaimsForLoggedInUser'
-    ).and.returnValue(
+    spyOn(TestBed.inject(UserService), 'getUserClaims').and.returnValue(
       of({
         userId: '1',
         displayname: 'store',
         username: 'general',
-      })
+      } as any)
     );
 
-    serviceSpy.and.returnValue(of(undefined));
+    serviceSpy.and.returnValue(of(undefined) as any);
     authSpy.and.returnValue(of(undefined as any));
 
     store.reset({

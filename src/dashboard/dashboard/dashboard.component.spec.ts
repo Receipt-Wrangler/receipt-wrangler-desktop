@@ -10,6 +10,7 @@ import { PipesModule } from 'src/pipes/pipes.module';
 import { DashboardRoutingModule } from '../dashboard-routing.module';
 import { SummaryCardComponent } from '../summary-card/summary-card.component';
 import { DashboardComponent } from './dashboard.component';
+import { ApiModule } from 'src/api-new';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -19,6 +20,7 @@ describe('DashboardComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [DashboardComponent, SummaryCardComponent],
       imports: [
+        ApiModule,
         CommonModule,
         DashboardRoutingModule,
         HttpClientTestingModule,
