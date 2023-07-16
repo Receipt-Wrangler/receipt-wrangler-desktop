@@ -10,12 +10,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { GroupsService } from 'src/api/groups.service';
 import { ButtonModule } from 'src/button/button.module';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { InputModule } from 'src/input/input.module';
-import { Group } from 'src/models';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SelectModule } from 'src/select/select.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
@@ -26,6 +24,7 @@ import { GroupMemberFormComponent } from '../group-member-form/group-member-form
 import { buildGroupMemberForm } from '../utils/group-member.utils';
 import { GroupFormComponent } from './group-form.component';
 import { GroupStatus } from 'src/enums/group-status.enum';
+import { ApiModule, Group, GroupsService } from 'src/api-new';
 
 describe('GroupFormComponent', () => {
   let component: GroupFormComponent;
@@ -35,6 +34,7 @@ describe('GroupFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [GroupFormComponent, GroupMemberFormComponent],
       imports: [
+        ApiModule,
         ButtonModule,
         HttpClientTestingModule,
         InputModule,
@@ -312,7 +312,7 @@ describe('GroupFormComponent', () => {
           },
         ],
       } as Group,
-      component.originalGroup?.id.toString() as string
+      component.originalGroup?.id as number
     );
     expect(storeSpy).toHaveBeenCalledWith(new UpdateGroup(returnValue));
     expect(routerSpy).toHaveBeenCalledWith('/groups/1/view');
