@@ -21,8 +21,8 @@ export interface Group {
     /**
      * Members of the group
      */
-    groupMembers?: Array<GroupMember>;
-    id?: number;
+    groupMembers: Array<GroupMember>;
+    id: number;
     /**
      * Is default group (not used yet)
      */

@@ -97,7 +97,7 @@ export class GroupsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('post',`${this.basePath}/groups/`,
+        return this.httpClient.request<any>('post',`${this.basePath}/group`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -145,7 +145,7 @@ export class GroupsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('delete',`${this.basePath}/groups/${encodeURIComponent(String(groupId))}`,
+        return this.httpClient.request<any>('delete',`${this.basePath}/group/${encodeURIComponent(String(groupId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -192,7 +192,7 @@ export class GroupsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/groups/${encodeURIComponent(String(groupId))}`,
+        return this.httpClient.request<any>('get',`${this.basePath}/group/${encodeURIComponent(String(groupId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -208,9 +208,9 @@ export class GroupsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getGroupsForuser(observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getGroupsForuser(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getGroupsForuser(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getGroupsForuser(observe?: 'body', reportProgress?: boolean): Observable<Array<Group>>;
+    public getGroupsForuser(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Group>>>;
+    public getGroupsForuser(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Group>>>;
     public getGroupsForuser(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
@@ -224,6 +224,7 @@ export class GroupsService {
         }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -234,7 +235,7 @@ export class GroupsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/groups/`,
+        return this.httpClient.request<Array<Group>>('get',`${this.basePath}/group`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -291,7 +292,7 @@ export class GroupsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/groups/${encodeURIComponent(String(groupId))}`,
+        return this.httpClient.request<any>('put',`${this.basePath}/group/${encodeURIComponent(String(groupId))}`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

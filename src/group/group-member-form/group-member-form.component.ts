@@ -1,14 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { GroupMember } from 'src/models';
+import { GroupMember } from 'src/api-new';
 import { AuthState } from 'src/store/auth.state';
 import { ROLE_OPTIONS } from '../role-options';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
-import { ActivatedRoute } from '@angular/router';
-import { FormConfig } from 'src/interfaces';
 
 @Component({
   selector: 'app-group-member-form',

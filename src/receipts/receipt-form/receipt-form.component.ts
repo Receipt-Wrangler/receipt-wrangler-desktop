@@ -25,8 +25,10 @@ import {
   take,
   tap,
 } from 'rxjs';
+import { Category, Group, Tag } from 'src/api-new';
 import { ReceiptImagesService } from 'src/api/receipt-images.service';
 import { ReceiptsService } from 'src/api/receipts.service';
+import { CarouselComponent } from 'src/carousel/carousel/carousel.component';
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
 import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 import { FormMode } from 'src/enums/form-mode.enum';
@@ -34,7 +36,6 @@ import { GroupRole } from 'src/enums/group-role.enum';
 import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 import { Receipt } from 'src/models';
 import { FileData } from 'src/models/file-data';
-import { Group } from 'src/models/group';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { GroupState } from 'src/store/group.state';
 import { UserState } from 'src/store/user.state';
@@ -42,8 +43,6 @@ import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomple
 import { ItemListComponent } from '../item-list/item-list.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
-import { CarouselComponent } from 'src/carousel/carousel/carousel.component';
-import { Category, Tag } from 'src/api-new';
 
 @UntilDestroy()
 @Component({

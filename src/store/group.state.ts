@@ -6,7 +6,8 @@ import {
   State,
   StateContext,
 } from '@ngxs/store';
-import { Group } from 'src/models/group';
+import { Group } from 'src/api-new';
+import { ALL_GROUP } from 'src/constants';
 import {
   AddGroup,
   RemoveGroup,
@@ -14,7 +15,6 @@ import {
   SetSelectedGroupId,
   UpdateGroup,
 } from './group.state.actions';
-import { ALL_GROUP } from 'src/constants';
 
 export interface GroupStateInterface {
   groups: Group[];

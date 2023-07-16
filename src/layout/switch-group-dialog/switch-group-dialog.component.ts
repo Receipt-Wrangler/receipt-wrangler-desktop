@@ -9,7 +9,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Group } from 'src/models';
+import { Group } from 'src/api-new';
 import { GroupState } from 'src/store/group.state';
 import { SetSelectedGroupId } from 'src/store/group.state.actions';
 

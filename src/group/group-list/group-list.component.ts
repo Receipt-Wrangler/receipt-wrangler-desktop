@@ -4,9 +4,7 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take, tap } from 'rxjs';
-import { GroupsService } from 'src/api/groups.service';
 import { GroupRole } from 'src/enums/group-role.enum';
-import { Group } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 import { GroupState } from 'src/store/group.state';
@@ -14,6 +12,7 @@ import { RemoveGroup } from 'src/store/group.state.actions';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
+import { Group, GroupsService } from 'src/api-new';
 
 @Component({
   selector: 'app-group-list',
@@ -158,7 +157,7 @@ export class GroupListComponent {
       dialogRef.afterClosed().subscribe((r) => {
         if (r) {
           this.groupsService
-            .deleteGroup(group.id.toString())
+            .deleteGroup(group.id)
             .pipe(
               take(1),
               tap(() => {

@@ -12,24 +12,22 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngxs/store';
-import { startWith, switchMap, take, tap } from 'rxjs';
-import { GroupsService } from 'src/api/groups.service';
+import { startWith, take, tap } from 'rxjs';
+import { Group, GroupMember, GroupsService } from 'src/api-new';
+import { DEFAULT_HOST_CLASS } from 'src/constants';
+import { GROUP_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { GroupRole } from 'src/enums/group-role.enum';
+import { GroupStatus } from 'src/enums/group-status.enum';
 import { FormConfig } from 'src/interfaces/form-config.interface';
-import { Group, GroupMember } from 'src/models';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AddGroup, UpdateGroup } from 'src/store/group.state.actions';
-import { UserState } from 'src/store/user.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { SortByDisplayName } from 'src/utils/sort-by-displayname';
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
 import { ROLE_OPTIONS } from '../role-options';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
-import { GroupStatus } from 'src/enums/group-status.enum';
-import { GROUP_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
-import { DEFAULT_HOST_CLASS } from 'src/constants';
 
 @UntilDestroy()
 @Component({
@@ -271,7 +269,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
 
   private updateGroup(): void {
     this.groupsService
-      .updateGroup(this.form.value, this.originalGroup?.id.toString() as string)
+      .updateGroup(this.form.value, this.originalGroup?.id ?? 0)
       .pipe(
         take(1),
         tap((group: Group) => {
