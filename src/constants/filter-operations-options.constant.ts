@@ -1,21 +1,21 @@
-import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-command';
+import { PagedRequestField } from "src/api-new";
 
 export const listOperationOptions = Object.keys(
-  PagedRequestFilterOperation
+  PagedRequestField.OperationEnum
 ).filter((k) => k === 'CONTAINS');
 
 export const dateOperationOptions = Object.keys(
-  PagedRequestFilterOperation
+  PagedRequestField.OperationEnum.EQUALS
 ).filter((k) => !k.includes('CONTAINS'));
 
 export const numberOperationOptions = Object.keys(
-  PagedRequestFilterOperation
+  PagedRequestField.OperationEnum.EQUALS
 ).filter((k) => !k.includes('CONTAINS'));
 
 export const textOperationOptions = Object.keys(
-  PagedRequestFilterOperation
+  PagedRequestField.OperationEnum.EQUALS
 ).filter((k) => !k.includes('THAN'));
 
 export const usersOperationOptions = Object.keys(
-  PagedRequestFilterOperation
+  PagedRequestField.OperationEnum.EQUALS
 ).filter((k) => k === 'CONTAINS');

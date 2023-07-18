@@ -1,18 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-command';
-import { ReceiptTableInterface } from '../interfaces';
+import { PagedRequestField, PagedRequestFilter } from "src/api-new";
+
+import { Injectable } from "@angular/core";
+import { Action, Selector, State, StateContext } from "@ngxs/store";
+
+import { ReceiptTableInterface } from "../interfaces";
 import {
-  ResetReceiptFilter,
-  SetPage,
-  SetPageSize,
-  SetReceiptFilter,
-  SetReceiptFilterData,
-} from './receipt-table.actions';
-import { PagedRequestField, PagedRequestFilter } from 'src/api-new';
+  ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData
+} from "./receipt-table.actions";
 
 export const defaultReceiptFilter = {
-  date: { operation: PagedRequestFilterOperation.EQUALS, value: '' },
+  date: { operation: PagedRequestField.OperationEnum.EQUALS, value: '' },
   amount: {
     operation: PagedRequestField.OperationEnum.EQUALS,
     value: '',
