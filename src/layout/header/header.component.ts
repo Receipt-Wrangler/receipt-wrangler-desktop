@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import { Observable, switchMap, take, tap } from 'rxjs';
-import { AuthService, User } from 'src/api-new';
-import { NotificationsService } from 'src/api/notifications.service';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { AuthState } from 'src/store/auth.state';
-import { Logout } from 'src/store/auth.state.actions';
-import { GroupState } from 'src/store/group.state';
-import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';
-import { DEFAULT_DIALOG_CONFIG } from '../../constants';
-import { SwitchGroupDialogComponent } from '../switch-group-dialog/switch-group-dialog.component';
+import { Observable, switchMap, take, tap } from "rxjs";
+import { AuthService, NotificationsService, User } from "src/api-new";
+import { SnackbarService } from "src/services/snackbar.service";
+import { AuthState } from "src/store/auth.state";
+import { Logout } from "src/store/auth.state.actions";
+import { GroupState } from "src/store/group.state";
+import { ToggleIsSidebarOpen } from "src/store/layout.state.actions";
+
+import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { Select, Store } from "@ngxs/store";
+
+import { DEFAULT_DIALOG_CONFIG } from "../../constants";
+import { SwitchGroupDialogComponent } from "../switch-group-dialog/switch-group-dialog.component";
 
 @Component({
   selector: 'app-header',
@@ -65,7 +66,7 @@ export class HeaderComponent implements OnInit {
 
   private updateNotificationCount(): void {
     this.notificationsService
-      .getNotificationCountForUser()
+      .getNotificationCount()
       .pipe(
         take(1),
         tap((n) => {

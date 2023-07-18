@@ -17,6 +17,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { Notification } from '../model/notification';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -149,9 +150,9 @@ export class NotificationsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getNotificationCount(observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getNotificationCount(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getNotificationCount(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getNotificationCount(observe?: 'body', reportProgress?: boolean): Observable<number>;
+    public getNotificationCount(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<number>>;
+    public getNotificationCount(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<number>>;
     public getNotificationCount(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
@@ -165,6 +166,7 @@ export class NotificationsService {
         }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -175,7 +177,7 @@ export class NotificationsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/notifications/notificationCount`,
+        return this.httpClient.request<number>('get',`${this.basePath}/notifications/notificationCount`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -191,9 +193,9 @@ export class NotificationsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getNotificationsForuser(observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getNotificationsForuser(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getNotificationsForuser(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getNotificationsForuser(observe?: 'body', reportProgress?: boolean): Observable<Array<Notification>>;
+    public getNotificationsForuser(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Notification>>>;
+    public getNotificationsForuser(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Notification>>>;
     public getNotificationsForuser(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
@@ -207,6 +209,7 @@ export class NotificationsService {
         }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -217,7 +220,7 @@ export class NotificationsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/notifications/`,
+        return this.httpClient.request<Array<Notification>>('get',`${this.basePath}/notifications/`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

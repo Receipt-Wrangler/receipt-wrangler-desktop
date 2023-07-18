@@ -1,52 +1,35 @@
 import {
-  Component,
-  EmbeddedViewRef,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatExpansionPanel } from '@angular/material/expansion';
-import { MatSnackBarRef } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Select, Store } from '@ngxs/store';
+  distinctUntilChanged, finalize, forkJoin, iif, Observable, of, skip, startWith, switchMap, take,
+  tap
+} from "rxjs";
 import {
-  Observable,
-  distinctUntilChanged,
-  finalize,
-  forkJoin,
-  iif,
-  of,
-  skip,
-  startWith,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
+  Category, FileData, Group, Receipt, ReceiptImageService, ReceiptService, Tag
+} from "src/api-new";
+import { CarouselComponent } from "src/carousel/carousel/carousel.component";
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
+import { RECEIPT_STATUS_OPTIONS } from "src/constants/receipt-status-options";
+import { FormMode } from "src/enums/form-mode.enum";
+import { GroupRole } from "src/enums/group-role.enum";
+import { ReceiptStatus } from "src/enums/receipt-status.enum";
+import { SnackbarService } from "src/services/snackbar.service";
+import { GroupState } from "src/store/group.state";
+import { UserState } from "src/store/user.state";
 import {
-  Category,
-  FileData,
-  Group,
-  Receipt,
-  ReceiptService,
-  Tag,
-} from 'src/api-new';
-import { ReceiptImagesService } from 'src/api/receipt-images.service';
-import { CarouselComponent } from 'src/carousel/carousel/carousel.component';
-import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
-import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { GroupRole } from 'src/enums/group-role.enum';
-import { ReceiptStatus } from 'src/enums/receipt-status.enum';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { GroupState } from 'src/store/group.state';
-import { UserState } from 'src/store/user.state';
-import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomplete/user-autocomplete.component';
-import { ItemListComponent } from '../item-list/item-list.component';
-import { UploadImageComponent } from '../upload-image/upload-image.component';
-import { formatImageData } from '../utils/form.utils';
+  UserAutocompleteComponent
+} from "src/user-autocomplete/user-autocomplete/user-autocomplete.component";
+
+import { Component, EmbeddedViewRef, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { MatExpansionPanel } from "@angular/material/expansion";
+import { MatSnackBarRef } from "@angular/material/snack-bar";
+import { ActivatedRoute, Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { Select, Store } from "@ngxs/store";
+
+import { ItemListComponent } from "../item-list/item-list.component";
+import { UploadImageComponent } from "../upload-image/upload-image.component";
+import { formatImageData } from "../utils/form.utils";
 
 @UntilDestroy()
 @Component({
@@ -115,7 +98,7 @@ export class ReceiptFormComponent implements OnInit {
 
   constructor(
     private receiptService: ReceiptService,
-    private receiptImagesService: ReceiptImagesService,
+    private receiptImageService: ReceiptImageService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private snackbarService: SnackbarService,
@@ -243,8 +226,8 @@ export class ReceiptFormComponent implements OnInit {
     ) {
       this.imagesLoading = true;
       this.originalReceipt?.imageFiles.forEach((file) => {
-        this.receiptImagesService
-          .getImageFiles(file.id.toString())
+        this.receiptImageService
+          .getReceiptImageById(file.id)
           .pipe(
             tap((data) => {
               // TODO: clean this up
@@ -281,8 +264,8 @@ export class ReceiptFormComponent implements OnInit {
       this.images.splice(index, 1);
     } else {
       const image = this.images[index];
-      this.receiptImagesService
-        .deleteImage(image.id.toString())
+      this.receiptImageService
+        .deleteReceiptImageById(image.id)
         .pipe(
           tap(() => {
             this.images.splice(index, 1);
@@ -386,7 +369,7 @@ export class ReceiptFormComponent implements OnInit {
               () => this.images.length > 0,
               forkJoin(
                 this.images.map((image) =>
-                  this.receiptImagesService.uploadImage(
+                  this.receiptImageService.uploadReceiptImage(
                     formatImageData(image, r.id)
                   )
                 )

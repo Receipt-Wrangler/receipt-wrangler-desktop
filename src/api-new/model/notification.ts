@@ -18,10 +18,10 @@ export interface Notification {
     /**
      * Notification body  requried: true
      */
-    body?: string;
+    body: string;
     createdAt?: Date;
     createdBy?: number;
-    id?: number;
+    id: number;
     /**
      * Title
      */

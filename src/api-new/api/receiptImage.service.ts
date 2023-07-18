@@ -109,9 +109,9 @@ export class ReceiptImageService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getReceiptImageById(receiptImageId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getReceiptImageById(receiptImageId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getReceiptImageById(receiptImageId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getReceiptImageById(receiptImageId: number, observe?: 'body', reportProgress?: boolean): Observable<FileData>;
+    public getReceiptImageById(receiptImageId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<FileData>>;
+    public getReceiptImageById(receiptImageId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<FileData>>;
     public getReceiptImageById(receiptImageId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (receiptImageId === null || receiptImageId === undefined) {
@@ -129,6 +129,7 @@ export class ReceiptImageService {
         }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -139,7 +140,7 @@ export class ReceiptImageService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/receiptImage/${encodeURIComponent(String(receiptImageId))}`,
+        return this.httpClient.request<FileData>('get',`${this.basePath}/receiptImage/${encodeURIComponent(String(receiptImageId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -156,13 +157,13 @@ export class ReceiptImageService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public receiptImage(body: FileData, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public receiptImage(body: FileData, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public receiptImage(body: FileData, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public receiptImage(body: FileData, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public uploadReceiptImage(body: FileData, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public uploadReceiptImage(body: FileData, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public uploadReceiptImage(body: FileData, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public uploadReceiptImage(body: FileData, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling receiptImage.');
+            throw new Error('Required parameter body was null or undefined when calling uploadReceiptImage.');
         }
 
         let headers = this.defaultHeaders;

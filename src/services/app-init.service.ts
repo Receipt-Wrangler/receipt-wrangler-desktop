@@ -1,20 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { finalize, forkJoin, Observable, switchMap, take, tap } from 'rxjs';
+import { finalize, forkJoin, Observable, switchMap, take, tap } from "rxjs";
 import {
-  AuthService,
-  Group,
-  GroupsService,
-  User,
-  UserService,
-} from 'src/api-new';
-import { FeatureConfigService } from 'src/api/feature-config.service';
-import { GroupStatus } from 'src/enums/group-status.enum';
-import { SetFeatureConfig } from 'src/store/feature-config.state.actions';
-import { GroupState } from 'src/store/group.state';
-import { SetGroups, SetSelectedGroupId } from 'src/store/group.state.actions';
-import { SetUsers } from 'src/store/user.state.actions';
-import { ClaimsService } from './claims.service';
+  AuthService, FeatureConfigService, Group, GroupsService, User, UserService
+} from "src/api-new";
+import { GroupStatus } from "src/enums/group-status.enum";
+import { SetFeatureConfig } from "src/store/feature-config.state.actions";
+import { GroupState } from "src/store/group.state";
+import { SetGroups, SetSelectedGroupId } from "src/store/group.state.actions";
+import { SetUsers } from "src/store/user.state.actions";
+
+import { Injectable } from "@angular/core";
+import { Store } from "@ngxs/store";
+
+import { ClaimsService } from "./claims.service";
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +29,7 @@ export class AppInitService {
   public initAppData(): Promise<boolean> {
     return new Promise((resolve) => {
       this.featureConfigService
-        .GetFeatureConfig()
+        .getFeatureConfig()
         .pipe(
           take(1),
           switchMap((config) =>

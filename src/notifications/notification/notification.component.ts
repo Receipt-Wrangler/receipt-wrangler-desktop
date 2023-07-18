@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { take, tap } from 'rxjs';
-import { NotificationsService } from 'src/api/notifications.service';
-import { Notification } from '../../models/notification';
-import { ParameterizedDataParser } from 'src/utils';
+import { take, tap } from "rxjs";
+import { Notification, NotificationsService } from "src/api-new";
+import { ParameterizedDataParser } from "src/utils";
+
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 @Component({
   selector: 'app-notification',

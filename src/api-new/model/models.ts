@@ -17,6 +17,7 @@ export * from './pagedRequestField';
 export * from './pagedRequestFilter';
 export * from './receipt';
 export * from './resetPasswordCommand';
+export * from './searchResult';
 export * from './signUpCommand';
 export * from './tag';
 export * from './updateProfileCommand';
