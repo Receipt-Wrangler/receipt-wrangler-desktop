@@ -1,5 +1,6 @@
-import { SortDirection } from '@angular/material/sort';
-import { PagedRequestFilter } from 'src/api-new';
+import { PagedRequestFilter } from "src/api";
+
+import { SortDirection } from "@angular/material/sort";
 
 export interface ReceiptTableInterface {
   page: number;

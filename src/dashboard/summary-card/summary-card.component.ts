@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Store } from '@ngxs/store';
-import { switchMap, tap } from 'rxjs';
-import { UserService } from 'src/api-new';
-import { GroupState } from 'src/store/group.state';
+import { switchMap, tap } from "rxjs";
+import { UserService } from "src/api";
+import { GroupState } from "src/store/group.state";
+
+import { Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { Store } from "@ngxs/store";
 
 @UntilDestroy()
 @Component({

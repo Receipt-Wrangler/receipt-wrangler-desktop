@@ -1,7 +1,8 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { User } from 'src/api-new';
-import { UserState } from 'src/store/user.state';
+import { User } from "src/api";
+import { UserState } from "src/store/user.state";
+
+import { Pipe, PipeTransform } from "@angular/core";
+import { Store } from "@ngxs/store";
 
 @Pipe({
   name: 'user',

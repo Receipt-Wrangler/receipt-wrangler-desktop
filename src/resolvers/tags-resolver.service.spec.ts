@@ -1,7 +1,9 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import { ApiModule } from 'src/api-new';
-import { TagsResolverService } from './tags-resolver.service';
+import { ApiModule } from "src/api";
+
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+
+import { TagsResolverService } from "./tags-resolver.service";
 
 describe('TagsResolverService', () => {
   let service: TagsResolverService;

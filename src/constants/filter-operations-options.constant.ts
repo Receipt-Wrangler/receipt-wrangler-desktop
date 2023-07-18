@@ -1,4 +1,4 @@
-import { PagedRequestField } from "src/api-new";
+import { PagedRequestField } from "src/api";
 
 export const listOperationOptions = Object.keys(
   PagedRequestField.OperationEnum

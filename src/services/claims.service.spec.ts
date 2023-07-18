@@ -1,9 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+import { ApiModule } from "src/api";
 
-import { ClaimsService } from './claims.service';
-import { ApiModule } from 'src/api-new';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxsModule } from '@ngxs/store';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { NgxsModule } from "@ngxs/store";
+
+import { ClaimsService } from "./claims.service";
 
 describe('ClaimsService', () => {
   let service: ClaimsService;

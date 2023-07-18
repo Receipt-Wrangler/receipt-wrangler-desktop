@@ -1,4 +1,4 @@
-import { User } from 'src/api-new';
+import { User } from "src/api";
 
 export interface AuthStateInterface {
   userId?: string;

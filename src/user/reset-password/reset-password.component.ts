@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { take, tap } from 'rxjs';
-import { User, UserService } from 'src/api-new';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { take, tap } from "rxjs";
+import { User, UserService } from "src/api";
+import { SnackbarService } from "src/services/snackbar.service";
+
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-reset-password',

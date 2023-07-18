@@ -1,28 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { UntilDestroy } from '@ngneat/until-destroy';
-import { Store } from '@ngxs/store';
-import {
-  catchError,
-  defer,
-  iif,
-  of,
-  startWith,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
-import { AuthService, User, UserService } from 'src/api-new';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { AuthState } from 'src/store/auth.state';
-import { AddUser, UpdateUser } from 'src/store/user.state.actions';
-import { UserValidators } from 'src/validators/user-validators';
+import { catchError, defer, iif, of, startWith, switchMap, take, tap } from "rxjs";
+import { AuthService, User, UserService } from "src/api";
+import { SnackbarService } from "src/services/snackbar.service";
+import { AuthState } from "src/store/auth.state";
+import { AddUser, UpdateUser } from "src/store/user.state.actions";
+import { UserValidators } from "src/validators/user-validators";
+
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { UntilDestroy } from "@ngneat/until-destroy";
+import { Store } from "@ngxs/store";
 
 @UntilDestroy()
 @Component({

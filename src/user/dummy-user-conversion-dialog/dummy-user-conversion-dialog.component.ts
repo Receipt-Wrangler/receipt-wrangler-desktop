@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Store } from '@ngxs/store';
-import { switchMap, take, tap } from 'rxjs';
-import { User, UserService } from 'src/api-new';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { UpdateUser } from 'src/store/user.state.actions';
+import { switchMap, take, tap } from "rxjs";
+import { User, UserService } from "src/api";
+import { SnackbarService } from "src/services/snackbar.service";
+import { UpdateUser } from "src/store/user.state.actions";
+
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { Store } from "@ngxs/store";
 
 @Component({
   selector: 'app-dummy-user-conversion-dialog',

@@ -1,10 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NgxsModule } from '@ngxs/store';
-import { ApiModule } from 'src/api-new';
-import { HeaderComponent } from './header.component';
+import { ApiModule } from "src/api";
+
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgxsModule } from "@ngxs/store";
+
+import { HeaderComponent } from "./header.component";
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;

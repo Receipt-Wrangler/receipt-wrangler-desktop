@@ -1,14 +1,9 @@
+import { FileData, Item } from "src/api";
+import { ItemStatus } from "src/enums/receipt-item.status.enum";
+
 import {
-  AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-import { FileData, Item } from 'src/api-new';
-import { ItemStatus } from 'src/enums/receipt-item.status.enum';
+  AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators
+} from "@angular/forms";
 
 export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
   return new FormGroup({

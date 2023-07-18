@@ -1,20 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Group } from "src/api";
+import { ALL_GROUP } from "src/constants";
+
+import { Injectable } from "@angular/core";
+import { Action, createSelector, Selector, State, StateContext } from "@ngxs/store";
+
 import {
-  Action,
-  createSelector,
-  Selector,
-  State,
-  StateContext,
-} from '@ngxs/store';
-import { Group } from 'src/api-new';
-import { ALL_GROUP } from 'src/constants';
-import {
-  AddGroup,
-  RemoveGroup,
-  SetGroups,
-  SetSelectedGroupId,
-  UpdateGroup,
-} from './group.state.actions';
+  AddGroup, RemoveGroup, SetGroups, SetSelectedGroupId, UpdateGroup
+} from "./group.state.actions";
 
 export interface GroupStateInterface {
   groups: Group[];

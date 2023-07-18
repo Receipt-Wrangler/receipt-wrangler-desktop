@@ -1,11 +1,8 @@
-import { Injectable } from '@angular/core';
-import {
-  AsyncValidatorFn,
-  AbstractControl,
-  ValidationErrors,
-} from '@angular/forms';
-import { Observable, map, catchError, of } from 'rxjs';
-import { UserService } from 'src/api-new';
+import { map, Observable } from "rxjs";
+import { UserService } from "src/api";
+
+import { Injectable } from "@angular/core";
+import { AbstractControl, AsyncValidatorFn, ValidationErrors } from "@angular/forms";
 
 @Injectable()
 export class UserValidators {

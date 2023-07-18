@@ -1,16 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Item, Receipt, User } from 'src/api-new';
-import { RadioButtonData } from 'src/radio-group/models';
-import { buildItemForm } from '../utils/form.utils';
+import { Item, Receipt, User } from "src/api";
+import { RadioButtonData } from "src/radio-group/models";
+
+import { Component, Input, OnInit } from "@angular/core";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
+
+import { buildItemForm } from "../utils/form.utils";
 
 enum QuickActions {
   'SplitEvenly' = 'Split Evenly',

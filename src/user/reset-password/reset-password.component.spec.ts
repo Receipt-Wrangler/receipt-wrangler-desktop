@@ -1,13 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NgxsModule } from '@ngxs/store';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { ResetPasswordComponent } from './reset-password.component';
-import { ApiModule } from 'src/api-new';
+import { ApiModule } from "src/api";
+import { PipesModule } from "src/pipes/pipes.module";
+
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgxsModule } from "@ngxs/store";
+
+import { ResetPasswordComponent } from "./reset-password.component";
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;

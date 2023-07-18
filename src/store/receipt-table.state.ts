@@ -1,4 +1,4 @@
-import { PagedRequestField, PagedRequestFilter } from "src/api-new";
+import { PagedRequestField, PagedRequestFilter } from "src/api";
 
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";

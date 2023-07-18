@@ -1,16 +1,10 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Store } from '@ngxs/store';
-import { AutocomleteComponent } from 'src/autocomplete/autocomlete/autocomlete.component';
-import { User } from 'src/api-new';
-import { UserState } from 'src/store/user.state';
+import { User } from "src/api";
+import { AutocomleteComponent } from "src/autocomplete/autocomlete/autocomlete.component";
+import { UserState } from "src/store/user.state";
+
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { Store } from "@ngxs/store";
 
 @Component({
   selector: 'app-user-autocomplete',

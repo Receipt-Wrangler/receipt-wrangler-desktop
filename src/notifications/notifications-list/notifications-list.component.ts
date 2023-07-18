@@ -1,5 +1,5 @@
 import { take, tap } from "rxjs";
-import { Notification, NotificationsService } from "src/api-new";
+import { Notification, NotificationsService } from "src/api";
 
 import { Component, OnInit } from "@angular/core";
 

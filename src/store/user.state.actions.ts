@@ -1,4 +1,4 @@
-import { User } from 'src/api-new';
+import { User } from "src/api";
 
 export class SetUsers {
   static readonly type = '[User] Set Users';

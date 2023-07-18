@@ -1,15 +1,16 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import { Observable, map, switchMap, take, tap } from 'rxjs';
-import { AuthService, Group, User } from 'src/api-new';
-import { GroupStatus } from 'src/enums/group-status.enum';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { AuthState } from 'src/store/auth.state';
-import { Logout } from 'src/store/auth.state.actions';
-import { GroupState } from 'src/store/group.state';
-import { SetSelectedGroupId } from 'src/store/group.state.actions';
-import { LayoutState } from 'src/store/layout.state';
+import { map, Observable, switchMap, take, tap } from "rxjs";
+import { AuthService, Group, User } from "src/api";
+import { GroupStatus } from "src/enums/group-status.enum";
+import { SnackbarService } from "src/services/snackbar.service";
+import { AuthState } from "src/store/auth.state";
+import { Logout } from "src/store/auth.state.actions";
+import { GroupState } from "src/store/group.state";
+import { SetSelectedGroupId } from "src/store/group.state.actions";
+import { LayoutState } from "src/store/layout.state";
+
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Router } from "@angular/router";
+import { Select, Store } from "@ngxs/store";
 
 @Component({
   selector: 'app-sidebar',

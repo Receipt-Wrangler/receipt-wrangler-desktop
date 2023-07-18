@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { switchMap, take, tap } from 'rxjs';
-import { AuthService, User, UserService } from 'src/api-new';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { FormConfig } from 'src/interfaces';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { AuthState } from 'src/store/auth.state';
-import { UpdateUser } from 'src/store/user.state.actions';
+import { switchMap, take, tap } from "rxjs";
+import { AuthService, User, UserService } from "src/api";
+import { FormMode } from "src/enums/form-mode.enum";
+import { FormConfig } from "src/interfaces";
+import { SnackbarService } from "src/services/snackbar.service";
+import { AuthState } from "src/store/auth.state";
+import { UpdateUser } from "src/store/user.state.actions";
+
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { Store } from "@ngxs/store";
 
 @Component({
   selector: 'app-user-profile',

@@ -1,5 +1,5 @@
 import { Observable, take, tap } from "rxjs";
-import { Comment, CommentService } from "src/api-new";
+import { Comment, CommentService } from "src/api";
 import { FormMode } from "src/enums/form-mode.enum";
 import { SnackbarService } from "src/services/snackbar.service";
 import { AuthState } from "src/store/auth.state";

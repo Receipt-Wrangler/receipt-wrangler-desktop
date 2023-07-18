@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
-import { ReceiptService, Receipt } from 'src/api-new';
+import { Observable } from "rxjs";
+import { Receipt, ReceiptService } from "src/api";
+
+import { Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 
 @Injectable({
   providedIn: 'root',

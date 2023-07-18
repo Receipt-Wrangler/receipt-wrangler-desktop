@@ -1,5 +1,5 @@
 import { tap } from "rxjs";
-import { FileData, ReceiptImageService } from "src/api-new";
+import { FileData, ReceiptImageService } from "src/api";
 import { FormMode } from "src/enums/form-mode.enum";
 import { SnackbarService } from "src/services/snackbar.service";
 

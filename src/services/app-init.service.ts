@@ -1,7 +1,7 @@
 import { finalize, forkJoin, Observable, switchMap, take, tap } from "rxjs";
 import {
   AuthService, FeatureConfigService, Group, GroupsService, User, UserService
-} from "src/api-new";
+} from "src/api";
 import { GroupStatus } from "src/enums/group-status.enum";
 import { SetFeatureConfig } from "src/store/feature-config.state.actions";
 import { GroupState } from "src/store/group.state";

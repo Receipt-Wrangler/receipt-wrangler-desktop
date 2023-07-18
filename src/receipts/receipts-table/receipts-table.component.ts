@@ -1,49 +1,37 @@
-import { SelectionChange } from '@angular/cdk/collections';
+import { map, Observable, Subject, take, tap } from "rxjs";
+import { BulkStatusUpdateCommand, Category, Receipt, ReceiptService, Tag } from "src/api";
+import { GroupRole } from "src/enums/group-role.enum";
+import { ReceiptStatus } from "src/enums/receipt-status.enum";
+import { ReceiptFilterService } from "src/services/receipt-filter.service";
+import { SnackbarService } from "src/services/snackbar.service";
 import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, map, take, tap } from 'rxjs';
+  ConfirmationDialogComponent
+} from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
+import { GroupState } from "src/store/group.state";
 import {
-  BulkStatusUpdateCommand,
-  Category,
-  Receipt,
-  ReceiptService,
-  Tag,
-} from 'src/api-new';
-import { GroupRole } from 'src/enums/group-role.enum';
-import { ReceiptStatus } from 'src/enums/receipt-status.enum';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
-import { GroupState } from 'src/store/group.state';
+  ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilterData
+} from "src/store/receipt-table.actions";
+import { ReceiptTableState } from "src/store/receipt-table.state";
+import { TableColumn } from "src/table/table-column.interface";
+import { TableComponent } from "src/table/table/table.component";
+import { GroupUtil } from "src/utils/group.utils";
+
+import { SelectionChange } from "@angular/cdk/collections";
 import {
-  ResetReceiptFilter,
-  SetPage,
-  SetPageSize,
-  SetReceiptFilterData,
-} from 'src/store/receipt-table.actions';
-import { ReceiptTableState } from 'src/store/receipt-table.state';
-import { TableColumn } from 'src/table/table-column.interface';
-import { TableComponent } from 'src/table/table/table.component';
-import { GroupUtil } from 'src/utils/group.utils';
+  AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation
+} from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { PageEvent } from "@angular/material/paginator";
+import { Sort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Select, Store } from "@ngxs/store";
+
+import { ALL_GROUP, DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
 import {
-  ALL_GROUP,
-  DEFAULT_DIALOG_CONFIG,
-  DEFAULT_HOST_CLASS,
-} from '../../constants';
-import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
-import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.component';
-import { ReceiptFilterService } from 'src/services/receipt-filter.service';
+  BulkStatusUpdateComponent
+} from "../bulk-resolve-dialog/bulk-status-update-dialog.component";
+import { ReceiptFilterComponent } from "../receipt-filter/receipt-filter.component";
 
 @Component({
   selector: 'app-receipts-table',

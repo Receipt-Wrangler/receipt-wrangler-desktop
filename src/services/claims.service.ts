@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { Observable, switchMap, take } from 'rxjs';
-import { UserService } from 'src/api-new';
-import { SetAuthState } from 'src/store/auth.state.actions';
+import { Observable, switchMap, take } from "rxjs";
+import { UserService } from "src/api";
+import { SetAuthState } from "src/store/auth.state.actions";
+
+import { Injectable } from "@angular/core";
+import { Store } from "@ngxs/store";
 
 @Injectable({
   providedIn: 'root',

@@ -4,7 +4,7 @@ import {
 } from "rxjs";
 import {
   Category, FileData, Group, Receipt, ReceiptImageService, ReceiptService, Tag
-} from "src/api-new";
+} from "src/api";
 import { CarouselComponent } from "src/carousel/carousel/carousel.component";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
 import { RECEIPT_STATUS_OPTIONS } from "src/constants/receipt-status-options";

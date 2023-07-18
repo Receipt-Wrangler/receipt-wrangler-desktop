@@ -1,17 +1,13 @@
+import { catchError, Observable, switchMap, take, throwError } from "rxjs";
+import { AuthService } from "src/api";
+import { SnackbarService } from "src/services/snackbar.service";
+import { AuthState } from "src/store/auth.state";
+
 import {
-  HttpErrorResponse,
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest,
-  HttpStatusCode,
-} from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { Observable, catchError, switchMap, take, throwError } from 'rxjs';
-import { AuthService } from 'src/api-new';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { AuthState } from 'src/store/auth.state';
+  HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpStatusCode
+} from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Store } from "@ngxs/store";
 
 @Injectable({
   providedIn: 'root',

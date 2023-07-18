@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { User } from 'src/api-new';
+import { User } from "src/api";
+import { AuthGuard } from "src/guards/auth.guard";
+import { SidebarComponent } from "src/layout/sidebar/sidebar.component";
 
-import { AuthGuard } from 'src/guards/auth.guard';
-import { SidebarComponent } from 'src/layout/sidebar/sidebar.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+
 // set up dashboard
 const routes: Routes = [
   {

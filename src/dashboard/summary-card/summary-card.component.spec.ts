@@ -1,14 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from "rxjs";
+import { ApiModule, UserService } from "src/api";
 
-import { SummaryCardComponent } from './summary-card.component';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatCardModule } from "@angular/material/card";
+import { MatListModule } from "@angular/material/list";
+import { ActivatedRoute } from "@angular/router";
+import { NgxsModule } from "@ngxs/store";
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
-import { ActivatedRoute } from '@angular/router';
-import { NgxsModule } from '@ngxs/store';
-import { of } from 'rxjs';
-import { ApiModule, UserService } from 'src/api-new';
+import { SummaryCardComponent } from "./summary-card.component";
 
 describe('SummaryCardComponent', () => {
   let component: SummaryCardComponent;

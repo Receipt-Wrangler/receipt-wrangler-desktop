@@ -1,5 +1,5 @@
 import { of, switchMap, take, tap } from "rxjs";
-import { SearchResult, SearchService } from "src/api-new";
+import { SearchResult, SearchService } from "src/api";
 
 import { Component, ViewEncapsulation } from "@angular/core";
 import { FormControl } from "@angular/forms";

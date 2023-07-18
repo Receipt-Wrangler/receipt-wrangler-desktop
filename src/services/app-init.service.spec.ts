@@ -1,9 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+import { ApiModule } from "src/api";
 
-import { AppInitService } from './app-init.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxsModule } from '@ngxs/store';
-import { ApiModule } from 'src/api-new';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { NgxsModule } from "@ngxs/store";
+
+import { AppInitService } from "./app-init.service";
 
 describe('AppInitService', () => {
   let service: AppInitService;

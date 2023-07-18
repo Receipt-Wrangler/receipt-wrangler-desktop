@@ -1,5 +1,5 @@
 import { Observable, switchMap, take, tap } from "rxjs";
-import { AuthService, NotificationsService, User } from "src/api-new";
+import { AuthService, NotificationsService, User } from "src/api";
 import { SnackbarService } from "src/services/snackbar.service";
 import { AuthState } from "src/store/auth.state";
 import { Logout } from "src/store/auth.state.actions";

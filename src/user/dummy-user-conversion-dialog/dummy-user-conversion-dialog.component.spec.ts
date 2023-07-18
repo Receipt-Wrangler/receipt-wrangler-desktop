@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from "rxjs";
+import { ApiModule, UserService } from "src/api";
+import { PipesModule } from "src/pipes/pipes.module";
+import { SnackbarService } from "src/services/snackbar.service";
+import { UserState } from "src/store/user.state";
+import { UpdateUser } from "src/store/user.state.actions";
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NgxsModule, Store } from '@ngxs/store';
-import { of } from 'rxjs';
-import { ApiModule, UserService } from 'src/api-new';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { UserState } from 'src/store/user.state';
-import { UpdateUser } from 'src/store/user.state.actions';
-import { DummyUserConversionDialogComponent } from './dummy-user-conversion-dialog.component';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgxsModule, Store } from "@ngxs/store";
+
+import { DummyUserConversionDialogComponent } from "./dummy-user-conversion-dialog.component";
 
 describe('DummyUserConversionDialogComponent', () => {
   let component: DummyUserConversionDialogComponent;

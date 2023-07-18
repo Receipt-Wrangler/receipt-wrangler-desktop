@@ -1,5 +1,5 @@
 import { take, tap } from "rxjs";
-import { Notification, NotificationsService } from "src/api-new";
+import { Notification, NotificationsService } from "src/api";
 import { ParameterizedDataParser } from "src/utils";
 
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
