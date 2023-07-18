@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { Group, User } from 'src/models';
+import { Group, User } from "src/api";
+
+import { Component, Input } from "@angular/core";
 
 @Component({
   selector: 'app-avatar',

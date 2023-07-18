@@ -1,12 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import { NotificationComponent } from './notification.component';
-import { NotificationsService } from 'src/api/notifications.service';
-import { of } from 'rxjs';
-import { GroupState } from 'src/store/group.state';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule, Store } from '@ngxs/store';
+import { of } from 'rxjs';
+import { ApiModule, NotificationsService } from 'src/api';
+import { GroupState } from 'src/store/group.state';
+import { NotificationComponent } from './notification.component';
 
 describe('NotificationComponent', () => {
   let component: NotificationComponent;
@@ -18,6 +18,7 @@ describe('NotificationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [NotificationComponent],
       imports: [
+        ApiModule,
         HttpClientTestingModule,
         NgxsModule.forRoot([GroupState]),
         RouterTestingModule,
@@ -73,7 +74,7 @@ describe('NotificationComponent', () => {
 
   it('should delete notification', () => {
     const serviceSpy = spyOn(service, 'deleteNotificationById').and.returnValue(
-      of(undefined)
+      of(undefined as any)
     );
     const emitterSpy = spyOn(component.notificationDeleted, 'emit');
 

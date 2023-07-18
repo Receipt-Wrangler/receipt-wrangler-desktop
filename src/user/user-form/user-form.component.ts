@@ -1,31 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { UntilDestroy } from '@ngneat/until-destroy';
-import { Store } from '@ngxs/store';
-import {
-  catchError,
-  defer,
-  iif,
-  of,
-  startWith,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
-import { AuthService } from 'src/api/auth.service';
-import { UsersService } from 'src/api/users.service';
-import { UserRole } from 'src/enums/user_role.enum';
-import { User } from 'src/models';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { AuthState } from 'src/store/auth.state';
-import { AddUser, UpdateUser } from 'src/store/user.state.actions';
-import { UserValidators } from 'src/validators/user-validators';
+import { catchError, defer, iif, of, startWith, switchMap, take, tap } from "rxjs";
+import { AuthService, User, UserService } from "src/api";
+import { SnackbarService } from "src/services/snackbar.service";
+import { AuthState } from "src/store/auth.state";
+import { AddUser, UpdateUser } from "src/store/user.state.actions";
+import { UserValidators } from "src/validators/user-validators";
+
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { UntilDestroy } from "@ngneat/until-destroy";
+import { Store } from "@ngxs/store";
 
 @UntilDestroy()
 @Component({
@@ -41,13 +25,13 @@ export class UserFormComponent implements OnInit {
     'A dummy user is a user who cannot log in, but can still act as a receipt payer, or be charged shares. Dummy users can be converted to normal users, but normal users cannot be converted to dummy users.';
 
   constructor(
-    private formBuilder: FormBuilder,
-    private usersService: UsersService,
-    private snackbarService: SnackbarService,
-    public matDialogRef: MatDialogRef<UserFormComponent>,
-    private store: Store,
     private authService: AuthService,
-    private userValidators: UserValidators
+    private formBuilder: FormBuilder,
+    private snackbarService: SnackbarService,
+    private store: Store,
+    private userService: UserService,
+    private userValidators: UserValidators,
+    public matDialogRef: MatDialogRef<UserFormComponent>
   ) {}
 
   public form: FormGroup = new FormGroup({});
@@ -83,7 +67,7 @@ export class UserFormComponent implements OnInit {
   }
 
   private initForm(): void {
-    this.userRoleOptions = Object.keys(UserRole);
+    this.userRoleOptions = Object.keys(User.UserRoleEnum);
     this.form = this.formBuilder.group({
       displayName: [this.user?.displayName ?? '', Validators.required],
       username: [
@@ -107,8 +91,8 @@ export class UserFormComponent implements OnInit {
 
   public submit(): void {
     if (this.form.valid && this.user) {
-      this.usersService
-        .updateUser(this.user.id.toString(), this.form.value)
+      this.userService
+        .updateUserById(this.form.value, this.user.id)
         .pipe(
           take(1),
           tap(() => {
@@ -135,7 +119,7 @@ export class UserFormComponent implements OnInit {
         )
         .subscribe();
     } else if (this.form.valid && !this.user) {
-      this.usersService
+      this.userService
         .createUser(this.form.value)
         .pipe(
           take(1),

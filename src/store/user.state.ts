@@ -1,18 +1,9 @@
-import { Injectable } from '@angular/core';
-import {
-  Action,
-  createSelector,
-  Selector,
-  State,
-  StateContext,
-} from '@ngxs/store';
-import { User } from 'src/models/user';
-import {
-  AddUser,
-  RemoveUser,
-  SetUsers,
-  UpdateUser,
-} from './user.state.actions';
+import { User } from "src/api";
+
+import { Injectable } from "@angular/core";
+import { Action, createSelector, Selector, State, StateContext } from "@ngxs/store";
+
+import { AddUser, RemoveUser, SetUsers, UpdateUser } from "./user.state.actions";
 
 export interface UserStateInterface {
   users: User[];

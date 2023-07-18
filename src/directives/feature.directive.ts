@@ -1,8 +1,7 @@
-import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { FeatureConfigService } from 'src/api/feature-config.service';
-import { AuthState } from 'src/store/auth.state';
-import { FeatureConfigState } from 'src/store/feature-config.state';
+import { FeatureConfigState } from "src/store/feature-config.state";
+
+import { Directive, Input, TemplateRef, ViewContainerRef } from "@angular/core";
+import { Store } from "@ngxs/store";
 
 /**
  * Add the template content to the DOM unless the condition is true.

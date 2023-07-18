@@ -1,17 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { catchError, of, switchMap, tap } from 'rxjs';
-import { AuthService } from 'src/api/auth.service';
-import { AppInitService } from 'src/services/app-init.service';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { GroupState } from 'src/store/group.state';
+import { catchError, of, switchMap, tap } from "rxjs";
+import { AuthService } from "src/api";
+import { AppInitService } from "src/services/app-init.service";
+import { SnackbarService } from "src/services/snackbar.service";
+import { GroupState } from "src/store/group.state";
+
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Store } from "@ngxs/store";
 
 @Component({
   selector: 'app-auth-form',

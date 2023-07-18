@@ -1,12 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ApiModule } from "src/api";
+import { TableModule } from "src/table/table.module";
 
-import { UserListComponent } from './user-list.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxsModule } from '@ngxs/store';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { TableModule } from 'src/table/table.module';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgxsModule } from "@ngxs/store";
+
+import { UserListComponent } from "./user-list.component";
 
 describe('UserListComponent', () => {
   let component: UserListComponent;
@@ -16,10 +18,11 @@ describe('UserListComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [UserListComponent],
       imports: [
-        MatDialogModule,
+        ApiModule,
         HttpClientTestingModule,
-        NgxsModule.forRoot([]),
+        MatDialogModule,
         MatSnackBarModule,
+        NgxsModule.forRoot([]),
         TableModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

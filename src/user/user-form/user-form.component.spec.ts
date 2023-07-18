@@ -1,22 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UserFormComponent } from './user-form.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { User } from 'src/models';
-import { UserRole } from 'src/enums/user_role.enum';
-import { UsersService } from 'src/api/users.service';
-import { AuthService } from 'src/api/auth.service';
-import { of } from 'rxjs';
-import { AddUser, UpdateUser } from 'src/store/user.state.actions';
-import { UserState } from 'src/store/user.state';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { AuthState } from 'src/store/auth.state';
-import { compileComponentFromMetadata } from '@angular/compiler';
+import { of } from "rxjs";
+import { ApiModule, AuthService, User, UserService } from "src/api";
+import { PipesModule } from "src/pipes/pipes.module";
+import { SnackbarService } from "src/services/snackbar.service";
+import { AuthState } from "src/store/auth.state";
+import { UserState } from "src/store/user.state";
+import { AddUser, UpdateUser } from "src/store/user.state.actions";
+
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule, Validators } from "@angular/forms";
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgxsModule, Store } from "@ngxs/store";
+
+import { UserFormComponent } from "./user-form.component";
 
 describe('UserFormComponent', () => {
   let component: UserFormComponent;
@@ -33,6 +31,7 @@ describe('UserFormComponent', () => {
         PipesModule,
         MatDialogModule,
         MatSnackBarModule,
+        ApiModule,
       ],
       providers: [
         {
@@ -75,7 +74,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     } as User;
 
     component.user = user;
@@ -86,7 +85,7 @@ describe('UserFormComponent', () => {
     expect(component.form.value).toEqual({
       displayName: 'Pizza man',
       username: 'Waffle guy',
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     });
     expect(component.form.get('isDummyUser')?.value).toEqual(false);
   });
@@ -99,17 +98,17 @@ describe('UserFormComponent', () => {
     });
 
     spyOn(TestBed.inject(SnackbarService), 'success').and.returnValue();
-    spyOn(TestBed.inject(UsersService), 'getUsernameCount').and.returnValue(
-      of(0)
+    spyOn(TestBed.inject(UserService), 'getUsernameCount').and.returnValue(
+      of(0 as any)
     );
-    const userServiceSpy = spyOn(TestBed.inject(UsersService), 'updateUser');
-    userServiceSpy.and.returnValue(of(undefined));
+    const userServiceSpy = spyOn(TestBed.inject(UserService), 'updateUserById');
+    userServiceSpy.and.returnValue(of(undefined as any));
 
     const authServiceSpy = spyOn(
       TestBed.inject(AuthService),
       'getNewRefreshToken'
     );
-    authServiceSpy.and.returnValue(of(undefined));
+    authServiceSpy.and.returnValue(of(undefined as any));
 
     const storeSpy = spyOn(TestBed.inject(Store), 'dispatch');
     storeSpy.and.returnValue(of(undefined));
@@ -121,7 +120,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     } as User;
 
     component.user = user;
@@ -129,11 +128,14 @@ describe('UserFormComponent', () => {
 
     component.submit();
 
-    expect(userServiceSpy).toHaveBeenCalledWith('1', {
-      displayName: 'Pizza man',
-      username: 'Waffle guy',
-      userRole: UserRole.ADMIN,
-    } as User);
+    expect(userServiceSpy).toHaveBeenCalledWith(
+      {
+        displayName: 'Pizza man',
+        username: 'Waffle guy',
+        userRole: User.UserRoleEnum.ADMIN,
+      } as User,
+      1
+    );
 
     expect(storeSpy).toHaveBeenCalledOnceWith(
       new UpdateUser('1', {
@@ -155,17 +157,17 @@ describe('UserFormComponent', () => {
     });
 
     spyOn(TestBed.inject(SnackbarService), 'success').and.returnValue();
-    spyOn(TestBed.inject(UsersService), 'getUsernameCount').and.returnValue(
-      of(0)
+    spyOn(TestBed.inject(UserService), 'getUsernameCount').and.returnValue(
+      of(0 as any)
     );
-    const userServiceSpy = spyOn(TestBed.inject(UsersService), 'updateUser');
-    userServiceSpy.and.returnValue(of(undefined));
+    const userServiceSpy = spyOn(TestBed.inject(UserService), 'updateUserById');
+    userServiceSpy.and.returnValue(of(undefined as any));
 
     const authServiceSpy = spyOn(
       TestBed.inject(AuthService),
       'getNewRefreshToken'
     );
-    authServiceSpy.and.returnValue(of(undefined));
+    authServiceSpy.and.returnValue(of(undefined as any));
 
     const storeSpy = spyOn(TestBed.inject(Store), 'dispatch');
     storeSpy.and.returnValue(of(undefined));
@@ -177,7 +179,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     } as User;
 
     component.user = user;
@@ -185,11 +187,14 @@ describe('UserFormComponent', () => {
 
     component.submit();
 
-    expect(userServiceSpy).toHaveBeenCalledWith('1', {
-      displayName: 'Pizza man',
-      username: 'Waffle guy',
-      userRole: UserRole.ADMIN,
-    } as User);
+    expect(userServiceSpy).toHaveBeenCalledWith(
+      {
+        displayName: 'Pizza man',
+        username: 'Waffle guy',
+        userRole: User.UserRoleEnum.ADMIN,
+      } as User,
+      1
+    );
 
     expect(storeSpy).toHaveBeenCalledOnceWith(
       new UpdateUser('1', {
@@ -206,19 +211,19 @@ describe('UserFormComponent', () => {
 
   it('should attempt to create user', () => {
     spyOn(TestBed.inject(SnackbarService), 'success').and.returnValue();
-    spyOn(TestBed.inject(UsersService), 'getUsernameCount').and.returnValue(
-      of(0)
+    spyOn(TestBed.inject(UserService), 'getUsernameCount').and.returnValue(
+      of(0 as any)
     );
     const user: User = {
       id: 1,
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     } as User;
 
-    const userServiceSpy = spyOn(TestBed.inject(UsersService), 'createUser');
-    userServiceSpy.and.returnValue(of(user));
+    const userServiceSpy = spyOn(TestBed.inject(UserService), 'createUser');
+    userServiceSpy.and.returnValue(of(user as any));
 
     const storeSpy = spyOn(TestBed.inject(Store), 'dispatch');
     storeSpy.and.returnValue(of(undefined));
@@ -231,7 +236,7 @@ describe('UserFormComponent', () => {
       username: 'Waffle guy',
       isDummyUser: false,
       password: 'Dough boy',
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
     });
 
     component.submit();
@@ -240,7 +245,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: User.UserRoleEnum.ADMIN,
       password: 'Dough boy',
     } as any);
 

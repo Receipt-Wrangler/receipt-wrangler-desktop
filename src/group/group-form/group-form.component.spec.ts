@@ -10,12 +10,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { GroupsService } from 'src/api/groups.service';
+import { ApiModule, Group, GroupMember, GroupsService } from 'src/api';
 import { ButtonModule } from 'src/button/button.module';
 import { FormMode } from 'src/enums/form-mode.enum';
-import { GroupRole } from 'src/enums/group-role.enum';
 import { InputModule } from 'src/input/input.module';
-import { Group } from 'src/models';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SelectModule } from 'src/select/select.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
@@ -25,7 +23,6 @@ import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
 import { GroupFormComponent } from './group-form.component';
-import { GroupStatus } from 'src/enums/group-status.enum';
 
 describe('GroupFormComponent', () => {
   let component: GroupFormComponent;
@@ -35,6 +32,7 @@ describe('GroupFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [GroupFormComponent, GroupMemberFormComponent],
       imports: [
+        ApiModule,
         ButtonModule,
         HttpClientTestingModule,
         InputModule,
@@ -84,7 +82,7 @@ describe('GroupFormComponent', () => {
     formGroup.patchValue({
       userId: '2',
       groupId: '1',
-      groupRole: GroupRole.VIEWER,
+      groupRole: GroupMember.GroupRoleEnum.VIEWER,
     });
     spyOn(matDialog, 'open').and.returnValue({
       afterClosed: () => of(formGroup),
@@ -104,12 +102,12 @@ describe('GroupFormComponent', () => {
       {
         userId: 2,
         groupId: 1,
-        groupRole: GroupRole.OWNER,
+        groupRole: GroupMember.GroupRoleEnum.OWNER,
       },
       {
         userId: 3,
         groupId: 1,
-        groupRole: GroupRole.OWNER,
+        groupRole: GroupMember.GroupRoleEnum.OWNER,
       },
     ];
     const matDialog = TestBed.inject(MatDialog);
@@ -117,7 +115,7 @@ describe('GroupFormComponent', () => {
     formGroup.patchValue({
       userId: 3,
       groupId: 1,
-      groupRole: GroupRole.OWNER,
+      groupRole: GroupMember.GroupRoleEnum.OWNER,
     });
     spyOn(matDialog, 'open').and.returnValue({
       afterClosed: () => of(formGroup),
@@ -133,12 +131,12 @@ describe('GroupFormComponent', () => {
           {
             userId: 2,
             groupId: 1,
-            groupRole: GroupRole.OWNER,
+            groupRole: GroupMember.GroupRoleEnum.OWNER,
           },
           {
             userId: 1,
             groupId: 1,
-            groupRole: GroupRole.VIEWER,
+            groupRole: GroupMember.GroupRoleEnum.VIEWER,
           },
         ],
       },
@@ -159,7 +157,7 @@ describe('GroupFormComponent', () => {
     const result = {
       userId: 1,
       groupId: 1,
-      groupRole: GroupRole.VIEWER,
+      groupRole: GroupMember.GroupRoleEnum.VIEWER,
     };
 
     route.snapshot.data = {
@@ -171,7 +169,7 @@ describe('GroupFormComponent', () => {
           {
             userId: 2,
             groupId: 1,
-            groupRole: GroupRole.OWNER,
+            groupRole: GroupMember.GroupRoleEnum.OWNER,
           },
           result,
         ],
@@ -198,7 +196,7 @@ describe('GroupFormComponent', () => {
       name: 'test',
       isDefault: true,
       groupMembers: [],
-      status: GroupStatus.ACTIVE,
+      status: Group.StatusEnum.ACTIVE,
     };
 
     const route = TestBed.inject(ActivatedRoute);
@@ -227,7 +225,7 @@ describe('GroupFormComponent', () => {
 
     expect(createSpy).toHaveBeenCalledWith({
       name: 'test',
-      status: GroupStatus.ACTIVE,
+      status: Group.StatusEnum.ACTIVE,
       groupMembers: [],
     } as any);
     expect(storeSpy).toHaveBeenCalledWith(new AddGroup(returnValue));
@@ -243,17 +241,17 @@ describe('GroupFormComponent', () => {
       id: 1,
       name: 'test',
       isDefault: true,
-      status: GroupStatus.ACTIVE,
+      status: Group.StatusEnum.ACTIVE,
       groupMembers: [
         {
           userId: 2,
           groupId: 1,
-          groupRole: GroupRole.OWNER,
+          groupRole: GroupMember.GroupRoleEnum.OWNER,
         },
         {
           userId: 1,
           groupId: 1,
-          groupRole: GroupRole.VIEWER,
+          groupRole: GroupMember.GroupRoleEnum.VIEWER,
         },
       ],
     };
@@ -277,7 +275,7 @@ describe('GroupFormComponent', () => {
       new FormGroup({
         userId: new FormControl(3),
         groupId: new FormControl(1),
-        groupRole: new FormControl(GroupRole.EDITOR),
+        groupRole: new FormControl(GroupMember.GroupRoleEnum.EDITOR),
       })
     );
 
@@ -293,26 +291,26 @@ describe('GroupFormComponent', () => {
     expect(updateSpy).toHaveBeenCalledWith(
       {
         name: 'new name',
-        status: GroupStatus.ACTIVE,
+        status: Group.StatusEnum.ACTIVE,
         groupMembers: [
           {
             userId: 2,
             groupId: 1,
-            groupRole: GroupRole.OWNER,
+            groupRole: GroupMember.GroupRoleEnum.OWNER,
           },
           {
             userId: 1,
             groupId: 1,
-            groupRole: GroupRole.VIEWER,
+            groupRole: GroupMember.GroupRoleEnum.VIEWER,
           },
           {
             userId: 3,
             groupId: 1,
-            groupRole: GroupRole.EDITOR,
+            groupRole: GroupMember.GroupRoleEnum.EDITOR,
           },
         ],
       } as Group,
-      component.originalGroup?.id.toString() as string
+      component.originalGroup?.id as number
     );
     expect(storeSpy).toHaveBeenCalledWith(new UpdateGroup(returnValue));
     expect(routerSpy).toHaveBeenCalledWith('/groups/1/view');

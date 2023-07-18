@@ -1,7 +1,5 @@
-import { GroupStatus } from 'src/enums/group-status.enum';
-import { ItemStatus } from 'src/enums/receipt-item.status.enum';
-import { ReceiptStatus } from 'src/enums/receipt-status.enum';
+import { Group, Item, Receipt } from 'src/api';
 
-export const RECEIPT_STATUS_OPTIONS = Object.keys(ReceiptStatus);
-export const RECEIPT_ITEM_STATUS_OPTIONS = Object.keys(ItemStatus);
-export const GROUP_STATUS_OPTIONS = Object.keys(GroupStatus);
+export const RECEIPT_STATUS_OPTIONS = Object.keys(Receipt.StatusEnum);
+export const RECEIPT_ITEM_STATUS_OPTIONS = Object.keys(Item.StatusEnum);
+export const GROUP_STATUS_OPTIONS = Object.keys(Group.StatusEnum);

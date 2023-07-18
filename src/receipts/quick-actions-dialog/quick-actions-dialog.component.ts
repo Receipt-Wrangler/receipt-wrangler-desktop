@@ -1,18 +1,12 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Receipt } from 'src/models';
-import { Item } from 'src/models/item';
-import { User } from 'src/models/user';
-import { RadioButtonData } from 'src/radio-group/models';
-import { buildItemForm } from '../utils/form.utils';
+import { Item, Receipt, User } from "src/api";
+import { RadioButtonData } from "src/radio-group/models";
+
+import { Component, Input, OnInit } from "@angular/core";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
+
+import { buildItemForm } from "../utils/form.utils";
 
 enum QuickActions {
   'SplitEvenly' = 'Split Evenly',
@@ -158,6 +152,6 @@ export class QuickActionsDialogComponent implements OnInit {
       chargedToUserId: u.id,
       receiptId: this.originalReceipt?.id,
       amount: amount,
-    } as Item;
+    } as any as Item;
   }
 }

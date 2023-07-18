@@ -1,10 +1,10 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { of, switchMap, take, tap } from 'rxjs';
-import { SearchService } from 'src/api/search.service';
-import { SearchResult } from '../../models';
-import { Router } from '@angular/router';
+import { of, switchMap, take, tap } from "rxjs";
+import { SearchResult, SearchService } from "src/api";
+
+import { Component, ViewEncapsulation } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
 @UntilDestroy()
 @Component({
@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
 })
 export class SearchbarComponent {
-  public results: any[] = [];
+  public results: SearchResult[] = [];
 
   public searchFormControl = new FormControl('');
 
@@ -29,7 +29,9 @@ export class SearchbarComponent {
       .pipe(
         untilDestroyed(this),
         switchMap((value) =>
-          value ? this.searchService.search(value ?? '').pipe(take(1)) : of([])
+          value
+            ? this.searchService.receiptSearch(value ?? '').pipe(take(1))
+            : of([] as SearchResult[])
         ),
         tap((results) => {
           this.results = results;

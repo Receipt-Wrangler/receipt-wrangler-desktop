@@ -1,17 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from "rxjs";
+import { ApiModule, UserService } from "src/api";
+import { PipesModule } from "src/pipes/pipes.module";
+import { SnackbarService } from "src/services/snackbar.service";
+import { UserState } from "src/store/user.state";
+import { UpdateUser } from "src/store/user.state.actions";
 
-import { DummyUserConversionDialogComponent } from './dummy-user-conversion-dialog.component';
-import { MatDialogRef } from '@angular/material/dialog';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { UsersService } from 'src/api/users.service';
-import { of } from 'rxjs';
-import { UserState } from 'src/store/user.state';
-import { UpdateUser } from 'src/store/user.state.actions';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgxsModule, Store } from "@ngxs/store";
+
+import { DummyUserConversionDialogComponent } from "./dummy-user-conversion-dialog.component";
 
 describe('DummyUserConversionDialogComponent', () => {
   let component: DummyUserConversionDialogComponent;
@@ -21,9 +22,10 @@ describe('DummyUserConversionDialogComponent', () => {
     TestBed.configureTestingModule({
       declarations: [DummyUserConversionDialogComponent],
       imports: [
+        ApiModule,
         HttpClientTestingModule,
-        NgxsModule.forRoot([UserState]),
         MatSnackBarModule,
+        NgxsModule.forRoot([UserState]),
         PipesModule,
       ],
       providers: [
@@ -62,10 +64,10 @@ describe('DummyUserConversionDialogComponent', () => {
   });
 
   it('should call service and call update in state', () => {
-    const usersService = TestBed.inject(UsersService);
+    const usersService = TestBed.inject(UserService);
 
-    const usersSpy = spyOn(usersService, 'convertDummyUserToNormalUser');
-    usersSpy.and.returnValue(of(undefined));
+    const usersSpy = spyOn(usersService, 'convertDummyUserById');
+    usersSpy.and.returnValue(of(undefined as any));
 
     const store = TestBed.inject(Store);
     const storeSpy = spyOn(store, 'dispatch');
@@ -90,9 +92,12 @@ describe('DummyUserConversionDialogComponent', () => {
 
     component.submitButtonClicked();
 
-    expect(usersSpy).toHaveBeenCalledWith('1', {
-      password: 'hello world',
-    });
+    expect(usersSpy).toHaveBeenCalledWith(
+      {
+        password: 'hello world',
+      },
+      1
+    );
     expect(storeSpy).toHaveBeenCalledWith(
       new UpdateUser('1', { id: 1, isDummyUser: false } as any)
     );

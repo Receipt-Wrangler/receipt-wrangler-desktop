@@ -1,4 +1,36 @@
 import {
+  distinctUntilChanged,
+  finalize,
+  forkJoin,
+  iif,
+  Observable,
+  of,
+  skip,
+  startWith,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
+import {
+  Category,
+  FileData,
+  Group,
+  GroupMember,
+  Receipt,
+  ReceiptImageService,
+  ReceiptService,
+  Tag,
+} from 'src/api';
+import { CarouselComponent } from 'src/carousel/carousel/carousel.component';
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
+import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
+import { FormMode } from 'src/enums/form-mode.enum';
+import { SnackbarService } from 'src/services/snackbar.service';
+import { GroupState } from 'src/store/group.state';
+import { UserState } from 'src/store/user.state';
+import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomplete/user-autocomplete.component';
+
+import {
   Component,
   EmbeddedViewRef,
   OnInit,
@@ -12,37 +44,10 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
-import {
-  Observable,
-  distinctUntilChanged,
-  finalize,
-  forkJoin,
-  iif,
-  of,
-  skip,
-  startWith,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
-import { ReceiptImagesService } from 'src/api/receipt-images.service';
-import { ReceiptsService } from 'src/api/receipts.service';
-import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
-import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { GroupRole } from 'src/enums/group-role.enum';
-import { ReceiptStatus } from 'src/enums/receipt-status.enum';
-import { Category, Receipt, Tag } from 'src/models';
-import { FileData } from 'src/models/file-data';
-import { Group } from 'src/models/group';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { GroupState } from 'src/store/group.state';
-import { UserState } from 'src/store/user.state';
-import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomplete/user-autocomplete.component';
+
 import { ItemListComponent } from '../item-list/item-list.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
-import { CarouselComponent } from 'src/carousel/carousel/carousel.component';
 
 @UntilDestroy()
 @Component({
@@ -89,7 +94,7 @@ export class ReceiptFormComponent implements OnInit {
 
   public formMode = FormMode;
 
-  public groupRole = GroupRole;
+  public groupRole = GroupMember.GroupRoleEnum;
 
   public editLink = '';
 
@@ -110,8 +115,8 @@ export class ReceiptFormComponent implements OnInit {
   public receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
 
   constructor(
-    private receiptsService: ReceiptsService,
-    private receiptImagesService: ReceiptImagesService,
+    private receiptService: ReceiptService,
+    private receiptImageService: ReceiptImageService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private snackbarService: SnackbarService,
@@ -194,7 +199,7 @@ export class ReceiptFormComponent implements OnInit {
         this.originalReceipt?.groupId ?? Number(selectedGroupId),
         Validators.required,
       ],
-      status: this.originalReceipt?.status ?? ReceiptStatus.OPEN,
+      status: this.originalReceipt?.status ?? Receipt.StatusEnum.OPEN,
     });
 
     if (this.mode === FormMode.view) {
@@ -239,11 +244,12 @@ export class ReceiptFormComponent implements OnInit {
     ) {
       this.imagesLoading = true;
       this.originalReceipt?.imageFiles.forEach((file) => {
-        this.receiptImagesService
-          .getImageFiles(file.id.toString())
+        this.receiptImageService
+          .getReceiptImageById(file.id)
           .pipe(
             tap((data) => {
-              file.imageData = data;
+              // TODO: clean this up
+              file.imageData = data as any;
               this.images.push(file);
             }),
             finalize(() => (this.imagesLoading = false))
@@ -276,8 +282,8 @@ export class ReceiptFormComponent implements OnInit {
       this.images.splice(index, 1);
     } else {
       const image = this.images[index];
-      this.receiptImagesService
-        .deleteImage(image.id.toString())
+      this.receiptImageService
+        .deleteReceiptImageById(image.id)
         .pipe(
           tap(() => {
             this.images.splice(index, 1);
@@ -309,8 +315,8 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public duplicateReceipt(): void {
-    this.receiptsService
-      .duplicateReceipt(this.originalReceipt?.id?.toString() ?? '')
+    this.receiptService
+      .duplicateReceipt(this.originalReceipt?.id as number)
       .pipe(
         take(1),
         tap((r: Receipt) => {
@@ -354,8 +360,8 @@ export class ReceiptFormComponent implements OnInit {
       );
     }
     if (this.originalReceipt && this.form.valid) {
-      this.receiptsService
-        .updateReceipt(this.originalReceipt.id.toString(), this.form.value)
+      this.receiptService
+        .updateReceipt(this.form.value, this.originalReceipt.id as number)
         .pipe(
           take(1),
           tap(() => {
@@ -368,7 +374,7 @@ export class ReceiptFormComponent implements OnInit {
         .subscribe();
     } else if (this.mode === FormMode.add && this.form.valid) {
       let route: string;
-      this.receiptsService
+      this.receiptService
         .createReceipt(this.form.value)
         .pipe(
           take(1),
@@ -381,7 +387,7 @@ export class ReceiptFormComponent implements OnInit {
               () => this.images.length > 0,
               forkJoin(
                 this.images.map((image) =>
-                  this.receiptImagesService.uploadImage(
+                  this.receiptImageService.uploadReceiptImage(
                     formatImageData(image, r.id)
                   )
                 )

@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { GroupRole } from 'src/enums/group-role.enum';
+import { GroupMember } from 'src/api';
 import { GroupState } from 'src/store/group.state';
 import { GroupUtil } from 'src/utils/group.utils';
 
 @Injectable({
   providedIn: 'root',
 })
-export class GroupRoleGuard  {
+export class GroupRoleGuard {
   constructor(
     private store: Store,
     private groupUtil: GroupUtil,
@@ -25,7 +30,7 @@ export class GroupRoleGuard  {
     | UrlTree {
     let hasAccess = false;
     let groupId: number | undefined = undefined;
-    const groupRole = route.data['groupRole'] as GroupRole;
+    const groupRole = route.data['groupRole'] as GroupMember.GroupRoleEnum;
 
     const useRouteId = route.data['useRouteGroupId'];
     if (useRouteId) {

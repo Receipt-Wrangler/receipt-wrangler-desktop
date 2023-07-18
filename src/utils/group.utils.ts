@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { GroupRole } from 'src/enums/group-role.enum';
+import { Group, GroupMember } from 'src/api';
 import { AuthState } from 'src/store/auth.state';
 import { GroupState } from 'src/store/group.state';
 
@@ -12,8 +12,10 @@ export class GroupUtil {
 
   public hasGroupAccess(
     groupId: number | undefined,
-    groupRole: GroupRole
+    groupRole: GroupMember.GroupRoleEnum
   ): boolean {
+    const GroupRole = GroupMember.GroupRoleEnum;
+
     const roles = [GroupRole.VIEWER, GroupRole.EDITOR, GroupRole.OWNER];
     const requiredIndex = roles.findIndex((v) => v === groupRole) as number;
 

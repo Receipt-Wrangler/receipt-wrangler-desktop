@@ -8,10 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { SearchService } from 'src/api/search.service';
-import { SearchResult } from 'src/models';
-
 import { SearchbarComponent } from './searchbar.component';
+import { ApiModule, SearchResult, SearchService } from 'src/api';
 
 describe('SearchbarComponent', () => {
   let component: SearchbarComponent;
@@ -21,6 +19,7 @@ describe('SearchbarComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [SearchbarComponent],
       imports: [
+        ApiModule,
         HttpClientTestingModule,
         MatAutocompleteModule,
         ReactiveFormsModule,
@@ -69,7 +68,7 @@ describe('SearchbarComponent', () => {
   });
 
   it('should attempt to call the search service', () => {
-    const spy = spyOn(TestBed.inject(SearchService), 'search');
+    const spy = spyOn(TestBed.inject(SearchService), 'receiptSearch');
     spy.and.returnValue(
       of([
         {
@@ -79,7 +78,7 @@ describe('SearchbarComponent', () => {
           name: 'Hello',
           date: 'totally a date',
         },
-      ])
+      ] as any)
     );
 
     component.ngOnInit();

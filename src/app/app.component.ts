@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { EventType, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { take } from 'rxjs';
-import { AuthService } from 'src/api/auth.service';
-import { AuthState } from 'src/store/auth.state';
+import { take } from "rxjs";
+import { AuthService } from "src/api";
+import { AuthState } from "src/store/auth.state";
+
+import { Component, OnInit } from "@angular/core";
+import { EventType, Router } from "@angular/router";
+import { Store } from "@ngxs/store";
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,9 @@ export class AppComponent implements OnInit {
   title = 'receipt-wrangler';
 
   constructor(
-    private store: Store,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {}
 
   public ngOnInit(): void {

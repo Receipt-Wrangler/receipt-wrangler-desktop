@@ -1,8 +1,10 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { UserRole } from 'src/enums/user_role.enum';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { SidebarComponent } from 'src/layout/sidebar/sidebar.component';
+import { User } from "src/api";
+import { AuthGuard } from "src/guards/auth.guard";
+import { SidebarComponent } from "src/layout/sidebar/sidebar.component";
+
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+
 // set up dashboard
 const routes: Routes = [
   {
@@ -47,7 +49,7 @@ const routes: Routes = [
           import('../user/user.module').then((m) => m.UserModule),
         canActivate: [AuthGuard],
         data: {
-          role: UserRole.ADMIN,
+          role: User.UserRoleEnum.ADMIN,
         },
       },
       {

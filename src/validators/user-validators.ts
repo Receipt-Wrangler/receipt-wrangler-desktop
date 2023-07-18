@@ -1,22 +1,19 @@
-import { Injectable } from '@angular/core';
-import {
-  AsyncValidatorFn,
-  AbstractControl,
-  ValidationErrors,
-} from '@angular/forms';
-import { Observable, map, catchError, of } from 'rxjs';
-import { UsersService } from 'src/api/users.service';
+import { map, Observable } from "rxjs";
+import { UserService } from "src/api";
+
+import { Injectable } from "@angular/core";
+import { AbstractControl, AsyncValidatorFn, ValidationErrors } from "@angular/forms";
 
 @Injectable()
 export class UserValidators {
-  constructor(private usersService: UsersService) {}
+  constructor(private userService: UserService) {}
   uniqueUsername(threshold: number, originalValue: string): AsyncValidatorFn {
     return (
       control: AbstractControl
     ):
       | Promise<ValidationErrors | null>
       | Observable<ValidationErrors | null> => {
-      return this.usersService.getUsernameCount(control.value).pipe(
+      return this.userService.getUsernameCount(control.value).pipe(
         map((usernameCount) => {
           if (usernameCount > threshold && control.value !== originalValue) {
             return { duplicate: true };

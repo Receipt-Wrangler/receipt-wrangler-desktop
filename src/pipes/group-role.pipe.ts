@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { GroupRole } from 'src/enums/group-role.enum';
+import { GroupMember } from 'src/api';
 import { GroupUtil } from 'src/utils/group.utils';
 
 @Pipe({
@@ -10,7 +10,7 @@ export class GroupRolePipe implements PipeTransform {
 
   public transform(
     groupId: number | string | undefined,
-    groupRole: GroupRole
+    groupRole: GroupMember.GroupRoleEnum
   ): boolean {
     // if group id is just a number
     if (groupId === 'all') {

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormMode } from 'src/enums/form-mode.enum';
-import { GroupRole } from 'src/enums/group-role.enum';
 import { GroupRoleGuard } from 'src/guards/group-role.guard';
 import { FormConfig } from 'src/interfaces/form-config.interface';
 import { GroupFormComponent } from './group-form/group-form.component';
 import { GroupListComponent } from './group-list/group-list.component';
 import { GroupResolverService } from './resolvers/group-resolver.service';
+import { GroupMember } from 'src/api';
 
 const routes: Routes = [
   {
@@ -34,7 +34,7 @@ const routes: Routes = [
         mode: FormMode.view,
         headerText: 'View Group',
       } as FormConfig,
-      groupRole: GroupRole.VIEWER,
+      groupRole: GroupMember.GroupRoleEnum.VIEWER,
     },
     canActivate: [GroupRoleGuard],
   },
@@ -49,7 +49,7 @@ const routes: Routes = [
         mode: FormMode.edit,
         headerText: 'Edit Group',
       } as FormConfig,
-      groupRole: GroupRole.OWNER,
+      groupRole: GroupMember.GroupRoleEnum.OWNER,
       useRouteGroupId: true,
     },
     canActivate: [GroupRoleGuard],

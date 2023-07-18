@@ -1,21 +1,21 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ReceiptStatus } from 'src/enums/receipt-status.enum';
+import { Receipt } from 'src/api';
 
 @Pipe({
-  name: 'status'
+  name: 'status',
 })
 export class StatusPipe implements PipeTransform {
   public transform(status: string): string {
     switch (status) {
-      case ReceiptStatus.OPEN:
-        return "Open"
-        
-      case ReceiptStatus.NEEDS_ATTENTION:
-        return "Needs Attention"
-      
-        case ReceiptStatus.RESOLVED:
-          return "Resolved"
-    
+      case Receipt.StatusEnum.OPEN:
+        return 'Open';
+
+      case Receipt.StatusEnum.NEEDSATTENTION:
+        return 'Needs Attention';
+
+      case Receipt.StatusEnum.RESOLVED:
+        return 'Resolved';
+
       default:
         return status;
     }

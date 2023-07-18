@@ -1,26 +1,13 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewEncapsulation,
-} from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Select, Store } from '@ngxs/store';
-import { filter, map, Observable, of, pipe, startWith, take, tap } from 'rxjs';
-import { CommentsService } from 'src/api/comments.service';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { AuthState } from 'src/store/auth.state';
-import { Comment } from '../../models/comment';
+import { Observable, take, tap } from "rxjs";
+import { Comment, CommentService } from "src/api";
+import { FormMode } from "src/enums/form-mode.enum";
+import { SnackbarService } from "src/services/snackbar.service";
+import { AuthState } from "src/store/auth.state";
+
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntilDestroy } from "@ngneat/until-destroy";
+import { Select, Store } from "@ngxs/store";
 
 @UntilDestroy()
 @Component({
@@ -47,7 +34,7 @@ export class ReceiptCommentsComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
-    private commentsService: CommentsService,
+    private commentService: CommentService,
     private snackbarService: SnackbarService
   ) {}
 
@@ -68,7 +55,7 @@ export class ReceiptCommentsComponent implements OnInit {
       this.newCommentFormControl.reset();
       this.commentsUpdated.emit(this.commentsArray);
     } else if (isValid && this.mode === FormMode.view) {
-      this.commentsService
+      this.commentService
         .addComment(newComment)
         .pipe(
           take(1),
@@ -92,8 +79,8 @@ export class ReceiptCommentsComponent implements OnInit {
           commentIdToDelete = comment.replies[replyIndex].id;
         }
 
-        this.commentsService
-          .deleteComment(commentIdToDelete.toString())
+        this.commentService
+          .deleteComment(commentIdToDelete)
           .pipe(
             take(1),
             tap(() => {
@@ -182,7 +169,7 @@ export class ReceiptCommentsComponent implements OnInit {
     const replyFormGroup = this.newCommentReplyMap[this.comments[index].id];
 
     if (replyFormGroup.valid && this.mode === FormMode.view) {
-      this.commentsService
+      this.commentService
         .addComment(replyFormGroup.value)
         .pipe(
           take(1),

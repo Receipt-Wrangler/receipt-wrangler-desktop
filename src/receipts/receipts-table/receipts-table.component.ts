@@ -1,3 +1,28 @@
+import { map, Observable, Subject, take, tap } from 'rxjs';
+import {
+  BulkStatusUpdateCommand,
+  Category,
+  Group,
+  GroupMember,
+  Receipt,
+  ReceiptService,
+  Tag,
+} from 'src/api';
+import { ReceiptFilterService } from 'src/services/receipt-filter.service';
+import { SnackbarService } from 'src/services/snackbar.service';
+import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
+import { GroupState } from 'src/store/group.state';
+import {
+  ResetReceiptFilter,
+  SetPage,
+  SetPageSize,
+  SetReceiptFilterData,
+} from 'src/store/receipt-table.actions';
+import { ReceiptTableState } from 'src/store/receipt-table.state';
+import { TableColumn } from 'src/table/table-column.interface';
+import { TableComponent } from 'src/table/table/table.component';
+import { GroupUtil } from 'src/utils/group.utils';
+
 import { SelectionChange } from '@angular/cdk/collections';
 import {
   AfterViewInit,
@@ -13,25 +38,7 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, map, take, tap } from 'rxjs';
-import { BulkStatusUpdate, ReceiptsService } from 'src/api/receipts.service';
-import { GroupRole } from 'src/enums/group-role.enum';
-import { ReceiptStatus } from 'src/enums/receipt-status.enum';
-import { Category, Tag } from 'src/models';
-import { Receipt } from 'src/models/receipt';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
-import { GroupState } from 'src/store/group.state';
-import {
-  ResetReceiptFilter,
-  SetPage,
-  SetPageSize,
-  SetReceiptFilterData,
-} from 'src/store/receipt-table.actions';
-import { ReceiptTableState } from 'src/store/receipt-table.state';
-import { TableColumn } from 'src/table/table-column.interface';
-import { TableComponent } from 'src/table/table/table.component';
-import { GroupUtil } from 'src/utils/group.utils';
+
 import {
   ALL_GROUP,
   DEFAULT_DIALOG_CONFIG,
@@ -39,6 +46,7 @@ import {
 } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
 import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.component';
+import { ReceiptStatus } from 'src/api/model/receiptStatus';
 
 @Component({
   selector: 'app-receipts-table',
@@ -49,13 +57,14 @@ import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.compone
 })
 export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(
-    private receiptsService: ReceiptsService,
-    private snackbarService: SnackbarService,
-    private store: Store,
+    private activatedRoute: ActivatedRoute,
     private groupUtil: GroupUtil,
-    private router: Router,
     private matDialog: MatDialog,
-    private activatedRoute: ActivatedRoute
+    private receiptFilterService: ReceiptFilterService,
+    private receiptService: ReceiptService,
+    private router: Router,
+    private snackbarService: SnackbarService,
+    private store: Store
   ) {}
 
   @ViewChild('dateCell') dateCell!: TemplateRef<any>;
@@ -90,7 +99,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public groupId: string = '0';
 
-  public groupRole = GroupRole;
+  public groupRole = GroupMember.GroupRoleEnum;
 
   public dataSource: MatTableDataSource<Receipt> =
     new MatTableDataSource<Receipt>([]);
@@ -129,8 +138,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .selectSnapshot(GroupState.selectedGroupId)
       ?.toString();
 
-    this.receiptsService
-      .getPagedReceiptsForGroups(this.groupId?.toString())
+    this.receiptFilterService
+      .getPagedReceiptsForGroups(this.groupId)
       .pipe(
         take(1),
         tap((pagedData) => {
@@ -235,7 +244,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       const groupIdNumber = Number.parseInt(this.groupId);
       const hasAccess = this.groupUtil.hasGroupAccess(
         groupIdNumber,
-        GroupRole.EDITOR
+        GroupMember.GroupRoleEnum.EDITOR
       );
       if (hasAccess) {
         this.displayedColumns.push('actions');
@@ -259,7 +268,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         })
       );
 
-      this.receiptsService
+      this.receiptFilterService
         .getPagedReceiptsForGroups(this.groupId.toString())
         .pipe(
           take(1),
@@ -302,7 +311,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   private getFilteredReceipts(): void {
-    this.receiptsService
+    this.receiptFilterService
       .getPagedReceiptsForGroups(this.groupId.toString())
       .pipe(
         take(1),
@@ -326,8 +335,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         take(1),
         tap((r) => {
           if (r) {
-            this.receiptsService
-              .deleteReceipt(row.id.toString())
+            this.receiptService
+              .deleteReceiptById(row.id as number)
               .pipe(
                 take(1),
                 tap(() => {
@@ -345,8 +354,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   public duplicateReceipt(id: string): void {
-    this.receiptsService
-      .duplicateReceipt(id)
+    this.receiptService
+      .duplicateReceipt(Number.parseInt(id))
       .pipe(
         tap((r: Receipt) => {
           this.snackbarService.success('Receipt successfully duplicated');
@@ -361,7 +370,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new SetPage(newPage));
     this.store.dispatch(new SetPageSize(pageEvent.pageSize));
 
-    this.receiptsService
+    this.receiptFilterService
       .getPagedReceiptsForGroups(this.groupId.toString())
       .pipe(
         take(1),
@@ -388,21 +397,21 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
             commentForm:
               | {
                   comment: string;
-                  status: ReceiptStatus;
+                  status: Receipt.StatusEnum;
                 }
               | undefined
           ) => {
             if (this.table.selection.hasValue() && commentForm) {
               const receiptIds = (
                 this.table.selection.selected as Receipt[]
-              ).map((r) => r.id);
+              ).map((r) => r.id as number);
 
-              const bulkResolve: BulkStatusUpdate = {
+              const bulkResolve: BulkStatusUpdateCommand = {
                 comment: commentForm?.comment ?? '',
                 status: commentForm?.status,
                 receiptIds: receiptIds,
               };
-              this.receiptsService
+              this.receiptService
                 .bulkReceiptStatusUpdate(bulkResolve)
                 .pipe(
                   take(1),

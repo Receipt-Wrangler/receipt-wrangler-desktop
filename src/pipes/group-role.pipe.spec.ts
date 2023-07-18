@@ -3,8 +3,8 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { GroupState } from 'src/store/group.state';
 import { GroupUtil } from 'src/utils/group.utils';
 import { GroupRolePipe } from './group-role.pipe';
-import { GroupRole } from 'src/enums/group-role.enum';
 import { AuthState } from 'src/store/auth.state';
+import { GroupMember } from 'src/api';
 
 describe('GroupRolePipe', () => {
   let store: Store;
@@ -26,7 +26,7 @@ describe('GroupRolePipe', () => {
   });
 
   it('should return true if there is no groupId', () => {
-    const result = pipe.transform(undefined, GroupRole.OWNER);
+    const result = pipe.transform(undefined, GroupMember.GroupRoleEnum.OWNER);
 
     expect(result).toEqual(true);
   });
@@ -38,13 +38,15 @@ describe('GroupRolePipe', () => {
         groups: [
           {
             id: 1,
-            groupMembers: [{ userId: 1, groupRole: GroupRole.EDITOR }],
+            groupMembers: [
+              { userId: 1, groupRole: GroupMember.GroupRoleEnum.EDITOR },
+            ],
           },
         ],
       },
     });
 
-    const result = pipe.transform(1, GroupRole.OWNER);
+    const result = pipe.transform(1, GroupMember.GroupRoleEnum.OWNER);
 
     expect(result).toEqual(false);
   });
@@ -56,13 +58,18 @@ describe('GroupRolePipe', () => {
         groups: [
           {
             id: 1,
-            groupMembers: [{ userId: 1, groupRole: GroupRole.EDITOR }],
+            groupMembers: [
+              { userId: 1, groupRole: GroupMember.GroupRoleEnum.EDITOR },
+            ],
           },
         ],
       },
     });
 
-    const result = pipe.transform('not a number', GroupRole.OWNER);
+    const result = pipe.transform(
+      'not a number',
+      GroupMember.GroupRoleEnum.OWNER
+    );
 
     expect(result).toEqual(false);
   });
@@ -74,13 +81,15 @@ describe('GroupRolePipe', () => {
         groups: [
           {
             id: 1,
-            groupMembers: [{ userId: 1, groupRole: GroupRole.EDITOR }],
+            groupMembers: [
+              { userId: 1, groupRole: GroupMember.GroupRoleEnum.EDITOR },
+            ],
           },
         ],
       },
     });
 
-    const result = pipe.transform('all', GroupRole.OWNER);
+    const result = pipe.transform('all', GroupMember.GroupRoleEnum.OWNER);
 
     expect(result).toEqual(true);
   });

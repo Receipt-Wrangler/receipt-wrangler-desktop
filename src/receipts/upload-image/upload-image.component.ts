@@ -1,11 +1,12 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { tap } from 'rxjs';
-import { ReceiptImagesService } from 'src/api/receipt-images.service';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { FileData } from 'src/models/file-data';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { formatImageData } from '../utils/form.utils';
+import { tap } from "rxjs";
+import { FileData, ReceiptImageService } from "src/api";
+import { FormMode } from "src/enums/form-mode.enum";
+import { SnackbarService } from "src/services/snackbar.service";
+
+import { Component, Input, ViewChild } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+
+import { formatImageData } from "../utils/form.utils";
 
 @Component({
   selector: 'app-upload-image',
@@ -27,7 +28,7 @@ export class UploadImageComponent {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private receiptImagesService: ReceiptImagesService,
+    private receiptImageService: ReceiptImageService,
     private snackbarService: SnackbarService
   ) {
     this.mode = this.activatedRoute.snapshot.data['mode'];
@@ -55,7 +56,7 @@ export class UploadImageComponent {
           imageData: reader.result as string,
           size: f.size,
           receiptId: this.receiptId,
-        } as FileData;
+        } as any as FileData;
 
         this.handleFile(fileData);
       };
@@ -74,8 +75,8 @@ export class UploadImageComponent {
           fileData,
           Number.parseInt(this.receiptId ?? '')
         );
-        this.receiptImagesService
-          .uploadImage(uploadData)
+        this.receiptImageService
+          .uploadReceiptImage(uploadData)
           .pipe(
             tap((data: FileData) => {
               this.snackbarService.success('Successfully uploaded image(s)');

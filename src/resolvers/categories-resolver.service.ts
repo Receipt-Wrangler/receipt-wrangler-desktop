@@ -1,19 +1,19 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
-import { CategoriesService } from 'src/api/categories.service';
-import { Category } from 'src/models';
+import { Observable } from "rxjs";
+import { Category, CategoryService } from "src/api";
+
+import { Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 
 @Injectable({
   providedIn: 'root',
 })
-export class CategoriesResolverService  {
-  constructor(private categoriesService: CategoriesService) {}
+export class CategoriesResolverService {
+  constructor(private categoryService: CategoryService) {}
 
   public resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Category[] | Observable<Category[]> | Promise<Category[]> {
-    return this.categoriesService.getAllTags();
+    return this.categoryService.getAllCategories();
   }
 }

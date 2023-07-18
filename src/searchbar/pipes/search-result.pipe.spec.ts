@@ -1,10 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { AppComponent } from 'src/app/app.component';
-import { SearchResultPipe } from './search-result.pipe';
+import { SearchResult } from 'src/api';
 import { GroupState } from 'src/store/group.state';
-import { SearchResult } from 'src/models';
+import { SearchResultPipe } from './search-result.pipe';
 
 describe('SearchResultPipe', () => {
   let pipe: SearchResultPipe;

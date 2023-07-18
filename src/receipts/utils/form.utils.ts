@@ -1,3 +1,5 @@
+import { FileData, Item } from 'src/api';
+
 import {
   AbstractControl,
   FormArray,
@@ -7,9 +9,6 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ItemStatus } from 'src/enums/receipt-item.status.enum';
-import { FileData } from 'src/models/file-data';
-import { Item } from 'src/models/item';
 
 export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
   return new FormGroup({
@@ -25,7 +24,7 @@ export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
     ]),
     isTaxed: new FormControl(item?.isTaxed ?? false),
     status: new FormControl(
-      item?.status ?? ItemStatus.OPEN,
+      item?.status ?? Item.StatusEnum.OPEN,
       Validators.required
     ),
   });
@@ -82,7 +81,9 @@ export function formatImageData(image: FileData, receiptId: number): any {
     ...image,
     receiptId: receiptId,
     imageData: Array.from(
-      Uint8Array.from(image.imageData.split('').map((c) => c.charCodeAt(0)))
+      Uint8Array.from(
+        (image.imageData as any).split('').map((c: any) => c.charCodeAt(0))
+      )
     ),
   };
 }

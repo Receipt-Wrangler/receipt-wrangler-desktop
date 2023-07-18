@@ -1,15 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ApiModule } from "src/api";
+import { SharedUiModule } from "src/shared-ui/shared-ui.module";
+import { AuthState } from "src/store/auth.state";
+import { GroupState } from "src/store/group.state";
+import { LayoutState } from "src/store/layout.state";
 
-import { SidebarComponent } from './sidebar.component';
-import { HttpClientModule } from '@angular/common/http';
-import { NgxsModule } from '@ngxs/store';
-import { AuthState } from 'src/store/auth.state';
-import { LayoutState } from 'src/store/layout.state';
-import { GroupState } from 'src/store/group.state';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { HttpClientModule } from "@angular/common/http";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgxsModule } from "@ngxs/store";
+
+import { SidebarComponent } from "./sidebar.component";
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
@@ -24,6 +26,7 @@ describe('SidebarComponent', () => {
         MatSnackBarModule,
         MatSidenavModule,
         SharedUiModule,
+        ApiModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

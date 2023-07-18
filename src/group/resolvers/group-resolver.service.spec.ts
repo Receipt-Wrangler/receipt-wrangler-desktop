@@ -1,14 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import { ApiModule } from "src/api";
 
-import { GroupResolverService } from './group-resolver.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+
+import { GroupResolverService } from "./group-resolver.service";
 
 describe('GroupResolverService', () => {
   let service: GroupResolverService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [ApiModule, HttpClientTestingModule],
     });
     service = TestBed.inject(GroupResolverService);
   });

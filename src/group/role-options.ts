@@ -1,3 +1,3 @@
-import { GroupRole } from 'src/enums/group-role.enum';
+import { GroupMember } from 'src/api';
 
-export const ROLE_OPTIONS = Object.keys(GroupRole);
+export const ROLE_OPTIONS = Object.keys(GroupMember.GroupRoleEnum);

@@ -1,15 +1,17 @@
-import { TestBed } from '@angular/core/testing';
+import { ApiModule } from "src/api";
 
-import { AppInitService } from './app-init.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxsModule } from '@ngxs/store';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { NgxsModule } from "@ngxs/store";
+
+import { AppInitService } from "./app-init.service";
 
 describe('AppInitService', () => {
   let service: AppInitService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, NgxsModule.forRoot([])],
+      imports: [HttpClientTestingModule, NgxsModule.forRoot([]), ApiModule],
     });
     service = TestBed.inject(AppInitService);
   });

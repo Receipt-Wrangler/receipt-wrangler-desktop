@@ -1,4 +1,4 @@
-import { Group } from 'src/models/group';
+import { Group } from "src/api";
 
 export class AddGroup {
   static readonly type = '[Group] Add Group';

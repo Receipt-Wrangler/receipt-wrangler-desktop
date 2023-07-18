@@ -1,13 +1,8 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewEncapsulation,
-} from '@angular/core';
-import { FileData } from 'src/models/file-data';
-import { ImageTransform } from 'ngx-image-cropper';
-import { FormMode } from 'src/enums/form-mode.enum';
+import { ImageTransform } from "ngx-image-cropper";
+import { FileData } from "src/api";
+import { FormMode } from "src/enums/form-mode.enum";
+
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from "@angular/core";
 
 @Component({
   selector: 'app-carousel',

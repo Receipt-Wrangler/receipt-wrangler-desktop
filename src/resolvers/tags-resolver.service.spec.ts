@@ -1,14 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import { ApiModule } from "src/api";
 
-import { TagsResolverService } from './tags-resolver.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+
+import { TagsResolverService } from "./tags-resolver.service";
 
 describe('TagsResolverService', () => {
   let service: TagsResolverService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [ApiModule, HttpClientTestingModule],
     });
     service = TestBed.inject(TagsResolverService);
   });

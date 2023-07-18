@@ -1,8 +1,9 @@
-import { DatePipe } from '@angular/common';
-import { Pipe, PipeTransform } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { SearchResult } from 'src/models';
-import { GroupState } from 'src/store/group.state';
+import { SearchResult } from "src/api";
+import { GroupState } from "src/store/group.state";
+
+import { DatePipe } from "@angular/common";
+import { Pipe, PipeTransform } from "@angular/core";
+import { Store } from "@ngxs/store";
 
 @Pipe({
   name: 'searchResult',

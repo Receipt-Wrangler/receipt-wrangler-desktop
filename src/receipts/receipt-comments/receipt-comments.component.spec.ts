@@ -5,11 +5,10 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { CommentsService } from 'src/api/comments.service';
+import { ApiModule, Comment, CommentService } from 'src/api';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { AuthState } from 'src/store/auth.state';
-import { Comment } from '../../models';
 import { ReceiptCommentsComponent } from './receipt-comments.component';
 import { TopLevelCommentPipe } from './top-level-comment.pipe';
 
@@ -55,6 +54,7 @@ describe('ReceiptCommentsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ReceiptCommentsComponent, TopLevelCommentPipe],
       imports: [
+        ApiModule,
         ReactiveFormsModule,
         NgxsModule.forRoot([AuthState]),
         HttpClientTestingModule,
@@ -139,7 +139,7 @@ describe('ReceiptCommentsComponent', () => {
   });
 
   it('should add reply to comment when save is successful', () => {
-    const spy = spyOn(TestBed.inject(CommentsService), 'addComment');
+    const spy = spyOn(TestBed.inject(CommentService), 'addComment');
     const expected: any = {
       comment: 'new reply',
       userId: 1,
@@ -217,15 +217,15 @@ describe('ReceiptCommentsComponent', () => {
   });
 
   it('should delete comment that is a top level comment', () => {
-    const spy = spyOn(TestBed.inject(CommentsService), 'deleteComment');
-    spy.and.returnValue(of(undefined));
+    const spy = spyOn(TestBed.inject(CommentService), 'deleteComment');
+    spy.and.returnValue(of(undefined as any));
     component.comments = comments;
 
     component.ngOnInit();
     component.mode = FormMode.view;
     component.deleteComment(0);
 
-    expect(spy).toHaveBeenCalledWith('1');
+    expect(spy).toHaveBeenCalledWith(1);
 
     expect(component.commentsArray.value.find((c) => c.id === 1)).toEqual(
       undefined
@@ -236,15 +236,15 @@ describe('ReceiptCommentsComponent', () => {
   });
 
   it('should delete comment that is a reply', () => {
-    const spy = spyOn(TestBed.inject(CommentsService), 'deleteComment');
-    spy.and.returnValue(of(undefined));
+    const spy = spyOn(TestBed.inject(CommentService), 'deleteComment');
+    spy.and.returnValue(of(undefined as any));
     component.comments = comments;
 
     component.ngOnInit();
     component.mode = FormMode.view;
     component.deleteComment(1, 0);
 
-    expect(spy).toHaveBeenCalledWith('3');
+    expect(spy).toHaveBeenCalledWith(3);
 
     expect(component.commentsArray.value[1].replies.length).toEqual(0);
     expect(component.comments[1].replies.find((c) => c.id === 3)).toEqual(
@@ -296,7 +296,7 @@ describe('ReceiptCommentsComponent', () => {
   });
 
   it('should send api call if form is valid and is in view mode', () => {
-    const spy = spyOn(TestBed.inject(CommentsService), 'addComment');
+    const spy = spyOn(TestBed.inject(CommentService), 'addComment');
     spy.and.returnValue(
       of({
         id: 5,

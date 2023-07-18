@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { take, tap } from 'rxjs';
-import { NotificationsService } from 'src/api/notifications.service';
-import { Notification } from '../../models/notification';
+import { take, tap } from "rxjs";
+import { Notification, NotificationsService } from "src/api";
+
+import { Component, OnInit } from "@angular/core";
 
 @Component({
   selector: 'app-notifications-list',
@@ -19,7 +19,7 @@ export class NotificationsListComponent implements OnInit {
 
   private getNotifications(): void {
     this.notificationsService
-      .getNotifications()
+      .getNotificationsForuser()
       .pipe(
         take(1),
         tap((notifications) => {

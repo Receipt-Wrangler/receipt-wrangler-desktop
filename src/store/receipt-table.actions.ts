@@ -1,5 +1,6 @@
-import { PagedRequestFilter } from 'src/api/commands/paged-request-command';
-import { ReceiptTableInterface } from '../interfaces';
+import { PagedRequestFilter } from "src/api";
+
+import { ReceiptTableInterface } from "../interfaces";
 
 export class SetPage {
   static readonly type = '[ReceiptTable] Set Page';

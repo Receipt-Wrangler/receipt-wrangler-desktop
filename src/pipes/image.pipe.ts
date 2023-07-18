@@ -1,15 +1,17 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { FileData } from 'src/models/file-data';
+import { FileData } from "src/api";
+
+import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
   name: 'image',
 })
 export class ImagePipe implements PipeTransform {
   public transform(image: FileData): string {
-    if (image.imageData.includes('data')) {
-      return image.imageData;
+    const imageData = image.imageData as any as string;
+    if (imageData.includes('data')) {
+      return imageData;
     } else {
-      return `data:${image.fileType};base64,${btoa(image.imageData)}`;
+      return `data:${image.fileType};base64,${btoa(imageData)}`;
     }
   }
 }

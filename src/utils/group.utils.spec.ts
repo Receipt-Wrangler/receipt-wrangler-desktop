@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, NgxsModule } from '@ngxs/store';
-import { GroupRole } from 'src/enums/group-role.enum';
+import { NgxsModule, Store } from '@ngxs/store';
+import { GroupMember } from 'src/api';
 import { AuthState } from 'src/store/auth.state';
 import { GroupState } from 'src/store/group.state';
 import { GroupUtil } from './group.utils';
@@ -25,7 +25,7 @@ describe('GroupUtil', () => {
 
   describe('hasGroupAccess', () => {
     const testGroupId = 1;
-    const testGroupRole = GroupRole.EDITOR;
+    const testGroupRole = GroupMember.GroupRoleEnum.EDITOR;
 
     it('should return true when groupId is undefined', () => {
       const result = groupUtil.hasGroupAccess(undefined, testGroupRole);
@@ -45,7 +45,9 @@ describe('GroupUtil', () => {
           groups: [
             {
               id: testGroupId,
-              groupMembers: [{ userId: '3', groupRole: GroupRole.EDITOR }],
+              groupMembers: [
+                { userId: '3', groupRole: GroupMember.GroupRoleEnum.EDITOR },
+              ],
             },
           ],
         },
@@ -63,7 +65,9 @@ describe('GroupUtil', () => {
           groups: [
             {
               id: testGroupId,
-              groupMembers: [{ userId: userId, groupRole: GroupRole.VIEWER }],
+              groupMembers: [
+                { userId: userId, groupRole: GroupMember.GroupRoleEnum.VIEWER },
+              ],
             },
           ],
         },
@@ -81,7 +85,9 @@ describe('GroupUtil', () => {
           groups: [
             {
               id: testGroupId,
-              groupMembers: [{ userId: userId, groupRole: GroupRole.OWNER }],
+              groupMembers: [
+                { userId: userId, groupRole: GroupMember.GroupRoleEnum.OWNER },
+              ],
             },
           ],
         },
