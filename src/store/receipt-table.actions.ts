@@ -1,4 +1,4 @@
-import { PagedRequestFilter } from 'src/api/commands/paged-request-command';
+import { PagedRequestFilter } from 'src/api-new';
 import { ReceiptTableInterface } from '../interfaces';
 
 export class SetPage {

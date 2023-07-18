@@ -9,38 +9,39 @@ import {
   SetReceiptFilter,
   SetReceiptFilterData,
 } from './receipt-table.actions';
+import { PagedRequestField, PagedRequestFilter } from 'src/api-new';
 
 export const defaultReceiptFilter = {
   date: { operation: PagedRequestFilterOperation.EQUALS, value: '' },
   amount: {
-    operation: PagedRequestFilterOperation.EQUALS,
+    operation: PagedRequestField.OperationEnum.EQUALS,
     value: '',
   },
   name: {
-    operation: PagedRequestFilterOperation.EQUALS,
+    operation: PagedRequestField.OperationEnum.EQUALS,
     value: '',
   },
   paidBy: {
-    operation: PagedRequestFilterOperation.CONTAINS,
+    operation: PagedRequestField.OperationEnum.CONTAINS,
     value: [],
   },
   categories: {
-    operation: PagedRequestFilterOperation.CONTAINS,
+    operation: PagedRequestField.OperationEnum.CONTAINS,
     value: [],
   },
   tags: {
-    operation: PagedRequestFilterOperation.CONTAINS,
+    operation: PagedRequestField.OperationEnum.CONTAINS,
     value: [],
   },
   status: {
-    operation: PagedRequestFilterOperation.CONTAINS,
+    operation: PagedRequestField.OperationEnum.CONTAINS,
     value: [],
   },
   resolvedDate: {
-    operation: PagedRequestFilterOperation.EQUALS,
+    operation: PagedRequestField.OperationEnum.EQUALS,
     value: '',
   },
-};
+} as PagedRequestFilter;
 
 // TODO: look into fixing date equals
 @State<ReceiptTableInterface>({

@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs';
 import { ReceiptImagesService } from 'src/api/receipt-images.service';
 import { FormMode } from 'src/enums/form-mode.enum';
-import { FileData } from 'src/models/file-data';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { formatImageData } from '../utils/form.utils';
+import { FileData } from 'src/api-new';
 
 @Component({
   selector: 'app-upload-image',
@@ -55,7 +55,7 @@ export class UploadImageComponent {
           imageData: reader.result as string,
           size: f.size,
           receiptId: this.receiptId,
-        } as FileData;
+        } as any as FileData;
 
         this.handleFile(fileData);
       };

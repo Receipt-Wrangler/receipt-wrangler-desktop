@@ -13,7 +13,6 @@ import { Category } from './category';
 import { Comment } from './comment';
 import { FileData } from './fileData';
 import { Item } from './item';
-import { ReceiptStatus } from './receiptStatus';
 import { Tag } from './tag';
 
 /**
@@ -42,7 +41,7 @@ export interface Receipt {
      * Group foreign key
      */
     groupId: number;
-    id?: number;
+    id: number;
     /**
      * Files associated to receipt
      */
@@ -63,10 +62,18 @@ export interface Receipt {
      * Date resolved
      */
     resolvedDate?: Date;
-    status?: ReceiptStatus;
+    status: Receipt.StatusEnum;
     /**
      * Tags associated to receipt
      */
     tags?: Array<Tag>;
     updatedAt?: Date;
+}
+export namespace Receipt {
+    export type StatusEnum = 'OPEN' | 'NEEDS_ATTENTION' | 'RESOLVED';
+    export const StatusEnum = {
+        OPEN: 'OPEN' as StatusEnum,
+        NEEDSATTENTION: 'NEEDS_ATTENTION' as StatusEnum,
+        RESOLVED: 'RESOLVED' as StatusEnum
+    };
 }

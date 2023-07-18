@@ -8,9 +8,7 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { User } from 'src/api-new';
-import { Receipt } from 'src/models';
-import { Item } from 'src/models/item';
+import { Item, Receipt, User } from 'src/api-new';
 import { RadioButtonData } from 'src/radio-group/models';
 import { buildItemForm } from '../utils/form.utils';
 
@@ -158,6 +156,6 @@ export class QuickActionsDialogComponent implements OnInit {
       chargedToUserId: u.id,
       receiptId: this.originalReceipt?.id,
       amount: amount,
-    } as Item;
+    } as any as Item;
   }
 }

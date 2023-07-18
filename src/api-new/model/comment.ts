@@ -28,7 +28,7 @@ export interface Comment {
     commentId?: number;
     createdAt?: Date;
     createdBy?: number;
-    id?: number;
+    id: number;
     /**
      * Receipt foreign key
      */
@@ -36,7 +36,7 @@ export interface Comment {
     /**
      * Comment's replies
      */
-    replies?: Array<Comment>;
+    replies: Array<Comment>;
     updatedAt?: Date;
     /**
      * User foreign key

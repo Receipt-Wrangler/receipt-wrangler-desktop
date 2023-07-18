@@ -64,9 +64,9 @@ export class ReceiptService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public bulkReceiptStatusUpdate(body: BulkStatusUpdateCommand, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public bulkReceiptStatusUpdate(body: BulkStatusUpdateCommand, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public bulkReceiptStatusUpdate(body: BulkStatusUpdateCommand, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public bulkReceiptStatusUpdate(body: BulkStatusUpdateCommand, observe?: 'body', reportProgress?: boolean): Observable<Array<Receipt>>;
+    public bulkReceiptStatusUpdate(body: BulkStatusUpdateCommand, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Receipt>>>;
+    public bulkReceiptStatusUpdate(body: BulkStatusUpdateCommand, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Receipt>>>;
     public bulkReceiptStatusUpdate(body: BulkStatusUpdateCommand, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
@@ -84,6 +84,7 @@ export class ReceiptService {
         }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -99,7 +100,7 @@ export class ReceiptService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('post',`${this.basePath}/receipt/bulkStatusUpdate`,
+        return this.httpClient.request<Array<Receipt>>('post',`${this.basePath}/receipt/bulkStatusUpdate`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -264,9 +265,9 @@ export class ReceiptService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getReceiptById(receiptId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getReceiptById(receiptId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getReceiptById(receiptId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getReceiptById(receiptId: number, observe?: 'body', reportProgress?: boolean): Observable<Receipt>;
+    public getReceiptById(receiptId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Receipt>>;
+    public getReceiptById(receiptId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Receipt>>;
     public getReceiptById(receiptId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (receiptId === null || receiptId === undefined) {
@@ -284,6 +285,7 @@ export class ReceiptService {
         }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -294,7 +296,7 @@ export class ReceiptService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/receipt/${encodeURIComponent(String(receiptId))}`,
+        return this.httpClient.request<Receipt>('get',`${this.basePath}/receipt/${encodeURIComponent(String(receiptId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

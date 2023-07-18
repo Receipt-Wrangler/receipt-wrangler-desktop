@@ -25,17 +25,21 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { Category, Group, Tag } from 'src/api-new';
+import {
+  Category,
+  FileData,
+  Group,
+  Receipt,
+  ReceiptService,
+  Tag,
+} from 'src/api-new';
 import { ReceiptImagesService } from 'src/api/receipt-images.service';
-import { ReceiptsService } from 'src/api/receipts.service';
 import { CarouselComponent } from 'src/carousel/carousel/carousel.component';
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
 import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { GroupRole } from 'src/enums/group-role.enum';
 import { ReceiptStatus } from 'src/enums/receipt-status.enum';
-import { Receipt } from 'src/models';
-import { FileData } from 'src/models/file-data';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { GroupState } from 'src/store/group.state';
 import { UserState } from 'src/store/user.state';
@@ -110,7 +114,7 @@ export class ReceiptFormComponent implements OnInit {
   public receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
 
   constructor(
-    private receiptsService: ReceiptsService,
+    private receiptService: ReceiptService,
     private receiptImagesService: ReceiptImagesService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
@@ -243,7 +247,8 @@ export class ReceiptFormComponent implements OnInit {
           .getImageFiles(file.id.toString())
           .pipe(
             tap((data) => {
-              file.imageData = data;
+              // TODO: clean this up
+              file.imageData = data as any;
               this.images.push(file);
             }),
             finalize(() => (this.imagesLoading = false))
@@ -309,8 +314,8 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public duplicateReceipt(): void {
-    this.receiptsService
-      .duplicateReceipt(this.originalReceipt?.id?.toString() ?? '')
+    this.receiptService
+      .duplicateReceipt(this.originalReceipt?.id as number)
       .pipe(
         take(1),
         tap((r: Receipt) => {
@@ -354,8 +359,8 @@ export class ReceiptFormComponent implements OnInit {
       );
     }
     if (this.originalReceipt && this.form.valid) {
-      this.receiptsService
-        .updateReceipt(this.originalReceipt.id.toString(), this.form.value)
+      this.receiptService
+        .updateReceipt(this.form.value, this.originalReceipt.id as number)
         .pipe(
           take(1),
           tap(() => {
@@ -368,7 +373,7 @@ export class ReceiptFormComponent implements OnInit {
         .subscribe();
     } else if (this.mode === FormMode.add && this.form.valid) {
       let route: string;
-      this.receiptsService
+      this.receiptService
         .createReceipt(this.form.value)
         .pipe(
           take(1),

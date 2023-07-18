@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -13,14 +6,14 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
-import { filter, map, Observable, of, pipe, startWith, take, tap } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 import { CommentsService } from 'src/api/comments.service';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { AuthState } from 'src/store/auth.state';
-import { Comment } from '../../models/comment';
+import { Comment } from 'src/api-new';
 
 @UntilDestroy()
 @Component({

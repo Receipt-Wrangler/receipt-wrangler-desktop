@@ -7,9 +7,8 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { FileData, Item } from 'src/api-new';
 import { ItemStatus } from 'src/enums/receipt-item.status.enum';
-import { FileData } from 'src/models/file-data';
-import { Item } from 'src/models/item';
 
 export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
   return new FormGroup({
@@ -82,7 +81,9 @@ export function formatImageData(image: FileData, receiptId: number): any {
     ...image,
     receiptId: receiptId,
     imageData: Array.from(
-      Uint8Array.from(image.imageData.split('').map((c) => c.charCodeAt(0)))
+      Uint8Array.from(
+        (image.imageData as any).split('').map((c: any) => c.charCodeAt(0))
+      )
     ),
   };
 }

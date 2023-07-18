@@ -20,7 +20,7 @@ export interface FileData {
      * MIME file type
      */
     fileType?: string;
-    id?: number;
+    id: number;
     /**
      * Image data
      */

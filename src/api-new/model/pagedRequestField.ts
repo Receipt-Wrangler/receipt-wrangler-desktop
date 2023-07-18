@@ -18,7 +18,7 @@ export interface PagedRequestField {
     /**
      * Field value
      */
-    value: string;
+    value: string | number | Array<string> | Array<number>;
 }
 export namespace PagedRequestField {
     export type OperationEnum = 'CONTAINS' | 'EQUALS' | 'GREATER_THAN' | 'LESS_THAN';

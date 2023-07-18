@@ -95,8 +95,8 @@ export class ReceiptFilterComponent implements OnInit {
   }
 
   private buildFieldFormGroup(
-    value: string | string[] | number,
-    operation: string,
+    value: string | string[] | number | any,
+    operation: string | undefined,
     isArray?: boolean
   ): FormGroup {
     let control: AbstractControl;

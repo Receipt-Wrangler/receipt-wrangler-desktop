@@ -1,5 +1,5 @@
 import { SortDirection } from '@angular/material/sort';
-import { PagedRequestFilter } from 'src/api/commands/paged-request-command';
+import { PagedRequestFilter } from 'src/api-new';
 
 export interface ReceiptTableInterface {
   page: number;
