@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormMode } from 'src/enums/form-mode.enum';
-import { GroupRole } from 'src/enums/group-role.enum';
 import { GroupRoleGuard } from 'src/guards/group-role.guard';
 import { GroupGuard } from 'src/guards/group.guard';
 import { CategoriesResolverService } from 'src/resolvers/categories-resolver.service';
@@ -9,6 +8,7 @@ import { ReceiptResolverService } from 'src/resolvers/receipt-resolver.service';
 import { TagsResolverService } from 'src/resolvers/tags-resolver.service';
 import { ReceiptFormComponent } from './receipt-form/receipt-form.component';
 import { ReceiptsTableComponent } from './receipts-table/receipts-table.component';
+import { GroupMember } from 'src/api';
 
 const routes: Routes = [
   {
@@ -32,7 +32,7 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.add,
-      groupRole: GroupRole.EDITOR,
+      groupRole: GroupMember.GroupRoleEnum.EDITOR,
     },
     canActivate: [GroupRoleGuard],
   },
@@ -46,7 +46,7 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.view,
-      groupRole: GroupRole.VIEWER,
+      groupRole: GroupMember.GroupRoleEnum.VIEWER,
     },
     canActivate: [GroupRoleGuard],
   },
@@ -60,7 +60,7 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.edit,
-      groupRole: GroupRole.EDITOR,
+      groupRole: GroupMember.GroupRoleEnum.EDITOR,
     },
     canActivate: [GroupRoleGuard],
   },

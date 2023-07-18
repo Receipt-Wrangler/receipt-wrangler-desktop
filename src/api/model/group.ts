@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 import { GroupMember } from './groupMember';
-import { GroupStatus } from './groupStatus';
 
 /**
  * Group in the system
@@ -31,6 +30,13 @@ export interface Group {
      * Name of the group
      */
     name: string;
-    status: GroupStatus;
+    status: Group.StatusEnum;
     updatedAt?: Date;
+}
+export namespace Group {
+    export type StatusEnum = 'ACTIVE' | 'ARCHIVED';
+    export const StatusEnum = {
+        ACTIVE: 'ACTIVE' as StatusEnum,
+        ARCHIVED: 'ARCHIVED' as StatusEnum
+    };
 }

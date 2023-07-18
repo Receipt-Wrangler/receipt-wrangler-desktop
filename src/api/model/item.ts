@@ -9,7 +9,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ItemStatus } from './itemStatus';
 
 /**
  * Itemized item on a receipt
@@ -38,6 +37,13 @@ export interface Item {
      * Receipt foreign key
      */
     receiptId: number;
-    status: ItemStatus;
+    status: Item.StatusEnum;
     updatedAt?: Date;
+}
+export namespace Item {
+    export type StatusEnum = 'OPEN' | 'RESOLVED';
+    export const StatusEnum = {
+        OPEN: 'OPEN' as StatusEnum,
+        RESOLVED: 'RESOLVED' as StatusEnum
+    };
 }

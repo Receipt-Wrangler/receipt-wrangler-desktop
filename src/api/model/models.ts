@@ -5,8 +5,6 @@ export * from './comment';
 export * from './fileData';
 export * from './group';
 export * from './groupMember';
-export * from './groupRole';
-export * from './groupStatus';
 export * from './item';
 export * from './itemStatus';
 export * from './loginCommand';

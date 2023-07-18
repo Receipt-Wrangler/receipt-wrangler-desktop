@@ -1,9 +1,14 @@
-import { FileData, Item } from "src/api";
-import { ItemStatus } from "src/enums/receipt-item.status.enum";
+import { FileData, Item } from 'src/api';
 
 import {
-  AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators
-} from "@angular/forms";
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 
 export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
   return new FormGroup({
@@ -19,7 +24,7 @@ export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
     ]),
     isTaxed: new FormControl(item?.isTaxed ?? false),
     status: new FormControl(
-      item?.status ?? ItemStatus.OPEN,
+      item?.status ?? Item.StatusEnum.OPEN,
       Validators.required
     ),
   });

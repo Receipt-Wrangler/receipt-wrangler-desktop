@@ -1,17 +1,19 @@
-import { finalize, forkJoin, Observable, switchMap, take, tap } from "rxjs";
+import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { finalize, forkJoin, Observable, switchMap, take, tap } from 'rxjs';
 import {
-  AuthService, FeatureConfigService, Group, GroupsService, User, UserService
-} from "src/api";
-import { GroupStatus } from "src/enums/group-status.enum";
-import { SetFeatureConfig } from "src/store/feature-config.state.actions";
-import { GroupState } from "src/store/group.state";
-import { SetGroups, SetSelectedGroupId } from "src/store/group.state.actions";
-import { SetUsers } from "src/store/user.state.actions";
-
-import { Injectable } from "@angular/core";
-import { Store } from "@ngxs/store";
-
-import { ClaimsService } from "./claims.service";
+  AuthService,
+  FeatureConfigService,
+  Group,
+  GroupsService,
+  User,
+  UserService,
+} from 'src/api';
+import { SetFeatureConfig } from 'src/store/feature-config.state.actions';
+import { GroupState } from 'src/store/group.state';
+import { SetGroups, SetSelectedGroupId } from 'src/store/group.state.actions';
+import { SetUsers } from 'src/store/user.state.actions';
+import { ClaimsService } from './claims.service';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +59,7 @@ export class AppInitService {
           name: 'All',
           isDefault: false,
           groupMembers: [],
-          status: GroupStatus.ACTIVE,
+          status: Group.StatusEnum.ACTIVE,
         });
         this.store.dispatch(new SetGroups(groups));
         const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
