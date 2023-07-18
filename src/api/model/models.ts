@@ -12,6 +12,7 @@ export * from './itemStatus';
 export * from './loginCommand';
 export * from './notification';
 export * from './notificationType';
+export * from './pagedData';
 export * from './pagedRequestCommand';
 export * from './pagedRequestField';
 export * from './pagedRequestFilter';

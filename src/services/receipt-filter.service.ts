@@ -1,12 +1,10 @@
-import { Observable } from "rxjs";
-import { PagedRequestCommand } from "src/api";
-import { PagedData } from "src/models/paged-data";
-import { ReceiptTableState } from "src/store/receipt-table.state";
-
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { SortDirection } from "@angular/material/sort";
-import { Store } from "@ngxs/store";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { SortDirection } from '@angular/material/sort';
+import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { PagedData, PagedRequestCommand } from 'src/api';
+import { ReceiptTableState } from 'src/store/receipt-table.state';
 
 @Injectable({
   providedIn: 'root',
