@@ -1,4 +1,4 @@
-import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-command';
+import { PagedRequestField } from 'src/api';
 import { OperationsPipe } from './operations.pipe';
 
 describe('OperationsPipe', () => {
@@ -21,9 +21,9 @@ describe('OperationsPipe', () => {
     const result = pipe.transform('date');
 
     expect(result).toEqual([
-      PagedRequestFilterOperation.EQUALS,
-      PagedRequestFilterOperation.GREATER_THAN,
-      PagedRequestFilterOperation.LESS_THAN,
+      PagedRequestField.OperationEnum.EQUALS,
+      PagedRequestField.OperationEnum.GREATERTHAN,
+      PagedRequestField.OperationEnum.LESSTHAN,
     ]);
   });
 
@@ -33,8 +33,8 @@ describe('OperationsPipe', () => {
     const result = pipe.transform('text');
 
     expect(result).toEqual([
-      PagedRequestFilterOperation.CONTAINS,
-      PagedRequestFilterOperation.EQUALS,
+      PagedRequestField.OperationEnum.CONTAINS,
+      PagedRequestField.OperationEnum.EQUALS,
     ]);
   });
 
@@ -44,9 +44,9 @@ describe('OperationsPipe', () => {
     const result = pipe.transform('number');
 
     expect(result).toEqual([
-      PagedRequestFilterOperation.EQUALS,
-      PagedRequestFilterOperation.GREATER_THAN,
-      PagedRequestFilterOperation.LESS_THAN,
+      PagedRequestField.OperationEnum.EQUALS,
+      PagedRequestField.OperationEnum.GREATERTHAN,
+      PagedRequestField.OperationEnum.LESSTHAN,
     ]);
   });
 
@@ -55,7 +55,7 @@ describe('OperationsPipe', () => {
 
     const result = pipe.transform('list');
 
-    expect(result).toEqual([PagedRequestFilterOperation.CONTAINS]);
+    expect(result).toEqual([PagedRequestField.OperationEnum.CONTAINS]);
   });
 
   it('should return options for users', () => {
@@ -63,6 +63,6 @@ describe('OperationsPipe', () => {
 
     const result = pipe.transform('users');
 
-    expect(result).toEqual([PagedRequestFilterOperation.CONTAINS]);
+    expect(result).toEqual([PagedRequestField.OperationEnum.CONTAINS]);
   });
 });

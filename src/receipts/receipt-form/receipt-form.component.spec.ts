@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { ReceiptFormComponent } from './receipt-form.component';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
+import { ApiModule } from 'src/api';
 
 describe('ReceiptFormComponent', () => {
   let component: ReceiptFormComponent;
@@ -19,6 +20,7 @@ describe('ReceiptFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ReceiptFormComponent],
       imports: [
+        ApiModule,
         NgxsModule.forRoot([]),
         HttpClientTestingModule,
         ReactiveFormsModule,

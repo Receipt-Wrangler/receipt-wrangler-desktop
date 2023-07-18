@@ -19,7 +19,7 @@ export interface Notification {
      * Notification body  requried: true
      */
     body: string;
-    createdAt?: Date;
+    createdAt?: string;
     createdBy?: number;
     id: number;
     /**
@@ -27,7 +27,7 @@ export interface Notification {
      */
     title: string;
     type: NotificationType;
-    updatedAt?: Date;
+    updatedAt?: string;
     /**
      * User foreign key
      */

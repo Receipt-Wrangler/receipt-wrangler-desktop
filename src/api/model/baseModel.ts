@@ -11,8 +11,8 @@
  */
 
 export interface BaseModel { 
-    createdAt?: Date;
+    createdAt?: string;
     createdBy?: number;
     id?: number;
-    updatedAt?: Date;
+    updatedAt?: string;
 }

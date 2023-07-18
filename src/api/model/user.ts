@@ -22,7 +22,7 @@ export interface User {
      * User's username used to login
      */
     username: string;
-    createdAt?: Date;
+    createdAt?: string;
     createdBy?: number;
     /**
      * Default avatar color
@@ -37,7 +37,7 @@ export interface User {
      * Is dummy user
      */
     isDummyUser: boolean;
-    updatedAt?: Date;
+    updatedAt?: string;
     /**
      * User's role
      */

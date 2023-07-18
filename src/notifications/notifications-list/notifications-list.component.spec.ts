@@ -3,9 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NotificationsListComponent } from './notifications-list.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NotificationsService } from 'src/api/notifications.service';
-import { Notification } from '../../models/notification';
 import { of } from 'rxjs';
+import { ApiModule, Notification, NotificationsService } from 'src/api';
 
 describe('NotificationsListComponent', () => {
   let component: NotificationsListComponent;
@@ -15,7 +14,7 @@ describe('NotificationsListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [NotificationsListComponent],
-      imports: [HttpClientTestingModule],
+      imports: [ApiModule, HttpClientTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 
@@ -49,17 +48,19 @@ describe('NotificationsListComponent', () => {
       },
     ];
 
-    spyOn(service, 'getNotifications').and.returnValue(of(mockNotifications));
+    spyOn(service, 'getNotificationsForuser').and.returnValue(
+      of(mockNotifications as any)
+    );
 
     component.ngOnInit();
 
     expect(component.notifications).toEqual(mockNotifications);
-    expect(service.getNotifications).toHaveBeenCalled();
+    expect(service.getNotificationsForuser).toHaveBeenCalled();
   });
 
   it('should delete all notifications', () => {
     spyOn(service, 'deleteAllNotificationsForUser').and.returnValue(
-      of(undefined)
+      of(undefined as any)
     );
     component.notifications = [
       {

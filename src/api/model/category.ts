@@ -14,12 +14,12 @@
  * Category to relate receipts to
  */
 export interface Category { 
-    createdAt?: Date;
+    createdAt?: string;
     createdBy?: number;
     id?: number;
     /**
      * Name of the category  required: ture
      */
     name?: string;
-    updatedAt?: Date;
+    updatedAt?: string;
 }

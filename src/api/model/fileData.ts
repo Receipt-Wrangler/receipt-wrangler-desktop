@@ -14,7 +14,7 @@
  * File data for images on a receipt
  */
 export interface FileData { 
-    createdAt?: Date;
+    createdAt?: string;
     createdBy?: number;
     /**
      * MIME file type
@@ -37,5 +37,5 @@ export interface FileData {
      * File size
      */
     size?: number;
-    updatedAt?: Date;
+    updatedAt?: string;
 }

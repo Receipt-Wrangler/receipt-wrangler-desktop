@@ -14,13 +14,13 @@
  * Group member
  */
 export interface GroupMember { 
-    createdAt?: Date;
+    createdAt?: string;
     /**
      * Group compound primary key
      */
     groupId: number;
     groupRole: GroupMember.GroupRoleEnum;
-    updatedAt?: Date;
+    updatedAt?: string;
     /**
      * User compound primary key
      */

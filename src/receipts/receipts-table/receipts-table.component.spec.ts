@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActivatedRoute } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
-import { ReceiptsTableComponent } from './receipts-table.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { ApiModule } from 'src/api';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { ReceiptTableState } from 'src/store/receipt-table.state';
-import { ActivatedRoute } from '@angular/router';
+import { ReceiptsTableComponent } from './receipts-table.component';
 
 describe('ReceiptsTableComponent', () => {
   let component: ReceiptsTableComponent;
@@ -20,6 +20,7 @@ describe('ReceiptsTableComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ReceiptsTableComponent],
       imports: [
+        ApiModule,
         HttpClientTestingModule,
         NgxsModule.forRoot([ReceiptTableState]),
         ReactiveFormsModule,

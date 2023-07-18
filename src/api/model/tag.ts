@@ -14,12 +14,12 @@
  * Tag to relate receipts to
  */
 export interface Tag { 
-    createdAt?: Date;
+    createdAt?: string;
     createdBy?: number;
     id?: number;
     /**
      * Tag name
      */
     name: string;
-    updatedAt?: Date;
+    updatedAt?: string;
 }

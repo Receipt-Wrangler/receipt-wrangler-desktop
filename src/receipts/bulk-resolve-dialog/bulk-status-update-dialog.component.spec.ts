@@ -5,7 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from 'src/pipes/pipes.module';
-import { ReceiptStatus } from 'src/enums/receipt-status.enum';
+import { Receipt } from 'src/api';
 
 describe('BulkStatusUpdateComponent', () => {
   let component: BulkStatusUpdateComponent;
@@ -40,7 +40,7 @@ describe('BulkStatusUpdateComponent', () => {
 
     expect(component.form.value).toEqual({
       comment: '',
-      status: ReceiptStatus.RESOLVED,
+      status: Receipt.StatusEnum.RESOLVED,
     });
   });
 
@@ -55,13 +55,13 @@ describe('BulkStatusUpdateComponent', () => {
     const spy = spyOn(component.matDialogRef, 'close');
     component.form.patchValue({
       comment: 'resolved',
-      status: ReceiptStatus.NEEDS_ATTENTION,
+      status: Receipt.StatusEnum.NEEDSATTENTION,
     });
     component.submitButtonClicked();
 
     expect(spy).toHaveBeenCalledWith({
       comment: 'resolved',
-      status: ReceiptStatus.NEEDS_ATTENTION,
+      status: Receipt.StatusEnum.NEEDSATTENTION,
     });
   });
 });

@@ -15,7 +15,7 @@ import { GroupMember } from './groupMember';
  * Group in the system
  */
 export interface Group { 
-    createdAt?: Date;
+    createdAt?: string;
     createdBy?: number;
     /**
      * Members of the group
@@ -31,7 +31,7 @@ export interface Group {
      */
     name: string;
     status: Group.StatusEnum;
-    updatedAt?: Date;
+    updatedAt?: string;
 }
 export namespace Group {
     export type StatusEnum = 'ACTIVE' | 'ARCHIVED';

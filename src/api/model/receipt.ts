@@ -31,12 +31,12 @@ export interface Receipt {
      * Comments associated to receipt
      */
     comments?: Array<Comment>;
-    createdAt?: Date;
+    createdAt?: string;
     createdBy?: number;
     /**
      * Receipt date
      */
-    date: Date;
+    date: string;
     /**
      * Group foreign key
      */
@@ -61,13 +61,13 @@ export interface Receipt {
     /**
      * Date resolved
      */
-    resolvedDate?: Date;
+    resolvedDate?: string;
     status: Receipt.StatusEnum;
     /**
      * Tags associated to receipt
      */
     tags?: Array<Tag>;
-    updatedAt?: Date;
+    updatedAt?: string;
 }
 export namespace Receipt {
     export type StatusEnum = 'OPEN' | 'NEEDS_ATTENTION' | 'RESOLVED';

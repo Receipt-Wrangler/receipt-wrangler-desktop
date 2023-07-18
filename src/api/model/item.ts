@@ -26,7 +26,7 @@ export interface Item {
      * User foreign key
      */
     chargedToUserId: number;
-    createdAt?: Date;
+    createdAt?: string;
     createdBy?: number;
     id?: number;
     /**
@@ -38,7 +38,7 @@ export interface Item {
      */
     receiptId: number;
     status: Item.StatusEnum;
-    updatedAt?: Date;
+    updatedAt?: string;
 }
 export namespace Item {
     export type StatusEnum = 'OPEN' | 'RESOLVED';

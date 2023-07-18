@@ -17,10 +17,9 @@ import {
 } from 'src/store/receipt-table.state';
 import { OperationsPipe } from './operations.pipe';
 import { ReceiptFilterComponent } from './receipt-filter.component';
-import { PagedRequestFilterOperation } from 'src/api/commands/paged-request-command';
-import { ReceiptStatus } from 'src/enums/receipt-status.enum';
 import { of } from 'rxjs';
 import { SetReceiptFilter } from 'src/store/receipt-table.actions';
+import { PagedRequestField, Receipt } from 'src/api';
 
 describe('ReceiptFilterComponent', () => {
   let component: ReceiptFilterComponent;
@@ -29,35 +28,35 @@ describe('ReceiptFilterComponent', () => {
 
   const filledFilter = {
     date: {
-      operation: PagedRequestFilterOperation.EQUALS,
+      operation: PagedRequestField.OperationEnum.EQUALS,
       value: '2023-01-06',
     },
     name: {
-      operation: PagedRequestFilterOperation.EQUALS,
+      operation: PagedRequestField.OperationEnum.EQUALS,
       value: 'hello world',
     },
     amount: {
-      operation: PagedRequestFilterOperation.GREATER_THAN,
+      operation: PagedRequestField.OperationEnum.GREATERTHAN,
       value: 12.05,
     },
     paidBy: {
-      operation: PagedRequestFilterOperation.CONTAINS,
+      operation: PagedRequestField.OperationEnum.CONTAINS,
       value: [1],
     },
     categories: {
-      operation: PagedRequestFilterOperation.CONTAINS,
+      operation: PagedRequestField.OperationEnum.CONTAINS,
       value: [2],
     },
     tags: {
-      operation: PagedRequestFilterOperation.CONTAINS,
+      operation: PagedRequestField.OperationEnum.CONTAINS,
       value: [3, 4],
     },
     status: {
-      operation: PagedRequestFilterOperation.CONTAINS,
-      value: [ReceiptStatus.OPEN],
+      operation: PagedRequestField.OperationEnum.CONTAINS,
+      value: [Receipt.StatusEnum.OPEN],
     },
     resolvedDate: {
-      operation: PagedRequestFilterOperation.GREATER_THAN,
+      operation: PagedRequestField.OperationEnum.GREATERTHAN,
       value: '2023-01-06',
     },
   };
