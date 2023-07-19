@@ -3,6 +3,7 @@ import {
   finalize,
   forkJoin,
   iif,
+  map,
   Observable,
   of,
   skip,
@@ -37,7 +38,13 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
@@ -110,7 +117,7 @@ export class ReceiptFormComponent implements OnInit {
 
   public duplicatedSnackbarRef!: MatSnackBarRef<EmbeddedViewRef<any>>;
 
-  public headerText: string = '';
+  public formHeaderText: Observable<string> = of('');
 
   public receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
 
@@ -141,20 +148,28 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   private setHeaderText(): void {
-    let action = '';
-    switch (this.mode) {
-      case FormMode.add:
-        action = 'Add';
-        break;
-      case FormMode.view:
-        action = 'View';
-        break;
-      case FormMode.edit:
-        action = 'Edit';
-        break;
-    }
+    this.formHeaderText = (
+      this.form.get('name') as AbstractControl
+    ).valueChanges.pipe(
+      startWith(this.form.get('name')?.value),
+      untilDestroyed(this),
+      map((name) => {
+        let action = '';
+        switch (this.mode) {
+          case FormMode.add:
+            action = 'Add';
+            break;
+          case FormMode.view:
+            action = 'View';
+            break;
+          case FormMode.edit:
+            action = 'Edit';
+            break;
+        }
 
-    this.headerText = `${action} Receipt`;
+        return `${action} ${name} Receipt`;
+      })
+    );
   }
 
   private listenForParamChanges(): void {

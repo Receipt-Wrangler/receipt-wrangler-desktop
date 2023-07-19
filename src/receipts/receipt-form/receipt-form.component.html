@@ -1,6 +1,6 @@
 <form class="mb-4" [formGroup]="form" (ngSubmit)="submit()">
   <app-form-header
-    [headerText]="headerText"
+    [headerText]="(formHeaderText | async) ?? ''"
     [buttonRouterLink]="[(receiptListLink | async) ?? '']"
     [headerButtonsTemplate]="formHeaderButtons"
   ></app-form-header>
