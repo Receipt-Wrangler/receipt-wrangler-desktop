@@ -109,9 +109,9 @@ export class ReceiptImageService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getReceiptImageById(receiptImageId: number, observe?: 'body', reportProgress?: boolean): Observable<FileData>;
-    public getReceiptImageById(receiptImageId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<FileData>>;
-    public getReceiptImageById(receiptImageId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<FileData>>;
+    public getReceiptImageById(receiptImageId: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
+    public getReceiptImageById(receiptImageId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
+    public getReceiptImageById(receiptImageId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
     public getReceiptImageById(receiptImageId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (receiptImageId === null || receiptImageId === undefined) {
@@ -129,7 +129,7 @@ export class ReceiptImageService {
         }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'application/json'
+            'text/plain'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -140,7 +140,7 @@ export class ReceiptImageService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<FileData>('get',`${this.basePath}/receiptImage/${encodeURIComponent(String(receiptImageId))}`,
+        return this.httpClient.request<string>('get',`${this.basePath}/receiptImage/${encodeURIComponent(String(receiptImageId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
