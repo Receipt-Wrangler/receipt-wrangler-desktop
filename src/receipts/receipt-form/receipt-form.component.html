@@ -22,114 +22,118 @@
           </div>
         </app-form-section>
       </ng-container>
-      <app-form-section
-        headerText="Images"
-        [headerButtonsTemplate]="imagesSectionHeaderButtons"
-        [indent]="false"
-      >
-        <div class="">
-          <app-upload-image
-            [images]="images"
-            [mode]="mode"
-            [receiptId]="originalReceipt?.id?.toString()"
-          >
-          </app-upload-image>
+      <div class="row">
+        <app-form-section class="col" headerText="Details" [indent]="false">
           <div
-            *ngIf="images && (images?.length ?? 0 > 0) && showImages"
-            class="col-3"
+            class="d-flex flex-column justify-content-center align-items-center"
           >
-            <ng-container *ngIf="imagesLoading">
-              <div class="d-flex justify-content-center align-items-center">
-                <mat-spinner></mat-spinner>
-              </div>
-            </ng-container>
-            <app-carousel
+            <app-input
+              class="w-100"
+              label="Name"
+              [inputFormControl]="form | formGet : 'name'"
+              [readonly]="mode | inputReadonly"
+            ></app-input>
+            <app-input
+              class="w-100"
+              label="Amount"
+              type="text"
+              [isCurrency]="true"
+              [inputFormControl]="form | formGet : 'amount'"
+              [readonly]="mode | inputReadonly"
+            ></app-input>
+            <app-autocomlete
+              class="w-100"
+              label="Categories"
+              optionFilterKey="name"
+              creatableValueKey="name"
+              [inputFormControl]="form | formGet : 'categories'"
+              [options]="categories"
+              [optionTemplate]="categoryOptionTemplate"
+              [optionChipTemplate]="categoryOptionTemplate"
+              [multiple]="true"
+              [creatable]="true"
+              [readonly]="mode | inputReadonly"
+            ></app-autocomlete>
+            <app-autocomlete
+              class="w-100"
+              label="Tags"
+              optionFilterKey="name"
+              creatableValueKey="name"
+              [inputFormControl]="form | formGet : 'tags'"
+              [options]="tags"
+              [optionTemplate]="tagOptionTemplate"
+              [optionChipTemplate]="tagOptionTemplate"
+              [multiple]="true"
+              [creatable]="true"
+              [readonly]="mode | inputReadonly"
+            ></app-autocomlete>
+            <app-datepicker
+              label="Date"
+              class="w-100"
+              [inputFormControl]="form | formGet : 'date'"
+              [readonly]="mode | inputReadonly"
+            ></app-datepicker>
+            <app-autocomlete
+              class="w-100"
+              label="Group"
+              optionFilterKey="name"
+              optionValueKey="id"
+              [inputFormControl]="form | formGet : 'groupId'"
+              [options]="(groups | async) ?? []"
+              [optionTemplate]="groupOptionTemplate"
+              [readonly]="mode | inputReadonly"
+              [displayWith]="groupDisplayWith.bind(this)"
+            ></app-autocomlete>
+            <app-user-autocomplete
+              #paidByAutocomplete
+              class="w-100"
+              label="Paid By"
+              [inputFormControl]="form | formGet : 'paidByUserId'"
+              [usersToOmit]="usersToOmit"
+              [readonly]="mode | inputReadonly"
+            ></app-user-autocomplete>
+            <app-select
+              class="w-100"
+              label="Status"
+              [inputFormControl]="form | formGet : 'status'"
+              [readonly]="mode | inputReadonly"
+              [options]="receiptStatusOptions"
+            ></app-select>
+          </div>
+        </app-form-section>
+        <app-form-section
+          class="col h-100"
+          headerText="Images"
+          [headerButtonsTemplate]="imagesSectionHeaderButtons"
+          [indent]="false"
+        >
+          <div class="w-100 h-100">
+            <app-upload-image
+              class="w-100 h-100"
               [images]="images"
               [mode]="mode"
-              [hideButtonControls]="true"
-              [disabled]="mode !== formMode.edit"
-            ></app-carousel>
+              [receiptId]="originalReceipt?.id?.toString()"
+            >
+            </app-upload-image>
+            <div
+              *ngIf="images && (images?.length ?? 0 > 0) && showImages"
+              class="col-3"
+            >
+              <ng-container *ngIf="imagesLoading">
+                <div class="d-flex justify-content-center align-items-center">
+                  <mat-spinner></mat-spinner>
+                </div>
+              </ng-container>
+              <app-carousel
+                [images]="images"
+                [mode]="mode"
+                [hideButtonControls]="true"
+                [disabled]="mode !== formMode.edit"
+              ></app-carousel>
+            </div>
           </div>
-        </div>
-      </app-form-section>
-      <app-form-section headerText="Details" [indent]="false">
-        <div
-          class="d-flex flex-column justify-content-center align-items-center"
-        >
-          <app-input
-            class="w-100"
-            label="Name"
-            [inputFormControl]="form | formGet : 'name'"
-            [readonly]="mode | inputReadonly"
-          ></app-input>
-          <app-input
-            class="w-100"
-            label="Amount"
-            type="text"
-            [isCurrency]="true"
-            [inputFormControl]="form | formGet : 'amount'"
-            [readonly]="mode | inputReadonly"
-          ></app-input>
-          <app-autocomlete
-            class="w-100"
-            label="Categories"
-            optionFilterKey="name"
-            creatableValueKey="name"
-            [inputFormControl]="form | formGet : 'categories'"
-            [options]="categories"
-            [optionTemplate]="categoryOptionTemplate"
-            [optionChipTemplate]="categoryOptionTemplate"
-            [multiple]="true"
-            [creatable]="true"
-            [readonly]="mode | inputReadonly"
-          ></app-autocomlete>
-          <app-autocomlete
-            class="w-100"
-            label="Tags"
-            optionFilterKey="name"
-            creatableValueKey="name"
-            [inputFormControl]="form | formGet : 'tags'"
-            [options]="tags"
-            [optionTemplate]="tagOptionTemplate"
-            [optionChipTemplate]="tagOptionTemplate"
-            [multiple]="true"
-            [creatable]="true"
-            [readonly]="mode | inputReadonly"
-          ></app-autocomlete>
-          <app-datepicker
-            label="Date"
-            class="w-100"
-            [inputFormControl]="form | formGet : 'date'"
-            [readonly]="mode | inputReadonly"
-          ></app-datepicker>
-          <app-autocomlete
-            class="w-100"
-            label="Group"
-            optionFilterKey="name"
-            optionValueKey="id"
-            [inputFormControl]="form | formGet : 'groupId'"
-            [options]="(groups | async) ?? []"
-            [optionTemplate]="groupOptionTemplate"
-            [readonly]="mode | inputReadonly"
-            [displayWith]="groupDisplayWith.bind(this)"
-          ></app-autocomlete>
-          <app-user-autocomplete
-            #paidByAutocomplete
-            class="w-100"
-            label="Paid By"
-            [inputFormControl]="form | formGet : 'paidByUserId'"
-            [usersToOmit]="usersToOmit"
-            [readonly]="mode | inputReadonly"
-          ></app-user-autocomplete>
-          <app-select
-            class="w-100"
-            label="Status"
-            [inputFormControl]="form | formGet : 'status'"
-            [readonly]="mode | inputReadonly"
-            [options]="receiptStatusOptions"
-          ></app-select>
-        </div>
-      </app-form-section>
+        </app-form-section>
+      </div>
       <app-form-section
         headerText="Shares"
         [indent]="false"
