@@ -16,6 +16,10 @@ export class OptionDisplayPipe implements PipeTransform {
       )[optionDisplayKey];
     }
 
+    if (optionDisplayKey) {
+      return option[optionDisplayKey];
+    }
+
     return option;
   }
 }
