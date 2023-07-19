@@ -3,6 +3,10 @@
 app-sidebar {
   height: 100%;
 
+  .drawer-content {
+    max-width: 100%;
+  }
+
   .cursor-pointer {
     cursor: pointer;
   }

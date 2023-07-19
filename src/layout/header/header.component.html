@@ -1,7 +1,7 @@
 <ng-container *ngIf="!!(isLoggedIn | async)">
   <div
     id="header-container"
-    class="row header-container d-flex justify-content-between align-items-center"
+    class="header-container d-flex justify-content-between align-items-center"
   >
     <div class="col d-flex jusfity-content-center align-items-center">
       <button
@@ -43,6 +43,7 @@
         icon="notifications"
         triggers="click:clickouside"
         autoClose="outside"
+        placement="bottom-end"
         [matBadgeContent]="notificationCount"
         [ngbPopover]="notifications"
         (clicked)="notificationsPopover.open()"
