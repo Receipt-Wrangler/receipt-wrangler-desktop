@@ -43,6 +43,7 @@
         icon="notifications"
         triggers="click:clickouside"
         autoClose="outside"
+        placement="bottom-end"
         [matBadgeContent]="notificationCount"
         [ngbPopover]="notifications"
         (clicked)="notificationsPopover.open()"
