@@ -81,9 +81,9 @@
       <button mat-menu-item (click)="logout()">Logout</button>
     </mat-menu>
   </mat-drawer>
-  <mat-drawer-content>
-    <app-header></app-header>
-    <div class="p-4 d-flex justify-content-center">
+  <mat-drawer-content class="w-100">
+    <app-header class="d-block sticky-top"></app-header>
+    <div class="p-4 d-block">
       <router-outlet></router-outlet>
     </div>
   </mat-drawer-content>
