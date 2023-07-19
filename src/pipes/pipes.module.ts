@@ -10,6 +10,7 @@ import { MapKeyPipe } from './map-key.pipe';
 import { NamePipe } from './name.pipe';
 import { StatusPipe } from './status.pipe';
 import { UserPipe } from './user.pipe';
+import { GroupPipe } from './group.pipe';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { UserPipe } from './user.pipe';
     NamePipe,
     StatusPipe,
     UserPipe,
+    GroupPipe,
   ],
   imports: [CommonModule],
   exports: [
@@ -36,6 +38,7 @@ import { UserPipe } from './user.pipe';
     NamePipe,
     StatusPipe,
     UserPipe,
+    GroupPipe,
   ],
 })
 export class PipesModule {}

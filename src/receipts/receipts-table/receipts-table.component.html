@@ -1,4 +1,4 @@
-<app-table-header headerText="Receipts">
+<app-table-header [headerText]="(groupId | group)?.name + ' Receipts'">
   <div class="d-flex align-items-center">
     <app-button
       class="me-2"
