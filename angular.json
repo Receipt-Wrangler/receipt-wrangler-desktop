@@ -83,7 +83,7 @@
               "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.scss"
             ],
-            "codeCoverageExclude": ["src/api/*.ts"],
+            "codeCoverageExclude": ["src/api/**"],
             "scripts": [],
             "karmaConfig": "./karma.conf.js",
             "codeCoverage": true
