@@ -10,12 +10,14 @@ export class OptionDisplayPipe implements PipeTransform {
     optionDisplayKey?: string,
     optionValueKey?: string
   ): any {
+    // If we have just the value
     if (optionValueKey && optionDisplayKey) {
       return options.find(
         (o) => o?.[optionValueKey] === (option?.[optionValueKey] ?? option)
       )[optionDisplayKey];
     }
 
+    // If we have the whole option object
     if (optionDisplayKey) {
       return option[optionDisplayKey];
     }
