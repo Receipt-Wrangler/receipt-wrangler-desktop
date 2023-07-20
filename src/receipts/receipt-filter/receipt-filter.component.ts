@@ -1,5 +1,4 @@
 import { take, tap } from "rxjs";
-import { Category, Tag } from "src/api";
 import { RECEIPT_STATUS_OPTIONS } from "src/constants";
 import { SetReceiptFilter } from "src/store/receipt-table.actions";
 import { defaultReceiptFilter, ReceiptTableState } from "src/store/receipt-table.state";
@@ -8,6 +7,7 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
+import { Category, Tag } from "@noah231515/receipt-wrangler-core";
 
 3;
 

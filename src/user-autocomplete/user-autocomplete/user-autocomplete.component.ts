@@ -1,10 +1,10 @@
-import { User } from "src/api";
 import { AutocomleteComponent } from "src/autocomplete/autocomlete/autocomlete.component";
 import { UserState } from "src/store/user.state";
 
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Store } from "@ngxs/store";
+import { User } from "@noah231515/receipt-wrangler-core";
 
 @Component({
   selector: 'app-user-autocomplete',

@@ -1,5 +1,6 @@
-import { Receipt } from 'src/api';
-import { StatusPipe } from './status.pipe';
+import { Receipt } from "@noah231515/receipt-wrangler-core";
+
+import { StatusPipe } from "./status.pipe";
 
 describe('StatusPipe', () => {
   it('create an instance', () => {

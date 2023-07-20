@@ -1,10 +1,10 @@
 import { tap } from "rxjs";
-import { FileData, ReceiptImageService } from "src/api";
 import { FormMode } from "src/enums/form-mode.enum";
 import { SnackbarService } from "src/services/snackbar.service";
 
 import { Component, Input, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { FileData, ReceiptImageService } from "@noah231515/receipt-wrangler-core";
 
 import { formatImageData } from "../utils/form.utils";
 

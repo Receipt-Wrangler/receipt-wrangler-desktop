@@ -1,19 +1,16 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { finalize, forkJoin, Observable, switchMap, take, tap } from 'rxjs';
+import { finalize, forkJoin, Observable, switchMap, take, tap } from "rxjs";
+import { SetFeatureConfig } from "src/store/feature-config.state.actions";
+import { GroupState } from "src/store/group.state";
+import { SetGroups, SetSelectedGroupId } from "src/store/group.state.actions";
+import { SetUsers } from "src/store/user.state.actions";
+
+import { Injectable } from "@angular/core";
+import { Store } from "@ngxs/store";
 import {
-  AuthService,
-  FeatureConfigService,
-  Group,
-  GroupsService,
-  User,
-  UserService,
-} from 'src/api';
-import { SetFeatureConfig } from 'src/store/feature-config.state.actions';
-import { GroupState } from 'src/store/group.state';
-import { SetGroups, SetSelectedGroupId } from 'src/store/group.state.actions';
-import { SetUsers } from 'src/store/user.state.actions';
-import { ClaimsService } from './claims.service';
+  AuthService, FeatureConfigService, Group, GroupsService, User, UserService
+} from "@noah231515/receipt-wrangler-core";
+
+import { ClaimsService } from "./claims.service";
 
 @Injectable({
   providedIn: 'root',

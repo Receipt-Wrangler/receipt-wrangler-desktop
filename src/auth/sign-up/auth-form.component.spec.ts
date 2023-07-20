@@ -1,5 +1,4 @@
 import { of } from "rxjs";
-import { ApiModule } from "src/api";
 import { ButtonModule } from "src/button/button.module";
 import { FeatureDirective } from "src/directives/feature.directive";
 import { InputModule } from "src/input/input.module";
@@ -14,6 +13,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { ActivatedRoute } from "@angular/router";
 import { NgxsModule } from "@ngxs/store";
+import { ApiModule } from "@noah231515/receipt-wrangler-core";
 
 import { AuthForm } from "./auth-form.component";
 

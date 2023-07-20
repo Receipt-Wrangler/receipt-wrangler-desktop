@@ -1,12 +1,14 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { GroupRoleGuard } from 'src/guards/group-role.guard';
-import { FormConfig } from 'src/interfaces/form-config.interface';
-import { GroupFormComponent } from './group-form/group-form.component';
-import { GroupListComponent } from './group-list/group-list.component';
-import { GroupResolverService } from './resolvers/group-resolver.service';
-import { GroupMember } from 'src/api';
+import { FormMode } from "src/enums/form-mode.enum";
+import { GroupRoleGuard } from "src/guards/group-role.guard";
+import { FormConfig } from "src/interfaces/form-config.interface";
+
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { GroupMember } from "@noah231515/receipt-wrangler-core";
+
+import { GroupFormComponent } from "./group-form/group-form.component";
+import { GroupListComponent } from "./group-list/group-list.component";
+import { GroupResolverService } from "./resolvers/group-resolver.service";
 
 const routes: Routes = [
   {

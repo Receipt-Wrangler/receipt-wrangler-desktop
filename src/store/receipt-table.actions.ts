@@ -1,4 +1,4 @@
-import { PagedRequestFilter } from "src/api";
+import { PagedRequestFilter } from "@noah231515/receipt-wrangler-core";
 
 import { ReceiptTableInterface } from "../interfaces";
 

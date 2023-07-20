@@ -1,5 +1,4 @@
 import { switchMap, take, tap } from "rxjs";
-import { AuthService, User, UserService } from "src/api";
 import { FormMode } from "src/enums/form-mode.enum";
 import { FormConfig } from "src/interfaces";
 import { SnackbarService } from "src/services/snackbar.service";
@@ -10,6 +9,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngxs/store";
+import { AuthService, User, UserService } from "@noah231515/receipt-wrangler-core";
 
 @Component({
   selector: 'app-user-profile',

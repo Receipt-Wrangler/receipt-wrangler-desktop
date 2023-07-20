@@ -1,19 +1,21 @@
-import { Observable, take, tap } from 'rxjs';
-import { Group, GroupMember, GroupsService } from 'src/api';
-import { SnackbarService } from 'src/services/snackbar.service';
-import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
-import { GroupState } from 'src/store/group.state';
-import { RemoveGroup } from 'src/store/group.state.actions';
-import { TableColumn } from 'src/table/table-column.interface';
-import { TableComponent } from 'src/table/table/table.component';
+import { Observable, take, tap } from "rxjs";
+import { SnackbarService } from "src/services/snackbar.service";
+import {
+  ConfirmationDialogComponent
+} from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
+import { GroupState } from "src/store/group.state";
+import { RemoveGroup } from "src/store/group.state.actions";
+import { TableColumn } from "src/table/table-column.interface";
+import { TableComponent } from "src/table/table/table.component";
 
-import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Select, Store } from '@ngxs/store';
+import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Sort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { Select, Store } from "@ngxs/store";
+import { Group, GroupMember, GroupsService } from "@noah231515/receipt-wrangler-core";
 
-import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
 
 @Component({
   selector: 'app-group-list',

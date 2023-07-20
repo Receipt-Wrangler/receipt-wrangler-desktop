@@ -1,8 +1,7 @@
-import { ApiModule } from "src/api";
-
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { NgxsModule } from "@ngxs/store";
+import { ApiModule } from "@noah231515/receipt-wrangler-core";
 
 import { AppInitService } from "./app-init.service";
 

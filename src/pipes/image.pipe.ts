@@ -1,6 +1,5 @@
-import { FileData } from "src/api";
-
 import { Pipe, PipeTransform } from "@angular/core";
+import { FileData } from "@noah231515/receipt-wrangler-core";
 
 @Pipe({
   name: 'image',

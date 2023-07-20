@@ -1,9 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import { GroupMember } from 'src/api';
-import { AuthState } from 'src/store/auth.state';
-import { GroupState } from 'src/store/group.state';
-import { GroupUtil } from './group.utils';
+import { AuthState } from "src/store/auth.state";
+import { GroupState } from "src/store/group.state";
+
+import { TestBed } from "@angular/core/testing";
+import { NgxsModule, Store } from "@ngxs/store";
+import { GroupMember } from "@noah231515/receipt-wrangler-core";
+
+import { GroupUtil } from "./group.utils";
 
 describe('GroupUtil', () => {
   let groupUtil: GroupUtil;

@@ -1,11 +1,11 @@
 import { Observable } from "rxjs";
-import { GroupMember } from "src/api";
 import { AuthState } from "src/store/auth.state";
 
 import { Component, OnInit } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { Select, Store } from "@ngxs/store";
+import { GroupMember } from "@noah231515/receipt-wrangler-core";
 
 import { ROLE_OPTIONS } from "../role-options";
 import { buildGroupMemberForm } from "../utils/group-member.utils";

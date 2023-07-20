@@ -1,5 +1,4 @@
 import { of } from "rxjs";
-import { ApiModule } from "src/api";
 import { PipesModule } from "src/pipes/pipes.module";
 
 import { CommonModule } from "@angular/common";
@@ -9,6 +8,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatListModule } from "@angular/material/list";
 import { ActivatedRoute } from "@angular/router";
 import { NgxsModule } from "@ngxs/store";
+import { ApiModule } from "@noah231515/receipt-wrangler-core";
 
 import { DashboardRoutingModule } from "../dashboard-routing.module";
 import { SummaryCardComponent } from "../summary-card/summary-card.component";

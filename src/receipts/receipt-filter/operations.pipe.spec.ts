@@ -1,5 +1,6 @@
-import { PagedRequestField } from 'src/api';
-import { OperationsPipe } from './operations.pipe';
+import { PagedRequestField } from "@noah231515/receipt-wrangler-core";
+
+import { OperationsPipe } from "./operations.pipe";
 
 describe('OperationsPipe', () => {
   it('create an instance', () => {

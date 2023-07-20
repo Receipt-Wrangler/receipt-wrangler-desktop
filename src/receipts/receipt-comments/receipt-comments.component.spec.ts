@@ -1,16 +1,18 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NgxsModule, Store } from '@ngxs/store';
-import { of } from 'rxjs';
-import { ApiModule, Comment, CommentService } from 'src/api';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { AuthState } from 'src/store/auth.state';
-import { ReceiptCommentsComponent } from './receipt-comments.component';
-import { TopLevelCommentPipe } from './top-level-comment.pipe';
+import { of } from "rxjs";
+import { FormMode } from "src/enums/form-mode.enum";
+import { PipesModule } from "src/pipes/pipes.module";
+import { AuthState } from "src/store/auth.state";
+
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgxsModule, Store } from "@ngxs/store";
+import { ApiModule, Comment, CommentService } from "@noah231515/receipt-wrangler-core";
+
+import { ReceiptCommentsComponent } from "./receipt-comments.component";
+import { TopLevelCommentPipe } from "./top-level-comment.pipe";
 
 describe('ReceiptCommentsComponent', () => {
   let component: ReceiptCommentsComponent;

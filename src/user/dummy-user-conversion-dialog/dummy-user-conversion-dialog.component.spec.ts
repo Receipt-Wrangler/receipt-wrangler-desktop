@@ -1,5 +1,4 @@
 import { of } from "rxjs";
-import { ApiModule, UserService } from "src/api";
 import { PipesModule } from "src/pipes/pipes.module";
 import { SnackbarService } from "src/services/snackbar.service";
 import { UserState } from "src/store/user.state";
@@ -11,6 +10,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { NgxsModule, Store } from "@ngxs/store";
+import { ApiModule, UserService } from "@noah231515/receipt-wrangler-core";
 
 import { DummyUserConversionDialogComponent } from "./dummy-user-conversion-dialog.component";
 

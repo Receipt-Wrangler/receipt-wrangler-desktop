@@ -1,9 +1,9 @@
-import { User } from "src/api";
 import { AuthGuard } from "src/guards/auth.guard";
 import { SidebarComponent } from "src/layout/sidebar/sidebar.component";
 
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { User } from "@noah231515/receipt-wrangler-core";
 
 // set up dashboard
 const routes: Routes = [

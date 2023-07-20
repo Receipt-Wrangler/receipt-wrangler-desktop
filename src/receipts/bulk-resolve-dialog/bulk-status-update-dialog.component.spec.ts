@@ -1,11 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PipesModule } from "src/pipes/pipes.module";
 
-import { BulkStatusUpdateComponent } from './bulk-status-update-dialog.component';
-import { MatDialogRef } from '@angular/material/dialog';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { Receipt } from 'src/api';
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { Receipt } from "@noah231515/receipt-wrangler-core";
+
+import { BulkStatusUpdateComponent } from "./bulk-status-update-dialog.component";
 
 describe('BulkStatusUpdateComponent', () => {
   let component: BulkStatusUpdateComponent;

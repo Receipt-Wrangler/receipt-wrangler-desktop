@@ -1,10 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import { GroupState } from 'src/store/group.state';
-import { GroupUtil } from 'src/utils/group.utils';
-import { GroupRolePipe } from './group-role.pipe';
-import { AuthState } from 'src/store/auth.state';
-import { GroupMember } from 'src/api';
+import { AuthState } from "src/store/auth.state";
+import { GroupState } from "src/store/group.state";
+import { GroupUtil } from "src/utils/group.utils";
+
+import { TestBed } from "@angular/core/testing";
+import { NgxsModule, Store } from "@ngxs/store";
+import { GroupMember } from "@noah231515/receipt-wrangler-core";
+
+import { GroupRolePipe } from "./group-role.pipe";
 
 describe('GroupRolePipe', () => {
   let store: Store;

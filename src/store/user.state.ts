@@ -1,7 +1,6 @@
-import { User } from "src/api";
-
 import { Injectable } from "@angular/core";
 import { Action, createSelector, Selector, State, StateContext } from "@ngxs/store";
+import { User } from "@noah231515/receipt-wrangler-core";
 
 import { AddUser, RemoveUser, SetUsers, UpdateUser } from "./user.state.actions";
 

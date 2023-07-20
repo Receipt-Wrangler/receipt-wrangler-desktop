@@ -1,5 +1,4 @@
 import { of } from "rxjs";
-import { ApiModule, AuthService, User, UserService } from "src/api";
 import { PipesModule } from "src/pipes/pipes.module";
 import { SnackbarService } from "src/services/snackbar.service";
 import { AuthState } from "src/store/auth.state";
@@ -13,6 +12,7 @@ import { ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { NgxsModule, Store } from "@ngxs/store";
+import { ApiModule, AuthService, User, UserService } from "@noah231515/receipt-wrangler-core";
 
 import { UserFormComponent } from "./user-form.component";
 

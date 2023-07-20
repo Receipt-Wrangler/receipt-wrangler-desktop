@@ -1,10 +1,10 @@
 import { take, tap } from "rxjs";
-import { User, UserService } from "src/api";
 import { SnackbarService } from "src/services/snackbar.service";
 
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
+import { User, UserService } from "@noah231515/receipt-wrangler-core";
 
 @Component({
   selector: 'app-reset-password',

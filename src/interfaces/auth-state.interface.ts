@@ -1,4 +1,4 @@
-import { User } from "src/api";
+import { User } from "@noah231515/receipt-wrangler-core";
 
 export interface AuthStateInterface {
   userId?: string;

@@ -1,25 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from "rxjs";
+import { InputModule } from "src/input/input.module";
+import { PipesModule } from "src/pipes/pipes.module";
+import { SetReceiptFilter } from "src/store/receipt-table.actions";
+import { defaultReceiptFilter, ReceiptTableState } from "src/store/receipt-table.state";
 
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxsModule, Store } from '@ngxs/store';
-import { InputModule } from 'src/input/input.module';
-import { PipesModule } from 'src/pipes/pipes.module';
-import {
-  ReceiptTableState,
-  defaultReceiptFilter,
-} from 'src/store/receipt-table.state';
-import { OperationsPipe } from './operations.pipe';
-import { ReceiptFilterComponent } from './receipt-filter.component';
-import { of } from 'rxjs';
-import { SetReceiptFilter } from 'src/store/receipt-table.actions';
-import { PagedRequestField, Receipt } from 'src/api';
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { NgxsModule, Store } from "@ngxs/store";
+import { PagedRequestField, Receipt } from "@noah231515/receipt-wrangler-core";
+
+import { OperationsPipe } from "./operations.pipe";
+import { ReceiptFilterComponent } from "./receipt-filter.component";
 
 describe('ReceiptFilterComponent', () => {
   let component: ReceiptFilterComponent;

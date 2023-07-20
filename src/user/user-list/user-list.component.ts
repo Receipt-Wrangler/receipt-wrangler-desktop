@@ -1,5 +1,4 @@
 import { Observable, take, tap } from "rxjs";
-import { User, UserService } from "src/api";
 import { DEFAULT_HOST_CLASS } from "src/constants";
 import { DEFAULT_DIALOG_CONFIG } from "src/constants/dialog.constant";
 import { SnackbarService } from "src/services/snackbar.service";
@@ -17,6 +16,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
+import { User, UserService } from "@noah231515/receipt-wrangler-core";
 
 import {
   DummyUserConversionDialogComponent

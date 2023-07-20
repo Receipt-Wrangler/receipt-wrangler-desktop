@@ -1,8 +1,8 @@
-import { Group } from "src/api";
 import { ALL_GROUP } from "src/constants";
 
 import { Injectable } from "@angular/core";
 import { Action, createSelector, Selector, State, StateContext } from "@ngxs/store";
+import { Group } from "@noah231515/receipt-wrangler-core";
 
 import {
   AddGroup, RemoveGroup, SetGroups, SetSelectedGroupId, UpdateGroup

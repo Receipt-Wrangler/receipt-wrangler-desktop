@@ -1,10 +1,10 @@
 import { of, switchMap, take, tap } from "rxjs";
-import { SearchResult, SearchService } from "src/api";
 
 import { Component, ViewEncapsulation } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { SearchResult, SearchService } from "@noah231515/receipt-wrangler-core";
 
 @UntilDestroy()
 @Component({
