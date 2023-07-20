@@ -17,6 +17,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { EncodedImage } from '../model/encodedImage';
 import { FileData } from '../model/fileData';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -109,9 +110,9 @@ export class ReceiptImageService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getReceiptImageById(receiptImageId: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public getReceiptImageById(receiptImageId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public getReceiptImageById(receiptImageId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+    public getReceiptImageById(receiptImageId: number, observe?: 'body', reportProgress?: boolean): Observable<EncodedImage>;
+    public getReceiptImageById(receiptImageId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<EncodedImage>>;
+    public getReceiptImageById(receiptImageId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<EncodedImage>>;
     public getReceiptImageById(receiptImageId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (receiptImageId === null || receiptImageId === undefined) {
@@ -129,7 +130,7 @@ export class ReceiptImageService {
         }
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
-            'text/plain'
+            'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -140,7 +141,7 @@ export class ReceiptImageService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<string>('get',`${this.basePath}/receiptImage/${encodeURIComponent(String(receiptImageId))}`,
+        return this.httpClient.request<EncodedImage>('get',`${this.basePath}/receiptImage/${encodeURIComponent(String(receiptImageId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

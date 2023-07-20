@@ -2,6 +2,7 @@ export * from './baseModel';
 export * from './bulkStatusUpdateCommand';
 export * from './category';
 export * from './comment';
+export * from './encodedImage';
 export * from './fileData';
 export * from './group';
 export * from './groupMember';

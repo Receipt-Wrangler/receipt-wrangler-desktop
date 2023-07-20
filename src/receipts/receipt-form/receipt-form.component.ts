@@ -264,7 +264,7 @@ export class ReceiptFormComponent implements OnInit {
           .pipe(
             tap((data) => {
               // TODO: clean this up
-              file.imageData = data as any;
+              file.imageData = data.encodedImage as any;
               this.images.push(file);
             }),
             finalize(() => (this.imagesLoading = false))
