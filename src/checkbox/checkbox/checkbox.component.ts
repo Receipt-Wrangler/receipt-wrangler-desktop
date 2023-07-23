@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BaseInputInterface } from 'src/base-input/base-input.interface';
+import { BaseInputInterface } from '@noah231515/receipt-wrangler-core';
 
 @Component({
   selector: 'app-checkbox',

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
-import { ButtonModule } from 'src/button/button.module';
+import { ButtonModule } from '@noah231515/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { BackButtonComponent } from './back-button/back-button.component';
 import { CancelButtonComponent } from './cancel-button/cancel-button.component';

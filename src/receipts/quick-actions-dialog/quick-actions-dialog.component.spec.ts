@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
-import { ButtonModule } from 'src/button/button.module';
+import { ButtonModule } from '@noah231515/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { RadioGroupModule } from 'src/radio-group/radio-group.module';
 import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';

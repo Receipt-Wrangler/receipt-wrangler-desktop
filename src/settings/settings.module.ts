@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ColorPickerModule } from 'src/color-picker/color-picker.module';
-import { InputModule } from 'src/input/input.module';
+import { InputModule } from '@noah231515/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { SettingsRoutingModule } from './settings-routing.module';

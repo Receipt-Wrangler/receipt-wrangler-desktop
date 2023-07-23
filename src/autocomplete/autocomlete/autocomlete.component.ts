@@ -14,7 +14,7 @@ import {
   MatAutocompleteTrigger,
 } from '@angular/material/autocomplete';
 import { map, Observable, of, startWith } from 'rxjs';
-import { BaseInputComponent } from 'src/base-input/base-input/base-input.component';
+import { BaseInputComponent } from '@noah231515/receipt-wrangler-core';
 
 @Component({
   selector: 'app-autocomlete',

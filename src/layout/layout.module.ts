@@ -10,7 +10,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
-import { ButtonModule } from 'src/button/button.module';
+import { ButtonModule } from '@noah231515/receipt-wrangler-core';
 import { DirectivesModule } from 'src/directives/directives.module';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SearchbarModule } from 'src/searchbar/searchbar.module';

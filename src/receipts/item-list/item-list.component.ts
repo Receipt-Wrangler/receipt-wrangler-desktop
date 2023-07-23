@@ -1,19 +1,35 @@
-import { Observable } from "rxjs";
-import { RECEIPT_ITEM_STATUS_OPTIONS } from "src/constants/receipt-status-options";
-import { FormMode } from "src/enums/form-mode.enum";
-import { InputComponent } from "src/input/input/input.component";
-import { UserState } from "src/store/user.state";
+import { Observable } from 'rxjs';
+import { RECEIPT_ITEM_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
+import { FormMode } from 'src/enums/form-mode.enum';
+import { InputComponent } from '@noah231515/receipt-wrangler-core';
+import { UserState } from 'src/store/user.state';
 
 import {
-  ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChildren, ViewEncapsulation
-} from "@angular/core";
-import { AbstractControl, FormArray, FormBuilder, FormGroup } from "@angular/forms";
-import { MatExpansionPanel } from "@angular/material/expansion";
-import { ActivatedRoute } from "@angular/router";
-import { Select } from "@ngxs/store";
-import { GroupMember, Item, Receipt, User } from "@noah231515/receipt-wrangler-core";
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+} from '@angular/forms';
+import { MatExpansionPanel } from '@angular/material/expansion';
+import { ActivatedRoute } from '@angular/router';
+import { Select } from '@ngxs/store';
+import {
+  GroupMember,
+  Item,
+  Receipt,
+  User,
+} from '@noah231515/receipt-wrangler-core';
 
-import { buildItemForm } from "../utils/form.utils";
+import { buildItemForm } from '../utils/form.utils';
 
 export interface ItemData {
   item: Item;

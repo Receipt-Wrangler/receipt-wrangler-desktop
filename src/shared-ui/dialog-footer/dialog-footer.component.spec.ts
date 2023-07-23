@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ButtonModule } from 'src/button/button.module';
+import { ButtonModule } from '@noah231515/receipt-wrangler-core';
 import { DialogFooterComponent } from './dialog-footer.component';
 
 describe('DialogFooterComponent', () => {

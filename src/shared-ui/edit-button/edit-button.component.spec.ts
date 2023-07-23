@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditButtonComponent } from './edit-button.component';
-import { ButtonModule } from 'src/button/button.module';
+import { ButtonModule } from '@noah231515/receipt-wrangler-core';
 import { ActivatedRoute } from '@angular/router';
 
 describe('EditButtonComponent', () => {

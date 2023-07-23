@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeleteButtonComponent } from './delete-button.component';
-import { ButtonModule } from 'src/button/button.module';
+import { ButtonModule } from '@noah231515/receipt-wrangler-core';
 import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 
