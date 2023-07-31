@@ -1,18 +1,21 @@
-import { of } from "rxjs";
-import { PipesModule } from "src/pipes/pipes.module";
-import { AuthState } from "src/store/auth.state";
-import { UserState } from "src/store/user.state";
-
-import { HttpClientModule } from "@angular/common/http";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule } from "@angular/forms";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { ActivatedRoute } from "@angular/router";
-import { NgxsModule, Store } from "@ngxs/store";
-import { ApiModule, AuthService, UserService } from "@noah231515/receipt-wrangler-core";
-
-import { UserProfileComponent } from "./user-profile.component";
+import { HttpClientModule } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { NgxsModule, Store } from '@ngxs/store';
+import {
+  ApiModule,
+  AuthService,
+  AuthState,
+  PipesModule as CorePipesModule,
+  UserService,
+  UserState,
+} from '@noah231515/receipt-wrangler-core';
+import { of } from 'rxjs';
+import { UserProfileComponent } from './user-profile.component';
+import { PipesModule } from 'src/pipes/pipes.module';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -23,6 +26,7 @@ describe('UserProfileComponent', () => {
       declarations: [UserProfileComponent],
       imports: [
         ApiModule,
+        CorePipesModule,
         HttpClientModule,
         MatSnackBarModule,
         NgxsModule.forRoot([AuthState, UserState]),

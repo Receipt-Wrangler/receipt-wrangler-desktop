@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { NgxsModule } from '@ngxs/store';
 import { PipesModule } from 'src/pipes/pipes.module';
+import { PipesModule as CorePipesModule } from '@noah231515/receipt-wrangler-core';
 import { SwitchGroupDialogComponent } from './switch-group-dialog.component';
 
 describe('SwitchGroupDialogComponent', () => {
@@ -14,6 +15,7 @@ describe('SwitchGroupDialogComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [SwitchGroupDialogComponent],
       imports: [
+        CorePipesModule,
         MatDialogModule,
         NgxsModule.forRoot([]),
         PipesModule,

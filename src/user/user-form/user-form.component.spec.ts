@@ -1,20 +1,24 @@
-import { of } from "rxjs";
-import { PipesModule } from "src/pipes/pipes.module";
-import { SnackbarService } from "src/services/snackbar.service";
-import { AuthState } from "src/store/auth.state";
-import { UserState } from "src/store/user.state";
-import { AddUser, UpdateUser } from "src/store/user.state.actions";
-
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule, Validators } from "@angular/forms";
-import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { NgxsModule, Store } from "@ngxs/store";
-import { ApiModule, AuthService, User, UserService } from "@noah231515/receipt-wrangler-core";
-
-import { UserFormComponent } from "./user-form.component";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxsModule, Store } from '@ngxs/store';
+import {
+  AddUser,
+  ApiModule,
+  AuthService,
+  AuthState,
+  PipesModule,
+  SnackbarService,
+  UpdateUser,
+  User,
+  UserService,
+  UserState,
+} from '@noah231515/receipt-wrangler-core';
+import { of } from 'rxjs';
+import { UserFormComponent } from './user-form.component';
 
 describe('UserFormComponent', () => {
   let component: UserFormComponent;

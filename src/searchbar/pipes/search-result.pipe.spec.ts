@@ -1,11 +1,11 @@
-import { GroupState } from "src/store/group.state";
+import { GroupState } from '@noah231515/receipt-wrangler-core';
 
-import { DatePipe } from "@angular/common";
-import { TestBed } from "@angular/core/testing";
-import { NgxsModule, Store } from "@ngxs/store";
-import { SearchResult } from "@noah231515/receipt-wrangler-core";
+import { DatePipe } from '@angular/common';
+import { TestBed } from '@angular/core/testing';
+import { NgxsModule, Store } from '@ngxs/store';
+import { SearchResult } from '@noah231515/receipt-wrangler-core';
 
-import { SearchResultPipe } from "./search-result.pipe";
+import { SearchResultPipe } from './search-result.pipe';
 
 describe('SearchResultPipe', () => {
   let pipe: SearchResultPipe;

@@ -3,8 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NgxsModule, Store } from '@ngxs/store';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { AuthState } from 'src/store/auth.state';
+import { AuthState, PipesModule } from '@noah231515/receipt-wrangler-core';
 import { GroupMemberFormComponent } from './group-member-form.component';
 
 describe('GroupMemberFormComponent', () => {
