@@ -6,8 +6,9 @@ RUN mkdir desktop
 WORKDIR desktop
 COPY . .
 RUN npm i -g @angular/cli@15.0.4
-RUN npm i
+RUN npm i --force
 RUN ng build
+# TODO: Remove force
 
 # Deploy via nginx
 FROM nginx:alpine
