@@ -1,11 +1,7 @@
-import { pipe } from "rxjs";
-import { GroupState } from "src/store/group.state";
-
-import { TestBed } from "@angular/core/testing";
-import { NgxsModule, Store } from "@ngxs/store";
-import { Group } from "@noah231515/receipt-wrangler-core";
-
-import { GroupPipe } from "./group.pipe";
+import { TestBed } from '@angular/core/testing';
+import { NgxsModule, Store } from '@ngxs/store';
+import { Group, GroupState } from '@noah231515/receipt-wrangler-core';
+import { GroupPipe } from './group.pipe';
 
 describe('GroupPipe', () => {
   let pipe: GroupPipe;

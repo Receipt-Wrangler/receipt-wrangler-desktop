@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { FeatureConfigState } from 'src/store/feature-config.state';
+import { FeatureConfigState } from '@noah231515/receipt-wrangler-core';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FeatureGuard  {
+export class FeatureGuard {
   constructor(private store: Store) {}
   canActivate(
     route: ActivatedRouteSnapshot,

@@ -1,18 +1,19 @@
-import { of } from "rxjs";
-import { PipesModule } from "src/pipes/pipes.module";
-import { SnackbarService } from "src/services/snackbar.service";
-import { UserState } from "src/store/user.state";
-import { UpdateUser } from "src/store/user.state.actions";
-
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatDialogRef } from "@angular/material/dialog";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { NgxsModule, Store } from "@ngxs/store";
-import { ApiModule, UserService } from "@noah231515/receipt-wrangler-core";
-
-import { DummyUserConversionDialogComponent } from "./dummy-user-conversion-dialog.component";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxsModule, Store } from '@ngxs/store';
+import {
+  ApiModule,
+  PipesModule,
+  SnackbarService,
+  UpdateUser,
+  UserService,
+  UserState,
+} from '@noah231515/receipt-wrangler-core';
+import { of } from 'rxjs';
+import { DummyUserConversionDialogComponent } from './dummy-user-conversion-dialog.component';
 
 describe('DummyUserConversionDialogComponent', () => {
   let component: DummyUserConversionDialogComponent;

@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormArray,
@@ -5,18 +6,12 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
-import { ButtonModule } from '@noah231515/receipt-wrangler-core';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { RadioGroupModule } from 'src/radio-group/radio-group.module';
-import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
+import { PipesModule } from '@noah231515/receipt-wrangler-core';
 import { QuickActionsDialogComponent } from './quick-actions-dialog.component';
-import { GroupState } from 'src/store/group.state';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('QuickActionsDialogComponent', () => {
   let component: QuickActionsDialogComponent;

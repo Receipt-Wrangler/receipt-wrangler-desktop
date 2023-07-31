@@ -1,15 +1,16 @@
-import { PipesModule } from "src/pipes/pipes.module";
-
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule } from "@angular/forms";
-import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { NgxsModule } from "@ngxs/store";
-import { ApiModule } from "@noah231515/receipt-wrangler-core";
-
-import { ResetPasswordComponent } from "./reset-password.component";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxsModule } from '@ngxs/store';
+import {
+  ApiModule,
+  PipesModule as CorePipesModule,
+} from '@noah231515/receipt-wrangler-core';
+import { PipesModule } from 'src/pipes/pipes.module';
+import { ResetPasswordComponent } from './reset-password.component';
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
@@ -21,7 +22,7 @@ describe('ResetPasswordComponent', () => {
       imports: [
         ApiModule,
         HttpClientTestingModule,
-        HttpClientTestingModule,
+        CorePipesModule,
         MatDialogModule,
         MatSnackBarModule,
         NgxsModule.forRoot([]),

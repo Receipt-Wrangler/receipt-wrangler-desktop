@@ -1,5 +1,5 @@
-import { of } from 'rxjs';
 import { InputModule } from '@noah231515/receipt-wrangler-core';
+import { of } from 'rxjs';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SetReceiptFilter } from 'src/store/receipt-table.actions';
 import {
@@ -17,8 +17,11 @@ import {
 } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule, Store } from '@ngxs/store';
-import { PagedRequestField, Receipt } from '@noah231515/receipt-wrangler-core';
-
+import {
+  PipesModule as CorePipesModule,
+  PagedRequestField,
+  Receipt,
+} from '@noah231515/receipt-wrangler-core';
 import { OperationsPipe } from './operations.pipe';
 import { ReceiptFilterComponent } from './receipt-filter.component';
 
@@ -70,6 +73,7 @@ describe('ReceiptFilterComponent', () => {
         MatDialogModule,
         InputModule,
         ReactiveFormsModule,
+        CorePipesModule,
         PipesModule,
         NoopAnimationsModule,
       ],
