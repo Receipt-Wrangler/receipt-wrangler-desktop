@@ -1,15 +1,18 @@
-import { switchMap, take, tap } from "rxjs";
-import { FormMode } from "src/enums/form-mode.enum";
-import { FormConfig } from "src/interfaces";
-import { SnackbarService } from "src/services/snackbar.service";
-import { AuthState } from "src/store/auth.state";
-import { UpdateUser } from "src/store/user.state.actions";
-
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
-import { Store } from "@ngxs/store";
-import { AuthService, User, UserService } from "@noah231515/receipt-wrangler-core";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngxs/store';
+import {
+  AuthService,
+  AuthState,
+  UpdateUser,
+  User,
+  UserService,
+} from '@noah231515/receipt-wrangler-core';
+import { switchMap, take, tap } from 'rxjs';
+import { FormMode } from 'src/enums/form-mode.enum';
+import { FormConfig } from 'src/interfaces';
+import { SnackbarService } from '@noah231515/receipt-wrangler-core';
 
 @Component({
   selector: 'app-user-profile',

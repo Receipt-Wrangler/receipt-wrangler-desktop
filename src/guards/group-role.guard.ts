@@ -1,11 +1,10 @@
 import { Observable } from "rxjs";
-import { GroupState } from "src/store/group.state";
-import { GroupUtil } from "src/utils/group.utils";
+import { GroupUtil } from "src/utils";
 
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { Store } from "@ngxs/store";
-import { GroupMember } from "@noah231515/receipt-wrangler-core";
+import { GroupMember, GroupState } from "@noah231515/receipt-wrangler-core";
 
 @Injectable({
   providedIn: 'root',

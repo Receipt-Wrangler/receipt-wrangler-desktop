@@ -1,11 +1,10 @@
 import { switchMap, tap } from "rxjs";
-import { GroupState } from "src/store/group.state";
 
 import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
-import { UserService } from "@noah231515/receipt-wrangler-core";
+import { GroupState, UserService } from "@noah231515/receipt-wrangler-core";
 
 @UntilDestroy()
 @Component({

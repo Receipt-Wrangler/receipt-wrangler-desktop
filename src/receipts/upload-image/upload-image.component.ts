@@ -1,12 +1,14 @@
-import { tap } from "rxjs";
-import { FormMode } from "src/enums/form-mode.enum";
-import { SnackbarService } from "src/services/snackbar.service";
+import { tap } from 'rxjs';
+import { FormMode } from 'src/enums/form-mode.enum';
+import { Component, Input, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import {
+  FileData,
+  ReceiptImageService,
+  SnackbarService,
+} from '@noah231515/receipt-wrangler-core';
 
-import { Component, Input, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { FileData, ReceiptImageService } from "@noah231515/receipt-wrangler-core";
-
-import { formatImageData } from "../utils/form.utils";
+import { formatImageData } from '../utils/form.utils';
 
 @Component({
   selector: 'app-upload-image',

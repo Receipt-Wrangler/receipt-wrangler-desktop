@@ -1,15 +1,18 @@
-import { map, Observable, switchMap, take, tap } from "rxjs";
-import { SnackbarService } from "src/services/snackbar.service";
-import { AuthState } from "src/store/auth.state";
-import { Logout } from "src/store/auth.state.actions";
-import { GroupState } from "src/store/group.state";
-import { SetSelectedGroupId } from "src/store/group.state.actions";
-import { LayoutState } from "src/store/layout.state";
-
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { Router } from "@angular/router";
-import { Select, Store } from "@ngxs/store";
-import { AuthService, Group, User } from "@noah231515/receipt-wrangler-core";
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+import {
+  AuthService,
+  AuthState,
+  Group,
+  GroupState,
+  Logout,
+  SetSelectedGroupId,
+  SnackbarService,
+  User,
+} from '@noah231515/receipt-wrangler-core';
+import { map, Observable, switchMap, take, tap } from 'rxjs';
+import { LayoutState } from 'src/store/layout.state';
 
 @Component({
   selector: 'app-sidebar',

@@ -1,18 +1,20 @@
-import { Observable, switchMap, take, tap } from "rxjs";
-import { SnackbarService } from "src/services/snackbar.service";
-import { AuthState } from "src/store/auth.state";
-import { Logout } from "src/store/auth.state.actions";
-import { GroupState } from "src/store/group.state";
-import { ToggleIsSidebarOpen } from "src/store/layout.state.actions";
-
-import { Component, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { Router } from "@angular/router";
-import { Select, Store } from "@ngxs/store";
-import { AuthService, NotificationsService, User } from "@noah231515/receipt-wrangler-core";
-
-import { DEFAULT_DIALOG_CONFIG } from "../../constants";
-import { SwitchGroupDialogComponent } from "../switch-group-dialog/switch-group-dialog.component";
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+import {
+  AuthService,
+  AuthState,
+  GroupState,
+  Logout,
+  NotificationsService,
+  SnackbarService,
+  User,
+} from '@noah231515/receipt-wrangler-core';
+import { Observable, switchMap, take, tap } from 'rxjs';
+import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';
+import { DEFAULT_DIALOG_CONFIG } from '../../constants';
+import { SwitchGroupDialogComponent } from '../switch-group-dialog/switch-group-dialog.component';
 
 @Component({
   selector: 'app-header',

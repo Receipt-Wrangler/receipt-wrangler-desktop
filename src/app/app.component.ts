@@ -1,10 +1,8 @@
-import { take } from "rxjs";
-import { AuthState } from "src/store/auth.state";
-
-import { Component, OnInit } from "@angular/core";
-import { EventType, Router } from "@angular/router";
-import { Store } from "@ngxs/store";
-import { AuthService } from "@noah231515/receipt-wrangler-core";
+import { take } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { EventType, Router } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { AuthService, AuthState } from '@noah231515/receipt-wrangler-core';
 
 @Component({
   selector: 'app-root',
