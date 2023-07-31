@@ -16,7 +16,7 @@ jobs:
           node-version: 18.16.0
 
       - name: Setup
-        run: npm ci
+        run: npm ci --force # TODO: Remove --force
         working-directory: ${{env.working-directory}}
 
       - name: Test
