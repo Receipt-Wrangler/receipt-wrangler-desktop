@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Receipt } from 'src/api';
+import { Component, Input } from "@angular/core";
+import { Receipt } from "@noah231515/receipt-wrangler-core";
 
 @Component({
   selector: 'app-status-chip',

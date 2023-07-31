@@ -1,10 +1,10 @@
-import { Item, Receipt, User } from "src/api";
 import { RadioButtonData } from "src/radio-group/models";
 
 import { Component, Input, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Item, Receipt, User } from "@noah231515/receipt-wrangler-core";
 
 import { buildItemForm } from "../utils/form.utils";
 

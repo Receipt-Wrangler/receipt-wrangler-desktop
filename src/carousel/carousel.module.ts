@@ -6,7 +6,7 @@ import { PipesModule } from 'src/pipes/pipes.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { ButtonModule } from 'src/button/button.module';
+import { ButtonModule } from '@noah231515/receipt-wrangler-core';
 
 @NgModule({
   declarations: [CarouselComponent],

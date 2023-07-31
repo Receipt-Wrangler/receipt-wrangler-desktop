@@ -1,13 +1,19 @@
-import { catchError, Observable, switchMap, take, throwError } from "rxjs";
-import { AuthService } from "src/api";
-import { SnackbarService } from "src/services/snackbar.service";
-import { AuthState } from "src/store/auth.state";
-
+import { catchError, Observable, switchMap, take, throwError } from 'rxjs';
 import {
-  HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpStatusCode
-} from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Store } from "@ngxs/store";
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpStatusCode,
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
+import {
+  AuthService,
+  AuthState,
+  SnackbarService,
+} from '@noah231515/receipt-wrangler-core';
 
 @Injectable({
   providedIn: 'root',

@@ -1,13 +1,14 @@
-import { Observable } from "rxjs";
-import { Group } from "src/api";
-import { GroupState } from "src/store/group.state";
-import { SetSelectedGroupId } from "src/store/group.state.actions";
-
-import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatDialogRef } from "@angular/material/dialog";
-import { Router } from "@angular/router";
-import { Select, Store } from "@ngxs/store";
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+import {
+  Group,
+  GroupState,
+  SetSelectedGroupId,
+} from '@noah231515/receipt-wrangler-core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-switch-group-dialog',

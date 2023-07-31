@@ -1,4 +1,3 @@
-import { ApiModule } from "src/api";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 import { AuthState } from "src/store/auth.state";
 import { GroupState } from "src/store/group.state";
@@ -10,6 +9,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { NgxsModule } from "@ngxs/store";
+import { ApiModule } from "@noah231515/receipt-wrangler-core";
 
 import { SidebarComponent } from "./sidebar.component";
 

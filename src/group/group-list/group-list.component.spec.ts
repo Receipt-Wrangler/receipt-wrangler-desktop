@@ -1,16 +1,16 @@
-import { ApiModule } from "src/api";
-import { ButtonModule } from "src/button/button.module";
-import { SharedUiModule } from "src/shared-ui/shared-ui.module";
-import { TableModule } from "src/table/table.module";
+import { ButtonModule } from '@noah231515/receipt-wrangler-core';
+import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
+import { TableModule } from 'src/table/table.module';
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatDialogModule } from "@angular/material/dialog";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { RouterTestingModule } from "@angular/router/testing";
-import { NgxsModule } from "@ngxs/store";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule } from '@ngxs/store';
+import { ApiModule } from '@noah231515/receipt-wrangler-core';
 
-import { GroupListComponent } from "./group-list.component";
+import { GroupListComponent } from './group-list.component';
 
 describe('GroupListComponent', () => {
   let component: GroupListComponent;

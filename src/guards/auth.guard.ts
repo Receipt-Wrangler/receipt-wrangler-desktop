@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { AuthState } from 'src/store/auth.state';
-import { GroupState } from 'src/store/group.state';
+import { Observable } from "rxjs";
+
+import { Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
+import { Store } from "@ngxs/store";
+import { AuthState, GroupState } from "@noah231515/receipt-wrangler-core";
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard  {
+export class AuthGuard {
   constructor(private router: Router, private store: Store) {}
   canActivate(
     route: ActivatedRouteSnapshot,

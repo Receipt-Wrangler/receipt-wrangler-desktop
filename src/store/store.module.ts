@@ -1,12 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxsModule } from '@ngxs/store';
+import { NgModule } from '@angular/core';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-import { AuthState } from './auth.state';
-import { UserState } from './user.state';
-import { GroupState } from './group.state';
-import { FeatureConfigState } from './feature-config.state';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+import { NgxsModule } from '@ngxs/store';
+import {
+  AuthState,
+  FeatureConfigState,
+  GroupState,
+  UserState,
+} from '@noah231515/receipt-wrangler-core';
 import { LayoutState } from './layout.state';
 import { ReceiptTableState } from './receipt-table.state';
 

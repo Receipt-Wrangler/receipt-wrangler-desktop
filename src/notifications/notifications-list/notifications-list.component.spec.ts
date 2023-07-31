@@ -1,10 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from "rxjs";
 
-import { NotificationsListComponent } from './notifications-list.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of } from 'rxjs';
-import { ApiModule, Notification, NotificationsService } from 'src/api';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ApiModule, Notification, NotificationsService } from "@noah231515/receipt-wrangler-core";
+
+import { NotificationsListComponent } from "./notifications-list.component";
 
 describe('NotificationsListComponent', () => {
   let component: NotificationsListComponent;

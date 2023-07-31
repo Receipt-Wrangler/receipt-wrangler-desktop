@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Receipt } from 'src/api';
+import { Pipe, PipeTransform } from "@angular/core";
+import { Receipt } from "@noah231515/receipt-wrangler-core";
 
 @Pipe({
   name: 'status',

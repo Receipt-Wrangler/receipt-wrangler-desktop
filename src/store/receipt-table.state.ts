@@ -1,7 +1,6 @@
-import { PagedRequestField, PagedRequestFilter } from "src/api";
-
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
+import { PagedRequestField, PagedRequestFilter } from "@noah231515/receipt-wrangler-core";
 
 import { ReceiptTableInterface } from "../interfaces";
 import {

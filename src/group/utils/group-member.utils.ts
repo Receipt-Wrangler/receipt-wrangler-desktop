@@ -1,6 +1,5 @@
-import { GroupMember } from "src/api";
-
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { GroupMember } from "@noah231515/receipt-wrangler-core";
 
 export function buildGroupMemberForm(groupMember?: GroupMember): FormGroup {
   return new FormGroup({

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BaseInputComponent } from 'src/base-input/base-input/base-input.component';
+import { BaseInputComponent } from '@noah231515/receipt-wrangler-core';
 
 @Component({
   selector: 'app-datepicker',

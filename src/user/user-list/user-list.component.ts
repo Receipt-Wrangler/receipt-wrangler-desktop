@@ -1,28 +1,30 @@
-import { Observable, take, tap } from "rxjs";
-import { User, UserService } from "src/api";
-import { DEFAULT_HOST_CLASS } from "src/constants";
-import { DEFAULT_DIALOG_CONFIG } from "src/constants/dialog.constant";
-import { SnackbarService } from "src/services/snackbar.service";
 import {
-  ConfirmationDialogComponent
-} from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
-import { AuthState } from "src/store/auth.state";
-import { UserState } from "src/store/user.state";
-import { RemoveUser } from "src/store/user.state.actions";
-import { TableColumn } from "src/table/table-column.interface";
-import { TableComponent } from "src/table/table/table.component";
-
-import { AfterViewInit, Component, TemplateRef, ViewChild } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { MatTableDataSource } from "@angular/material/table";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { Select, Store } from "@ngxs/store";
-
+  AfterViewInit,
+  Component,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Select, Store } from '@ngxs/store';
 import {
-  DummyUserConversionDialogComponent
-} from "../dummy-user-conversion-dialog/dummy-user-conversion-dialog.component";
-import { ResetPasswordComponent } from "../reset-password/reset-password.component";
-import { UserFormComponent } from "../user-form/user-form.component";
+  AuthState,
+  RemoveUser,
+  SnackbarService,
+  User,
+  UserService,
+  UserState,
+} from '@noah231515/receipt-wrangler-core';
+import { Observable, take, tap } from 'rxjs';
+import { DEFAULT_HOST_CLASS } from 'src/constants';
+import { DEFAULT_DIALOG_CONFIG } from 'src/constants/dialog.constant';
+import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
+import { TableColumn } from 'src/table/table-column.interface';
+import { TableComponent } from 'src/table/table/table.component';
+import { DummyUserConversionDialogComponent } from '../dummy-user-conversion-dialog/dummy-user-conversion-dialog.component';
+import { ResetPasswordComponent } from '../reset-password/reset-password.component';
+import { UserFormComponent } from '../user-form/user-form.component';
 
 @UntilDestroy()
 @Component({

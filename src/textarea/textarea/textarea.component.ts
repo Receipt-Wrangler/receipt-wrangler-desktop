@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { BaseInputComponent } from 'src/base-input/base-input/base-input.component';
-import { InputInterface } from 'src/input/input.interface';
+import { BaseInputComponent } from '@noah231515/receipt-wrangler-core';
+import { InputInterface } from '@noah231515/receipt-wrangler-core';
 
 @Component({
   selector: 'app-textarea',

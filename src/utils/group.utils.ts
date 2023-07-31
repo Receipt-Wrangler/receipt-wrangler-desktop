@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Group, GroupMember } from 'src/api';
-import { AuthState } from 'src/store/auth.state';
-import { GroupState } from 'src/store/group.state';
+import {
+  AuthState,
+  GroupMember,
+  GroupState,
+} from '@noah231515/receipt-wrangler-core';
 
 @Injectable({
   providedIn: 'root',

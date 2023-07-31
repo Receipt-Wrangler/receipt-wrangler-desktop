@@ -1,8 +1,8 @@
 import { ImageTransform } from "ngx-image-cropper";
-import { FileData } from "src/api";
 import { FormMode } from "src/enums/form-mode.enum";
 
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from "@angular/core";
+import { FileData } from "@noah231515/receipt-wrangler-core";
 
 @Component({
   selector: 'app-carousel',

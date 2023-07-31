@@ -1,8 +1,6 @@
-import { User } from "src/api";
-import { UserState } from "src/store/user.state";
-
-import { Pipe, PipeTransform } from "@angular/core";
-import { Store } from "@ngxs/store";
+import { Pipe, PipeTransform } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { User, UserState } from '@noah231515/receipt-wrangler-core';
 
 @Pipe({
   name: 'user',

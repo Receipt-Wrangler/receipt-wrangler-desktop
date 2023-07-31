@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { NgxsModule } from "@ngxs/store";
+import { ApiModule } from "@noah231515/receipt-wrangler-core";
 
-import { ReceiptFilterService } from './receipt-filter.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ApiModule } from 'src/api';
-import { NgxsModule } from '@ngxs/store';
+import { ReceiptFilterService } from "./receipt-filter.service";
 
 describe('ReceiptFilterService', () => {
   let service: ReceiptFilterService;

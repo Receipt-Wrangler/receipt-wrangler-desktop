@@ -1,8 +1,8 @@
 import { map, Observable } from "rxjs";
-import { UserService } from "src/api";
 
 import { Injectable } from "@angular/core";
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from "@angular/forms";
+import { UserService } from "@noah231515/receipt-wrangler-core";
 
 @Injectable()
 export class UserValidators {

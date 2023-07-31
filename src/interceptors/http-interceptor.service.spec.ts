@@ -1,10 +1,9 @@
-import { ApiModule } from "src/api";
-
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgxsModule } from "@ngxs/store";
+import { ApiModule } from "@noah231515/receipt-wrangler-core";
 
 import { HttpInterceptorService } from "./http-interceptor.service";
 

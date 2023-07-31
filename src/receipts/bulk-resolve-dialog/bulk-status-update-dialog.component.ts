@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Receipt } from 'src/api';
-import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
+import { RECEIPT_STATUS_OPTIONS } from "src/constants/receipt-status-options";
+
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { Receipt } from "@noah231515/receipt-wrangler-core";
 
 @Component({
   selector: 'app-bulk-status-update-dialog',

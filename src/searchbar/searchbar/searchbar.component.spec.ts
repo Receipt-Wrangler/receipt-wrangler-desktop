@@ -1,15 +1,17 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
-import { of } from 'rxjs';
-import { SearchbarComponent } from './searchbar.component';
-import { ApiModule, SearchResult, SearchService } from 'src/api';
+import { of } from "rxjs";
+
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { Router } from "@angular/router";
+import { ApiModule, SearchResult, SearchService } from "@noah231515/receipt-wrangler-core";
+
+import { SearchbarComponent } from "./searchbar.component";
 
 describe('SearchbarComponent', () => {
   let component: SearchbarComponent;

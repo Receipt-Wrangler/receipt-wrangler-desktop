@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ButtonModule } from 'src/button/button.module';
+import { ButtonModule } from '@noah231515/receipt-wrangler-core';
 import { SubmitButtonComponent } from './submit-button.component';
 import { ActivatedRoute } from '@angular/router';
 

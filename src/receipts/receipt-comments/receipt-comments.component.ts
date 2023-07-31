@@ -1,13 +1,21 @@
-import { Observable, take, tap } from "rxjs";
-import { Comment, CommentService } from "src/api";
-import { FormMode } from "src/enums/form-mode.enum";
-import { SnackbarService } from "src/services/snackbar.service";
-import { AuthState } from "src/store/auth.state";
-
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { UntilDestroy } from "@ngneat/until-destroy";
-import { Select, Store } from "@ngxs/store";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { Select, Store } from '@ngxs/store';
+import {
+  AuthState,
+  Comment,
+  CommentService,
+  SnackbarService,
+} from '@noah231515/receipt-wrangler-core';
+import { Observable, take, tap } from 'rxjs';
+import { FormMode } from 'src/enums/form-mode.enum';
 
 @UntilDestroy()
 @Component({
