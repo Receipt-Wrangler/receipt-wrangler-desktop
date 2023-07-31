@@ -7,12 +7,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import {
+  ButtonModule,
+  InputModule,
+  PipesModule as CorePipesModule,
+} from '@noah231515/receipt-wrangler-core';
 import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
 import { AvatarModule } from 'src/avatar';
-import { ButtonModule } from '@noah231515/receipt-wrangler-core';
 import { CarouselModule } from 'src/carousel/carousel.module';
 import { DatepickerModule } from 'src/datepicker/datepicker.module';
-import { InputModule } from '@noah231515/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { RadioGroupModule } from 'src/radio-group/radio-group.module';
 import { SelectModule } from 'src/select/select.module';
@@ -27,13 +30,13 @@ import { QuickActionsDialogComponent } from './quick-actions-dialog/quick-action
 import { ReceiptCommentsComponent } from './receipt-comments/receipt-comments.component';
 import { ReplyButtonTextPipe } from './receipt-comments/reply-button-text.pipe';
 import { TopLevelCommentPipe } from './receipt-comments/top-level-comment.pipe';
+import { OperationsPipe } from './receipt-filter/operations.pipe';
+import { ReceiptFilterComponent } from './receipt-filter/receipt-filter.component';
 import { ReceiptFormComponent } from './receipt-form/receipt-form.component';
 import { ReceiptsRoutingModule } from './receipts-routing.module';
 import { ReceiptsTableComponent } from './receipts-table/receipts-table.component';
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { UserTotalPipe } from './user-total.pipe';
-import { ReceiptFilterComponent } from './receipt-filter/receipt-filter.component';
-import { OperationsPipe } from './receipt-filter/operations.pipe';
 
 @NgModule({
   declarations: [
@@ -56,6 +59,7 @@ import { OperationsPipe } from './receipt-filter/operations.pipe';
     ButtonModule,
     CarouselModule,
     CommonModule,
+    CorePipesModule,
     DatepickerModule,
     DragDropModule,
     InputModule,

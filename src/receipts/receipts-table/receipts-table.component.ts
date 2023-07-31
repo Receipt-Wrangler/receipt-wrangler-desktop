@@ -28,6 +28,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import {
+  ALL_GROUP,
   BulkStatusUpdateCommand,
   Category,
   GroupMember,
@@ -38,11 +39,7 @@ import {
   Tag,
 } from '@noah231515/receipt-wrangler-core';
 
-import {
-  ALL_GROUP,
-  DEFAULT_DIALOG_CONFIG,
-  DEFAULT_HOST_CLASS,
-} from '../../constants';
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
 import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.component';
 
