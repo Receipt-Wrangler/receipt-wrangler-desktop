@@ -11,11 +11,12 @@ import {
   SnackbarService,
   User,
 } from '@noah231515/receipt-wrangler-core';
-import { Observable, switchMap, take, tap } from 'rxjs';
+import { Observable, filter, map, switchMap, take, tap } from 'rxjs';
 import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';
 import { DEFAULT_DIALOG_CONFIG } from '../../constants';
-import { SwitchGroupDialogComponent } from '../switch-group-dialog/switch-group-dialog.component';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -47,6 +48,11 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.setGroupData();
+    this.listenForLoggedInUser();
+  }
+
+  private setGroupData(): void {
     this.selectedGroupId
       .pipe(
         tap((groupId) => {
@@ -63,31 +69,33 @@ export class HeaderComponent implements OnInit {
         })
       )
       .subscribe();
-    this.updateNotificationCount();
   }
 
-  private updateNotificationCount(): void {
-    this.notificationsService
-      .getNotificationCount()
+  private listenForLoggedInUser(): void {
+    this.isLoggedIn
       .pipe(
-        take(1),
-        tap((n) => {
-          if (n > 0) {
-            this.notificationCount = n;
-          } else {
-            this.notificationCount = undefined;
-          }
-        })
+        untilDestroyed(this),
+        filter((loggedIn) => !!loggedIn),
+        switchMap(() => this.updateNotificationCount())
       )
       .subscribe();
   }
 
-  public toggleSidebar(): void {
-    this.store.dispatch(new ToggleIsSidebarOpen());
+  private updateNotificationCount(): Observable<number> {
+    return this.notificationsService.getNotificationCount().pipe(
+      take(1),
+      tap((n) => {
+        if (n > 0) {
+          this.notificationCount = n;
+        } else {
+          this.notificationCount = undefined;
+        }
+      })
+    );
   }
 
-  public openSwitchGroupDialog(): void {
-    this.matDialog.open(SwitchGroupDialogComponent, DEFAULT_DIALOG_CONFIG);
+  public toggleSidebar(): void {
+    this.store.dispatch(new ToggleIsSidebarOpen());
   }
 
   public logout(): void {
