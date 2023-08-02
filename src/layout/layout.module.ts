@@ -9,12 +9,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
-import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   ButtonModule,
   PipesModule as CorePipesModule,
   DirectivesModule,
 } from '@noah231515/receipt-wrangler-core';
+import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
+import { NotificationsModule } from 'src/notifications/notifications.module';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SearchbarModule } from 'src/searchbar/searchbar.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
@@ -24,9 +26,6 @@ import { DashboardIconComponent } from './dashboard-icon/dashboard-icon.componen
 import { HeaderComponent } from './header/header.component';
 import { ReceiptListIconComponent } from './receipt-list-icon/receipt-list-icon.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { SwitchGroupDialogComponent } from './switch-group-dialog/switch-group-dialog.component';
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
-import { NotificationsModule } from 'src/notifications/notifications.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +34,6 @@ import { NotificationsModule } from 'src/notifications/notifications.module';
     HeaderComponent,
     ReceiptListIconComponent,
     SidebarComponent,
-    SwitchGroupDialogComponent,
   ],
   imports: [
     AutocompleteModule,
