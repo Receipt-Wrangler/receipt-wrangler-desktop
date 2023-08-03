@@ -7,7 +7,7 @@ import {
   ApiModule,
   AuthService,
   Logout,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 import { HeaderComponent } from './header.component';
 import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';

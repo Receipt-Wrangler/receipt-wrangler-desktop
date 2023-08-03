@@ -1,13 +1,16 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
-import { Component, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { MatDialogRef } from "@angular/material/dialog";
-import { Select, Store } from "@ngxs/store";
-import { AuthState, GroupMember } from "@noah231515/receipt-wrangler-core";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Select, Store } from '@ngxs/store';
+import {
+  AuthState,
+  GroupMember,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
-import { ROLE_OPTIONS } from "../role-options";
-import { buildGroupMemberForm } from "../utils/group-member.utils";
+import { ROLE_OPTIONS } from '../role-options';
+import { buildGroupMemberForm } from '../utils/group-member.utils';
 
 @Component({
   selector: 'app-group-member-form',

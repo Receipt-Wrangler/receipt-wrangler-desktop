@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { ButtonModule } from '@noah231515/receipt-wrangler-core';
+import { ButtonModule } from '@receipt-wrangler/receipt-wrangler-core';
 import { OptionDisplayPipe } from './autocomlete/option-display.pipe';
 
 @NgModule({

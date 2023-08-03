@@ -1,7 +1,13 @@
 import {
-  AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators
-} from "@angular/forms";
-import { FileData, Item } from "@noah231515/receipt-wrangler-core";
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { FileData, Item } from '@receipt-wrangler/receipt-wrangler-core';
 
 export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
   return new FormGroup({

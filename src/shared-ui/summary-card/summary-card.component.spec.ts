@@ -1,14 +1,17 @@
-import { of } from "rxjs";
+import { of } from 'rxjs';
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatCardModule } from "@angular/material/card";
-import { MatListModule } from "@angular/material/list";
-import { ActivatedRoute } from "@angular/router";
-import { NgxsModule } from "@ngxs/store";
-import { ApiModule, UserService } from "@noah231515/receipt-wrangler-core";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { ActivatedRoute } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
+import {
+  ApiModule,
+  UserService,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
-import { SummaryCardComponent } from "./summary-card.component";
+import { SummaryCardComponent } from './summary-card.component';
 
 describe('SummaryCardComponent', () => {
   let component: SummaryCardComponent;
@@ -52,7 +55,14 @@ describe('SummaryCardComponent', () => {
       } as any)
     );
 
-    component.ngOnInit();
+    component.ngOnChanges({
+      groupId: {
+        currentValue: '1',
+        firstChange: true,
+        isFirstChange: () => true,
+        previousValue: null,
+      },
+    });
 
     expect(Array.from(component.userOwesMap.entries())).toEqual([['1', '200']]);
     expect(Array.from(component.usersOweMap.entries())).toEqual([['2', '500']]);

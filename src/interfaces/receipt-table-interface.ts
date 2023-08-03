@@ -1,5 +1,5 @@
-import { SortDirection } from "@angular/material/sort";
-import { PagedRequestFilter } from "@noah231515/receipt-wrangler-core";
+import { SortDirection } from '@angular/material/sort';
+import { PagedRequestFilter } from '@receipt-wrangler/receipt-wrangler-core';
 
 export interface ReceiptTableInterface {
   page: number;

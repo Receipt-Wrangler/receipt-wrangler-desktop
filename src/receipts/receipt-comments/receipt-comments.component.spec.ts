@@ -1,7 +1,7 @@
 import { of } from 'rxjs';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { PipesModule } from 'src/pipes/pipes.module';
-import { AuthState } from '@noah231515/receipt-wrangler-core';
+import { AuthState } from '@receipt-wrangler/receipt-wrangler-core';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -13,7 +13,7 @@ import {
   ApiModule,
   Comment,
   CommentService,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 import { ReceiptCommentsComponent } from './receipt-comments.component';
 import { TopLevelCommentPipe } from './top-level-comment.pipe';

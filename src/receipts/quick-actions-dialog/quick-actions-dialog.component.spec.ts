@@ -10,7 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
-import { PipesModule } from '@noah231515/receipt-wrangler-core';
+import { PipesModule } from '@receipt-wrangler/receipt-wrangler-core';
 import { QuickActionsDialogComponent } from './quick-actions-dialog.component';
 
 describe('QuickActionsDialogComponent', () => {

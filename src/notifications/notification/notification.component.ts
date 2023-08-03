@@ -1,8 +1,11 @@
-import { take, tap } from "rxjs";
-import { ParameterizedDataParser } from "src/utils";
+import { take, tap } from 'rxjs';
+import { ParameterizedDataParser } from 'src/utils';
 
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { Notification, NotificationsService } from "@noah231515/receipt-wrangler-core";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Notification,
+  NotificationsService,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 @Component({
   selector: 'app-notification',

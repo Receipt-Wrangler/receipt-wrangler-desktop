@@ -10,7 +10,7 @@ import {
   SetSelectedGroupId,
   SnackbarService,
   User,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { map, Observable, switchMap, take, tap } from 'rxjs';
 import { LayoutState } from 'src/store/layout.state';
 

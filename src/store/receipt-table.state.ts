@@ -1,11 +1,18 @@
-import { Injectable } from "@angular/core";
-import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { PagedRequestField, PagedRequestFilter } from "@noah231515/receipt-wrangler-core";
-
-import { ReceiptTableInterface } from "../interfaces";
+import { Injectable } from '@angular/core';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import {
-  ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData
-} from "./receipt-table.actions";
+  PagedRequestField,
+  PagedRequestFilter,
+} from '@receipt-wrangler/receipt-wrangler-core';
+
+import { ReceiptTableInterface } from '../interfaces';
+import {
+  ResetReceiptFilter,
+  SetPage,
+  SetPageSize,
+  SetReceiptFilter,
+  SetReceiptFilterData,
+} from './receipt-table.actions';
 
 export const defaultReceiptFilter = {
   date: { operation: PagedRequestField.OperationEnum.EQUALS, value: '' },

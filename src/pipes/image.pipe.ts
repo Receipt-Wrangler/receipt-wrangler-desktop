@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { FileData } from "@noah231515/receipt-wrangler-core";
+import { Pipe, PipeTransform } from '@angular/core';
+import { FileData } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Pipe({
   name: 'image',

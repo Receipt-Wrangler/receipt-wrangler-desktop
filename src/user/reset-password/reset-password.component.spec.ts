@@ -8,7 +8,7 @@ import { NgxsModule } from '@ngxs/store';
 import {
   ApiModule,
   PipesModule as CorePipesModule,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { ResetPasswordComponent } from './reset-password.component';
 

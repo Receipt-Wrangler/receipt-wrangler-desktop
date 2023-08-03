@@ -1,14 +1,14 @@
-import { TableModule } from "src/table/table.module";
+import { TableModule } from 'src/table/table.module';
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatDialogModule } from "@angular/material/dialog";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { NgxsModule } from "@ngxs/store";
-import { ApiModule } from "@noah231515/receipt-wrangler-core";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxsModule } from '@ngxs/store';
+import { ApiModule } from '@receipt-wrangler/receipt-wrangler-core';
 
-import { UserListComponent } from "./user-list.component";
+import { UserListComponent } from './user-list.component';
 
 describe('UserListComponent', () => {
   let component: UserListComponent;

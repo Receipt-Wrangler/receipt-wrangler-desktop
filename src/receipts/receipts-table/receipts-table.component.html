@@ -29,13 +29,18 @@
       (clicked)="resetFilterButtonClicked()"
     ></app-button>
     <app-button
-      *ngIf="(checkboxChange | async)?.source?.selected?.length ?? false"
+      *ngIf="(selectedReceiptIds | async)?.length ?? false"
       buttonText="Bulk Status Update"
       (click)="showStatusUpdateDialog()"
     ></app-button>
   </div>
 </app-table-header>
 <app-receipt-filter *ngIf="showFilterCard"></app-receipt-filter>
+<app-summary-card
+  *ngIf="(selectedReceiptIds | async)?.length"
+  headerText="Selected Receipt summary"
+  [receiptIds]="(selectedReceiptIds | async) || []"
+></app-summary-card>
 <div class="table-container">
   <app-table
     [columns]="columns"

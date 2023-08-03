@@ -15,7 +15,7 @@ import {
   UpdateUser,
   User,
   UserService,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import {
   catchError,
   defer,
@@ -26,7 +26,7 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { SnackbarService } from '@noah231515/receipt-wrangler-core';
+import { SnackbarService } from '@receipt-wrangler/receipt-wrangler-core';
 import { UserValidators } from 'src/validators/user-validators';
 
 @UntilDestroy()

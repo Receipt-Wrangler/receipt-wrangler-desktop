@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BackButtonComponent } from './back-button.component';
-import { ButtonModule } from '@noah231515/receipt-wrangler-core';
+import { ButtonModule } from '@receipt-wrangler/receipt-wrangler-core';
 import { ActivatedRoute } from '@angular/router';
 
 describe('BackButtonComponent', () => {

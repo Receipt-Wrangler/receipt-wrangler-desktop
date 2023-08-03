@@ -1,8 +1,8 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
-import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
-import { Tag, TagService } from "@noah231515/receipt-wrangler-core";
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Tag, TagService } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Injectable({
   providedIn: 'root',

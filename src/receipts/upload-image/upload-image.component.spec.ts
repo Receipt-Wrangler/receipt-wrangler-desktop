@@ -1,11 +1,11 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { ActivatedRoute } from "@angular/router";
-import { ApiModule } from "@noah231515/receipt-wrangler-core";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { ApiModule } from '@receipt-wrangler/receipt-wrangler-core';
 
-import { UploadImageComponent } from "./upload-image.component";
+import { UploadImageComponent } from './upload-image.component';
 
 describe('UploadImageComponent', () => {
   let component: UploadImageComponent;

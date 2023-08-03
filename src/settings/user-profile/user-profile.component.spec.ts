@@ -12,7 +12,7 @@ import {
   PipesModule as CorePipesModule,
   UserService,
   UserState,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { of } from 'rxjs';
 import { UserProfileComponent } from './user-profile.component';
 import { PipesModule } from 'src/pipes/pipes.module';

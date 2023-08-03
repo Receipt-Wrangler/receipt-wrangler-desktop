@@ -1,8 +1,8 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { TestBed } from "@angular/core/testing";
-import { ApiModule } from "@noah231515/receipt-wrangler-core";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { ApiModule } from '@receipt-wrangler/receipt-wrangler-core';
 
-import { TagsResolverService } from "./tags-resolver.service";
+import { TagsResolverService } from './tags-resolver.service';
 
 describe('TagsResolverService', () => {
   let service: TagsResolverService;

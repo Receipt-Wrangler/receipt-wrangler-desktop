@@ -1,6 +1,6 @@
-import { PagedRequestFilter } from "@noah231515/receipt-wrangler-core";
+import { PagedRequestFilter } from '@receipt-wrangler/receipt-wrangler-core';
 
-import { ReceiptTableInterface } from "../interfaces";
+import { ReceiptTableInterface } from '../interfaces';
 
 export class SetPage {
   static readonly type = '[ReceiptTable] Set Page';

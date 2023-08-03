@@ -13,7 +13,7 @@ import {
   AuthService,
   AuthState,
   SnackbarService,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 @Injectable({
   providedIn: 'root',

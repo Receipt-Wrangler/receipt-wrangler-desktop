@@ -1,7 +1,10 @@
-import { take, tap } from "rxjs";
+import { take, tap } from 'rxjs';
 
-import { Component, OnInit } from "@angular/core";
-import { Notification, NotificationsService } from "@noah231515/receipt-wrangler-core";
+import { Component, OnInit } from '@angular/core';
+import {
+  Notification,
+  NotificationsService,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 @Component({
   selector: 'app-notifications-list',

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { UserPipe } from './user.pipe';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NgxsModule, Store } from '@ngxs/store';
-import { UserState } from '@noah231515/receipt-wrangler-core';
+import { UserState } from '@receipt-wrangler/receipt-wrangler-core';
 
 describe('UserPipe', () => {
   let pipe: UserPipe;

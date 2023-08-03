@@ -1,1 +1,5 @@
-<app-summary-card></app-summary-card>
+<h1>{{ ((selectedGroupId | async) ?? "" | group)?.name }} Group Dashboard</h1>
+<app-summary-card
+  headerText="Receipt Summary"
+  [groupId]="(selectedGroupId | async) ?? ''"
+></app-summary-card>

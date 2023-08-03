@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { User, UserState } from '@noah231515/receipt-wrangler-core';
+import { User, UserState } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Component({
   selector: 'app-user-autocomplete',

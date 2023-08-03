@@ -1,6 +1,6 @@
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
-import { AuthState } from '@noah231515/receipt-wrangler-core';
-import { GroupState } from '@noah231515/receipt-wrangler-core';
+import { AuthState } from '@receipt-wrangler/receipt-wrangler-core';
+import { GroupState } from '@receipt-wrangler/receipt-wrangler-core';
 import { LayoutState } from 'src/store/layout.state';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -9,7 +9,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxsModule } from '@ngxs/store';
-import { ApiModule } from '@noah231515/receipt-wrangler-core';
+import { ApiModule } from '@receipt-wrangler/receipt-wrangler-core';
 
 import { SidebarComponent } from './sidebar.component';
 

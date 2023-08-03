@@ -9,7 +9,7 @@ import {
   ButtonModule,
   InputModule,
   PipesModule as CorePipesModule,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SelectModule } from 'src/select/select.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';

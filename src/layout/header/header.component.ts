@@ -10,7 +10,7 @@ import {
   NotificationsService,
   SnackbarService,
   User,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { Observable, filter, map, switchMap, take, tap } from 'rxjs';
 import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';
 import { DEFAULT_DIALOG_CONFIG } from '../../constants';

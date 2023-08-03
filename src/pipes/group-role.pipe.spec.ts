@@ -1,10 +1,10 @@
-import { AuthState } from '@noah231515/receipt-wrangler-core';
-import { GroupState } from '@noah231515/receipt-wrangler-core';
+import { AuthState } from '@receipt-wrangler/receipt-wrangler-core';
+import { GroupState } from '@receipt-wrangler/receipt-wrangler-core';
 import { GroupUtil } from 'src/utils/group.utils';
 
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { GroupMember } from '@noah231515/receipt-wrangler-core';
+import { GroupMember } from '@receipt-wrangler/receipt-wrangler-core';
 
 import { GroupRolePipe } from './group-role.pipe';
 

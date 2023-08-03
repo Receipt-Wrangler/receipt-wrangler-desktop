@@ -11,7 +11,7 @@ import {
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
 import { NgxsModule } from '@ngxs/store';
-import { BaseInputComponent } from '@noah231515/receipt-wrangler-core';
+import { BaseInputComponent } from '@receipt-wrangler/receipt-wrangler-core';
 import { AutocomleteComponent } from './autocomlete.component';
 
 describe('AutocomleteComponent', () => {

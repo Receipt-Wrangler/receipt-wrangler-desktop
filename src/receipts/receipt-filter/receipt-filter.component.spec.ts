@@ -1,4 +1,4 @@
-import { InputModule } from '@noah231515/receipt-wrangler-core';
+import { InputModule } from '@receipt-wrangler/receipt-wrangler-core';
 import { of } from 'rxjs';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SetReceiptFilter } from 'src/store/receipt-table.actions';
@@ -21,7 +21,7 @@ import {
   PipesModule as CorePipesModule,
   PagedRequestField,
   Receipt,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { OperationsPipe } from './operations.pipe';
 import { ReceiptFilterComponent } from './receipt-filter.component';
 

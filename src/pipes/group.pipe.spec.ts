@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { Group, GroupState } from '@noah231515/receipt-wrangler-core';
+import { Group, GroupState } from '@receipt-wrangler/receipt-wrangler-core';
 import { GroupPipe } from './group.pipe';
 
 describe('GroupPipe', () => {

@@ -6,9 +6,9 @@ import {
   UpdateUser,
   User,
   UserService,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { switchMap, take, tap } from 'rxjs';
-import { SnackbarService } from '@noah231515/receipt-wrangler-core';
+import { SnackbarService } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Component({
   selector: 'app-dummy-user-conversion-dialog',

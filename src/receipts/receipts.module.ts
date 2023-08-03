@@ -11,7 +11,7 @@ import {
   ButtonModule,
   InputModule,
   PipesModule as CorePipesModule,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
 import { AvatarModule } from 'src/avatar';
 import { CarouselModule } from 'src/carousel/carousel.module';

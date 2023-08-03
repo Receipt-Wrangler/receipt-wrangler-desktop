@@ -1,11 +1,14 @@
-import { Observable } from "rxjs";
-import { ReceiptTableState } from "src/store/receipt-table.state";
+import { Observable } from 'rxjs';
+import { ReceiptTableState } from 'src/store/receipt-table.state';
 
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { SortDirection } from "@angular/material/sort";
-import { Store } from "@ngxs/store";
-import { PagedData, PagedRequestCommand } from "@noah231515/receipt-wrangler-core";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { SortDirection } from '@angular/material/sort';
+import { Store } from '@ngxs/store';
+import {
+  PagedData,
+  PagedRequestCommand,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 @Injectable({
   providedIn: 'root',

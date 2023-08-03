@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import { GroupState } from '@noah231515/receipt-wrangler-core';
+import { GroupState } from '@receipt-wrangler/receipt-wrangler-core';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -9,7 +9,7 @@ import { NgxsModule, Store } from '@ngxs/store';
 import {
   ApiModule,
   NotificationsService,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 import { NotificationComponent } from './notification.component';
 
