@@ -60,6 +60,8 @@ jobs:
       #     path: code-coverage-results.md
 
   build:
+    env:
+      GH_PACKAGE_READ_TOKEN_DESKTOP: ${{ secrets.GH_PACKAGE_READ_TOKEN_DESKTOP }}
     needs: test
     runs-on: ubuntu-latest
     steps:
