@@ -1,6 +1,6 @@
 {
   "name": "receipt-wrangler",
-  "version": "0.21.1",
+  "version": "0.21.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config ./proxy.conf.json",
