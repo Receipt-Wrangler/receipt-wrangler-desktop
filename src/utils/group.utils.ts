@@ -4,7 +4,7 @@ import {
   AuthState,
   GroupMember,
   GroupState,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 @Injectable({
   providedIn: 'root',

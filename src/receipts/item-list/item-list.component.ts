@@ -23,7 +23,7 @@ import {
   Receipt,
   User,
   UserState,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { Observable } from 'rxjs';
 import { RECEIPT_ITEM_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
 import { FormMode } from 'src/enums/form-mode.enum';

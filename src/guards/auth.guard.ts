@@ -1,9 +1,14 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
-import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
-import { Store } from "@ngxs/store";
-import { AuthState, GroupState } from "@noah231515/receipt-wrangler-core";
+import { Injectable } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
+import { Store } from '@ngxs/store';
+import { AuthState, GroupState } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Injectable({
   providedIn: 'root',

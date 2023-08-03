@@ -1,7 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { GroupState, SearchResult } from '@noah231515/receipt-wrangler-core';
+import {
+  GroupState,
+  SearchResult,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 @Pipe({
   name: 'searchResult',

@@ -6,7 +6,7 @@ import {
   SnackbarService,
   User,
   UserService,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 @Component({
   selector: 'app-reset-password',

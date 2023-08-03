@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CarouselModule as NgxCarouselModule } from 'ngx-bootstrap/carousel';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { ButtonModule } from '@noah231515/receipt-wrangler-core';
+import { ButtonModule } from '@receipt-wrangler/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { CarouselComponent } from './carousel.component';
 

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BaseInputComponent } from '@noah231515/receipt-wrangler-core';
+import { BaseInputComponent } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Component({
   selector: 'app-select',

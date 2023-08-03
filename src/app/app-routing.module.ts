@@ -3,7 +3,7 @@ import { SidebarComponent } from 'src/layout/sidebar/sidebar.component';
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { User } from '@noah231515/receipt-wrangler-core';
+import { User } from '@receipt-wrangler/receipt-wrangler-core';
 
 // set up dashboard
 const routes: Routes = [
@@ -14,7 +14,9 @@ const routes: Routes = [
       {
         path: 'auth',
         loadChildren: () =>
-          import('@noah231515/receipt-wrangler-core').then((m) => m.AuthModule),
+          import('@receipt-wrangler/receipt-wrangler-core').then(
+            (m) => m.AuthModule
+          ),
         canActivate: [AuthGuard],
       },
       {

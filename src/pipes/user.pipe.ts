@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { User, UserState } from '@noah231515/receipt-wrangler-core';
+import { User, UserState } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Pipe({
   name: 'user',

@@ -15,7 +15,7 @@ import {
   User,
   UserService,
   UserState,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { Observable, take, tap } from 'rxjs';
 import { DEFAULT_HOST_CLASS } from 'src/constants';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants/dialog.constant';

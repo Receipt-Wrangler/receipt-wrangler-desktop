@@ -37,7 +37,7 @@ import {
   ReceiptService,
   SnackbarService,
   Tag,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';

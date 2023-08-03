@@ -1,7 +1,7 @@
-import { GroupUtil } from "src/utils/group.utils";
+import { GroupUtil } from 'src/utils/group.utils';
 
-import { Pipe, PipeTransform } from "@angular/core";
-import { GroupMember } from "@noah231515/receipt-wrangler-core";
+import { Pipe, PipeTransform } from '@angular/core';
+import { GroupMember } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Pipe({
   name: 'groupRole',

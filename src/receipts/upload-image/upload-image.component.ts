@@ -6,7 +6,7 @@ import {
   FileData,
   ReceiptImageService,
   SnackbarService,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 import { formatImageData } from '../utils/form.utils';
 

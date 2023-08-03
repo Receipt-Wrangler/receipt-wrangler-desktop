@@ -11,7 +11,7 @@ import {
   UpdateUser,
   UserService,
   UserState,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { of } from 'rxjs';
 import { DummyUserConversionDialogComponent } from './dummy-user-conversion-dialog.component';
 

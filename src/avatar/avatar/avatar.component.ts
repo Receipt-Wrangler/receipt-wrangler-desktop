@@ -1,5 +1,5 @@
-import { Component, Input } from "@angular/core";
-import { Group, User } from "@noah231515/receipt-wrangler-core";
+import { Component, Input } from '@angular/core';
+import { Group, User } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Component({
   selector: 'app-avatar',

@@ -13,7 +13,7 @@ import {
   Comment,
   CommentService,
   SnackbarService,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { Observable, take, tap } from 'rxjs';
 import { FormMode } from 'src/enums/form-mode.enum';
 

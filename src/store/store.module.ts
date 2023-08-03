@@ -8,7 +8,7 @@ import {
   FeatureConfigState,
   GroupState,
   UserState,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { LayoutState } from './layout.state';
 import { ReceiptTableState } from './receipt-table.state';
 

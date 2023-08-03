@@ -1,14 +1,22 @@
-import { ReceiptTableInterface } from "src/interfaces";
-import { GroupRolePipe } from "src/pipes/group-role.pipe";
+import { ReceiptTableInterface } from 'src/interfaces';
+import { GroupRolePipe } from 'src/pipes/group-role.pipe';
 
-import { TestBed } from "@angular/core/testing";
-import { NgxsModule, Store } from "@ngxs/store";
-import { PagedRequestField, PagedRequestFilter, Receipt } from "@noah231515/receipt-wrangler-core";
+import { TestBed } from '@angular/core/testing';
+import { NgxsModule, Store } from '@ngxs/store';
+import {
+  PagedRequestField,
+  PagedRequestFilter,
+  Receipt,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 import {
-  ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData
-} from "./receipt-table.actions";
-import { defaultReceiptFilter, ReceiptTableState } from "./receipt-table.state";
+  ResetReceiptFilter,
+  SetPage,
+  SetPageSize,
+  SetReceiptFilter,
+  SetReceiptFilterData,
+} from './receipt-table.actions';
+import { defaultReceiptFilter, ReceiptTableState } from './receipt-table.state';
 
 describe('ReceiptTableState', () => {
   let store: Store;

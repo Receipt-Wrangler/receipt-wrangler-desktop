@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Group, GroupState } from '@noah231515/receipt-wrangler-core';
+import { Group, GroupState } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Pipe({
   name: 'group',

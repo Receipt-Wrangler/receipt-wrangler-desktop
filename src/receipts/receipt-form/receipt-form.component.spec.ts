@@ -9,7 +9,7 @@ import { NgxsModule } from '@ngxs/store';
 import {
   ApiModule,
   PipesModule as CorePipesModule,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { of } from 'rxjs';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { ReceiptFormComponent } from './receipt-form.component';

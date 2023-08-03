@@ -11,7 +11,7 @@ import {
   AppInitService,
   PipesModule,
   initAppData,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { IconModule } from '../icon/icon.module';
 import { HttpInterceptorService } from '../interceptors/http-interceptor.service';
 import { LayoutModule } from '../layout/layout.module';

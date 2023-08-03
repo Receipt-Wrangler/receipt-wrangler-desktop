@@ -7,7 +7,7 @@ import { ColorPickerModule } from 'src/color-picker/color-picker.module';
 import {
   InputModule,
   PipesModule as CorePipesModule,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { SettingsRoutingModule } from './settings-routing.module';

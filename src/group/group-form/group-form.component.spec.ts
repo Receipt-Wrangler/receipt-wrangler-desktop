@@ -4,7 +4,7 @@ import {
   InputModule,
   UpdateGroup,
   PipesModule as CorePipesModule,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { of } from 'rxjs';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { PipesModule } from 'src/pipes/pipes.module';
@@ -28,7 +28,7 @@ import {
   Group,
   GroupMember,
   GroupsService,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
 import { GroupFormComponent } from './group-form.component';

@@ -1,4 +1,4 @@
-import { PagedRequestField } from "@noah231515/receipt-wrangler-core";
+import { PagedRequestField } from '@receipt-wrangler/receipt-wrangler-core';
 
 export const listOperationOptions = Object.values(
   PagedRequestField.OperationEnum

@@ -16,7 +16,7 @@ import {
   User,
   UserService,
   UserState,
-} from '@noah231515/receipt-wrangler-core';
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { of } from 'rxjs';
 import { UserFormComponent } from './user-form.component';
 

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { GroupState, UserState } from '@noah231515/receipt-wrangler-core';
+import { GroupState, UserState } from '@receipt-wrangler/receipt-wrangler-core';
 import { ParameterizedDataParser } from './paramterterized-data-parser';
 
 describe('ParameterizedDataParser', () => {

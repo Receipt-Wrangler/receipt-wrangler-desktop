@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { Store } from '@ngxs/store';
-import { UserState } from '@noah231515/receipt-wrangler-core';
+import { UserState } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Injectable({
   providedIn: 'root',
