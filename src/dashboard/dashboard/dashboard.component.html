@@ -1,1 +1,3 @@
-<app-summary-card></app-summary-card>
+<app-summary-card
+  [groupId]="(selectedGroupId | async) ?? ''"
+></app-summary-card>

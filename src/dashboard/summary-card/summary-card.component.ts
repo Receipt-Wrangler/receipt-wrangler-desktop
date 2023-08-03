@@ -1,6 +1,6 @@
-import { switchMap, tap } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs';
 
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngxs/store';
@@ -15,30 +15,34 @@ import {
   templateUrl: './summary-card.component.html',
   styleUrls: ['./summary-card.component.scss'],
 })
-export class SummaryCardComponent {
+export class SummaryCardComponent implements OnChanges {
   constructor(
     private route: ActivatedRoute,
     private store: Store,
     private userService: UserService
   ) {}
 
+  @Input() public groupId: string | number = '';
+
+  @Input() public receiptIds: number[] = [];
+
   public usersOweMap: Map<string, string> = new Map();
   public userOwesMap: Map<string, string> = new Map();
 
-  public ngOnInit(): void {
-    this.listenForRouteChanges();
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['groupId'] || changes['receiptIds']) {
+      this.buildOweMap();
+    }
   }
 
-  private listenForRouteChanges(): void {
-    this.route.params
+  private buildOweMap(): void {
+    this.userService
+      .getAmountOwedForUser(
+        Number.parseInt(this.groupId as any) || (this.groupId as any),
+        this.receiptIds
+      )
       .pipe(
-        untilDestroyed(this),
-        switchMap(() => {
-          const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
-          return this.userService.getAmountOwedForUser(
-            Number.parseInt(groupId) || (groupId as any)
-          );
-        }),
+        take(1),
         tap((result) => {
           this.userOwesMap = new Map();
           this.usersOweMap = new Map();
