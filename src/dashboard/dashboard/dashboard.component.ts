@@ -1,12 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { untilDestroyed } from '@ngneat/until-destroy';
-import { Select, Store } from '@ngxs/store';
-import {
-  GroupState,
-  UserService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Component } from '@angular/core';
+import { Select } from '@ngxs/store';
+import { GroupState } from '@receipt-wrangler/receipt-wrangler-core';
+import { Observable } from 'rxjs';
 import { DEFAULT_HOST_CLASS } from 'src/constants';
 
 @Component({
