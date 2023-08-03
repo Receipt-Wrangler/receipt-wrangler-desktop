@@ -1,20 +1,19 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { DashboardRoutingModule } from './dashboard-routing.module';
+import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { PipesModule } from 'src/pipes/pipes.module';
-import { MatListModule } from '@angular/material/list';
-import { SummaryCardComponent } from './summary-card/summary-card.component';
+import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
+import { DashboardRoutingModule } from './dashboard-routing.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [DashboardComponent, SummaryCardComponent],
+  declarations: [DashboardComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     MatCardModule,
     PipesModule,
-    MatListModule,
+    SharedUiModule,
   ],
 })
 export class DashboardModule {}

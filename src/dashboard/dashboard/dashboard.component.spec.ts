@@ -11,7 +11,7 @@ import { NgxsModule } from '@ngxs/store';
 import { ApiModule } from '@receipt-wrangler/receipt-wrangler-core';
 
 import { DashboardRoutingModule } from '../dashboard-routing.module';
-import { SummaryCardComponent } from '../summary-card/summary-card.component';
+import { SummaryCardComponent } from '../../shared-ui/summary-card/summary-card.component';
 import { DashboardComponent } from './dashboard.component';
 
 describe('DashboardComponent', () => {
