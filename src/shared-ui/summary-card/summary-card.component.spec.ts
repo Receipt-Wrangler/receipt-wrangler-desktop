@@ -55,7 +55,14 @@ describe('SummaryCardComponent', () => {
       } as any)
     );
 
-    component.ngOnInit();
+    component.ngOnChanges({
+      groupId: {
+        currentValue: '1',
+        firstChange: true,
+        isFirstChange: () => true,
+        previousValue: null,
+      },
+    });
 
     expect(Array.from(component.userOwesMap.entries())).toEqual([['1', '200']]);
     expect(Array.from(component.usersOweMap.entries())).toEqual([['2', '500']]);

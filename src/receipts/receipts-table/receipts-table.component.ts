@@ -154,7 +154,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   private setSelectedReceiptIdsObservable(): void {
-    this.selectedReceiptIds = this.table.selection.changed.pipe(
+    this.selectedReceiptIds = this.table?.selection?.changed.pipe(
       untilDestroyed(this),
       map((event) => (event.source.selected as Receipt[]).map((r) => r.id))
     );

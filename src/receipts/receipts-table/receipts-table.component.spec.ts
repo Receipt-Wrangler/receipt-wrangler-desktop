@@ -10,9 +10,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
-import { ApiModule } from '@receipt-wrangler/receipt-wrangler-core';
+import { ApiModule, Receipt } from '@receipt-wrangler/receipt-wrangler-core';
 
 import { ReceiptsTableComponent } from './receipts-table.component';
+import { of, take } from 'rxjs';
 
 describe('ReceiptsTableComponent', () => {
   let component: ReceiptsTableComponent;
@@ -49,10 +50,39 @@ describe('ReceiptsTableComponent', () => {
 
     fixture = TestBed.createComponent(ReceiptsTableComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    component.table = {
+      selection: {},
+      changed: of(undefined),
+    } as any;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should map selected ids from selecton', (done) => {
+    const selectedReceipts: Receipt[] = [
+      {
+        id: 1,
+      } as Receipt,
+      {
+        id: 2,
+      } as Receipt,
+    ];
+    component.table = {
+      selection: {
+        changed: of({
+          source: {
+            selected: selectedReceipts,
+          },
+        }),
+      },
+    } as any;
+    component.ngAfterViewInit();
+
+    component.selectedReceiptIds.pipe(take(1)).subscribe((ids) => {
+      expect(ids).toEqual([1, 2]);
+      done();
+    });
   });
 });
