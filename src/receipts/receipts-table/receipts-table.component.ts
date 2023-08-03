@@ -1,4 +1,4 @@
-import { map, Observable, Subject, take, tap } from 'rxjs';
+import { map, Observable, of, Subject, take, tap } from 'rxjs';
 import { ReceiptFilterService } from 'src/services/receipt-filter.service';
 import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 import {
@@ -39,10 +39,12 @@ import {
   Tag,
 } from '@receipt-wrangler/receipt-wrangler-core';
 
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
 import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.component';
 
+@UntilDestroy()
 @Component({
   selector: 'app-receipts-table',
   templateUrl: './receipts-table.component.html',
@@ -105,7 +107,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public totalCount: number = 0;
 
-  public checkboxChange: Subject<SelectionChange<any>> = new Subject();
+  public selectedReceiptIds: Observable<number[]> = of([]);
 
   public firstSort: boolean = true;
 
@@ -148,7 +150,14 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.checkboxChange = this.table?.selection?.changed;
+    this.setSelectedReceiptIdsObservable();
+  }
+
+  private setSelectedReceiptIdsObservable(): void {
+    this.selectedReceiptIds = this.table.selection.changed.pipe(
+      untilDestroyed(this),
+      map((event) => (event.source.selected as Receipt[]).map((r) => r.id))
+    );
   }
 
   private setColumns(): void {
