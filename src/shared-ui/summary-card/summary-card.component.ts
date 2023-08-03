@@ -16,11 +16,9 @@ import {
   styleUrls: ['./summary-card.component.scss'],
 })
 export class SummaryCardComponent implements OnChanges {
-  constructor(
-    private route: ActivatedRoute,
-    private store: Store,
-    private userService: UserService
-  ) {}
+  constructor(private userService: UserService) {}
+
+  @Input() public headerText: string = '';
 
   @Input() public groupId: string | number = '';
 
