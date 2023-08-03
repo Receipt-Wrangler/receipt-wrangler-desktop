@@ -30,13 +30,15 @@ export class SummaryCardComponent {
   }
 
   private listenForRouteChanges(): void {
-    const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
     this.route.params
       .pipe(
         untilDestroyed(this),
-        switchMap(() =>
-          this.userService.getAmountOwedForUser(Number.parseInt(groupId))
-        ),
+        switchMap(() => {
+          const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
+          return this.userService.getAmountOwedForUser(
+            Number.parseInt(groupId) || (groupId as any)
+          );
+        }),
         tap((result) => {
           this.userOwesMap = new Map();
           this.usersOweMap = new Map();
