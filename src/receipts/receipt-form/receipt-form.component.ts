@@ -53,7 +53,7 @@ import {
   UserState,
 } from '@receipt-wrangler/receipt-wrangler-core';
 
-import { addHours } from 'date-fns';
+import { addHours, format } from 'date-fns';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
@@ -317,9 +317,20 @@ export class ReceiptFormComponent implements OnInit {
   public magicFill(): void {
     const index = this.carouselComponent.currentlyShownImageIndex;
     const receiptImage = this.images[index];
+    const formattedReceiptImage = formatImageData(receiptImage, 0);
+
+    let data;
+    let receiptImageId = receiptImage?.id;
+
+    if (this.mode === FormMode.add) {
+      data = {
+        imageData: formattedReceiptImage.imageData,
+        filename: receiptImage.name,
+      };
+    }
 
     this.receiptImageService
-      .magicFillReceipt(receiptImage.id)
+      .magicFillReceipt(data, receiptImageId)
       .pipe(
         take(1),
         tap((magicFilledReceipt) => {

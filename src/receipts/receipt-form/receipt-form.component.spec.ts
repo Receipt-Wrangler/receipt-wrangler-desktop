@@ -18,6 +18,7 @@ import { of } from 'rxjs';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { ReceiptFormComponent } from './receipt-form.component';
+import { FormMode } from 'src/enums/form-mode.enum';
 
 describe('ReceiptFormComponent', () => {
   let component: ReceiptFormComponent;
@@ -48,6 +49,7 @@ describe('ReceiptFormComponent', () => {
 
     fixture = TestBed.createComponent(ReceiptFormComponent);
     component = fixture.componentInstance;
+    component.mode = FormMode.edit;
     fixture.detectChanges();
   });
 
@@ -97,7 +99,7 @@ describe('ReceiptFormComponent', () => {
 
     component.magicFill();
 
-    expect(receiptImageServiceSpy).toHaveBeenCalledWith(1);
+    expect(receiptImageServiceSpy).toHaveBeenCalledWith(undefined, 1);
 
     const receiptValue = component.form.getRawValue();
 
@@ -138,7 +140,7 @@ describe('ReceiptFormComponent', () => {
 
     component.magicFill();
 
-    expect(receiptImageServiceSpy).toHaveBeenCalledWith(1);
+    expect(receiptImageServiceSpy).toHaveBeenCalledWith(undefined, 1);
 
     const receiptValue = component.form.getRawValue();
 
@@ -180,7 +182,7 @@ describe('ReceiptFormComponent', () => {
 
     component.magicFill();
 
-    expect(receiptImageServiceSpy).toHaveBeenCalledWith(1);
+    expect(receiptImageServiceSpy).toHaveBeenCalledWith(undefined, 1);
 
     const receiptValue = component.form.getRawValue();
 
