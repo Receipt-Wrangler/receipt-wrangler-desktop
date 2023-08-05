@@ -326,11 +326,15 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   private patchMagicValues(magicReceipt: Receipt): void {
-    const filledKeys = ['name', 'amount', 'date'];
+    const keysWithDefaults = {
+      name: '',
+      amount: '0',
+      date: '0001-01-01T00:00:00Z',
+    } as any;
     const validKeys: string[] = [];
-    filledKeys.forEach((key) => {
-      let value = (magicReceipt as any)[key];
-      if (value) {
+    Object.keys(keysWithDefaults).forEach((key) => {
+      let value = (magicReceipt as any)[key] as string;
+      if (value && value !== keysWithDefaults[key]) {
         validKeys.push(key);
         if (key === 'date') {
           value = this.formatMagicFilledDate(value);
@@ -348,6 +352,10 @@ export class ReceiptFormComponent implements OnInit {
       this.snackbarService.success(successString, {
         duration: 10000,
       });
+    } else {
+      this.snackbarService.error(
+        'Could not find any values to fill! Try reuploading a clearer image.'
+      );
     }
   }
 
