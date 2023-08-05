@@ -40,6 +40,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
 import {
   Category,
+  FeatureConfigState,
   FileData,
   Group,
   GroupMember,
@@ -89,6 +90,9 @@ export class ReceiptFormComponent implements OnInit {
 
   @Select(GroupState.receiptListLink)
   public receiptListLink!: Observable<string>;
+
+  @Select(FeatureConfigState.aiPoweredReceipts)
+  public aiPoweredReceipts!: Observable<boolean>;
 
   public categories: Category[] = [];
 
@@ -348,7 +352,7 @@ export class ReceiptFormComponent implements OnInit {
     if (validKeys.length > 0) {
       const successString = `Magic fill successfully filled ${validKeys.join(
         ', '
-      )} from this image!`;
+      )} from selected image!`;
       this.snackbarService.success(successString, {
         duration: 10000,
       });
