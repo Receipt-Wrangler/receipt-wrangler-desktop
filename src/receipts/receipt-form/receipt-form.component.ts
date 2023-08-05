@@ -1,4 +1,24 @@
 import {
+  distinctUntilChanged,
+  finalize,
+  forkJoin,
+  iif,
+  map,
+  Observable,
+  of,
+  skip,
+  startWith,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
+import { CarouselComponent } from 'src/carousel/carousel/carousel.component';
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
+import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
+import { FormMode } from 'src/enums/form-mode.enum';
+import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomplete/user-autocomplete.component';
+
+import {
   Component,
   EmbeddedViewRef,
   OnInit,
@@ -20,6 +40,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
 import {
   Category,
+  FeatureConfigState,
   FileData,
   Group,
   GroupMember,
@@ -31,25 +52,8 @@ import {
   Tag,
   UserState,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import {
-  distinctUntilChanged,
-  finalize,
-  forkJoin,
-  iif,
-  map,
-  Observable,
-  of,
-  skip,
-  startWith,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
-import { CarouselComponent } from 'src/carousel/carousel/carousel.component';
-import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
-import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomplete/user-autocomplete.component';
+
+import { addHours } from 'date-fns';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
@@ -86,6 +90,9 @@ export class ReceiptFormComponent implements OnInit {
 
   @Select(GroupState.receiptListLink)
   public receiptListLink!: Observable<string>;
+
+  @Select(FeatureConfigState.aiPoweredReceipts)
+  public aiPoweredReceipts!: Observable<boolean>;
 
   public categories: Category[] = [];
 
@@ -305,6 +312,63 @@ export class ReceiptFormComponent implements OnInit {
         )
         .subscribe();
     }
+  }
+
+  public magicFill(): void {
+    const index = this.carouselComponent.currentlyShownImageIndex;
+    const receiptImage = this.images[index];
+
+    this.receiptImageService
+      .magicFillReceipt(receiptImage.id)
+      .pipe(
+        take(1),
+        tap((magicFilledReceipt) => {
+          this.patchMagicValues(magicFilledReceipt);
+        })
+      )
+      .subscribe();
+  }
+
+  private patchMagicValues(magicReceipt: Receipt): void {
+    const keysWithDefaults = {
+      name: '',
+      amount: '0',
+      date: '0001-01-01T00:00:00Z',
+    } as any;
+    const validKeys: string[] = [];
+    Object.keys(keysWithDefaults).forEach((key) => {
+      let value = (magicReceipt as any)[key] as string;
+      if (value && value !== keysWithDefaults[key]) {
+        validKeys.push(key);
+        if (key === 'date') {
+          value = this.formatMagicFilledDate(value);
+        }
+        this.form.patchValue({
+          [key]: value,
+        });
+      }
+    });
+
+    if (validKeys.length > 0) {
+      const successString = `Magic fill successfully filled ${validKeys.join(
+        ', '
+      )} from selected image!`;
+      this.snackbarService.success(successString, {
+        duration: 10000,
+      });
+    } else {
+      this.snackbarService.error(
+        'Could not find any values to fill! Try reuploading a clearer image.'
+      );
+    }
+  }
+
+  private formatMagicFilledDate(date: string): string {
+    const dateObj = addHours(
+      new Date(date),
+      new Date().getTimezoneOffset() / 60
+    );
+    return dateObj.toISOString();
   }
 
   public groupDisplayWith(id: number): string {

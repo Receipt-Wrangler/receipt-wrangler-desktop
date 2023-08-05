@@ -283,7 +283,19 @@
     (clicked)="zoomImageOut()"
   ></app-button>
   <app-button
-    *ngIf="!(mode | inputReadonly)"
+    *ngIf="
+      !(mode | inputReadonly) &&
+      (images?.length ?? 0 > 0) &&
+      (aiPoweredReceipts | async)
+    "
+    matButtonType="iconButton"
+    icon="receipt_long"
+    tooltip="Magic fill"
+    color="accent"
+    (clicked)="magicFill()"
+  ></app-button>
+  <app-button
+    *ngIf="!(mode | inputReadonly) && (images?.length ?? 0 > 0)"
     matButtonType="iconButton"
     icon="delete"
     tooltip="Remove Image"
