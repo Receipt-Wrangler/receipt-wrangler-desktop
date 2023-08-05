@@ -81,7 +81,9 @@ export function formatImageData(image: FileData, receiptId: number): any {
     receiptId: receiptId,
     imageData: Array.from(
       Uint8Array.from(
-        (image.imageData as any).split('').map((c: any) => c.charCodeAt(0))
+        ((image?.imageData as any) ?? '')
+          .split('')
+          .map((c: any) => c.charCodeAt(0))
       )
     ),
   };
