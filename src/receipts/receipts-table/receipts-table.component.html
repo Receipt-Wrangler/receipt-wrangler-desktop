@@ -95,6 +95,10 @@
 
 <ng-template #actionsCell let-element="element" let-index="index">
   <div class="d-flex w-100">
+    <app-edit-button
+      color="accent"
+      [buttonRouterLink]="['/receipts/' + element.id + '/edit']"
+    ></app-edit-button>
     <app-button
       matButtonType="iconButton"
       icon="file_copy"
