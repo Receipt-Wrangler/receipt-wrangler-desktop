@@ -113,8 +113,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public firstSort: boolean = true;
 
-  public showFilterCard: boolean = false;
-
   public ngOnInit(): void {
     this.numFiltersApplied = this.store
       .select(ReceiptTableState.numFiltersApplied)
