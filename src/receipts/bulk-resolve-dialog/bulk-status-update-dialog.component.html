@@ -4,6 +4,8 @@
       label="Status"
       [inputFormControl]="form | formGet : 'status'"
       [options]="receiptStatusOptions"
+      optionValueKey="value"
+      optionDisplayKey="displayValue"
     ></app-select>
     <app-textarea
       label="Comment"

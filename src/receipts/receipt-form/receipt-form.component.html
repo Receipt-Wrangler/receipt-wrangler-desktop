@@ -95,6 +95,8 @@
             <app-select
               class="w-100"
               label="Status"
+              optionValueKey="value"
+              optionDisplayKey="displayValue"
               [inputFormControl]="form | formGet : 'status'"
               [readonly]="mode | inputReadonly"
               [options]="receiptStatusOptions"
