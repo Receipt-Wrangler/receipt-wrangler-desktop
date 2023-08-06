@@ -38,8 +38,9 @@
 <app-receipt-filter *ngIf="showFilterCard"></app-receipt-filter>
 <app-summary-card
   *ngIf="(selectedReceiptIds | async)?.length"
+  @fadeInOut
   headerText="Selected Receipt summary"
-  [receiptIds]="(selectedReceiptIds | async) || []"
+  [receiptIds]="(selectedReceiptIds | async) ?? []"
 ></app-summary-card>
 <div class="table-container">
   <app-table
