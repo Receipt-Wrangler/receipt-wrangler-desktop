@@ -29,7 +29,7 @@
       (clicked)="resetFilterButtonClicked()"
     ></app-button>
     <app-button
-      *ngIf="(selectedReceiptIds | async)?.length ?? false"
+      *ngIf="selectedReceiptIds.length ?? false"
       buttonText="Bulk Status Update"
       (click)="showStatusUpdateDialog()"
     ></app-button>
@@ -37,10 +37,10 @@
 </app-table-header>
 <app-receipt-filter *ngIf="showFilterCard"></app-receipt-filter>
 <app-summary-card
-  *ngIf="(selectedReceiptIds | async)?.length"
+  *ngIf="selectedReceiptIds.length"
   @fadeInOut
   headerText="Selected Receipt summary"
-  [receiptIds]="(selectedReceiptIds | async) ?? []"
+  [receiptIds]="selectedReceiptIds"
 ></app-summary-card>
 <div class="table-container">
   <app-table

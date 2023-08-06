@@ -109,7 +109,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public totalCount: number = 0;
 
-  public selectedReceiptIds: Observable<number[]> = of([]);
+  public selectedReceiptIds: number[] = [];
 
   public firstSort: boolean = true;
 
@@ -156,10 +156,13 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   private setSelectedReceiptIdsObservable(): void {
-    this.selectedReceiptIds = this.table?.selection?.changed.pipe(
-      untilDestroyed(this),
-      map((event) => (event.source.selected as Receipt[]).map((r) => r.id))
-    );
+    this.table?.selection?.changed
+      .pipe(
+        untilDestroyed(this),
+        map((event) => (event.source.selected as Receipt[]).map((r) => r.id)),
+        tap((ids) => (this.selectedReceiptIds = ids))
+      )
+      .subscribe();
   }
 
   private setColumns(): void {
