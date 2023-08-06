@@ -21,6 +21,7 @@
     ></app-button>
     <app-button
       *ngIf="(numFiltersApplied | async) ?? 0 > 0"
+      @fadeInOut
       class="me-2"
       icon="restart_alt"
       matButtonType="iconButton"
@@ -29,8 +30,10 @@
       (clicked)="resetFilterButtonClicked()"
     ></app-button>
     <app-button
+      @fadeInOut
       *ngIf="selectedReceiptIds.length ?? false"
       buttonText="Bulk Status Update"
+      color="accent"
       (click)="showStatusUpdateDialog()"
     ></app-button>
   </div>
