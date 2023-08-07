@@ -23,7 +23,6 @@ export class ReceiptFilterService {
     orderBy?: string,
     sortDirection?: SortDirection
   ): Observable<PagedData> {
-    this.store.dispatch(new SetPage(1));
     const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
     let filterData: PagedRequestCommand = {
       page: page ?? filter.page,

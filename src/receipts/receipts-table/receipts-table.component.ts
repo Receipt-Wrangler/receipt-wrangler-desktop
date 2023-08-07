@@ -305,6 +305,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         take(1),
         tap((applyFilter) => {
           if (applyFilter) {
+            this.store.dispatch(new SetPage(1));
             this.getFilteredReceipts();
           }
         })
