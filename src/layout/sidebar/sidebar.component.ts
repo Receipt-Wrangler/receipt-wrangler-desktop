@@ -11,8 +11,9 @@ import {
   SnackbarService,
   User,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { map, Observable, switchMap, take, tap } from 'rxjs';
+import { Observable, map, switchMap, take, tap } from 'rxjs';
 import { LayoutState } from 'src/store/layout.state';
+import { SetPage } from 'src/store/receipt-table.actions';
 
 @Component({
   selector: 'app-sidebar',
@@ -51,6 +52,7 @@ export class SidebarComponent implements OnInit {
 
   public groupClicked(groupId: number): void {
     this.store.dispatch(new SetSelectedGroupId(groupId.toString()));
+    this.store.dispatch(new SetPage(1));
     const dashboardLink = this.store.selectSnapshot(GroupState.dashboardLink);
     this.router.navigate([dashboardLink]);
   }
