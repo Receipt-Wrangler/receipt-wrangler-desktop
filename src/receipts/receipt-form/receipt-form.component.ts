@@ -345,18 +345,28 @@ export class ReceiptFormComponent implements OnInit {
       name: '',
       amount: '0',
       date: '0001-01-01T00:00:00Z',
+      categories: null,
     } as any;
     const validKeys: string[] = [];
     Object.keys(keysWithDefaults).forEach((key) => {
       let value = (magicReceipt as any)[key] as string;
       if (value && value !== keysWithDefaults[key]) {
-        validKeys.push(key);
-        if (key === 'date') {
-          value = this.formatMagicFilledDate(value);
+        switch (key) {
+          case 'categories':
+            this.handleCategoriesMagicFill(
+              magicReceipt?.categories ?? [],
+              magicReceipt
+            );
+            break;
+          case 'date':
+            value = this.handleDateMagicFill(value);
+            this.patchMagicValue(key, magicReceipt);
+            break;
+          default:
+            this.patchMagicValue(key, magicReceipt);
         }
-        this.form.patchValue({
-          [key]: value,
-        });
+
+        validKeys.push(key);
       }
     });
 
@@ -372,6 +382,31 @@ export class ReceiptFormComponent implements OnInit {
         'Could not find any values to fill! Try reuploading a clearer image.'
       );
     }
+
+    console.warn(this.form.value);
+  }
+
+  private patchMagicValue(key: string, magicReceipt: Receipt): void {
+    this.form.patchValue({
+      [key]: (magicReceipt as any)[key],
+    });
+  }
+
+  private handleDateMagicFill(value: string): string {
+    return this.formatMagicFilledDate(value);
+  }
+
+  private handleCategoriesMagicFill(
+    value: Category[],
+    magicReceipt: Receipt
+  ): void {
+    const categoriesToPush = this.categories.filter((c) =>
+      magicReceipt?.categories?.map((category) => category.id)?.includes(c.id)
+    );
+    const categoriesFormArray = this.form.get('categories') as FormArray;
+    categoriesToPush.forEach((c) => {
+      categoriesFormArray.push(this.formBuilder.control(c));
+    });
   }
 
   private formatMagicFilledDate(date: string): string {
