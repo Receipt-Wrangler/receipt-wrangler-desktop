@@ -346,6 +346,7 @@ export class ReceiptFormComponent implements OnInit {
       amount: '0',
       date: '0001-01-01T00:00:00Z',
       categories: null,
+      tags: null,
     } as any;
     const validKeys: string[] = [];
     Object.keys(keysWithDefaults).forEach((key) => {
@@ -353,9 +354,17 @@ export class ReceiptFormComponent implements OnInit {
       if (value && value !== keysWithDefaults[key]) {
         switch (key) {
           case 'categories':
-            this.handleCategoriesMagicFill(
+            this.handleCategoryAndTagMagicFill(
+              key,
               magicReceipt?.categories ?? [],
-              magicReceipt
+              this.categories
+            );
+            break;
+          case 'tags':
+            this.handleCategoryAndTagMagicFill(
+              key,
+              magicReceipt?.tags ?? [],
+              this.tags
             );
             break;
           case 'date':
@@ -382,8 +391,6 @@ export class ReceiptFormComponent implements OnInit {
         'Could not find any values to fill! Try reuploading a clearer image.'
       );
     }
-
-    console.warn(this.form.value);
   }
 
   private patchMagicValue(key: string, magicReceipt: Receipt): void {
@@ -396,16 +403,17 @@ export class ReceiptFormComponent implements OnInit {
     return this.formatMagicFilledDate(value);
   }
 
-  private handleCategoriesMagicFill(
-    value: Category[],
-    magicReceipt: Receipt
+  private handleCategoryAndTagMagicFill(
+    formKey: 'categories' | 'tags',
+    value: Category[] | Tag[],
+    arrayToFilter: Category[] | Tag[]
   ): void {
-    const categoriesToPush = this.categories.filter((c) =>
-      magicReceipt?.categories?.map((category) => category.id)?.includes(c.id)
+    const itemsToPush = arrayToFilter.filter((item) =>
+      value.map((foundItem) => foundItem.id)?.includes(item.id)
     );
-    const categoriesFormArray = this.form.get('categories') as FormArray;
-    categoriesToPush.forEach((c) => {
-      categoriesFormArray.push(this.formBuilder.control(c));
+    const itemsFormArray = this.form.get(formKey) as FormArray;
+    itemsToPush.forEach((c) => {
+      itemsFormArray.push(this.formBuilder.control(c));
     });
   }
 
