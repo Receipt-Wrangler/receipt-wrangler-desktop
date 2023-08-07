@@ -63,14 +63,13 @@ export class TableComponent implements OnChanges {
     }
   }
 
-  isAllSelected() {
+  public isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
+  public toggleAllRows() {
     if (this.isAllSelected()) {
       this.selection.clear();
       return;

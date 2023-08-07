@@ -1,6 +1,3 @@
-import { Observable } from 'rxjs';
-import { ReceiptTableState } from 'src/store/receipt-table.state';
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SortDirection } from '@angular/material/sort';
@@ -9,6 +6,9 @@ import {
   PagedData,
   PagedRequestCommand,
 } from '@receipt-wrangler/receipt-wrangler-core';
+import { Observable } from 'rxjs';
+import { SetPage } from 'src/store/receipt-table.actions';
+import { ReceiptTableState } from 'src/store/receipt-table.state';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +23,7 @@ export class ReceiptFilterService {
     orderBy?: string,
     sortDirection?: SortDirection
   ): Observable<PagedData> {
+    this.store.dispatch(new SetPage(1));
     const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
     let filterData: PagedRequestCommand = {
       page: page ?? filter.page,
