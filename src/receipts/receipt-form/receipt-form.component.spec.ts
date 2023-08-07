@@ -80,11 +80,16 @@ describe('ReceiptFormComponent', () => {
     component.carouselComponent = {
       currentlyShownImageIndex: 0,
     } as any;
+    component.categories = [
+      { id: 1, name: 'category' } as any,
+      { id: 2, name: 'category2' } as any,
+    ];
 
     const magicReceipt = {
       name: 'magic',
       amount: '482.32',
       date: '2023-08-05T04:09:12.316Z',
+      categories: [{ id: 1 } as any],
     } as any;
 
     const receiptImageServiceSpy = spyOn(
@@ -106,8 +111,9 @@ describe('ReceiptFormComponent', () => {
     expect(receiptValue.name).toEqual(magicReceipt.name);
     expect(receiptValue.amount).toEqual(magicReceipt.amount);
     expect(receiptValue.date.length > 1).toEqual(true);
+    expect(receiptValue.categories).toEqual([component.categories[0]]);
     expect(snackbarSpy).toHaveBeenCalledWith(
-      'Magic fill successfully filled name, amount, date from selected image!',
+      'Magic fill successfully filled name, amount, date, categories from selected image!',
       { duration: 10000 }
     );
   });
