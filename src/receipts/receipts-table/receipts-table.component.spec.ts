@@ -60,7 +60,7 @@ describe('ReceiptsTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should map selected ids from selecton', (done) => {
+  it('should map selected ids from selecton', () => {
     const selectedReceipts: Receipt[] = [
       {
         id: 1,
@@ -80,9 +80,6 @@ describe('ReceiptsTableComponent', () => {
     } as any;
     component.ngAfterViewInit();
 
-    component.selectedReceiptIds.pipe(take(1)).subscribe((ids) => {
-      expect(ids).toEqual([1, 2]);
-      done();
-    });
+    expect(component.selectedReceiptIds).toEqual([1, 2]);
   });
 });
