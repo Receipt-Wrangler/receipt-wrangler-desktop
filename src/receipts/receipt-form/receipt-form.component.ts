@@ -86,7 +86,7 @@ export class ReceiptFormComponent implements OnInit {
   @ViewChild(CarouselComponent)
   public carouselComponent!: CarouselComponent;
 
-  @Select(GroupState.groups) public groups!: Observable<Group[]>;
+  @Select(GroupState.groupsWithoutAll) public groups!: Observable<Group[]>;
 
   @Select(GroupState.receiptListLink)
   public receiptListLink!: Observable<string>;

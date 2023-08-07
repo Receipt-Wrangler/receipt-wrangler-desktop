@@ -43,12 +43,14 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
 import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.component';
+import { fadeInOut } from 'src/animations';
 
 @UntilDestroy()
 @Component({
   selector: 'app-receipts-table',
   templateUrl: './receipts-table.component.html',
   styleUrls: ['./receipts-table.component.scss'],
+  animations: [fadeInOut],
   encapsulation: ViewEncapsulation.None,
   host: DEFAULT_HOST_CLASS,
 })
@@ -107,11 +109,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public totalCount: number = 0;
 
-  public selectedReceiptIds: Observable<number[]> = of([]);
+  public selectedReceiptIds: number[] = [];
 
   public firstSort: boolean = true;
-
-  public showFilterCard: boolean = false;
 
   public ngOnInit(): void {
     this.numFiltersApplied = this.store
@@ -154,10 +154,13 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   private setSelectedReceiptIdsObservable(): void {
-    this.selectedReceiptIds = this.table?.selection?.changed.pipe(
-      untilDestroyed(this),
-      map((event) => (event.source.selected as Receipt[]).map((r) => r.id))
-    );
+    this.table?.selection?.changed
+      .pipe(
+        untilDestroyed(this),
+        map((event) => (event.source.selected as Receipt[]).map((r) => r.id)),
+        tap((ids) => (this.selectedReceiptIds = ids))
+      )
+      .subscribe();
   }
 
   private setColumns(): void {
@@ -302,6 +305,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         take(1),
         tap((applyFilter) => {
           if (applyFilter) {
+            this.store.dispatch(new SetPage(1));
             this.getFilteredReceipts();
           }
         })
