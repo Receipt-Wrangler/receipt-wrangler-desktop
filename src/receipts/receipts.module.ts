@@ -39,6 +39,7 @@ import { ReceiptsTableComponent } from './receipts-table/receipts-table.componen
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { UserTotalPipe } from './user-total.pipe';
 import { QuickScanDialogComponent } from './quick-scan-dialog/quick-scan-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { QuickScanDialogComponent } from './quick-scan-dialog/quick-scan-dialog.
     MatCardModule,
     MatDialogModule,
     MatExpansionModule,
+    MatIconModule,
     MatProgressSpinnerModule,
     MatTableModule,
     PipesModule,
