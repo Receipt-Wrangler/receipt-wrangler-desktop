@@ -1,1 +1,29 @@
-<app-dialog headerText="Quick Scan"> hello world! </app-dialog>
+<app-dialog headerText="Quick Scan">
+  <app-upload-image
+    [images]="images"
+    [multiple]="false"
+    (fileLoaded)="fileLoaded($event)"
+  ></app-upload-image>
+  <div
+    *ngIf="images.length === 0"
+    tabindex="0"
+    class="file-upload-zone mb-2 d-flex justify-content-center align-items-center"
+    (click)="openImageUploadComponent()"
+  >
+    <mat-icon class="me-2">add_circle_outline</mat-icon>
+    <strong> Select only one Receipt Image to upload</strong>
+  </div>
+  <div class="carousel-container">
+    <app-carousel
+      *ngIf="images.length > 0"
+      [images]="images"
+      (removeButtonClicked)="removeImage($event)"
+    >
+    </app-carousel>
+  </div>
+  <app-user-autocomplete
+    class="w-100"
+    label="Paid By"
+    [inputFormControl]="form | formGet : 'paidByUserId'"
+  ></app-user-autocomplete>
+</app-dialog>
