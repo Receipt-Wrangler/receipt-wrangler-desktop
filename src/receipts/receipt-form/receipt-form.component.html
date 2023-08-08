@@ -115,6 +115,7 @@
               [images]="images"
               [mode]="mode"
               [receiptId]="originalReceipt?.id?.toString()"
+              (fileLoaded)="imageFileLoaded($event)"
             >
             </app-upload-image>
             <div

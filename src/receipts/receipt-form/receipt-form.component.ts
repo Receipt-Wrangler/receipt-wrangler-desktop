@@ -461,6 +461,33 @@ export class ReceiptFormComponent implements OnInit {
       .subscribe();
   }
 
+  public imageFileLoaded(fileData: FileData): void {
+    switch (this.mode) {
+      case FormMode.add:
+        this.images.push(fileData);
+        break;
+      case FormMode.edit:
+        const uploadData = formatImageData(
+          fileData,
+          this.originalReceipt?.id as number
+        );
+        this.receiptImageService
+          .uploadReceiptImage(uploadData)
+          .pipe(
+            tap((data: FileData) => {
+              this.snackbarService.success('Successfully uploaded image(s)');
+              fileData.id = data.id;
+              this.images.push(fileData);
+            })
+          )
+          .subscribe();
+        break;
+
+      default:
+        break;
+    }
+  }
+
   public closeSuccessDuplicateSnackbar(): void {
     this.duplicatedSnackbarRef.dismiss();
   }
