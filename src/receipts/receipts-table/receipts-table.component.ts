@@ -44,6 +44,7 @@ import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
 import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.component';
 import { fadeInOut } from 'src/animations';
+import { QuickScanDialogComponent } from '../quick-scan-dialog/quick-scan-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -388,6 +389,13 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe();
+  }
+
+  public showQuickScanDialog(): void {
+    const ref = this.matDialog.open(
+      QuickScanDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
   }
 
   public showStatusUpdateDialog(): void {
