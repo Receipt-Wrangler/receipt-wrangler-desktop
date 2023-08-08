@@ -509,55 +509,60 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public submit(): void {
-    const selectedGroupId = this.store.selectSnapshot(
-      GroupState.selectedGroupId
-    );
     if (this.itemsListComponent.userExpansionPanels.length > 0) {
       this.itemsListComponent.userExpansionPanels.forEach(
         (p: MatExpansionPanel) => p.close()
       );
     }
-    if (this.originalReceipt && this.form.valid) {
-      this.receiptService
-        .updateReceipt(this.form.value, this.originalReceipt.id as number)
-        .pipe(
-          take(1),
-          tap(() => {
-            this.snackbarService.success('Successfully updated receipt');
-            this.router.navigate([
-              `/receipts/${this.originalReceipt?.id}/view`,
-            ]);
-          })
-        )
-        .subscribe();
-    } else if (this.mode === FormMode.add && this.form.valid) {
-      let route: string;
-      this.receiptService
-        .createReceipt(this.form.value)
-        .pipe(
-          take(1),
-          tap((r: Receipt) => {
-            this.snackbarService.success('Successfully added receipt');
-            route = `/receipts/${r.id}/view`;
-          }),
-          switchMap((r) =>
-            iif(
-              () => this.images.length > 0,
-              forkJoin(
-                this.images.map((image) =>
-                  this.receiptImageService.uploadReceiptImage(
-                    formatImageData(image, r.id)
-                  )
-                )
-              ),
-              of('')
-            )
-          ),
-          tap(() => {
-            this.router.navigate([route]);
-          })
-        )
-        .subscribe();
+    if (this.form.invalid) return;
+
+    if (this.originalReceipt) {
+      this.updateReceipt();
+    } else if (this.mode === FormMode.add) {
+      this.createReceipt();
     }
+  }
+
+  private createReceipt(): void {
+    let route: string;
+    this.receiptService
+      .createReceipt(this.form.value)
+      .pipe(
+        take(1),
+        tap((r: Receipt) => {
+          this.snackbarService.success('Successfully added receipt');
+          route = `/receipts/${r.id}/view`;
+        }),
+        switchMap((r) =>
+          iif(
+            () => this.images.length > 0,
+            forkJoin(
+              this.images.map((image) =>
+                this.receiptImageService.uploadReceiptImage(
+                  formatImageData(image, r.id)
+                )
+              )
+            ),
+            of('')
+          )
+        ),
+        tap(() => {
+          this.router.navigate([route]);
+        })
+      )
+      .subscribe();
+  }
+
+  private updateReceipt(): void {
+    this.receiptService
+      .updateReceipt(this.form.value, this.originalReceipt?.id as number)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.snackbarService.success('Successfully updated receipt');
+          this.router.navigate([`/receipts/${this.originalReceipt?.id}/view`]);
+        })
+      )
+      .subscribe();
   }
 }
