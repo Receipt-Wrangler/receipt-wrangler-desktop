@@ -19,7 +19,7 @@ export class UploadImageComponent {
 
   @Input() public receiptId?: string = '';
 
-  @Input() public mode: FormMode = FormMode.view;
+  @Input() public multiple: boolean = true;
 
   @Output() public fileLoaded: EventEmitter<FileData> = new EventEmitter();
 
@@ -29,16 +29,11 @@ export class UploadImageComponent {
 
   public acceptFileType: string = 'image/*';
 
-  constructor(private activatedRoute: ActivatedRoute) {
-    this.mode = this.activatedRoute.snapshot.data['mode'];
-  }
-
   public clickInput(): void {
     this.uploadInput.nativeElement.click();
   }
 
   public async onFileChange(event: any): Promise<void> {
-    this.mode = this.activatedRoute.snapshot.data['mode'];
     const files: File[] = Array.from(event?.target?.files ?? []);
     const acceptedFiles = files.filter((f) =>
       new RegExp(this.acceptFileType).test(f.type)
