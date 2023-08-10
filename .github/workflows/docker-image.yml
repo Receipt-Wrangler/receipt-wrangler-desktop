@@ -80,6 +80,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          platforms: linux/amd64
           file: ./Dockerfile.linux_x64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/receipt-wrangler-desktop:linux_x64
@@ -109,6 +110,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          platforms: linux/arm64
           file: ./Dockerfile.linux_arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/receipt-wrangler-desktop:linux_arm64
