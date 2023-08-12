@@ -25,7 +25,8 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.svg", "src/assets"],
             "styles": ["src/styles.scss", "node_modules/bootstrap-scss/bootstrap.scss"],
-            "scripts": []
+            "scripts": [],
+            "preserveSymlinks": true
           },
           "configurations": {
             "production": {
@@ -95,7 +96,7 @@
   "cli": {
     "analytics": false,
     "cache": {
-      "enabled": false
+      "enabled": true
     }
   }
 }

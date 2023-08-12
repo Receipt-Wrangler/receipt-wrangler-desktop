@@ -1,8 +1,8 @@
-name: Build
+name: Release
 
 on:
-  push:
-    branches: ["main"]
+  release:
+    types: [published]
 
 jobs:
   test:
@@ -87,4 +87,4 @@ jobs:
           platforms: linux/arm64/v8, linux/amd64
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/receipt-wrangler-desktop:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/receipt-wrangler-desktop:${{ github.ref }}
