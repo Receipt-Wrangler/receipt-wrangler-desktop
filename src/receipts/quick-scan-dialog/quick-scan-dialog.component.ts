@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FileData } from '@receipt-wrangler/receipt-wrangler-core';
-import { UploadImageComponent } from '../upload-image/upload-image.component';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FileData } from "@receipt-wrangler/receipt-wrangler-core";
+
+import { UploadImageComponent } from "../upload-image/upload-image.component";
 
 @Component({
   selector: 'app-quick-scan-dialog',
@@ -25,6 +26,7 @@ export class QuickScanDialogComponent implements OnInit {
   private initForm(): void {
     this.form = this.formBuilder.group({
       paidByUserId: [null, Validators.required],
+      status: [null, Validators.required],
     });
   }
 

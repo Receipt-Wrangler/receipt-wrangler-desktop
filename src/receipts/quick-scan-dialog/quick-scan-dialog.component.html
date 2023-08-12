@@ -26,4 +26,7 @@
     label="Paid By"
     [inputFormControl]="form | formGet : 'paidByUserId'"
   ></app-user-autocomplete>
+  <app-status-select
+    [inputFormControl]="form | formGet : 'status'"
+  ></app-status-select>
 </app-dialog>
