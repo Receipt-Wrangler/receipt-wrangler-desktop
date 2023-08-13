@@ -46,7 +46,10 @@ export class QuickScanDialogComponent implements OnInit {
     this.images.splice(index, 1);
   }
 
-  public submitButtonClicked(): void {}
+  public submitButtonClicked(): void {
+    if (this.form.valid) {
+    }
+  }
 
   public cancelButtonClicked(): void {
     this.dialogRef.close();
