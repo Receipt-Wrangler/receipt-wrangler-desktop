@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
 import { FileData } from "@receipt-wrangler/receipt-wrangler-core";
 
 import { UploadImageComponent } from "../upload-image/upload-image.component";
@@ -17,7 +18,10 @@ export class QuickScanDialogComponent implements OnInit {
 
   public images: FileData[] = [];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private dialogRef: MatDialogRef<QuickScanDialogComponent>,
+    private formBuilder: FormBuilder
+  ) {}
 
   public ngOnInit(): void {
     this.initForm();
@@ -40,5 +44,11 @@ export class QuickScanDialogComponent implements OnInit {
 
   public removeImage(index: number): void {
     this.images.splice(index, 1);
+  }
+
+  public submitButtonClicked(): void {}
+
+  public cancelButtonClicked(): void {
+    this.dialogRef.close();
   }
 }

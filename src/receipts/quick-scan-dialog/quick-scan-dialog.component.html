@@ -7,7 +7,7 @@
   <div
     *ngIf="images.length === 0"
     tabindex="0"
-    class="file-upload-zone mb-2 d-flex justify-content-center align-items-center"
+    class="file-upload-zone mb-4 d-flex justify-content-center align-items-center"
     (click)="openImageUploadComponent()"
   >
     <mat-icon class="me-2">add_circle_outline</mat-icon>
@@ -29,4 +29,10 @@
   <app-status-select
     [inputFormControl]="form | formGet : 'status'"
   ></app-status-select>
+
+  <app-dialog-footer
+    submitButtonTooltip="Submit Scan"
+    (submitClicked)="submitButtonClicked()"
+    (cancelClicked)="cancelButtonClicked()"
+  ></app-dialog-footer>
 </app-dialog>
