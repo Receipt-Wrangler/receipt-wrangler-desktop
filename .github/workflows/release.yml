@@ -87,4 +87,4 @@ jobs:
           platforms: linux/arm64/v8, linux/amd64
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/receipt-wrangler-desktop:${{ github.ref }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/receipt-wrangler-desktop:${{ github.ref_name }}
