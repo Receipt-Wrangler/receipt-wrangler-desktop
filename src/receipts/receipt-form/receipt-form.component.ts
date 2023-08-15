@@ -425,17 +425,6 @@ export class ReceiptFormComponent implements OnInit {
     return dateObj.toISOString();
   }
 
-  public groupDisplayWith(id: number): string {
-    const group = this.store.selectSnapshot(
-      GroupState.getGroupById(id?.toString())
-    );
-
-    if (group) {
-      return group.name;
-    }
-    return '';
-  }
-
   public uploadImageButtonClicked(): void {
     this.uploadImageComponent.clickInput();
   }
