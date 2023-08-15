@@ -20,6 +20,7 @@ $zone-border: dotted 2px map-get($primary-palette, 400) !important;
   background-color: lightgray;
 }
 
-.carousel-container {
-  max-height: 200px;
+.image-preview {
+  width: auto;
+  height: 200px;
 }
