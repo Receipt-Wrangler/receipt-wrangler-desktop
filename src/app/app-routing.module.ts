@@ -1,9 +1,9 @@
-import { AuthGuard } from 'src/guards/auth.guard';
-import { SidebarComponent } from 'src/layout/sidebar/sidebar.component';
+import { AuthGuard } from "src/guards/auth.guard";
+import { SidebarComponent } from "src/layout/sidebar/sidebar.component";
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { User } from '@receipt-wrangler/receipt-wrangler-core';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { User } from "@receipt-wrangler/receipt-wrangler-core";
 
 // set up dashboard
 const routes: Routes = [
@@ -24,6 +24,14 @@ const routes: Routes = [
         loadChildren: () =>
           import('../dashboard/dashboard.module').then(
             (m) => m.DashboardModule
+          ),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'categories',
+        loadChildren: () =>
+          import('../categories/categories.module').then(
+            (m) => m.CategoriesModule
           ),
         canActivate: [AuthGuard],
       },
