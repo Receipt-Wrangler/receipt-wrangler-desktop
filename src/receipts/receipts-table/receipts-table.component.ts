@@ -276,16 +276,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         })
       );
 
-      this.receiptFilterService
-        .getPagedReceiptsForGroups(this.groupId.toString())
-        .pipe(
-          take(1),
-          tap((pagedData) => {
-            this.dataSource.data = pagedData.data;
-            this.totalCount = pagedData.totalCount;
-          })
-        )
-        .subscribe();
+      this.getFilteredReceipts();
     }
     this.firstSort = false;
   }
@@ -379,16 +370,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new SetPage(newPage));
     this.store.dispatch(new SetPageSize(pageEvent.pageSize));
 
-    this.receiptFilterService
-      .getPagedReceiptsForGroups(this.groupId.toString())
-      .pipe(
-        take(1),
-        tap((pagedData) => {
-          this.dataSource.data = pagedData.data;
-          this.totalCount = pagedData.totalCount;
-        })
-      )
-      .subscribe();
+    this.getFilteredReceipts();
   }
 
   public showQuickScanDialog(): void {
@@ -396,6 +378,16 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       QuickScanDialogComponent,
       DEFAULT_DIALOG_CONFIG
     );
+
+    ref
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap(() => {
+          this.getFilteredReceipts();
+        })
+      )
+      .subscribe();
   }
 
   public showStatusUpdateDialog(): void {
