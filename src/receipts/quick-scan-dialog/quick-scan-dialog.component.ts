@@ -11,9 +11,10 @@ import {
   ReceiptService,
   SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { take, tap } from 'rxjs';
+import { finalize, take, tap } from 'rxjs';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { binaryStringToBinaryArray } from '../utils/form.utils';
+import { ToggleShowProgressBar } from 'src/store/layout.state.actions';
 
 @Component({
   selector: 'app-quick-scan-dialog',
@@ -41,9 +42,12 @@ export class QuickScanDialogComponent implements OnInit {
   }
 
   private initForm(): void {
-    const selectedGroupId = this.store.selectSnapshot(
+    let selectedGroupId: string | undefined = this.store.selectSnapshot(
       GroupState.selectedGroupId
     );
+    if (selectedGroupId === 'all') {
+      selectedGroupId = undefined;
+    }
     const userId = this.store.selectSnapshot(AuthState.userId);
     this.form = this.formBuilder.group({
       paidByUserId: [userId, Validators.required],
@@ -67,8 +71,9 @@ export class QuickScanDialogComponent implements OnInit {
   public submitButtonClicked(): void {
     if (this.form.valid && this.images.length > 0) {
       const command = this.buildQuickScanCommand();
+      this.store.dispatch(new ToggleShowProgressBar());
       this.receiptService
-        .quickScanReceipt(command, undefined, true)
+        .quickScanReceipt(command)
         .pipe(
           take(1),
           tap((receipt) => {
@@ -76,7 +81,8 @@ export class QuickScanDialogComponent implements OnInit {
               `${receipt.name} receipt successfully scanned`
             );
             this.dialogRef.close();
-          })
+          }),
+          finalize(() => this.store.dispatch(new ToggleShowProgressBar()))
         )
         .subscribe();
     }
