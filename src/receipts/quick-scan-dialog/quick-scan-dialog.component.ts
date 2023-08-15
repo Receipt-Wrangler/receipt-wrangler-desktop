@@ -7,7 +7,9 @@ import {
   FileData,
   GroupState,
   QuickScanCommand,
+  Receipt,
   ReceiptService,
+  SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
 
 import { UploadImageComponent } from '../upload-image/upload-image.component';
@@ -31,6 +33,7 @@ export class QuickScanDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<QuickScanDialogComponent>,
     private formBuilder: FormBuilder,
     private receiptService: ReceiptService,
+    private snackbarService: SnackbarService,
     private store: Store
   ) {}
 
@@ -44,7 +47,7 @@ export class QuickScanDialogComponent implements OnInit {
     );
     this.form = this.formBuilder.group({
       paidByUserId: [null, Validators.required],
-      status: [null, Validators.required],
+      status: [Receipt.StatusEnum.OPEN, Validators.required],
       groupId: [selectedGroupId, Validators.required],
     });
   }
@@ -69,7 +72,12 @@ export class QuickScanDialogComponent implements OnInit {
         .quickScanReceipt(command, undefined, true)
         .pipe(
           take(1),
-          tap(() => {})
+          tap((receipt) => {
+            this.snackbarService.success(
+              `${receipt.name} receipt successfully scanned`
+            );
+            this.dialogRef.close();
+          })
         )
         .subscribe();
     }
