@@ -37,6 +37,7 @@
 
   <app-dialog-footer
     submitButtonTooltip="Submit Scan"
+    [disableWhenProgressBarIsShown]="true"
     (submitClicked)="submitButtonClicked()"
     (cancelClicked)="cancelButtonClicked()"
   ></app-dialog-footer>
