@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { ToggleIsSidebarOpen } from './layout.state.actions';
+import {
+  HideShowProgressBar,
+  ToggleIsSidebarOpen,
+  ToggleShowProgressBar,
+} from './layout.state.actions';
 
 export interface LayoutStateInterface {
   isSidebarOpen: boolean;
+  showProgressBar: boolean;
 }
 
 @State<LayoutStateInterface>({
   name: 'layout',
   defaults: {
     isSidebarOpen: false,
+    showProgressBar: false,
   },
 })
 @Injectable()
@@ -19,6 +25,11 @@ export class LayoutState {
     return state.isSidebarOpen;
   }
 
+  @Selector()
+  static showProgressBar(state: LayoutStateInterface): boolean {
+    return state.showProgressBar;
+  }
+
   @Action(ToggleIsSidebarOpen)
   setIsSidebarOpen({
     getState,
@@ -26,6 +37,23 @@ export class LayoutState {
   }: StateContext<LayoutStateInterface>) {
     patchState({
       isSidebarOpen: !getState().isSidebarOpen,
+    });
+  }
+
+  @Action(ToggleShowProgressBar)
+  toggleShowProgressBar({
+    getState,
+    patchState,
+  }: StateContext<LayoutStateInterface>) {
+    patchState({
+      showProgressBar: !getState().showProgressBar,
+    });
+  }
+
+  @Action(HideShowProgressBar)
+  hideProgressBar({ patchState }: StateContext<LayoutStateInterface>) {
+    patchState({
+      showProgressBar: false,
     });
   }
 }
