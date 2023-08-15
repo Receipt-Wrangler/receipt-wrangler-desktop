@@ -1,9 +1,9 @@
-import { take, tap } from 'rxjs';
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngxs/store';
 import {
+  AuthState,
   FileData,
   GroupState,
   QuickScanCommand,
@@ -11,10 +11,9 @@ import {
   ReceiptService,
   SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
-
+import { take, tap } from 'rxjs';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { binaryStringToBinaryArray } from '../utils/form.utils';
-import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-quick-scan-dialog',
@@ -45,8 +44,9 @@ export class QuickScanDialogComponent implements OnInit {
     const selectedGroupId = this.store.selectSnapshot(
       GroupState.selectedGroupId
     );
+    const userId = this.store.selectSnapshot(AuthState.userId);
     this.form = this.formBuilder.group({
-      paidByUserId: [null, Validators.required],
+      paidByUserId: [userId, Validators.required],
       status: [Receipt.StatusEnum.OPEN, Validators.required],
       groupId: [selectedGroupId, Validators.required],
     });
@@ -65,9 +65,8 @@ export class QuickScanDialogComponent implements OnInit {
   }
 
   public submitButtonClicked(): void {
-    if (this.form.valid) {
+    if (this.form.valid && this.images.length > 0) {
       const command = this.buildQuickScanCommand();
-      console.warn(command);
       this.receiptService
         .quickScanReceipt(command, undefined, true)
         .pipe(
@@ -81,6 +80,9 @@ export class QuickScanDialogComponent implements OnInit {
         )
         .subscribe();
     }
+    if (this.images.length === 0) {
+      this.snackbarService.error('Please select an image to upload');
+    }
   }
 
   private buildQuickScanCommand(): QuickScanCommand {
@@ -92,7 +94,7 @@ export class QuickScanDialogComponent implements OnInit {
       size: file.size as number,
       groupId: Number(this.form.get('groupId')?.value),
       status: this.form.get('status')?.value,
-      paidByUserId: this.form.get('paidByUserId')?.value,
+      paidByUserId: Number(this.form.get('paidByUserId')?.value),
     };
 
     return command;

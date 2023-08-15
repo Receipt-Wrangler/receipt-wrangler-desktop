@@ -11,11 +11,11 @@
     (click)="openImageUploadComponent()"
   >
     <mat-icon class="me-2">add_circle_outline</mat-icon>
-    <strong> Select only one Receipt Image to upload</strong>
+    <strong> Select one image to upload</strong>
   </div>
   <div *ngIf="images.length > 0" class="mb-2">
     <div class="d-flex align-items-center">
-      <h3>Images Uploaded</h3>
+      <h3>Image Uploaded</h3>
       <app-delete-button
         tooltip="Remove image"
         (clicked)="removeImage(0)"
@@ -23,6 +23,9 @@
     </div>
     <img class="image-preview" [src]="images[0] | image" />
   </div>
+  <app-group-autocomplete
+    [inputFormControl]="form | formGet : 'groupId'"
+  ></app-group-autocomplete>
   <app-user-autocomplete
     class="w-100"
     label="Paid By"
