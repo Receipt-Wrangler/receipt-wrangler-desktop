@@ -1,9 +1,18 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatDialogRef } from "@angular/material/dialog";
-import { FileData } from "@receipt-wrangler/receipt-wrangler-core";
+import { take, tap } from 'rxjs';
 
-import { UploadImageComponent } from "../upload-image/upload-image.component";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import {
+  FileData,
+  GroupState,
+  QuickScanCommand,
+  ReceiptService,
+} from '@receipt-wrangler/receipt-wrangler-core';
+
+import { UploadImageComponent } from '../upload-image/upload-image.component';
+import { binaryStringToBinaryArray } from '../utils/form.utils';
+import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-quick-scan-dialog',
@@ -20,7 +29,9 @@ export class QuickScanDialogComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<QuickScanDialogComponent>,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private receiptService: ReceiptService,
+    private store: Store
   ) {}
 
   public ngOnInit(): void {
@@ -28,9 +39,13 @@ export class QuickScanDialogComponent implements OnInit {
   }
 
   private initForm(): void {
+    const selectedGroupId = this.store.selectSnapshot(
+      GroupState.selectedGroupId
+    );
     this.form = this.formBuilder.group({
       paidByUserId: [null, Validators.required],
       status: [null, Validators.required],
+      groupId: [selectedGroupId, Validators.required],
     });
   }
 
@@ -48,7 +63,31 @@ export class QuickScanDialogComponent implements OnInit {
 
   public submitButtonClicked(): void {
     if (this.form.valid) {
+      const command = this.buildQuickScanCommand();
+      console.warn(command);
+      this.receiptService
+        .quickScanReceipt(command, undefined, true)
+        .pipe(
+          take(1),
+          tap(() => {})
+        )
+        .subscribe();
     }
+  }
+
+  private buildQuickScanCommand(): QuickScanCommand {
+    const file = this.images[0];
+    const command: QuickScanCommand = {
+      imageData: binaryStringToBinaryArray((file.imageData as any) ?? ''),
+      name: file.name as string,
+      fileType: file.fileType as string,
+      size: file.size as number,
+      groupId: Number(this.form.get('groupId')?.value),
+      status: this.form.get('status')?.value,
+      paidByUserId: this.form.get('paidByUserId')?.value,
+    };
+
+    return command;
   }
 
   public cancelButtonClicked(): void {

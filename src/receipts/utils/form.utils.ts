@@ -79,12 +79,12 @@ export function formatImageData(image: FileData, receiptId: number): any {
   return {
     ...image,
     receiptId: receiptId,
-    imageData: Array.from(
-      Uint8Array.from(
-        ((image?.imageData as any) ?? '')
-          .split('')
-          .map((c: any) => c.charCodeAt(0))
-      )
-    ),
+    imageData: binaryStringToBinaryArray((image.imageData as any) ?? '') as any,
   };
+}
+
+export function binaryStringToBinaryArray(binaryString: string): number[] {
+  return Array.from(
+    Uint8Array.from(binaryString.split('').map((c) => c.charCodeAt(0)))
+  );
 }
