@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
@@ -47,6 +48,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     MatDialogModule,
     MatIconModule,
     MatMenuModule,
+    MatProgressBarModule,
     MatSidenavModule,
     MatTooltipModule,
     NgbPopoverModule,

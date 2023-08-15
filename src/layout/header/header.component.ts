@@ -15,6 +15,7 @@ import { Observable, filter, map, switchMap, take, tap } from 'rxjs';
 import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';
 import { DEFAULT_DIALOG_CONFIG } from '../../constants';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { LayoutState } from 'src/store/layout.state';
 
 @UntilDestroy()
 @Component({
@@ -29,6 +30,9 @@ export class HeaderComponent implements OnInit {
   public selectedGroupId!: Observable<string>;
 
   @Select(AuthState.loggedInUser) public loggedInUser!: Observable<User>;
+
+  @Select(LayoutState.showProgressBar)
+  public showProgressBar!: Observable<boolean>;
 
   public receiptHeaderLink: string[] = [''];
 

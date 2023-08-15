@@ -11,6 +11,7 @@ import {
   ButtonModule,
   InputModule,
   PipesModule as CorePipesModule,
+  DirectivesModule,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
 import { AvatarModule } from 'src/avatar';
@@ -37,6 +38,8 @@ import { ReceiptsRoutingModule } from './receipts-routing.module';
 import { ReceiptsTableComponent } from './receipts-table/receipts-table.component';
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { UserTotalPipe } from './user-total.pipe';
+import { QuickScanDialogComponent } from './quick-scan-dialog/quick-scan-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,7 @@ import { UserTotalPipe } from './user-total.pipe';
     UserTotalPipe,
     ReceiptFilterComponent,
     OperationsPipe,
+    QuickScanDialogComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -61,11 +65,13 @@ import { UserTotalPipe } from './user-total.pipe';
     CommonModule,
     CorePipesModule,
     DatepickerModule,
+    DirectivesModule,
     DragDropModule,
     InputModule,
     MatCardModule,
     MatDialogModule,
     MatExpansionModule,
+    MatIconModule,
     MatProgressSpinnerModule,
     MatTableModule,
     PipesModule,

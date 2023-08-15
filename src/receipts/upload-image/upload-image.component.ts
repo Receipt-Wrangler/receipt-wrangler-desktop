@@ -1,14 +1,13 @@
-import { tap } from 'rxjs';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { Component, Input, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import {
-  FileData,
-  ReceiptImageService,
-  SnackbarService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-
-import { formatImageData } from '../utils/form.utils';
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FileData } from '@receipt-wrangler/receipt-wrangler-core';
+import { FormMode } from 'src/enums/form-mode.enum';
 
 @Component({
   selector: 'app-upload-image',
@@ -20,7 +19,9 @@ export class UploadImageComponent {
 
   @Input() public receiptId?: string = '';
 
-  @Input() public mode: FormMode = FormMode.view;
+  @Input() public multiple: boolean = true;
+
+  @Output() public fileLoaded: EventEmitter<FileData> = new EventEmitter();
 
   @ViewChild('uploadInput') uploadInput!: any;
 
@@ -28,20 +29,11 @@ export class UploadImageComponent {
 
   public acceptFileType: string = 'image/*';
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private receiptImageService: ReceiptImageService,
-    private snackbarService: SnackbarService
-  ) {
-    this.mode = this.activatedRoute.snapshot.data['mode'];
-  }
-
   public clickInput(): void {
     this.uploadInput.nativeElement.click();
   }
 
   public async onFileChange(event: any): Promise<void> {
-    this.mode = this.activatedRoute.snapshot.data['mode'];
     const files: File[] = Array.from(event?.target?.files ?? []);
     const acceptedFiles = files.filter((f) =>
       new RegExp(this.acceptFileType).test(f.type)
@@ -60,38 +52,10 @@ export class UploadImageComponent {
           receiptId: this.receiptId,
         } as any as FileData;
 
-        this.handleFile(fileData);
+        this.fileLoaded.emit(fileData);
       };
 
       reader.readAsBinaryString(f);
-    }
-  }
-
-  private handleFile(fileData: FileData): void {
-    switch (this.mode) {
-      case FormMode.add:
-        this.images.push(fileData);
-        break;
-      case FormMode.edit:
-        const uploadData = formatImageData(
-          fileData,
-          Number.parseInt(this.receiptId ?? '')
-        );
-        this.receiptImageService
-          .uploadReceiptImage(uploadData)
-          .pipe(
-            tap((data: FileData) => {
-              this.snackbarService.success('Successfully uploaded image(s)');
-              fileData.id = data.id;
-              this.images.push(fileData);
-            })
-          )
-          .subscribe();
-        // we can upload each, then
-        break;
-
-      default:
-        break;
     }
   }
 }

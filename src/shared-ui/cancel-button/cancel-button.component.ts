@@ -9,6 +9,8 @@ import { FormMode } from 'src/enums/form-mode.enum';
 export class CancelButtonComponent {
   @Input() public mode?: FormMode;
 
+  @Input() public disabled: boolean = false;
+
   @Output() public clicked: EventEmitter<void> = new EventEmitter<void>();
 
   public formMode = FormMode;

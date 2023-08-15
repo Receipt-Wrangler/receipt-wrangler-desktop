@@ -1,0 +1,44 @@
+<app-dialog headerText="Quick Scan">
+  <app-upload-image
+    [images]="images"
+    [multiple]="false"
+    (fileLoaded)="fileLoaded($event)"
+  ></app-upload-image>
+  <div
+    *ngIf="images.length === 0"
+    tabindex="0"
+    class="file-upload-zone mb-4 d-flex justify-content-center align-items-center"
+    (click)="openImageUploadComponent()"
+  >
+    <mat-icon class="me-2">add_circle_outline</mat-icon>
+    <strong> Select one image to upload</strong>
+  </div>
+  <div *ngIf="images.length > 0" class="mb-2">
+    <div class="d-flex align-items-center">
+      <h3>Image Uploaded</h3>
+      <app-delete-button
+        tooltip="Remove image"
+        (clicked)="removeImage(0)"
+      ></app-delete-button>
+    </div>
+    <img class="image-preview" [src]="images[0] | image" />
+  </div>
+  <app-group-autocomplete
+    [inputFormControl]="form | formGet : 'groupId'"
+  ></app-group-autocomplete>
+  <app-user-autocomplete
+    class="w-100"
+    label="Paid By"
+    [inputFormControl]="form | formGet : 'paidByUserId'"
+  ></app-user-autocomplete>
+  <app-status-select
+    [inputFormControl]="form | formGet : 'status'"
+  ></app-status-select>
+
+  <app-dialog-footer
+    submitButtonTooltip="Submit Scan"
+    [disableWhenProgressBarIsShown]="true"
+    (submitClicked)="submitButtonClicked()"
+    (cancelClicked)="cancelButtonClicked()"
+  ></app-dialog-footer>
+</app-dialog>

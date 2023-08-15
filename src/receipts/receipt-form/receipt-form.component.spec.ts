@@ -19,6 +19,7 @@ import { PipesModule } from 'src/pipes/pipes.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { ReceiptFormComponent } from './receipt-form.component';
 import { FormMode } from 'src/enums/form-mode.enum';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ReceiptFormComponent', () => {
   let component: ReceiptFormComponent;
@@ -34,6 +35,7 @@ describe('ReceiptFormComponent', () => {
         MatDialogModule,
         MatSnackBarModule,
         NgxsModule.forRoot([GroupState]),
+        NoopAnimationsModule,
         PipesModule,
         ReactiveFormsModule,
         SharedUiModule,

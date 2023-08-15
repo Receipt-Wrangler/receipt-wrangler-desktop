@@ -9,6 +9,16 @@
       [routerLink]="['/receipts/add']"
     ></app-button>
     <app-button
+      *appFeature="'enableLocalSignUp'"
+      class="me-2"
+      icon="receipt_long"
+      matButtonType="iconButton"
+      tooltip="Quick Scan"
+      color="accent"
+      [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
+      (clicked)="showQuickScanDialog()"
+    ></app-button>
+    <app-button
       class="me-2 filter-button"
       icon="filter_alt"
       matButtonType="iconButton"

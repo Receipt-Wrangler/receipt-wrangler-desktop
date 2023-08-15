@@ -3,9 +3,14 @@ import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
-import { ButtonModule } from '@receipt-wrangler/receipt-wrangler-core';
+import {
+  ButtonModule,
+  PipesModule as CorePipesModule,
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
+import { SelectModule } from 'src/select/select.module';
 import { BackButtonComponent } from './back-button/back-button.component';
 import { CancelButtonComponent } from './cancel-button/cancel-button.component';
 import { CardComponent } from './card/card.component';
@@ -18,11 +23,13 @@ import { FormButtonBarComponent } from './form-button-bar/form-button-bar.compon
 import { FormButtonComponent } from './form-button/form-button.component';
 import { FormHeaderComponent } from './form-header/form-header.component';
 import { FormSectionComponent } from './form-section/form-section.component';
+import { GroupAutocompleteComponent } from './group-autocomplete/group-autocomplete.component';
 import { StatusChipComponent } from './status-chip/status-chip.component';
+import { StatusSelectComponent } from './status-select/status-select.component';
 import { SubmitButtonComponent } from './submit-button/submit-button.component';
 import { SummaryCardComponent } from './summary-card/summary-card.component';
 import { TableHeaderComponent } from './table-header/table-header.component';
-import { MatListModule } from '@angular/material/list';
+import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
 
 @NgModule({
   declarations: [
@@ -38,20 +45,25 @@ import { MatListModule } from '@angular/material/list';
     FormButtonComponent,
     FormHeaderComponent,
     FormSectionComponent,
+    GroupAutocompleteComponent,
     StatusChipComponent,
+    StatusSelectComponent,
     SubmitButtonComponent,
     SummaryCardComponent,
     TableHeaderComponent,
   ],
   imports: [
+    AutocompleteModule,
     ButtonModule,
-    MatListModule,
     CommonModule,
+    CorePipesModule,
     MatCardModule,
     MatChipsModule,
-    MatTableModule,
     MatDialogModule,
+    MatListModule,
+    MatTableModule,
     PipesModule,
+    SelectModule,
   ],
   exports: [
     BackButtonComponent,
@@ -65,7 +77,9 @@ import { MatListModule } from '@angular/material/list';
     FormButtonBarComponent,
     FormHeaderComponent,
     FormSectionComponent,
+    GroupAutocompleteComponent,
     StatusChipComponent,
+    StatusSelectComponent,
     SubmitButtonComponent,
     SummaryCardComponent,
     TableHeaderComponent,

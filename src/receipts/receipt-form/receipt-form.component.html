@@ -73,17 +73,12 @@
               [inputFormControl]="form | formGet : 'date'"
               [readonly]="mode | inputReadonly"
             ></app-datepicker>
-            <app-autocomlete
+            <app-group-autocomplete
               class="w-100"
-              label="Group"
-              optionFilterKey="name"
-              optionValueKey="id"
               [inputFormControl]="form | formGet : 'groupId'"
-              [options]="(groups | async) ?? []"
-              [optionTemplate]="groupOptionTemplate"
               [readonly]="mode | inputReadonly"
-              [displayWith]="groupDisplayWith.bind(this)"
-            ></app-autocomlete>
+            >
+            </app-group-autocomplete>
             <app-user-autocomplete
               #paidByAutocomplete
               class="w-100"
@@ -113,8 +108,8 @@
             <app-upload-image
               class="w-100 h-100"
               [images]="images"
-              [mode]="mode"
               [receiptId]="originalReceipt?.id?.toString()"
+              (fileLoaded)="imageFileLoaded($event)"
             >
             </app-upload-image>
             <div

@@ -44,6 +44,7 @@ import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
 import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.component';
 import { fadeInOut } from 'src/animations';
+import { QuickScanDialogComponent } from '../quick-scan-dialog/quick-scan-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -275,16 +276,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         })
       );
 
-      this.receiptFilterService
-        .getPagedReceiptsForGroups(this.groupId.toString())
-        .pipe(
-          take(1),
-          tap((pagedData) => {
-            this.dataSource.data = pagedData.data;
-            this.totalCount = pagedData.totalCount;
-          })
-        )
-        .subscribe();
+      this.getFilteredReceipts();
     }
     this.firstSort = false;
   }
@@ -378,13 +370,21 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new SetPage(newPage));
     this.store.dispatch(new SetPageSize(pageEvent.pageSize));
 
-    this.receiptFilterService
-      .getPagedReceiptsForGroups(this.groupId.toString())
+    this.getFilteredReceipts();
+  }
+
+  public showQuickScanDialog(): void {
+    const ref = this.matDialog.open(
+      QuickScanDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+
+    ref
+      .afterClosed()
       .pipe(
         take(1),
-        tap((pagedData) => {
-          this.dataSource.data = pagedData.data;
-          this.totalCount = pagedData.totalCount;
+        tap(() => {
+          this.getFilteredReceipts();
         })
       )
       .subscribe();
