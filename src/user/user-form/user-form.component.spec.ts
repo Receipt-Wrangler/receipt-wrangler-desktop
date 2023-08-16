@@ -84,8 +84,6 @@ describe('UserFormComponent', () => {
     component.user = user;
     component.ngOnInit();
 
-    console.warn(component.form.value);
-
     expect(component.form.value).toEqual({
       displayName: 'Pizza man',
       username: 'Waffle guy',
