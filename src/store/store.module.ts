@@ -11,6 +11,7 @@ import {
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { LayoutState } from './layout.state';
 import { ReceiptTableState } from './receipt-table.state';
+import { CategoryTableState } from './category-table.state';
 
 @NgModule({
   declarations: [],
@@ -18,6 +19,7 @@ import { ReceiptTableState } from './receipt-table.state';
     CommonModule,
     NgxsModule.forRoot([
       AuthState,
+      CategoryTableState,
       FeatureConfigState,
       GroupState,
       LayoutState,
@@ -25,10 +27,10 @@ import { ReceiptTableState } from './receipt-table.state';
       UserState,
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
-      disabled: true,
+      disabled: false,
     }),
     NgxsStoragePluginModule.forRoot({
-      key: ['groups', 'layout', 'receiptTable'],
+      key: ['groups', 'layout', 'receiptTable', 'categoryTable'],
     }),
   ],
 })

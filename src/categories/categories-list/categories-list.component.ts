@@ -4,6 +4,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 
@@ -16,6 +17,8 @@ export class CategoriesListComponent implements AfterViewInit {
   @ViewChild('usernameCell') public nameCell!: TemplateRef<any>;
 
   @ViewChild(TableComponent) public table!: TableComponent;
+
+  constructor(private store: Store) {}
 
   public displayedColumns: string[] = [];
 
