@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import {
   PagedRequestField,
-  PagedRequestFilter,
+  ReceiptPagedRequestFilter,
 } from '@receipt-wrangler/receipt-wrangler-core';
 
 import { ReceiptTableInterface } from '../interfaces';
@@ -44,7 +44,7 @@ export const defaultReceiptFilter = {
     operation: PagedRequestField.OperationEnum.EQUALS,
     value: '',
   },
-} as PagedRequestFilter;
+} as ReceiptPagedRequestFilter;
 
 // TODO: look into fixing date equals
 @State<ReceiptTableInterface>({

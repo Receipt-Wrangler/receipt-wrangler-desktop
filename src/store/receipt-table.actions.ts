@@ -1,5 +1,4 @@
-import { PagedRequestFilter } from '@receipt-wrangler/receipt-wrangler-core';
-
+import { ReceiptPagedRequestFilter } from '@receipt-wrangler/receipt-wrangler-core';
 import { ReceiptTableInterface } from '../interfaces';
 
 export class SetPage {
@@ -23,7 +22,7 @@ export class SetReceiptFilterData {
 export class SetReceiptFilter {
   static readonly type = '[ReceiptTable] Set Filter';
 
-  constructor(public data: PagedRequestFilter) {}
+  constructor(public data: ReceiptPagedRequestFilter) {}
 }
 
 export class ResetReceiptFilter {
