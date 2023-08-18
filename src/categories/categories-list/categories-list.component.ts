@@ -57,6 +57,10 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
     this.initTableData();
   }
 
+  public ngAfterViewInit(): void {
+    this.initTable();
+  }
+
   private initTableData(): void {
     this.getCategories();
   }
@@ -94,10 +98,6 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new SetSortDirection(sortState.direction));
 
     this.getCategories();
-  }
-
-  public ngAfterViewInit(): void {
-    this.initTable();
   }
 
   private initTable(): void {
