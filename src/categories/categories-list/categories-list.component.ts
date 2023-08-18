@@ -22,6 +22,7 @@ import { Store } from '@ngxs/store';
 import {
   Category,
   CategoryService,
+  CategoryView,
   PagedRequestCommand,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { Sort } from '@angular/material/sort';
@@ -34,12 +35,15 @@ import { Sort } from '@angular/material/sort';
 export class CategoriesListComponent implements OnInit, AfterViewInit {
   @ViewChild('nameCell') public nameCell!: TemplateRef<any>;
 
+  @ViewChild('numberOfReceiptsCell')
+  public numberOfReceiptsCell!: TemplateRef<any>;
+
   @ViewChild(TableComponent) public table!: TableComponent;
 
   constructor(private store: Store, private categoryService: CategoryService) {}
 
-  public dataSource: MatTableDataSource<Category> =
-    new MatTableDataSource<Category>([]);
+  public dataSource: MatTableDataSource<CategoryView> =
+    new MatTableDataSource<CategoryView>([]);
 
   public displayedColumns: string[] = [];
 
@@ -67,7 +71,9 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.dataSource = new MatTableDataSource<Category>(pagedData.data);
+          this.dataSource = new MatTableDataSource<CategoryView>(
+            pagedData.data
+          );
           this.totalCount = pagedData.totalCount;
         })
       )
@@ -106,10 +112,17 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
         template: this.nameCell,
         sortable: true,
       },
+      {
+        columnHeader: 'Number of Receipts with Category',
+        matColumnDef: 'numberOfReceipts',
+        template: this.numberOfReceiptsCell,
+        sortable: true,
+      },
     ];
 
     this.displayedColumns = [
       'name',
+      'numberOfReceipts',
       //'actions',
     ];
   }
