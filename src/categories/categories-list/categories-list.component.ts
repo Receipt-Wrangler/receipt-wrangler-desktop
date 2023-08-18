@@ -38,6 +38,9 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
   @ViewChild('numberOfReceiptsCell')
   public numberOfReceiptsCell!: TemplateRef<any>;
 
+  @ViewChild('actionsCell')
+  public actionsCell!: TemplateRef<any>;
+
   @ViewChild(TableComponent) public table!: TableComponent;
 
   constructor(private store: Store, private categoryService: CategoryService) {}
@@ -118,12 +121,16 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
         template: this.numberOfReceiptsCell,
         sortable: true,
       },
+      {
+        columnHeader: 'Number of Receipts with Category',
+        matColumnDef: 'actions',
+        template: this.actionsCell,
+        sortable: false,
+      },
     ];
 
-    this.displayedColumns = [
-      'name',
-      'numberOfReceipts',
-      //'actions',
-    ];
+    this.displayedColumns = ['name', 'numberOfReceipts', 'actions'];
   }
+
+  public openEditDialog(categoryView: CategoryView): void {}
 }
