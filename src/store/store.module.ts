@@ -27,7 +27,7 @@ import { CategoryTableState } from './category-table.state';
       UserState,
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
-      disabled: false,
+      disabled: true,
     }),
     NgxsStoragePluginModule.forRoot({
       key: ['groups', 'layout', 'receiptTable', 'categoryTable'],
