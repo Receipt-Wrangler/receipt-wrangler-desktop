@@ -1,0 +1,21 @@
+<app-table-header [headerText]="headerText"> </app-table-header>
+<div class="table-container">
+  <app-table
+    [columns]="columns"
+    [displayedColumns]="displayedColumns"
+    [dataSource]="dataSource"
+    [pagination]="true"
+    [length]="totalCount"
+    (sorted)="sorted($event)"
+    (pageChange)="updatePageData($event)"
+  ></app-table>
+</div>
+
+<ng-template #nameCell let-element="element">{{ element.name }} </ng-template>
+
+<ng-template #numberOfReceiptsCell let-element="element"
+  >{{ element.numberOfReceipts }}
+</ng-template>
+
+<ng-template #actionsCell let-element="element" let-index="index">
+</ng-template>

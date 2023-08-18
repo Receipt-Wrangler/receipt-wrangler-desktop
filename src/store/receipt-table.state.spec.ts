@@ -5,7 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import {
   PagedRequestField,
-  PagedRequestFilter,
+  ReceiptPagedRequestFilter,
   Receipt,
 } from '@receipt-wrangler/receipt-wrangler-core';
 
@@ -20,7 +20,7 @@ import { defaultReceiptFilter, ReceiptTableState } from './receipt-table.state';
 
 describe('ReceiptTableState', () => {
   let store: Store;
-  let filledFilter: PagedRequestFilter;
+  let filledFilter: ReceiptPagedRequestFilter;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
