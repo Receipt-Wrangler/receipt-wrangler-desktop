@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, StateContext, createSelector } from '@ngxs/store';
 import { PagedTableInterface } from 'src/interfaces/paged-table.interface';
 import {
+  SetOrderBy,
   SetPage,
   SetPageSize,
   SetPagedTableData,
+  SetSortDirection,
 } from './paged-table.state.actions';
 
 export class PagedTableState {
@@ -40,6 +42,26 @@ export class PagedTableState {
   ) {
     patchState({
       pageSize: payload.pageSize,
+    });
+  }
+
+  @Action(SetOrderBy)
+  setOrderBy(
+    { patchState }: StateContext<PagedTableInterface>,
+    payload: SetOrderBy
+  ) {
+    patchState({
+      orderBy: payload.orderBy,
+    });
+  }
+
+  @Action(SetSortDirection)
+  setSortDirection(
+    { patchState }: StateContext<PagedTableInterface>,
+    payload: SetSortDirection
+  ) {
+    patchState({
+      sortDirection: payload.sortDirection,
     });
   }
 

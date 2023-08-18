@@ -1,14 +1,30 @@
-import { take, tap } from "rxjs";
-import { CategoryTableState } from "src/store/category-table.state";
-import { TableColumn } from "src/table/table-column.interface";
-import { TableComponent } from "src/table/table/table.component";
-
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
-import { Store } from "@ngxs/store";
+import { take, tap } from 'rxjs';
+import { CategoryTableState } from 'src/store/category-table.state';
 import {
-  Category, CategoryService, PagedRequestCommand
-} from "@receipt-wrangler/receipt-wrangler-core";
+  SetOrderBy,
+  SetPage,
+  SetPageSize,
+  SetSortDirection,
+} from 'src/store/paged-table.state.actions';
+import { TableColumn } from 'src/table/table-column.interface';
+import { TableComponent } from 'src/table/table/table.component';
+
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { Store } from '@ngxs/store';
+import {
+  Category,
+  CategoryService,
+  PagedRequestCommand,
+} from '@receipt-wrangler/receipt-wrangler-core';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-categories-list',
@@ -51,12 +67,27 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          console.warn(pagedData);
           this.dataSource = new MatTableDataSource<Category>(pagedData.data);
           this.totalCount = pagedData.totalCount;
         })
       )
       .subscribe();
+  }
+
+  public updatePageData(pageEvent: PageEvent) {
+    const newPage = pageEvent.pageIndex + 1;
+
+    this.store.dispatch(new SetPage(newPage));
+    this.store.dispatch(new SetPageSize(pageEvent.pageSize));
+
+    this.getCategories();
+  }
+
+  public sorted(sortState: Sort): void {
+    this.store.dispatch(new SetOrderBy(sortState.active));
+    this.store.dispatch(new SetSortDirection(sortState.direction));
+
+    this.getCategories();
   }
 
   public ngAfterViewInit(): void {
@@ -65,7 +96,6 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
 
   private initTable(): void {
     this.setColumns();
-    this.setDataSource();
   }
 
   private setColumns(): void {
@@ -83,6 +113,4 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
       //'actions',
     ];
   }
-
-  private setDataSource(): void {}
 }

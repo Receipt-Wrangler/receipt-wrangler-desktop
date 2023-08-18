@@ -6,6 +6,8 @@
     [dataSource]="dataSource"
     [pagination]="true"
     [length]="totalCount"
+    (sorted)="sorted($event)"
+    (pageChange)="updatePageData($event)"
   ></app-table>
 </div>
 
