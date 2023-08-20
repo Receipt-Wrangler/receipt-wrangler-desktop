@@ -1,4 +1,4 @@
-import { switchMap, take, tap } from 'rxjs';
+import { of, switchMap, take, tap } from 'rxjs';
 import { CategoryTableState } from 'src/store/category-table.state';
 import {
   SetOrderBy,
@@ -29,6 +29,7 @@ import { Sort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryForm } from '../category-form/category-form.component';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
+import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-categories-list',
@@ -50,9 +51,10 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
   @ViewChild(TableComponent) public table!: TableComponent;
 
   constructor(
-    private store: Store,
     private categoryService: CategoryService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private snackbarService: SnackbarService,
+    private store: Store
   ) {}
 
   public dataSource: MatTableDataSource<CategoryView> =
@@ -166,6 +168,35 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
         tap((refreshData) => {
           if (refreshData) {
             this.getCategories();
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  public openDeleteConfirmationDialog(categoryView: CategoryView) {
+    const dialogRef = this.matDialog.open(
+      ConfirmationDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+
+    dialogRef.componentInstance.headerText = `Delete ${categoryView.name}`;
+    dialogRef.componentInstance.dialogContent = `Are you sure you want to delete ${categoryView.name}? This action is irreversiable and will this category from the receipts it is associated with.`;
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        switchMap((confirmed) => {
+          if (confirmed) {
+            return this.categoryService.deleteCategory(categoryView.id).pipe(
+              tap(() => {
+                this.snackbarService.success('Category successfully deleted');
+                this.getCategories();
+              })
+            );
+          } else {
+            return of(undefined);
           }
         })
       )

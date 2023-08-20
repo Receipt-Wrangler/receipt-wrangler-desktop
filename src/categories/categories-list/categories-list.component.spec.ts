@@ -16,6 +16,8 @@ import { CategoryTableState } from 'src/store/category-table.state';
 import { CategoriesListComponent } from './categories-list.component';
 import { CategoryForm } from '../category-form/category-form.component';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 
 describe('CategoriesListComponent', () => {
   let component: CategoriesListComponent;
@@ -30,6 +32,7 @@ describe('CategoriesListComponent', () => {
         HttpClientTestingModule,
         MatDialogModule,
         NgxsModule.forRoot([CategoryTableState]),
+        MatSnackBarModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
@@ -184,6 +187,56 @@ describe('CategoriesListComponent', () => {
 
     expect(dialogSpy).toHaveBeenCalledOnceWith(
       CategoryForm,
+      DEFAULT_DIALOG_CONFIG
+    );
+    expect(serviceSpy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should open confirmation dialog and refresh data when after closed with true', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    const deleteSpy = spyOn(TestBed.inject(CategoryService), 'deleteCategory');
+    deleteSpy.and.returnValue(of(undefined as any));
+    const serviceSpy = spyOn(
+      TestBed.inject(CategoryService),
+      'getPagedCategories'
+    );
+    dialogSpy.and.returnValue({
+      componentInstance: {
+        category: {},
+        headerText: '',
+      },
+      afterClosed: () => of(true),
+    } as any);
+
+    const categoryView: any = { id: 1 };
+    component.openDeleteConfirmationDialog(categoryView);
+
+    expect(dialogSpy).toHaveBeenCalledOnceWith(
+      ConfirmationDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+    expect(deleteSpy).toHaveBeenCalledWith(1);
+  });
+
+  it('should open confirmation dialog and not refresh data when after closed with false', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    const serviceSpy = spyOn(
+      TestBed.inject(CategoryService),
+      'getPagedCategories'
+    );
+    dialogSpy.and.returnValue({
+      componentInstance: {
+        category: {},
+        headerText: '',
+      },
+      afterClosed: () => of(false),
+    } as any);
+
+    const categoryView: any = {};
+    component.openDeleteConfirmationDialog(categoryView);
+
+    expect(dialogSpy).toHaveBeenCalledOnceWith(
+      ConfirmationDialogComponent,
       DEFAULT_DIALOG_CONFIG
     );
     expect(serviceSpy).toHaveBeenCalledTimes(0);
