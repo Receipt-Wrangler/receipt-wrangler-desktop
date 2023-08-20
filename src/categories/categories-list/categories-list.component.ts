@@ -20,7 +20,6 @@ import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import {
-  Category,
   CategoryService,
   CategoryView,
   PagedRequestCommand,
@@ -39,6 +38,9 @@ import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 export class CategoriesListComponent implements OnInit, AfterViewInit {
   @ViewChild('nameCell') public nameCell!: TemplateRef<any>;
 
+  @ViewChild('descriptionCell')
+  public descriptionCell!: TemplateRef<any>;
+
   @ViewChild('numberOfReceiptsCell')
   public numberOfReceiptsCell!: TemplateRef<any>;
 
@@ -50,8 +52,7 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
   constructor(
     private store: Store,
     private categoryService: CategoryService,
-    private matDialog: MatDialog,
-    private snackbarService: SnackbarService
+    private matDialog: MatDialog
   ) {}
 
   public dataSource: MatTableDataSource<CategoryView> =
@@ -131,14 +132,25 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
         sortable: true,
       },
       {
-        columnHeader: 'Number of Receipts with Category',
+        columnHeader: 'Description',
+        matColumnDef: 'description',
+        template: this.descriptionCell,
+        sortable: true,
+      },
+      {
+        columnHeader: 'Actions',
         matColumnDef: 'actions',
         template: this.actionsCell,
         sortable: false,
       },
     ];
 
-    this.displayedColumns = ['name', 'numberOfReceipts', 'actions'];
+    this.displayedColumns = [
+      'name',
+      'description',
+      'numberOfReceipts',
+      'actions',
+    ];
   }
 
   public openEditDialog(categoryView: CategoryView): void {
