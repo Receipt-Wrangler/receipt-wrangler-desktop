@@ -6,17 +6,25 @@ import { NgModule } from '@angular/core';
 
 import { CategoriesListComponent } from './categories-list/categories-list.component';
 import { CategoriesRoutingModule } from './categories-routing.module';
-import { DirectivesModule } from '@receipt-wrangler/receipt-wrangler-core';
+import {
+  DirectivesModule,
+  InputModule,
+  PipesModule,
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { EditCategoryDialogComponent } from './edit-category-dialog/edit-category-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [CategoriesListComponent, EditCategoryDialogComponent],
   imports: [
-    TableModule,
-    SharedUiModule,
-    CommonModule,
     CategoriesRoutingModule,
+    CommonModule,
     DirectivesModule,
+    InputModule,
+    PipesModule,
+    ReactiveFormsModule,
+    SharedUiModule,
+    TableModule,
   ],
 })
 export class CategoriesModule {}

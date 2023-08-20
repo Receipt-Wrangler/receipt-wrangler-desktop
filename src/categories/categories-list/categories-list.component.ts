@@ -154,11 +154,10 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
       .afterClosed()
       .pipe(
         take(1),
-        switchMap((category: Category) => {
-          return this.categoryService.updateCategory(category, categoryView.id);
-        }),
-        tap(() => {
-          this.snackbarService.success('Category updated successfully');
+        tap((refreshData) => {
+          if (refreshData) {
+            this.getCategories();
+          }
         })
       )
       .subscribe();

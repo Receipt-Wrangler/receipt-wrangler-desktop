@@ -1,6 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CategoryView } from '@receipt-wrangler/receipt-wrangler-core';
+import { MatDialogRef } from '@angular/material/dialog';
+import {
+  Category,
+  CategoryService,
+  CategoryView,
+  SnackbarService,
+} from '@receipt-wrangler/receipt-wrangler-core';
+import { take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-edit-category-dialog',
@@ -14,7 +21,12 @@ export class EditCategoryDialogComponent implements OnInit {
 
   public form: FormGroup = new FormGroup({});
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private matDialogRef: MatDialogRef<EditCategoryDialogComponent>,
+    private categoryService: CategoryService,
+    private snackService: SnackbarService
+  ) {}
 
   public ngOnInit(): void {
     this.initForm();
@@ -25,5 +37,29 @@ export class EditCategoryDialogComponent implements OnInit {
       name: [this.category?.name],
       description: [this.category?.description],
     });
+  }
+
+  public submit(): void {
+    if (this.form.valid) {
+      const category: Category = {
+        id: this.category?.id,
+        name: this.form.value.name,
+        description: this.form.value.description,
+      };
+      this.categoryService
+        .updateCategory(category, category.id as number)
+        .pipe(
+          take(1),
+          tap(() => {
+            this.snackService.success('Category updated successfully');
+            this.matDialogRef.close(true);
+          })
+        )
+        .subscribe();
+    }
+  }
+
+  public closeDialog(): void {
+    this.matDialogRef.close(false);
   }
 }
