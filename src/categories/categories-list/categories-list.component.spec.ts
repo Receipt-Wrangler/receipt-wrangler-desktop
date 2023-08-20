@@ -1,18 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CategoriesListComponent } from './categories-list.component';
-import { CategoryTableState } from 'src/store/category-table.state';
-import { NgxsModule } from '@ngxs/store';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { NgxsModule, Store } from '@ngxs/store';
 import {
   ApiModule,
   CategoryService,
-  CategoryView,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
-import { Store } from '@ngxs/store';
+import { CategoryTableState } from 'src/store/category-table.state';
+import { CategoriesListComponent } from './categories-list.component';
+import { CategoryForm } from '../edit-category-dialog/category-form.component';
+import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 
 describe('CategoriesListComponent', () => {
   let component: CategoriesListComponent;
@@ -23,9 +26,10 @@ describe('CategoriesListComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CategoriesListComponent],
       imports: [
-        NgxsModule.forRoot([CategoryTableState]),
         ApiModule,
         HttpClientTestingModule,
+        MatDialogModule,
+        NgxsModule.forRoot([CategoryTableState]),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
@@ -128,7 +132,60 @@ describe('CategoriesListComponent', () => {
   it('should set columns', () => {
     component.ngAfterViewInit();
 
-    expect(component.columns.length).toEqual(2);
-    expect(component.displayedColumns).toEqual(['name', 'numberOfReceipts']);
+    expect(component.columns.length).toEqual(4);
+    expect(component.displayedColumns).toEqual([
+      'name',
+      'description',
+      'numberOfReceipts',
+      'actions',
+    ]);
+  });
+
+  it('should open edit dialog and refresh data when after closed with true', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    const serviceSpy = spyOn(
+      TestBed.inject(CategoryService),
+      'getPagedCategories'
+    );
+    dialogSpy.and.returnValue({
+      componentInstance: {
+        category: {},
+        headerText: '',
+      },
+      afterClosed: () => of(true),
+    } as any);
+
+    const categoryView: any = {};
+    component.openEditDialog(categoryView);
+
+    expect(dialogSpy).toHaveBeenCalledOnceWith(
+      CategoryForm,
+      DEFAULT_DIALOG_CONFIG
+    );
+    expect(serviceSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should open edit dialog and not refresh data when after closed with false', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    const serviceSpy = spyOn(
+      TestBed.inject(CategoryService),
+      'getPagedCategories'
+    );
+    dialogSpy.and.returnValue({
+      componentInstance: {
+        category: {},
+        headerText: '',
+      },
+      afterClosed: () => of(false),
+    } as any);
+
+    const categoryView: any = {};
+    component.openEditDialog(categoryView);
+
+    expect(dialogSpy).toHaveBeenCalledOnceWith(
+      CategoryForm,
+      DEFAULT_DIALOG_CONFIG
+    );
+    expect(serviceSpy).toHaveBeenCalledTimes(0);
   });
 });
