@@ -11,11 +11,11 @@ import {
   InputModule,
   PipesModule,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { EditCategoryDialogComponent } from './edit-category-dialog/edit-category-dialog.component';
+import { CategoryForm } from './edit-category-dialog/category-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [CategoriesListComponent, EditCategoryDialogComponent],
+  declarations: [CategoriesListComponent, CategoryForm],
   imports: [
     CategoriesRoutingModule,
     CommonModule,

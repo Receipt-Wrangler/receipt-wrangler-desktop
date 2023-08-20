@@ -28,7 +28,7 @@ import {
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { Sort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { EditCategoryDialogComponent } from '../edit-category-dialog/edit-category-dialog.component';
+import { CategoryForm } from '../edit-category-dialog/category-form.component';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 
 @Component({
@@ -142,10 +142,7 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
   }
 
   public openEditDialog(categoryView: CategoryView): void {
-    const dialogRef = this.matDialog.open(
-      EditCategoryDialogComponent,
-      DEFAULT_DIALOG_CONFIG
-    );
+    const dialogRef = this.matDialog.open(CategoryForm, DEFAULT_DIALOG_CONFIG);
 
     dialogRef.componentInstance.category = categoryView;
     dialogRef.componentInstance.headerText = `Edit ${categoryView.name}`;

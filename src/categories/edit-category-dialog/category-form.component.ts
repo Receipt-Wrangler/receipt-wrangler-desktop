@@ -10,11 +10,11 @@ import {
 import { take, tap } from 'rxjs';
 
 @Component({
-  selector: 'app-edit-category-dialog',
-  templateUrl: './edit-category-dialog.component.html',
-  styleUrls: ['./edit-category-dialog.component.scss'],
+  selector: 'app-category-form',
+  templateUrl: './category-form.component.html',
+  styleUrls: ['./category-form.component.scss'],
 })
-export class EditCategoryDialogComponent implements OnInit {
+export class CategoryForm implements OnInit {
   @Input() public headerText: string = '';
 
   @Input() public category?: CategoryView;
@@ -23,7 +23,7 @@ export class EditCategoryDialogComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private matDialogRef: MatDialogRef<EditCategoryDialogComponent>,
+    private matDialogRef: MatDialogRef<CategoryForm>,
     private categoryService: CategoryService,
     private snackService: SnackbarService
   ) {}
