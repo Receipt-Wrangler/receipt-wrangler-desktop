@@ -1,4 +1,4 @@
-import { take, tap } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs';
 import { CategoryTableState } from 'src/store/category-table.state';
 import {
   SetOrderBy,
@@ -24,8 +24,12 @@ import {
   CategoryService,
   CategoryView,
   PagedRequestCommand,
+  SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { Sort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { EditCategoryDialogComponent } from '../edit-category-dialog/edit-category-dialog.component';
+import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 
 @Component({
   selector: 'app-categories-list',
@@ -43,7 +47,12 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
 
   @ViewChild(TableComponent) public table!: TableComponent;
 
-  constructor(private store: Store, private categoryService: CategoryService) {}
+  constructor(
+    private store: Store,
+    private categoryService: CategoryService,
+    private matDialog: MatDialog,
+    private snackbarService: SnackbarService
+  ) {}
 
   public dataSource: MatTableDataSource<CategoryView> =
     new MatTableDataSource<CategoryView>([]);
@@ -132,5 +141,26 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
     this.displayedColumns = ['name', 'numberOfReceipts', 'actions'];
   }
 
-  public openEditDialog(categoryView: CategoryView): void {}
+  public openEditDialog(categoryView: CategoryView): void {
+    const dialogRef = this.matDialog.open(
+      EditCategoryDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+
+    dialogRef.componentInstance.category = categoryView;
+    dialogRef.componentInstance.headerText = `Edit ${categoryView.name}`;
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        switchMap((category: Category) => {
+          return this.categoryService.updateCategory(category, categoryView.id);
+        }),
+        tap(() => {
+          this.snackbarService.success('Category updated successfully');
+        })
+      )
+      .subscribe();
+  }
 }

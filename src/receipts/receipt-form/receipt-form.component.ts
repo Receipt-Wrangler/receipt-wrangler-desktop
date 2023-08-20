@@ -408,7 +408,7 @@ export class ReceiptFormComponent implements OnInit {
     value: Category[] | Tag[],
     arrayToFilter: Category[] | Tag[]
   ): void {
-    const itemsToPush = arrayToFilter.filter((item) =>
+    const itemsToPush = (arrayToFilter as any[]).filter((item) =>
       value.map((foundItem) => foundItem.id)?.includes(item.id)
     );
     const itemsFormArray = this.form.get(formKey) as FormArray;

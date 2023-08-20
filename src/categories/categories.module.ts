@@ -7,9 +7,10 @@ import { NgModule } from '@angular/core';
 import { CategoriesListComponent } from './categories-list/categories-list.component';
 import { CategoriesRoutingModule } from './categories-routing.module';
 import { DirectivesModule } from '@receipt-wrangler/receipt-wrangler-core';
+import { EditCategoryDialogComponent } from './edit-category-dialog/edit-category-dialog.component';
 
 @NgModule({
-  declarations: [CategoriesListComponent],
+  declarations: [CategoriesListComponent, EditCategoryDialogComponent],
   imports: [
     TableModule,
     SharedUiModule,
