@@ -1,4 +1,4 @@
-import { take, tap } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs';
 import { CategoryTableState } from 'src/store/category-table.state';
 import {
   SetOrderBy,
@@ -20,12 +20,15 @@ import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import {
-  Category,
   CategoryService,
   CategoryView,
   PagedRequestCommand,
+  SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { Sort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { CategoryForm } from '../category-form/category-form.component';
+import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 
 @Component({
   selector: 'app-categories-list',
@@ -35,12 +38,22 @@ import { Sort } from '@angular/material/sort';
 export class CategoriesListComponent implements OnInit, AfterViewInit {
   @ViewChild('nameCell') public nameCell!: TemplateRef<any>;
 
+  @ViewChild('descriptionCell')
+  public descriptionCell!: TemplateRef<any>;
+
   @ViewChild('numberOfReceiptsCell')
   public numberOfReceiptsCell!: TemplateRef<any>;
 
+  @ViewChild('actionsCell')
+  public actionsCell!: TemplateRef<any>;
+
   @ViewChild(TableComponent) public table!: TableComponent;
 
-  constructor(private store: Store, private categoryService: CategoryService) {}
+  constructor(
+    private store: Store,
+    private categoryService: CategoryService,
+    private matDialog: MatDialog
+  ) {}
 
   public dataSource: MatTableDataSource<CategoryView> =
     new MatTableDataSource<CategoryView>([]);
@@ -118,12 +131,44 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
         template: this.numberOfReceiptsCell,
         sortable: true,
       },
+      {
+        columnHeader: 'Description',
+        matColumnDef: 'description',
+        template: this.descriptionCell,
+        sortable: true,
+      },
+      {
+        columnHeader: 'Actions',
+        matColumnDef: 'actions',
+        template: this.actionsCell,
+        sortable: false,
+      },
     ];
 
     this.displayedColumns = [
       'name',
+      'description',
       'numberOfReceipts',
-      //'actions',
+      'actions',
     ];
+  }
+
+  public openEditDialog(categoryView: CategoryView): void {
+    const dialogRef = this.matDialog.open(CategoryForm, DEFAULT_DIALOG_CONFIG);
+
+    dialogRef.componentInstance.category = categoryView;
+    dialogRef.componentInstance.headerText = `Edit ${categoryView.name}`;
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((refreshData) => {
+          if (refreshData) {
+            this.getCategories();
+          }
+        })
+      )
+      .subscribe();
   }
 }
