@@ -14,7 +14,7 @@ import {
 import { of } from 'rxjs';
 import { CategoryTableState } from 'src/store/category-table.state';
 import { CategoriesListComponent } from './categories-list.component';
-import { CategoryForm } from '../edit-category-dialog/category-form.component';
+import { CategoryForm } from '../category-form/category-form.component';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 
 describe('CategoriesListComponent', () => {

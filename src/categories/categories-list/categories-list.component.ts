@@ -27,7 +27,7 @@ import {
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { Sort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { CategoryForm } from '../edit-category-dialog/category-form.component';
+import { CategoryForm } from '../category-form/category-form.component';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 
 @Component({

@@ -11,7 +11,7 @@ import {
   InputModule,
   PipesModule,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { CategoryForm } from './edit-category-dialog/category-form.component';
+import { CategoryForm } from './category-form/category-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
