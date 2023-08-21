@@ -1,4 +1,6 @@
-<app-table-header [headerText]="headerText"> </app-table-header>
+<app-table-header [headerText]="headerText">
+  <app-add-button (clicked)="openAddDialog()"> </app-add-button>
+</app-table-header>
 <div class="table-container">
   <app-table
     [columns]="columns"

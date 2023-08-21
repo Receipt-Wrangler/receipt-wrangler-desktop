@@ -34,13 +34,13 @@ export class CategoryForm implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      name: [this.category?.name, Validators.required],
-      description: [this.category?.description],
+      name: [this.category?.name ?? '', Validators.required],
+      description: [this.category?.description ?? ''],
     });
   }
 
   public submit(): void {
-    if (this.form.valid) {
+    if (this.form.valid && this.category) {
       const category: Category = {
         id: this.category?.id,
         name: this.form.value.name,
@@ -52,6 +52,17 @@ export class CategoryForm implements OnInit {
           take(1),
           tap(() => {
             this.snackService.success('Category updated successfully');
+            this.matDialogRef.close(true);
+          })
+        )
+        .subscribe();
+    } else if (this.form.valid && !this.category) {
+      this.categoryService
+        .createCategory(this.form.value as Category)
+        .pipe(
+          take(1),
+          tap(() => {
+            this.snackService.success('Category created successfully');
             this.matDialogRef.close(true);
           })
         )
