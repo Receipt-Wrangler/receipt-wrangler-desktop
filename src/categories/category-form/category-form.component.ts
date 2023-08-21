@@ -7,7 +7,8 @@ import {
   CategoryView,
   SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { take, tap } from 'rxjs';
+import { of, take, tap } from 'rxjs';
+import { DuplicateValidator } from 'src/validators/duplicate-validator';
 
 @Component({
   selector: 'app-category-form',
@@ -25,7 +26,8 @@ export class CategoryForm implements OnInit {
     private formBuilder: FormBuilder,
     private matDialogRef: MatDialogRef<CategoryForm>,
     private categoryService: CategoryService,
-    private snackService: SnackbarService
+    private snackService: SnackbarService,
+    private duplicateValidator: DuplicateValidator
   ) {}
 
   public ngOnInit(): void {
@@ -33,8 +35,11 @@ export class CategoryForm implements OnInit {
   }
 
   private initForm(): void {
+    const name = this.category?.name ?? '';
+
+    const nameValidator = this.duplicateValidator.isUnique('category', 0, name);
     this.form = this.formBuilder.group({
-      name: [this.category?.name ?? '', Validators.required],
+      name: [name, Validators.required, nameValidator],
       description: [this.category?.description ?? ''],
     });
   }
