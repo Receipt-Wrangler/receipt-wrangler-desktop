@@ -1,0 +1,9 @@
+<app-button
+  class="me-2"
+  icon="add"
+  matButtonType="iconButton"
+  [tooltip]="tooltip ?? ''"
+  [disabled]="disabled"
+  [routerLink]="buttonRouterLink"
+  (clicked)="clicked.emit()"
+></app-button>
