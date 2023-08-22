@@ -30,6 +30,8 @@ import { SubmitButtonComponent } from './submit-button/submit-button.component';
 import { SummaryCardComponent } from './summary-card/summary-card.component';
 import { TableHeaderComponent } from './table-header/table-header.component';
 import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
+import { AddButtonComponent } from './add-button/add-button.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
     SubmitButtonComponent,
     SummaryCardComponent,
     TableHeaderComponent,
+    AddButtonComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -63,6 +66,7 @@ import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
     MatListModule,
     MatTableModule,
     PipesModule,
+    RouterModule,
     SelectModule,
   ],
   exports: [
@@ -83,6 +87,7 @@ import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
     SubmitButtonComponent,
     SummaryCardComponent,
     TableHeaderComponent,
+    AddButtonComponent,
   ],
 })
 export class SharedUiModule {}

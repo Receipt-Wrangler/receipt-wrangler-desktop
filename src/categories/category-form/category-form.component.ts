@@ -7,7 +7,8 @@ import {
   CategoryView,
   SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { take, tap } from 'rxjs';
+import { of, take, tap } from 'rxjs';
+import { DuplicateValidator } from 'src/validators/duplicate-validator';
 
 @Component({
   selector: 'app-category-form',
@@ -25,7 +26,8 @@ export class CategoryForm implements OnInit {
     private formBuilder: FormBuilder,
     private matDialogRef: MatDialogRef<CategoryForm>,
     private categoryService: CategoryService,
-    private snackService: SnackbarService
+    private snackService: SnackbarService,
+    private duplicateValidator: DuplicateValidator
   ) {}
 
   public ngOnInit(): void {
@@ -33,14 +35,17 @@ export class CategoryForm implements OnInit {
   }
 
   private initForm(): void {
+    const name = this.category?.name ?? '';
+
+    const nameValidator = this.duplicateValidator.isUnique('category', 0, name);
     this.form = this.formBuilder.group({
-      name: [this.category?.name, Validators.required],
-      description: [this.category?.description],
+      name: [name, Validators.required, nameValidator],
+      description: [this.category?.description ?? ''],
     });
   }
 
   public submit(): void {
-    if (this.form.valid) {
+    if (this.form.valid && this.category) {
       const category: Category = {
         id: this.category?.id,
         name: this.form.value.name,
@@ -52,6 +57,17 @@ export class CategoryForm implements OnInit {
           take(1),
           tap(() => {
             this.snackService.success('Category updated successfully');
+            this.matDialogRef.close(true);
+          })
+        )
+        .subscribe();
+    } else if (this.form.valid && !this.category) {
+      this.categoryService
+        .createCategory(this.form.value as Category)
+        .pipe(
+          take(1),
+          tap(() => {
+            this.snackService.success('Category created successfully');
             this.matDialogRef.close(true);
           })
         )

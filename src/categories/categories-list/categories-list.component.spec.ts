@@ -241,4 +241,50 @@ describe('CategoriesListComponent', () => {
     );
     expect(serviceSpy).toHaveBeenCalledTimes(0);
   });
+
+  it('should open add dialog and refresh data when after closed with true', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    const serviceSpy = spyOn(
+      TestBed.inject(CategoryService),
+      'getPagedCategories'
+    );
+    dialogSpy.and.returnValue({
+      componentInstance: {
+        category: {},
+        headerText: '',
+      },
+      afterClosed: () => of(true),
+    } as any);
+
+    component.openAddDialog();
+
+    expect(dialogSpy).toHaveBeenCalledOnceWith(
+      CategoryForm,
+      DEFAULT_DIALOG_CONFIG
+    );
+    expect(serviceSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should open add dialog and not refresh data when after closed with false', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    const serviceSpy = spyOn(
+      TestBed.inject(CategoryService),
+      'getPagedCategories'
+    );
+    dialogSpy.and.returnValue({
+      componentInstance: {
+        category: {},
+        headerText: '',
+      },
+      afterClosed: () => of(false),
+    } as any);
+
+    component.openAddDialog();
+
+    expect(dialogSpy).toHaveBeenCalledOnceWith(
+      CategoryForm,
+      DEFAULT_DIALOG_CONFIG
+    );
+    expect(serviceSpy).toHaveBeenCalledTimes(0);
+  });
 });

@@ -174,6 +174,24 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
+  public openAddDialog(): void {
+    const dialogRef = this.matDialog.open(CategoryForm, DEFAULT_DIALOG_CONFIG);
+
+    dialogRef.componentInstance.headerText = `Add category`;
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((refreshData) => {
+          if (refreshData) {
+            this.getCategories();
+          }
+        })
+      )
+      .subscribe();
+  }
+
   public openDeleteConfirmationDialog(categoryView: CategoryView) {
     const dialogRef = this.matDialog.open(
       ConfirmationDialogComponent,

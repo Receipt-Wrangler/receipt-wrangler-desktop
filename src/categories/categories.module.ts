@@ -13,6 +13,7 @@ import {
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { CategoryForm } from './category-form/category-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DuplicateValidator } from 'src/validators/duplicate-validator';
 
 @NgModule({
   declarations: [CategoriesListComponent, CategoryForm],
@@ -26,5 +27,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     SharedUiModule,
     TableModule,
   ],
+  providers: [DuplicateValidator],
 })
 export class CategoriesModule {}

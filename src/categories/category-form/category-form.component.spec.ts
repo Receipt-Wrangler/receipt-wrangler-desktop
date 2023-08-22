@@ -16,9 +16,10 @@ import {
   PipesModule,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ca } from 'date-fns/locale';
 import { of } from 'rxjs';
+import { DuplicateValidator } from 'src/validators/duplicate-validator';
 
 describe('CategoryForm', () => {
   let component: CategoryForm;
@@ -36,6 +37,7 @@ describe('CategoryForm', () => {
         ReactiveFormsModule,
       ],
       providers: [
+        DuplicateValidator,
         {
           provide: MatDialogRef,
           useValue: {
@@ -71,12 +73,16 @@ describe('CategoryForm', () => {
     });
   });
 
-  it('should submit form with correct data', () => {
+  it('should submit form with correct data, when editing', () => {
     const categoryServiceSpy = spyOn(
       TestBed.inject(CategoryService),
       'updateCategory'
     );
     categoryServiceSpy.and.returnValue(of({} as any));
+    const nameValidateSpy = spyOn(
+      TestBed.inject(CategoryService),
+      'getCategoryByName'
+    ).and.returnValue(of(0) as any);
     const category: CategoryView = {
       id: 1,
       name: 'test',
@@ -96,5 +102,29 @@ describe('CategoryForm', () => {
       },
       1
     );
+  });
+
+  it('should submit form with correct data, when creating', () => {
+    const nameValidateSpy = spyOn(
+      TestBed.inject(CategoryService),
+      'getCategoryByName'
+    ).and.returnValue(of(0) as any);
+    const categoryServiceSpy = spyOn(
+      TestBed.inject(CategoryService),
+      'createCategory'
+    );
+    categoryServiceSpy.and.returnValue(of({} as any));
+
+    component.ngOnInit();
+    component.form.patchValue({
+      name: 'test',
+      description: 'test',
+    });
+    component.submit();
+
+    expect(categoryServiceSpy).toHaveBeenCalledOnceWith({
+      name: 'test',
+      description: 'test',
+    });
   });
 });
