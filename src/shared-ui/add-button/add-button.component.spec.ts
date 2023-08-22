@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddButtonComponent } from './add-button.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 
 describe('AddButtonComponent', () => {
   let component: AddButtonComponent;
@@ -8,7 +10,9 @@ describe('AddButtonComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AddButtonComponent]
+      declarations: [AddButtonComponent],
+      imports: [MatButtonModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     fixture = TestBed.createComponent(AddButtonComponent);
     component = fixture.componentInstance;
