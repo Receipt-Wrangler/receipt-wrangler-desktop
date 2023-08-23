@@ -7,6 +7,7 @@ import { ColorPickerModule } from 'src/color-picker/color-picker.module';
 import {
   InputModule,
   PipesModule as CorePipesModule,
+  DirectivesModule,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
@@ -16,11 +17,16 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 
 @NgModule({
-  declarations: [SettingsComponent, UserProfileComponent, UserPreferencesComponent],
+  declarations: [
+    SettingsComponent,
+    UserProfileComponent,
+    UserPreferencesComponent,
+  ],
   imports: [
     ColorPickerModule,
     CommonModule,
     CorePipesModule,
+    DirectivesModule,
     InputModule,
     MatTabsModule,
     MatTooltipModule,

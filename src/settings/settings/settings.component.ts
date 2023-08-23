@@ -54,7 +54,7 @@ export class SettingsComponent implements OnInit {
 
   private setActiveTab(): void {
     const url = this.router.url;
-    const tab = this.tabs.find((t) => url.includes(t.routerLink));
+    const tab = this.tabs.find((t) => url.includes(t.routerLink.split('/')[0]));
     this.activeLink = tab ? tab.routerLink : this.tabs[0].routerLink;
   }
 }

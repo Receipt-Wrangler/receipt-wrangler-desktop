@@ -1,1 +1,34 @@
-<p>user-preferences works!</p>
+<app-form-header
+  [headerText]="formConfig.headerText"
+  [headerButtonsTemplate]="headerButtonsTemplate"
+></app-form-header>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="w-100">
+    <app-form-section
+      *appFeature="'aiPoweredReceipts'"
+      headerText="Quick scan defaults"
+    >
+      <app-group-autocomplete
+        [inputFormControl]="form | formGet : 'quickScanDefaultGroupId'"
+      >
+      </app-group-autocomplete>
+      <app-status-select
+        [inputFormControl]="form | formGet : 'quickScanDefaultStatus'"
+      ></app-status-select>
+    </app-form-section>
+  </div>
+  <app-form-button-bar [mode]="formConfig.mode">
+    <app-submit-button
+      *ngIf="!(formConfig.mode | inputReadonly)"
+      [onlyIcon]="false"
+    ></app-submit-button>
+  </app-form-button-bar>
+</form>
+
+<ng-template #headerButtonsTemplate>
+  <app-edit-button
+    *ngIf="formConfig.mode | inputReadonly"
+    [buttonRouterLink]="['/settings/user-preferences/edit']"
+  >
+  </app-edit-button>
+</ng-template>
