@@ -13,9 +13,10 @@ import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings/settings.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 
 @NgModule({
-  declarations: [SettingsComponent, UserProfileComponent],
+  declarations: [SettingsComponent, UserProfileComponent, UserPreferencesComponent],
   imports: [
     ColorPickerModule,
     CommonModule,

@@ -4,6 +4,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { FormConfig } from 'src/interfaces';
+import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,26 @@ const routes: Routes = [
           formConfig: {
             mode: FormMode.edit,
             headerText: 'Edit User Profile',
+          } as FormConfig,
+        },
+      },
+      {
+        path: 'user-preferences/view',
+        component: UserPreferencesComponent,
+        data: {
+          formConfig: {
+            mode: FormMode.view,
+            headerText: 'View User Preferences',
+          } as FormConfig,
+        },
+      },
+      {
+        path: 'user-preferences/edit',
+        component: UserPreferencesComponent,
+        data: {
+          formConfig: {
+            mode: FormMode.edit,
+            headerText: 'Edit User Preferences',
           } as FormConfig,
         },
       },
