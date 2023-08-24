@@ -15,6 +15,7 @@ import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings/settings.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
+import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { UserPreferencesComponent } from './user-preferences/user-preferences.co
     ReactiveFormsModule,
     SettingsRoutingModule,
     SharedUiModule,
+    UserAutocompleteModule,
   ],
 })
 export class SettingsModule {}

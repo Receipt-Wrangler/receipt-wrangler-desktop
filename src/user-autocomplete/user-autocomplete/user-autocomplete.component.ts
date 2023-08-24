@@ -34,6 +34,8 @@ export class UserAutocompleteComponent implements OnInit, OnChanges {
 
   @Input() public optionValueKey?: string;
 
+  @Input() public groupId?: number;
+
   public users: User[] = [];
 
   public ngOnChanges(changes: SimpleChanges): void {

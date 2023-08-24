@@ -28,6 +28,7 @@ export class UserPreferencesComponent implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
+      quickScanDefaultPaidById: '',
       quickScanDefaultGroupId: '',
       quickScanDefaultStatus: '',
     });
