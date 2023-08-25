@@ -35,26 +35,28 @@ describe('GroupMemberUserService', () => {
           },
         ],
       },
-      groups: [
-        {
-          name: 'Group 1',
-          id: 1,
-          groupMembers: [
-            {
-              userId: 1,
-              groupId: 1,
-            },
-            {
-              userId: 2,
-              groupId: 1,
-            },
-            {
-              userId: 3,
-              groupId: 1,
-            },
-          ],
-        },
-      ],
+      groups: {
+        groups: [
+          {
+            name: 'Group 1',
+            id: 1,
+            groupMembers: [
+              {
+                userId: 1,
+                groupId: 1,
+              },
+              {
+                userId: 2,
+                groupId: 1,
+              },
+              {
+                userId: 3,
+                groupId: 1,
+              },
+            ],
+          },
+        ],
+      },
     });
 
     const users = service.getUsersInGroup('1');
@@ -69,5 +71,18 @@ describe('GroupMemberUserService', () => {
         id: 3,
       },
     ] as any);
+  });
+
+  it('should return empty array if the group is invalid', () => {
+    const store = TestBed.inject(Store);
+    store.reset({
+      users: {},
+      groups: {
+        groups: [],
+      },
+    });
+
+    const users = service.getUsersInGroup('1');
+    expect(users).toEqual([]);
   });
 });

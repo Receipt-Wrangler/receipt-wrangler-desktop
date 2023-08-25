@@ -19,8 +19,6 @@ export class GroupMemberUserService {
       .selectSnapshot(GroupState.allGroupMembers)
       .filter((gm) => gm.groupId.toString() === groupId.toString());
 
-    console.warn('groupMembers', groupMembers);
-
     groupMembers.forEach((gm) => {
       const user = this.store.selectSnapshot(
         UserState.findUserById(gm.userId.toString())
