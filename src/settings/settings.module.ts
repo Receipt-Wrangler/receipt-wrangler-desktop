@@ -7,19 +7,27 @@ import { ColorPickerModule } from 'src/color-picker/color-picker.module';
 import {
   InputModule,
   PipesModule as CorePipesModule,
+  DirectivesModule,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings/settings.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
+import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
 
 @NgModule({
-  declarations: [SettingsComponent, UserProfileComponent],
+  declarations: [
+    SettingsComponent,
+    UserProfileComponent,
+    UserPreferencesComponent,
+  ],
   imports: [
     ColorPickerModule,
     CommonModule,
     CorePipesModule,
+    DirectivesModule,
     InputModule,
     MatTabsModule,
     MatTooltipModule,
@@ -27,6 +35,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     ReactiveFormsModule,
     SettingsRoutingModule,
     SharedUiModule,
+    UserAutocompleteModule,
   ],
 })
 export class SettingsModule {}

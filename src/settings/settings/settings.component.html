@@ -1,12 +1,12 @@
 <nav mat-tab-nav-bar [tabPanel]="tabPanel">
   <a
     mat-tab-link
-    *ngFor="let link of links"
-    (click)="activeLink = link"
-    [active]="activeLink == link"
-    [routerLink]="['user-profile']"
+    *ngFor="let tab of tabs"
+    routerLinkActive="active"
+    [active]="tab.routerLink === activeLink"
+    [routerLink]="[tab.routerLink]"
   >
-    {{ link }}
+    {{ tab.label }}
   </a>
 </nav>
 <mat-tab-nav-panel #tabPanel>

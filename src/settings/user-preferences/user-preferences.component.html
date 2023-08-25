@@ -1,0 +1,42 @@
+<app-form-header
+  [headerText]="formConfig.headerText"
+  [headerButtonsTemplate]="headerButtonsTemplate"
+></app-form-header>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="w-100">
+    <app-form-section
+      *appFeature="'aiPoweredReceipts'"
+      headerText="Quick scan defaults"
+    >
+      <app-group-autocomplete
+        label="Default Group"
+        [inputFormControl]="form | formGet : 'quickScanDefaultGroupId'"
+      >
+      </app-group-autocomplete>
+      <app-user-autocomplete
+        label="Default Paid By"
+        [inputFormControl]="form | formGet : 'quickScanDefaultPaidById'"
+        [groupId]="form.get('quickScanDefaultGroupId')?.value"
+        [selectGroupMembersOnly]="true"
+      ></app-user-autocomplete>
+      <app-status-select
+        aria-label="Default Status"
+        [inputFormControl]="form | formGet : 'quickScanDefaultStatus'"
+      ></app-status-select>
+    </app-form-section>
+  </div>
+  <app-form-button-bar [mode]="formConfig.mode">
+    <app-submit-button
+      *ngIf="!(formConfig.mode | inputReadonly)"
+      [onlyIcon]="false"
+    ></app-submit-button>
+  </app-form-button-bar>
+</form>
+
+<ng-template #headerButtonsTemplate>
+  <app-edit-button
+    *ngIf="formConfig.mode | inputReadonly"
+    [buttonRouterLink]="['/settings/user-preferences/edit']"
+  >
+  </app-edit-button>
+</ng-template>
