@@ -55,6 +55,11 @@ export class UserPreferencesComponent implements OnInit {
 
   public submit(): void {
     if (this.form.valid) {
+      const result = this.form.value;
+      if (result.quickScanDefaultPaidById === '') {
+        result.quickScanDefaultPaidById = null;
+      }
+
       this.userPreferencesService
         .updateUserPreferences(this.form.value)
         .pipe(
