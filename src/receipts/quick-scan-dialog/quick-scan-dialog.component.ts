@@ -49,10 +49,22 @@ export class QuickScanDialogComponent implements OnInit {
       selectedGroupId = undefined;
     }
     const userId = this.store.selectSnapshot(AuthState.userId);
+    const userPreferences = this.store.selectSnapshot(
+      AuthState.userPreferences
+    );
     this.form = this.formBuilder.group({
-      paidByUserId: [userId, Validators.required],
-      status: [Receipt.StatusEnum.OPEN, Validators.required],
-      groupId: [selectedGroupId, Validators.required],
+      paidByUserId: [
+        userPreferences?.quickScanDefaultPaidById ?? userId,
+        Validators.required,
+      ],
+      status: [
+        userPreferences?.quickScanDefaultStatus ?? Receipt.StatusEnum.OPEN,
+        Validators.required,
+      ],
+      groupId: [
+        userPreferences?.quickScanDefaultGroupId ?? selectedGroupId,
+        Validators.required,
+      ],
     });
   }
 
