@@ -1,6 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngxs/store';
+import {
+  AuthState,
+  SetUserPreferences,
+  SnackbarService,
+  UserPreferences,
+  UserPreferencesService,
+} from '@receipt-wrangler/receipt-wrangler-core';
+import { take, tap } from 'rxjs';
 import { FormMode } from 'src/enums/form-mode.enum';
 import { FormConfig } from 'src/interfaces';
 
@@ -18,7 +27,10 @@ export class UserPreferencesComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private store: Store,
+    private snackbarService: SnackbarService,
+    private userPreferencesService: UserPreferencesService
   ) {}
 
   public ngOnInit(): void {
@@ -27,15 +39,30 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   private initForm(): void {
+    const userPreferences = this.store.selectSnapshot(
+      AuthState.userPreferences
+    );
     this.form = this.formBuilder.group({
-      quickScanDefaultPaidById: '',
-      quickScanDefaultGroupId: '',
-      quickScanDefaultStatus: '',
+      quickScanDefaultPaidById: userPreferences?.quickScanDefaultPaidById ?? '',
+      quickScanDefaultGroupId: userPreferences?.quickScanDefaultGroupId ?? '',
+      quickScanDefaultStatus: userPreferences?.quickScanDefaultStatus ?? '',
     });
   }
 
   public submit(): void {
     if (this.form.valid) {
+      this.userPreferencesService
+        .updateUserPreferences(this.form.value)
+        .pipe(
+          take(1),
+          tap((updatedUserPreferences) => {
+            this.snackbarService.success(
+              'User preferences successfully updated'
+            );
+            this.store.dispatch(new SetUserPreferences(updatedUserPreferences));
+          })
+        )
+        .subscribe();
     }
   }
 }
