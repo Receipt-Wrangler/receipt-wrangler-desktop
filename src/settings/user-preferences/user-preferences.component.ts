@@ -47,6 +47,10 @@ export class UserPreferencesComponent implements OnInit {
       quickScanDefaultGroupId: userPreferences?.quickScanDefaultGroupId ?? '',
       quickScanDefaultStatus: userPreferences?.quickScanDefaultStatus ?? '',
     });
+
+    if (this.formConfig.mode === FormMode.view) {
+      this.form.get('quickScanDefaultStatus')?.disable();
+    }
   }
 
   public submit(): void {

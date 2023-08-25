@@ -11,6 +11,7 @@
       <app-group-autocomplete
         label="Default Group"
         [inputFormControl]="form | formGet : 'quickScanDefaultGroupId'"
+        [readonly]="formConfig.mode | inputReadonly"
       >
       </app-group-autocomplete>
       <app-user-autocomplete
@@ -18,10 +19,12 @@
         [inputFormControl]="form | formGet : 'quickScanDefaultPaidById'"
         [groupId]="form.get('quickScanDefaultGroupId')?.value"
         [selectGroupMembersOnly]="true"
+        [readonly]="formConfig.mode | inputReadonly"
       ></app-user-autocomplete>
       <app-status-select
         aria-label="Default Status"
         [inputFormControl]="form | formGet : 'quickScanDefaultStatus'"
+        [readonly]="true"
       ></app-status-select>
     </app-form-section>
   </div>
