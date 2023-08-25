@@ -54,15 +54,15 @@ export class QuickScanDialogComponent implements OnInit {
     );
     this.form = this.formBuilder.group({
       paidByUserId: [
-        userPreferences?.quickScanDefaultPaidById ?? userId,
+        userPreferences?.quickScanDefaultPaidById ?? undefined,
         Validators.required,
       ],
       status: [
-        userPreferences?.quickScanDefaultStatus ?? Receipt.StatusEnum.OPEN,
+        userPreferences?.quickScanDefaultStatus ?? undefined,
         Validators.required,
       ],
       groupId: [
-        userPreferences?.quickScanDefaultGroupId ?? selectedGroupId,
+        userPreferences?.quickScanDefaultGroupId ?? undefined,
         Validators.required,
       ],
     });
