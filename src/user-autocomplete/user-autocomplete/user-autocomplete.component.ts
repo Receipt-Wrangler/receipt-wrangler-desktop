@@ -9,15 +9,24 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { User, UserState } from '@receipt-wrangler/receipt-wrangler-core';
+import {
+  GroupState,
+  User,
+  UserState,
+} from '@receipt-wrangler/receipt-wrangler-core';
+import { GroupMemberUserService } from 'src/services/group-member-user.service';
 
 @Component({
   selector: 'app-user-autocomplete',
   templateUrl: './user-autocomplete.component.html',
   styleUrls: ['./user-autocomplete.component.scss'],
+  providers: [GroupMemberUserService],
 })
 export class UserAutocompleteComponent implements OnInit, OnChanges {
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private groupMemberUserService: GroupMemberUserService
+  ) {}
 
   @ViewChild(AutocomleteComponent)
   public autocompleteComponent!: AutocomleteComponent;
@@ -34,13 +43,28 @@ export class UserAutocompleteComponent implements OnInit, OnChanges {
 
   @Input() public optionValueKey?: string;
 
-  @Input() public groupId?: number;
+  @Input() public groupId?: string;
+
+  @Input() public selectGroupMembersOnly: boolean = false;
 
   public users: User[] = [];
 
   public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['groupId']) {
+      this.updateValueOnGroupChange(changes['groupId'].currentValue);
+    }
+
     if (changes['usersToOmit']) {
       this.filterUsers();
+    }
+  }
+
+  private updateValueOnGroupChange(groupId?: string): void {
+    if (groupId) {
+      this.users = this.groupMemberUserService.getUsersInGroup(groupId);
+    } else {
+      this.users = [];
+      this.autocompleteComponent?.clearFilter();
     }
   }
 

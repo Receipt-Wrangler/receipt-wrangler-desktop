@@ -7,7 +7,7 @@
   [options]="users"
   [optionTemplate]="optionTemplate"
   [multiple]="true"
-  [readonly]="readonly"
+  [readonly]="readonly || (selectGroupMembersOnly && !groupId)"
   [optionValueKey]="optionValueKey ?? ''"
 ></app-autocomlete>
 
@@ -21,7 +21,7 @@
   [options]="users"
   [optionTemplate]="optionTemplate"
   [displayWith]="displayWith.bind(this)"
-  [readonly]="readonly"
+  [readonly]="readonly || (selectGroupMembersOnly && !groupId)"
 ></app-autocomlete>
 
 <ng-template #optionTemplate let-option="option"

@@ -8,15 +8,17 @@
       *appFeature="'aiPoweredReceipts'"
       headerText="Quick scan defaults"
     >
-      <app-user-autocomplete
-        label="Default Paid By"
-        [inputFormControl]="form | formGet : 'quickScanDefaultPaidById'"
-      ></app-user-autocomplete>
       <app-group-autocomplete
         label="Default Group"
         [inputFormControl]="form | formGet : 'quickScanDefaultGroupId'"
       >
       </app-group-autocomplete>
+      <app-user-autocomplete
+        label="Default Paid By"
+        [inputFormControl]="form | formGet : 'quickScanDefaultPaidById'"
+        [groupId]="form.get('quickScanDefaultGroupId')?.value"
+        [selectGroupMembersOnly]="true"
+      ></app-user-autocomplete>
       <app-status-select
         aria-label="Default Status"
         [inputFormControl]="form | formGet : 'quickScanDefaultStatus'"
