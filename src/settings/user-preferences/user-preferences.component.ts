@@ -47,10 +47,19 @@ export class UserPreferencesComponent implements OnInit {
       quickScanDefaultGroupId: userPreferences?.quickScanDefaultGroupId ?? '',
       quickScanDefaultStatus: userPreferences?.quickScanDefaultStatus ?? '',
     });
+
+    if (this.formConfig.mode === FormMode.view) {
+      this.form.get('quickScanDefaultStatus')?.disable();
+    }
   }
 
   public submit(): void {
     if (this.form.valid) {
+      const result = this.form.value;
+      if (result.quickScanDefaultPaidById === '') {
+        result.quickScanDefaultPaidById = null;
+      }
+
       this.userPreferencesService
         .updateUserPreferences(this.form.value)
         .pipe(
