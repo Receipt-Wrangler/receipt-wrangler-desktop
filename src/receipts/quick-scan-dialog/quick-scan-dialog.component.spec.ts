@@ -72,12 +72,24 @@ describe('QuickScanDialogComponent', () => {
   });
 
   it('should init form correctly', () => {
+    component.ngOnInit();
+
+    expect(component.form.value).toEqual({
+      paidByUserId: null,
+      status: null,
+      groupId: null,
+    });
+  });
+
+  it('should init form correctly with user preferences', () => {
+    component.ngOnInit();
     store.reset({
       auth: {
-        userId: 1,
-      },
-      groups: {
-        selectedGroupId: 1,
+        userPreferences: {
+          quickScanDefaultPaidById: 1,
+          quickScanDefaultStatus: Receipt.StatusEnum.OPEN,
+          quickScanDefaultGroupId: 1,
+        },
       },
     });
 
@@ -91,20 +103,11 @@ describe('QuickScanDialogComponent', () => {
   });
 
   it('should init form correctly in all group', () => {
-    store.reset({
-      auth: {
-        userId: 1,
-      },
-      groups: {
-        selectedGroupId: 'all',
-      },
-    });
-
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
-      paidByUserId: 1,
-      status: Receipt.StatusEnum.OPEN,
+      paidByUserId: null,
+      status: null,
       groupId: null,
     });
   });

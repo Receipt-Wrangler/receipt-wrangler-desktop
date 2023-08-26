@@ -15,10 +15,10 @@ export class StatusSelectComponent implements OnChanges {
 
   @Input() public addBlankOption: boolean = false;
 
-  public receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
+  public receiptStatusOptions = [...RECEIPT_STATUS_OPTIONS];
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['addBlankOption'].currentValue) {
+    if (changes['addBlankOption']?.currentValue) {
       this.receiptStatusOptions.unshift({
         value: null,
         displayValue: '',
