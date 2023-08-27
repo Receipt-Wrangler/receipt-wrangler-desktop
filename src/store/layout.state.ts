@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import {
-  HideShowProgressBar,
+  HideProgressBar,
   ShowProgressBar,
   ToggleIsSidebarOpen,
   ToggleShowProgressBar,
@@ -51,7 +51,7 @@ export class LayoutState {
     });
   }
 
-  @Action(HideShowProgressBar)
+  @Action(HideProgressBar)
   hideProgressBar({ patchState }: StateContext<LayoutStateInterface>) {
     patchState({
       showProgressBar: false,

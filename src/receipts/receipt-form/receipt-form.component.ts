@@ -55,7 +55,7 @@ import {
 
 import { addHours } from 'date-fns';
 import {
-  HideShowProgressBar,
+  HideProgressBar,
   ShowProgressBar,
 } from 'src/store/layout.state.actions';
 import { ItemListComponent } from '../item-list/item-list.component';
@@ -342,7 +342,7 @@ export class ReceiptFormComponent implements OnInit {
         tap((magicFilledReceipt) => {
           this.patchMagicValues(magicFilledReceipt);
         }),
-        finalize(() => this.store.dispatch(new HideShowProgressBar()))
+        finalize(() => this.store.dispatch(new HideProgressBar()))
       )
       .subscribe();
   }

@@ -8,7 +8,7 @@ export class ToggleShowProgressBar {
   constructor() {}
 }
 
-export class HideShowProgressBar {
+export class HideProgressBar {
   static readonly type = '[Layout] Hide progressBar';
   constructor() {}
 }
