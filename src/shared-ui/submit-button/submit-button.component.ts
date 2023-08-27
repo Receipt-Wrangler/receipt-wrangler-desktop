@@ -36,7 +36,7 @@ export class SubmitButtonComponent
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['disableOnLoading'].currentValue) {
+    if (changes['disableOnLoading']?.currentValue) {
       this.disabledSubscription = this.store
         .select(LayoutState.showProgressBar)
         .pipe(
