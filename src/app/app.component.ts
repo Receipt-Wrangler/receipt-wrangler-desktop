@@ -6,7 +6,7 @@ import {
   AuthService,
   AuthState,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { HideShowProgressBar } from 'src/store/layout.state.actions';
+import { HideProgressBar } from 'src/store/layout.state.actions';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.store.dispatch(new HideShowProgressBar());
+    this.store.dispatch(new HideProgressBar());
     this.listenForNavigationStart();
   }
 
