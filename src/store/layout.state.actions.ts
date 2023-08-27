@@ -12,3 +12,8 @@ export class HideShowProgressBar {
   static readonly type = '[Layout] Hide progressBar';
   constructor() {}
 }
+
+export class ShowProgressBar {
+  static readonly type = '[Layout] Show progressBar';
+  constructor() {}
+}

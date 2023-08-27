@@ -53,7 +53,11 @@ import {
   UserState,
 } from '@receipt-wrangler/receipt-wrangler-core';
 
-import { addHours, format } from 'date-fns';
+import { addHours } from 'date-fns';
+import {
+  HideShowProgressBar,
+  ShowProgressBar,
+} from 'src/store/layout.state.actions';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { formatImageData } from '../utils/form.utils';
@@ -329,13 +333,16 @@ export class ReceiptFormComponent implements OnInit {
       };
     }
 
+    this.store.dispatch(new ShowProgressBar());
+
     this.receiptImageService
       .magicFillReceipt(data, receiptImageId)
       .pipe(
         take(1),
         tap((magicFilledReceipt) => {
           this.patchMagicValues(magicFilledReceipt);
-        })
+        }),
+        finalize(() => this.store.dispatch(new HideShowProgressBar()))
       )
       .subscribe();
   }
