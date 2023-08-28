@@ -44,3 +44,18 @@
     (cancelClicked)="cancelButtonClicked()"
   ></app-dialog-footer>
 </app-dialog>
+
+<ng-template #successfullScanSnackbar>
+  <div class="d-flex justify-content-end align-items-center">
+    <span class="me-4">
+      Receipt successfully scan. Click navigate to view scanned receipt.
+    </span>
+    <app-button
+      buttonText="Navigate"
+      matButtonType="basic"
+      color="secondary"
+      [buttonRouterLink]="['/receipts/' + quickScannedReceiptId + '/view']"
+      (clicked)="closeSnackbar()"
+    ></app-button>
+  </div>
+</ng-template>

@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EmbeddedViewRef,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
@@ -15,6 +21,7 @@ import { finalize, take, tap } from 'rxjs';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 import { binaryStringToBinaryArray } from '../utils/form.utils';
 import { ToggleShowProgressBar } from 'src/store/layout.state.actions';
+import { MatSnackBarRef } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-quick-scan-dialog',
@@ -25,9 +32,16 @@ export class QuickScanDialogComponent implements OnInit {
   @ViewChild(UploadImageComponent)
   public uploadImageComponent!: UploadImageComponent;
 
+  @ViewChild('successfullScanSnackbar')
+  public successfullScanSnackbarTemplate!: TemplateRef<any>;
+
   public form: FormGroup = new FormGroup({});
 
   public images: FileData[] = [];
+
+  public quickScannedReceiptId: number = 0;
+
+  public snackbarRef!: MatSnackBarRef<EmbeddedViewRef<any>>;
 
   constructor(
     private dialogRef: MatDialogRef<QuickScanDialogComponent>,
@@ -89,8 +103,12 @@ export class QuickScanDialogComponent implements OnInit {
         .pipe(
           take(1),
           tap((receipt) => {
-            this.snackbarService.success(
-              `${receipt.name} receipt successfully scanned`
+            this.quickScannedReceiptId = receipt.id;
+            this.snackbarRef = this.snackbarService.successFromTemplate(
+              this.successfullScanSnackbarTemplate,
+              {
+                duration: 8000,
+              }
             );
             this.dialogRef.close();
           }),
@@ -120,5 +138,9 @@ export class QuickScanDialogComponent implements OnInit {
 
   public cancelButtonClicked(): void {
     this.dialogRef.close();
+  }
+
+  public closeSnackbar(): void {
+    this.snackbarRef.dismiss();
   }
 }
