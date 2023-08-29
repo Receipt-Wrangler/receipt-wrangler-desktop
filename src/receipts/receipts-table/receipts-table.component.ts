@@ -114,6 +114,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public firstSort: boolean = true;
 
+  public actionTooltipText: string =
+    'You need to be an owner or editor of the group to perform this action.';
+
   public ngOnInit(): void {
     this.numFiltersApplied = this.store
       .select(ReceiptTableState.numFiltersApplied)
@@ -144,7 +147,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
           this.dataSource = new MatTableDataSource<Receipt>(pagedData.data);
           this.totalCount = pagedData.totalCount;
           this.setColumns();
-          this.setActionsColumnDisplay();
         })
       )
       .subscribe();
@@ -231,6 +233,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       'tags',
       'status',
       'resolvedDate',
+      'actions',
     ];
     const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
     const orderByIndex = columns.findIndex(
@@ -244,20 +247,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     }
 
     this.columns = columns;
-  }
-
-  private setActionsColumnDisplay(): void {
-    if (this.groupId === ALL_GROUP) {
-    } else {
-      const groupIdNumber = Number.parseInt(this.groupId);
-      const hasAccess = this.groupUtil.hasGroupAccess(
-        groupIdNumber,
-        GroupMember.GroupRoleEnum.EDITOR
-      );
-      if (hasAccess) {
-        this.displayedColumns.push('actions');
-      }
-    }
   }
 
   public sort(sortState: Sort): void {

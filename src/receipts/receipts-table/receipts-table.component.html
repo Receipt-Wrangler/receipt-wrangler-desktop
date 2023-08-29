@@ -108,6 +108,7 @@
     <app-edit-button
       color="accent"
       [buttonRouterLink]="['/receipts/' + element.id + '/edit']"
+      [disabled]="!(element.groupId | groupRole : groupRole.EDITOR)"
     ></app-edit-button>
     <app-button
       matButtonType="iconButton"
@@ -115,6 +116,7 @@
       tooltip="Duplciate"
       color="accent"
       (clicked)="duplicateReceipt(element.id)"
+      [disabled]="!(element.groupId | groupRole : groupRole.EDITOR)"
     ></app-button>
     <app-button
       matButtonType="iconButton"
@@ -123,6 +125,7 @@
       color="warn"
       tooltip="Delete"
       (clicked)="deleteReceipt(element)"
+      [disabled]="!(element.groupId | groupRole : groupRole.EDITOR)"
     ></app-button>
   </div>
 </ng-template>
