@@ -29,21 +29,22 @@ export class SubmitButtonComponent
 
   public disabledSubscription!: Subscription;
 
-  public originalDisabledState: boolean = false;
+  public originalDisabledState: boolean = this.disabled;
 
   constructor(private store: Store) {
     super();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['disableOnLoading']?.currentValue) {
+    this.originalDisabledState = this.disabled;
+
+    if (changes['disableOnLoading']?.currentValue || changes['disabled']) {
       this.disabledSubscription = this.store
         .select(LayoutState.showProgressBar)
         .pipe(
           startWith(this.store.selectSnapshot(LayoutState.showProgressBar)),
           tap((isShown) => {
             if (isShown) {
-              this.originalDisabledState = this.disabled;
               this.disabled = true;
             } else {
               this.disabled = this.originalDisabledState;
