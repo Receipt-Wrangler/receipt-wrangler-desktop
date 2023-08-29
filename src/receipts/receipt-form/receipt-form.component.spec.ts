@@ -77,6 +77,8 @@ describe('ReceiptFormComponent', () => {
   });
 
   it('should patch magic fill values correctly', () => {
+    // Mock timezone offset to be EST
+    Date.prototype.getTimezoneOffset = () => 240;
     component.images = [{ id: 1 } as any];
     component.ngOnInit();
     component.carouselComponent = {
@@ -94,7 +96,7 @@ describe('ReceiptFormComponent', () => {
     const magicReceipt = {
       name: 'magic',
       amount: '482.32',
-      date: '2023-08-05T04:09:12.316Z',
+      date: '2023-08-05T00:00:00.000Z',
       categories: [{ id: 1 } as any],
       tags: [
         {
@@ -121,7 +123,7 @@ describe('ReceiptFormComponent', () => {
 
     expect(receiptValue.name).toEqual(magicReceipt.name);
     expect(receiptValue.amount).toEqual(magicReceipt.amount);
-    expect(receiptValue.date.length > 1).toEqual(true);
+    expect(receiptValue.date).toEqual(new Date('2023-08-05T04:00:00.000Z'));
     expect(receiptValue.categories).toEqual([component.categories[0]]);
     expect(receiptValue.tags).toEqual([component.tags[1]]);
     expect(snackbarSpy).toHaveBeenCalledWith(
