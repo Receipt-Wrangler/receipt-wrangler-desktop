@@ -357,7 +357,7 @@ export class ReceiptFormComponent implements OnInit {
     } as any;
     const validKeys: string[] = [];
     Object.keys(keysWithDefaults).forEach((key) => {
-      let value = (magicReceipt as any)[key] as string;
+      let value = (magicReceipt as any)[key] as string | Date;
       if (value && value !== keysWithDefaults[key]) {
         switch (key) {
           case 'categories':
@@ -375,8 +375,10 @@ export class ReceiptFormComponent implements OnInit {
             );
             break;
           case 'date':
-            value = this.handleDateMagicFill(value);
-            this.patchMagicValue(key, magicReceipt);
+            value = this.handleDateMagicFill(value as string);
+            this.form.patchValue({
+              date: value,
+            });
             break;
           default:
             this.patchMagicValue(key, magicReceipt);
@@ -406,7 +408,7 @@ export class ReceiptFormComponent implements OnInit {
     });
   }
 
-  private handleDateMagicFill(value: string): string {
+  private handleDateMagicFill(value: string): Date {
     return this.formatMagicFilledDate(value);
   }
 
@@ -424,12 +426,12 @@ export class ReceiptFormComponent implements OnInit {
     });
   }
 
-  private formatMagicFilledDate(date: string): string {
+  private formatMagicFilledDate(date: string): Date {
     const dateObj = addHours(
       new Date(date),
       new Date().getTimezoneOffset() / 60
     );
-    return dateObj.toISOString();
+    return dateObj;
   }
 
   public uploadImageButtonClicked(): void {
