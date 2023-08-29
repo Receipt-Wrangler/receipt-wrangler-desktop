@@ -209,7 +209,7 @@
     tooltip="Edit"
     icon="edit"
     [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
-    [routerLink]="[editLink]"
+    [buttonRouterLink]="[editLink]"
   ></app-button>
   <app-button
     *ngIf="mode | inputReadonly"
