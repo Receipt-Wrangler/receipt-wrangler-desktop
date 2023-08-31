@@ -22,4 +22,13 @@ export const RECEIPT_ITEM_STATUS_OPTIONS: FormOption[] = Object.keys(
     displayValue: formatStatus(value),
   };
 });
-export const GROUP_STATUS_OPTIONS = Object.keys(Group.StatusEnum);
+
+export const GROUP_STATUS_OPTIONS: FormOption[] = Object.keys(
+  Group.StatusEnum
+).map((key) => {
+  const value = (Group.StatusEnum as any)[key];
+  return {
+    value: value,
+    displayValue: formatStatus(value),
+  };
+});

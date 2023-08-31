@@ -13,6 +13,8 @@
       ></app-input>
       <app-select
         label="Status"
+        optionValueKey="value"
+        optionDisplayKey="displayValue"
         [inputFormControl]="form | formGet : 'status'"
         [options]="groupStatusOptions"
       ></app-select>
