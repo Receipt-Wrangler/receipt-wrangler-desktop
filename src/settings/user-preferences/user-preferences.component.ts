@@ -1,17 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngxs/store';
+import { take, tap } from "rxjs";
+import { FormMode } from "src/enums/form-mode.enum";
+import { FormConfig } from "src/interfaces";
+
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { Store } from "@ngxs/store";
 import {
-  AuthState,
-  SetUserPreferences,
-  SnackbarService,
-  UserPreferences,
-  UserPreferencesService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { take, tap } from 'rxjs';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { FormConfig } from 'src/interfaces';
+  AuthState, SetUserPreferences, SnackbarService, UserPreferencesService
+} from "@receipt-wrangler/receipt-wrangler-core";
 
 @Component({
   selector: 'app-user-preferences',
@@ -58,6 +55,10 @@ export class UserPreferencesComponent implements OnInit {
       const result = this.form.value;
       if (result.quickScanDefaultPaidById === '') {
         result.quickScanDefaultPaidById = null;
+      }
+
+      if (result.quickScanDefaultGroupId === '') {
+        result.quickScanDefaultGroupId = null;
       }
 
       this.userPreferencesService
