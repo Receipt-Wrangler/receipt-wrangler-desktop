@@ -11,6 +11,7 @@ import { GroupMember } from '@receipt-wrangler/receipt-wrangler-core';
 
 import { ReceiptFormComponent } from './receipt-form/receipt-form.component';
 import { ReceiptsTableComponent } from './receipts-table/receipts-table.component';
+import { receiptGuardGuard } from 'src/guards/receipt-guard.guard';
 
 const routes: Routes = [
   {
@@ -50,7 +51,7 @@ const routes: Routes = [
       mode: FormMode.view,
       groupRole: GroupMember.GroupRoleEnum.VIEWER,
     },
-    canActivate: [GroupRoleGuard],
+    canActivate: [receiptGuardGuard],
   },
   {
     path: ':id/edit',
@@ -64,7 +65,7 @@ const routes: Routes = [
       mode: FormMode.edit,
       groupRole: GroupMember.GroupRoleEnum.EDITOR,
     },
-    canActivate: [GroupRoleGuard],
+    canActivate: [receiptGuardGuard],
   },
   {
     path: '',
