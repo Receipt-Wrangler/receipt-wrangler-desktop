@@ -5,6 +5,7 @@ import { Store } from '@ngxs/store';
 import {
   AuthService,
   AuthState,
+  ClaimsService,
   UpdateUser,
   User,
   UserService,
@@ -33,6 +34,7 @@ export class UserProfileComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private claimsService: ClaimsService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private snackbarService: SnackbarService,
@@ -68,6 +70,7 @@ export class UserProfileComponent implements OnInit {
         .pipe(
           take(1),
           switchMap(() => this.authService.getNewRefreshToken()),
+          switchMap(() => this.claimsService.getAndSetClaimsForLoggedInUser()),
           switchMap(() => {
             const loggedInUser = this.store.selectSnapshot(
               AuthState.loggedInUser
