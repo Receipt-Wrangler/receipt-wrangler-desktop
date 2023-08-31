@@ -1,4 +1,4 @@
-import { Receipt } from '@receipt-wrangler/receipt-wrangler-core';
+import { Receipt } from "@receipt-wrangler/receipt-wrangler-core";
 
 export function getReceiptStatusDisplayname(status: string): string {
   switch (status) {
@@ -10,6 +10,9 @@ export function getReceiptStatusDisplayname(status: string): string {
 
     case Receipt.StatusEnum.RESOLVED:
       return 'Resolved';
+
+    case Receipt.StatusEnum.DRAFT:
+      return 'Draft';
 
     default:
       return status;
