@@ -1,4 +1,5 @@
 export function formatStatus(status: string): string {
+  if (!status) return '';
   let result = status.toLowerCase();
   const parts = result.split('_');
   const words: string[] = [];
