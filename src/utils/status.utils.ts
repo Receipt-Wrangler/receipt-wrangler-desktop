@@ -1,17 +1,14 @@
-import { Receipt } from '@receipt-wrangler/receipt-wrangler-core';
+export function formatStatus(status: string): string {
+  if (!status) return '';
+  let result = status.toLowerCase();
+  const parts = result.split('_');
+  const words: string[] = [];
 
-export function getReceiptStatusDisplayname(status: string): string {
-  switch (status) {
-    case Receipt.StatusEnum.OPEN:
-      return 'Open';
+  parts.forEach((part) => {
+    const letters = part.split('');
+    letters[0] = letters[0].toUpperCase();
+    words.push(letters.join(''));
+  });
 
-    case Receipt.StatusEnum.NEEDSATTENTION:
-      return 'Needs Attention';
-
-    case Receipt.StatusEnum.RESOLVED:
-      return 'Resolved';
-
-    default:
-      return status;
-  }
+  return words.join(' ');
 }

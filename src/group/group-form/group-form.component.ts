@@ -31,7 +31,6 @@ import {
 } from '@receipt-wrangler/receipt-wrangler-core';
 
 import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
-import { ROLE_OPTIONS } from '../role-options';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
 
 @UntilDestroy()
@@ -55,8 +54,6 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
   public get groupMembers(): FormArray {
     return this.form.get('groupMembers') as FormArray;
   }
-
-  public roleOptions: string[] = ROLE_OPTIONS;
 
   public formConfig!: FormConfig;
 

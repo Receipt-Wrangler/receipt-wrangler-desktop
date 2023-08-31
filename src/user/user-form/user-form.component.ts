@@ -28,6 +28,8 @@ import {
 } from 'rxjs';
 import { SnackbarService } from '@receipt-wrangler/receipt-wrangler-core';
 import { UserValidators } from 'src/validators/user-validators';
+import { FormOption } from 'src/interfaces/form-option.interface';
+import { USER_ROLE_OPTIONS } from 'src/group/role-options';
 
 @UntilDestroy()
 @Component({
@@ -54,7 +56,7 @@ export class UserFormComponent implements OnInit {
 
   public form: FormGroup = new FormGroup({});
 
-  public userRoleOptions: string[] = [];
+  public userRoleOptions: FormOption[] = USER_ROLE_OPTIONS;
 
   public ngOnInit(): void {
     this.initForm();
@@ -85,7 +87,6 @@ export class UserFormComponent implements OnInit {
   }
 
   private initForm(): void {
-    this.userRoleOptions = Object.keys(User.UserRoleEnum);
     this.form = this.formBuilder.group({
       displayName: [this.user?.displayName ?? '', Validators.required],
       username: [

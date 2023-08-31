@@ -107,6 +107,8 @@
           <app-select
             class="col"
             label="Status"
+            optionValueKey="value"
+            optionDisplayKey="displayValue"
             [inputFormControl]="
               form | formGet : 'receiptItems.' + itemData.arrayIndex + '.status'
             "

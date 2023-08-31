@@ -13,6 +13,8 @@
       ></app-input>
       <app-select
         label="Status"
+        optionValueKey="value"
+        optionDisplayKey="displayValue"
         [inputFormControl]="form | formGet : 'status'"
         [options]="groupStatusOptions"
       ></app-select>
@@ -65,7 +67,7 @@
 </ng-template>
 
 <ng-template #groupRoleCell let-element="element">
-  {{ element.groupRole }}
+  {{ element.groupRole | status }}
 </ng-template>
 
 <ng-template #actionsCell let-index="index">

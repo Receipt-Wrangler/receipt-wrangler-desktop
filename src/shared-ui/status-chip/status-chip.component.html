@@ -1,6 +1,7 @@
 <mat-chip
   [ngClass]="{
     'needs-attention': status === receiptStatus.NEEDSATTENTION,
+    open: status === receiptStatus.OPEN,
     resolved: status === receiptStatus.RESOLVED
   }"
   >{{ status | status }}</mat-chip

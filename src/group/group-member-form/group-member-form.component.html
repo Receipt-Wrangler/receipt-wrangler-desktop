@@ -10,6 +10,8 @@
       <app-select
         class="me-1"
         label="Role"
+        optionValueKey="value"
+        optionDisplayKey="displayValue"
         [options]="roleOptions"
         [inputFormControl]="form | formGet : 'groupRole'"
       ></app-select>

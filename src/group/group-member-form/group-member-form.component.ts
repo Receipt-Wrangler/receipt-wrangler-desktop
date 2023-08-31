@@ -9,8 +9,9 @@ import {
   GroupMember,
 } from '@receipt-wrangler/receipt-wrangler-core';
 
-import { ROLE_OPTIONS } from '../role-options';
+import { GROUP_ROLE_OPTIONS } from '../role-options';
 import { buildGroupMemberForm } from '../utils/group-member.utils';
+import { FormOption } from 'src/interfaces/form-option.interface';
 
 @Component({
   selector: 'app-group-member-form',
@@ -24,7 +25,7 @@ export class GroupMemberFormComponent implements OnInit {
 
   public form: FormGroup = new FormGroup({});
 
-  public roleOptions: string[] = ROLE_OPTIONS;
+  public roleOptions: FormOption[] = GROUP_ROLE_OPTIONS;
 
   public usersToOmit: string[] = [];
 

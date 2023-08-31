@@ -2,7 +2,12 @@
 
 .needs-attention {
   background-color: map-get($warn-palette, 100) !important;
-  color: white!important;
+  color: white !important;
+}
+
+.open {
+  background-color: #fffacd !important;
+  color: white !important;
 }
 
 .resolved {

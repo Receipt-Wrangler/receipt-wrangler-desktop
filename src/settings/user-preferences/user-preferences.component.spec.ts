@@ -1,23 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from "rxjs";
+import { InputReadonlyPipe } from "src/pipes/input-readonly.pipe";
+import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 
-import { UserPreferencesComponent } from './user-preferences.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { NgxsModule, Store } from '@ngxs/store';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { ActivatedRoute } from "@angular/router";
+import { NgxsModule, Store } from "@ngxs/store";
 import {
-  AuthState,
-  PipesModule as CorePipesModule,
-  PipesModule,
-  SetUserPreferences,
-  UserPreferences,
-  UserPreferencesService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { InputReadonlyPipe } from 'src/pipes/input-readonly.pipe';
-import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
-import { of } from 'rxjs';
+  AuthState, PipesModule as CorePipesModule, UserPreferences, UserPreferencesService
+} from "@receipt-wrangler/receipt-wrangler-core";
+
+import { UserPreferencesComponent } from "./user-preferences.component";
 
 describe('UserPreferencesComponent', () => {
   let component: UserPreferencesComponent;
@@ -31,7 +27,6 @@ describe('UserPreferencesComponent', () => {
         ReactiveFormsModule,
         NgxsModule.forRoot([AuthState]),
         MatSnackBarModule,
-        PipesModule,
         CorePipesModule,
         SharedUiModule,
       ],
@@ -103,5 +98,21 @@ describe('UserPreferencesComponent', () => {
 
     expect(serviceSpy).toHaveBeenCalledWith(component.form.value);
     // TODO: Get this call covered expect(storeSpy).toHaveBeenCalled();
+  });
+
+  it('should attempt to call update endpoint with nulls', () => {
+    const serviceSpy = spyOn(
+      TestBed.inject(UserPreferencesService),
+      'updateUserPreferences'
+    ).and.returnValue(of(undefined as any));
+
+    component.ngOnInit();
+    component.submit();
+
+    expect(serviceSpy).toHaveBeenCalledWith({
+      quickScanDefaultPaidById: null,
+      quickScanDefaultGroupId: null,
+      quickScanDefaultStatus: '',
+    } as any);
   });
 });

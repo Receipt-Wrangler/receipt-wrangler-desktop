@@ -21,6 +21,8 @@
       ></app-input>
       <app-select
         label="User Role"
+        optionValueKey="value"
+        optionDisplayKey="displayValue"
         [inputFormControl]="form | formGet : 'userRole'"
         [options]="userRoleOptions"
       ></app-select>

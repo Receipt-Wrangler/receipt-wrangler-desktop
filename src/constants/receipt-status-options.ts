@@ -1,6 +1,7 @@
-import { Group, Item, Receipt } from '@receipt-wrangler/receipt-wrangler-core';
 import { FormOption } from 'src/interfaces/form-option.interface';
-import { getReceiptStatusDisplayname } from 'src/utils';
+import { formatStatus } from 'src/utils';
+
+import { Group, Item, Receipt } from '@receipt-wrangler/receipt-wrangler-core';
 
 export const RECEIPT_STATUS_OPTIONS: FormOption[] = Object.keys(
   Receipt.StatusEnum
@@ -8,8 +9,26 @@ export const RECEIPT_STATUS_OPTIONS: FormOption[] = Object.keys(
   const value = (Receipt.StatusEnum as any)[key];
   return {
     value: value,
-    displayValue: getReceiptStatusDisplayname(value),
+    displayValue: formatStatus(value),
   };
 });
-export const RECEIPT_ITEM_STATUS_OPTIONS = Object.keys(Item.StatusEnum);
-export const GROUP_STATUS_OPTIONS = Object.keys(Group.StatusEnum);
+
+export const RECEIPT_ITEM_STATUS_OPTIONS: FormOption[] = Object.keys(
+  Item.StatusEnum
+).map((key) => {
+  const value = (Item.StatusEnum as any)[key];
+  return {
+    value: value,
+    displayValue: formatStatus(value),
+  };
+});
+
+export const GROUP_STATUS_OPTIONS: FormOption[] = Object.keys(
+  Group.StatusEnum
+).map((key) => {
+  const value = (Group.StatusEnum as any)[key];
+  return {
+    value: value,
+    displayValue: formatStatus(value),
+  };
+});
