@@ -2,7 +2,7 @@
   [headerText]="formConfig.headerText"
   [headerButtonsTemplate]="headerButtonsTemplate"
 ></app-form-header>
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="submitted.emit()">
   <div class="w-100">
     <ng-template [ngTemplateOutlet]="formTemplate"></ng-template>
   </div>

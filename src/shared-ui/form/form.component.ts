@@ -1,4 +1,10 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormConfig } from 'src/interfaces';
 
@@ -15,4 +21,6 @@ export class FormComponent {
   @Input() public formTemplate!: TemplateRef<any>;
 
   @Input() public editButtonRouterLink: string[] = [];
+
+  @Output() public submitted: EventEmitter<void> = new EventEmitter<void>();
 }
