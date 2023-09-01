@@ -34,6 +34,8 @@ import { AddButtonComponent } from './add-button/add-button.component';
 import { RouterModule } from '@angular/router';
 import { TabsComponent } from './tabs/tabs.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { FormComponent } from './form/form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     TableHeaderComponent,
     AddButtonComponent,
     TabsComponent,
+    FormComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -70,6 +73,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatTableModule,
     MatTabsModule,
     PipesModule,
+    ReactiveFormsModule,
     RouterModule,
     SelectModule,
   ],
@@ -93,6 +97,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     TableHeaderComponent,
     AddButtonComponent,
     TabsComponent,
+    FormComponent,
   ],
 })
 export class SharedUiModule {}
