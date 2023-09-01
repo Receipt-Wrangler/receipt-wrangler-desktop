@@ -39,6 +39,8 @@ export class HeaderComponent implements OnInit {
 
   public dashboardHeaderLink: string[] = [''];
 
+  public settingsHeaderLink: string[] = [''];
+
   public groupName = '';
 
   public groupRoleEnum = GroupMember.GroupRoleEnum;
@@ -68,6 +70,9 @@ export class HeaderComponent implements OnInit {
           ];
           this.dashboardHeaderLink = [
             this.store.selectSnapshot(GroupState.dashboardLink),
+          ];
+          this.settingsHeaderLink = [
+            this.store.selectSnapshot(GroupState.settingsLink),
           ];
           const newGroup = this.store.selectSnapshot(
             GroupState.getGroupById(groupId)
