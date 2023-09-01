@@ -32,6 +32,8 @@ import { TableHeaderComponent } from './table-header/table-header.component';
 import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
 import { AddButtonComponent } from './add-button/add-button.component';
 import { RouterModule } from '@angular/router';
+import { TabsComponent } from './tabs/tabs.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,7 @@ import { RouterModule } from '@angular/router';
     SummaryCardComponent,
     TableHeaderComponent,
     AddButtonComponent,
+    TabsComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -65,6 +68,7 @@ import { RouterModule } from '@angular/router';
     MatDialogModule,
     MatListModule,
     MatTableModule,
+    MatTabsModule,
     PipesModule,
     RouterModule,
     SelectModule,
@@ -88,6 +92,7 @@ import { RouterModule } from '@angular/router';
     SummaryCardComponent,
     TableHeaderComponent,
     AddButtonComponent,
+    TabsComponent,
   ],
 })
 export class SharedUiModule {}
