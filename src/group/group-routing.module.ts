@@ -9,6 +9,7 @@ import { GroupMember } from '@receipt-wrangler/receipt-wrangler-core';
 import { GroupFormComponent } from './group-form/group-form.component';
 import { GroupListComponent } from './group-list/group-list.component';
 import { GroupResolverService } from './resolvers/group-resolver.service';
+import { GroupSettingsComponent } from './group-settings/group-settings.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,22 @@ const routes: Routes = [
       formConfig: {
         mode: FormMode.edit,
         headerText: 'Edit Group',
+      } as FormConfig,
+      groupRole: GroupMember.GroupRoleEnum.OWNER,
+      useRouteGroupId: true,
+    },
+    canActivate: [GroupRoleGuard],
+  },
+  {
+    path: ':id/settings/view',
+    component: GroupSettingsComponent,
+    resolve: {
+      group: GroupResolverService,
+    },
+    data: {
+      formConfig: {
+        mode: FormMode.view,
+        headerText: 'View Settings',
       } as FormConfig,
       groupRole: GroupMember.GroupRoleEnum.OWNER,
       useRouteGroupId: true,

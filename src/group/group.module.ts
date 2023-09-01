@@ -19,12 +19,14 @@ import { GroupFormComponent } from './group-form/group-form.component';
 import { GroupListComponent } from './group-list/group-list.component';
 import { GroupMemberFormComponent } from './group-member-form/group-member-form.component';
 import { GroupRoutingModule } from './group-routing.module';
+import { GroupSettingsComponent } from './group-settings/group-settings.component';
 
 @NgModule({
   declarations: [
     GroupListComponent,
     GroupFormComponent,
     GroupMemberFormComponent,
+    GroupSettingsComponent,
   ],
   imports: [
     ButtonModule,
