@@ -5,6 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import {
   AuthService,
   AuthState,
+  GroupMember,
   GroupState,
   Logout,
   NotificationsService,
@@ -39,6 +40,8 @@ export class HeaderComponent implements OnInit {
   public dashboardHeaderLink: string[] = [''];
 
   public groupName = '';
+
+  public groupRoleEnum = GroupMember.GroupRoleEnum;
 
   public notificationCount: number | undefined = undefined;
 

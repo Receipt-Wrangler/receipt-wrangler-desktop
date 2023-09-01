@@ -6,7 +6,7 @@
       matButtonType="iconButton"
       tooltip="Add Receipt"
       [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
-      [routerLink]="['/receipts/add']"
+      [buttonRouterLink]="['/receipts/add']"
     ></app-button>
     <app-button
       *appFeature="'aiPoweredReceipts'"
