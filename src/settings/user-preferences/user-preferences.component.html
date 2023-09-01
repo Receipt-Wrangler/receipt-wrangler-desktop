@@ -1,8 +1,12 @@
-<app-form-header
-  [headerText]="formConfig.headerText"
-  [headerButtonsTemplate]="headerButtonsTemplate"
-></app-form-header>
-<form [formGroup]="form" (ngSubmit)="submit()">
+<app-form
+  [form]="form"
+  [formConfig]="formConfig"
+  [formTemplate]="formTemplate"
+  [editButtonRouterLink]="['/settings/user-preferences/edit']"
+  (submitted)="submit()"
+></app-form>
+
+<ng-template #formTemplate>
   <div class="w-100">
     <app-form-section
       *appFeature="'aiPoweredReceipts'"
@@ -29,18 +33,4 @@
       ></app-status-select>
     </app-form-section>
   </div>
-  <app-form-button-bar [mode]="formConfig.mode">
-    <app-submit-button
-      *ngIf="!(formConfig.mode | inputReadonly)"
-      [onlyIcon]="false"
-    ></app-submit-button>
-  </app-form-button-bar>
-</form>
-
-<ng-template #headerButtonsTemplate>
-  <app-edit-button
-    *ngIf="formConfig.mode | inputReadonly"
-    [buttonRouterLink]="['/settings/user-preferences/edit']"
-  >
-  </app-edit-button>
 </ng-template>
