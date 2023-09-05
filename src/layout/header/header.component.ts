@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
 
   public dashboardHeaderLink: string[] = [''];
 
-  public settingsHeaderLink: string[] = [''];
+  public settingsBaseHeaderLink: string[] = [''];
 
   public groupName = '';
 
@@ -71,8 +71,8 @@ export class HeaderComponent implements OnInit {
           this.dashboardHeaderLink = [
             this.store.selectSnapshot(GroupState.dashboardLink),
           ];
-          this.settingsHeaderLink = [
-            this.store.selectSnapshot(GroupState.settingsLink),
+          this.settingsBaseHeaderLink = [
+            this.store.selectSnapshot(GroupState.settingsLinkBase) + '/view',
           ];
           const newGroup = this.store.selectSnapshot(
             GroupState.getGroupById(groupId)

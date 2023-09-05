@@ -73,6 +73,22 @@ const routes: Routes = [
     },
     canActivate: [GroupRoleGuard],
   },
+  {
+    path: ':id/settings/edit',
+    component: GroupSettingsComponent,
+    resolve: {
+      group: GroupResolverService,
+    },
+    data: {
+      formConfig: {
+        mode: FormMode.edit,
+        headerText: 'Edit Settings',
+      } as FormConfig,
+      groupRole: GroupMember.GroupRoleEnum.OWNER,
+      useRouteGroupId: true,
+    },
+    canActivate: [GroupRoleGuard],
+  },
 ];
 
 @NgModule({
