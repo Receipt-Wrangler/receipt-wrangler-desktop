@@ -14,7 +14,7 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   ButtonModule,
   PipesModule as CorePipesModule,
-  DirectivesModule,
+  DirectivesModule as CoreDirectivesModule,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { AutocompleteModule } from 'src/autocomplete/autocomplete.module';
 import { NotificationsModule } from 'src/notifications/notifications.module';
@@ -27,6 +27,7 @@ import { DashboardIconComponent } from './dashboard-icon/dashboard-icon.componen
 import { HeaderComponent } from './header/header.component';
 import { ReceiptListIconComponent } from './receipt-list-icon/receipt-list-icon.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { DirectivesModule } from '../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     AvatarModule,
     ButtonModule,
     CommonModule,
+    CoreDirectivesModule,
     CorePipesModule,
     DirectivesModule,
     MatButtonModule,

@@ -33,18 +33,20 @@
       >
         <app-receipt-list-icon></app-receipt-list-icon>
       </button>
-      <button
-        *ngIf="
-          selectedGroupId | async | groupRole : groupRoleEnum.OWNER : false
-        "
-        mat-icon-button
-        class="nav-button d-flex align-items-center justify-content-center"
-        color="accent"
-        matTooltip="Group settings"
-        [routerLink]="settingsBaseHeaderLink"
-      >
-        <mat-icon>settings</mat-icon>
-      </button>
+      <div *appDevelopment>
+        <button
+          *ngIf="
+            selectedGroupId | async | groupRole : groupRoleEnum.OWNER : false
+          "
+          mat-icon-button
+          class="nav-button d-flex align-items-center justify-content-center"
+          color="accent"
+          matTooltip="Group settings"
+          [routerLink]="settingsBaseHeaderLink"
+        >
+          <mat-icon>settings</mat-icon>
+        </button>
+      </div>
     </div>
     <div class="col-auto d-flex align-items-center justify-content-end">
       <app-searchbar class="receipt-searchbar w-100 me-2"></app-searchbar>
