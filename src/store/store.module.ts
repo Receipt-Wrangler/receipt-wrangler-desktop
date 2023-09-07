@@ -12,6 +12,7 @@ import {
 import { LayoutState } from './layout.state';
 import { ReceiptTableState } from './receipt-table.state';
 import { CategoryTableState } from './category-table.state';
+import { environment } from 'src/environments/environment.development';
 
 @NgModule({
   declarations: [],
@@ -27,7 +28,7 @@ import { CategoryTableState } from './category-table.state';
       UserState,
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
-      disabled: true,
+      disabled: environment.isProd,
     }),
     NgxsStoragePluginModule.forRoot({
       key: ['groups', 'layout', 'receiptTable', 'categoryTable'],
