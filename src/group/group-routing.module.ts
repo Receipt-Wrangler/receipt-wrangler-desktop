@@ -10,6 +10,7 @@ import { GroupFormComponent } from './group-form/group-form.component';
 import { GroupListComponent } from './group-list/group-list.component';
 import { GroupResolverService } from './resolvers/group-resolver.service';
 import { GroupSettingsComponent } from './group-settings/group-settings.component';
+import { developmentGuard } from 'src/guards/development.guard';
 
 const routes: Routes = [
   {
@@ -71,7 +72,7 @@ const routes: Routes = [
       groupRole: GroupMember.GroupRoleEnum.OWNER,
       useRouteGroupId: true,
     },
-    canActivate: [GroupRoleGuard],
+    canActivate: [GroupRoleGuard, developmentGuard],
   },
   {
     path: ':id/settings/edit',
@@ -87,7 +88,7 @@ const routes: Routes = [
       groupRole: GroupMember.GroupRoleEnum.OWNER,
       useRouteGroupId: true,
     },
-    canActivate: [GroupRoleGuard],
+    canActivate: [GroupRoleGuard, developmentGuard],
   },
 ];
 
