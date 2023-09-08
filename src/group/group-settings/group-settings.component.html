@@ -1,0 +1,11 @@
+<app-form
+  [form]="form"
+  [formConfig]="formConfig"
+  [formTemplate]="formTemplate"
+  [editButtonRouterLink]="[((settingsLinkBase | async) ?? '') + '/edit']"
+  (submitted)="submit()"
+></app-form>
+
+<ng-template #formTemplate>
+  <app-form-section headerText="Email Settings"> </app-form-section>
+</ng-template>

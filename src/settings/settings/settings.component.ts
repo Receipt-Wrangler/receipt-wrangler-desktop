@@ -15,28 +15,12 @@ interface TabConfig {
   host: DEFAULT_HOST_CLASS,
 })
 export class SettingsComponent implements OnInit {
-  constructor(private router: Router) {}
-
   public tabs: TabConfig[] = [];
 
   public activeLink: string = '';
 
   public ngOnInit(): void {
     this.initTabs();
-    this.setActiveTab();
-    this.listenToRouteChanges();
-  }
-
-  private listenToRouteChanges(): void {
-    this.router.events
-      .pipe(
-        tap((event) => {
-          if (event instanceof NavigationEnd) {
-            this.setActiveTab();
-          }
-        })
-      )
-      .subscribe();
   }
 
   private initTabs(): void {
@@ -50,11 +34,5 @@ export class SettingsComponent implements OnInit {
         routerLink: 'user-preferences/view',
       },
     ];
-  }
-
-  private setActiveTab(): void {
-    const url = this.router.url;
-    const tab = this.tabs.find((t) => url.includes(t.routerLink.split('/')[0]));
-    this.activeLink = tab ? tab.routerLink : this.tabs[0].routerLink;
   }
 }

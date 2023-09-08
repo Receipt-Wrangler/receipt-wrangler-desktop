@@ -5,6 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import {
   AuthService,
   AuthState,
+  GroupMember,
   GroupState,
   Logout,
   NotificationsService,
@@ -38,7 +39,11 @@ export class HeaderComponent implements OnInit {
 
   public dashboardHeaderLink: string[] = [''];
 
+  public settingsBaseHeaderLink: string[] = [''];
+
   public groupName = '';
+
+  public groupRoleEnum = GroupMember.GroupRoleEnum;
 
   public notificationCount: number | undefined = undefined;
 
@@ -65,6 +70,9 @@ export class HeaderComponent implements OnInit {
           ];
           this.dashboardHeaderLink = [
             this.store.selectSnapshot(GroupState.dashboardLink),
+          ];
+          this.settingsBaseHeaderLink = [
+            this.store.selectSnapshot(GroupState.settingsLinkBase) + '/view',
           ];
           const newGroup = this.store.selectSnapshot(
             GroupState.getGroupById(groupId)

@@ -10,12 +10,13 @@ export class GroupRolePipe implements PipeTransform {
   constructor(private groupUtil: GroupUtil) {}
 
   public transform(
-    groupId: number | string | undefined,
-    groupRole: GroupMember.GroupRoleEnum
+    groupId: number | string | undefined | null,
+    groupRole: GroupMember.GroupRoleEnum,
+    acceptAllGroup: boolean = true
   ): boolean {
     // if group id is just a number
     if (groupId === 'all') {
-      return true;
+      return acceptAllGroup;
     }
     if (groupId) {
       const parsed = Number.parseInt(groupId.toString());

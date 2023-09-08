@@ -1,16 +1,1 @@
-<nav mat-tab-nav-bar [tabPanel]="tabPanel">
-  <a
-    mat-tab-link
-    *ngFor="let tab of tabs"
-    routerLinkActive="active"
-    [active]="tab.routerLink === activeLink"
-    [routerLink]="[tab.routerLink]"
-  >
-    {{ tab.label }}
-  </a>
-</nav>
-<mat-tab-nav-panel #tabPanel>
-  <div class="mt-3">
-    <router-outlet></router-outlet>
-  </div>
-</mat-tab-nav-panel>
+<app-tabs [tabs]="tabs"> </app-tabs>
