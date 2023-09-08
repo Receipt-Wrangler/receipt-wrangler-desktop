@@ -1,6 +1,8 @@
+import { inject } from '@angular/core';
 import { CanActivateFn } from '@angular/router';
-import { environment } from 'src/environments/environment.development';
+import { EnvironmentService } from 'src/services/environment.service';
 
 export const developmentGuard: CanActivateFn = (route, state) => {
-  return !environment.isProd;
+  const environmentService = inject(EnvironmentService);
+  return !environmentService.isProduction();
 };

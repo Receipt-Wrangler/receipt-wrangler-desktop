@@ -1,17 +1,24 @@
-import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { environment } from 'src/environments/environment.development';
+import {
+  Directive,
+  EnvironmentProviders,
+  Input,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
+import { EnvironmentService } from 'src/services/environment.service';
 
 @Directive({
   selector: '[appDevelopment]',
 })
 export class DevelopmentDirective {
-  private hasView = false;
+  public hasView = false;
 
   constructor(
     private templateRef: TemplateRef<any>,
-    private viewContainer: ViewContainerRef
+    private viewContainer: ViewContainerRef,
+    private environmentService: EnvironmentService
   ) {
-    const isProd = environment.isProd;
+    const isProd = this.environmentService.isProduction();
 
     if (!isProd) {
       this.viewContainer.createEmbeddedView(this.templateRef);
