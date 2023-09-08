@@ -1,8 +1,22 @@
-import { DevelopmentDirective } from './development.directive';
+import { TestBed } from '@angular/core/testing';
+import { CanActivateFn } from '@angular/router';
 
-describe('DevelopmentDirective', () => {
-  it('should create an instance', () => {
-    const directive = new DevelopmentDirective();
-    expect(directive).toBeTruthy();
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NgxsModule } from '@ngxs/store';
+import { ApiModule } from '@receipt-wrangler/receipt-wrangler-core';
+import { developmentGuard } from 'src/guards/development.guard';
+
+describe('developmentGuard', () => {
+  const executeGuard: CanActivateFn = (...guardParameters) =>
+    TestBed.runInInjectionContext(() => developmentGuard(...guardParameters));
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ApiModule, HttpClientTestingModule, NgxsModule.forRoot([])],
+    });
+  });
+
+  it('should be created', () => {
+    expect(executeGuard).toBeTruthy();
   });
 });

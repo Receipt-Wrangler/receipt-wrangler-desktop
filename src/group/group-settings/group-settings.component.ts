@@ -27,7 +27,6 @@ export class GroupSettingsComponent implements OnInit {
 
   public submit(): void {
     if (this.form.valid) {
-      console.log(this.form.value);
     }
   }
 }
