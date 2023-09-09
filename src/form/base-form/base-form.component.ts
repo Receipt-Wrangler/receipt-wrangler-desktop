@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormConfig } from 'src/interfaces';
 import { FormCommand } from '../interfaces/form-command';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-base-form',
@@ -15,6 +16,12 @@ export class BaseFormComponent {
 
   @Output() public formCommand: EventEmitter<FormCommand> =
     new EventEmitter<FormCommand>();
+
+  constructor() {}
+
+  public setFormConfigFromRoute(activatedRoute: ActivatedRoute): void {
+    this.formConfig = activatedRoute?.snapshot?.data?.['formConfig'];
+  }
 
   public handleFormCommand(formCommand: FormCommand): void {
     if (formCommand.path) {
