@@ -20,6 +20,7 @@ import { GroupListComponent } from './group-list/group-list.component';
 import { GroupMemberFormComponent } from './group-member-form/group-member-form.component';
 import { GroupRoutingModule } from './group-routing.module';
 import { GroupSettingsComponent } from './group-settings/group-settings.component';
+import { GroupSettingsEmailComponent } from './group-settings-email/group-settings-email.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { GroupSettingsComponent } from './group-settings/group-settings.componen
     GroupFormComponent,
     GroupMemberFormComponent,
     GroupSettingsComponent,
+    GroupSettingsEmailComponent,
   ],
   imports: [
     ButtonModule,
