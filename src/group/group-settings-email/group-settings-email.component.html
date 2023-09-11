@@ -1,1 +1,5 @@
-<p>group-settings-email works!</p>
+<app-input
+  label="Email to Read Receipts From"
+  [inputFormControl]="form | formGet : 'emailToRead.email'"
+  [readonly]="formConfig.mode | inputReadonly"
+></app-input>

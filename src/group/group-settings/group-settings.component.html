@@ -7,5 +7,10 @@
 ></app-form>
 
 <ng-template #formTemplate>
-  <app-form-section headerText="Email Settings"> </app-form-section>
+  <app-form-section headerText="Email Settings">
+    <app-group-settings-email
+      [form]="form"
+      (formCommand)="handleFormCommand($event)"
+    ></app-group-settings-email>
+  </app-form-section>
 </ng-template>
