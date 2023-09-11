@@ -36,6 +36,7 @@ import { TabsComponent } from './tabs/tabs.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FormComponent } from './form/form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormListComponent } from './form-list/form-list.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AddButtonComponent,
     TabsComponent,
     FormComponent,
+    FormListComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -98,6 +100,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AddButtonComponent,
     TabsComponent,
     FormComponent,
+    FormListComponent,
   ],
 })
 export class SharedUiModule {}
