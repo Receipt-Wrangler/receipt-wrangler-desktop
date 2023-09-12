@@ -3,3 +3,31 @@
   [inputFormControl]="form | formGet : 'emailToRead.email'"
   [readonly]="formConfig.mode | inputReadonly"
 ></app-input>
+
+<app-form-list
+  addButtonText="Add Subject Line Regex"
+  nothingToDisplayText="No regexes configured"
+  headerText="Subject Line Regexes"
+  [array]="subjectLineRegexes.controls"
+  [itemDisplayTemplate]="subjectLineRegexDisplayTemplate"
+  [itemEditTemplate]="subjectLineRegexEditingTemplate"
+  [disabled]="formConfig.mode | inputReadonly"
+  (addButtonClicked)="addSubjectLineRegex()"
+  (itemDoneButtonClicked)="subjectLineItemDoneButtonClicked()"
+  (itemCancelButtonClicked)="subjectLineItemCancelButtonClicked()"
+>
+</app-form-list>
+
+<ng-template #subjectLineRegexDisplayTemplate let-index="index">
+  {{ subjectLineRegexes.controls[index].value.regex }}
+</ng-template>
+<ng-template #subjectLineRegexEditingTemplate let-index="index">
+  <div>
+    <app-input
+      label="Regex"
+      [inputFormControl]="
+        form | formGet : 'subjectLineRegexes.' + index + '.regex'
+      "
+    ></app-input>
+  </div>
+</ng-template>

@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -12,6 +13,7 @@ import {
   SubjectLineRegex,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { BaseFormComponent, FormCommand } from 'src/form';
+import { FormListComponent } from 'src/shared-ui/form-list/form-list.component';
 
 @Component({
   selector: 'app-group-settings-email',
@@ -24,6 +26,8 @@ export class GroupSettingsEmailComponent
 {
   @Input() public override form: FormGroup = new FormGroup({});
 
+  @ViewChild(FormListComponent) public formListComponent!: FormListComponent;
+
   public group!: Group;
 
   constructor(
@@ -35,6 +39,10 @@ export class GroupSettingsEmailComponent
 
   public get groupSettingsId(): number | undefined {
     return this.group?.groupSettings?.id;
+  }
+
+  public get subjectLineRegexes(): FormArray {
+    return this.form.get('subjectLineRegexes') as FormArray;
   }
 
   public ngOnInit(): void {
@@ -109,5 +117,29 @@ export class GroupSettingsEmailComponent
       regex: new FormControl(regex?.regex ?? '', [Validators.required]),
       groupSettingsId: new FormControl(this.groupSettingsId),
     });
+  }
+
+  public addSubjectLineRegex(): void {
+    this.emitFormCommand({
+      path: 'subjectLineRegexes',
+      command: 'push',
+      payload: this.buildSubjectLineRegexes(),
+    });
+  }
+
+  public subjectLineItemDoneButtonClicked(): void {
+    if (this.form.get('subjectLineRegexes')?.valid) {
+      this.formListComponent.resetEditingIndex();
+    }
+  }
+
+  public subjectLineItemCancelButtonClicked(): void {
+    const lastIndex = this.subjectLineRegexes.length - 1;
+    const formCommand: FormCommand = {
+      path: 'subjectLineRegexes',
+      command: 'removeAt',
+      payload: lastIndex,
+    };
+    this.emitFormCommand(formCommand);
   }
 }

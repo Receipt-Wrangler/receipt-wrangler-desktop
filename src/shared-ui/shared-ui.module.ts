@@ -72,6 +72,7 @@ import { FormListComponent } from './form-list/form-list.component';
     MatChipsModule,
     MatDialogModule,
     MatListModule,
+    MatListModule,
     MatTableModule,
     MatTabsModule,
     PipesModule,

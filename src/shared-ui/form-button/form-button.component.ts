@@ -19,5 +19,7 @@ export class FormButtonComponent {
 
   @Input() public buttonText?: string;
 
+  @Input() public type: 'button' | 'submit' = 'button';
+
   @Output() public clicked: EventEmitter<void> = new EventEmitter<void>();
 }
