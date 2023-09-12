@@ -51,7 +51,6 @@ export class GroupSettingsComponent
   }
 
   public submit(): void {
-    console.warn(this.form);
     if (this.form.valid) {
       this.groupsService
         .updateGroupSettings(this.form.value, this.group.id)

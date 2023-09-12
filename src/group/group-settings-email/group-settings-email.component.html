@@ -15,6 +15,7 @@
   (addButtonClicked)="addSubjectLineRegex()"
   (itemDoneButtonClicked)="subjectLineItemDoneButtonClicked()"
   (itemCancelButtonClicked)="subjectLineItemCancelButtonClicked()"
+  (itemDeleteButtonClicked)="subjectLineItemDeleteButtonClicked($event)"
 >
 </app-form-list>
 
@@ -22,7 +23,7 @@
   {{ subjectLineRegexes.controls[index].value.regex }}
 </ng-template>
 <ng-template #subjectLineRegexEditingTemplate let-index="index">
-  <div>
+  <div class="w-100">
     <app-input
       label="Regex"
       [inputFormControl]="

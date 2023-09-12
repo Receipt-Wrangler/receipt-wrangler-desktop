@@ -34,6 +34,9 @@ export class FormListComponent {
   @Output() public itemCancelButtonClicked: EventEmitter<number> =
     new EventEmitter<number>();
 
+  @Output() public itemDeleteButtonClicked: EventEmitter<number> =
+    new EventEmitter<number>();
+
   public editingIndex: number = -1;
 
   public onAddButtonClicked(): void {
@@ -52,5 +55,13 @@ export class FormListComponent {
 
   public resetEditingIndex(): void {
     this.editingIndex = -1;
+  }
+
+  public onItemEditButtonClicked(index: number): void {
+    this.editingIndex = index;
+  }
+
+  public onItemDeleteButtonClicked(index: number): void {
+    this.itemDeleteButtonClicked.emit(index);
   }
 }

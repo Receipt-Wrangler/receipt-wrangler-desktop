@@ -115,7 +115,6 @@ export class GroupSettingsEmailComponent
   private buildSubjectLineRegexes(regex?: SubjectLineRegex): FormGroup {
     return this.formBuidler.group({
       regex: new FormControl(regex?.regex ?? '', [Validators.required]),
-      groupSettingsId: new FormControl(this.groupSettingsId),
     });
   }
 
@@ -139,6 +138,15 @@ export class GroupSettingsEmailComponent
       path: 'subjectLineRegexes',
       command: 'removeAt',
       payload: lastIndex,
+    };
+    this.emitFormCommand(formCommand);
+  }
+
+  public subjectLineItemDeleteButtonClicked(index: number): void {
+    const formCommand: FormCommand = {
+      path: 'subjectLineRegexes',
+      command: 'removeAt',
+      payload: index,
     };
     this.emitFormCommand(formCommand);
   }
