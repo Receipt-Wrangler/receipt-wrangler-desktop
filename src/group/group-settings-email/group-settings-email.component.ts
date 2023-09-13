@@ -47,6 +47,10 @@ export class GroupSettingsEmailComponent
     return this.form.get('subjectLineRegexes') as FormArray;
   }
 
+  public get emailWhiteList(): FormArray {
+    return this.form.get('emailWhiteList') as FormArray;
+  }
+
   public ngOnInit(): void {
     this.group = this.activatedRoute.snapshot.data['group'];
     this.setFormConfigFromRoute(this.activatedRoute);
@@ -177,8 +181,8 @@ export class GroupSettingsEmailComponent
     });
   }
 
-  public subjectLineItemDoneButtonClicked(): void {
-    if (this.form.get('subjectLineRegexes')?.valid) {
+  public itemDoneButtonClicked(): void {
+    if (this.form.valid) {
       this.formListComponent.resetEditingIndex();
     }
   }
@@ -196,6 +200,33 @@ export class GroupSettingsEmailComponent
   public subjectLineItemDeleteButtonClicked(index: number): void {
     const formCommand: FormCommand = {
       path: 'subjectLineRegexes',
+      command: 'removeAt',
+      payload: index,
+    };
+    this.emitFormCommand(formCommand);
+  }
+
+  public addEmailWhiteList(): void {
+    this.emitFormCommand({
+      path: 'emailWhiteList',
+      command: 'push',
+      payload: this.buildGroupSettingsEmail(),
+    });
+  }
+
+  public emailWhiteListItemCancelButtonClicked(): void {
+    const lastIndex = this.emailWhiteList.length - 1;
+    const formCommand: FormCommand = {
+      path: 'emailWhiteList',
+      command: 'removeAt',
+      payload: lastIndex,
+    };
+    this.emitFormCommand(formCommand);
+  }
+
+  public emailWhiteListItemDeleteButtonClicked(index: number): void {
+    const formCommand: FormCommand = {
+      path: 'emailWhiteList',
       command: 'removeAt',
       payload: index,
     };

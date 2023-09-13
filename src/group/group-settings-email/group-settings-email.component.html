@@ -20,15 +20,31 @@
   [itemEditTemplate]="subjectLineRegexEditingTemplate"
   [disabled]="formConfig.mode | inputReadonly"
   (addButtonClicked)="addSubjectLineRegex()"
-  (itemDoneButtonClicked)="subjectLineItemDoneButtonClicked()"
+  (itemDoneButtonClicked)="itemDoneButtonClicked()"
   (itemCancelButtonClicked)="subjectLineItemCancelButtonClicked()"
   (itemDeleteButtonClicked)="subjectLineItemDeleteButtonClicked($event)"
+>
+</app-form-list>
+
+<app-form-list
+  addButtonText="Add Email to Whitelist"
+  nothingToDisplayText="No emails configured"
+  headerText="Email Whitelist"
+  [array]="emailWhiteList.controls"
+  [itemDisplayTemplate]="emailWhiteListDisplayTemplate"
+  [itemEditTemplate]="emailWhiteListEditingTemplate"
+  [disabled]="formConfig.mode | inputReadonly"
+  (addButtonClicked)="addEmailWhiteList()"
+  (itemDoneButtonClicked)="itemDoneButtonClicked()"
+  (itemCancelButtonClicked)="emailWhiteListItemCancelButtonClicked()"
+  (itemDeleteButtonClicked)="emailWhiteListItemDeleteButtonClicked($event)"
 >
 </app-form-list>
 
 <ng-template #subjectLineRegexDisplayTemplate let-index="index">
   {{ subjectLineRegexes.controls[index].value.regex }}
 </ng-template>
+
 <ng-template #subjectLineRegexEditingTemplate let-index="index">
   <div class="w-100">
     <app-input
@@ -36,6 +52,19 @@
       [inputFormControl]="
         form | formGet : 'subjectLineRegexes.' + index + '.regex'
       "
+    ></app-input>
+  </div>
+</ng-template>
+
+<ng-template #emailWhiteListDisplayTemplate let-index="index">
+  {{ emailWhiteList.controls[index].value.email }}
+</ng-template>
+
+<ng-template #emailWhiteListEditingTemplate let-index="index">
+  <div class="w-100">
+    <app-input
+      label="Email"
+      [inputFormControl]="form | formGet : 'emailWhiteList.' + index + '.email'"
     ></app-input>
   </div>
 </ng-template>
