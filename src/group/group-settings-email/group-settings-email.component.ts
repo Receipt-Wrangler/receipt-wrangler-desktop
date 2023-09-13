@@ -156,7 +156,6 @@ export class GroupSettingsEmailComponent
         Validators.email,
         Validators.required,
       ]),
-      groupSettingsId: new FormControl(this.groupSettingsId),
     });
   }
 
