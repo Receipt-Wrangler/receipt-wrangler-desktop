@@ -1,11 +1,4 @@
 <div class="d-flex align-items-center">
   <mat-checkbox [formControl]="inputFormControl">{{ label }}</mat-checkbox>
-  <mat-icon
-    *ngIf="helpText"
-    class="ms-1"
-    #tooltip="matTooltip"
-    [matTooltip]="helpText"
-    (click)="tooltip.show()"
-    >help</mat-icon
-  >
+  <app-help-icon [helpText]="helpText"></app-help-icon>
 </div>

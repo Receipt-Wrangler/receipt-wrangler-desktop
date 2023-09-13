@@ -5,6 +5,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 
 @NgModule({
   declarations: [CheckboxComponent],
@@ -14,6 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatCheckboxModule,
     MatIconModule,
     MatTooltipModule,
+    SharedUiModule,
   ],
   exports: [CheckboxComponent],
 })
