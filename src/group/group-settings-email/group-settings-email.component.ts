@@ -12,6 +12,7 @@ import {
   GroupSettingsWhiteListEmail,
   SubjectLineRegex,
 } from '@receipt-wrangler/receipt-wrangler-core';
+import { startWith, tap } from 'rxjs';
 import { BaseFormComponent, FormCommand } from 'src/form';
 import { FormListComponent } from 'src/shared-ui/form-list/form-list.component';
 
@@ -54,6 +55,50 @@ export class GroupSettingsEmailComponent
   private initForm(): void {
     this.setInitialValues();
     this.addValidators();
+    this.listenForEnableEmailIntegrationChanges();
+  }
+
+  private listenForEnableEmailIntegrationChanges(): void {
+    const control = this.form.get('emailIntegrationEnabled');
+
+    control?.valueChanges
+      .pipe(
+        startWith(control.value),
+        tap((enabled) => {
+          if (enabled) {
+            this.emitFormCommand({
+              path: 'emailToRead',
+              command: 'addValidators',
+              payload: [Validators.required],
+            });
+          } else {
+            this.emitFormCommand({
+              path: 'emailToRead',
+              command: 'removeValidators',
+              payload: [Validators.required],
+            });
+
+            const errors = control.errors;
+
+            if (errors?.['required']) {
+              delete errors['required'];
+            }
+
+            this.emitFormCommand({
+              path: 'emailToRead',
+              command: 'setErrors',
+              payload: {
+                required: null,
+              },
+            });
+          }
+          this.emitFormCommand({
+            path: 'emailToRead',
+            command: 'updateValueAndValidity',
+          });
+        })
+      )
+      .subscribe();
   }
 
   private addValidators(): void {
