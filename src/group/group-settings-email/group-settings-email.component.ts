@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -28,7 +35,8 @@ export class GroupSettingsEmailComponent
 {
   @Input() public override form: FormGroup = new FormGroup({});
 
-  @ViewChild(FormListComponent) public formListComponent!: FormListComponent;
+  @ViewChildren(FormListComponent)
+  public formListComponents!: QueryList<FormListComponent>;
 
   public group!: Group;
 
@@ -181,9 +189,9 @@ export class GroupSettingsEmailComponent
     });
   }
 
-  public itemDoneButtonClicked(): void {
+  public itemDoneButtonClicked(index: number): void {
     if (this.form.valid) {
-      this.formListComponent.resetEditingIndex();
+      this.formListComponents.get(index)?.resetEditingIndex();
     }
   }
 

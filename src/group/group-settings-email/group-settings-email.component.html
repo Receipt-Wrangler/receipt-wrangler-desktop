@@ -20,7 +20,7 @@
   [itemEditTemplate]="subjectLineRegexEditingTemplate"
   [disabled]="formConfig.mode | inputReadonly"
   (addButtonClicked)="addSubjectLineRegex()"
-  (itemDoneButtonClicked)="itemDoneButtonClicked()"
+  (itemDoneButtonClicked)="itemDoneButtonClicked(0)"
   (itemCancelButtonClicked)="subjectLineItemCancelButtonClicked()"
   (itemDeleteButtonClicked)="subjectLineItemDeleteButtonClicked($event)"
 >
@@ -35,7 +35,7 @@
   [itemEditTemplate]="emailWhiteListEditingTemplate"
   [disabled]="formConfig.mode | inputReadonly"
   (addButtonClicked)="addEmailWhiteList()"
-  (itemDoneButtonClicked)="itemDoneButtonClicked()"
+  (itemDoneButtonClicked)="itemDoneButtonClicked(1)"
   (itemCancelButtonClicked)="emailWhiteListItemCancelButtonClicked()"
   (itemDeleteButtonClicked)="emailWhiteListItemDeleteButtonClicked($event)"
 >
