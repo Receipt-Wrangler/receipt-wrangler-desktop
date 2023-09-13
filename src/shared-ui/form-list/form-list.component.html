@@ -20,9 +20,11 @@
       <div *ngIf="editingIndex !== index">
         <app-edit-button
           color="accent"
+          [disabled]="disabled"
           (clicked)="onItemEditButtonClicked(index)"
         ></app-edit-button>
         <app-delete-button
+          [disabled]="disabled"
           (clicked)="onItemDeleteButtonClicked(index)"
         ></app-delete-button>
       </div>

@@ -13,6 +13,7 @@ import {
   SubjectLineRegex,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { startWith, tap } from 'rxjs';
+import { FormMode } from 'src/enums/form-mode.enum';
 import { BaseFormComponent, FormCommand } from 'src/form';
 import { FormListComponent } from 'src/shared-ui/form-list/form-list.component';
 
@@ -56,6 +57,9 @@ export class GroupSettingsEmailComponent
     this.setInitialValues();
     this.addValidators();
     this.listenForEnableEmailIntegrationChanges();
+    if (this.formConfig.mode === FormMode.view) {
+      this.form.get('emailIntegrationEnabled')?.disable();
+    }
   }
 
   private listenForEnableEmailIntegrationChanges(): void {
