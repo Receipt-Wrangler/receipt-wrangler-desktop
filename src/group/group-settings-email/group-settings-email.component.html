@@ -1,6 +1,13 @@
+<div class="mb-2">
+  <app-checkbox
+    label="Enable Email Integration"
+    [inputFormControl]="form | formGet : 'emailIntegrationEnabled'"
+    [readonly]="formConfig.mode | inputReadonly"
+  ></app-checkbox>
+</div>
 <app-input
   label="Email to Read Receipts From"
-  [inputFormControl]="form | formGet : 'emailToRead.email'"
+  [inputFormControl]="form | formGet : 'emailToRead'"
   [readonly]="formConfig.mode | inputReadonly"
 ></app-input>
 

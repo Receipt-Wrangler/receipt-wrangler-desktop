@@ -42,9 +42,8 @@ export class GroupSettingsComponent
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      emailToRead: this.formBuilder.group({
-        email: '',
-      }),
+      emailToRead: '',
+      emailIntegrationEnabled: false,
       subjectLineRegexes: this.formBuilder.array([]),
       emailWhiteList: this.formBuilder.array([]),
     });

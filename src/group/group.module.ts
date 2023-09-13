@@ -21,6 +21,7 @@ import { GroupMemberFormComponent } from './group-member-form/group-member-form.
 import { GroupRoutingModule } from './group-routing.module';
 import { GroupSettingsComponent } from './group-settings/group-settings.component';
 import { GroupSettingsEmailComponent } from './group-settings-email/group-settings-email.component';
+import { CheckboxModule } from 'src/checkbox/checkbox.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { GroupSettingsEmailComponent } from './group-settings-email/group-settin
   ],
   imports: [
     ButtonModule,
+    CheckboxModule,
     CommonModule,
     CorePipesModule,
     GroupRoutingModule,

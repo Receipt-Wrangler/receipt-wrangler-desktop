@@ -9,7 +9,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import {
   Group,
-  GroupSettingsEmail,
+  GroupSettingsWhiteListEmail,
   SubjectLineRegex,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { BaseFormComponent, FormCommand } from 'src/form';
@@ -58,20 +58,23 @@ export class GroupSettingsEmailComponent
 
   private addValidators(): void {
     this.emitFormCommand({
-      path: 'emailToRead.email',
+      path: 'emailToRead',
       command: 'addValidators',
       payload: [Validators.email],
     });
   }
 
   private setInitialValues(): void {
+    this.emitFormCommand({
+      path: 'emailIntegrationEnabled',
+      command: 'patchValue',
+      payload: this.group?.groupSettings?.emailIntegrationEnabled,
+    });
+
     const formCommand: FormCommand = {
       path: 'emailToRead',
       command: 'patchValue',
-      payload: {
-        email: this.group?.groupSettings?.emailToRead?.email,
-        groupSettingsId: this.groupSettingsId,
-      },
+      payload: this.group?.groupSettings?.emailToRead,
     };
     this.emitFormCommand(formCommand);
 
@@ -101,7 +104,7 @@ export class GroupSettingsEmailComponent
   }
 
   private buildGroupSettingsEmail(
-    groupSettingEmail?: GroupSettingsEmail
+    groupSettingEmail?: GroupSettingsWhiteListEmail
   ): FormGroup {
     return this.formBuidler.group({
       email: new FormControl(groupSettingEmail?.email, [
