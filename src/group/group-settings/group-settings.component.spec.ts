@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgxsModule } from '@ngxs/store';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('GroupSettingsComponent', () => {
   let component: GroupSettingsComponent;
@@ -15,7 +16,12 @@ describe('GroupSettingsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [GroupSettingsComponent],
-      imports: [ApiModule, HttpClientTestingModule, NgxsModule.forRoot([])],
+      imports: [
+        ApiModule,
+        HttpClientTestingModule,
+        NgxsModule.forRoot([]),
+        MatSnackBarModule,
+      ],
       providers: [
         {
           provide: ActivatedRoute,

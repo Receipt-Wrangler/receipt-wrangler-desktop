@@ -36,6 +36,10 @@ import { TabsComponent } from './tabs/tabs.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FormComponent } from './form/form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormListComponent } from './form-list/form-list.component';
+import { HelpIconComponent } from './help-icon/help-icon.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -60,6 +64,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AddButtonComponent,
     TabsComponent,
     FormComponent,
+    FormListComponent,
+    HelpIconComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -69,9 +75,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatCardModule,
     MatChipsModule,
     MatDialogModule,
+    MatIconModule,
     MatListModule,
     MatTableModule,
     MatTabsModule,
+    MatTooltipModule,
     PipesModule,
     ReactiveFormsModule,
     RouterModule,
@@ -98,6 +106,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AddButtonComponent,
     TabsComponent,
     FormComponent,
+    FormListComponent,
+    HelpIconComponent,
   ],
 })
 export class SharedUiModule {}

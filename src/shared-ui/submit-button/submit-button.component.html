@@ -3,7 +3,7 @@
   icon="done"
   matButtonType="iconButton"
   buttonClass="mat-success-icon"
-  type="submit"
+  [type]="type || 'submit'"
   [tooltip]="tooltip ?? 'Save'"
   (clicked)="clicked.emit()"
   [disabled]="mode === formMode.view || disabled"
