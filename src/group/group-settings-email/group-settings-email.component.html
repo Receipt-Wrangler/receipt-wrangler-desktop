@@ -11,6 +11,24 @@
   [readonly]="formConfig.mode | inputReadonly"
 ></app-input>
 
+<app-user-autocomplete
+  class="mb-2"
+  label="Default Paid By"
+  [inputFormControl]="form | formGet : 'emailDefaultReceiptPaidById'"
+  [groupId]="group.id.toString()"
+  [selectGroupMembersOnly]="true"
+  [readonly]="formConfig.mode | inputReadonly"
+></app-user-autocomplete>
+
+<div class="mb-2">
+  <app-status-select
+    aria-label="Default Status"
+    [inputFormControl]="form | formGet : 'emailDefaultReceiptStatus'"
+    [readonly]="true"
+    [addBlankOption]="true"
+  ></app-status-select>
+</div>
+
 <app-form-list
   addButtonText="Add Subject Line Regex"
   nothingToDisplayText="No regexes configured"
