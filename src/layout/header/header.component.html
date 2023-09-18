@@ -33,7 +33,7 @@
       >
         <app-receipt-list-icon></app-receipt-list-icon>
       </button>
-      <div *appDevelopment>
+      <div *appFeature="'aiPoweredReceipts'">
         <button
           *ngIf="
             selectedGroupId | async | groupRole : groupRoleEnum.OWNER : false
