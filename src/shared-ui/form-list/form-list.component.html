@@ -17,14 +17,12 @@
           }"
         ></ng-template>
       </div>
-      <div *ngIf="editingIndex !== index">
+      <div *ngIf="editingIndex !== index && !disabled">
         <app-edit-button
           color="accent"
-          [disabled]="disabled"
           (clicked)="onItemEditButtonClicked(index)"
         ></app-edit-button>
         <app-delete-button
-          [disabled]="disabled"
           (clicked)="onItemDeleteButtonClicked(index)"
         ></app-delete-button>
       </div>
