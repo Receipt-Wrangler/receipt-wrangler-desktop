@@ -46,6 +46,8 @@ export class GroupSettingsComponent
       emailIntegrationEnabled: false,
       subjectLineRegexes: this.formBuilder.array([]),
       emailWhiteList: this.formBuilder.array([]),
+      emailDefaultReceiptStatus: '',
+      emailDefaultReceiptPaidById: '',
     });
   }
 

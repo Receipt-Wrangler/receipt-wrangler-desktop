@@ -23,6 +23,7 @@ describe('GroupSettingsEmailComponent', () => {
             snapshot: {
               data: {
                 formConfig: {},
+                group: { id: 1 },
               },
             },
           },

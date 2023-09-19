@@ -33,7 +33,7 @@
       >
         <app-receipt-list-icon></app-receipt-list-icon>
       </button>
-      <div *appDevelopment>
+      <div *appFeature="'aiPoweredReceipts'">
         <button
           *ngIf="
             selectedGroupId | async | groupRole : groupRoleEnum.OWNER : false
@@ -42,6 +42,7 @@
           class="nav-button d-flex align-items-center justify-content-center"
           color="accent"
           matTooltip="Group settings"
+          routerLinkActive="active-link"
           [routerLink]="settingsBaseHeaderLink"
         >
           <mat-icon>settings</mat-icon>

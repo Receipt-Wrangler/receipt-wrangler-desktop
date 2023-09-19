@@ -87,9 +87,29 @@ export class GroupSettingsEmailComponent
               command: 'addValidators',
               payload: [Validators.required],
             });
+            this.emitFormCommand({
+              path: 'emailDefaultReceiptStatus',
+              command: 'addValidators',
+              payload: [Validators.required],
+            });
+            this.emitFormCommand({
+              path: 'emailDefaultReceiptPaidById',
+              command: 'addValidators',
+              payload: [Validators.required],
+            });
           } else {
             this.emitFormCommand({
               path: 'emailToRead',
+              command: 'removeValidators',
+              payload: [Validators.required],
+            });
+            this.emitFormCommand({
+              path: 'emailDefaultReceiptStatus',
+              command: 'removeValidators',
+              payload: [Validators.required],
+            });
+            this.emitFormCommand({
+              path: 'emailDefaultReceiptPaidById',
               command: 'removeValidators',
               payload: [Validators.required],
             });
@@ -107,9 +127,31 @@ export class GroupSettingsEmailComponent
                 required: null,
               },
             });
+            this.emitFormCommand({
+              path: 'emailDefaultReceiptStatus',
+              command: 'setErrors',
+              payload: {
+                required: null,
+              },
+            });
+            this.emitFormCommand({
+              path: 'emailDefaultReceiptPaidById',
+              command: 'setErrors',
+              payload: {
+                required: null,
+              },
+            });
           }
           this.emitFormCommand({
             path: 'emailToRead',
+            command: 'updateValueAndValidity',
+          });
+          this.emitFormCommand({
+            path: 'emailDefaultReceiptStatus',
+            command: 'updateValueAndValidity',
+          });
+          this.emitFormCommand({
+            path: 'emailDefaultReceiptPaidById',
             command: 'updateValueAndValidity',
           });
         })
@@ -138,6 +180,18 @@ export class GroupSettingsEmailComponent
       payload: this.group?.groupSettings?.emailToRead,
     };
     this.emitFormCommand(formCommand);
+
+    this.emitFormCommand({
+      path: 'emailDefaultReceiptStatus',
+      command: 'patchValue',
+      payload: this.group?.groupSettings?.emailDefaultReceiptStatus,
+    });
+
+    this.emitFormCommand({
+      path: 'emailDefaultReceiptPaidById',
+      command: 'patchValue',
+      payload: this.group?.groupSettings?.emailDefaultReceiptPaidById,
+    });
 
     const groupSettingsEmails = (
       this.group?.groupSettings?.emailWhiteList || []
