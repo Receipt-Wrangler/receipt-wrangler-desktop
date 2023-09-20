@@ -14,7 +14,7 @@
   icon="done"
   matButtonType="matRaisedButton"
   [buttonText]="buttonText ?? 'Save'"
-  type="submit"
+  [type]="type || 'submit'"
   [buttonClass]="disabled ? '' : 'mat-success-full'"
   [tooltip]="tooltip ?? 'Save'"
   (clicked)="clicked.emit()"
