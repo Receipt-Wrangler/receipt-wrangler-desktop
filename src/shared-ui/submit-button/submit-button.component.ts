@@ -25,6 +25,8 @@ export class SubmitButtonComponent
 
   @Input() public disableOnLoading: boolean = false;
 
+  @Input() public override type: 'button' | 'submit' = 'submit';
+
   public formMode = FormMode;
 
   public disabledSubscription!: Subscription;
