@@ -201,9 +201,14 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   private initForm(): void {
-    const selectedGroupId = this.store.selectSnapshot(
+    let selectedGroupId: number | string = this.store.selectSnapshot(
       GroupState.selectedGroupId
     );
+    if (selectedGroupId === 'all') {
+      selectedGroupId = '';
+    } else {
+      selectedGroupId = Number(selectedGroupId);
+    }
     this.form = this.formBuilder.group({
       name: [this.originalReceipt?.name ?? '', Validators.required],
       amount: [
@@ -220,7 +225,7 @@ export class ReceiptFormComponent implements OnInit {
         Validators.required,
       ],
       groupId: [
-        this.originalReceipt?.groupId ?? Number(selectedGroupId),
+        this.originalReceipt?.groupId ?? selectedGroupId,
         Validators.required,
       ],
       status: this.originalReceipt?.status ?? Receipt.StatusEnum.OPEN,
