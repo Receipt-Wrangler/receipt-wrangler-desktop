@@ -72,7 +72,7 @@ const routes: Routes = [
       entityType: 'Settings',
       groupRole: GroupMember.GroupRoleEnum.OWNER,
     },
-    canActivate: [GroupRoleGuard, developmentGuard],
+    canActivate: [GroupRoleGuard],
   },
   {
     path: ':id/settings/edit',
@@ -88,7 +88,7 @@ const routes: Routes = [
       entityType: 'Settings',
       groupRole: GroupMember.GroupRoleEnum.OWNER,
     },
-    canActivate: [GroupRoleGuard, developmentGuard],
+    canActivate: [GroupRoleGuard],
   },
 ];
 
