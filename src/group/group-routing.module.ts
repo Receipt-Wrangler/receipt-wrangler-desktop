@@ -28,7 +28,7 @@ const routes: Routes = [
     },
   },
   {
-    path: ':id/view',
+    path: ':id',
     component: GroupFormComponent,
     resolve: {
       group: GroupResolverService,
@@ -41,22 +41,39 @@ const routes: Routes = [
       groupRole: GroupMember.GroupRoleEnum.VIEWER,
     },
     canActivate: [GroupRoleGuard],
-  },
-  {
-    path: ':id/edit',
-    component: GroupFormComponent,
-    resolve: {
-      group: GroupResolverService,
-    },
-    data: {
-      formConfig: {
-        mode: FormMode.edit,
-        headerText: 'Edit Group',
-      } as FormConfig,
-      groupRole: GroupMember.GroupRoleEnum.OWNER,
-      useRouteGroupId: true,
-    },
-    canActivate: [GroupRoleGuard],
+    children: [
+      {
+        path: 'details/view',
+        component: GroupFormComponent,
+        resolve: {
+          group: GroupResolverService,
+        },
+        data: {
+          formConfig: {
+            mode: FormMode.view,
+            headerText: 'View Group',
+          } as FormConfig,
+          groupRole: GroupMember.GroupRoleEnum.VIEWER,
+        },
+        canActivate: [GroupRoleGuard],
+      },
+      {
+        path: 'details/edit',
+        component: GroupFormComponent,
+        resolve: {
+          group: GroupResolverService,
+        },
+        data: {
+          formConfig: {
+            mode: FormMode.edit,
+            headerText: 'Edit Group',
+          } as FormConfig,
+          groupRole: GroupMember.GroupRoleEnum.OWNER,
+          useRouteGroupId: true,
+        },
+        canActivate: [GroupRoleGuard],
+      },
+    ],
   },
   {
     path: ':id/settings/view',

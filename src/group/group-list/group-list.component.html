@@ -16,7 +16,7 @@
 </div>
 
 <ng-template #nameCell let-element="element" let-index="index">
-  <a [routerLink]="['/groups/' + element.id + '/view']">
+  <a [routerLink]="['/groups/' + element.id + '/details/view']">
     {{ element.name }}
   </a>
 </ng-template>
@@ -43,7 +43,7 @@
       *ngIf="element.id | groupRole : groupRole.OWNER"
       color="accent"
       tooltip="Edit group"
-      [buttonRouterLink]="['/groups/' + element.id + '/edit']"
+      [buttonRouterLink]="['/groups/' + element.id + '/details/edit']"
     ></app-edit-button>
     <app-delete-button
       *ngIf="element.id | groupRole : groupRole.OWNER"
