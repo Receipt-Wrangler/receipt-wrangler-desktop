@@ -11,6 +11,7 @@ import { GroupListComponent } from './group-list/group-list.component';
 import { GroupResolverService } from './resolvers/group-resolver.service';
 import { GroupSettingsComponent } from './group-settings/group-settings.component';
 import { developmentGuard } from 'src/guards/development.guard';
+import { GroupTabsComponent } from './group-tabs/group-tabs.component';
 
 const routes: Routes = [
   {
@@ -28,8 +29,8 @@ const routes: Routes = [
     },
   },
   {
-    path: ':id/view',
-    component: GroupFormComponent,
+    path: ':id',
+    component: GroupTabsComponent,
     resolve: {
       group: GroupResolverService,
     },
@@ -41,54 +42,73 @@ const routes: Routes = [
       groupRole: GroupMember.GroupRoleEnum.VIEWER,
     },
     canActivate: [GroupRoleGuard],
-  },
-  {
-    path: ':id/edit',
-    component: GroupFormComponent,
-    resolve: {
-      group: GroupResolverService,
-    },
-    data: {
-      formConfig: {
-        mode: FormMode.edit,
-        headerText: 'Edit Group',
-      } as FormConfig,
-      groupRole: GroupMember.GroupRoleEnum.OWNER,
-      useRouteGroupId: true,
-    },
-    canActivate: [GroupRoleGuard],
-  },
-  {
-    path: ':id/settings/view',
-    component: GroupSettingsComponent,
-    resolve: {
-      group: GroupResolverService,
-    },
-    data: {
-      formConfig: {
-        mode: FormMode.view,
-      } as FormConfig,
-      setHeaderText: true,
-      entityType: 'Settings',
-      groupRole: GroupMember.GroupRoleEnum.OWNER,
-    },
-    canActivate: [GroupRoleGuard],
-  },
-  {
-    path: ':id/settings/edit',
-    component: GroupSettingsComponent,
-    resolve: {
-      group: GroupResolverService,
-    },
-    data: {
-      formConfig: {
-        mode: FormMode.edit,
-      } as FormConfig,
-      setHeaderText: true,
-      entityType: 'Settings',
-      groupRole: GroupMember.GroupRoleEnum.OWNER,
-    },
-    canActivate: [GroupRoleGuard],
+    children: [
+      {
+        path: 'details/view',
+        component: GroupFormComponent,
+        resolve: {
+          group: GroupResolverService,
+        },
+        data: {
+          formConfig: {
+            mode: FormMode.view,
+            headerText: 'View Group',
+          } as FormConfig,
+          groupRole: GroupMember.GroupRoleEnum.VIEWER,
+          entityType: 'Details',
+          setHeaderText: true,
+        },
+        canActivate: [GroupRoleGuard],
+      },
+      {
+        path: 'details/edit',
+        component: GroupFormComponent,
+        resolve: {
+          group: GroupResolverService,
+        },
+        data: {
+          formConfig: {
+            mode: FormMode.edit,
+          } as FormConfig,
+          groupRole: GroupMember.GroupRoleEnum.OWNER,
+          entityType: 'Details',
+          setHeaderText: true,
+        },
+        canActivate: [GroupRoleGuard],
+      },
+      {
+        path: 'settings/view',
+        component: GroupSettingsComponent,
+        resolve: {
+          group: GroupResolverService,
+        },
+        data: {
+          formConfig: {
+            mode: FormMode.view,
+          } as FormConfig,
+          setHeaderText: true,
+          entityType: 'Settings',
+          groupRole: GroupMember.GroupRoleEnum.OWNER,
+        },
+        canActivate: [GroupRoleGuard],
+      },
+      {
+        path: 'settings/edit',
+        component: GroupSettingsComponent,
+        resolve: {
+          group: GroupResolverService,
+        },
+        data: {
+          formConfig: {
+            mode: FormMode.edit,
+          } as FormConfig,
+          setHeaderText: true,
+          entityType: 'Settings',
+          groupRole: GroupMember.GroupRoleEnum.OWNER,
+        },
+        canActivate: [GroupRoleGuard],
+      },
+    ],
   },
 ];
 

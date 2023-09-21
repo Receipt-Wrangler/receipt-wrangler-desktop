@@ -15,17 +15,19 @@ export class GroupResolverService {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<Group> {
-    return this.groupsService.getGroupById(route.params['id']).pipe(
-      tap((group) => {
-        if (route.data['setHeaderText'] && route.data['formConfig']) {
-          route.data['formConfig'].headerText = setEntityHeaderText(
-            group,
-            'name',
-            route.data['formConfig'],
-            route.data['entityType']
-          );
-        }
-      })
-    );
+    return this.groupsService
+      .getGroupById(route.params['id'] || route.parent?.params['id'])
+      .pipe(
+        tap((group) => {
+          if (route.data['setHeaderText'] && route.data['formConfig']) {
+            route.data['formConfig'].headerText = setEntityHeaderText(
+              group,
+              'name',
+              route.data['formConfig'],
+              route.data['entityType']
+            );
+          }
+        })
+      );
   }
 }

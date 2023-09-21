@@ -44,4 +44,17 @@ describe('GroupSettingsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should init form with empty values', () => {
+    component.ngOnInit();
+
+    expect(component.form.value).toEqual({
+      emailToRead: '',
+      emailIntegrationEnabled: false,
+      subjectLineRegexes: [],
+      emailWhiteList: [],
+      emailDefaultReceiptStatus: '',
+      emailDefaultReceiptPaidById: '',
+    });
+  });
 });
