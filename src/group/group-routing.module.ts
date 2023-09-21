@@ -55,6 +55,8 @@ const routes: Routes = [
             headerText: 'View Group',
           } as FormConfig,
           groupRole: GroupMember.GroupRoleEnum.VIEWER,
+          entityType: 'Details',
+          setHeaderText: true,
         },
         canActivate: [GroupRoleGuard],
       },
@@ -67,10 +69,10 @@ const routes: Routes = [
         data: {
           formConfig: {
             mode: FormMode.edit,
-            headerText: 'Edit Group',
           } as FormConfig,
           groupRole: GroupMember.GroupRoleEnum.OWNER,
-          useRouteGroupId: true,
+          entityType: 'Details',
+          setHeaderText: true,
         },
         canActivate: [GroupRoleGuard],
       },
