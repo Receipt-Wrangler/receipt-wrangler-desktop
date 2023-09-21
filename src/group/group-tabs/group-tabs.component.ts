@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { FeatureConfigState } from '@receipt-wrangler/receipt-wrangler-core';
 import { TabConfig } from 'src/shared-ui/tabs/tab-config.interface';
 
 @Component({
@@ -15,16 +17,24 @@ export class GroupTabsComponent {
     this.initTabs();
   }
 
+  constructor(private store: Store) {}
+
   private initTabs(): void {
     this.tabs = [
       {
-        label: 'User Profile',
-        routerLink: 'test',
-      },
-      {
-        label: 'User Preferences',
-        routerLink: 'user-preferences/view',
+        label: 'Group Details',
+        routerLink: 'details/view',
       },
     ];
+
+    const hasAiPoweredReceipts = this.store.selectSnapshot(
+      FeatureConfigState.hasFeature('aiPoweredReceipts')
+    );
+    if (hasAiPoweredReceipts) {
+      this.tabs.push({
+        label: 'Group Settings',
+        routerLink: 'settings/view',
+      });
+    }
   }
 }
