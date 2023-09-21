@@ -1,6 +1,5 @@
 <app-form-header
   [headerText]="formConfig.headerText"
-  [buttonRouterLink]="['/groups']"
   [headerButtonsTemplate]="headerButtonsTemplate"
 ></app-form-header>
 <form [formGroup]="form" (ngSubmit)="submit()">
@@ -56,7 +55,6 @@
 <ng-template #headerButtonsTemplate>
   <app-edit-button
     *ngIf="formConfig.mode | inputReadonly"
-    color="accent"
     [disabled]="!(originalGroup?.id ?? 0 | groupRole : groupRole.OWNER)"
     [buttonRouterLink]="[editLink]"
   ></app-edit-button>

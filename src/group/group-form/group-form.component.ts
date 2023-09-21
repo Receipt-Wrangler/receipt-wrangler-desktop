@@ -89,7 +89,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
     this.originalGroup = this.activatedRoute.snapshot.data['group'];
     this.formConfig = this.activatedRoute.snapshot.data['formConfig'];
     if (this.originalGroup) {
-      this.editLink = `/groups/${this.originalGroup.id}/edit`;
+      this.editLink = `/groups/${this.originalGroup.id}/details/edit`;
     }
     this.initForm();
   }
