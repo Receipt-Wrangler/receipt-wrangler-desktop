@@ -9,9 +9,21 @@
       <ng-container *ngIf="mode !== formMode.add">
         <app-form-section headerText="Audit Details" [indent]="false">
           <div class="d-flex flex-column mb-3">
-            <span *ngIf="originalReceipt?.createdBy" class="mb-1">
+            <span
+              *ngIf="
+                originalReceipt?.createdBy || originalReceipt?.createdByString
+              "
+              class="mb-1"
+            >
               Added by:
-              {{ (originalReceipt?.createdBy?.toString() | user)?.displayName }}
+              <ng-container *ngIf="originalReceipt?.createdByString">
+                {{ originalReceipt?.createdByString }}
+              </ng-container>
+              <ng-container *ngIf="originalReceipt?.createdBy">
+                {{
+                  (originalReceipt?.createdBy?.toString() | user)?.displayName
+                }}
+              </ng-container>
             </span>
             <span class="mb-1">
               Added at: {{ originalReceipt?.createdAt | date : "medium" }}
