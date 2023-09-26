@@ -7,11 +7,13 @@ import {
 import { CategoryService } from '@receipt-wrangler/receipt-wrangler-core';
 import { map, Observable, of } from 'rxjs';
 
+type DuplicateValidatorType = 'category' | 'tag';
+
 @Injectable()
 export class DuplicateValidator {
   constructor(private categoryService: CategoryService) {}
   isUnique(
-    type: 'category',
+    type: DuplicateValidatorType,
     threshold: number,
     originalValue: string
   ): AsyncValidatorFn {
@@ -33,7 +35,7 @@ export class DuplicateValidator {
   }
 
   private getObservable(
-    type: 'category',
+    type: DuplicateValidatorType,
     control: AbstractControl
   ): Observable<number> {
     switch (type) {

@@ -26,6 +26,8 @@ import {
 import { TagTableState } from 'src/store/tag-table.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
+import { TagFormComponent } from '../tag-form/tag-form.component';
+import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 
 @Component({
   selector: 'app-tags-list',
@@ -149,24 +151,27 @@ export class TagsListComponent implements OnInit, AfterViewInit {
     ];
   }
 
-  // public openEditDialog(categoryView: TagView): void {
-  //   const dialogRef = this.matDialog.open(CategoryForm, DEFAULT_DIALOG_CONFIG);
+  public openEditDialog(tagView: TagView): void {
+    const dialogRef = this.matDialog.open(
+      TagFormComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
 
-  //   dialogRef.componentInstance.category = categoryView;
-  //   dialogRef.componentInstance.headerText = `Edit ${categoryView.name}`;
+    dialogRef.componentInstance.tag = tagView;
+    dialogRef.componentInstance.headerText = `Edit ${tagView.name}`;
 
-  //   dialogRef
-  //     .afterClosed()
-  //     .pipe(
-  //       take(1),
-  //       tap((refreshData) => {
-  //         if (refreshData) {
-  //           this.getTags();
-  //         }
-  //       })
-  //     )
-  //     .subscribe();
-  // }
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((refreshData) => {
+          if (refreshData) {
+            this.getTags();
+          }
+        })
+      )
+      .subscribe();
+  }
 
   // public openAddDialog(): void {
   //   const dialogRef = this.matDialog.open(CategoryForm, DEFAULT_DIALOG_CONFIG);
