@@ -13,7 +13,7 @@ import { LayoutState } from './layout.state';
 import { ReceiptTableState } from './receipt-table.state';
 import { CategoryTableState } from './category-table.state';
 import { environment } from 'src/environments/environment.development';
-import { TagsTableState } from './tags-table.state';
+import { TagTableState } from './tag-table.state';
 
 @NgModule({
   declarations: [],
@@ -26,7 +26,7 @@ import { TagsTableState } from './tags-table.state';
       GroupState,
       LayoutState,
       ReceiptTableState,
-      TagsTableState,
+      TagTableState,
       UserState,
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({

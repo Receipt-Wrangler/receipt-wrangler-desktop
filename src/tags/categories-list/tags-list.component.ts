@@ -1,13 +1,3 @@
-import { take, tap } from 'rxjs';
-import {
-  SetOrderBy,
-  SetPage,
-  SetPageSize,
-  SetSortDirection,
-} from 'src/store/paged-table.state.actions';
-import { TableColumn } from 'src/table/table-column.interface';
-import { TableComponent } from 'src/table/table/table.component';
-
 import {
   AfterViewInit,
   Component,
@@ -21,12 +11,21 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import {
-  TagView,
   PagedRequestCommand,
   SnackbarService,
   TagService,
+  TagView,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { TagsTableState } from 'src/store/tags-table.state';
+import { take, tap } from 'rxjs';
+import {
+  SetOrderBy,
+  SetPage,
+  SetPageSize,
+  SetSortDirection,
+} from 'src/store/paged-table.state.actions';
+import { TagTableState } from 'src/store/tag-table.state';
+import { TableColumn } from 'src/table/table-column.interface';
+import { TableComponent } from 'src/table/table/table.component';
 
 @Component({
   selector: 'app-tags-list',
@@ -79,7 +78,7 @@ export class TagsListComponent implements OnInit, AfterViewInit {
 
   private getTags(): void {
     const command: PagedRequestCommand = this.store.selectSnapshot(
-      TagsTableState.state
+      TagTableState.state
     );
 
     this.tagService

@@ -5,7 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule, Store } from '@ngxs/store';
 import { ApiModule, TagService } from '@receipt-wrangler/receipt-wrangler-core';
 import { of } from 'rxjs';
-import { TagsTableState } from 'src/store/tags-table.state';
+import { TagTableState } from 'src/store/tag-table.state';
 import { TagsListComponent } from './tags-list.component';
 // import { CategoryForm } from '../category-form/category-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -22,7 +22,7 @@ describe('TagsListComponent', () => {
         ApiModule,
         HttpClientTestingModule,
         MatDialogModule,
-        NgxsModule.forRoot([TagsTableState]),
+        NgxsModule.forRoot([TagTableState]),
         MatSnackBarModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -72,7 +72,7 @@ describe('TagsListComponent', () => {
       direction: 'asc',
     });
 
-    expect(store.selectSnapshot(TagsTableState.state)).toEqual({
+    expect(store.selectSnapshot(TagTableState.state)).toEqual({
       page: 1,
       pageSize: 50,
       orderBy: 'numberOfReceipts',
@@ -100,7 +100,7 @@ describe('TagsListComponent', () => {
       pageSize: 100,
     } as any);
 
-    expect(store.selectSnapshot(TagsTableState.state)).toEqual({
+    expect(store.selectSnapshot(TagTableState.state)).toEqual({
       page: 3,
       pageSize: 100,
       orderBy: 'name',

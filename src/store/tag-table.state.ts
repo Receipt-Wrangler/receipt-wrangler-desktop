@@ -4,7 +4,7 @@ import { Selector, State } from '@ngxs/store';
 import { Inject, Injectable } from '@angular/core';
 
 @State<PagedTableInterface>({
-  name: 'tagsTable',
+  name: 'tagTable',
   defaults: {
     page: 1,
     pageSize: 50,
@@ -13,4 +13,4 @@ import { Inject, Injectable } from '@angular/core';
   },
 })
 @Injectable()
-export class TagsTableState extends PagedTableState {}
+export class TagTableState extends PagedTableState {}
