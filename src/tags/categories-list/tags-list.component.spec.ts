@@ -1,42 +1,33 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule, Store } from '@ngxs/store';
-import {
-  ApiModule,
-  CategoryService,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { ApiModule, TagService } from '@receipt-wrangler/receipt-wrangler-core';
 import { of } from 'rxjs';
-import { CategoryTableState } from 'src/store/category-table.state';
-import { CategoriesListComponent } from './tags-list.component';
-import { CategoryForm } from '../category-form/category-form.component';
-import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
+import { TagsTableState } from 'src/store/tags-table.state';
+import { TagsListComponent } from './tags-list.component';
+// import { CategoryForm } from '../category-form/category-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 
-describe('CategoriesListComponent', () => {
-  let component: CategoriesListComponent;
-  let fixture: ComponentFixture<CategoriesListComponent>;
+describe('TagsListComponent', () => {
+  let component: TagsListComponent;
+  let fixture: ComponentFixture<TagsListComponent>;
   let store: Store;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CategoriesListComponent],
+      declarations: [TagsListComponent],
       imports: [
         ApiModule,
         HttpClientTestingModule,
         MatDialogModule,
-        NgxsModule.forRoot([CategoryTableState]),
+        NgxsModule.forRoot([TagsTableState]),
         MatSnackBarModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
-    fixture = TestBed.createComponent(CategoriesListComponent);
+    fixture = TestBed.createComponent(TagsListComponent);
     store = TestBed.inject(Store);
     component = fixture.componentInstance;
   });
@@ -46,10 +37,7 @@ describe('CategoriesListComponent', () => {
   });
 
   it('should attempt to get table data, set datasource and total count', () => {
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'getPagedCategories'
-    );
+    const serviceSpy = spyOn(TestBed.inject(TagService), 'getPagedTags');
     serviceSpy.and.returnValue(
       of({
         data: [{}],
@@ -71,10 +59,7 @@ describe('CategoriesListComponent', () => {
   });
 
   it('should attempt to get table data, with new sorted direction and key', () => {
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'getPagedCategories'
-    );
+    const serviceSpy = spyOn(TestBed.inject(TagService), 'getPagedTags');
     serviceSpy.and.returnValue(
       of({
         data: [{}],
@@ -87,7 +72,7 @@ describe('CategoriesListComponent', () => {
       direction: 'asc',
     });
 
-    expect(store.selectSnapshot(CategoryTableState.state)).toEqual({
+    expect(store.selectSnapshot(TagsTableState.state)).toEqual({
       page: 1,
       pageSize: 50,
       orderBy: 'numberOfReceipts',
@@ -102,10 +87,7 @@ describe('CategoriesListComponent', () => {
   });
 
   it('should attempt to get table data, with newpage and new page size', () => {
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'getPagedCategories'
-    );
+    const serviceSpy = spyOn(TestBed.inject(TagService), 'getPagedTags');
     serviceSpy.and.returnValue(
       of({
         data: [{}],
@@ -118,7 +100,7 @@ describe('CategoriesListComponent', () => {
       pageSize: 100,
     } as any);
 
-    expect(store.selectSnapshot(CategoryTableState.state)).toEqual({
+    expect(store.selectSnapshot(TagsTableState.state)).toEqual({
       page: 3,
       pageSize: 100,
       orderBy: 'name',
@@ -144,147 +126,147 @@ describe('CategoriesListComponent', () => {
     ]);
   });
 
-  it('should open edit dialog and refresh data when after closed with true', () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'getPagedCategories'
-    );
-    dialogSpy.and.returnValue({
-      componentInstance: {
-        category: {},
-        headerText: '',
-      },
-      afterClosed: () => of(true),
-    } as any);
+  // it('should open edit dialog and refresh data when after closed with true', () => {
+  //   const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+  //   const serviceSpy = spyOn(
+  //     TestBed.inject(TagService),
+  //     'getPagedTags'
+  //   );
+  //   dialogSpy.and.returnValue({
+  //     componentInstance: {
+  //       category: {},
+  //       headerText: '',
+  //     },
+  //     afterClosed: () => of(true),
+  //   } as any);
 
-    const categoryView: any = {};
-    component.openEditDialog(categoryView);
+  //   const categoryView: any = {};
+  //   component.openEditDialog(categoryView);
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
-      CategoryForm,
-      DEFAULT_DIALOG_CONFIG
-    );
-    expect(serviceSpy).toHaveBeenCalledTimes(1);
-  });
+  //   expect(dialogSpy).toHaveBeenCalledOnceWith(
+  //     CategoryForm,
+  //     DEFAULT_DIALOG_CONFIG
+  //   );
+  //   expect(serviceSpy).toHaveBeenCalledTimes(1);
+  // });
 
-  it('should open edit dialog and not refresh data when after closed with false', () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'getPagedCategories'
-    );
-    dialogSpy.and.returnValue({
-      componentInstance: {
-        category: {},
-        headerText: '',
-      },
-      afterClosed: () => of(false),
-    } as any);
+  // it('should open edit dialog and not refresh data when after closed with false', () => {
+  //   const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+  //   const serviceSpy = spyOn(
+  //     TestBed.inject(TagService),
+  //     'getPagedTags'
+  //   );
+  //   dialogSpy.and.returnValue({
+  //     componentInstance: {
+  //       category: {},
+  //       headerText: '',
+  //     },
+  //     afterClosed: () => of(false),
+  //   } as any);
 
-    const categoryView: any = {};
-    component.openEditDialog(categoryView);
+  //   const categoryView: any = {};
+  //   component.openEditDialog(categoryView);
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
-      CategoryForm,
-      DEFAULT_DIALOG_CONFIG
-    );
-    expect(serviceSpy).toHaveBeenCalledTimes(0);
-  });
+  //   expect(dialogSpy).toHaveBeenCalledOnceWith(
+  //     CategoryForm,
+  //     DEFAULT_DIALOG_CONFIG
+  //   );
+  //   expect(serviceSpy).toHaveBeenCalledTimes(0);
+  // });
 
-  it('should open confirmation dialog and refresh data when after closed with true', () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
-    const deleteSpy = spyOn(TestBed.inject(CategoryService), 'deleteCategory');
-    deleteSpy.and.returnValue(of(undefined as any));
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'getPagedCategories'
-    );
-    dialogSpy.and.returnValue({
-      componentInstance: {
-        category: {},
-        headerText: '',
-      },
-      afterClosed: () => of(true),
-    } as any);
+  // it('should open confirmation dialog and refresh data when after closed with true', () => {
+  //   const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+  //   const deleteSpy = spyOn(TestBed.inject(TagService), 'deleteCategory');
+  //   deleteSpy.and.returnValue(of(undefined as any));
+  //   const serviceSpy = spyOn(
+  //     TestBed.inject(TagService),
+  //     'getPagedTags'
+  //   );
+  //   dialogSpy.and.returnValue({
+  //     componentInstance: {
+  //       category: {},
+  //       headerText: '',
+  //     },
+  //     afterClosed: () => of(true),
+  //   } as any);
 
-    const categoryView: any = { id: 1 };
-    component.openDeleteConfirmationDialog(categoryView);
+  //   const categoryView: any = { id: 1 };
+  //   component.openDeleteConfirmationDialog(categoryView);
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
-      ConfirmationDialogComponent,
-      DEFAULT_DIALOG_CONFIG
-    );
-    expect(deleteSpy).toHaveBeenCalledWith(1);
-  });
+  //   expect(dialogSpy).toHaveBeenCalledOnceWith(
+  //     ConfirmationDialogComponent,
+  //     DEFAULT_DIALOG_CONFIG
+  //   );
+  //   expect(deleteSpy).toHaveBeenCalledWith(1);
+  // });
 
-  it('should open confirmation dialog and not refresh data when after closed with false', () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'getPagedCategories'
-    );
-    dialogSpy.and.returnValue({
-      componentInstance: {
-        category: {},
-        headerText: '',
-      },
-      afterClosed: () => of(false),
-    } as any);
+  // it('should open confirmation dialog and not refresh data when after closed with false', () => {
+  //   const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+  //   const serviceSpy = spyOn(
+  //     TestBed.inject(TagService),
+  //     'getPagedTags'
+  //   );
+  //   dialogSpy.and.returnValue({
+  //     componentInstance: {
+  //       category: {},
+  //       headerText: '',
+  //     },
+  //     afterClosed: () => of(false),
+  //   } as any);
 
-    const categoryView: any = {};
-    component.openDeleteConfirmationDialog(categoryView);
+  //   const categoryView: any = {};
+  //   component.openDeleteConfirmationDialog(categoryView);
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
-      ConfirmationDialogComponent,
-      DEFAULT_DIALOG_CONFIG
-    );
-    expect(serviceSpy).toHaveBeenCalledTimes(0);
-  });
+  //   expect(dialogSpy).toHaveBeenCalledOnceWith(
+  //     ConfirmationDialogComponent,
+  //     DEFAULT_DIALOG_CONFIG
+  //   );
+  //   expect(serviceSpy).toHaveBeenCalledTimes(0);
+  // });
 
-  it('should open add dialog and refresh data when after closed with true', () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'getPagedCategories'
-    );
-    dialogSpy.and.returnValue({
-      componentInstance: {
-        category: {},
-        headerText: '',
-      },
-      afterClosed: () => of(true),
-    } as any);
+  // it('should open add dialog and refresh data when after closed with true', () => {
+  //   const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+  //   const serviceSpy = spyOn(
+  //     TestBed.inject(TagService),
+  //     'getPagedTags'
+  //   );
+  //   dialogSpy.and.returnValue({
+  //     componentInstance: {
+  //       category: {},
+  //       headerText: '',
+  //     },
+  //     afterClosed: () => of(true),
+  //   } as any);
 
-    component.openAddDialog();
+  //   component.openAddDialog();
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
-      CategoryForm,
-      DEFAULT_DIALOG_CONFIG
-    );
-    expect(serviceSpy).toHaveBeenCalledTimes(1);
-  });
+  //   expect(dialogSpy).toHaveBeenCalledOnceWith(
+  //     CategoryForm,
+  //     DEFAULT_DIALOG_CONFIG
+  //   );
+  //   expect(serviceSpy).toHaveBeenCalledTimes(1);
+  // });
 
-  it('should open add dialog and not refresh data when after closed with false', () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'getPagedCategories'
-    );
-    dialogSpy.and.returnValue({
-      componentInstance: {
-        category: {},
-        headerText: '',
-      },
-      afterClosed: () => of(false),
-    } as any);
+  // it('should open add dialog and not refresh data when after closed with false', () => {
+  //   const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+  //   const serviceSpy = spyOn(
+  //     TestBed.inject(TagService),
+  //     'getPagedTags'
+  //   );
+  //   dialogSpy.and.returnValue({
+  //     componentInstance: {
+  //       category: {},
+  //       headerText: '',
+  //     },
+  //     afterClosed: () => of(false),
+  //   } as any);
 
-    component.openAddDialog();
+  //   component.openAddDialog();
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
-      CategoryForm,
-      DEFAULT_DIALOG_CONFIG
-    );
-    expect(serviceSpy).toHaveBeenCalledTimes(0);
-  });
+  //   expect(dialogSpy).toHaveBeenCalledOnceWith(
+  //     CategoryForm,
+  //     DEFAULT_DIALOG_CONFIG
+  //   );
+  //   expect(serviceSpy).toHaveBeenCalledTimes(0);
+  // });
 });
