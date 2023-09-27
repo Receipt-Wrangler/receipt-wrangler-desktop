@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
-import {
-  AbstractControl,
-  AsyncValidatorFn,
-  ValidationErrors,
-} from '@angular/forms';
-import { CategoryService } from '@receipt-wrangler/receipt-wrangler-core';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of } from "rxjs";
+
+import { Injectable } from "@angular/core";
+import { AbstractControl, AsyncValidatorFn, ValidationErrors } from "@angular/forms";
+import { CategoryService, TagService } from "@receipt-wrangler/receipt-wrangler-core";
 
 type DuplicateValidatorType = 'category' | 'tag';
 
 @Injectable()
 export class DuplicateValidator {
-  constructor(private categoryService: CategoryService) {}
+  constructor(
+    private categoryService: CategoryService,
+    private tagService: TagService
+  ) {}
   isUnique(
     type: DuplicateValidatorType,
     threshold: number,
@@ -40,7 +40,9 @@ export class DuplicateValidator {
   ): Observable<number> {
     switch (type) {
       case 'category':
-        return this.categoryService.getCategoryByName(control.value);
+        return this.categoryService.getCategoryCountByName(control.value);
+      case 'tag':
+        return this.tagService.getTagCountByName(control.value);
       default:
         return of(0);
     }

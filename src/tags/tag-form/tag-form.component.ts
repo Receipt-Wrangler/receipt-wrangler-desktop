@@ -38,7 +38,7 @@ export class TagFormComponent implements OnInit {
 
     const nameValidator = this.duplicateValidator.isUnique('tag', 0, name);
     this.form = this.formBuilder.group({
-      name: [name, Validators.required],
+      name: [name, Validators.required, nameValidator],
       description: [this.tag?.description ?? ''],
     });
   }
