@@ -54,7 +54,7 @@ export class TagFormComponent implements OnInit {
         .pipe(
           take(1),
           tap(() => {
-            this.snackService.success('Category updated successfully');
+            this.snackService.success('Tag updated successfully');
             this.matDialogRef.close(true);
           })
         )
