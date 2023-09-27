@@ -1,15 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { take, tap } from "rxjs";
+import { DuplicateValidator } from "src/validators/duplicate-validator";
+
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
 import {
-  Category,
-  CategoryService,
-  CategoryView,
-  SnackbarService,
-  TagView,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { of, take, tap } from 'rxjs';
-import { DuplicateValidator } from 'src/validators/duplicate-validator';
+  SnackbarService, TagService, TagView, UpsertTagCommand
+} from "@receipt-wrangler/receipt-wrangler-core";
 
 @Component({
   selector: 'app-tag-form',
@@ -27,7 +24,7 @@ export class TagFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private matDialogRef: MatDialogRef<TagFormComponent>,
-    private categoryService: CategoryService,
+    private categoryService: TagService,
     private snackService: SnackbarService,
     private duplicateValidator: DuplicateValidator
   ) {}
@@ -41,20 +38,19 @@ export class TagFormComponent implements OnInit {
 
     const nameValidator = this.duplicateValidator.isUnique('tag', 0, name);
     this.form = this.formBuilder.group({
-      name: [name, Validators.required, nameValidator],
+      name: [name, Validators.required],
       description: [this.tag?.description ?? ''],
     });
   }
 
   public submit(): void {
     if (this.form.valid && this.tag) {
-      const category: Category = {
-        id: this.tag?.id,
+      const command: UpsertTagCommand = {
         name: this.form.value.name,
         description: this.form.value.description,
       };
       this.categoryService
-        .updateCategory(category, category.id as number)
+        .updateTag(command, this.tag.id as number)
         .pipe(
           take(1),
           tap(() => {
@@ -64,16 +60,16 @@ export class TagFormComponent implements OnInit {
         )
         .subscribe();
     } else if (this.form.valid && !this.tag) {
-      this.categoryService
-        .createCategory(this.form.value as Category)
-        .pipe(
-          take(1),
-          tap(() => {
-            this.snackService.success('Category created successfully');
-            this.matDialogRef.close(true);
-          })
-        )
-        .subscribe();
+      // this.categoryService
+      //   .createCategory(this.form.value as Category)
+      //   .pipe(
+      //     take(1),
+      //     tap(() => {
+      //       this.snackService.success('Category created successfully');
+      //       this.matDialogRef.close(true);
+      //     })
+      //   )
+      //   .subscribe();
     }
   }
 
