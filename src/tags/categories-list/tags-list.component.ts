@@ -173,23 +173,26 @@ export class TagsListComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
-  // public openAddDialog(): void {
-  //   const dialogRef = this.matDialog.open(CategoryForm, DEFAULT_DIALOG_CONFIG);
+  public openAddDialog(): void {
+    const dialogRef = this.matDialog.open(
+      TagFormComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
 
-  //   dialogRef.componentInstance.headerText = `Add category`;
+    dialogRef.componentInstance.headerText = `Add tag`;
 
-  //   dialogRef
-  //     .afterClosed()
-  //     .pipe(
-  //       take(1),
-  //       tap((refreshData) => {
-  //         if (refreshData) {
-  //           this.getTags();
-  //         }
-  //       })
-  //     )
-  //     .subscribe();
-  // }
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((refreshData) => {
+          if (refreshData) {
+            this.getTags();
+          }
+        })
+      )
+      .subscribe();
+  }
 
   public openDeleteConfirmationDialog(categoryView: TagView) {
     // const dialogRef = this.matDialog.open(

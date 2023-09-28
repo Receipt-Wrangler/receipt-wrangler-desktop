@@ -1,12 +1,15 @@
-import { take, tap } from "rxjs";
-import { DuplicateValidator } from "src/validators/duplicate-validator";
+import { take, tap } from 'rxjs';
+import { DuplicateValidator } from 'src/validators/duplicate-validator';
 
-import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatDialogRef } from "@angular/material/dialog";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import {
-  SnackbarService, TagService, TagView, UpsertTagCommand
-} from "@receipt-wrangler/receipt-wrangler-core";
+  SnackbarService,
+  TagService,
+  TagView,
+  UpsertTagCommand,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 @Component({
   selector: 'app-tag-form',
@@ -60,16 +63,16 @@ export class TagFormComponent implements OnInit {
         )
         .subscribe();
     } else if (this.form.valid && !this.tag) {
-      // this.categoryService
-      //   .createCategory(this.form.value as Category)
-      //   .pipe(
-      //     take(1),
-      //     tap(() => {
-      //       this.snackService.success('Category created successfully');
-      //       this.matDialogRef.close(true);
-      //     })
-      //   )
-      //   .subscribe();
+      this.categoryService
+        .createTag(this.form.value)
+        .pipe(
+          take(1),
+          tap(() => {
+            this.snackService.success('Tag created successfully');
+            this.matDialogRef.close(true);
+          })
+        )
+        .subscribe();
     }
   }
 
