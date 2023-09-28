@@ -76,8 +76,8 @@ describe('CategoryForm', () => {
   });
 
   it('should submit form with correct data, when editing', () => {
-    const categoryServiceSpy = spyOn(TestBed.inject(TagService), 'updateTag');
-    categoryServiceSpy.and.returnValue(of({} as any));
+    const tagServiceSpy = spyOn(TestBed.inject(TagService), 'updateTag');
+    tagServiceSpy.and.returnValue(of({} as any));
     const nameValidateSpy = spyOn(
       TestBed.inject(TagService),
       'getTagCountByName'
@@ -93,7 +93,7 @@ describe('CategoryForm', () => {
     component.ngOnInit();
     component.submit();
 
-    expect(categoryServiceSpy).toHaveBeenCalledOnceWith(
+    expect(tagServiceSpy).toHaveBeenCalledOnceWith(
       {
         name: 'test',
         description: 'test',
@@ -101,28 +101,25 @@ describe('CategoryForm', () => {
       1
     );
   });
+
+  it('should submit form with correct data, when creating', () => {
+    const nameValidateSpy = spyOn(
+      TestBed.inject(TagService),
+      'getTagCountByName'
+    ).and.returnValue(of(0) as any);
+    const tagServiceSpy = spyOn(TestBed.inject(TagService), 'createTag');
+    tagServiceSpy.and.returnValue(of({} as any));
+
+    component.ngOnInit();
+    component.form.patchValue({
+      name: 'test',
+      description: 'test',
+    });
+    component.submit();
+
+    expect(tagServiceSpy).toHaveBeenCalledOnceWith({
+      name: 'test',
+      description: 'test',
+    });
+  });
 });
-//   it('should submit form with correct data, when creating', () => {
-//     const nameValidateSpy = spyOn(
-//       TestBed.inject(CategoryService),
-//       'getCategoryByName'
-//     ).and.returnValue(of(0) as any);
-//     const categoryServiceSpy = spyOn(
-//       TestBed.inject(CategoryService),
-//       'createCategory'
-//     );
-//     categoryServiceSpy.and.returnValue(of({} as any));
-
-//     component.ngOnInit();
-//     component.form.patchValue({
-//       name: 'test',
-//       description: 'test',
-//     });
-//     component.submit();
-
-//     expect(categoryServiceSpy).toHaveBeenCalledOnceWith({
-//       name: 'test',
-//       description: 'test',
-//     });
-//   });
-// });
