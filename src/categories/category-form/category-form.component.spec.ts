@@ -81,7 +81,7 @@ describe('CategoryForm', () => {
     categoryServiceSpy.and.returnValue(of({} as any));
     const nameValidateSpy = spyOn(
       TestBed.inject(CategoryService),
-      'getCategoryByName'
+      'getCategoryCountByName'
     ).and.returnValue(of(0) as any);
     const category: CategoryView = {
       id: 1,
@@ -107,7 +107,7 @@ describe('CategoryForm', () => {
   it('should submit form with correct data, when creating', () => {
     const nameValidateSpy = spyOn(
       TestBed.inject(CategoryService),
-      'getCategoryByName'
+      'getCategoryCountByName'
     ).and.returnValue(of(0) as any);
     const categoryServiceSpy = spyOn(
       TestBed.inject(CategoryService),
