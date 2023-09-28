@@ -16,7 +16,7 @@ import {
   TagService,
   TagView,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { take, tap } from 'rxjs';
+import { of, switchMap, take, tap } from 'rxjs';
 import {
   SetOrderBy,
   SetPage,
@@ -28,6 +28,7 @@ import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { TagFormComponent } from '../tag-form/tag-form.component';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
+import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-tags-list',
@@ -173,48 +174,51 @@ export class TagsListComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
-  // public openAddDialog(): void {
-  //   const dialogRef = this.matDialog.open(CategoryForm, DEFAULT_DIALOG_CONFIG);
+  public openAddDialog(): void {
+    const dialogRef = this.matDialog.open(
+      TagFormComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
 
-  //   dialogRef.componentInstance.headerText = `Add category`;
+    dialogRef.componentInstance.headerText = `Add tag`;
 
-  //   dialogRef
-  //     .afterClosed()
-  //     .pipe(
-  //       take(1),
-  //       tap((refreshData) => {
-  //         if (refreshData) {
-  //           this.getTags();
-  //         }
-  //       })
-  //     )
-  //     .subscribe();
-  // }
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((refreshData) => {
+          if (refreshData) {
+            this.getTags();
+          }
+        })
+      )
+      .subscribe();
+  }
 
-  public openDeleteConfirmationDialog(categoryView: TagView) {
-    // const dialogRef = this.matDialog.open(
-    //   ConfirmationDialogComponent,
-    //   DEFAULT_DIALOG_CONFIG
-    // );
-    // dialogRef.componentInstance.headerText = `Delete ${categoryView.name}`;
-    // dialogRef.componentInstance.dialogContent = `Are you sure you want to delete ${categoryView.name}? This action is irreversiable and will this category from the receipts it is associated with.`;
-    // dialogRef
-    //   .afterClosed()
-    //   .pipe(
-    //     take(1),
-    //     switchMap((confirmed) => {
-    //       if (confirmed) {
-    //         return this.categoryService.deleteCategory(categoryView.id).pipe(
-    //           tap(() => {
-    //             this.snackbarService.success('Category successfully deleted');
-    //             this.getTags();
-    //           })
-    //         );
-    //       } else {
-    //         return of(undefined);
-    //       }
-    //     })
-    //   )
-    //   .subscribe();
+  public openDeleteConfirmationDialog(tagView: TagView) {
+    const dialogRef = this.matDialog.open(
+      ConfirmationDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+    dialogRef.componentInstance.headerText = `Delete ${tagView.name}`;
+    dialogRef.componentInstance.dialogContent = `Are you sure you want to delete ${tagView.name}? This action is irreversiable and will remove this tag from the receipts it is associated with.`;
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        switchMap((confirmed) => {
+          if (confirmed) {
+            return this.tagService.deleteTag(tagView.id).pipe(
+              tap(() => {
+                this.snackbarService.success('Tag successfully deleted');
+                this.getTags();
+              })
+            );
+          } else {
+            return of(undefined);
+          }
+        })
+      )
+      .subscribe();
   }
 }

@@ -1,14 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule, Store } from '@ngxs/store';
 import { ApiModule, TagService } from '@receipt-wrangler/receipt-wrangler-core';
 import { of } from 'rxjs';
 import { TagTableState } from 'src/store/tag-table.state';
 import { TagsListComponent } from './tags-list.component';
-// import { CategoryForm } from '../category-form/category-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
+import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
+import { TagFormComponent } from '../tag-form/tag-form.component';
 
 describe('TagsListComponent', () => {
   let component: TagsListComponent;
@@ -126,147 +128,129 @@ describe('TagsListComponent', () => {
     ]);
   });
 
-  // it('should open edit dialog and refresh data when after closed with true', () => {
-  //   const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
-  //   const serviceSpy = spyOn(
-  //     TestBed.inject(TagService),
-  //     'getPagedTags'
-  //   );
-  //   dialogSpy.and.returnValue({
-  //     componentInstance: {
-  //       category: {},
-  //       headerText: '',
-  //     },
-  //     afterClosed: () => of(true),
-  //   } as any);
+  it('should open edit dialog and refresh data when after closed with true', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    const serviceSpy = spyOn(TestBed.inject(TagService), 'getPagedTags');
+    dialogSpy.and.returnValue({
+      componentInstance: {
+        tag: {},
+        headerText: '',
+      },
+      afterClosed: () => of(true),
+    } as any);
 
-  //   const categoryView: any = {};
-  //   component.openEditDialog(categoryView);
+    const tagView: any = {};
+    component.openEditDialog(tagView);
 
-  //   expect(dialogSpy).toHaveBeenCalledOnceWith(
-  //     CategoryForm,
-  //     DEFAULT_DIALOG_CONFIG
-  //   );
-  //   expect(serviceSpy).toHaveBeenCalledTimes(1);
-  // });
+    expect(dialogSpy).toHaveBeenCalledOnceWith(
+      TagFormComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+    expect(serviceSpy).toHaveBeenCalledTimes(1);
+  });
 
-  // it('should open edit dialog and not refresh data when after closed with false', () => {
-  //   const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
-  //   const serviceSpy = spyOn(
-  //     TestBed.inject(TagService),
-  //     'getPagedTags'
-  //   );
-  //   dialogSpy.and.returnValue({
-  //     componentInstance: {
-  //       category: {},
-  //       headerText: '',
-  //     },
-  //     afterClosed: () => of(false),
-  //   } as any);
+  it('should open edit dialog and not refresh data when after closed with false', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    const serviceSpy = spyOn(TestBed.inject(TagService), 'getPagedTags');
+    dialogSpy.and.returnValue({
+      componentInstance: {
+        tag: {},
+        headerText: '',
+      },
+      afterClosed: () => of(false),
+    } as any);
 
-  //   const categoryView: any = {};
-  //   component.openEditDialog(categoryView);
+    const tagView: any = {};
+    component.openEditDialog(tagView);
 
-  //   expect(dialogSpy).toHaveBeenCalledOnceWith(
-  //     CategoryForm,
-  //     DEFAULT_DIALOG_CONFIG
-  //   );
-  //   expect(serviceSpy).toHaveBeenCalledTimes(0);
-  // });
+    expect(dialogSpy).toHaveBeenCalledOnceWith(
+      TagFormComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+    expect(serviceSpy).toHaveBeenCalledTimes(0);
+  });
 
-  // it('should open confirmation dialog and refresh data when after closed with true', () => {
-  //   const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
-  //   const deleteSpy = spyOn(TestBed.inject(TagService), 'deleteCategory');
-  //   deleteSpy.and.returnValue(of(undefined as any));
-  //   const serviceSpy = spyOn(
-  //     TestBed.inject(TagService),
-  //     'getPagedTags'
-  //   );
-  //   dialogSpy.and.returnValue({
-  //     componentInstance: {
-  //       category: {},
-  //       headerText: '',
-  //     },
-  //     afterClosed: () => of(true),
-  //   } as any);
+  it('should open confirmation dialog and refresh data when after closed with true', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    const deleteSpy = spyOn(TestBed.inject(TagService), 'deleteTag');
+    deleteSpy.and.returnValue(of(undefined as any));
+    const serviceSpy = spyOn(TestBed.inject(TagService), 'getPagedTags');
+    dialogSpy.and.returnValue({
+      componentInstance: {
+        tag: {},
+        headerText: '',
+      },
+      afterClosed: () => of(true),
+    } as any);
 
-  //   const categoryView: any = { id: 1 };
-  //   component.openDeleteConfirmationDialog(categoryView);
+    const tagView: any = { id: 1 };
+    component.openDeleteConfirmationDialog(tagView);
 
-  //   expect(dialogSpy).toHaveBeenCalledOnceWith(
-  //     ConfirmationDialogComponent,
-  //     DEFAULT_DIALOG_CONFIG
-  //   );
-  //   expect(deleteSpy).toHaveBeenCalledWith(1);
-  // });
+    expect(dialogSpy).toHaveBeenCalledOnceWith(
+      ConfirmationDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+    expect(deleteSpy).toHaveBeenCalledWith(1);
+  });
 
-  // it('should open confirmation dialog and not refresh data when after closed with false', () => {
-  //   const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
-  //   const serviceSpy = spyOn(
-  //     TestBed.inject(TagService),
-  //     'getPagedTags'
-  //   );
-  //   dialogSpy.and.returnValue({
-  //     componentInstance: {
-  //       category: {},
-  //       headerText: '',
-  //     },
-  //     afterClosed: () => of(false),
-  //   } as any);
+  it('should open confirmation dialog and not refresh data when after closed with false', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    const serviceSpy = spyOn(TestBed.inject(TagService), 'getPagedTags');
+    dialogSpy.and.returnValue({
+      componentInstance: {
+        tag: {},
+        headerText: '',
+      },
+      afterClosed: () => of(false),
+    } as any);
 
-  //   const categoryView: any = {};
-  //   component.openDeleteConfirmationDialog(categoryView);
+    const tagView: any = {};
+    component.openDeleteConfirmationDialog(tagView);
 
-  //   expect(dialogSpy).toHaveBeenCalledOnceWith(
-  //     ConfirmationDialogComponent,
-  //     DEFAULT_DIALOG_CONFIG
-  //   );
-  //   expect(serviceSpy).toHaveBeenCalledTimes(0);
-  // });
+    expect(dialogSpy).toHaveBeenCalledOnceWith(
+      ConfirmationDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+    expect(serviceSpy).toHaveBeenCalledTimes(0);
+  });
 
-  // it('should open add dialog and refresh data when after closed with true', () => {
-  //   const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
-  //   const serviceSpy = spyOn(
-  //     TestBed.inject(TagService),
-  //     'getPagedTags'
-  //   );
-  //   dialogSpy.and.returnValue({
-  //     componentInstance: {
-  //       category: {},
-  //       headerText: '',
-  //     },
-  //     afterClosed: () => of(true),
-  //   } as any);
+  it('should open add dialog and refresh data when after closed with true', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    const serviceSpy = spyOn(TestBed.inject(TagService), 'getPagedTags');
+    dialogSpy.and.returnValue({
+      componentInstance: {
+        tag: {},
+        headerText: '',
+      },
+      afterClosed: () => of(true),
+    } as any);
 
-  //   component.openAddDialog();
+    component.openAddDialog();
 
-  //   expect(dialogSpy).toHaveBeenCalledOnceWith(
-  //     CategoryForm,
-  //     DEFAULT_DIALOG_CONFIG
-  //   );
-  //   expect(serviceSpy).toHaveBeenCalledTimes(1);
-  // });
+    expect(dialogSpy).toHaveBeenCalledOnceWith(
+      TagFormComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+    expect(serviceSpy).toHaveBeenCalledTimes(1);
+  });
 
-  // it('should open add dialog and not refresh data when after closed with false', () => {
-  //   const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
-  //   const serviceSpy = spyOn(
-  //     TestBed.inject(TagService),
-  //     'getPagedTags'
-  //   );
-  //   dialogSpy.and.returnValue({
-  //     componentInstance: {
-  //       category: {},
-  //       headerText: '',
-  //     },
-  //     afterClosed: () => of(false),
-  //   } as any);
+  it('should open add dialog and not refresh data when after closed with false', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    const serviceSpy = spyOn(TestBed.inject(TagService), 'getPagedTags');
+    dialogSpy.and.returnValue({
+      componentInstance: {
+        tag: {},
+        headerText: '',
+      },
+      afterClosed: () => of(false),
+    } as any);
 
-  //   component.openAddDialog();
+    component.openAddDialog();
 
-  //   expect(dialogSpy).toHaveBeenCalledOnceWith(
-  //     CategoryForm,
-  //     DEFAULT_DIALOG_CONFIG
-  //   );
-  //   expect(serviceSpy).toHaveBeenCalledTimes(0);
-  // });
+    expect(dialogSpy).toHaveBeenCalledOnceWith(
+      TagFormComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+    expect(serviceSpy).toHaveBeenCalledTimes(0);
+  });
 });

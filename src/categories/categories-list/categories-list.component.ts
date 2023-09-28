@@ -199,7 +199,7 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
     );
 
     dialogRef.componentInstance.headerText = `Delete ${categoryView.name}`;
-    dialogRef.componentInstance.dialogContent = `Are you sure you want to delete ${categoryView.name}? This action is irreversiable and will this category from the receipts it is associated with.`;
+    dialogRef.componentInstance.dialogContent = `Are you sure you want to delete ${categoryView.name}? This action is irreversiable and will remove this category from the receipts it is associated with.`;
 
     dialogRef
       .afterClosed()
