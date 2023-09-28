@@ -1,8 +1,15 @@
-import { map, Observable, of } from "rxjs";
+import { map, Observable, of } from 'rxjs';
 
-import { Injectable } from "@angular/core";
-import { AbstractControl, AsyncValidatorFn, ValidationErrors } from "@angular/forms";
-import { CategoryService, TagService } from "@receipt-wrangler/receipt-wrangler-core";
+import { Injectable } from '@angular/core';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  ValidationErrors,
+} from '@angular/forms';
+import {
+  CategoryService,
+  TagService,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 type DuplicateValidatorType = 'category' | 'tag';
 
