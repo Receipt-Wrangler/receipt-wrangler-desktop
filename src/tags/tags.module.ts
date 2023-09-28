@@ -5,14 +5,25 @@ import { HttpClientModule } from '@angular/common/http';
 import { TableModule } from 'src/table/table.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { TagsRoutingModule } from './tags-routing.module';
+import { TagFormComponent } from './tag-form/tag-form.component';
+import {
+  DirectivesModule,
+  InputModule,
+  PipesModule,
+} from '@receipt-wrangler/receipt-wrangler-core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [TagsListComponent],
+  declarations: [TagsListComponent, TagFormComponent],
   imports: [
     CommonModule,
+    DirectivesModule,
     HttpClientModule,
-    TableModule,
+    InputModule,
+    PipesModule,
+    ReactiveFormsModule,
     SharedUiModule,
+    TableModule,
     TagsRoutingModule,
   ],
 })

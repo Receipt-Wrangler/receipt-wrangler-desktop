@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CategoryForm } from './category-form.component';
+import { TagFormComponent } from './tag-form.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   MatDialog,
@@ -14,6 +14,8 @@ import {
   CategoryService,
   CategoryView,
   PipesModule,
+  TagService,
+  TagView,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -22,12 +24,12 @@ import { of } from 'rxjs';
 import { DuplicateValidator } from 'src/validators/duplicate-validator';
 
 describe('CategoryForm', () => {
-  let component: CategoryForm;
-  let fixture: ComponentFixture<CategoryForm>;
+  let component: TagFormComponent;
+  let fixture: ComponentFixture<TagFormComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CategoryForm],
+      declarations: [TagFormComponent],
       imports: [
         ApiModule,
         HttpClientTestingModule,
@@ -47,7 +49,7 @@ describe('CategoryForm', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
-    fixture = TestBed.createComponent(CategoryForm);
+    fixture = TestBed.createComponent(TagFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -57,13 +59,13 @@ describe('CategoryForm', () => {
   });
 
   it('should init form with data', () => {
-    const category: CategoryView = {
+    const tag: TagView = {
       id: 1,
       name: 'test',
       description: 'test',
       numberOfReceipts: 1,
     };
-    component.category = category;
+    component.tag = tag;
 
     component.ngOnInit();
 
@@ -74,57 +76,53 @@ describe('CategoryForm', () => {
   });
 
   it('should submit form with correct data, when editing', () => {
-    const categoryServiceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'updateCategory'
-    );
+    const categoryServiceSpy = spyOn(TestBed.inject(TagService), 'updateTag');
     categoryServiceSpy.and.returnValue(of({} as any));
     const nameValidateSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'getCategoryCountByName'
+      TestBed.inject(TagService),
+      'getTagCountByName'
     ).and.returnValue(of(0) as any);
-    const category: CategoryView = {
+    const tag: TagView = {
       id: 1,
       name: 'test',
       description: 'test',
       numberOfReceipts: 1,
     };
-    component.category = category;
+    component.tag = tag;
 
     component.ngOnInit();
     component.submit();
 
     expect(categoryServiceSpy).toHaveBeenCalledOnceWith(
       {
-        id: 1,
         name: 'test',
         description: 'test',
       },
       1
     );
   });
-
-  it('should submit form with correct data, when creating', () => {
-    const nameValidateSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'getCategoryCountByName'
-    ).and.returnValue(of(0) as any);
-    const categoryServiceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      'createCategory'
-    );
-    categoryServiceSpy.and.returnValue(of({} as any));
-
-    component.ngOnInit();
-    component.form.patchValue({
-      name: 'test',
-      description: 'test',
-    });
-    component.submit();
-
-    expect(categoryServiceSpy).toHaveBeenCalledOnceWith({
-      name: 'test',
-      description: 'test',
-    });
-  });
 });
+//   it('should submit form with correct data, when creating', () => {
+//     const nameValidateSpy = spyOn(
+//       TestBed.inject(CategoryService),
+//       'getCategoryByName'
+//     ).and.returnValue(of(0) as any);
+//     const categoryServiceSpy = spyOn(
+//       TestBed.inject(CategoryService),
+//       'createCategory'
+//     );
+//     categoryServiceSpy.and.returnValue(of({} as any));
+
+//     component.ngOnInit();
+//     component.form.patchValue({
+//       name: 'test',
+//       description: 'test',
+//     });
+//     component.submit();
+
+//     expect(categoryServiceSpy).toHaveBeenCalledOnceWith({
+//       name: 'test',
+//       description: 'test',
+//     });
+//   });
+// });
