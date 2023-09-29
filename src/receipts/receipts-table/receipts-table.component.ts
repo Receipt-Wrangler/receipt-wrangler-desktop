@@ -433,4 +433,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       )
       .subscribe();
   }
+
+  public pollEmail(): void {
+    // get the group settings, make sure at least one is enabled. if all group, then get all groups user has access to
+    // if not all group, then get the group id from the settings
+  }
 }

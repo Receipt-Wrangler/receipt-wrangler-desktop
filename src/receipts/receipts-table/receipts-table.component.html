@@ -30,6 +30,16 @@
       (clicked)="filterButtonClicked()"
     ></app-button>
     <app-button
+      class="me-2"
+      icon="sync"
+      matButtonType="iconButton"
+      tooltip="Poll email"
+      color="accent"
+      matBadgeColor="accent"
+      [disabled]="!(groupId | groupRole : groupRole.VIEWER)"
+      (clicked)="pollEmail()"
+    ></app-button>
+    <app-button
       *ngIf="(numFiltersApplied | async) ?? 0 > 0"
       @fadeInOut
       class="me-2"
