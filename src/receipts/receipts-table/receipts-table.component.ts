@@ -32,6 +32,7 @@ import {
   BulkStatusUpdateCommand,
   Category,
   GroupMember,
+  GroupsService,
   GroupState,
   Receipt,
   ReceiptService,
@@ -59,6 +60,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private groupUtil: GroupUtil,
+    private groupsService: GroupsService,
     private matDialog: MatDialog,
     private receiptFilterService: ReceiptFilterService,
     private receiptService: ReceiptService,
@@ -435,7 +437,15 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   public pollEmail(): void {
-    // get the group settings, make sure at least one is enabled. if all group, then get all groups user has access to
-    // if not all group, then get the group id from the settings
+    const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
+    this.groupsService
+      .pollGroupEmail(groupId as any)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.snackbarService.success('Email successfully polled');
+        })
+      )
+      .subscribe();
   }
 }
