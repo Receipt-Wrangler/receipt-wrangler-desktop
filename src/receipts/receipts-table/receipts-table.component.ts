@@ -1,4 +1,4 @@
-import { map, Observable, of, Subject, take, tap } from 'rxjs';
+import { finalize, map, Observable, of, Subject, take, tap } from 'rxjs';
 import { ReceiptFilterService } from 'src/services/receipt-filter.service';
 import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 import {
@@ -32,6 +32,7 @@ import {
   BulkStatusUpdateCommand,
   Category,
   GroupMember,
+  GroupsService,
   GroupState,
   Receipt,
   ReceiptService,
@@ -45,6 +46,10 @@ import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-up
 import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.component';
 import { fadeInOut } from 'src/animations';
 import { QuickScanDialogComponent } from '../quick-scan-dialog/quick-scan-dialog.component';
+import {
+  HideProgressBar,
+  ShowProgressBar,
+} from 'src/store/layout.state.actions';
 
 @UntilDestroy()
 @Component({
@@ -59,6 +64,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private groupUtil: GroupUtil,
+    private groupsService: GroupsService,
     private matDialog: MatDialog,
     private receiptFilterService: ReceiptFilterService,
     private receiptService: ReceiptService,
@@ -430,6 +436,22 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
             }
           }
         )
+      )
+      .subscribe();
+  }
+
+  public pollEmail(): void {
+    const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
+
+    this.store.dispatch(new ShowProgressBar());
+    this.groupsService
+      .pollGroupEmail(groupId as any)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.snackbarService.success('Email successfully polled');
+        }),
+        finalize(() => this.store.dispatch(new HideProgressBar()))
       )
       .subscribe();
   }

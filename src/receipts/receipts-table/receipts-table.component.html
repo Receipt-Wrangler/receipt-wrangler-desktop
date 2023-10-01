@@ -30,6 +30,17 @@
       (clicked)="filterButtonClicked()"
     ></app-button>
     <app-button
+      *appFeature="'aiPoweredReceipts'"
+      class="me-2"
+      icon="mail"
+      matButtonType="iconButton"
+      tooltip="Poll email(s)"
+      color="accent"
+      matBadgeColor="accent"
+      [disabled]="!(groupId | groupRole : groupRole.VIEWER)"
+      (clicked)="pollEmail()"
+    ></app-button>
+    <app-button
       *ngIf="(numFiltersApplied | async) ?? 0 > 0"
       @fadeInOut
       class="me-2"
