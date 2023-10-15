@@ -27,7 +27,7 @@ export class UploadImageComponent {
 
   public formMode = FormMode;
 
-  public acceptFileType: string = 'image/*';
+  public acceptFileTypes: string[] = ['image/*', 'application/pdf'];
 
   public clickInput(): void {
     this.uploadInput.nativeElement.click();
@@ -36,7 +36,7 @@ export class UploadImageComponent {
   public async onFileChange(event: any): Promise<void> {
     const files: File[] = Array.from(event?.target?.files ?? []);
     const acceptedFiles = files.filter((f) =>
-      new RegExp(this.acceptFileType).test(f.type)
+      this.acceptFileTypes.some((t) => new RegExp(t).test(f.type))
     );
 
     for (let i = 0; i < acceptedFiles.length; i++) {
