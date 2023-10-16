@@ -5,8 +5,10 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FileData } from '@receipt-wrangler/receipt-wrangler-core';
+import {
+  FileData,
+  ReceiptFileUploadCommand,
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { FormMode } from 'src/enums/form-mode.enum';
 
 @Component({
@@ -21,7 +23,8 @@ export class UploadImageComponent {
 
   @Input() public multiple: boolean = true;
 
-  @Output() public fileLoaded: EventEmitter<FileData> = new EventEmitter();
+  @Output() public fileLoaded: EventEmitter<ReceiptFileUploadCommand> =
+    new EventEmitter();
 
   @ViewChild('uploadInput') uploadInput!: any;
 
@@ -52,7 +55,12 @@ export class UploadImageComponent {
           receiptId: this.receiptId,
         } as any as FileData;
 
-        this.fileLoaded.emit(fileData);
+        const command: ReceiptFileUploadCommand = {
+          file: f,
+          receiptId: Number(this.receiptId),
+        };
+
+        this.fileLoaded.emit(command);
       };
 
       reader.readAsBinaryString(f);

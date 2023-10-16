@@ -46,6 +46,7 @@ import {
   GroupMember,
   GroupState,
   Receipt,
+  ReceiptFileUploadCommand,
   ReceiptImageService,
   ReceiptService,
   SnackbarService,
@@ -105,6 +106,8 @@ export class ReceiptFormComponent implements OnInit {
   public originalReceipt?: Receipt;
 
   public images: FileData[] = [];
+
+  public filesToUpload: ReceiptFileUploadCommand[] = [];
 
   public mode: FormMode = FormMode.view;
 
@@ -464,23 +467,21 @@ export class ReceiptFormComponent implements OnInit {
       .subscribe();
   }
 
-  public imageFileLoaded(fileData: FileData): void {
+  public imageFileLoaded(command: ReceiptFileUploadCommand): void {
     switch (this.mode) {
       case FormMode.add:
-        this.images.push(fileData);
+        this.filesToUpload.push(command);
         break;
       case FormMode.edit:
-        const uploadData = formatImageData(
-          fileData,
-          this.originalReceipt?.id as number
-        );
         this.receiptImageService
-          .uploadReceiptImage(uploadData)
+          .uploadReceiptImageForm(
+            command.file,
+            this.originalReceipt?.id as number
+          )
           .pipe(
             tap((data: FileData) => {
               this.snackbarService.success('Successfully uploaded image(s)');
-              fileData.id = data.id;
-              this.images.push(fileData);
+              this.images.push(data);
             })
           )
           .subscribe();
@@ -536,15 +537,16 @@ export class ReceiptFormComponent implements OnInit {
           this.snackbarService.success('Successfully added receipt');
           route = `/receipts/${r.id}/view`;
         }),
-        switchMap((r) =>
+        switchMap((receipt) =>
           iif(
-            () => this.images.length > 0,
+            () => this.filesToUpload.length > 0,
             forkJoin(
-              this.images.map((image) =>
-                this.receiptImageService.uploadReceiptImage(
-                  formatImageData(image, r.id)
-                )
-              )
+              this.filesToUpload.map((file) => {
+                return this.receiptImageService.uploadReceiptImageForm(
+                  file.file,
+                  receipt.id
+                );
+              })
             ),
             of('')
           )
