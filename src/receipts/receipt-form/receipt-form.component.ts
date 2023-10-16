@@ -42,6 +42,7 @@ import {
   Category,
   FeatureConfigState,
   FileData,
+  FileDataView,
   Group,
   GroupMember,
   GroupState,
@@ -105,7 +106,7 @@ export class ReceiptFormComponent implements OnInit {
 
   public originalReceipt?: Receipt;
 
-  public images: FileData[] = [];
+  public images: FileDataView[] = [];
 
   public filesToUpload: ReceiptFileUploadCommand[] = [];
 
@@ -280,9 +281,7 @@ export class ReceiptFormComponent implements OnInit {
           .getReceiptImageById(file.id)
           .pipe(
             tap((data) => {
-              // TODO: clean this up
-              file.imageData = data.encodedImage as any;
-              this.images.push(file);
+              this.images.push(data);
             }),
             finalize(() => (this.imagesLoading = false))
           )
@@ -327,32 +326,28 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public magicFill(): void {
-    const index = this.carouselComponent.currentlyShownImageIndex;
-    const receiptImage = this.images[index];
-    const formattedReceiptImage = formatImageData(receiptImage, 0);
-
-    let data;
-    let receiptImageId = receiptImage?.id;
-
-    if (this.mode === FormMode.add) {
-      data = {
-        imageData: formattedReceiptImage.imageData,
-        filename: receiptImage.name,
-      };
-    }
-
-    this.store.dispatch(new ShowProgressBar());
-
-    this.receiptImageService
-      .magicFillReceipt(data, receiptImageId)
-      .pipe(
-        take(1),
-        tap((magicFilledReceipt) => {
-          this.patchMagicValues(magicFilledReceipt);
-        }),
-        finalize(() => this.store.dispatch(new HideProgressBar()))
-      )
-      .subscribe();
+    // const index = this.carouselComponent.currentlyShownImageIndex;
+    // const receiptImage = this.images[index];
+    // const formattedReceiptImage = formatImageData(receiptImage, 0);
+    // let data;
+    // let receiptImageId = receiptImage?.id;
+    // if (this.mode === FormMode.add) {
+    //   data = {
+    //     imageData: formattedReceiptImage.imageData,
+    //     filename: receiptImage.name,
+    //   };
+    // }
+    // this.store.dispatch(new ShowProgressBar());
+    // this.receiptImageService
+    //   .magicFillReceipt(data, receiptImageId)
+    //   .pipe(
+    //     take(1),
+    //     tap((magicFilledReceipt) => {
+    //       this.patchMagicValues(magicFilledReceipt);
+    //     }),
+    //     finalize(() => this.store.dispatch(new HideProgressBar()))
+    //   )
+    //   .subscribe();
   }
 
   private patchMagicValues(magicReceipt: Receipt): void {
@@ -479,7 +474,7 @@ export class ReceiptFormComponent implements OnInit {
             this.originalReceipt?.id as number
           )
           .pipe(
-            tap((data: FileData) => {
+            tap((data) => {
               this.snackbarService.success('Successfully uploaded image(s)');
               this.images.push(data);
             })

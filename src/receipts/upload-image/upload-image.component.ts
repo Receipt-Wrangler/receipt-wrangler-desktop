@@ -17,8 +17,6 @@ import { FormMode } from 'src/enums/form-mode.enum';
   styleUrls: ['./upload-image.component.scss'],
 })
 export class UploadImageComponent {
-  @Input() public images: FileData[] = [];
-
   @Input() public receiptId?: string = '';
 
   @Input() public multiple: boolean = true;

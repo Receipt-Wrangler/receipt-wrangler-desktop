@@ -8,7 +8,7 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { FileData } from '@receipt-wrangler/receipt-wrangler-core';
+import { FileDataView } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Component({
   selector: 'app-carousel',
@@ -17,7 +17,7 @@ import { FileData } from '@receipt-wrangler/receipt-wrangler-core';
   encapsulation: ViewEncapsulation.None,
 })
 export class CarouselComponent {
-  @Input() public images: FileData[] = [];
+  @Input() public images: FileDataView[] = [];
 
   @Input() public disabled: boolean = false;
 

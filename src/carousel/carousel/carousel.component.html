@@ -30,7 +30,7 @@
       ></app-button>
     </div>
     <image-cropper
-      [imageBase64]="image | image"
+      [imageBase64]="image.encodedImage"
       [hideResizeSquares]="true"
       [transform]="transform"
       [allowMoveImage]="true"
