@@ -82,7 +82,8 @@ export class QuickScanDialogComponent implements OnInit {
     });
   }
 
-  public fileLoaded(fileData: FileData): void {
+  // TODO: fix
+  public fileLoaded(fileData: any): void {
     this.images.push(fileData);
   }
 

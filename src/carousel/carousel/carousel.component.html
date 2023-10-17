@@ -3,7 +3,7 @@
   [isAnimated]="true"
   (activeSlideChange)="updateCurrentlyShownImage($event)"
 >
-  <slide *ngFor="let image of images; let i = index">
+  <slide *ngFor="let data of datasource; let i = index">
     <div *ngIf="!hideButtonControls" class="row justify-content-center">
       <app-button
         class="col-auto"
@@ -29,8 +29,13 @@
         (clicked)="emitRemoveButtonClicked(i)"
       ></app-button>
     </div>
+    <image-cropper *ngIf="data?.blob">
+      [imageFile]="data.blob" [hideResizeSquares]="true" [transform]="transform"
+      [allowMoveImage]="true" (wheel)="onScroll($event)"
+    </image-cropper>
     <image-cropper
-      [imageBase64]="image.encodedImage"
+      *ngIf="data?.encodedImage"
+      [imageBase64]="data.encodedImage"
       [hideResizeSquares]="true"
       [transform]="transform"
       [allowMoveImage]="true"

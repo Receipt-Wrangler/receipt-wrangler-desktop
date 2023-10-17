@@ -1,4 +1,5 @@
 import {
+  BehaviorSubject,
   distinctUntilChanged,
   finalize,
   forkJoin,
@@ -19,6 +20,7 @@ import { FormMode } from 'src/enums/form-mode.enum';
 import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomplete/user-autocomplete.component';
 
 import {
+  ChangeDetectorRef,
   Component,
   EmbeddedViewRef,
   OnInit,
@@ -106,7 +108,9 @@ export class ReceiptFormComponent implements OnInit {
 
   public originalReceipt?: Receipt;
 
-  public images: FileDataView[] = [];
+  public images: BehaviorSubject<FileDataView[]> = new BehaviorSubject<
+    FileDataView[]
+  >([]);
 
   public filesToUpload: ReceiptFileUploadCommand[] = [];
 
@@ -281,7 +285,7 @@ export class ReceiptFormComponent implements OnInit {
           .getReceiptImageById(file.id)
           .pipe(
             tap((data) => {
-              this.images.push(data);
+              this.images.next([...this.images.value, data]);
             }),
             finalize(() => (this.imagesLoading = false))
           )
@@ -308,16 +312,19 @@ export class ReceiptFormComponent implements OnInit {
 
   public removeImage(): void {
     const index = this.carouselComponent.currentlyShownImageIndex;
+    const newImages = Array.from(this.images.value);
 
     if (this.mode === FormMode.add) {
-      this.images.splice(index, 1);
+      newImages.splice(index, 1);
+      this.images.next(newImages);
     } else {
-      const image = this.images[index];
+      const image = this.images.value[index];
       this.receiptImageService
         .deleteReceiptImageById(image.id)
         .pipe(
           tap(() => {
-            this.images.splice(index, 1);
+            newImages.splice(index, 1);
+            this.images.next(newImages);
             this.snackbarService.success('Image successfully removed');
           })
         )
@@ -476,7 +483,9 @@ export class ReceiptFormComponent implements OnInit {
           .pipe(
             tap((data) => {
               this.snackbarService.success('Successfully uploaded image(s)');
-              this.images.push(data);
+              const newImages = Array.from(this.images.value);
+              newImages.push(data);
+              this.images.next(newImages);
             })
           )
           .subscribe();
