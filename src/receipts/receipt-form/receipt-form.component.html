@@ -295,7 +295,7 @@
   <app-button
     *ngIf="
       !(mode | inputReadonly) &&
-      (images.value?.length ?? 0 > 0) &&
+      (images.value.length ?? 0 > 0) &&
       (aiPoweredReceipts | async)
     "
     matButtonType="iconButton"

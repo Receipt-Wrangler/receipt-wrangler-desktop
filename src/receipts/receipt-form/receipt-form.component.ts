@@ -333,28 +333,28 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public magicFill(): void {
-    // const index = this.carouselComponent.currentlyShownImageIndex;
-    // const receiptImage = this.images[index];
-    // const formattedReceiptImage = formatImageData(receiptImage, 0);
-    // let data;
-    // let receiptImageId = receiptImage?.id;
-    // if (this.mode === FormMode.add) {
-    //   data = {
-    //     imageData: formattedReceiptImage.imageData,
-    //     filename: receiptImage.name,
-    //   };
-    // }
-    // this.store.dispatch(new ShowProgressBar());
-    // this.receiptImageService
-    //   .magicFillReceipt(data, receiptImageId)
-    //   .pipe(
-    //     take(1),
-    //     tap((magicFilledReceipt) => {
-    //       this.patchMagicValues(magicFilledReceipt);
-    //     }),
-    //     finalize(() => this.store.dispatch(new HideProgressBar()))
-    //   )
-    //   .subscribe();
+    const index = this.carouselComponent.currentlyShownImageIndex;
+    const receiptImage = this.images.value[index];
+    const formattedReceiptImage = formatImageData(receiptImage);
+    let data;
+    let receiptImageId = receiptImage?.id;
+    if (this.mode === FormMode.add) {
+      data = {
+        imageData: formattedReceiptImage.imageData,
+        filename: 'new',
+      };
+    }
+    this.store.dispatch(new ShowProgressBar());
+    this.receiptImageService
+      .magicFillReceipt(data, receiptImageId)
+      .pipe(
+        take(1),
+        tap((magicFilledReceipt) => {
+          this.patchMagicValues(magicFilledReceipt);
+        }),
+        finalize(() => this.store.dispatch(new HideProgressBar()))
+      )
+      .subscribe();
   }
 
   private patchMagicValues(magicReceipt: Receipt): void {

@@ -7,7 +7,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { FileData, Item } from '@receipt-wrangler/receipt-wrangler-core';
+import { FileDataView, Item } from '@receipt-wrangler/receipt-wrangler-core';
 
 export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
   return new FormGroup({
@@ -75,12 +75,11 @@ function itemTotalValidator(): ValidatorFn {
     }
   };
 }
-export function formatImageData(image: FileData, receiptId: number): any {
-  return {
-    ...image,
-    receiptId: receiptId,
-    imageData: binaryStringToBinaryArray((image.imageData as any) ?? '') as any,
-  };
+export function formatImageData(image: FileDataView): any {
+  const imageData = binaryStringToBinaryArray(
+    (image.encodedImage as any) ?? ''
+  ) as any;
+  return imageData;
 }
 
 export function binaryStringToBinaryArray(binaryString: string): number[] {
