@@ -45,14 +45,6 @@ export class UploadImageComponent {
       const f = acceptedFiles[i];
 
       reader.onload = () => {
-        const fileData = {
-          name: f.name,
-          fileType: f.type,
-          imageData: reader.result as string,
-          size: f.size,
-          receiptId: this.receiptId,
-        } as any as FileData;
-
         const command: ReceiptFileUploadCommand = {
           file: f,
           receiptId: Number(this.receiptId),
@@ -61,7 +53,7 @@ export class UploadImageComponent {
         this.fileLoaded.emit(command);
       };
 
-      reader.readAsBinaryString(f);
+      reader.readAsArrayBuffer(f);
     }
   }
 }
