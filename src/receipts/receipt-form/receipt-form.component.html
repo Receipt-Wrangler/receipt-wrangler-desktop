@@ -124,7 +124,11 @@
             >
             </app-upload-image>
             <div
-              *ngIf="images && (images.value?.length ?? 0 > 0) && showImages"
+              *ngIf="
+                images &&
+                (images.value.length > 0 || filesToUpload.length > 0) &&
+                showImages
+              "
               class="col-3"
             >
               <ng-container *ngIf="imagesLoading">
@@ -270,7 +274,7 @@
     (clicked)="uploadImageButtonClicked()"
   ></app-button>
   <app-button
-    *ngIf="images && (images.value?.length ?? 0 > 0)"
+    *ngIf="images && (images.value.length > 0 || filesToUpload.length > 0)"
     class="mb-4"
     color="accent"
     matButtonType="iconButton"
@@ -293,11 +297,7 @@
     (clicked)="zoomImageOut()"
   ></app-button>
   <app-button
-    *ngIf="
-      !(mode | inputReadonly) &&
-      (images.value.length ?? 0 > 0) &&
-      (aiPoweredReceipts | async)
-    "
+    *ngIf="true"
     matButtonType="iconButton"
     icon="receipt_long"
     tooltip="Magic fill"
@@ -305,7 +305,10 @@
     (clicked)="magicFill()"
   ></app-button>
   <app-button
-    *ngIf="!(mode | inputReadonly) && (images.value?.length ?? 0 > 0)"
+    *ngIf="
+      !(mode | inputReadonly) &&
+      (images.value.length > 0 || filesToUpload.length > 0)
+    "
     matButtonType="iconButton"
     icon="delete"
     tooltip="Remove Image"
