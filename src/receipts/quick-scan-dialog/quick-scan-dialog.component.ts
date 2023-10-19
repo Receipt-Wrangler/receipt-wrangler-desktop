@@ -7,22 +7,19 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
 import {
   AuthState,
-  FileData,
   GroupState,
   QuickScanCommand,
-  Receipt,
   ReceiptFileUploadCommand,
   ReceiptService,
   SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { finalize, take, tap } from 'rxjs';
-import { UploadImageComponent } from '../upload-image/upload-image.component';
-import { binaryStringToBinaryArray } from '../utils/form.utils';
 import { ToggleShowProgressBar } from 'src/store/layout.state.actions';
-import { MatSnackBarRef } from '@angular/material/snack-bar';
+import { UploadImageComponent } from '../upload-image/upload-image.component';
 
 @Component({
   selector: 'app-quick-scan-dialog',
