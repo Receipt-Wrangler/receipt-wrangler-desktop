@@ -14,6 +14,7 @@ import {
   GroupState,
   QuickScanCommand,
   Receipt,
+  ReceiptFileUploadCommand,
   ReceiptService,
   SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
@@ -37,7 +38,9 @@ export class QuickScanDialogComponent implements OnInit {
 
   public form: FormGroup = new FormGroup({});
 
-  public images: FileData[] = [];
+  public images: ReceiptFileUploadCommand[] = [];
+
+  public imageBlobUrl: string = '';
 
   public quickScannedReceiptId: number = 0;
 
@@ -82,9 +85,9 @@ export class QuickScanDialogComponent implements OnInit {
     });
   }
 
-  // TODO: fix
-  public fileLoaded(fileData: any): void {
+  public fileLoaded(fileData: ReceiptFileUploadCommand): void {
     this.images.push(fileData);
+    this.imageBlobUrl = URL.createObjectURL(fileData.file);
   }
 
   public openImageUploadComponent(): void {
@@ -100,7 +103,12 @@ export class QuickScanDialogComponent implements OnInit {
       const command = this.buildQuickScanCommand();
       this.store.dispatch(new ToggleShowProgressBar());
       this.receiptService
-        .quickScanReceipt(command)
+        .quickScanReceiptForm(
+          command.file,
+          command.groupId,
+          command.paidByUserId,
+          command.status
+        )
         .pipe(
           take(1),
           tap((receipt) => {
@@ -125,10 +133,7 @@ export class QuickScanDialogComponent implements OnInit {
   private buildQuickScanCommand(): QuickScanCommand {
     const file = this.images[0];
     const command: QuickScanCommand = {
-      imageData: binaryStringToBinaryArray((file.imageData as any) ?? ''),
-      name: file.name as string,
-      fileType: file.fileType as string,
-      size: file.size as number,
+      file: file.file,
       groupId: Number(this.form.get('groupId')?.value),
       status: this.form.get('status')?.value,
       paidByUserId: Number(this.form.get('paidByUserId')?.value),
