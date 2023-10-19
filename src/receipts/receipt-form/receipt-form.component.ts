@@ -334,13 +334,15 @@ export class ReceiptFormComponent implements OnInit {
 
   public magicFill(): void {
     const index = this.carouselComponent.currentlyShownImageIndex;
-    const receiptImage = this.images.value[index];
 
     let file: Blob | undefined;
-    let receiptImageId = receiptImage?.id;
+    let receiptImageId;
 
     if (this.mode === FormMode.add) {
       file = this.filesToUpload[index].file;
+    } else if (this.mode === FormMode.edit) {
+      const receiptImage = this.images.value[index];
+      receiptImageId = receiptImage?.id;
     }
 
     this.store.dispatch(new ShowProgressBar());
