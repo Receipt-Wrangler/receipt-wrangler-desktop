@@ -30,7 +30,7 @@ interface CarouselDatasource {
   styleUrls: ['./carousel.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CarouselComponent implements OnChanges, OnInit {
+export class CarouselComponent {
   @Input() public images: FileDataView[] = [];
 
   @Input() public imagePreviews: ReceiptFileUploadCommand[] = [];
@@ -51,30 +51,6 @@ export class CarouselComponent implements OnChanges, OnInit {
   public transform: ImageTransform = {};
 
   public currentlyShownImageIndex: number = -1;
-
-  public ngOnInit(): void {}
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.['images']?.currentValue) {
-      const images = changes['images'].currentValue.map((i: FileDataView) => ({
-        encodedImage: i.encodedImage,
-      }));
-      this.datasource = images;
-    }
-
-    const previews = changes?.['imagePreviews']
-      ?.currentValue as ReceiptFileUploadCommand[];
-    if (previews) {
-      const newPreviews: CarouselDatasource[] = [];
-      console.warn('hitting this', previews);
-      previews.forEach((preview) =>
-        newPreviews.push({ blob: preview.file } as CarouselDatasource)
-      );
-
-      this.datasource = newPreviews;
-      console.warn(this.datasource);
-    }
-  }
 
   public emitRemoveButtonClicked(index: number): void {
     this.removeButtonClicked.emit(index);
