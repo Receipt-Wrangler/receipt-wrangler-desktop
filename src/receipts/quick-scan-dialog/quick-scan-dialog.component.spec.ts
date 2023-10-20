@@ -12,6 +12,7 @@ import {
   GroupState,
   PipesModule,
   Receipt,
+  ReceiptFileUploadCommand,
   ReceiptService,
   SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
@@ -29,6 +30,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { DialogRef } from '@angular/cdk/dialog';
 import { of } from 'rxjs';
+import { jsDocComment } from '@angular/compiler';
 
 describe('QuickScanDialogComponent', () => {
   let component: QuickScanDialogComponent;
@@ -113,7 +115,8 @@ describe('QuickScanDialogComponent', () => {
   });
 
   it('should push fileData into images when loaded', () => {
-    const fileData = {} as FileData;
+    spyOn(URL, 'createObjectURL').and.returnValue('awesome');
+    const fileData = {} as ReceiptFileUploadCommand;
     component.fileLoaded(fileData);
 
     expect(component.images).toEqual([fileData]);
