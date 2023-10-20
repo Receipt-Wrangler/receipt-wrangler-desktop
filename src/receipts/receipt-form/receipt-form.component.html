@@ -297,7 +297,11 @@
     (clicked)="zoomImageOut()"
   ></app-button>
   <app-button
-    *ngIf="true"
+    *ngIf="
+      !(mode | inputReadonly) &&
+      (images.value.length > 0 || filesToUpload.length > 0) &&
+      (aiPoweredReceipts | async)
+    "
     matButtonType="iconButton"
     icon="receipt_long"
     tooltip="Magic fill"
