@@ -5,8 +5,10 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FileData } from '@receipt-wrangler/receipt-wrangler-core';
+import {
+  FileData,
+  ReceiptFileUploadCommand,
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { FormMode } from 'src/enums/form-mode.enum';
 
 @Component({
@@ -15,13 +17,12 @@ import { FormMode } from 'src/enums/form-mode.enum';
   styleUrls: ['./upload-image.component.scss'],
 })
 export class UploadImageComponent {
-  @Input() public images: FileData[] = [];
-
   @Input() public receiptId?: string = '';
 
   @Input() public multiple: boolean = true;
 
-  @Output() public fileLoaded: EventEmitter<FileData> = new EventEmitter();
+  @Output() public fileLoaded: EventEmitter<ReceiptFileUploadCommand> =
+    new EventEmitter();
 
   @ViewChild('uploadInput') uploadInput!: any;
 
@@ -44,18 +45,15 @@ export class UploadImageComponent {
       const f = acceptedFiles[i];
 
       reader.onload = () => {
-        const fileData = {
-          name: f.name,
-          fileType: f.type,
-          imageData: reader.result as string,
-          size: f.size,
-          receiptId: this.receiptId,
-        } as any as FileData;
+        const command: ReceiptFileUploadCommand = {
+          file: f,
+          receiptId: Number(this.receiptId),
+        };
 
-        this.fileLoaded.emit(fileData);
+        this.fileLoaded.emit(command);
       };
 
-      reader.readAsBinaryString(f);
+      reader.readAsArrayBuffer(f);
     }
   }
 }

@@ -1,4 +1,5 @@
 import {
+  BehaviorSubject,
   distinctUntilChanged,
   finalize,
   forkJoin,
@@ -19,6 +20,7 @@ import { FormMode } from 'src/enums/form-mode.enum';
 import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomplete/user-autocomplete.component';
 
 import {
+  ChangeDetectorRef,
   Component,
   EmbeddedViewRef,
   OnInit,
@@ -41,11 +43,12 @@ import { Select, Store } from '@ngxs/store';
 import {
   Category,
   FeatureConfigState,
-  FileData,
+  FileDataView,
   Group,
   GroupMember,
   GroupState,
   Receipt,
+  ReceiptFileUploadCommand,
   ReceiptImageService,
   ReceiptService,
   SnackbarService,
@@ -60,7 +63,7 @@ import {
 } from 'src/store/layout.state.actions';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
-import { formatImageData } from '../utils/form.utils';
+import { LayoutState } from 'src/store/layout.state';
 
 @UntilDestroy()
 @Component({
@@ -98,13 +101,18 @@ export class ReceiptFormComponent implements OnInit {
   @Select(FeatureConfigState.aiPoweredReceipts)
   public aiPoweredReceipts!: Observable<boolean>;
 
+  @Select(LayoutState.showProgressBar)
+  public showProgressBar!: Observable<boolean>;
+
   public categories: Category[] = [];
 
   public tags: Tag[] = [];
 
   public originalReceipt?: Receipt;
 
-  public images: FileData[] = [];
+  public images: FileDataView[] = [];
+
+  public filesToUpload: ReceiptFileUploadCommand[] = [];
 
   public mode: FormMode = FormMode.view;
 
@@ -277,9 +285,7 @@ export class ReceiptFormComponent implements OnInit {
           .getReceiptImageById(file.id)
           .pipe(
             tap((data) => {
-              // TODO: clean this up
-              file.imageData = data.encodedImage as any;
-              this.images.push(file);
+              this.images = [...this.images, data];
             }),
             finalize(() => (this.imagesLoading = false))
           )
@@ -308,14 +314,18 @@ export class ReceiptFormComponent implements OnInit {
     const index = this.carouselComponent.currentlyShownImageIndex;
 
     if (this.mode === FormMode.add) {
-      this.images.splice(index, 1);
+      const newImages = Array.from(this.filesToUpload);
+      newImages.splice(index, 1);
+      this.filesToUpload = newImages;
     } else {
+      const newImages = Array.from(this.images);
       const image = this.images[index];
       this.receiptImageService
         .deleteReceiptImageById(image.id)
         .pipe(
           tap(() => {
-            this.images.splice(index, 1);
+            newImages.splice(index, 1);
+            this.images = newImages;
             this.snackbarService.success('Image successfully removed');
           })
         )
@@ -325,23 +335,20 @@ export class ReceiptFormComponent implements OnInit {
 
   public magicFill(): void {
     const index = this.carouselComponent.currentlyShownImageIndex;
-    const receiptImage = this.images[index];
-    const formattedReceiptImage = formatImageData(receiptImage, 0);
 
-    let data;
-    let receiptImageId = receiptImage?.id;
+    let file: Blob | undefined;
+    let receiptImageId;
 
     if (this.mode === FormMode.add) {
-      data = {
-        imageData: formattedReceiptImage.imageData,
-        filename: receiptImage.name,
-      };
+      file = this.filesToUpload[index].file;
+    } else if (this.mode === FormMode.edit) {
+      const receiptImage = this.images[index];
+      receiptImageId = receiptImage?.id;
     }
 
     this.store.dispatch(new ShowProgressBar());
-
     this.receiptImageService
-      .magicFillReceipt(data, receiptImageId)
+      .magicFillReceiptForm(file, receiptImageId)
       .pipe(
         take(1),
         tap((magicFilledReceipt) => {
@@ -464,23 +471,21 @@ export class ReceiptFormComponent implements OnInit {
       .subscribe();
   }
 
-  public imageFileLoaded(fileData: FileData): void {
+  public imageFileLoaded(command: ReceiptFileUploadCommand): void {
     switch (this.mode) {
       case FormMode.add:
-        this.images.push(fileData);
+        this.filesToUpload = [...this.filesToUpload, command];
         break;
       case FormMode.edit:
-        const uploadData = formatImageData(
-          fileData,
-          this.originalReceipt?.id as number
-        );
         this.receiptImageService
-          .uploadReceiptImage(uploadData)
+          .uploadReceiptImageForm(
+            command.file,
+            this.originalReceipt?.id as number
+          )
           .pipe(
-            tap((data: FileData) => {
+            tap((data) => {
               this.snackbarService.success('Successfully uploaded image(s)');
-              fileData.id = data.id;
-              this.images.push(fileData);
+              this.images = [...Array.from(this.images), data];
             })
           )
           .subscribe();
@@ -536,15 +541,16 @@ export class ReceiptFormComponent implements OnInit {
           this.snackbarService.success('Successfully added receipt');
           route = `/receipts/${r.id}/view`;
         }),
-        switchMap((r) =>
+        switchMap((receipt) =>
           iif(
-            () => this.images.length > 0,
+            () => this.filesToUpload.length > 0,
             forkJoin(
-              this.images.map((image) =>
-                this.receiptImageService.uploadReceiptImage(
-                  formatImageData(image, r.id)
-                )
-              )
+              this.filesToUpload.map((file) => {
+                return this.receiptImageService.uploadReceiptImageForm(
+                  file.file,
+                  receipt.id
+                );
+              })
             ),
             of('')
           )

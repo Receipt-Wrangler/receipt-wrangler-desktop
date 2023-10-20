@@ -1,6 +1,5 @@
 <app-dialog headerText="Quick Scan">
   <app-upload-image
-    [images]="images"
     [multiple]="false"
     (fileLoaded)="fileLoaded($event)"
   ></app-upload-image>
@@ -21,7 +20,7 @@
         (clicked)="removeImage(0)"
       ></app-delete-button>
     </div>
-    <img class="image-preview" [src]="images[0] | image" />
+    <img class="image-preview" [src]="imageBlobUrl" />
   </div>
   <app-group-autocomplete
     [inputFormControl]="form | formGet : 'groupId'"
