@@ -43,7 +43,6 @@ import { Select, Store } from '@ngxs/store';
 import {
   Category,
   FeatureConfigState,
-  FileData,
   FileDataView,
   Group,
   GroupMember,
@@ -64,7 +63,7 @@ import {
 } from 'src/store/layout.state.actions';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
-import { formatImageData } from '../utils/form.utils';
+import { LayoutState } from 'src/store/layout.state';
 
 @UntilDestroy()
 @Component({
@@ -101,6 +100,9 @@ export class ReceiptFormComponent implements OnInit {
 
   @Select(FeatureConfigState.aiPoweredReceipts)
   public aiPoweredReceipts!: Observable<boolean>;
+
+  @Select(LayoutState.showProgressBar)
+  public showProgressBar!: Observable<boolean>;
 
   public categories: Category[] = [];
 

@@ -141,7 +141,9 @@
                 [imagePreviews]="filesToUpload"
                 [mode]="mode"
                 [hideButtonControls]="true"
-                [disabled]="mode !== formMode.edit"
+                [disabled]="
+                  mode !== formMode.edit || ((showProgressBar | async) ?? false)
+                "
               ></app-carousel>
             </div>
           </div>
@@ -270,7 +272,10 @@
     matButtonType="iconButton"
     icon="photo_library"
     tooltip="Upload Image(s)"
-    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
+    [disabled]="
+      !(originalReceipt?.groupId | groupRole : groupRole.EDITOR) ||
+      ((showProgressBar | async) ?? false)
+    "
     (clicked)="uploadImageButtonClicked()"
   ></app-button>
   <app-button
@@ -280,6 +285,7 @@
     matButtonType="iconButton"
     [icon]="showImages ? 'visibility_off' : 'visibility'"
     [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
+    [disabled]="(showProgressBar | async) ?? false"
     (clicked)="toggleShowImages()"
   ></app-button>
   <app-button
@@ -287,6 +293,7 @@
     icon="zoom_in"
     tooltip="Zoom In"
     color="accent"
+    [disabled]="(showProgressBar | async) ?? false"
     (clicked)="zoomImageIn()"
   ></app-button>
   <app-button
@@ -294,6 +301,7 @@
     icon="zoom_out"
     tooltip="Zoom Out"
     color="accent"
+    [disabled]="(showProgressBar | async) ?? false"
     (clicked)="zoomImageOut()"
   ></app-button>
   <app-button
@@ -306,6 +314,7 @@
     icon="receipt_long"
     tooltip="Magic fill"
     color="accent"
+    [disabled]="(showProgressBar | async) ?? false"
     (clicked)="magicFill()"
   ></app-button>
   <app-button
@@ -316,6 +325,7 @@
     icon="delete"
     tooltip="Remove Image"
     color="warn"
+    [disabled]="(showProgressBar | async) ?? false"
     (clicked)="removeImage()"
   ></app-button>
 </ng-template>
