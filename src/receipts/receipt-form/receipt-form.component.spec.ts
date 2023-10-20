@@ -81,6 +81,7 @@ describe('ReceiptFormComponent', () => {
     Date.prototype.getTimezoneOffset = () => 240;
     component.images = [{ id: 1 } as any];
     component.ngOnInit();
+    component.mode = FormMode.edit;
     component.carouselComponent = {
       currentlyShownImageIndex: 0,
     } as any;
@@ -107,7 +108,7 @@ describe('ReceiptFormComponent', () => {
 
     const receiptImageServiceSpy = spyOn(
       TestBed.inject(ReceiptImageService),
-      'magicFillReceipt'
+      'magicFillReceiptForm'
     ).and.returnValue(of(magicReceipt));
 
     const snackbarSpy = spyOn(
@@ -135,6 +136,7 @@ describe('ReceiptFormComponent', () => {
   it('should not patch magic fill values if they are the defaults', () => {
     component.images = [{ id: 1 } as any];
     component.ngOnInit();
+    component.mode = FormMode.edit;
     component.carouselComponent = {
       currentlyShownImageIndex: 0,
     } as any;
@@ -155,7 +157,7 @@ describe('ReceiptFormComponent', () => {
 
     const receiptImageServiceSpy = spyOn(
       TestBed.inject(ReceiptImageService),
-      'magicFillReceipt'
+      'magicFillReceiptForm'
     ).and.returnValue(of(magicReceipt));
 
     component.magicFill();
@@ -172,6 +174,7 @@ describe('ReceiptFormComponent', () => {
   it('should not patch any values when they are all default values and pop error snackbar', () => {
     component.images = [{ id: 1 } as any];
     component.ngOnInit();
+    component.mode = FormMode.edit;
     component.carouselComponent = {
       currentlyShownImageIndex: 0,
     } as any;
@@ -192,7 +195,7 @@ describe('ReceiptFormComponent', () => {
 
     const receiptImageServiceSpy = spyOn(
       TestBed.inject(ReceiptImageService),
-      'magicFillReceipt'
+      'magicFillReceiptForm'
     ).and.returnValue(of(magicReceipt));
 
     const snackbarSpy = spyOn(

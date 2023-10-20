@@ -62,7 +62,6 @@ export class QuickScanDialogComponent implements OnInit {
     if (selectedGroupId === 'all') {
       selectedGroupId = undefined;
     }
-    const userId = this.store.selectSnapshot(AuthState.userId);
     const userPreferences = this.store.selectSnapshot(
       AuthState.userPreferences
     );

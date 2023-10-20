@@ -75,15 +75,3 @@ function itemTotalValidator(): ValidatorFn {
     }
   };
 }
-export function formatImageData(image: FileDataView): any {
-  const imageData = binaryStringToBinaryArray(
-    (image.encodedImage as any) ?? ''
-  ) as any;
-  return imageData;
-}
-
-export function binaryStringToBinaryArray(binaryString: string): number[] {
-  return Array.from(
-    Uint8Array.from(binaryString.split('').map((c) => c.charCodeAt(0)))
-  );
-}
