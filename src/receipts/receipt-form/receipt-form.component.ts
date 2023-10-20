@@ -108,9 +108,7 @@ export class ReceiptFormComponent implements OnInit {
 
   public originalReceipt?: Receipt;
 
-  public images: BehaviorSubject<FileDataView[]> = new BehaviorSubject<
-    FileDataView[]
-  >([]);
+  public images: FileDataView[] = [];
 
   public filesToUpload: ReceiptFileUploadCommand[] = [];
 
@@ -285,7 +283,7 @@ export class ReceiptFormComponent implements OnInit {
           .getReceiptImageById(file.id)
           .pipe(
             tap((data) => {
-              this.images.next([...this.images.value, data]);
+              this.images = [...this.images, data];
             }),
             finalize(() => (this.imagesLoading = false))
           )
@@ -312,19 +310,20 @@ export class ReceiptFormComponent implements OnInit {
 
   public removeImage(): void {
     const index = this.carouselComponent.currentlyShownImageIndex;
-    const newImages = Array.from(this.images.value);
 
     if (this.mode === FormMode.add) {
+      const newImages = Array.from(this.filesToUpload);
       newImages.splice(index, 1);
-      this.images.next(newImages);
+      this.filesToUpload = newImages;
     } else {
-      const image = this.images.value[index];
+      const newImages = Array.from(this.images);
+      const image = this.images[index];
       this.receiptImageService
         .deleteReceiptImageById(image.id)
         .pipe(
           tap(() => {
             newImages.splice(index, 1);
-            this.images.next(newImages);
+            this.images = newImages;
             this.snackbarService.success('Image successfully removed');
           })
         )
@@ -341,7 +340,7 @@ export class ReceiptFormComponent implements OnInit {
     if (this.mode === FormMode.add) {
       file = this.filesToUpload[index].file;
     } else if (this.mode === FormMode.edit) {
-      const receiptImage = this.images.value[index];
+      const receiptImage = this.images[index];
       receiptImageId = receiptImage?.id;
     }
 
@@ -473,7 +472,7 @@ export class ReceiptFormComponent implements OnInit {
   public imageFileLoaded(command: ReceiptFileUploadCommand): void {
     switch (this.mode) {
       case FormMode.add:
-        this.filesToUpload.push(command);
+        this.filesToUpload = [...this.filesToUpload, command];
         break;
       case FormMode.edit:
         this.receiptImageService
@@ -484,9 +483,7 @@ export class ReceiptFormComponent implements OnInit {
           .pipe(
             tap((data) => {
               this.snackbarService.success('Successfully uploaded image(s)');
-              const newImages = Array.from(this.images.value);
-              newImages.push(data);
-              this.images.next(newImages);
+              this.images = [...Array.from(this.images), data];
             })
           )
           .subscribe();

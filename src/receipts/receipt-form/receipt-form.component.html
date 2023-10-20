@@ -126,7 +126,7 @@
             <div
               *ngIf="
                 images &&
-                (images.value.length > 0 || filesToUpload.length > 0) &&
+                (images.length > 0 || filesToUpload.length > 0) &&
                 showImages
               "
               class="col-3"
@@ -274,7 +274,7 @@
     (clicked)="uploadImageButtonClicked()"
   ></app-button>
   <app-button
-    *ngIf="images && (images.value.length > 0 || filesToUpload.length > 0)"
+    *ngIf="images && (images.length > 0 || filesToUpload.length > 0)"
     class="mb-4"
     color="accent"
     matButtonType="iconButton"
@@ -299,7 +299,7 @@
   <app-button
     *ngIf="
       !(mode | inputReadonly) &&
-      (images.value.length > 0 || filesToUpload.length > 0) &&
+      (images.length > 0 || filesToUpload.length > 0) &&
       (aiPoweredReceipts | async)
     "
     matButtonType="iconButton"
@@ -310,8 +310,7 @@
   ></app-button>
   <app-button
     *ngIf="
-      !(mode | inputReadonly) &&
-      (images.value.length > 0 || filesToUpload.length > 0)
+      !(mode | inputReadonly) && (images.length > 0 || filesToUpload.length > 0)
     "
     matButtonType="iconButton"
     icon="delete"

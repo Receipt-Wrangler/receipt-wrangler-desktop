@@ -19,7 +19,7 @@ import { Observable, of, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 interface CarouselDatasource {
-  blob?: Blob;
+  blob?: File;
   encodedImage?: string;
 }
 
@@ -31,7 +31,7 @@ interface CarouselDatasource {
   encapsulation: ViewEncapsulation.None,
 })
 export class CarouselComponent implements OnChanges, OnInit {
-  @Input() public images: Observable<FileDataView[]> = of([] as FileDataView[]);
+  @Input() public images: FileDataView[] = [];
 
   @Input() public imagePreviews: ReceiptFileUploadCommand[] = [];
 
@@ -52,45 +52,28 @@ export class CarouselComponent implements OnChanges, OnInit {
 
   public currentlyShownImageIndex: number = -1;
 
-  public ngOnInit(): void {
-    this.listenForImageChanges();
-  }
-
-  private listenForImageChanges(): void {
-    this.images
-      .pipe(
-        untilDestroyed(this),
-        tap((images) => {
-          const datasource = images.map((image) => {
-            return {
-              encodedImage: image.encodedImage,
-            };
-          });
-
-          this.datasource = datasource;
-        })
-      )
-      .subscribe();
-  }
+  public ngOnInit(): void {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['images'].currentValue) {
+    if (changes?.['images']?.currentValue) {
       const images = changes['images'].currentValue.map((i: FileDataView) => ({
         encodedImage: i.encodedImage,
       }));
-      this.datasource = this.datasource.concat(images);
+      this.datasource = images;
     }
 
-    if (changes['imagePreviews'].currentValue) {
-      const images = changes['imagePreviews'].currentValue.map(
-        (i: ReceiptFileUploadCommand) => ({
-          blob: i.file,
-        })
+    const previews = changes?.['imagePreviews']
+      ?.currentValue as ReceiptFileUploadCommand[];
+    if (previews) {
+      const newPreviews: CarouselDatasource[] = [];
+      console.warn('hitting this', previews);
+      previews.forEach((preview) =>
+        newPreviews.push({ blob: preview.file } as CarouselDatasource)
       );
-      this.datasource = this.datasource.concat(images);
-    }
 
-    console.warn(this.datasource);
+      this.datasource = newPreviews;
+      console.warn(this.datasource);
+    }
   }
 
   public emitRemoveButtonClicked(index: number): void {

@@ -1,3 +1,4 @@
+{{ datasource.length }}
 <carousel
   [interval]="0"
   [isAnimated]="true"
@@ -29,10 +30,16 @@
         (clicked)="emitRemoveButtonClicked(i)"
       ></app-button>
     </div>
-    <image-cropper *ngIf="data?.blob">
-      [imageFile]="data.blob" [hideResizeSquares]="true" [transform]="transform"
-      [allowMoveImage]="true" (wheel)="onScroll($event)"
-    </image-cropper>
+
+    <image-cropper
+      *ngIf="data?.blob"
+      [imageFile]="data.blob"
+      [hideResizeSquares]="true"
+      [transform]="transform"
+      [allowMoveImage]="true"
+      (wheel)="onScroll($event)"
+    ></image-cropper>
+
     <image-cropper
       *ngIf="data?.encodedImage"
       [imageBase64]="data.encodedImage"
