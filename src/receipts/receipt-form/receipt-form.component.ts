@@ -480,7 +480,8 @@ export class ReceiptFormComponent implements OnInit {
         this.receiptImageService
           .uploadReceiptImageForm(
             command.file,
-            this.originalReceipt?.id as number
+            this.originalReceipt?.id as number,
+            ''
           )
           .pipe(
             tap((data) => {
@@ -548,7 +549,8 @@ export class ReceiptFormComponent implements OnInit {
               this.filesToUpload.map((file) => {
                 return this.receiptImageService.uploadReceiptImageForm(
                   file.file,
-                  receipt.id
+                  receipt.id,
+                  ''
                 );
               })
             ),

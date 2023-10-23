@@ -8,7 +8,9 @@ import {
 import {
   FileData,
   ReceiptFileUploadCommand,
+  ReceiptImageService,
 } from '@receipt-wrangler/receipt-wrangler-core';
+import { take, tap } from 'rxjs';
 import { FormMode } from 'src/enums/form-mode.enum';
 
 @Component({
@@ -30,6 +32,8 @@ export class UploadImageComponent {
 
   public acceptFileTypes: string[] = ['image/*', 'application/pdf'];
 
+  constructor(private receiptImageService: ReceiptImageService) {}
+
   public clickInput(): void {
     this.uploadInput.nativeElement.click();
   }
@@ -50,7 +54,20 @@ export class UploadImageComponent {
           receiptId: Number(this.receiptId),
         };
 
-        this.fileLoaded.emit(command);
+        if (f.type === 'application/pdf') {
+          this.receiptImageService
+            .convertToJpgForm(f)
+            .pipe(
+              take(1),
+              tap((encodedImage) => {
+                command.encodedImage = encodedImage.encodedImage;
+                this.fileLoaded.emit(command);
+              })
+            )
+            .subscribe();
+        } else {
+          this.fileLoaded.emit(command);
+        }
       };
 
       reader.readAsArrayBuffer(f);

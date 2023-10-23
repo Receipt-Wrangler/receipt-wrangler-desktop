@@ -39,6 +39,8 @@ export class QuickScanDialogComponent implements OnInit {
 
   public imageBlobUrl: string = '';
 
+  public encodedImage: string = '';
+
   public quickScannedReceiptId: number = 0;
 
   public snackbarRef!: MatSnackBarRef<EmbeddedViewRef<any>>;
@@ -84,6 +86,7 @@ export class QuickScanDialogComponent implements OnInit {
   public fileLoaded(fileData: ReceiptFileUploadCommand): void {
     this.images.push(fileData);
     this.imageBlobUrl = URL.createObjectURL(fileData.file);
+    this.encodedImage = fileData.encodedImage ?? '';
   }
 
   public openImageUploadComponent(): void {
