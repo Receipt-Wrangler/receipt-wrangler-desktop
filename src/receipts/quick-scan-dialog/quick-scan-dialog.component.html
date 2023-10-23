@@ -20,7 +20,7 @@
         (clicked)="removeImage(0)"
       ></app-delete-button>
     </div>
-    <img class="image-preview" [src]="imageBlobUrl" />
+    <img class="image-preview" [src]="encodedImage || imageBlobUrl" />
   </div>
   <app-group-autocomplete
     [inputFormControl]="form | formGet : 'groupId'"
