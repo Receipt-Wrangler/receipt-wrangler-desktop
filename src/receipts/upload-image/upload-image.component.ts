@@ -1,17 +1,10 @@
+import { take, tap } from "rxjs";
+import { FormMode } from "src/enums/form-mode.enum";
+
+import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import {
-  FileData,
-  ReceiptFileUploadCommand,
-  ReceiptImageService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { take, tap } from 'rxjs';
-import { FormMode } from 'src/enums/form-mode.enum';
+  ReceiptFileUploadCommand, ReceiptImageService
+} from "@receipt-wrangler/receipt-wrangler-core";
 
 @Component({
   selector: 'app-upload-image',
@@ -30,7 +23,11 @@ export class UploadImageComponent {
 
   public formMode = FormMode;
 
-  public acceptFileTypes: string[] = ['image/*', 'application/pdf'];
+  public acceptFileTypes: string[] = [
+    'image/*',
+    'application/pdf',
+    'image/heic',
+  ];
 
   constructor(private receiptImageService: ReceiptImageService) {}
 
