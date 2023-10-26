@@ -51,7 +51,7 @@ export class UploadImageComponent {
           receiptId: Number(this.receiptId),
         };
 
-        if (f.type === 'application/pdf') {
+        if (f.type === 'application/pdf' || f.type === 'image/heic') {
           this.receiptImageService
             .convertToJpgForm(f)
             .pipe(
