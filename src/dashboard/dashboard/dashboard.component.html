@@ -1,4 +1,8 @@
-<h1>{{ ((selectedGroupId | async) ?? "" | group)?.name }} Group Dashboard</h1>
+<div class="d-flex align-items-center">
+  <h1>{{ ((selectedGroupId | async) ?? "" | group)?.name }} Group Dashboard</h1>
+  <app-add-button (clicked)="openDashboardDialog()"></app-add-button>
+</div>
+
 <app-summary-card
   headerText="Receipt Summary"
   [groupId]="(selectedGroupId | async) ?? ''"

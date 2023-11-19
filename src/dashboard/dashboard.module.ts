@@ -5,9 +5,10 @@ import { PipesModule } from 'src/pipes/pipes.module';
 import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardFormComponent } from './dashboard-form/dashboard-form.component';
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, DashboardFormComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
