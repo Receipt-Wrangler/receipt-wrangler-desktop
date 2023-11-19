@@ -24,6 +24,6 @@ export class DashboardComponent {
       DEFAULT_DIALOG_CONFIG
     );
 
-    dialogRef.componentInstance.headerText = 'Create a new dashboard';
+    dialogRef.componentInstance.headerText = 'Add a dashboard';
   }
 }

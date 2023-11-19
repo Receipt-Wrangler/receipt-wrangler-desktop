@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ApiModule,
   AppInitService,
+  AuthFormUtil,
   PipesModule,
   initAppData,
 } from '@receipt-wrangler/receipt-wrangler-core';
@@ -37,6 +38,7 @@ import { AppComponent } from './app.component';
     PipesModule,
   ],
   providers: [
+    AuthFormUtil,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,
