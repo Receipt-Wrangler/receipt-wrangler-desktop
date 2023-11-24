@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select } from '@ngxs/store';
-import { GroupState } from '@receipt-wrangler/receipt-wrangler-core';
+import { Dashboard, GroupState } from '@receipt-wrangler/receipt-wrangler-core';
 import { Observable } from 'rxjs';
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
 import { DashboardFormComponent } from '../dashboard-form/dashboard-form.component';
@@ -18,12 +18,14 @@ export class DashboardComponent {
 
   constructor(private matDialog: MatDialog) {}
 
-  public openDashboardDialog(): void {
+  public openDashboardDialog(dashboard?: Dashboard): void {
     const dialogRef = this.matDialog.open(
       DashboardFormComponent,
       DEFAULT_DIALOG_CONFIG
     );
 
-    dialogRef.componentInstance.headerText = 'Add a dashboard';
+    dialogRef.componentInstance.headerText = dashboard
+      ? `Edit Dashboard ${dashboard.name}`
+      : 'Add a dashboard';
   }
 }

@@ -1,1 +1,19 @@
-<app-dialog [headerText]="headerText"> </app-dialog>
+<app-dialog [headerText]="headerText">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="d-flex flex-column">
+      <app-input
+        label="Dashboard Name"
+        [inputFormControl]="form | formGet : 'name'"
+      ></app-input>
+      <div class="ms-2">
+        <app-checkbox
+          label="Show Summary Card"
+          [inputFormControl]="form | formGet : 'showSummaryCard'"
+        ></app-checkbox>
+      </div>
+    </div>
+    <app-dialog-footer
+      [disableWhenProgressBarIsShown]="true"
+    ></app-dialog-footer>
+  </form>
+</app-dialog>
