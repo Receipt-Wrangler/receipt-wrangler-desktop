@@ -9,6 +9,7 @@ import {
 import { Observable, take, tap } from 'rxjs';
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
 import { DashboardFormComponent } from '../dashboard-form/dashboard-form.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,26 +25,15 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private matDialog: MatDialog,
-    private dashboardService: DashboardService,
-    private store: Store
+    private activatedRoute: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
-    this.getDashboards();
+    this.setDashboards();
   }
 
-  private getDashboards(): void {
-    const selectedGroupId = this.store.selectSnapshot(
-      GroupState.selectedGroupId
-    );
-
-    this.dashboardService
-      .getDashboardsForUserByGroupId(selectedGroupId)
-      .pipe(
-        take(1),
-        tap(() => {})
-      )
-      .subscribe();
+  private setDashboards(): void {
+    this.dashboards = this.activatedRoute?.snapshot?.data?.['dashboards'] || [];
   }
 
   public openDashboardDialog(dashboard?: Dashboard): void {
