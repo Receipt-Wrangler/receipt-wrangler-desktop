@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import {
@@ -23,36 +23,20 @@ export class DashboardComponent implements OnInit {
 
   public dashboards: Dashboard[] = [];
 
-  public selectedDashboardId?: number;
+  public selectedDashboard?: Dashboard;
 
   constructor(
     private matDialog: MatDialog,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
+    private activatedRoute: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
-    console.warn('init');
     this.setDashboards();
-    this.setSelectedDashboardId();
   }
 
   private setDashboards(): void {
-    this.dashboards = this.activatedRoute?.snapshot?.data?.['dashboards'] || [];
-  }
-
-  private setSelectedDashboardId(): void {
-    this.activatedRoute.params.subscribe((params) => {
-      console.warn(params);
-    });
-    this.activatedRoute.url.subscribe((url) => {
-      console.warn(url.toString());
-      console.warn(this.activatedRoute.snapshot.params, 'pa');
-    });
-    this.selectedDashboardId =
-      this.activatedRoute?.snapshot?.params?.['dashboardId'];
-
-    console.warn(this.activatedRoute.snapshot.params);
+    this.dashboards =
+      this.activatedRoute.parent?.snapshot?.data?.['dashboards'] || [];
   }
 
   public openDashboardDialog(dashboard?: Dashboard): void {
@@ -64,13 +48,5 @@ export class DashboardComponent implements OnInit {
     dialogRef.componentInstance.headerText = dashboard
       ? `Edit Dashboard ${dashboard.name}`
       : 'Add a dashboard';
-  }
-
-  public navigateToDashboard(dashboardId: number): void {
-    console.warn('hit');
-    this.router.navigateByUrl(`/dashboard/group/1/${dashboardId}`, {
-      skipLocationChange: false,
-      onSameUrlNavigation: 'reload',
-    });
   }
 }

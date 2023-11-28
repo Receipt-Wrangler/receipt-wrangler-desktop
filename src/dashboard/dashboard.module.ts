@@ -15,9 +15,10 @@ import { DashboardFormComponent } from './dashboard-form/dashboard-form.componen
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { GroupDashboardsComponent } from './group-dashboards/group-dashboards.component';
 
 @NgModule({
-  declarations: [DashboardComponent, DashboardFormComponent],
+  declarations: [DashboardComponent, DashboardFormComponent, GroupDashboardsComponent],
   imports: [
     CheckboxModule,
     CommonModule,
