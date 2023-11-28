@@ -1,0 +1,18 @@
+<div class="d-flex align-items-center">
+  <h1>{{ ((selectedGroupId | async) ?? "" | group)?.name }} Group Dashboard</h1>
+  <app-add-button (clicked)="openDashboardDialog()"></app-add-button>
+</div>
+<div class="mb-2">
+  <mat-chip-listbox>
+    <mat-chip-option
+      *ngFor="let dashboard of dashboards"
+      [selected]="dashboard?.id?.toString() == (selectedDashboardId | async)"
+      [selectable]="false"
+      [routerLink]="[dashboard.id]"
+      (click)="setSelectedDashboardId(dashboard.id)"
+      >{{ dashboard.name }}</mat-chip-option
+    >
+  </mat-chip-listbox>
+</div>
+
+<router-outlet></router-outlet>
