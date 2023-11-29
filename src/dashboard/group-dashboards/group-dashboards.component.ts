@@ -37,6 +37,17 @@ export class GroupDashboardsComponent implements OnInit {
   public ngOnInit(): void {
     this.checkForSelectedDashboard();
     this.setDashboards();
+    this.listenForParamChanges();
+  }
+
+  private listenForParamChanges(): void {
+    this.activatedRoute.params
+      .pipe(
+        tap(() => {
+          this.setDashboards();
+        })
+      )
+      .subscribe();
   }
 
   private checkForSelectedDashboard(): void {
