@@ -4,6 +4,7 @@ import { GroupGuard } from 'src/guards/group.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { dashboardResolver } from './resolvers/dashboard.resolver';
 import { GroupDashboardsComponent } from './group-dashboards/group-dashboards.component';
+import { dashboardGuard } from './guards/dashboard.guard';
 const routes: Routes = [
   {
     path: 'group/:groupId',
@@ -19,6 +20,7 @@ const routes: Routes = [
       {
         path: ':dashboardId',
         component: DashboardComponent,
+        canActivate: [dashboardGuard],
       },
     ],
   },
