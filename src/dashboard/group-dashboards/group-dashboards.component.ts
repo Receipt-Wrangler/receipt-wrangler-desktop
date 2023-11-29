@@ -69,6 +69,16 @@ export class GroupDashboardsComponent implements OnInit {
     dialogRef.componentInstance.headerText = dashboard
       ? `Edit Dashboard ${dashboard.name}`
       : 'Add a dashboard';
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        untilDestroyed(this),
+        tap((dashboard) => {
+          this.dashboards.push(dashboard);
+        })
+      )
+      .subscribe();
   }
 
   public setSelectedDashboardId(dashboardId: number): void {

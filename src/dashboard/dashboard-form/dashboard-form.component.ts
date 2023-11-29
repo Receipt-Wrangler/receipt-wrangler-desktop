@@ -1,12 +1,17 @@
-import { take, tap } from "rxjs";
+import { take, tap } from 'rxjs';
 
-import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { Store } from "@ngxs/store";
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Store } from '@ngxs/store';
 import {
-  DashboardService, GroupState, UpsertWidgetCommand
-} from "@receipt-wrangler/receipt-wrangler-core";
+  Dashboard,
+  DashboardService,
+  GroupState,
+  SnackbarService,
+  UpsertWidgetCommand,
+} from '@receipt-wrangler/receipt-wrangler-core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @UntilDestroy()
 @Component({
@@ -26,7 +31,9 @@ export class DashboardFormComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private formBuilder: FormBuilder,
-    private store: Store
+    private store: Store,
+    private snackbarService: SnackbarService,
+    private matDialogRef: MatDialogRef<DashboardFormComponent>
   ) {}
 
   public ngOnInit(): void {
@@ -86,7 +93,10 @@ export class DashboardFormComponent implements OnInit {
         .createDashboard(this.form.value)
         .pipe(
           take(1),
-          tap(() => {})
+          tap((dashboard) => {
+            this.snackbarService.success('Dashboard successfully created');
+            this.matDialogRef.close(dashboard);
+          })
         )
         .subscribe();
     }
