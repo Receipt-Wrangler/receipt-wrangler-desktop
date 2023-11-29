@@ -35,8 +35,18 @@ export class GroupDashboardsComponent implements OnInit {
   public dashboards: Dashboard[] = [];
 
   public ngOnInit(): void {
-    this.listenForDashboardIdChanges();
+    this.checkForSelectedDashboard();
     this.setDashboards();
+  }
+
+  private checkForSelectedDashboard(): void {
+    const selectedDashboardId = this.store.selectSnapshot(
+      GroupState.selectedDashboardId
+    );
+
+    if (selectedDashboardId) {
+      this.navigateToDashboard(+selectedDashboardId);
+    }
   }
 
   private setDashboards(): void {
@@ -59,15 +69,6 @@ export class GroupDashboardsComponent implements OnInit {
     dialogRef.componentInstance.headerText = dashboard
       ? `Edit Dashboard ${dashboard.name}`
       : 'Add a dashboard';
-  }
-
-  private listenForDashboardIdChanges(): void {
-    this.selectedDashboardId
-      .pipe(
-        untilDestroyed(this),
-        tap((dashboardId) => {})
-      )
-      .subscribe();
   }
 
   public setSelectedDashboardId(dashboardId: number): void {
