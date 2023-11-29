@@ -1,15 +1,15 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import {
   Dashboard,
-  DashboardService,
   GroupState,
+  Widget,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { Observable, take, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
 import { DashboardFormComponent } from '../dashboard-form/dashboard-form.component';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,18 +25,41 @@ export class DashboardComponent implements OnInit {
 
   public selectedDashboard?: Dashboard;
 
+  public WidgetType = Widget.WidgetTypeEnum;
+
   constructor(
+    private activatedRoute: ActivatedRoute,
     private matDialog: MatDialog,
-    private activatedRoute: ActivatedRoute
+    private store: Store
   ) {}
 
   public ngOnInit(): void {
     this.setDashboards();
+    this.listenForParamChanges();
+  }
+
+  private listenForParamChanges(): void {
+    this.activatedRoute.params
+      .pipe(
+        tap(() => {
+          this.setSelectedDashboard();
+        })
+      )
+      .subscribe();
   }
 
   private setDashboards(): void {
     this.dashboards =
       this.activatedRoute.parent?.snapshot?.data?.['dashboards'] || [];
+  }
+
+  private setSelectedDashboard(): void {
+    const selectedDashboardId = this.store.selectSnapshot(
+      GroupState.selectedDashboardId
+    );
+    this.selectedDashboard = this.dashboards.find(
+      (dashboard) => dashboard?.id?.toString() === selectedDashboardId
+    );
   }
 
   public openDashboardDialog(dashboard?: Dashboard): void {
