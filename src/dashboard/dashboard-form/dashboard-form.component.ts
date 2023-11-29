@@ -101,4 +101,8 @@ export class DashboardFormComponent implements OnInit {
         .subscribe();
     }
   }
+
+  public cancelButtonClicked(): void {
+    this.matDialogRef.close(undefined);
+  }
 }

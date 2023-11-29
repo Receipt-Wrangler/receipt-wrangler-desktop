@@ -14,6 +14,7 @@
     </div>
     <app-dialog-footer
       [disableWhenProgressBarIsShown]="true"
+      (cancelClicked)="cancelButtonClicked()"
     ></app-dialog-footer>
   </form>
 </app-dialog>

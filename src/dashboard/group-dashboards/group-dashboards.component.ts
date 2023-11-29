@@ -75,7 +75,9 @@ export class GroupDashboardsComponent implements OnInit {
       .pipe(
         untilDestroyed(this),
         tap((dashboard) => {
-          this.dashboards.push(dashboard);
+          if (dashboard) {
+            this.dashboards.push(dashboard);
+          }
         })
       )
       .subscribe();
