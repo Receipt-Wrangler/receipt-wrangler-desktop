@@ -1,16 +1,20 @@
 <app-dialog [headerText]="headerText">
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="d-flex flex-column">
-      <app-input
-        label="Dashboard Name"
-        [inputFormControl]="form | formGet : 'name'"
-      ></app-input>
-      <div class="ms-2">
-        <app-checkbox
-          label="Show Summary Card"
-          [inputFormControl]="form | formGet : 'showSummaryCard'"
-        ></app-checkbox>
+      <div class="mb-2">
+        <app-input
+          label="Dashboard Name"
+          [inputFormControl]="form | formGet : 'name'"
+        ></app-input>
       </div>
+      <app-form-section headerText="Widgets" [indent]="false">
+        <div class="ms-2">
+          <app-checkbox
+            label="Summary Card"
+            [inputFormControl]="form | formGet : 'showSummaryCard'"
+          ></app-checkbox>
+        </div>
+      </app-form-section>
     </div>
     <app-dialog-footer
       [disableWhenProgressBarIsShown]="true"
