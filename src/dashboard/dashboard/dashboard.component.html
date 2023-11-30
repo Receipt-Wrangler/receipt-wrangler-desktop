@@ -1,5 +1,16 @@
-<h1>{{ ((selectedGroupId | async) ?? "" | group)?.name }} Group Dashboard</h1>
-<app-summary-card
-  headerText="Receipt Summary"
-  [groupId]="(selectedGroupId | async) ?? ''"
-></app-summary-card>
+<ng-container *ngFor="let widget of selectedDashboard?.widgets">
+  <ng-container [ngSwitch]="widget.widgetType">
+    <ng-template
+      [ngSwitchCase]="WidgetType.GROUPSUMMARY"
+      [ngTemplateOutlet]="summaryCard"
+    >
+    </ng-template>
+  </ng-container>
+</ng-container>
+
+<ng-template #summaryCard>
+  <app-summary-card
+    headerText="Receipt Summary"
+    [groupId]="(selectedGroupId | async) ?? ''"
+  ></app-summary-card>
+</ng-template>
