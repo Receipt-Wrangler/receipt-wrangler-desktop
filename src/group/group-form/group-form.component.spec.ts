@@ -207,6 +207,7 @@ describe('GroupFormComponent', () => {
       isDefault: true,
       groupMembers: [],
       status: Group.StatusEnum.ACTIVE,
+      isAllGroup: false,
     };
 
     const route = TestBed.inject(ActivatedRoute);
@@ -264,6 +265,7 @@ describe('GroupFormComponent', () => {
           groupRole: GroupMember.GroupRoleEnum.VIEWER,
         },
       ],
+      isAllGroup: false,
     };
 
     const route = TestBed.inject(ActivatedRoute);
