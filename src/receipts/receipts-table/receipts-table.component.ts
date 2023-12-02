@@ -28,7 +28,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import {
-  ALL_GROUP,
   BulkStatusUpdateCommand,
   Category,
   GroupMember,
