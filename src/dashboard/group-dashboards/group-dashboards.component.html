@@ -1,6 +1,11 @@
 <div class="d-flex align-items-center">
   <h1>{{ ((selectedGroupId | async) ?? "" | group)?.name }} Dashboards</h1>
   <app-add-button (clicked)="openDashboardDialog()"></app-add-button>
+  <app-edit-button
+    *ngIf="selectedGroupId | async"
+    color="accent"
+    (clicked)="openDashboardDialog()"
+  ></app-edit-button>
 </div>
 <div class="mb-2">
   <mat-chip-listbox>
