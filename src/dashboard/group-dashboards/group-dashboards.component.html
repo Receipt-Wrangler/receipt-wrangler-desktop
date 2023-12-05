@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center">
   <h1>{{ ((selectedGroupId | async) ?? "" | group)?.name }} Dashboards</h1>
-  <app-add-button (clicked)="openDashboardDialog()"></app-add-button>
+  <app-add-button (clicked)="openDashboardDialog(true)"></app-add-button>
   <app-edit-button
     *ngIf="selectedGroupId | async"
     color="accent"

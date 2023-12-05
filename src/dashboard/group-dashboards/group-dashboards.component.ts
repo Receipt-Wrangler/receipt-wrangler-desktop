@@ -71,7 +71,7 @@ export class GroupDashboardsComponent implements OnInit {
     });
   }
 
-  public openDashboardDialog(): void {
+  public openDashboardDialog(isCreate?: boolean): void {
     const dialogRef = this.matDialog.open(
       DashboardFormComponent,
       DEFAULT_DIALOG_CONFIG
@@ -79,21 +79,27 @@ export class GroupDashboardsComponent implements OnInit {
     const selectedDashboardId = this.store.selectSnapshot(
       GroupState.selectedGroupId
     );
-    const dashboard = this.dashboards.find(
-      (d) => d.id === +selectedDashboardId
-    );
 
-    dialogRef.componentInstance.dashboard = dashboard;
-    dialogRef.componentInstance.headerText = dashboard
-      ? `Edit Dashboard ${dashboard.name}`
-      : 'Add a dashboard';
+    if (!isCreate) {
+      const dashboard = this.dashboards.find(
+        (d) => d.id === +selectedDashboardId
+      );
+
+      dialogRef.componentInstance.dashboard = dashboard;
+      dialogRef.componentInstance.headerText = `Edit Dashboard ${dashboard?.name}`;
+    } else {
+      dialogRef.componentInstance.headerText = 'Add a Dashboard';
+    }
 
     dialogRef
       .afterClosed()
       .pipe(
         untilDestroyed(this),
         tap((dashboard) => {
-          const index = this.dashboards.findIndex((d) => d.id === dashboard.id);
+          const index = this.dashboards.findIndex(
+            (d) => d.id === dashboard?.id
+          );
+          // TODO: Create dashboards service to share dashboards
           if (dashboard && index < 0) {
             this.dashboards.push(dashboard);
           } else if (dashboard && index > -1) {
