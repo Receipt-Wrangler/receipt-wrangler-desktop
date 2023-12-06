@@ -14,6 +14,7 @@ import { ReceiptTableState } from './receipt-table.state';
 import { CategoryTableState } from './category-table.state';
 import { environment } from 'src/environments/environment.development';
 import { TagTableState } from './tag-table.state';
+import { DashboardState } from './dashboard.state';
 
 @NgModule({
   declarations: [],
@@ -22,6 +23,7 @@ import { TagTableState } from './tag-table.state';
     NgxsModule.forRoot([
       AuthState,
       CategoryTableState,
+      DashboardState,
       FeatureConfigState,
       GroupState,
       LayoutState,

@@ -10,6 +10,7 @@ import {
 import { Observable, tap } from 'rxjs';
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
 import { DashboardFormComponent } from '../dashboard-form/dashboard-form.component';
+import { DashboardState } from 'src/store/dashboard.state';
 
 @Component({
   selector: 'app-dashboard',
@@ -49,8 +50,10 @@ export class DashboardComponent implements OnInit {
   }
 
   private setDashboards(): void {
-    this.dashboards =
-      this.activatedRoute.parent?.snapshot?.data?.['dashboards'] || [];
+    const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
+    this.dashboards = this.store.selectSnapshot(
+      DashboardState.getDashboardsByGroupId(groupId)
+    );
   }
 
   private setSelectedDashboard(): void {

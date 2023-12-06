@@ -11,6 +11,7 @@ import {
 import { Observable, tap } from 'rxjs';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 import { DashboardFormComponent } from '../dashboard-form/dashboard-form.component';
+import { DashboardState } from 'src/store/dashboard.state';
 
 @UntilDestroy()
 @Component({
@@ -61,7 +62,16 @@ export class GroupDashboardsComponent implements OnInit {
   }
 
   private setDashboards(): void {
-    this.dashboards = this.activatedRoute?.snapshot?.data?.['dashboards'] || [];
+    const selectedGroupId = this.store.selectSnapshot(
+      GroupState.selectedGroupId
+    );
+    this.store
+      .select(DashboardState.getDashboardsByGroupId(selectedGroupId))
+      .pipe(
+        tap((dashboards) => (this.dashboards = dashboards)),
+        untilDestroyed(this)
+      )
+      .subscribe();
   }
 
   public navigateToDashboard(dashboardId: number): void {
