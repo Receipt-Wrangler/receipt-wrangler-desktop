@@ -1,6 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Action, State, StateContext, createSelector } from '@ngxs/store';
-import { DashboardService } from '@receipt-wrangler/receipt-wrangler-core';
+import {
+  Action,
+  Selector,
+  State,
+  StateContext,
+  createSelector,
+} from '@ngxs/store';
+import {
+  Dashboard,
+  DashboardService,
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { take, tap } from 'rxjs';
 import { DashboardStateInterface } from 'src/interfaces/dashboard-state.interface';
 import {
@@ -18,8 +27,13 @@ import {
 @Injectable()
 export class DashboardState {
   constructor(private dashboardService: DashboardService) {}
+  @Selector()
+  static dashboards(state: DashboardStateInterface): {
+    [groupId: string]: Dashboard[];
+  } {
+    return state.dashboards;
+  }
 
-  // TODO: update in state when added or updated
   static getDashboardsByGroupId(groupId: string) {
     return createSelector(
       [DashboardState],
