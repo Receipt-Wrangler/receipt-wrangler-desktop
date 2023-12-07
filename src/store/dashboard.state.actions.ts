@@ -13,7 +13,7 @@ export class AddDashboardToGroup {
 }
 
 export class UpdateDashBoardForGroup {
-  static readonly type = '[Dashboards] Add dashboard to group';
+  static readonly type = '[Dashboards] Update dashboards for group';
 
   constructor(
     public groupId: string,
