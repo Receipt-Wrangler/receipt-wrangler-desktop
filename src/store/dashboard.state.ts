@@ -3,7 +3,11 @@ import { Action, State, StateContext, createSelector } from '@ngxs/store';
 import { DashboardService } from '@receipt-wrangler/receipt-wrangler-core';
 import { take, tap } from 'rxjs';
 import { DashboardStateInterface } from 'src/interfaces/dashboard-state.interface';
-import { SetDashboardsForGroup } from './dashboard.state.actions';
+import {
+  AddDashboardToGroup,
+  SetDashboardsForGroup,
+  UpdateDashBoardForGroup,
+} from './dashboard.state.actions';
 
 @State<DashboardStateInterface>({
   name: 'dashboards',
@@ -15,6 +19,7 @@ import { SetDashboardsForGroup } from './dashboard.state.actions';
 export class DashboardState {
   constructor(private dashboardService: DashboardService) {}
 
+  // TODO: update in state when added or updated
   static getDashboardsByGroupId(groupId: string) {
     return createSelector(
       [DashboardState],
@@ -34,12 +39,42 @@ export class DashboardState {
       .pipe(
         take(1),
         tap((dashboards) => {
-          console.warn('just returned');
           const newDashboards = Object.assign({}, getState().dashboards);
           newDashboards[payload.groupId] = dashboards;
           patchState({ dashboards: newDashboards });
         })
       )
       .subscribe();
+  }
+
+  @Action(AddDashboardToGroup)
+  addDashboardToGroup(
+    { patchState, getState }: StateContext<DashboardStateInterface>,
+    payload: AddDashboardToGroup
+  ) {
+    const newDashboards = Object.assign({}, getState().dashboards);
+    newDashboards[payload.groupId] = [
+      ...newDashboards[payload.groupId],
+      payload.dashboard,
+    ];
+    patchState({ dashboards: newDashboards });
+  }
+
+  @Action(UpdateDashBoardForGroup)
+  updateDashBoardForGroup(
+    { patchState, getState }: StateContext<DashboardStateInterface>,
+    payload: UpdateDashBoardForGroup
+  ) {
+    const newDashboards = Object.assign({}, getState().dashboards);
+    const dashboardIndex = newDashboards[payload.groupId].findIndex(
+      (dashboard) => {
+        return dashboard.id === payload.dashboardId;
+      }
+    );
+
+    if (dashboardIndex >= 0) {
+      newDashboards[payload.groupId][dashboardIndex] = payload.dashboard;
+      patchState({ dashboards: newDashboards });
+    }
   }
 }

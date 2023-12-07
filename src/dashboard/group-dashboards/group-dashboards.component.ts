@@ -12,6 +12,10 @@ import { Observable, tap } from 'rxjs';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 import { DashboardFormComponent } from '../dashboard-form/dashboard-form.component';
 import { DashboardState } from 'src/store/dashboard.state';
+import {
+  AddDashboardToGroup,
+  UpdateDashBoardForGroup,
+} from 'src/store/dashboard.state.actions';
 
 @UntilDestroy()
 @Component({
@@ -109,14 +113,13 @@ export class GroupDashboardsComponent implements OnInit {
           const index = this.dashboards.findIndex(
             (d) => d.id === dashboard?.id
           );
-          // TODO: Create dashboards service to share dashboards
+          const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
           if (dashboard && index < 0) {
-            this.dashboards.push(dashboard);
+            this.store.dispatch(new AddDashboardToGroup(groupId, dashboard));
           } else if (dashboard && index > -1) {
-            const newArray = Array.from(this.dashboards);
-            newArray[index] = dashboard;
-            this.dashboards = newArray;
-            //this.dashboards[index] = dashboard;
+            this.store.dispatch(
+              new UpdateDashBoardForGroup(groupId, dashboard.id, dashboard)
+            );
           }
         })
       )

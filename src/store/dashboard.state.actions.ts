@@ -5,3 +5,19 @@ export class SetDashboardsForGroup {
 
   constructor(public groupId: string) {}
 }
+
+export class AddDashboardToGroup {
+  static readonly type = '[Dashboards] Add dashboard to group';
+
+  constructor(public groupId: string, public dashboard: Dashboard) {}
+}
+
+export class UpdateDashBoardForGroup {
+  static readonly type = '[Dashboards] Add dashboard to group';
+
+  constructor(
+    public groupId: string,
+    public dashboardId: number,
+    public dashboard: Dashboard
+  ) {}
+}
