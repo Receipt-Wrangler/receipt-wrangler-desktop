@@ -91,7 +91,7 @@ export class GroupDashboardsComponent implements OnInit {
       DEFAULT_DIALOG_CONFIG
     );
     const selectedDashboardId = this.store.selectSnapshot(
-      GroupState.selectedGroupId
+      GroupState.selectedDashboardId
     );
 
     if (!isCreate) {
