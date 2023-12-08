@@ -23,6 +23,6 @@
 <ng-container *ngIf="selectedDashboardId | async">
   <router-outlet></router-outlet>
 </ng-container>
-<ng-container *ngIf="!(selectedDashboardId | async) && !dashboards.length">
+<ng-container *ngIf="!(selectedDashboardId | async) && !dashboards?.length">
   <p>Click on the + button to add a dashboard to this group.</p>
 </ng-container>

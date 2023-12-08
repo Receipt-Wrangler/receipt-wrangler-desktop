@@ -18,11 +18,13 @@ import { DashboardRoutingModule } from '../dashboard-routing.module';
 import { SummaryCardComponent } from '../../shared-ui/summary-card/summary-card.component';
 import { DashboardComponent } from './dashboard.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DashboardState } from 'src/store/dashboard.state';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let dashboards: Dashboard[];
+  let store: Store;
 
   beforeEach(async () => {
     dashboards = [
@@ -49,7 +51,7 @@ describe('DashboardComponent', () => {
         MatCardModule,
         MatDialogModule,
         MatListModule,
-        NgxsModule.forRoot([GroupState]),
+        NgxsModule.forRoot([GroupState, DashboardState]),
         PipesModule,
       ],
       providers: [
@@ -57,18 +59,20 @@ describe('DashboardComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             params: new BehaviorSubject<Params>({ id: '1' }),
-            parent: {
-              snapshot: {
-                data: {
-                  dashboards: dashboards,
-                },
-              },
-            },
           },
         },
       ],
     }).compileComponents();
 
+    store = TestBed.inject(Store);
+
+    store.reset({
+      dashboards: {
+        dashboards: {
+          '1': dashboards,
+        },
+      },
+    });
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -79,6 +83,12 @@ describe('DashboardComponent', () => {
   });
 
   it('should set dashboards', () => {
+    store.reset({
+      ...store.snapshot(),
+      groups: {
+        selectedGroupId: '1',
+      },
+    });
     component.ngOnInit();
     expect(component.dashboards).toEqual(dashboards);
   });
@@ -86,7 +96,9 @@ describe('DashboardComponent', () => {
   it('should set selected dashboard', () => {
     const store = TestBed.inject(Store);
     store.reset({
+      ...store.snapshot(),
       groups: {
+        selectedGroupId: '1',
         selectedDashboardId: '2',
       },
     });
