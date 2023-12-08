@@ -11,6 +11,11 @@ import {
 import { Observable, tap } from 'rxjs';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 import { DashboardFormComponent } from '../dashboard-form/dashboard-form.component';
+import { DashboardState } from 'src/store/dashboard.state';
+import {
+  AddDashboardToGroup,
+  UpdateDashBoardForGroup,
+} from 'src/store/dashboard.state.actions';
 
 @UntilDestroy()
 @Component({
@@ -61,7 +66,16 @@ export class GroupDashboardsComponent implements OnInit {
   }
 
   private setDashboards(): void {
-    this.dashboards = this.activatedRoute?.snapshot?.data?.['dashboards'] || [];
+    const selectedGroupId = this.store.selectSnapshot(
+      GroupState.selectedGroupId
+    );
+    this.store
+      .select(DashboardState.getDashboardsByGroupId(selectedGroupId))
+      .pipe(
+        tap((dashboards) => (this.dashboards = dashboards)),
+        untilDestroyed(this)
+      )
+      .subscribe();
   }
 
   public navigateToDashboard(dashboardId: number): void {
@@ -71,23 +85,41 @@ export class GroupDashboardsComponent implements OnInit {
     });
   }
 
-  public openDashboardDialog(dashboard?: Dashboard): void {
+  public openDashboardDialog(isCreate?: boolean): void {
     const dialogRef = this.matDialog.open(
       DashboardFormComponent,
       DEFAULT_DIALOG_CONFIG
     );
+    const selectedDashboardId = this.store.selectSnapshot(
+      GroupState.selectedDashboardId
+    );
 
-    dialogRef.componentInstance.headerText = dashboard
-      ? `Edit Dashboard ${dashboard.name}`
-      : 'Add a dashboard';
+    if (!isCreate) {
+      const dashboard = this.dashboards.find(
+        (d) => d.id === +selectedDashboardId
+      );
+
+      dialogRef.componentInstance.dashboard = dashboard;
+      dialogRef.componentInstance.headerText = `Edit Dashboard ${dashboard?.name}`;
+    } else {
+      dialogRef.componentInstance.headerText = 'Add a Dashboard';
+    }
 
     dialogRef
       .afterClosed()
       .pipe(
         untilDestroyed(this),
         tap((dashboard) => {
-          if (dashboard) {
-            this.dashboards.push(dashboard);
+          const index = this.dashboards.findIndex(
+            (d) => d.id === dashboard?.id
+          );
+          const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
+          if (dashboard && index < 0) {
+            this.store.dispatch(new AddDashboardToGroup(groupId, dashboard));
+          } else if (dashboard && index > -1) {
+            this.store.dispatch(
+              new UpdateDashBoardForGroup(groupId, dashboard.id, dashboard)
+            );
           }
         })
       )

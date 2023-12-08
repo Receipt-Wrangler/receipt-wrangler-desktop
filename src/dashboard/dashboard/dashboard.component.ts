@@ -10,7 +10,10 @@ import {
 import { Observable, tap } from 'rxjs';
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
 import { DashboardFormComponent } from '../dashboard-form/dashboard-form.component';
+import { DashboardState } from 'src/store/dashboard.state';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -34,7 +37,7 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.setDashboards();
+    this.listenForDashboardChanges();
     this.listenForParamChanges();
   }
 
@@ -48,9 +51,20 @@ export class DashboardComponent implements OnInit {
       .subscribe();
   }
 
-  private setDashboards(): void {
-    this.dashboards =
-      this.activatedRoute.parent?.snapshot?.data?.['dashboards'] || [];
+  private listenForDashboardChanges(): void {
+    this.store
+      .select(DashboardState.dashboards)
+      .pipe(
+        untilDestroyed(this),
+        tap(() => {
+          const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
+          this.dashboards = this.store.selectSnapshot(
+            DashboardState.getDashboardsByGroupId(groupId)
+          );
+          this.setSelectedDashboard();
+        })
+      )
+      .subscribe();
   }
 
   private setSelectedDashboard(): void {

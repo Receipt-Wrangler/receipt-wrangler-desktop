@@ -2,6 +2,7 @@ import { take, tap } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngxs/store';
 import {
@@ -10,8 +11,8 @@ import {
   GroupState,
   SnackbarService,
   UpsertWidgetCommand,
+  Widget,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @UntilDestroy()
 @Component({
@@ -23,6 +24,8 @@ export class DashboardFormComponent implements OnInit {
   public headerText: string = '';
 
   public form: FormGroup = new FormGroup({});
+
+  public dashboard?: Dashboard;
 
   public get widgets(): FormArray {
     return this.form.get('widgets') as FormArray;
@@ -43,13 +46,19 @@ export class DashboardFormComponent implements OnInit {
 
   public initForm(): void {
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: [this.dashboard?.name ?? '', Validators.required],
       groupId: [
         this.store.selectSnapshot(GroupState.selectedGroupId),
         Validators.required,
       ],
-      showSummaryCard: [false],
-      widgets: this.formBuilder.array([]),
+      showSummaryCard: [
+        this?.dashboard?.widgets?.find(
+          (w) => w.widgetType === Widget.WidgetTypeEnum.GROUPSUMMARY
+        ) ?? false,
+      ],
+      widgets: this.formBuilder.array(
+        this.dashboard?.widgets?.map((w) => this.buildWidgetFormGroup(w)) ?? []
+      ),
     });
   }
 
@@ -62,7 +71,7 @@ export class DashboardFormComponent implements OnInit {
           if (value) {
             const formGroup = this.buildWidgetFormGroup({
               widgetType: UpsertWidgetCommand.WidgetTypeEnum.GROUPSUMMARY,
-            });
+            } as Widget);
             this.widgets.push(formGroup);
           } else {
             const index = this.widgets.controls.findIndex(
@@ -79,22 +88,31 @@ export class DashboardFormComponent implements OnInit {
       .subscribe();
   }
 
-  private buildWidgetFormGroup(
-    upsertWidgetCommand: UpsertWidgetCommand
-  ): FormGroup {
+  private buildWidgetFormGroup(widget: Widget): FormGroup {
     return this.formBuilder.group({
-      widgetType: [upsertWidgetCommand.widgetType, Validators.required],
+      widgetType: [widget.widgetType, Validators.required],
     });
   }
 
   public submit(): void {
-    if (this.form.valid) {
+    if (this.form.valid && !this.dashboard) {
       this.dashboardService
         .createDashboard(this.form.value)
         .pipe(
           take(1),
           tap((dashboard) => {
             this.snackbarService.success('Dashboard successfully created');
+            this.matDialogRef.close(dashboard);
+          })
+        )
+        .subscribe();
+    } else if (this.form.valid && this.dashboard) {
+      this.dashboardService
+        .updateDashboard(this.form.value, this.dashboard.id)
+        .pipe(
+          take(1),
+          tap((dashboard) => {
+            this.snackbarService.success('Dashboard successfully updated');
             this.matDialogRef.close(dashboard);
           })
         )

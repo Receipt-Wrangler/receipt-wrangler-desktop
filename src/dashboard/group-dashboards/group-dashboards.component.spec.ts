@@ -12,12 +12,15 @@ import {
   ButtonModule,
   PipesModule as CorePipesModule,
   Dashboard,
+  DashboardService,
   GroupState,
   SetSelectedDashboardId,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
+import { DashboardState } from 'src/store/dashboard.state';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('GroupDashboardsComponent', () => {
   let component: GroupDashboardsComponent;
@@ -30,11 +33,13 @@ describe('GroupDashboardsComponent', () => {
       imports: [
         CorePipesModule,
         MatDialogModule,
-        NgxsModule.forRoot([GroupState]),
+        NgxsModule.forRoot([GroupState, DashboardState]),
         PipesModule,
         ButtonModule,
+        HttpClientTestingModule,
       ],
       providers: [
+        DashboardService,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -49,8 +54,12 @@ describe('GroupDashboardsComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
-
     store = TestBed.inject(Store);
+    store.reset({
+      groups: {
+        selectedGroupId: '1',
+      },
+    });
     fixture = TestBed.createComponent(GroupDashboardsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -69,10 +78,17 @@ describe('GroupDashboardsComponent', () => {
         userId: 1,
       },
     ];
-    const activatedRoute = TestBed.inject(ActivatedRoute);
-    activatedRoute.snapshot.data = {
-      dashboards: dashboards,
-    };
+    store.reset({
+      groups: {
+        selectedGroupId: '1',
+      },
+      dashboards: {
+        dashboards: {
+          '1': dashboards,
+        },
+      },
+    });
+
     component.ngOnInit();
 
     expect(component.dashboards).toEqual(dashboards);
@@ -96,16 +112,30 @@ describe('GroupDashboardsComponent', () => {
       },
     ];
     const activatedRoute = TestBed.inject(ActivatedRoute);
-    activatedRoute.snapshot.data = {
-      dashboards: dashboards,
-    };
+    store.reset({
+      groups: {
+        selectedGroupId: '1',
+      },
+      dashboards: {
+        dashboards: {
+          '1': dashboards,
+        },
+      },
+    });
     component.ngOnInit();
 
     expect(component.dashboards).toEqual(dashboards);
 
-    activatedRoute.snapshot.data = {
-      dashboards: newDashboards,
-    };
+    store.reset({
+      groups: {
+        selectedGroupId: '1',
+      },
+      dashboards: {
+        dashboards: {
+          '1': newDashboards,
+        },
+      },
+    });
 
     (activatedRoute.params as any).next({
       dashboardId: 2,

@@ -8,6 +8,8 @@ import {
   DashboardService,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { SetDashboardsForGroup } from 'src/store/dashboard.state.actions';
+import { NgxsModule, Store } from '@ngxs/store';
 
 describe('dashboardResolver', () => {
   const executeResolver: ResolveFn<Observable<Dashboard[]>> = (
@@ -19,7 +21,7 @@ describe('dashboardResolver', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, NgxsModule.forRoot([])],
       providers: [DashboardService],
     });
   });
@@ -29,10 +31,7 @@ describe('dashboardResolver', () => {
   });
 
   it('should attempt to get dashboards by group id', () => {
-    const serviceSpy = spyOn(
-      TestBed.inject(DashboardService),
-      'getDashboardsForUserByGroupId'
-    ).and.returnValue(of([] as any));
+    const dispatchSpy = spyOn(TestBed.inject(Store), 'dispatch');
 
     executeResolver(
       {
@@ -43,6 +42,6 @@ describe('dashboardResolver', () => {
       {} as any
     );
 
-    expect(serviceSpy).toHaveBeenCalledWith('1');
+    expect(dispatchSpy).toHaveBeenCalledWith(new SetDashboardsForGroup('1'));
   });
 });
