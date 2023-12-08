@@ -14,8 +14,10 @@ import { DashboardFormComponent } from '../dashboard-form/dashboard-form.compone
 import { DashboardState } from 'src/store/dashboard.state';
 import {
   AddDashboardToGroup,
+  DeleteDashboardFromGroup,
   UpdateDashBoardForGroup,
 } from 'src/store/dashboard.state.actions';
+import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -128,5 +130,35 @@ export class GroupDashboardsComponent implements OnInit {
 
   public setSelectedDashboardId(dashboardId: number): void {
     this.store.dispatch(new SetSelectedDashboardId(dashboardId?.toString()));
+  }
+
+  public openDeleteConfirmationDialog(): void {
+    const dialogRef = this.matDialog.open(
+      ConfirmationDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+    const dashboardId = this.store.selectSnapshot(
+      GroupState.selectedDashboardId
+    );
+    const selectedDashboard = this.dashboards.find(
+      (d) => d.id.toString() === dashboardId
+    );
+
+    dialogRef.componentInstance.headerText = 'Delete Dashboard';
+    dialogRef.componentInstance.dialogContent = `Are you sure you want to delete dashboard "${selectedDashboard?.name}"? This action is irreversable.`;
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        untilDestroyed(this),
+        tap((confirmed) => {
+          if (confirmed) {
+            this.store.dispatch(
+              new DeleteDashboardFromGroup('1', +dashboardId)
+            );
+          }
+        })
+      )
+      .subscribe();
   }
 }

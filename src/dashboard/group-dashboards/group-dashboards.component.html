@@ -6,6 +6,12 @@
     color="accent"
     (clicked)="openDashboardDialog()"
   ></app-edit-button>
+  <app-delete-button
+    *ngIf="selectedGroupId | async"
+    color="warn"
+    (clicked)="openDeleteConfirmationDialog()"
+  >
+  </app-delete-button>
 </div>
 <div class="mb-2">
   <mat-chip-listbox>

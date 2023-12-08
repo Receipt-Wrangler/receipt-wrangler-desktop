@@ -4,16 +4,19 @@ import {
   Selector,
   State,
   StateContext,
+  Store,
   createSelector,
 } from '@ngxs/store';
 import {
   Dashboard,
   DashboardService,
+  GroupState,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { take, tap } from 'rxjs';
 import { DashboardStateInterface } from 'src/interfaces/dashboard-state.interface';
 import {
   AddDashboardToGroup,
+  DeleteDashboardFromGroup,
   SetDashboardsForGroup,
   UpdateDashBoardForGroup,
 } from './dashboard.state.actions';
@@ -27,6 +30,7 @@ import {
 @Injectable()
 export class DashboardState {
   constructor(private dashboardService: DashboardService) {}
+
   @Selector()
   static dashboards(state: DashboardStateInterface): {
     [groupId: string]: Dashboard[];
@@ -90,5 +94,23 @@ export class DashboardState {
       newDashboards[payload.groupId][dashboardIndex] = payload.dashboard;
       patchState({ dashboards: newDashboards });
     }
+  }
+
+  @Action(DeleteDashboardFromGroup)
+  deleteDashboardFromGroup(
+    { patchState, getState }: StateContext<DashboardStateInterface>,
+    payload: DeleteDashboardFromGroup
+  ) {
+    const groupDashboards = getState().dashboards?.[payload.groupId] || [];
+    const newDashboards = Object.assign({}, getState().dashboards);
+
+    newDashboards[payload.groupId] = groupDashboards.filter(
+      (dashboard) => dashboard.id !== payload.dashboardId
+    );
+
+    console.warn(payload.dashboardId);
+    console.warn(newDashboards);
+
+    patchState({ dashboards: newDashboards });
   }
 }

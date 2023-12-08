@@ -21,3 +21,9 @@ export class UpdateDashBoardForGroup {
     public dashboard: Dashboard
   ) {}
 }
+
+export class DeleteDashboardFromGroup {
+  static readonly type = '[Dashboards] Delete a dashboard for group';
+
+  constructor(public groupId: string, public dashboardId: number) {}
+}
