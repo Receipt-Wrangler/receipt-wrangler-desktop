@@ -7,6 +7,7 @@ import {
 import { Store } from '@ngxs/store';
 import {
   GroupState,
+  SetSelectedDashboardId,
   SetSelectedGroupId,
 } from '@receipt-wrangler/receipt-wrangler-core';
 
@@ -23,6 +24,7 @@ export class GroupGuard {
     const groupId = route.params['groupId'];
     const group = this.store.selectSnapshot(GroupState.getGroupById(groupId));
     const newGroupId = this.store.selectSnapshot(GroupState.groups)[0]?.id;
+    this.store.dispatch(new SetSelectedDashboardId(undefined));
 
     if (group) {
       return true;

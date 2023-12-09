@@ -5,17 +5,21 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
 import {
   Dashboard,
+  DashboardService,
   GroupState,
   SetSelectedDashboardId,
+  SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { Observable, tap } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 import { DashboardFormComponent } from '../dashboard-form/dashboard-form.component';
 import { DashboardState } from 'src/store/dashboard.state';
 import {
   AddDashboardToGroup,
+  DeleteDashboardFromGroup,
   UpdateDashBoardForGroup,
 } from 'src/store/dashboard.state.actions';
+import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -26,8 +30,10 @@ import {
 export class GroupDashboardsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
+    private dashboardService: DashboardService,
     private matDialog: MatDialog,
     private router: Router,
+    private snackbarService: SnackbarService,
     private store: Store
   ) {}
 
@@ -128,5 +134,54 @@ export class GroupDashboardsComponent implements OnInit {
 
   public setSelectedDashboardId(dashboardId: number): void {
     this.store.dispatch(new SetSelectedDashboardId(dashboardId?.toString()));
+  }
+
+  public openDeleteConfirmationDialog(): void {
+    const dialogRef = this.matDialog.open(
+      ConfirmationDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+    const dashboardId = this.store.selectSnapshot(
+      GroupState.selectedDashboardId
+    );
+    const selectedDashboard = this.dashboards.find(
+      (d) => d.id.toString() === dashboardId
+    );
+
+    dialogRef.componentInstance.headerText = 'Delete Dashboard';
+    dialogRef.componentInstance.dialogContent = `Are you sure you want to delete dashboard "${selectedDashboard?.name}"? This action is irreversable.`;
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        untilDestroyed(this),
+        tap((confirmed) => {
+          if (confirmed) {
+            this.dashboardService
+              .deleteDashboard(+dashboardId)
+              .pipe(
+                take(1),
+                tap(() => {
+                  this.snackbarService.success(
+                    'Successfully deleted dashboard'
+                  );
+                  const dashboardLink = this.store.selectSnapshot(
+                    GroupState.dashboardLink
+                  );
+                  this.store.dispatch(
+                    new DeleteDashboardFromGroup(
+                      this.store.selectSnapshot(GroupState.selectedGroupId),
+                      +dashboardId
+                    )
+                  );
+                  this.store.dispatch(new SetSelectedDashboardId(undefined));
+                  this.router.navigateByUrl(dashboardLink);
+                })
+              )
+              .subscribe();
+          }
+        })
+      )
+      .subscribe();
   }
 }
