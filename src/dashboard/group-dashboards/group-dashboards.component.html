@@ -1,17 +1,20 @@
 <div class="d-flex align-items-center">
   <h1>{{ ((selectedGroupId | async) ?? "" | group)?.name }} Dashboards</h1>
   <app-add-button (clicked)="openDashboardDialog(true)"></app-add-button>
-  <app-edit-button
-    *ngIf="selectedGroupId | async"
-    color="accent"
-    (clicked)="openDashboardDialog()"
-  ></app-edit-button>
-  <app-delete-button
-    *ngIf="selectedGroupId | async"
-    color="warn"
-    (clicked)="openDeleteConfirmationDialog()"
-  >
-  </app-delete-button>
+
+  <ng-container *ngIf="selectedDashboardId | async">
+    <app-edit-button
+      *ngIf="selectedGroupId | async"
+      color="accent"
+      (clicked)="openDashboardDialog()"
+    ></app-edit-button>
+    <app-delete-button
+      *ngIf=""
+      color="warn"
+      (clicked)="openDeleteConfirmationDialog()"
+    >
+    </app-delete-button>
+  </ng-container>
 </div>
 <div class="mb-2">
   <mat-chip-listbox>
