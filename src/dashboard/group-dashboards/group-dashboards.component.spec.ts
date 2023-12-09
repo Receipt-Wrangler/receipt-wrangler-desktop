@@ -21,6 +21,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { DashboardState } from 'src/store/dashboard.state';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('GroupDashboardsComponent', () => {
   let component: GroupDashboardsComponent;
@@ -37,6 +38,7 @@ describe('GroupDashboardsComponent', () => {
         PipesModule,
         ButtonModule,
         HttpClientTestingModule,
+        MatSnackBarModule,
       ],
       providers: [
         DashboardService,
