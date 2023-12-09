@@ -5,10 +5,12 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
 import {
   Dashboard,
+  DashboardService,
   GroupState,
   SetSelectedDashboardId,
+  SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { Observable, tap } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
 import { DashboardFormComponent } from '../dashboard-form/dashboard-form.component';
 import { DashboardState } from 'src/store/dashboard.state';
@@ -28,8 +30,10 @@ import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/c
 export class GroupDashboardsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
+    private dashboardService: DashboardService,
     private matDialog: MatDialog,
     private router: Router,
+    private snackbarService: SnackbarService,
     private store: Store
   ) {}
 
@@ -153,9 +157,28 @@ export class GroupDashboardsComponent implements OnInit {
         untilDestroyed(this),
         tap((confirmed) => {
           if (confirmed) {
-            this.store.dispatch(
-              new DeleteDashboardFromGroup('1', +dashboardId)
-            );
+            this.dashboardService
+              .deleteDashboard(+dashboardId)
+              .pipe(
+                take(1),
+                tap(() => {
+                  this.snackbarService.success(
+                    'Successfully deleted dashboard'
+                  );
+                  const dashboardLink = this.store.selectSnapshot(
+                    GroupState.dashboardLink
+                  );
+                  this.store.dispatch(
+                    new DeleteDashboardFromGroup(
+                      this.store.selectSnapshot(GroupState.selectedGroupId),
+                      +dashboardId
+                    )
+                  );
+                  this.store.dispatch(new SetSelectedDashboardId(undefined));
+                  this.router.navigateByUrl(dashboardLink);
+                })
+              )
+              .subscribe();
           }
         })
       )
