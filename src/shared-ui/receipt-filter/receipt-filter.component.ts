@@ -42,10 +42,7 @@ export class ReceiptFilterComponent implements OnInit {
       categories: Category[];
       tags: Tag[];
     }
-  ) {
-    this.categories = data.categories;
-    this.tags = data.tags;
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.initForm();

@@ -24,11 +24,12 @@
           <mat-list>
             <ng-container *ngFor="let widget of widgets.controls">
               <mat-list-item
+                class="h-100"
                 *ngIf="
                   widget?.value?.widgetType === WidgetTypeEnum.FILTEREDRECEIPTS
                 "
               >
-                OPPA
+                <app-receipt-filter></app-receipt-filter>
               </mat-list-item>
             </ng-container>
           </mat-list>

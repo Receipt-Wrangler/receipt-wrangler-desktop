@@ -8,6 +8,7 @@ import { MatTableModule } from '@angular/material/table';
 import {
   ButtonModule,
   PipesModule as CorePipesModule,
+  InputModule,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SelectModule } from 'src/select/select.module';
@@ -40,9 +41,14 @@ import { FormListComponent } from './form-list/form-list.component';
 import { HelpIconComponent } from './help-icon/help-icon.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ReceiptFilterComponent } from './receipt-filter/receipt-filter.component';
+import { OperationsPipe } from './receipt-filter/operations.pipe';
+import { DatepickerModule } from 'src/datepicker/datepicker.module';
+import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
 
 @NgModule({
   declarations: [
+    AddButtonComponent,
     BackButtonComponent,
     CancelButtonComponent,
     CardComponent,
@@ -53,25 +59,28 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     EditButtonComponent,
     FormButtonBarComponent,
     FormButtonComponent,
+    FormComponent,
     FormHeaderComponent,
+    FormListComponent,
     FormSectionComponent,
     GroupAutocompleteComponent,
+    HelpIconComponent,
+    OperationsPipe,
+    ReceiptFilterComponent,
     StatusChipComponent,
     StatusSelectComponent,
     SubmitButtonComponent,
     SummaryCardComponent,
     TableHeaderComponent,
-    AddButtonComponent,
     TabsComponent,
-    FormComponent,
-    FormListComponent,
-    HelpIconComponent,
   ],
   imports: [
     AutocompleteModule,
     ButtonModule,
     CommonModule,
     CorePipesModule,
+    DatepickerModule,
+    InputModule,
     MatCardModule,
     MatChipsModule,
     MatDialogModule,
@@ -84,8 +93,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ReactiveFormsModule,
     RouterModule,
     SelectModule,
+    UserAutocompleteModule,
   ],
   exports: [
+    AddButtonComponent,
     BackButtonComponent,
     CancelButtonComponent,
     CardComponent,
@@ -95,19 +106,20 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     DialogFooterComponent,
     EditButtonComponent,
     FormButtonBarComponent,
+    FormComponent,
     FormHeaderComponent,
+    FormListComponent,
     FormSectionComponent,
     GroupAutocompleteComponent,
+    HelpIconComponent,
+    OperationsPipe,
+    ReceiptFilterComponent,
     StatusChipComponent,
     StatusSelectComponent,
     SubmitButtonComponent,
     SummaryCardComponent,
     TableHeaderComponent,
-    AddButtonComponent,
     TabsComponent,
-    FormComponent,
-    FormListComponent,
-    HelpIconComponent,
   ],
 })
 export class SharedUiModule {}
