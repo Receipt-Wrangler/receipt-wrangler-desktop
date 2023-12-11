@@ -285,6 +285,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       },
     });
 
+    dialogRef.componentInstance.headerText = 'Filter Receipts';
+
     dialogRef
       .afterClosed()
       .pipe(

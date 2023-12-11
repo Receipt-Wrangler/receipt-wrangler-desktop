@@ -6,7 +6,7 @@ import {
   ReceiptTableState,
 } from 'src/store/receipt-table.state';
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -25,6 +25,8 @@ import { Category, Tag } from '@receipt-wrangler/receipt-wrangler-core';
   styleUrls: ['./receipt-filter.component.scss'],
 })
 export class ReceiptFilterComponent implements OnInit {
+  @Input() public headerText: string = '';
+
   public form: FormGroup = new FormGroup({});
 
   public receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
