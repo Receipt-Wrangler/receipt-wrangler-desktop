@@ -27,6 +27,8 @@ export class DashboardFormComponent implements OnInit {
 
   public dashboard?: Dashboard;
 
+  public WidgetTypeEnum = Widget.WidgetTypeEnum;
+
   public get widgets(): FormArray {
     return this.form.get('widgets') as FormArray;
   }
@@ -89,9 +91,16 @@ export class DashboardFormComponent implements OnInit {
   }
 
   private buildWidgetFormGroup(widget: Widget): FormGroup {
-    return this.formBuilder.group({
-      widgetType: [widget.widgetType, Validators.required],
-    });
+    switch (widget.widgetType) {
+      case Widget.WidgetTypeEnum.FILTEREDRECEIPTS:
+        return this.formBuilder.group({
+          widgetType: [widget.widgetType, Validators.required],
+        });
+      default:
+        return this.formBuilder.group({
+          widgetType: [widget.widgetType, Validators.required],
+        });
+    }
   }
 
   public submit(): void {
@@ -122,5 +131,12 @@ export class DashboardFormComponent implements OnInit {
 
   public cancelButtonClicked(): void {
     this.matDialogRef.close(undefined);
+  }
+
+  public addFilteredReceiptWidget(): void {
+    const formGroup = this.buildWidgetFormGroup({
+      widgetType: UpsertWidgetCommand.WidgetTypeEnum.FILTEREDRECEIPTS,
+    } as Widget);
+    this.widgets.push(formGroup);
   }
 }

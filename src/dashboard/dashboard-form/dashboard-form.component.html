@@ -10,9 +10,28 @@
       <app-form-section headerText="Widgets" [indent]="false">
         <div class="ms-2">
           <app-checkbox
-            label="Summary Card"
+            label="Summary"
             [inputFormControl]="form | formGet : 'showSummaryCard'"
           ></app-checkbox>
+
+          <div class="d-flex align-items-center">
+            <h6>Filtered Receipts</h6>
+            <app-add-button
+              tooltip="Add filtered receipt widget"
+              (clicked)="addFilteredReceiptWidget()"
+            ></app-add-button>
+          </div>
+          <mat-list>
+            <ng-container *ngFor="let widget of widgets.controls">
+              <mat-list-item
+                *ngIf="
+                  widget?.value?.widgetType === WidgetTypeEnum.FILTEREDRECEIPTS
+                "
+              >
+                OPPA
+              </mat-list-item>
+            </ng-container>
+          </mat-list>
         </div>
       </app-form-section>
     </div>
