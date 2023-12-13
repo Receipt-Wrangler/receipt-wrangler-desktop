@@ -21,6 +21,11 @@
               [disabled]="(filterOpen | async) !== undefined"
               (clicked)="addFilteredReceiptWidget()"
             ></app-add-button>
+            <app-submit-button
+              *ngIf="(filterOpen | async) !== undefined"
+              type="button"
+              (clicked)="filterSubmitted()"
+            ></app-submit-button>
             <app-cancel-button
               *ngIf="(filterOpen | async) !== undefined"
               (clicked)="cancelFilter()"
@@ -36,14 +41,26 @@
                   widget?.value?.widgetType === WidgetTypeEnum.FILTEREDRECEIPTS
                 "
               >
-                <app-input
-                  label="Widget Name"
-                  [inputFormControl]="form | formGet : 'name'"
-                ></app-input>
-                <app-receipt-filter
-                  [footerTemplate]="filterFooter"
-                  (formInitialized)="addFilterToWidget($event, i)"
-                ></app-receipt-filter>
+                <ng-container *ngIf="(filterOpen | async) === i">
+                  <app-input
+                    label="Widget Name"
+                    [inputFormControl]="
+                      form | formGet : 'widgets.' + i + '.name'
+                    "
+                  ></app-input>
+                  <app-receipt-filter
+                    [footerTemplate]="filterFooter"
+                    (formInitialized)="addFilterToWidget($event, i)"
+                  ></app-receipt-filter>
+                </ng-container>
+                <ng-container *ngIf="(filterOpen | async) !== i">
+                  <div class="d-flex align-items-center">
+                    closed bitch
+                    <app-edit-button
+                      [disabled]="(filterOpen | async) !== undefined"
+                    ></app-edit-button>
+                  </div>
+                </ng-container>
               </mat-list-item>
             </ng-container>
           </mat-list>

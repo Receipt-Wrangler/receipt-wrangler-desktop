@@ -22,6 +22,9 @@ import { ReceiptFilterComponent } from 'src/shared-ui/receipt-filter/receipt-fil
   styleUrls: ['./dashboard-form.component.scss'],
 })
 export class DashboardFormComponent implements OnInit {
+  @ViewChildren(ReceiptFilterComponent)
+  public receiptFilterComponents!: QueryList<ReceiptFilterComponent>;
+
   public headerText: string = '';
 
   public form: FormGroup = new FormGroup({});
@@ -149,6 +152,7 @@ export class DashboardFormComponent implements OnInit {
     } as Widget);
     this.filterOpen.next(this.widgets.length);
     this.widgets.push(formGroup);
+    console.warn(formGroup.value);
   }
 
   public addFilterToWidget(
@@ -168,6 +172,16 @@ export class DashboardFormComponent implements OnInit {
       this.filterOpen.next(undefined);
       this.filterIsAdd = false;
     } else {
+    }
+  }
+
+  public filterSubmitted(): void {
+    const widget = this.widgets.at(this.widgets.length - 1) as FormGroup;
+    if (this.filterIsAdd && widget.valid) {
+      const form = this.receiptFilterComponents.last.form;
+      widget?.patchValue(form.value);
+      this.filterOpen.next(undefined);
+      this.filterIsAdd = false;
     }
   }
 }
