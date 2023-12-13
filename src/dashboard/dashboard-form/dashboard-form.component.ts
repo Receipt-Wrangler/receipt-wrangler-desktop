@@ -34,6 +34,8 @@ export class DashboardFormComponent implements OnInit {
     number | undefined
   >(undefined);
 
+  public filterIsAdd: boolean = false;
+
   public get widgets(): FormArray {
     return this.form.get('widgets') as FormArray;
   }
@@ -153,9 +155,19 @@ export class DashboardFormComponent implements OnInit {
     filterFormGroup: FormGroup,
     widgetIndex: number
   ): void {
+    this.filterIsAdd = true;
     (this.widgets.at(widgetIndex) as FormGroup).addControl(
       'filter',
       filterFormGroup
     );
+  }
+
+  public cancelFilter(): void {
+    if (this.filterIsAdd) {
+      this.widgets.removeAt(this.widgets.length - 1);
+      this.filterOpen.next(undefined);
+      this.filterIsAdd = false;
+    } else {
+    }
   }
 }
