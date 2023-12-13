@@ -6,7 +6,15 @@ import {
   ReceiptTableState,
 } from 'src/store/receipt-table.state';
 
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -15,9 +23,11 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
-import { Category, Tag } from '@receipt-wrangler/receipt-wrangler-core';
-
-3;
+import {
+  Category,
+  ReceiptPagedRequestFilter,
+  Tag,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 @Component({
   selector: 'app-receipt-filter',
@@ -26,6 +36,13 @@ import { Category, Tag } from '@receipt-wrangler/receipt-wrangler-core';
 })
 export class ReceiptFilterComponent implements OnInit {
   @Input() public headerText: string = '';
+
+  @Input() public footerTemplate?: TemplateRef<any>;
+
+  @Input() public filter?: ReceiptPagedRequestFilter;
+
+  @Output() public formInitialized: EventEmitter<FormGroup> =
+    new EventEmitter<FormGroup>();
 
   public form: FormGroup = new FormGroup({});
 
@@ -51,9 +68,9 @@ export class ReceiptFilterComponent implements OnInit {
   }
 
   private initForm(): void {
-    const filter = this.store.selectSnapshot(
-      ReceiptTableState.filterData
-    ).filter;
+    const filter =
+      this.filter ??
+      this.store.selectSnapshot(ReceiptTableState.filterData).filter;
 
     this.form = this.formBuilder.group({
       date: this.buildFieldFormGroup(
@@ -93,6 +110,7 @@ export class ReceiptFilterComponent implements OnInit {
         filter?.resolvedDate?.operation
       ),
     });
+    this.formInitialized.emit(this.form);
   }
 
   private buildFieldFormGroup(

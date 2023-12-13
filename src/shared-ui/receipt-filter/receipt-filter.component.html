@@ -87,13 +87,19 @@
     }"
   ></ng-template>
 
+  <ng-template
+    [ngTemplateOutlet]="footerTemplate ?? defaultFooter"
+  ></ng-template>
+</app-dialog>
+
+<ng-template #defaultFooter>
   <app-dialog-footer
     submitButtonTooltip="Apply filter"
     [additionalButtonsTemplate]="resetButton"
     (submitClicked)="submitButtonClicked()"
     (cancelClicked)="cancelButtonClicked()"
   ></app-dialog-footer>
-</app-dialog>
+</ng-template>
 
 <ng-template
   #filterField

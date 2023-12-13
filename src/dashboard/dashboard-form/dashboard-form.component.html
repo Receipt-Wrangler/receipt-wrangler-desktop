@@ -18,18 +18,27 @@
             <h6>Filtered Receipts</h6>
             <app-add-button
               tooltip="Add filtered receipt widget"
+              [disabled]="(filterOpen | async) !== undefined"
               (clicked)="addFilteredReceiptWidget()"
             ></app-add-button>
           </div>
           <mat-list>
-            <ng-container *ngFor="let widget of widgets.controls">
+            <ng-container
+              *ngFor="let widget of widgets.controls; let i = index"
+            >
               <mat-list-item
                 class="h-100"
                 *ngIf="
                   widget?.value?.widgetType === WidgetTypeEnum.FILTEREDRECEIPTS
                 "
               >
-                <app-receipt-filter></app-receipt-filter>
+                <app-input
+                  label="Widget Name"
+                  [inputFormControl]="form | formGet : 'name'"
+                ></app-input>
+                <app-receipt-filter
+                  (formInitialized)="addFilterToWidget($event, i)"
+                ></app-receipt-filter>
               </mat-list-item>
             </ng-container>
           </mat-list>

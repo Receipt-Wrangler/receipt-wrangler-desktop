@@ -1,6 +1,6 @@
-import { take, tap } from 'rxjs';
+import { BehaviorSubject, take, tap } from 'rxjs';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -13,6 +13,7 @@ import {
   UpsertWidgetCommand,
   Widget,
 } from '@receipt-wrangler/receipt-wrangler-core';
+import { ReceiptFilterComponent } from 'src/shared-ui/receipt-filter/receipt-filter.component';
 
 @UntilDestroy()
 @Component({
@@ -28,6 +29,10 @@ export class DashboardFormComponent implements OnInit {
   public dashboard?: Dashboard;
 
   public WidgetTypeEnum = Widget.WidgetTypeEnum;
+
+  public filterOpen: BehaviorSubject<number | undefined> = new BehaviorSubject<
+    number | undefined
+  >(undefined);
 
   public get widgets(): FormArray {
     return this.form.get('widgets') as FormArray;
@@ -94,6 +99,7 @@ export class DashboardFormComponent implements OnInit {
     switch (widget.widgetType) {
       case Widget.WidgetTypeEnum.FILTEREDRECEIPTS:
         return this.formBuilder.group({
+          name: [widget.name, Validators.required],
           widgetType: [widget.widgetType, Validators.required],
         });
       default:
@@ -104,7 +110,9 @@ export class DashboardFormComponent implements OnInit {
   }
 
   public submit(): void {
-    if (this.form.valid && !this.dashboard) {
+    const canSubmit = this.form.valid && this.filterOpen.value === undefined;
+
+    if (canSubmit && !this.dashboard) {
       this.dashboardService
         .createDashboard(this.form.value)
         .pipe(
@@ -115,7 +123,7 @@ export class DashboardFormComponent implements OnInit {
           })
         )
         .subscribe();
-    } else if (this.form.valid && this.dashboard) {
+    } else if (canSubmit && this.dashboard) {
       this.dashboardService
         .updateDashboard(this.form.value, this.dashboard.id)
         .pipe(
@@ -137,6 +145,17 @@ export class DashboardFormComponent implements OnInit {
     const formGroup = this.buildWidgetFormGroup({
       widgetType: UpsertWidgetCommand.WidgetTypeEnum.FILTEREDRECEIPTS,
     } as Widget);
+    this.filterOpen.next(this.widgets.length);
     this.widgets.push(formGroup);
+  }
+
+  public addFilterToWidget(
+    filterFormGroup: FormGroup,
+    widgetIndex: number
+  ): void {
+    (this.widgets.at(widgetIndex) as FormGroup).addControl(
+      'filter',
+      filterFormGroup
+    );
   }
 }
