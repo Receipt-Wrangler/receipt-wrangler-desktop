@@ -56,6 +56,10 @@ export class DashboardFormComponent implements OnInit {
     this.listenForShowSummaryCardChanges();
   }
 
+  public ngAfterViewInit(): void {
+    console.warn(this.form.value);
+  }
+
   public initForm(): void {
     this.form = this.formBuilder.group({
       name: [this.dashboard?.name ?? '', Validators.required],
@@ -152,7 +156,6 @@ export class DashboardFormComponent implements OnInit {
     } as Widget);
     this.filterOpen.next(this.widgets.length);
     this.widgets.push(formGroup);
-    console.warn(formGroup.value);
   }
 
   public addFilterToWidget(

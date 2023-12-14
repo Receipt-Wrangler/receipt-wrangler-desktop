@@ -1,96 +1,100 @@
 <app-dialog [headerText]="headerText">
-  <ng-template
-    [ngTemplateOutlet]="filterField"
-    [ngTemplateOutletContext]="{
-      label: 'Date',
-      fieldName: 'date',
-      type: 'date'
-    }"
-  ></ng-template>
+  <ng-container *ngIf="isOpen; else preview">
+    <ng-template
+      [ngTemplateOutlet]="filterField"
+      [ngTemplateOutletContext]="{
+        label: 'Date',
+        fieldName: 'date',
+        type: 'date'
+      }"
+    ></ng-template>
 
-  <ng-template
-    [ngTemplateOutlet]="filterField"
-    [ngTemplateOutletContext]="{
-      label: 'Name',
-      fieldName: 'name',
-      type: 'text'
-    }"
-  ></ng-template>
+    <ng-template
+      [ngTemplateOutlet]="filterField"
+      [ngTemplateOutletContext]="{
+        label: 'Name',
+        fieldName: 'name',
+        type: 'text'
+      }"
+    ></ng-template>
 
-  <ng-template
-    [ngTemplateOutlet]="filterField"
-    [ngTemplateOutletContext]="{
-      label: 'Paid by',
-      fieldName: 'paidBy',
-      type: 'users',
-    }"
-  ></ng-template>
+    <ng-template
+      [ngTemplateOutlet]="filterField"
+      [ngTemplateOutletContext]="{
+        label: 'Paid by',
+        fieldName: 'paidBy',
+        type: 'users',
+      }"
+    ></ng-template>
 
-  <ng-template
-    [ngTemplateOutlet]="filterField"
-    [ngTemplateOutletContext]="{
-      label: 'Amount',
-      fieldName: 'amount',
-      type: 'number',
-      isCurrency: true,
-    }"
-  ></ng-template>
+    <ng-template
+      [ngTemplateOutlet]="filterField"
+      [ngTemplateOutletContext]="{
+        label: 'Amount',
+        fieldName: 'amount',
+        type: 'number',
+        isCurrency: true,
+      }"
+    ></ng-template>
 
-  <ng-template
-    [ngTemplateOutlet]="filterField"
-    [ngTemplateOutletContext]="{
-      label: 'Categories',
-      fieldName: 'categories',
-      type: 'list',
-      options: categories,
-      optionFilterKey: 'name',
-      optionDisplayKey: 'name',
-      optionValueKey: 'id',
-      multiple: true
-    }"
-  ></ng-template>
+    <ng-template
+      [ngTemplateOutlet]="filterField"
+      [ngTemplateOutletContext]="{
+        label: 'Categories',
+        fieldName: 'categories',
+        type: 'list',
+        options: categories,
+        optionFilterKey: 'name',
+        optionDisplayKey: 'name',
+        optionValueKey: 'id',
+        multiple: true
+      }"
+    ></ng-template>
 
-  <ng-template
-    [ngTemplateOutlet]="filterField"
-    [ngTemplateOutletContext]="{
-      label: 'Tags',
-      fieldName: 'tags',
-      type: 'list',
-      options: tags,
-      optionFilterKey: 'name',
-      optionDisplayKey: 'name',
-      optionValueKey: 'id',
-      multiple: true
-    }"
-  ></ng-template>
+    <ng-template
+      [ngTemplateOutlet]="filterField"
+      [ngTemplateOutletContext]="{
+        label: 'Tags',
+        fieldName: 'tags',
+        type: 'list',
+        options: tags,
+        optionFilterKey: 'name',
+        optionDisplayKey: 'name',
+        optionValueKey: 'id',
+        multiple: true
+      }"
+    ></ng-template>
 
-  <ng-template
-    [ngTemplateOutlet]="filterField"
-    [ngTemplateOutletContext]="{
-      label: 'Status',
-      fieldName: 'status',
-      type: 'list',
-      options: receiptStatusOptions,
-      optionFilterKey: 'value',
-      optionValueKey: 'value',
-      optionDisplayKey: 'displayValue',
-      multiple: true
-    }"
-  ></ng-template>
+    <ng-template
+      [ngTemplateOutlet]="filterField"
+      [ngTemplateOutletContext]="{
+        label: 'Status',
+        fieldName: 'status',
+        type: 'list',
+        options: receiptStatusOptions,
+        optionFilterKey: 'value',
+        optionValueKey: 'value',
+        optionDisplayKey: 'displayValue',
+        multiple: true
+      }"
+    ></ng-template>
 
-  <ng-template
-    [ngTemplateOutlet]="filterField"
-    [ngTemplateOutletContext]="{
-      label: 'Resolved Date',
-      fieldName: 'resolvedDate',
-      type: 'date'
-    }"
-  ></ng-template>
+    <ng-template
+      [ngTemplateOutlet]="filterField"
+      [ngTemplateOutletContext]="{
+        label: 'Resolved Date',
+        fieldName: 'resolvedDate',
+        type: 'date'
+      }"
+    ></ng-template>
 
-  <ng-template
-    [ngTemplateOutlet]="footerTemplate ?? defaultFooter"
-  ></ng-template>
+    <ng-template
+      [ngTemplateOutlet]="footerTemplate ?? defaultFooter"
+    ></ng-template>
+  </ng-container>
 </app-dialog>
+
+<ng-template #preview> preview </ng-template>
 
 <ng-template #defaultFooter>
   <app-dialog-footer

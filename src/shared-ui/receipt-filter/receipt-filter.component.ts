@@ -41,6 +41,8 @@ export class ReceiptFilterComponent implements OnInit {
 
   @Input() public filter?: ReceiptPagedRequestFilter;
 
+  @Input() public isOpen: boolean = true;
+
   @Output() public formInitialized: EventEmitter<FormGroup> =
     new EventEmitter<FormGroup>();
 

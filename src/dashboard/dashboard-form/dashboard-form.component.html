@@ -48,14 +48,15 @@
                       form | formGet : 'widgets.' + i + '.name'
                     "
                   ></app-input>
-                  <app-receipt-filter
-                    [footerTemplate]="filterFooter"
-                    (formInitialized)="addFilterToWidget($event, i)"
-                  ></app-receipt-filter>
                 </ng-container>
+                <app-receipt-filter
+                  [filter]="$any(dashboard?.widgets?.[i]?.configuration)"
+                  [footerTemplate]="filterFooter"
+                  (formInitialized)="addFilterToWidget($event, i)"
+                  [isOpen]="(filterOpen | async) === i"
+                ></app-receipt-filter>
                 <ng-container *ngIf="(filterOpen | async) !== i">
                   <div class="d-flex align-items-center">
-                    closed bitch
                     <app-edit-button
                       [disabled]="(filterOpen | async) !== undefined"
                     ></app-edit-button>
