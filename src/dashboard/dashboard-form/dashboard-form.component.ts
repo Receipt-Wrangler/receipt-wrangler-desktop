@@ -161,7 +161,7 @@ export class DashboardFormComponent implements OnInit {
   ): void {
     this.filterIsAdd = true;
     (this.widgets.at(widgetIndex) as FormGroup).addControl(
-      'filter',
+      'configuration',
       filterFormGroup
     );
   }
@@ -179,7 +179,7 @@ export class DashboardFormComponent implements OnInit {
     const widget = this.widgets.at(this.widgets.length - 1) as FormGroup;
     if (this.filterIsAdd && widget.valid) {
       const form = this.receiptFilterComponents.last.form;
-      widget?.patchValue(form.value);
+      widget.get('configuration')?.patchValue(form.value);
       this.filterOpen.next(undefined);
       this.filterIsAdd = false;
     }
