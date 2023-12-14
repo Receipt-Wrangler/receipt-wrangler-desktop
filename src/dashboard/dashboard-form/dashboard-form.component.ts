@@ -156,13 +156,13 @@ export class DashboardFormComponent implements OnInit {
     } as Widget);
     this.filterOpen.next(this.widgets.length);
     this.widgets.push(formGroup);
+    this.filterIsAdd = true;
   }
 
   public addFilterToWidget(
     filterFormGroup: FormGroup,
     widgetIndex: number
   ): void {
-    this.filterIsAdd = true;
     (this.widgets.at(widgetIndex) as FormGroup).addControl(
       'configuration',
       filterFormGroup
@@ -175,6 +175,7 @@ export class DashboardFormComponent implements OnInit {
       this.filterOpen.next(undefined);
       this.filterIsAdd = false;
     } else {
+      this.filterOpen.next(undefined);
     }
   }
 
@@ -186,5 +187,9 @@ export class DashboardFormComponent implements OnInit {
       this.filterOpen.next(undefined);
       this.filterIsAdd = false;
     }
+  }
+
+  public editFilter(index: number): void {
+    this.filterOpen.next(index);
   }
 }

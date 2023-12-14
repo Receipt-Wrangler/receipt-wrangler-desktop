@@ -49,19 +49,18 @@
                     "
                   ></app-input>
                 </ng-container>
-                <app-receipt-filter
-                  [filter]="$any(dashboard?.widgets?.[i]?.configuration)"
-                  [footerTemplate]="filterFooter"
-                  (formInitialized)="addFilterToWidget($event, i)"
-                  [isOpen]="(filterOpen | async) === i"
-                ></app-receipt-filter>
-                <ng-container *ngIf="(filterOpen | async) !== i">
-                  <div class="d-flex align-items-center">
-                    <app-edit-button
-                      [disabled]="(filterOpen | async) !== undefined"
-                    ></app-edit-button>
-                  </div>
-                </ng-container>
+                <div class="d-flex align-items-center">
+                  <app-receipt-filter
+                    [filter]="$any(dashboard?.widgets?.[i]?.configuration)"
+                    [footerTemplate]="filterFooter"
+                    [isOpen]="(filterOpen | async) === i"
+                    (formInitialized)="addFilterToWidget($event, i)"
+                  ></app-receipt-filter>
+                  <app-edit-button
+                    [disabled]="(filterOpen | async) !== undefined"
+                    (clicked)="editFilter(i)"
+                  ></app-edit-button>
+                </div>
               </mat-list-item>
             </ng-container>
           </mat-list>
