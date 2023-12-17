@@ -96,6 +96,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   @Select(ReceiptTableState.pageSize) public pageSize!: Observable<number>;
 
+  @Select(GroupState.selectedGroupId)
+  public selectedGroupId!: Observable<string>;
+
   public numFiltersApplied!: Observable<number | undefined>;
 
   public categories: Category[] = [];
