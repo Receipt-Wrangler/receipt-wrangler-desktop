@@ -63,6 +63,7 @@
   *ngIf="selectedReceiptIds.length"
   @fadeInOut
   headerText="Selected Receipt summary"
+  [groupId]="(selectedGroupId | async) || ''"
   [receiptIds]="selectedReceiptIds"
 ></app-summary-card>
 <div class="table-container">
