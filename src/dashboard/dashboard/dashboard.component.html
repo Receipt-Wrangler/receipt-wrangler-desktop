@@ -8,6 +8,7 @@
     <ng-template
       *ngSwitchCase="WidgetType.FILTEREDRECEIPTS"
       [ngTemplateOutlet]="filteredReceipts"
+      [ngTemplateOutletContext]="{ widgetToDisplay: widget }"
     >
     </ng-template>
   </ng-container>
@@ -20,6 +21,6 @@
   ></app-summary-card>
 </ng-template>
 
-<ng-template #filteredReceipts>
-  <app-filtered-receipts></app-filtered-receipts>
+<ng-template #filteredReceipts let-widgetToDisplay="widgetToDisplay">
+  <app-filtered-receipts [widget]="widgetToDisplay"></app-filtered-receipts>
 </ng-template>
