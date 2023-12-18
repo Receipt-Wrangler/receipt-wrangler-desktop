@@ -1,8 +1,13 @@
 <ng-container *ngFor="let widget of selectedDashboard?.widgets">
   <ng-container [ngSwitch]="widget.widgetType">
     <ng-template
-      [ngSwitchCase]="WidgetType.GROUPSUMMARY"
+      *ngSwitchCase="WidgetType.GROUPSUMMARY"
       [ngTemplateOutlet]="summaryCard"
+    >
+    </ng-template>
+    <ng-template
+      *ngSwitchCase="WidgetType.FILTEREDRECEIPTS"
+      [ngTemplateOutlet]="filteredReceipts"
     >
     </ng-template>
   </ng-container>
@@ -13,4 +18,8 @@
     headerText="Receipt Summary"
     [groupId]="(selectedGroupId | async) ?? ''"
   ></app-summary-card>
+</ng-template>
+
+<ng-template #filteredReceipts>
+  <app-filtered-receipts></app-filtered-receipts>
 </ng-template>

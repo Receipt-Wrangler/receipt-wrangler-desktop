@@ -17,12 +17,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { GroupDashboardsComponent } from './group-dashboards/group-dashboards.component';
 import { MatListModule } from '@angular/material/list';
+import { FilteredReceiptsComponent } from './filtered-receipts/filtered-receipts.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     DashboardFormComponent,
     GroupDashboardsComponent,
+    FilteredReceiptsComponent,
   ],
   imports: [
     CheckboxModule,
