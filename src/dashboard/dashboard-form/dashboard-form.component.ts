@@ -39,6 +39,8 @@ export class DashboardFormComponent implements OnInit {
 
   public filterIsAdd: boolean = false;
 
+  public originalWidgets: Widget[] = [];
+
   public get widgets(): FormArray {
     return this.form.get('widgets') as FormArray;
   }
@@ -52,6 +54,7 @@ export class DashboardFormComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.originalWidgets = this.dashboard?.widgets ?? [];
     this.initForm();
     this.listenForShowSummaryCardChanges();
   }
@@ -175,6 +178,9 @@ export class DashboardFormComponent implements OnInit {
       this.filterOpen.next(undefined);
       this.filterIsAdd = false;
     } else {
+      this.widgets
+        .at(this.filterOpen.value as number)
+        .patchValue(this.originalWidgets[this.filterOpen.value as number]);
       this.filterOpen.next(undefined);
     }
   }
@@ -184,8 +190,20 @@ export class DashboardFormComponent implements OnInit {
     if (this.filterIsAdd && widget.valid) {
       const form = this.receiptFilterComponents.last.form;
       widget.get('configuration')?.patchValue(form.value);
+      this.originalWidgets.push(widget.value);
+
       this.filterOpen.next(undefined);
       this.filterIsAdd = false;
+    } else if (widget.valid) {
+      const form = this.receiptFilterComponents.first.form;
+      widget.get('configuration')?.patchValue(form.value);
+      this.originalWidgets.splice(
+        this.filterOpen.value as number,
+        1,
+        widget.value
+      );
+
+      this.filterOpen.next(undefined);
     }
   }
 
