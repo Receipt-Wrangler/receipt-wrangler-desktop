@@ -178,9 +178,8 @@ export class DashboardFormComponent implements OnInit {
       this.filterOpen.next(undefined);
       this.filterIsAdd = false;
     } else {
-      this.widgets
-        .at(this.filterOpen.value as number)
-        .patchValue(this.originalWidgets[this.filterOpen.value as number]);
+      const widget = this.originalWidgets[this.filterOpen.value as number];
+      this.patchFilterConfig(widget);
       this.filterOpen.next(undefined);
     }
   }
@@ -205,6 +204,13 @@ export class DashboardFormComponent implements OnInit {
 
       this.filterOpen.next(undefined);
     }
+  }
+
+  private patchFilterConfig(widget: Widget): void {
+    // TODO: fix patch back with arraysx
+    const form = this.receiptFilterComponents.first.form;
+    form.patchValue(widget.configuration as any);
+    this.widgets.at(this.filterOpen.value as number).patchValue(widget);
   }
 
   public editFilter(index: number): void {
