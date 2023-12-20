@@ -1,4 +1,5 @@
 import { Component, Input, TemplateRef } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-form-header',
@@ -8,7 +9,11 @@ import { Component, Input, TemplateRef } from '@angular/core';
 export class FormHeaderComponent {
   @Input() public headerText: string = '';
 
-  @Input() public buttonRouterLink?: string[];
-
   @Input() public headerButtonsTemplate?: TemplateRef<any>;
+
+  constructor(private location: Location) {}
+
+  public navigateBack(): void {
+    this.location.back();
+  }
 }
