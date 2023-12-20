@@ -8,3 +8,7 @@
 @import "@fontsource/raleway";
 @import "/node_modules/@receipt-wrangler/receipt-wrangler-core/styles/styles.scss";
 @import "./variables.scss";
+
+.cursor-pointer {
+  cursor: pointer !important;
+}

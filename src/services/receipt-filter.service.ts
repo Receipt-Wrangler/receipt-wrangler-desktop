@@ -20,30 +20,37 @@ export class ReceiptFilterService {
     page?: number,
     pageSize?: number,
     orderBy?: string,
-    sortDirection?: SortDirection
+    sortDirection?: SortDirection,
+    pagedRequestCommand?: ReceiptPagedRequestCommand
   ): Observable<PagedData> {
-    const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
-    let filterData: ReceiptPagedRequestCommand = {
-      page: page ?? filter.page,
-      pageSize: pageSize ?? filter.pageSize,
-      orderBy: orderBy ?? filter.orderBy,
-      sortDirection: sortDirection ?? filter.sortDirection,
-      filter: Object.assign(filter.filter, {}),
-    };
+    let filterData: ReceiptPagedRequestCommand;
 
-    if (!filterData?.filter?.date?.value && filter?.filter?.date) {
-      filter.filter.date.value = '';
+    if (pagedRequestCommand) {
+      filterData = pagedRequestCommand;
+    } else {
+      const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
+      filterData = {
+        page: page ?? filter.page,
+        pageSize: pageSize ?? filter.pageSize,
+        orderBy: orderBy ?? filter.orderBy,
+        sortDirection: sortDirection ?? filter.sortDirection,
+        filter: Object.assign(filter.filter, {}),
+      };
+    }
+
+    if (!filterData?.filter?.date?.value && filterData?.filter?.date) {
+      filterData.filter.date.value = '';
     }
 
     if (
       !filterData?.filter?.resolvedDate?.value &&
-      filter?.filter?.resolvedDate
+      filterData?.filter?.resolvedDate
     ) {
-      filter.filter.resolvedDate.value = '';
+      filterData.filter.resolvedDate.value = '';
     }
 
-    if (!filterData?.filter?.amount?.value && filter?.filter.amount) {
-      filter.filter.amount.value = 0;
+    if (!filterData?.filter?.amount?.value && filterData?.filter?.amount) {
+      filterData.filter.amount.value = 0;
     }
 
     return this.httpClient.post<PagedData>(
