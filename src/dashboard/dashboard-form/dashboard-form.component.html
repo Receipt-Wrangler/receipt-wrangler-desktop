@@ -54,6 +54,8 @@
                     [filter]="$any(dashboard?.widgets?.[i]?.configuration)"
                     [footerTemplate]="filterFooter"
                     [isOpen]="(filterOpen | async) === i"
+                    [previewTemplate]="filterPreview"
+                    [previewTemplateContext]="{ index: i }"
                     (formInitialized)="addFilterToWidget($event, i)"
                   ></app-receipt-filter>
                   <app-edit-button
@@ -76,3 +78,6 @@
 </app-dialog>
 
 <ng-template #filterFooter></ng-template>
+<ng-template #filterPreview let-index="index">
+  {{originalWidgets?.[index]?.name}}
+</ng-template>

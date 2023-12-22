@@ -43,6 +43,10 @@ export class ReceiptFilterComponent implements OnInit {
 
   @Input() public isOpen: boolean = true;
 
+  @Input() public previewTemplate?: TemplateRef<any>;
+
+  @Input() public previewTemplateContext?: any;
+
   @Output() public formInitialized: EventEmitter<FormGroup> =
     new EventEmitter<FormGroup>();
 

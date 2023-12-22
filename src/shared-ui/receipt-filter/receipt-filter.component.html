@@ -94,7 +94,13 @@
   </ng-container>
 </app-dialog>
 
-<ng-template #preview> preview </ng-template>
+<ng-template #preview>
+  <ng-template
+    *ngIf="previewTemplate"
+    [ngTemplateOutlet]="previewTemplate"
+    [ngTemplateOutletContext]="previewTemplateContext"
+  ></ng-template>
+</ng-template>
 
 <ng-template #defaultFooter>
   <app-dialog-footer
