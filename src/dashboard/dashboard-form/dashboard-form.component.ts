@@ -120,6 +120,13 @@ export class DashboardFormComponent implements OnInit {
   public submit(): void {
     const canSubmit = this.form.valid && this.filterOpen.value === undefined;
 
+    if (this.filterOpen.value !== undefined) {
+      this.snackbarService.error(
+        'Please finish editing the open filter before submitting'
+      );
+      return;
+    }
+
     if (canSubmit && !this.dashboard) {
       this.dashboardService
         .createDashboard(this.form.value)
