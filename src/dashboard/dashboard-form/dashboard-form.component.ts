@@ -59,10 +59,6 @@ export class DashboardFormComponent implements OnInit {
     this.listenForShowSummaryCardChanges();
   }
 
-  public ngAfterViewInit(): void {
-    console.warn(this.form.value);
-  }
-
   public initForm(): void {
     this.form = this.formBuilder.group({
       name: [this.dashboard?.name ?? '', Validators.required],
@@ -207,10 +203,10 @@ export class DashboardFormComponent implements OnInit {
   }
 
   private patchFilterConfig(widget: Widget): void {
-    // TODO: fix patch back with arraysx
-    const form = this.receiptFilterComponents.first.form;
-    form.patchValue(widget.configuration as any);
-    this.widgets.at(this.filterOpen.value as number).patchValue(widget);
+    const originalWidget =
+      this.originalWidgets[this.filterOpen.value as number];
+    this.receiptFilterComponents.first.filter = originalWidget.configuration;
+    this.receiptFilterComponents.first.ngOnInit();
   }
 
   public editFilter(index: number): void {
