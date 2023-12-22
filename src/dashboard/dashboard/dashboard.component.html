@@ -1,26 +1,33 @@
-<ng-container *ngFor="let widget of selectedDashboard?.widgets">
-  <ng-container [ngSwitch]="widget.widgetType">
-    <ng-template
-      *ngSwitchCase="WidgetType.GROUPSUMMARY"
-      [ngTemplateOutlet]="summaryCard"
-    >
-    </ng-template>
-    <ng-template
-      *ngSwitchCase="WidgetType.FILTEREDRECEIPTS"
-      [ngTemplateOutlet]="filteredReceipts"
-      [ngTemplateOutletContext]="{ widgetToDisplay: widget }"
-    >
-    </ng-template>
-  </ng-container>
-</ng-container>
+<div class="row">
+  <div *ngFor="let widget of selectedDashboard?.widgets">
+    <div [ngSwitch]="widget.widgetType">
+      <ng-template
+        *ngSwitchCase="WidgetType.GROUPSUMMARY"
+        class="col"
+        [ngTemplateOutlet]="summaryCard"
+      >
+      </ng-template>
+      <ng-template
+        *ngSwitchCase="WidgetType.FILTEREDRECEIPTS"
+        [ngTemplateOutlet]="filteredReceipts"
+        [ngTemplateOutletContext]="{ widgetToDisplay: widget }"
+      >
+      </ng-template>
+    </div>
+  </div>
+</div>
 
 <ng-template #summaryCard>
-  <app-summary-card
-    headerText="Receipt Summary"
-    [groupId]="(selectedGroupId | async) ?? ''"
-  ></app-summary-card>
+  <div class="col">
+    <app-summary-card
+      headerText="Receipt Summary"
+      [groupId]="(selectedGroupId | async) ?? ''"
+    ></app-summary-card>
+  </div>
 </ng-template>
 
 <ng-template #filteredReceipts let-widgetToDisplay="widgetToDisplay">
-  <app-filtered-receipts [widget]="widgetToDisplay"></app-filtered-receipts>
+  <div class="col">
+    <app-filtered-receipts [widget]="widgetToDisplay"></app-filtered-receipts>
+  </div>
 </ng-template>

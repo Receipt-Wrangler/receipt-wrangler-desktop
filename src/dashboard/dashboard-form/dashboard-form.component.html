@@ -57,6 +57,7 @@
                     (formInitialized)="addFilterToWidget($event, i)"
                   ></app-receipt-filter>
                   <app-edit-button
+                    color="accent"
                     [disabled]="(filterOpen | async) !== undefined"
                     (clicked)="editFilter(i)"
                   ></app-edit-button>
