@@ -1,4 +1,4 @@
-import { take, tap } from 'rxjs';
+import { forkJoin, take, tap } from 'rxjs';
 import { RECEIPT_STATUS_OPTIONS } from 'src/constants';
 import { SetReceiptFilter } from 'src/store/receipt-table.actions';
 import {
@@ -25,8 +25,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import {
   Category,
+  CategoryService,
   ReceiptPagedRequestFilter,
   Tag,
+  TagService,
 } from '@receipt-wrangler/receipt-wrangler-core';
 
 @Component({
@@ -62,15 +64,25 @@ export class ReceiptFilterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private store: Store,
     private dialogRef: MatDialogRef<ReceiptFilterComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    data: {
-      categories: Category[];
-      tags: Tag[];
-    }
+    private categoryService: CategoryService,
+    private tagService: TagService
   ) {}
 
   public ngOnInit(): void {
-    this.initForm();
+    forkJoin([
+      this.categoryService.getAllCategories(),
+      this.tagService.getAllTags(),
+    ])
+      .pipe(
+        take(1),
+        tap(([categories, tags]) => {
+          this.categories = categories;
+          this.tags = tags;
+
+          this.initForm();
+        })
+      )
+      .subscribe();
   }
 
   private initForm(): void {
