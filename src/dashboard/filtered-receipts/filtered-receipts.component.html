@@ -1,0 +1,25 @@
+<app-card>
+  <ng-container header>
+    <h3>
+      {{ widget.name }}
+    </h3>
+  </ng-container>
+  <ng-container content>
+    <mat-list role="list">
+      <mat-list-item
+        *ngFor="let receipt of receipts"
+        role="listitem"
+        class="cursor-pointer"
+        [routerLink]="['/receipts/' + receipt.id + '/view']"
+      >
+        <div matListItemTitle>{{ receipt.name }}</div>
+        <div matListItemLine>
+          {{ receipt.date | date }} - {{ receipt.amount | currency }}
+        </div>
+      </mat-list-item>
+      <mat-list-item *ngIf="receipts?.length === 0"
+        >No receipts found</mat-list-item
+      >
+    </mat-list>
+  </ng-container>
+</app-card>

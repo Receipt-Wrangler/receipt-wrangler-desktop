@@ -1,4 +1,4 @@
-import { take, tap } from 'rxjs';
+import { forkJoin, take, tap } from 'rxjs';
 import { RECEIPT_STATUS_OPTIONS } from 'src/constants';
 import { SetReceiptFilter } from 'src/store/receipt-table.actions';
 import {
@@ -6,7 +6,15 @@ import {
   ReceiptTableState,
 } from 'src/store/receipt-table.state';
 
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -15,9 +23,13 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
-import { Category, Tag } from '@receipt-wrangler/receipt-wrangler-core';
-
-3;
+import {
+  Category,
+  CategoryService,
+  ReceiptPagedRequestFilter,
+  Tag,
+  TagService,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 @Component({
   selector: 'app-receipt-filter',
@@ -25,6 +37,21 @@ import { Category, Tag } from '@receipt-wrangler/receipt-wrangler-core';
   styleUrls: ['./receipt-filter.component.scss'],
 })
 export class ReceiptFilterComponent implements OnInit {
+  @Input() public headerText: string = '';
+
+  @Input() public footerTemplate?: TemplateRef<any>;
+
+  @Input() public filter?: ReceiptPagedRequestFilter;
+
+  @Input() public isOpen: boolean = true;
+
+  @Input() public previewTemplate?: TemplateRef<any>;
+
+  @Input() public previewTemplateContext?: any;
+
+  @Output() public formInitialized: EventEmitter<FormGroup> =
+    new EventEmitter<FormGroup>();
+
   public form: FormGroup = new FormGroup({});
 
   public receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
@@ -37,24 +64,31 @@ export class ReceiptFilterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private store: Store,
     private dialogRef: MatDialogRef<ReceiptFilterComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    data: {
-      categories: Category[];
-      tags: Tag[];
-    }
-  ) {
-    this.categories = data.categories;
-    this.tags = data.tags;
-  }
+    private categoryService: CategoryService,
+    private tagService: TagService
+  ) {}
 
   public ngOnInit(): void {
-    this.initForm();
+    forkJoin([
+      this.categoryService.getAllCategories(),
+      this.tagService.getAllTags(),
+    ])
+      .pipe(
+        take(1),
+        tap(([categories, tags]) => {
+          this.categories = categories;
+          this.tags = tags;
+
+          this.initForm();
+        })
+      )
+      .subscribe();
   }
 
   private initForm(): void {
-    const filter = this.store.selectSnapshot(
-      ReceiptTableState.filterData
-    ).filter;
+    const filter =
+      this.filter ??
+      this.store.selectSnapshot(ReceiptTableState.filterData).filter;
 
     this.form = this.formBuilder.group({
       date: this.buildFieldFormGroup(
@@ -94,6 +128,7 @@ export class ReceiptFilterComponent implements OnInit {
         filter?.resolvedDate?.operation
       ),
     });
+    this.formInitialized.emit(this.form);
   }
 
   private buildFieldFormGroup(

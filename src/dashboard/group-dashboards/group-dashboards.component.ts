@@ -137,10 +137,10 @@ export class GroupDashboardsComponent implements OnInit {
   }
 
   public openDeleteConfirmationDialog(): void {
-    const dialogRef = this.matDialog.open(
-      ConfirmationDialogComponent,
-      DEFAULT_DIALOG_CONFIG
-    );
+    const dialogRef = this.matDialog.open(ConfirmationDialogComponent, {
+      ...DEFAULT_DIALOG_CONFIG,
+      panelClass: 'overflow-scroll',
+    });
     const dashboardId = this.store.selectSnapshot(
       GroupState.selectedDashboardId
     );

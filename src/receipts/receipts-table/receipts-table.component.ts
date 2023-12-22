@@ -42,7 +42,7 @@ import {
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
 import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
-import { ReceiptFilterComponent } from '../receipt-filter/receipt-filter.component';
+import { ReceiptFilterComponent } from '../../shared-ui/receipt-filter/receipt-filter.component';
 import { fadeInOut } from 'src/animations';
 import { QuickScanDialogComponent } from '../quick-scan-dialog/quick-scan-dialog.component';
 import {
@@ -287,6 +287,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         tags: this.tags,
       },
     });
+
+    dialogRef.componentInstance.headerText = 'Filter Receipts';
 
     dialogRef
       .afterClosed()

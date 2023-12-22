@@ -16,9 +16,16 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { GroupDashboardsComponent } from './group-dashboards/group-dashboards.component';
+import { MatListModule } from '@angular/material/list';
+import { FilteredReceiptsComponent } from './filtered-receipts/filtered-receipts.component';
 
 @NgModule({
-  declarations: [DashboardComponent, DashboardFormComponent, GroupDashboardsComponent],
+  declarations: [
+    DashboardComponent,
+    DashboardFormComponent,
+    GroupDashboardsComponent,
+    FilteredReceiptsComponent,
+  ],
   imports: [
     CheckboxModule,
     CommonModule,
@@ -27,6 +34,7 @@ import { GroupDashboardsComponent } from './group-dashboards/group-dashboards.co
     InputModule,
     MatCardModule,
     MatChipsModule,
+    MatListModule,
     PipesModule,
     ReactiveFormsModule,
     SharedUiModule,

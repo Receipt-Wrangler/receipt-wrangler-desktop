@@ -31,8 +31,6 @@ import { QuickActionsDialogComponent } from './quick-actions-dialog/quick-action
 import { ReceiptCommentsComponent } from './receipt-comments/receipt-comments.component';
 import { ReplyButtonTextPipe } from './receipt-comments/reply-button-text.pipe';
 import { TopLevelCommentPipe } from './receipt-comments/top-level-comment.pipe';
-import { OperationsPipe } from './receipt-filter/operations.pipe';
-import { ReceiptFilterComponent } from './receipt-filter/receipt-filter.component';
 import { ReceiptFormComponent } from './receipt-form/receipt-form.component';
 import { ReceiptsRoutingModule } from './receipts-routing.module';
 import { ReceiptsTableComponent } from './receipts-table/receipts-table.component';
@@ -53,8 +51,6 @@ import { MatIconModule } from '@angular/material/icon';
     TopLevelCommentPipe,
     UploadImageComponent,
     UserTotalPipe,
-    ReceiptFilterComponent,
-    OperationsPipe,
     QuickScanDialogComponent,
   ],
   imports: [

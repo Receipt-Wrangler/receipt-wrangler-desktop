@@ -1,4 +1,8 @@
-import { InputModule } from '@receipt-wrangler/receipt-wrangler-core';
+import {
+  CategoryService,
+  InputModule,
+  TagService,
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { of } from 'rxjs';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { SetReceiptFilter } from 'src/store/receipt-table.actions';
@@ -24,6 +28,7 @@ import {
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { OperationsPipe } from './operations.pipe';
 import { ReceiptFilterComponent } from './receipt-filter.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ReceiptFilterComponent', () => {
   let component: ReceiptFilterComponent;
@@ -69,15 +74,18 @@ describe('ReceiptFilterComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ReceiptFilterComponent, OperationsPipe],
       imports: [
-        NgxsModule.forRoot([ReceiptTableState]),
-        MatDialogModule,
-        InputModule,
-        ReactiveFormsModule,
         CorePipesModule,
-        PipesModule,
+        HttpClientTestingModule,
+        InputModule,
+        MatDialogModule,
+        NgxsModule.forRoot([ReceiptTableState]),
         NoopAnimationsModule,
+        PipesModule,
+        ReactiveFormsModule,
       ],
       providers: [
+        CategoryService,
+        TagService,
         {
           provide: MatDialogRef,
           useValue: {
@@ -106,12 +114,24 @@ describe('ReceiptFilterComponent', () => {
   });
 
   it('should init form with no default initial data', () => {
+    spyOn(TestBed.inject(CategoryService), 'getAllCategories').and.returnValue(
+      of([]) as any
+    );
+    spyOn(TestBed.inject(TagService), 'getAllTags').and.returnValue(
+      of([]) as any
+    );
     component.ngOnInit();
 
     expect(component.form.value).toEqual(defaultReceiptFilter);
   });
 
   it('should init form with initial data', () => {
+    spyOn(TestBed.inject(CategoryService), 'getAllCategories').and.returnValue(
+      of([]) as any
+    );
+    spyOn(TestBed.inject(TagService), 'getAllTags').and.returnValue(
+      of([]) as any
+    );
     store.reset({
       receiptTable: {
         filter: filledFilter,
@@ -123,6 +143,12 @@ describe('ReceiptFilterComponent', () => {
   });
 
   it('should reset form', () => {
+    spyOn(TestBed.inject(CategoryService), 'getAllCategories').and.returnValue(
+      of([]) as any
+    );
+    spyOn(TestBed.inject(TagService), 'getAllTags').and.returnValue(
+      of([]) as any
+    );
     store.reset({
       receiptTable: {
         filter: filledFilter,
