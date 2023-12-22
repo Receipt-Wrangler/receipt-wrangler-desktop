@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormHeaderComponent } from './form-header.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('FormHeaderComponent', () => {
   let component: FormHeaderComponent;
@@ -8,7 +9,8 @@ describe('FormHeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FormHeaderComponent]
+      declarations: [FormHeaderComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     fixture = TestBed.createComponent(FormHeaderComponent);
     component = fixture.componentInstance;
