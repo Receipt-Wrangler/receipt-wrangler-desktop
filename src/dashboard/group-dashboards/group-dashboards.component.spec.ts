@@ -96,7 +96,7 @@ describe('GroupDashboardsComponent', () => {
     expect(component.dashboards).toEqual(dashboards);
   });
 
-  it('should set dashboards with dashboards on param change', () => {
+  it('should set dashboards with dashboards on seleced group id change', () => {
     const dashboards: Dashboard[] = [
       {
         id: 1,
@@ -130,11 +130,11 @@ describe('GroupDashboardsComponent', () => {
 
     store.reset({
       groups: {
-        selectedGroupId: '1',
+        selectedGroupId: '2',
       },
       dashboards: {
         dashboards: {
-          '1': newDashboards,
+          '2': newDashboards,
         },
       },
     });
