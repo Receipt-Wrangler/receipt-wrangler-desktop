@@ -56,6 +56,7 @@ export class GroupDashboardsComponent implements OnInit {
       .pipe(
         tap(() => {
           this.setDashboards();
+          this.checkForSelectedDashboard();
         })
       )
       .subscribe();

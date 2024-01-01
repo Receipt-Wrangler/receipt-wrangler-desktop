@@ -23,16 +23,28 @@ export class GroupGuard {
   ): boolean {
     const groupId = route.params['groupId'];
     const group = this.store.selectSnapshot(GroupState.getGroupById(groupId));
-    const newGroupId = this.store.selectSnapshot(GroupState.groups)[0]?.id;
-    this.store.dispatch(new SetSelectedDashboardId(undefined));
 
     if (group) {
+      this.resetSelectedDashboardIfGroupDashboardChanged(
+        groupId?.toString() ?? ''
+      );
       return true;
     } else {
+      const newGroupId = this.store.selectSnapshot(GroupState.groups)[0]?.id;
       const basePath = route.data['groupGuardBasePath'];
+
+      this.resetSelectedDashboardIfGroupDashboardChanged(
+        newGroupId?.toString() ?? ''
+      );
       this.store.dispatch(new SetSelectedGroupId(newGroupId?.toString() ?? ''));
       this.router.navigate([`${basePath}/${newGroupId}`]);
       return false;
+    }
+  }
+
+  private resetSelectedDashboardIfGroupDashboardChanged(groupId: string): void {
+    if (groupId !== this.store.selectSnapshot(GroupState.selectedGroupId)) {
+      this.store.dispatch(new SetSelectedDashboardId(undefined));
     }
   }
 }
