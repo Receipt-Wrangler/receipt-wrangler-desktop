@@ -68,17 +68,10 @@ export class GroupDashboardsComponent implements OnInit {
       .select(GroupState.selectedGroupId)
       .pipe(
         untilDestroyed(this),
-        switchMap((groupId) =>
-          this.store
-            .select(DashboardState.getDashboardsByGroupId(groupId))
-            .pipe(
-              take(1),
-              tap((dashboards) => {
-                this.dashboards = dashboards;
-                this.checkForSelectedDashboard();
-              })
-            )
-        )
+        tap((groupId) => {
+          this.refreshDashboards(groupId);
+          this.checkForSelectedDashboard();
+        })
       )
       .subscribe();
   }
@@ -126,6 +119,7 @@ export class GroupDashboardsComponent implements OnInit {
               new UpdateDashBoardForGroup(groupId, dashboard.id, dashboard)
             );
           }
+          this.refreshDashboards(groupId);
         })
       )
       .subscribe();
@@ -133,6 +127,18 @@ export class GroupDashboardsComponent implements OnInit {
 
   public setSelectedDashboardId(dashboardId: number): void {
     this.store.dispatch(new SetSelectedDashboardId(dashboardId?.toString()));
+  }
+
+  private refreshDashboards(groupId: string): void {
+    this.store
+      .select(DashboardState.getDashboardsByGroupId(groupId))
+      .pipe(
+        take(1),
+        tap((dashboards) => {
+          this.dashboards = dashboards;
+        })
+      )
+      .subscribe();
   }
 
   public openDeleteConfirmationDialog(): void {
@@ -175,6 +181,9 @@ export class GroupDashboardsComponent implements OnInit {
                   );
                   this.store.dispatch(new SetSelectedDashboardId(undefined));
                   this.router.navigateByUrl(dashboardLink);
+                  this.refreshDashboards(
+                    this.store.selectSnapshot(GroupState.selectedGroupId)
+                  );
                 })
               )
               .subscribe();
