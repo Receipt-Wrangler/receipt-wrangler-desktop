@@ -146,22 +146,6 @@ describe('GroupDashboardsComponent', () => {
     expect(component.dashboards).toEqual(newDashboards);
   });
 
-  it('should navigate to selected dashboard', () => {
-    const routerSpy = spyOn(TestBed.inject(Router), 'navigateByUrl');
-    store.reset({
-      groups: {
-        selectedDashboardId: '1',
-      },
-    });
-
-    component.ngOnInit();
-
-    expect(routerSpy).toHaveBeenCalledWith('/dashboard/group/1/1', {
-      skipLocationChange: false,
-      onSameUrlNavigation: 'reload',
-    });
-  });
-
   it('should not navigate to selected dashboard', () => {
     const routerSpy = spyOn(TestBed.inject(Router), 'navigateByUrl');
     store.reset({

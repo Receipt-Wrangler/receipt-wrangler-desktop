@@ -1,15 +1,24 @@
-import { take, tap } from "rxjs";
-import { ReceiptFilterService } from "src/services/receipt-filter.service";
+import { take, tap } from 'rxjs';
+import { ReceiptFilterService } from 'src/services/receipt-filter.service';
 
-import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import {
-  AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation
-} from "@angular/core";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { Store } from "@ngxs/store";
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Store } from '@ngxs/store';
 import {
-  GroupState, Receipt, ReceiptPagedRequestCommand, Widget
-} from "@receipt-wrangler/receipt-wrangler-core";
+  GroupState,
+  Receipt,
+  ReceiptPagedRequestCommand,
+  Widget,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 @UntilDestroy()
 @Component({
@@ -70,8 +79,8 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
     this.receiptFilterService
       .getPagedReceiptsForGroups(
         groupId,
-        this.page,
-        this.pageSize,
+        undefined,
+        undefined,
         undefined,
         undefined,
         command
