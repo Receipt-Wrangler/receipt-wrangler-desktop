@@ -54,15 +54,24 @@
                     [filter]="$any(dashboard?.widgets?.[i]?.configuration)"
                     [footerTemplate]="filterFooter"
                     [isOpen]="(filterOpen | async) === i"
+                    [inDialog]="false"
                     [previewTemplate]="filterPreview"
                     [previewTemplateContext]="{ index: i }"
                     (formInitialized)="addFilterToWidget($event, i)"
                   ></app-receipt-filter>
-                  <app-edit-button
-                    color="accent"
-                    [disabled]="(filterOpen | async) !== undefined"
-                    (clicked)="editFilter(i)"
-                  ></app-edit-button>
+                  <ng-container *ngIf="(filterOpen | async) !== i">
+                    <app-edit-button
+                      color="accent"
+                      [disabled]="(filterOpen | async) !== undefined"
+                      (clicked)="editFilter(i)"
+                    ></app-edit-button>
+                    <app-delete-button
+                      color="accent"
+                      [disabled]="(filterOpen | async) !== undefined"
+                      (clicked)="removeFilter(i)"
+                    >
+                    </app-delete-button>
+                  </ng-container>
                 </div>
               </mat-list-item>
             </ng-container>

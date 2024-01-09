@@ -1,4 +1,17 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { take, tap } from 'rxjs';
+import { ReceiptFilterService } from 'src/services/receipt-filter.service';
+
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngxs/store';
 import {
   GroupState,
@@ -6,16 +19,18 @@ import {
   ReceiptPagedRequestCommand,
   Widget,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { take, tap } from 'rxjs';
-import { ReceiptFilterService } from 'src/services/receipt-filter.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-filtered-receipts',
   templateUrl: './filtered-receipts.component.html',
   styleUrls: ['./filtered-receipts.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class FilteredReceiptsComponent {
+export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
+  @ViewChild(CdkVirtualScrollViewport)
+  public cdkVirtualScrollViewport!: CdkVirtualScrollViewport;
+
   @Input() public widget!: Widget;
 
   public page: number = 1;
@@ -26,11 +41,30 @@ export class FilteredReceiptsComponent {
 
   constructor(
     private receiptFilterService: ReceiptFilterService,
-    private store: Store
+    private store: Store,
+    private cdr: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
     this.getData();
+  }
+
+  public ngAfterViewInit(): void {
+    this.listenForRenderedRange();
+  }
+
+  private listenForRenderedRange(): void {
+    this.cdkVirtualScrollViewport.renderedRangeStream
+      .pipe(
+        untilDestroyed(this),
+        tap((range) => {
+          if (range.end === this.receipts.length) {
+            this.page++;
+            this.getData();
+          }
+        })
+      )
+      .subscribe();
   }
 
   private getData(): void {
@@ -53,8 +87,9 @@ export class FilteredReceiptsComponent {
       )
       .pipe(
         take(1),
-        tap((receipts) => {
-          this.receipts = receipts.data;
+        tap((pagedData) => {
+          this.receipts = [...this.receipts, ...pagedData.data];
+          this.cdr.detectChanges();
         })
       )
       .subscribe();

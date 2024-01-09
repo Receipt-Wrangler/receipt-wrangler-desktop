@@ -29,7 +29,6 @@ import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/c
 })
 export class GroupDashboardsComponent implements OnInit {
   constructor(
-    private activatedRoute: ActivatedRoute,
     private dashboardService: DashboardService,
     private matDialog: MatDialog,
     private router: Router,
@@ -77,10 +76,15 @@ export class GroupDashboardsComponent implements OnInit {
   }
 
   public navigateToDashboard(dashboardId: number): void {
-    this.router.navigateByUrl(`/dashboard/group/1/${dashboardId}`, {
-      skipLocationChange: false,
-      onSameUrlNavigation: 'reload',
-    });
+    const selectedGroupId = this.store.selectSnapshot(
+      GroupState.selectedGroupId
+    );
+
+    setTimeout(() => {
+      this.router.navigateByUrl(
+        `/dashboard/group/${selectedGroupId}/${dashboardId}`
+      );
+    }, 0);
   }
 
   public openDashboardDialog(isCreate?: boolean): void {

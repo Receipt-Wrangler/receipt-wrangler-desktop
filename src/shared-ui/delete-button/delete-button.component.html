@@ -1,7 +1,7 @@
 <app-button
   matButtonType="iconButton"
   icon="delete"
-  color="warn"
+  [color]="color || 'warn'"
   [disabled]="disabled"
   [tooltip]="tooltip ?? 'Delete'"
   (clicked)="clicked.emit()"

@@ -1,33 +1,20 @@
 <div class="row">
-  <div *ngFor="let widget of selectedDashboard?.widgets">
+  <div class="col" *ngFor="let widget of selectedDashboard?.widgets">
     <div [ngSwitch]="widget.widgetType">
-      <ng-template
-        *ngSwitchCase="WidgetType.GROUPSUMMARY"
-        class="col"
-        [ngTemplateOutlet]="summaryCard"
-      >
-      </ng-template>
-      <ng-template
-        *ngSwitchCase="WidgetType.FILTEREDRECEIPTS"
-        [ngTemplateOutlet]="filteredReceipts"
-        [ngTemplateOutletContext]="{ widgetToDisplay: widget }"
-      >
-      </ng-template>
+      <div *ngSwitchCase="WidgetType.GROUPSUMMARY">
+        <app-summary-card
+          headerText="Receipt Summary"
+          [groupId]="(selectedGroupId | async) ?? ''"
+        ></app-summary-card>
+      </div>
+      <div *ngSwitchCase="WidgetType.FILTEREDRECEIPTS">
+        <app-filtered-receipts [widget]="widget"></app-filtered-receipts>
+      </div>
     </div>
   </div>
 </div>
 
-<ng-template #summaryCard>
-  <div class="col">
-    <app-summary-card
-      headerText="Receipt Summary"
-      [groupId]="(selectedGroupId | async) ?? ''"
-    ></app-summary-card>
-  </div>
-</ng-template>
+<ng-template #summaryCard> </ng-template>
 
 <ng-template #filteredReceipts let-widgetToDisplay="widgetToDisplay">
-  <div class="col">
-    <app-filtered-receipts [widget]="widgetToDisplay"></app-filtered-receipts>
-  </div>
 </ng-template>

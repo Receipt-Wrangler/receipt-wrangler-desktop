@@ -4,22 +4,27 @@
       {{ widget.name }}
     </h3>
   </ng-container>
-  <ng-container content>
-    <mat-list role="list">
-      <mat-list-item
-        *ngFor="let receipt of receipts"
-        role="listitem"
-        class="cursor-pointer"
+  <div class="content-container" content>
+    <cdk-virtual-scroll-viewport
+      itemSize="67"
+      role="list"
+      class="default-size scroll-container"
+    >
+      <a
+        *cdkVirtualFor="let receipt of receipts"
+        role="link"
+        class="cursor-pointer item-size item-link"
         [routerLink]="['/receipts/' + receipt.id + '/view']"
       >
         <div matListItemTitle>{{ receipt.name }}</div>
         <div matListItemLine>
           {{ receipt.date | date }} - {{ receipt.amount | currency }}
         </div>
-      </mat-list-item>
+        <hr />
+      </a>
       <mat-list-item *ngIf="receipts?.length === 0"
         >No receipts found</mat-list-item
       >
-    </mat-list>
-  </ng-container>
+    </cdk-virtual-scroll-viewport>
+  </div>
 </app-card>
