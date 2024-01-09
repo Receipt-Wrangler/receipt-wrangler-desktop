@@ -17,6 +17,7 @@
           <div class="d-flex align-items-center">
             <h6>Filtered Receipts</h6>
             <app-add-button
+              class="add-button-size"
               tooltip="Add filtered receipt widget"
               [disabled]="(filterOpen | async) !== undefined"
               (clicked)="addFilteredReceiptWidget()"
@@ -59,17 +60,19 @@
                     [previewTemplateContext]="{ index: i }"
                     (formInitialized)="addFilterToWidget($event, i)"
                   ></app-receipt-filter>
-                  <app-edit-button
-                    color="accent"
-                    [disabled]="(filterOpen | async) !== undefined"
-                    (clicked)="editFilter(i)"
-                  ></app-edit-button>
-                  <app-delete-button
-                    color="accent"
-                    [disabled]="(filterOpen | async) !== undefined"
-                    (clicked)="removeFilter(i)"
-                  >
-                  </app-delete-button>
+                  <ng-container *ngIf="(filterOpen | async) !== i">
+                    <app-edit-button
+                      color="accent"
+                      [disabled]="(filterOpen | async) !== undefined"
+                      (clicked)="editFilter(i)"
+                    ></app-edit-button>
+                    <app-delete-button
+                      color="accent"
+                      [disabled]="(filterOpen | async) !== undefined"
+                      (clicked)="removeFilter(i)"
+                    >
+                    </app-delete-button>
+                  </ng-container>
                 </div>
               </mat-list-item>
             </ng-container>
