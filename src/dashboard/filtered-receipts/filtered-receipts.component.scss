@@ -1,17 +1,19 @@
-.default-size {
-  overflow-y: scroll;
-  max-height: 25vh !important;
-}
+app-filtered-receipts {
+  .default-size {
+    overflow-y: scroll;
+    max-height: 25vh !important;
+  }
 
-.item-size {
-  height: 55px !important;
-}
+  .item-size {
+    height: 55px !important;
+  }
 
-.scroll-container {
-  height: 100vh !important;
-}
+  .scroll-container {
+    height: 100vh !important;
+  }
 
-.content-container {
-  display: block;
-  height: 100%;
+  .content-container {
+    display: block;
+    height: 100%;
+  }
 }
