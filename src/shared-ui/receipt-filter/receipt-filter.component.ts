@@ -2,14 +2,13 @@ import { forkJoin, take, tap } from 'rxjs';
 import { RECEIPT_STATUS_OPTIONS } from 'src/constants';
 import { SetReceiptFilter } from 'src/store/receipt-table.actions';
 import {
-  defaultReceiptFilter,
   ReceiptTableState,
+  defaultReceiptFilter,
 } from 'src/store/receipt-table.state';
 
 import {
   Component,
   EventEmitter,
-  Inject,
   Input,
   OnInit,
   Output,
@@ -21,7 +20,7 @@ import {
   FormBuilder,
   FormGroup,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import {
   Category,
@@ -48,6 +47,8 @@ export class ReceiptFilterComponent implements OnInit {
   @Input() public previewTemplate?: TemplateRef<any>;
 
   @Input() public previewTemplateContext?: any;
+
+  @Input() public inDialog: boolean = true;
 
   @Output() public formInitialized: EventEmitter<FormGroup> =
     new EventEmitter<FormGroup>();

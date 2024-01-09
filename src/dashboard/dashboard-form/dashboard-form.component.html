@@ -54,6 +54,7 @@
                     [filter]="$any(dashboard?.widgets?.[i]?.configuration)"
                     [footerTemplate]="filterFooter"
                     [isOpen]="(filterOpen | async) === i"
+                    [inDialog]="false"
                     [previewTemplate]="filterPreview"
                     [previewTemplateContext]="{ index: i }"
                     (formInitialized)="addFilterToWidget($event, i)"
