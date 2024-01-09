@@ -59,4 +59,8 @@ export class FilteredReceiptsComponent {
       )
       .subscribe();
   }
+
+  public scrolled(event: any): void {
+    console.warn(event);
+  }
 }

@@ -18,6 +18,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { GroupDashboardsComponent } from './group-dashboards/group-dashboards.component';
 import { MatListModule } from '@angular/material/list';
 import { FilteredReceiptsComponent } from './filtered-receipts/filtered-receipts.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FilteredReceiptsComponent } from './filtered-receipts/filtered-receipts
     CommonModule,
     CorePipesModule,
     DashboardRoutingModule,
+    InfiniteScrollModule,
     InputModule,
     MatCardModule,
     MatChipsModule,

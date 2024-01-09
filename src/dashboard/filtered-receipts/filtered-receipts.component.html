@@ -5,7 +5,14 @@
     </h3>
   </ng-container>
   <ng-container content>
-    <mat-list role="list">
+    <mat-list
+      infiniteScroll
+      role="list"
+      class="default-size"
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="scrolled($event)"
+    >
       <mat-list-item
         *ngFor="let receipt of receipts"
         role="listitem"
