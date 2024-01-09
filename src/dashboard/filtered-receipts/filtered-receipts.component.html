@@ -4,19 +4,16 @@
       {{ widget.name }}
     </h3>
   </ng-container>
-  <ng-container content>
-    <mat-list
-      infiniteScroll
+  <div class="content-container" content>
+    <cdk-virtual-scroll-viewport
+      itemSize="55"
       role="list"
-      class="default-size"
-      [infiniteScrollDistance]="2"
-      [infiniteScrollThrottle]="50"
-      (scrolled)="scrolled($event)"
+      class="default-size scroll-container"
     >
       <mat-list-item
-        *ngFor="let receipt of receipts"
+        *cdkVirtualFor="let receipt of receipts"
         role="listitem"
-        class="cursor-pointer"
+        class="cursor-pointer item-size"
         [routerLink]="['/receipts/' + receipt.id + '/view']"
       >
         <div matListItemTitle>{{ receipt.name }}</div>
@@ -27,6 +24,6 @@
       <mat-list-item *ngIf="receipts?.length === 0"
         >No receipts found</mat-list-item
       >
-    </mat-list>
-  </ng-container>
+    </cdk-virtual-scroll-viewport>
+  </div>
 </app-card>
