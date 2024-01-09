@@ -63,6 +63,12 @@
                     [disabled]="(filterOpen | async) !== undefined"
                     (clicked)="editFilter(i)"
                   ></app-edit-button>
+                  <app-delete-button
+                    color="accent"
+                    [disabled]="(filterOpen | async) !== undefined"
+                    (clicked)="removeFilter(i)"
+                  >
+                  </app-delete-button>
                 </div>
               </mat-list-item>
             </ng-container>

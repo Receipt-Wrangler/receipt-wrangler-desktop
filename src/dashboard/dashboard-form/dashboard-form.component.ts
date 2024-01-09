@@ -188,24 +188,32 @@ export class DashboardFormComponent implements OnInit {
   }
 
   public filterSubmitted(): void {
-    const widget = this.widgets.at(this.widgets.length - 1) as FormGroup;
-    if (this.filterIsAdd && widget.valid) {
-      const form = this.receiptFilterComponents.last.form;
-      widget.get('configuration')?.patchValue(form.value);
-      this.originalWidgets.push(widget.value);
+    if (this.filterIsAdd) {
+      const widget = this.widgets.at(this.widgets.length - 1) as FormGroup;
+      if (widget.valid) {
+        const form = this.receiptFilterComponents.last.form;
+        widget.get('configuration')?.patchValue(form.value);
+        this.originalWidgets.push(widget.value);
 
-      this.filterOpen.next(undefined);
-      this.filterIsAdd = false;
-    } else if (widget.valid) {
-      const form = this.receiptFilterComponents.first.form;
-      widget.get('configuration')?.patchValue(form.value);
-      this.originalWidgets.splice(
-        this.filterOpen.value as number,
-        1,
-        widget.value
-      );
+        this.filterOpen.next(undefined);
+        this.filterIsAdd = false;
+      }
+    } else {
+      const widget = this.widgets.at(
+        this.filterOpen.value as number
+      ) as FormGroup;
 
-      this.filterOpen.next(undefined);
+      if (widget.valid) {
+        const form = this.receiptFilterComponents.first.form;
+        widget.get('configuration')?.patchValue(form.value);
+        this.originalWidgets.splice(
+          this.filterOpen.value as number,
+          1,
+          widget.value
+        );
+
+        this.filterOpen.next(undefined);
+      }
     }
   }
 
@@ -218,5 +226,10 @@ export class DashboardFormComponent implements OnInit {
 
   public editFilter(index: number): void {
     this.filterOpen.next(index);
+  }
+
+  public removeFilter(index: number): void {
+    this.widgets.removeAt(index);
+    this.originalWidgets.splice(index, 1);
   }
 }
