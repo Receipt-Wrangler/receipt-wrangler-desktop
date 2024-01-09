@@ -17,7 +17,6 @@
           <div class="d-flex align-items-center">
             <h6>Filtered Receipts</h6>
             <app-add-button
-              class="add-button-size"
               tooltip="Add filtered receipt widget"
               [disabled]="(filterOpen | async) !== undefined"
               (clicked)="addFilteredReceiptWidget()"
