@@ -5,7 +5,7 @@ app-filtered-receipts {
   }
 
   .item-size {
-    height: 55px !important;
+    height: 67px !important;
   }
 
   .scroll-container {
@@ -15,5 +15,10 @@ app-filtered-receipts {
   .content-container {
     display: block;
     height: 100%;
+  }
+
+  .item-link {
+    text-decoration: none;
+    color: black;
   }
 }
