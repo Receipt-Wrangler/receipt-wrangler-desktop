@@ -105,4 +105,32 @@ describe('FilteredReceiptsComponent', () => {
       {} as any,
     ]);
   });
+
+  it('should not get next page of data', () => {
+    const serviceSpy = spyOn(
+      TestBed.inject(ReceiptFilterService),
+      'getPagedReceiptsForGroups'
+    ).and.returnValue(of({ data: [{} as any] } as any));
+
+    store.reset({
+      groups: {
+        selectedGroupId: '1',
+      },
+    });
+
+    component.receipts = [{} as any, {} as any, {} as any, {} as any];
+    component.ngAfterViewInit();
+    component.cdkVirtualScrollViewport.setRenderedRange({
+      start: 0,
+      end: 3,
+    });
+
+    expect(serviceSpy).toHaveBeenCalledTimes(0);
+    expect(component.receipts).toEqual([
+      {} as any,
+      {} as any,
+      {} as any,
+      {} as any,
+    ]);
+  });
 });

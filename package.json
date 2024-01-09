@@ -34,7 +34,6 @@
     "material-icons": "^1.13.1",
     "ngx-bootstrap": "^11.0.2",
     "ngx-image-cropper": "^6.3.2",
-    "ngx-infinite-scroll": "^16.0.0",
     "ngx-mask": "^16.1.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
