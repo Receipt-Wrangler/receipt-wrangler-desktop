@@ -1,11 +1,8 @@
-import { AuthState } from '@receipt-wrangler/receipt-wrangler-core';
-import { GroupState } from '@receipt-wrangler/receipt-wrangler-core';
+import { TestBed } from "@angular/core/testing";
+import { NgxsModule, Store } from "@ngxs/store";
+import { AuthState, GroupState } from "@receipt-wrangler/receipt-wrangler-core";
 
-import { TestBed } from '@angular/core/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import { GroupMember } from '@receipt-wrangler/receipt-wrangler-core';
-
-import { GroupUtil } from './group.utils';
+import { GroupUtil } from "./group.utils";
 
 describe('GroupUtil', () => {
   let groupUtil: GroupUtil;
@@ -27,7 +24,7 @@ describe('GroupUtil', () => {
 
   describe('hasGroupAccess', () => {
     const testGroupId = 1;
-    const testGroupRole = GroupMember.GroupRoleEnum.EDITOR;
+    const testGroupRole = GroupRole.EDITOR;
 
     it('should return true when groupId is undefined', () => {
       const result = groupUtil.hasGroupAccess(undefined, testGroupRole);
@@ -47,9 +44,7 @@ describe('GroupUtil', () => {
           groups: [
             {
               id: testGroupId,
-              groupMembers: [
-                { userId: '3', groupRole: GroupMember.GroupRoleEnum.EDITOR },
-              ],
+              groupMembers: [{ userId: '3', groupRole: GroupRole.EDITOR }],
             },
           ],
         },
@@ -67,9 +62,7 @@ describe('GroupUtil', () => {
           groups: [
             {
               id: testGroupId,
-              groupMembers: [
-                { userId: userId, groupRole: GroupMember.GroupRoleEnum.VIEWER },
-              ],
+              groupMembers: [{ userId: userId, groupRole: GroupRole.VIEWER }],
             },
           ],
         },
@@ -87,9 +80,7 @@ describe('GroupUtil', () => {
           groups: [
             {
               id: testGroupId,
-              groupMembers: [
-                { userId: userId, groupRole: GroupMember.GroupRoleEnum.OWNER },
-              ],
+              groupMembers: [{ userId: userId, groupRole: GroupRole.OWNER }],
             },
           ],
         },

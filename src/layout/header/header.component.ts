@@ -1,22 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
+import { filter, Observable, switchMap, take, tap } from "rxjs";
+import { LayoutState } from "src/store/layout.state";
+import { ToggleIsSidebarOpen } from "src/store/layout.state.actions";
+
+import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { Select, Store } from "@ngxs/store";
 import {
-  AuthService,
-  AuthState,
-  GroupMember,
-  GroupState,
-  Logout,
-  NotificationsService,
-  SnackbarService,
-  User,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { Observable, filter, map, switchMap, take, tap } from 'rxjs';
-import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';
-import { DEFAULT_DIALOG_CONFIG } from '../../constants';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { LayoutState } from 'src/store/layout.state';
+  AuthService, AuthState, GroupRole, GroupState, Logout, NotificationsService, SnackbarService, User
+} from "@receipt-wrangler/receipt-wrangler-core";
 
 @UntilDestroy()
 @Component({
@@ -43,7 +36,7 @@ export class HeaderComponent implements OnInit {
 
   public groupName = '';
 
-  public groupRoleEnum = GroupMember.GroupRoleEnum;
+  public groupRoleEnum = GroupRole;
 
   public notificationCount: number | undefined = undefined;
 

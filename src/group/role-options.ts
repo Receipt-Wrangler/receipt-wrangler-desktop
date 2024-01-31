@@ -1,23 +1,24 @@
-import { GroupMember, User } from '@receipt-wrangler/receipt-wrangler-core';
-import { FormOption } from 'src/interfaces/form-option.interface';
-import { formatStatus } from 'src/utils';
+import { FormOption } from "src/interfaces/form-option.interface";
+import { formatStatus } from "src/utils";
 
-export const GROUP_ROLE_OPTIONS: FormOption[] = Object.keys(
-  GroupMember.GroupRoleEnum
-).map((key) => {
-  const value = (GroupMember.GroupRoleEnum as any)[key];
-  return {
-    value: value,
-    displayValue: formatStatus(value),
-  };
-});
+import { GroupRole, UserRole } from "@receipt-wrangler/receipt-wrangler-core";
 
-export const USER_ROLE_OPTIONS: FormOption[] = Object.keys(
-  User.UserRoleEnum
-).map((key) => {
-  const value = (User.UserRoleEnum as any)[key];
-  return {
-    value: value,
-    displayValue: formatStatus(value),
-  };
-});
+export const GROUP_ROLE_OPTIONS: FormOption[] = Object.keys(GroupRole).map(
+  (key) => {
+    const value = (GroupRole as any)[key];
+    return {
+      value: value,
+      displayValue: formatStatus(value),
+    };
+  }
+);
+
+export const USER_ROLE_OPTIONS: FormOption[] = Object.keys(UserRole).map(
+  (key) => {
+    const value = (UserRole as any)[key];
+    return {
+      value: value,
+      displayValue: formatStatus(value),
+    };
+  }
+);

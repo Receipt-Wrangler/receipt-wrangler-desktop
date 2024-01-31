@@ -1,37 +1,30 @@
+import { of } from "rxjs";
+import { FormMode } from "src/enums/form-mode.enum";
+import { PipesModule } from "src/pipes/pipes.module";
+import { SelectModule } from "src/select/select.module";
+import { SharedUiModule } from "src/shared-ui/shared-ui.module";
+import { TableModule } from "src/table/table.module";
+import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.module";
+
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { MatCardModule } from "@angular/material/card";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatSort } from "@angular/material/sort";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { ActivatedRoute, Router } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
+import { NgxsModule, Store } from "@ngxs/store";
 import {
-  AddGroup,
-  ButtonModule,
-  InputModule,
-  UpdateGroup,
-  PipesModule as CorePipesModule,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { of } from 'rxjs';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { SelectModule } from 'src/select/select.module';
-import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
-import { TableModule } from 'src/table/table.module';
-import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSort } from '@angular/material/sort';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import {
-  ApiModule,
-  Group,
-  GroupMember,
-  GroupsService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
-import { buildGroupMemberForm } from '../utils/group-member.utils';
-import { GroupFormComponent } from './group-form.component';
+  AddGroup, ApiModule, ButtonModule, Group, GroupsService, InputModule,
+  PipesModule as CorePipesModule, UpdateGroup
+} from "@receipt-wrangler/receipt-wrangler-core";
+
+import { GroupMemberFormComponent } from "../group-member-form/group-member-form.component";
+import { buildGroupMemberForm } from "../utils/group-member.utils";
+import { GroupFormComponent } from "./group-form.component";
 
 describe('GroupFormComponent', () => {
   let component: GroupFormComponent;
@@ -92,7 +85,7 @@ describe('GroupFormComponent', () => {
     formGroup.patchValue({
       userId: '2',
       groupId: '1',
-      groupRole: GroupMember.GroupRoleEnum.VIEWER,
+      groupRole: GroupRole.VIEWER,
     });
     spyOn(matDialog, 'open').and.returnValue({
       afterClosed: () => of(formGroup),
@@ -112,12 +105,12 @@ describe('GroupFormComponent', () => {
       {
         userId: 2,
         groupId: 1,
-        groupRole: GroupMember.GroupRoleEnum.OWNER,
+        groupRole: GroupRole.OWNER,
       },
       {
         userId: 3,
         groupId: 1,
-        groupRole: GroupMember.GroupRoleEnum.OWNER,
+        groupRole: GroupRole.OWNER,
       },
     ];
     const matDialog = TestBed.inject(MatDialog);
@@ -125,7 +118,7 @@ describe('GroupFormComponent', () => {
     formGroup.patchValue({
       userId: 3,
       groupId: 1,
-      groupRole: GroupMember.GroupRoleEnum.OWNER,
+      groupRole: GroupRole.OWNER,
     });
     spyOn(matDialog, 'open').and.returnValue({
       afterClosed: () => of(formGroup),
@@ -141,12 +134,12 @@ describe('GroupFormComponent', () => {
           {
             userId: 2,
             groupId: 1,
-            groupRole: GroupMember.GroupRoleEnum.OWNER,
+            groupRole: GroupRole.OWNER,
           },
           {
             userId: 1,
             groupId: 1,
-            groupRole: GroupMember.GroupRoleEnum.VIEWER,
+            groupRole: GroupRole.VIEWER,
           },
         ],
       },
@@ -167,7 +160,7 @@ describe('GroupFormComponent', () => {
     const result = {
       userId: 1,
       groupId: 1,
-      groupRole: GroupMember.GroupRoleEnum.VIEWER,
+      groupRole: GroupRole.VIEWER,
     };
 
     route.snapshot.data = {
@@ -179,7 +172,7 @@ describe('GroupFormComponent', () => {
           {
             userId: 2,
             groupId: 1,
-            groupRole: GroupMember.GroupRoleEnum.OWNER,
+            groupRole: GroupRole.OWNER,
           },
           result,
         ],
@@ -206,7 +199,7 @@ describe('GroupFormComponent', () => {
       name: 'test',
       isDefault: true,
       groupMembers: [],
-      status: Group.StatusEnum.ACTIVE,
+      status: GroupStatus.ACTIVE,
       isAllGroup: false,
     };
 
@@ -236,7 +229,7 @@ describe('GroupFormComponent', () => {
 
     expect(createSpy).toHaveBeenCalledWith({
       name: 'test',
-      status: Group.StatusEnum.ACTIVE,
+      status: GroupStatus.ACTIVE,
       groupMembers: [],
     } as any);
     expect(storeSpy).toHaveBeenCalledWith(new AddGroup(returnValue));
@@ -252,17 +245,17 @@ describe('GroupFormComponent', () => {
       id: 1,
       name: 'test',
       isDefault: true,
-      status: Group.StatusEnum.ACTIVE,
+      status: GroupStatus.ACTIVE,
       groupMembers: [
         {
           userId: 2,
           groupId: 1,
-          groupRole: GroupMember.GroupRoleEnum.OWNER,
+          groupRole: GroupRole.OWNER,
         },
         {
           userId: 1,
           groupId: 1,
-          groupRole: GroupMember.GroupRoleEnum.VIEWER,
+          groupRole: GroupRole.VIEWER,
         },
       ],
       isAllGroup: false,
@@ -287,7 +280,7 @@ describe('GroupFormComponent', () => {
       new FormGroup({
         userId: new FormControl(3),
         groupId: new FormControl(1),
-        groupRole: new FormControl(GroupMember.GroupRoleEnum.EDITOR),
+        groupRole: new FormControl(GroupRole.EDITOR),
       })
     );
 
@@ -303,22 +296,22 @@ describe('GroupFormComponent', () => {
     expect(updateSpy).toHaveBeenCalledWith(
       {
         name: 'new name',
-        status: Group.StatusEnum.ACTIVE,
+        status: GroupStatus.ACTIVE,
         groupMembers: [
           {
             userId: 2,
             groupId: 1,
-            groupRole: GroupMember.GroupRoleEnum.OWNER,
+            groupRole: GroupRole.OWNER,
           },
           {
             userId: 1,
             groupId: 1,
-            groupRole: GroupMember.GroupRoleEnum.VIEWER,
+            groupRole: GroupRole.VIEWER,
           },
           {
             userId: 3,
             groupId: 1,
-            groupRole: GroupMember.GroupRoleEnum.EDITOR,
+            groupRole: GroupRole.EDITOR,
           },
         ],
       } as Group,

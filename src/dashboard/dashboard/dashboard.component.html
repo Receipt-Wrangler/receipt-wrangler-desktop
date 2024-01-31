@@ -1,13 +1,13 @@
 <div class="row">
   <div class="col" *ngFor="let widget of selectedDashboard?.widgets">
     <div [ngSwitch]="widget.widgetType">
-      <div *ngSwitchCase="WidgetType.GROUPSUMMARY">
+      <div *ngSwitchCase="widgetType.GROUPSUMMARY">
         <app-summary-card
           headerText="Receipt Summary"
           [groupId]="(selectedGroupId | async) ?? ''"
         ></app-summary-card>
       </div>
-      <div *ngSwitchCase="WidgetType.FILTEREDRECEIPTS">
+      <div *ngSwitchCase="widgetType.FILTEREDRECEIPTS">
         <app-filtered-receipts [widget]="widget"></app-filtered-receipts>
       </div>
     </div>

@@ -1,37 +1,26 @@
-import { startWith, take, tap } from 'rxjs';
-import { DEFAULT_HOST_CLASS } from 'src/constants';
-import { GROUP_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { FormConfig } from 'src/interfaces/form-config.interface';
-import { TableColumn } from 'src/table/table-column.interface';
-import { TableComponent } from 'src/table/table/table.component';
-import { SortByDisplayName } from 'src/utils/sort-by-displayname';
+import { startWith, take, tap } from "rxjs";
+import { DEFAULT_HOST_CLASS } from "src/constants";
+import { GROUP_STATUS_OPTIONS } from "src/constants/receipt-status-options";
+import { FormMode } from "src/enums/form-mode.enum";
+import { FormConfig } from "src/interfaces/form-config.interface";
+import { TableColumn } from "src/table/table-column.interface";
+import { TableComponent } from "src/table/table/table.component";
+import { SortByDisplayName } from "src/utils/sort-by-displayname";
 
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { Sort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { ActivatedRoute, Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { Store } from "@ngxs/store";
 import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Store } from '@ngxs/store';
-import {
-  AddGroup,
-  Group,
-  GroupMember,
-  GroupsService,
-  SnackbarService,
-  UpdateGroup,
-} from '@receipt-wrangler/receipt-wrangler-core';
+  AddGroup, Group, GroupMember, GroupRole, GroupsService, GroupStatus, SnackbarService, UpdateGroup
+} from "@receipt-wrangler/receipt-wrangler-core";
 
-import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
-import { buildGroupMemberForm } from '../utils/group-member.utils';
+import { GroupMemberFormComponent } from "../group-member-form/group-member-form.component";
+import { buildGroupMemberForm } from "../utils/group-member.utils";
 
 @UntilDestroy()
 @Component({
@@ -67,7 +56,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
 
   public editLink: string = '';
 
-  public groupRole = GroupMember.GroupRoleEnum;
+  public groupRole = GroupRole;
 
   public groupStatusOptions = GROUP_STATUS_OPTIONS;
 
@@ -177,7 +166,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
     this.form = this.formBuilder.group({
       name: [this.originalGroup?.name ?? '', Validators.required],
       groupMembers: this.formBuilder.array(groupMembers),
-      status: this.originalGroup?.status ?? Group.StatusEnum.ACTIVE,
+      status: this.originalGroup?.status ?? GroupStatus.ACTIVE,
     });
 
     this.groupMembers.valueChanges
@@ -232,7 +221,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
   public submit(): void {
     if (this.form.valid) {
       const owners = (this.groupMembers.value as GroupMember[]).filter(
-        (gm) => gm.groupRole === GroupMember.GroupRoleEnum.OWNER
+        (gm) => gm.groupRole === GroupRole.OWNER
       );
       if (owners.length === 0 && this.formConfig.mode !== FormMode.add) {
         this.snackbarService.error('Group must have at least one owner!');

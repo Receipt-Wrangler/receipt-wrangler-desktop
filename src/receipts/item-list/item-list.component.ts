@@ -1,33 +1,19 @@
+import { Observable } from "rxjs";
+import { RECEIPT_ITEM_STATUS_OPTIONS } from "src/constants/receipt-status-options";
+import { FormMode } from "src/enums/form-mode.enum";
+
 import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  QueryList,
-  ViewChildren,
-  ViewEncapsulation,
-} from '@angular/core';
+  ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChildren, ViewEncapsulation
+} from "@angular/core";
+import { AbstractControl, FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { MatExpansionPanel } from "@angular/material/expansion";
+import { ActivatedRoute } from "@angular/router";
+import { Select } from "@ngxs/store";
 import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormGroup,
-} from '@angular/forms';
-import { MatExpansionPanel } from '@angular/material/expansion';
-import { ActivatedRoute } from '@angular/router';
-import { Select } from '@ngxs/store';
-import {
-  GroupMember,
-  InputComponent,
-  Item,
-  Receipt,
-  User,
-  UserState,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { Observable } from 'rxjs';
-import { RECEIPT_ITEM_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { buildItemForm } from '../utils/form.utils';
+  GroupRole, InputComponent, Item, ItemStatus, Receipt, User, UserState
+} from "@receipt-wrangler/receipt-wrangler-core";
+
+import { buildItemForm } from "../utils/form.utils";
 
 export interface ItemData {
   item: Item;
@@ -63,7 +49,7 @@ export class ItemListComponent implements OnInit {
 
   public formMode = FormMode;
 
-  public groupRole = GroupMember.GroupRoleEnum;
+  public groupRole = GroupRole;
 
   public itemStatusOptions = RECEIPT_ITEM_STATUS_OPTIONS;
 
@@ -200,7 +186,7 @@ export class ItemListComponent implements OnInit {
 
     filtered.forEach((i) =>
       i.patchValue({
-        status: Item.StatusEnum.RESOLVED,
+        status: ItemStatus.RESOLVED,
       })
     );
   }
@@ -208,7 +194,7 @@ export class ItemListComponent implements OnInit {
   public allUserItemsResolved(userId: string): boolean {
     const userItems = this.getItemsForUser(userId);
     return userItems.every(
-      (i) => i.get('status')?.value === Item.StatusEnum.RESOLVED
+      (i) => i.get('status')?.value === ItemStatus.RESOLVED
     );
   }
 

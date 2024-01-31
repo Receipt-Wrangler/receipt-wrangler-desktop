@@ -1,9 +1,9 @@
-import { AuthGuard } from 'src/guards/auth.guard';
-import { SidebarComponent } from 'src/layout/sidebar/sidebar.component';
+import { AuthGuard } from "src/guards/auth.guard";
+import { SidebarComponent } from "src/layout/sidebar/sidebar.component";
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { User } from '@receipt-wrangler/receipt-wrangler-core';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { UserRole } from "@receipt-wrangler/receipt-wrangler-core";
 
 // set up dashboard
 const routes: Routes = [
@@ -65,7 +65,7 @@ const routes: Routes = [
           import('../user/user.module').then((m) => m.UserModule),
         canActivate: [AuthGuard],
         data: {
-          role: User.UserRoleEnum.ADMIN,
+          role: UserRole.ADMIN,
         },
       },
       {

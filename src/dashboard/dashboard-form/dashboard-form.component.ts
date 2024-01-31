@@ -1,19 +1,14 @@
-import { BehaviorSubject, take, tap } from 'rxjs';
+import { BehaviorSubject, take, tap } from "rxjs";
+import { ReceiptFilterComponent } from "src/shared-ui/receipt-filter/receipt-filter.component";
 
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Store } from '@ngxs/store';
+import { Component, OnInit, QueryList, ViewChildren } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { Store } from "@ngxs/store";
 import {
-  Dashboard,
-  DashboardService,
-  GroupState,
-  SnackbarService,
-  UpsertWidgetCommand,
-  Widget,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { ReceiptFilterComponent } from 'src/shared-ui/receipt-filter/receipt-filter.component';
+  Dashboard, DashboardService, GroupState, SnackbarService, Widget, WidgetType
+} from "@receipt-wrangler/receipt-wrangler-core";
 
 @UntilDestroy()
 @Component({
@@ -31,7 +26,7 @@ export class DashboardFormComponent implements OnInit {
 
   public dashboard?: Dashboard;
 
-  public WidgetTypeEnum = Widget.WidgetTypeEnum;
+  public WidgetTypeEnum = WidgetType;
 
   public filterOpen: BehaviorSubject<number | undefined> = new BehaviorSubject<
     number | undefined
@@ -68,7 +63,7 @@ export class DashboardFormComponent implements OnInit {
       ],
       showSummaryCard: [
         this?.dashboard?.widgets?.find(
-          (w) => w.widgetType === Widget.WidgetTypeEnum.GROUPSUMMARY
+          (w) => w.widgetType === WidgetType.GROUPSUMMARY
         ) ?? false,
       ],
       widgets: this.formBuilder.array(
@@ -85,14 +80,12 @@ export class DashboardFormComponent implements OnInit {
         tap((value) => {
           if (value) {
             const formGroup = this.buildWidgetFormGroup({
-              widgetType: UpsertWidgetCommand.WidgetTypeEnum.GROUPSUMMARY,
+              widgetType: WidgetType.GROUPSUMMARY,
             } as Widget);
             this.widgets.push(formGroup);
           } else {
             const index = this.widgets.controls.findIndex(
-              (c) =>
-                c.value.widgetType ===
-                UpsertWidgetCommand.WidgetTypeEnum.GROUPSUMMARY
+              (c) => c.value.widgetType === WidgetType.GROUPSUMMARY
             );
             if (index > -1) {
               this.widgets.removeAt(index);
@@ -105,7 +98,7 @@ export class DashboardFormComponent implements OnInit {
 
   private buildWidgetFormGroup(widget: Widget): FormGroup {
     switch (widget.widgetType) {
-      case Widget.WidgetTypeEnum.FILTEREDRECEIPTS:
+      case WidgetType.FILTEREDRECEIPTS:
         return this.formBuilder.group({
           name: [widget.name, Validators.required],
           widgetType: [widget.widgetType, Validators.required],
@@ -158,7 +151,7 @@ export class DashboardFormComponent implements OnInit {
 
   public addFilteredReceiptWidget(): void {
     const formGroup = this.buildWidgetFormGroup({
-      widgetType: UpsertWidgetCommand.WidgetTypeEnum.FILTEREDRECEIPTS,
+      widgetType: WidgetType.FILTEREDRECEIPTS,
     } as Widget);
     this.filterOpen.next(this.widgets.length);
     this.widgets.push(formGroup);

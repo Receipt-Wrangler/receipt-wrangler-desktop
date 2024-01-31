@@ -1,47 +1,42 @@
-import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Injectable } from "@angular/core";
+import { Action, Selector, State, StateContext } from "@ngxs/store";
 import {
-  PagedRequestField,
-  ReceiptPagedRequestFilter,
-} from '@receipt-wrangler/receipt-wrangler-core';
+  FilterOperation, ReceiptPagedRequestFilter
+} from "@receipt-wrangler/receipt-wrangler-core";
 
-import { ReceiptTableInterface } from '../interfaces';
+import { ReceiptTableInterface } from "../interfaces";
 import {
-  ResetReceiptFilter,
-  SetPage,
-  SetPageSize,
-  SetReceiptFilter,
-  SetReceiptFilterData,
-} from './receipt-table.actions';
+  ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData
+} from "./receipt-table.actions";
 
 export const defaultReceiptFilter = {
-  date: { operation: PagedRequestField.OperationEnum.EQUALS, value: '' },
+  date: { operation: FilterOperation.EQUALS, value: '' },
   amount: {
-    operation: PagedRequestField.OperationEnum.EQUALS,
+    operation: FilterOperation.EQUALS,
     value: '',
   },
   name: {
-    operation: PagedRequestField.OperationEnum.EQUALS,
+    operation: FilterOperation.EQUALS,
     value: '',
   },
   paidBy: {
-    operation: PagedRequestField.OperationEnum.CONTAINS,
+    operation: FilterOperation.CONTAINS,
     value: [],
   },
   categories: {
-    operation: PagedRequestField.OperationEnum.CONTAINS,
+    operation: FilterOperation.CONTAINS,
     value: [],
   },
   tags: {
-    operation: PagedRequestField.OperationEnum.CONTAINS,
+    operation: FilterOperation.CONTAINS,
     value: [],
   },
   status: {
-    operation: PagedRequestField.OperationEnum.CONTAINS,
+    operation: FilterOperation.CONTAINS,
     value: [],
   },
   resolvedDate: {
-    operation: PagedRequestField.OperationEnum.EQUALS,
+    operation: FilterOperation.EQUALS,
     value: '',
   },
 } as ReceiptPagedRequestFilter;

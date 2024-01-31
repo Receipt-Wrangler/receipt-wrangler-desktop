@@ -1,54 +1,39 @@
-import { finalize, map, Observable, of, Subject, take, tap } from 'rxjs';
-import { ReceiptFilterService } from 'src/services/receipt-filter.service';
-import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
+import { finalize, map, Observable, take, tap } from "rxjs";
+import { fadeInOut } from "src/animations";
+import { ReceiptFilterService } from "src/services/receipt-filter.service";
 import {
-  ResetReceiptFilter,
-  SetPage,
-  SetPageSize,
-  SetReceiptFilterData,
-} from 'src/store/receipt-table.actions';
-import { ReceiptTableState } from 'src/store/receipt-table.state';
-import { TableColumn } from 'src/table/table-column.interface';
-import { TableComponent } from 'src/table/table/table.component';
-import { GroupUtil } from 'src/utils/group.utils';
+  ConfirmationDialogComponent
+} from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
+import { HideProgressBar, ShowProgressBar } from "src/store/layout.state.actions";
+import {
+  ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilterData
+} from "src/store/receipt-table.actions";
+import { ReceiptTableState } from "src/store/receipt-table.state";
+import { TableColumn } from "src/table/table-column.interface";
+import { TableComponent } from "src/table/table/table.component";
+import { GroupUtil } from "src/utils/group.utils";
 
-import { SelectionChange } from '@angular/cdk/collections';
 import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
+  AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation
+} from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { PageEvent } from "@angular/material/paginator";
+import { Sort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { ActivatedRoute, Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { Select, Store } from "@ngxs/store";
 import {
-  BulkStatusUpdateCommand,
-  Category,
-  GroupMember,
-  GroupsService,
-  GroupState,
-  Receipt,
-  ReceiptService,
-  SnackbarService,
-  Tag,
-} from '@receipt-wrangler/receipt-wrangler-core';
+  BulkStatusUpdateCommand, Category, GroupRole, GroupsService, GroupState, Receipt, ReceiptService,
+  ReceiptStatus, SnackbarService, Tag
+} from "@receipt-wrangler/receipt-wrangler-core";
 
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
-import { BulkStatusUpdateComponent } from '../bulk-resolve-dialog/bulk-status-update-dialog.component';
-import { ReceiptFilterComponent } from '../../shared-ui/receipt-filter/receipt-filter.component';
-import { fadeInOut } from 'src/animations';
-import { QuickScanDialogComponent } from '../quick-scan-dialog/quick-scan-dialog.component';
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
+import { ReceiptFilterComponent } from "../../shared-ui/receipt-filter/receipt-filter.component";
 import {
-  HideProgressBar,
-  ShowProgressBar,
-} from 'src/store/layout.state.actions';
+  BulkStatusUpdateComponent
+} from "../bulk-resolve-dialog/bulk-status-update-dialog.component";
+import { QuickScanDialogComponent } from "../quick-scan-dialog/quick-scan-dialog.component";
 
 @UntilDestroy()
 @Component({
@@ -107,7 +92,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public groupId: string = '0';
 
-  public groupRole = GroupMember.GroupRoleEnum;
+  public groupRole = GroupRole;
 
   public dataSource: MatTableDataSource<Receipt> =
     new MatTableDataSource<Receipt>([]);
@@ -404,7 +389,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
             commentForm:
               | {
                   comment: string;
-                  status: Receipt.StatusEnum;
+                  status: ReceiptStatus;
                 }
               | undefined
           ) => {
