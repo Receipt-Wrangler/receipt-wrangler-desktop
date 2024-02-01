@@ -1,30 +1,38 @@
-import { of } from "rxjs";
-import { FormMode } from "src/enums/form-mode.enum";
-import { PipesModule } from "src/pipes/pipes.module";
-import { SelectModule } from "src/select/select.module";
-import { SharedUiModule } from "src/shared-ui/shared-ui.module";
-import { TableModule } from "src/table/table.module";
-import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.module";
+import { of } from 'rxjs';
+import { FormMode } from 'src/enums/form-mode.enum';
+import { PipesModule } from 'src/pipes/pipes.module';
+import { SelectModule } from 'src/select/select.module';
+import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
+import { TableModule } from 'src/table/table.module';
+import { UserAutocompleteModule } from 'src/user-autocomplete/user-autocomplete.module';
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { MatCardModule } from "@angular/material/card";
-import { MatDialog, MatDialogModule } from "@angular/material/dialog";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatSort } from "@angular/material/sort";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { ActivatedRoute, Router } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { NgxsModule, Store } from "@ngxs/store";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule, Store } from '@ngxs/store';
 import {
-  AddGroup, ApiModule, ButtonModule, Group, GroupsService, InputModule,
-  PipesModule as CorePipesModule, UpdateGroup
-} from "@receipt-wrangler/receipt-wrangler-core";
+  AddGroup,
+  ApiModule,
+  ButtonModule,
+  Group,
+  GroupsService,
+  InputModule,
+  PipesModule as CorePipesModule,
+  UpdateGroup,
+  GroupRole,
+  GroupStatus,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
-import { GroupMemberFormComponent } from "../group-member-form/group-member-form.component";
-import { buildGroupMemberForm } from "../utils/group-member.utils";
-import { GroupFormComponent } from "./group-form.component";
+import { GroupMemberFormComponent } from '../group-member-form/group-member-form.component';
+import { buildGroupMemberForm } from '../utils/group-member.utils';
+import { GroupFormComponent } from './group-form.component';
 
 describe('GroupFormComponent', () => {
   let component: GroupFormComponent;

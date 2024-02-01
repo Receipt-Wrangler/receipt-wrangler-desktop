@@ -118,8 +118,6 @@ describe('QuickActionsDialogComponent', () => {
 
     const receiptItems = component.parentForm.get('receiptItems') as FormArray;
 
-    console.log(component.parentForm.get('receiptItems')?.value);
-
     // TODO: Fix
     expect(receiptItems.length).toBe(4);
     // expect(receiptItems.at(0).get('amount')?.value).toBe(10);

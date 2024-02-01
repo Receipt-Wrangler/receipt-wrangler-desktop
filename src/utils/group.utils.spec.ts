@@ -1,8 +1,12 @@
-import { TestBed } from "@angular/core/testing";
-import { NgxsModule, Store } from "@ngxs/store";
-import { AuthState, GroupState } from "@receipt-wrangler/receipt-wrangler-core";
+import { TestBed } from '@angular/core/testing';
+import { NgxsModule, Store } from '@ngxs/store';
+import {
+  AuthState,
+  GroupRole,
+  GroupState,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
-import { GroupUtil } from "./group.utils";
+import { GroupUtil } from './group.utils';
 
 describe('GroupUtil', () => {
   let groupUtil: GroupUtil;

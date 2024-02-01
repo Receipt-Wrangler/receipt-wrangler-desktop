@@ -8,6 +8,7 @@ import {
   PipesModule,
   SnackbarService,
   Widget,
+  WidgetType,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgxsModule, Store } from '@ngxs/store';
@@ -91,7 +92,7 @@ describe('DashboardFormComponent', () => {
       showSummaryCard: true,
       widgets: [
         {
-          widgetType: Widget.WidgetTypeEnum.GROUPSUMMARY,
+          widgetType: WidgetType.GROUPSUMMARY,
         },
       ],
     });
@@ -116,7 +117,7 @@ describe('DashboardFormComponent', () => {
       showSummaryCard: true,
       widgets: [
         {
-          widgetType: Widget.WidgetTypeEnum.GROUPSUMMARY,
+          widgetType: WidgetType.GROUPSUMMARY,
         },
       ],
     });

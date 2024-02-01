@@ -1,12 +1,16 @@
-import { Observable, of, take, tap } from "rxjs";
+import { Observable, of, take, tap } from 'rxjs';
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { TestBed } from "@angular/core/testing";
-import { CanActivateFn } from "@angular/router";
-import { NgxsModule, Store } from "@ngxs/store";
-import { ApiModule, ReceiptService } from "@receipt-wrangler/receipt-wrangler-core";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { CanActivateFn } from '@angular/router';
+import { NgxsModule, Store } from '@ngxs/store';
+import {
+  ApiModule,
+  GroupRole,
+  ReceiptService,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
-import { receiptGuardGuard } from "./receipt-guard.guard";
+import { receiptGuardGuard } from './receipt-guard.guard';
 
 describe('receiptGuardGuard', () => {
   const executeGuard: CanActivateFn = (...guardParameters) =>

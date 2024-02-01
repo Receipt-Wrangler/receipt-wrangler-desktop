@@ -14,6 +14,7 @@ import {
   Receipt,
   ReceiptFileUploadCommand,
   ReceiptService,
+  ReceiptStatus,
   SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -89,7 +90,7 @@ describe('QuickScanDialogComponent', () => {
       auth: {
         userPreferences: {
           quickScanDefaultPaidById: 1,
-          quickScanDefaultStatus: Receipt.StatusEnum.OPEN,
+          quickScanDefaultStatus: ReceiptStatus.OPEN,
           quickScanDefaultGroupId: 1,
         },
       },
@@ -99,7 +100,7 @@ describe('QuickScanDialogComponent', () => {
 
     expect(component.form.value).toEqual({
       paidByUserId: 1,
-      status: Receipt.StatusEnum.OPEN,
+      status: ReceiptStatus.OPEN,
       groupId: 1,
     });
   });
@@ -172,7 +173,7 @@ describe('QuickScanDialogComponent', () => {
   //     fileType: 'image/jpeg',
   //     size: 100,
   //     groupId: 1,
-  //     status: Receipt.StatusEnum.OPEN,
+  //     status: ReceiptStatus.OPEN,
   //     paidByUserId: 1,
   //   });
   // });

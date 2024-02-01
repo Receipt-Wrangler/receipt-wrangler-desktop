@@ -1,12 +1,23 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxsModule } from '@ngxs/store';
+import { ApiModule } from '@receipt-wrangler/receipt-wrangler-core';
 import { AppDataService } from './app-data.service';
 
 describe('AppDataService', () => {
   let service: AppDataService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [
+        ApiModule,
+        NgxsModule.forRoot([]),
+        HttpClientTestingModule,
+        MatSnackBarModule,
+      ],
+      providers: [AppDataService],
+    });
     service = TestBed.inject(AppDataService);
   });
 

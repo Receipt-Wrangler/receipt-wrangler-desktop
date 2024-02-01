@@ -8,6 +8,7 @@ import {
   PipesModule as CorePipesModule,
   Group,
   GroupSettings,
+  ReceiptStatus,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { PipesModule } from 'src/pipes/pipes.module';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -104,8 +105,7 @@ describe('GroupSettingsEmailComponent', () => {
             email: 'twoHundred@test.com',
           },
         ],
-        emailDefaultReceiptStatus:
-          GroupSettings.EmailDefaultReceiptStatusEnum.OPEN,
+        emailDefaultReceiptStatus: ReceiptStatus.OPEN,
         emailDefaultReceiptPaidById: 1,
       },
     } as any;
