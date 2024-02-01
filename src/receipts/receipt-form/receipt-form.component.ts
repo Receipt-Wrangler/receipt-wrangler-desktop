@@ -1,69 +1,34 @@
+import { addHours } from "date-fns";
 import {
-  BehaviorSubject,
-  distinctUntilChanged,
-  finalize,
-  forkJoin,
-  iif,
-  map,
-  Observable,
-  of,
-  skip,
-  startWith,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
-import { CarouselComponent } from 'src/carousel/carousel/carousel.component';
-import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
-import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { UserAutocompleteComponent } from 'src/user-autocomplete/user-autocomplete/user-autocomplete.component';
+  distinctUntilChanged, finalize, forkJoin, iif, map, Observable, of, skip, startWith, switchMap,
+  take, tap
+} from "rxjs";
+import { CarouselComponent } from "src/carousel/carousel/carousel.component";
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
+import { RECEIPT_STATUS_OPTIONS } from "src/constants/receipt-status-options";
+import { FormMode } from "src/enums/form-mode.enum";
+import { LayoutState } from "src/store/layout.state";
+import { HideProgressBar, ShowProgressBar } from "src/store/layout.state.actions";
+import {
+  UserAutocompleteComponent
+} from "src/user-autocomplete/user-autocomplete/user-autocomplete.component";
 
+import { Component, EmbeddedViewRef, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { MatExpansionPanel } from "@angular/material/expansion";
+import { MatSnackBarRef } from "@angular/material/snack-bar";
+import { ActivatedRoute, Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { Select, Store } from "@ngxs/store";
 import {
-  ChangeDetectorRef,
-  Component,
-  EmbeddedViewRef,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatExpansionPanel } from '@angular/material/expansion';
-import { MatSnackBarRef } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Select, Store } from '@ngxs/store';
-import {
-  Category,
-  FeatureConfigState,
-  FileDataView,
-  Group,
-  GroupMember,
-  GroupState,
-  Receipt,
-  ReceiptFileUploadCommand,
-  ReceiptImageService,
-  ReceiptService,
-  SnackbarService,
-  Tag,
-  UserState,
-} from '@receipt-wrangler/receipt-wrangler-core';
+  Category, FeatureConfigState, FileDataView, Group, GroupRole, GroupState, Receipt,
+  ReceiptFileUploadCommand, ReceiptImageService, ReceiptService, ReceiptStatus, SnackbarService,
+  Tag, UserState
+} from "@receipt-wrangler/receipt-wrangler-core";
 
-import { addHours } from 'date-fns';
-import {
-  HideProgressBar,
-  ShowProgressBar,
-} from 'src/store/layout.state.actions';
-import { ItemListComponent } from '../item-list/item-list.component';
-import { UploadImageComponent } from '../upload-image/upload-image.component';
-import { LayoutState } from 'src/store/layout.state';
+import { ItemListComponent } from "../item-list/item-list.component";
+import { UploadImageComponent } from "../upload-image/upload-image.component";
 
 @UntilDestroy()
 @Component({
@@ -118,7 +83,7 @@ export class ReceiptFormComponent implements OnInit {
 
   public formMode = FormMode;
 
-  public groupRole = GroupMember.GroupRoleEnum;
+  public groupRole = GroupRole;
 
   public editLink = '';
 
@@ -236,7 +201,7 @@ export class ReceiptFormComponent implements OnInit {
         this.originalReceipt?.groupId ?? selectedGroupId,
         Validators.required,
       ],
-      status: this.originalReceipt?.status ?? Receipt.StatusEnum.OPEN,
+      status: this.originalReceipt?.status ?? ReceiptStatus.OPEN,
     });
 
     if (this.mode === FormMode.view) {

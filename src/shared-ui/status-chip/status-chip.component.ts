@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Receipt } from '@receipt-wrangler/receipt-wrangler-core';
+import { Component, Input } from "@angular/core";
+import { ReceiptStatus } from "@receipt-wrangler/receipt-wrangler-core";
 
 @Component({
   selector: 'app-status-chip',
@@ -9,5 +9,5 @@ import { Receipt } from '@receipt-wrangler/receipt-wrangler-core';
 export class StatusChipComponent {
   @Input() public status: string = '';
 
-  public receiptStatus = Receipt.StatusEnum;
+  public receiptStatus = ReceiptStatus;
 }

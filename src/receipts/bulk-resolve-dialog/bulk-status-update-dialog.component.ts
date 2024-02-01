@@ -1,9 +1,9 @@
-import { RECEIPT_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
+import { RECEIPT_STATUS_OPTIONS } from "src/constants/receipt-status-options";
 
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Receipt } from '@receipt-wrangler/receipt-wrangler-core';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { ReceiptStatus } from "@receipt-wrangler/receipt-wrangler-core";
 
 @Component({
   selector: 'app-bulk-status-update-dialog',
@@ -26,7 +26,7 @@ export class BulkStatusUpdateComponent implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      status: [Receipt.StatusEnum.RESOLVED, Validators.required],
+      status: [ReceiptStatus.RESOLVED, Validators.required],
       comment: '',
     });
   }

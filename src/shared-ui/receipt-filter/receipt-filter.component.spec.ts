@@ -1,6 +1,8 @@
 import {
   CategoryService,
+  FilterOperation,
   InputModule,
+  ReceiptStatus,
   TagService,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { of } from 'rxjs';
@@ -37,35 +39,35 @@ describe('ReceiptFilterComponent', () => {
 
   const filledFilter = {
     date: {
-      operation: PagedRequestField.OperationEnum.EQUALS,
+      operation: FilterOperation.EQUALS,
       value: '2023-01-06',
     },
     name: {
-      operation: PagedRequestField.OperationEnum.EQUALS,
+      operation: FilterOperation.EQUALS,
       value: 'hello world',
     },
     amount: {
-      operation: PagedRequestField.OperationEnum.GREATERTHAN,
+      operation: FilterOperation.GREATERTHAN,
       value: 12.05,
     },
     paidBy: {
-      operation: PagedRequestField.OperationEnum.CONTAINS,
+      operation: FilterOperation.CONTAINS,
       value: [1],
     },
     categories: {
-      operation: PagedRequestField.OperationEnum.CONTAINS,
+      operation: FilterOperation.CONTAINS,
       value: [2],
     },
     tags: {
-      operation: PagedRequestField.OperationEnum.CONTAINS,
+      operation: FilterOperation.CONTAINS,
       value: [3, 4],
     },
     status: {
-      operation: PagedRequestField.OperationEnum.CONTAINS,
-      value: [Receipt.StatusEnum.OPEN],
+      operation: FilterOperation.CONTAINS,
+      value: [ReceiptStatus.OPEN],
     },
     resolvedDate: {
-      operation: PagedRequestField.OperationEnum.GREATERTHAN,
+      operation: FilterOperation.GREATERTHAN,
       value: '2023-01-06',
     },
   };

@@ -1,10 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
-import {
-  AuthState,
-  GroupMember,
-  GroupState,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { Injectable } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { AuthState, GroupRole, GroupState } from "@receipt-wrangler/receipt-wrangler-core";
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +10,8 @@ export class GroupUtil {
 
   public hasGroupAccess(
     groupId: number | undefined,
-    groupRole: GroupMember.GroupRoleEnum
+    groupRole: GroupRole
   ): boolean {
-    const GroupRole = GroupMember.GroupRoleEnum;
-
     const roles = [GroupRole.VIEWER, GroupRole.EDITOR, GroupRole.OWNER];
     const requiredIndex = roles.findIndex((v) => v === groupRole) as number;
 

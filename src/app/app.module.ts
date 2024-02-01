@@ -10,15 +10,20 @@ import {
   ApiModule,
   AppInitService,
   AuthFormUtil,
-  PipesModule,
   initAppData,
+  PipesModule,
 } from '@receipt-wrangler/receipt-wrangler-core';
+
 import { IconModule } from '../icon/icon.module';
 import { HttpInterceptorService } from '../interceptors/http-interceptor.service';
 import { LayoutModule } from '../layout/layout.module';
 import { StoreModule } from '../store/store.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {
+  AppDataService,
+  initAppDataService,
+} from 'src/services/app-data.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,8 +51,8 @@ import { AppComponent } from './app.component';
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: initAppData,
-      deps: [AppInitService],
+      useFactory: initAppDataService,
+      deps: [AppDataService],
       multi: true,
     },
     provideNgxMask(),

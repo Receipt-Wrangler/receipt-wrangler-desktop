@@ -1,17 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import {
-  Dashboard,
-  GroupState,
-  Widget,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { Observable, tap } from 'rxjs';
-import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from 'src/constants';
-import { DashboardFormComponent } from '../dashboard-form/dashboard-form.component';
-import { DashboardState } from 'src/store/dashboard.state';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Observable, tap } from "rxjs";
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
+import { DashboardState } from "src/store/dashboard.state";
+
+import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { ActivatedRoute } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { Select, Store } from "@ngxs/store";
+import { Dashboard, GroupState, WidgetType } from "@receipt-wrangler/receipt-wrangler-core";
+
+import { DashboardFormComponent } from "../dashboard-form/dashboard-form.component";
 
 @UntilDestroy()
 @Component({
@@ -28,7 +26,7 @@ export class DashboardComponent implements OnInit {
 
   public selectedDashboard?: Dashboard;
 
-  public WidgetType = Widget.WidgetTypeEnum;
+  public widgetType = WidgetType;
 
   constructor(
     private activatedRoute: ActivatedRoute,

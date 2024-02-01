@@ -1,23 +1,20 @@
-import { Observable, take, tap } from 'rxjs';
-import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
-import { TableColumn } from 'src/table/table-column.interface';
-import { TableComponent } from 'src/table/table/table.component';
-
-import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Select, Store } from '@ngxs/store';
+import { Observable, take, tap } from "rxjs";
 import {
-  Group,
-  GroupMember,
-  GroupsService,
-  GroupState,
-  RemoveGroup,
-  SnackbarService,
-} from '@receipt-wrangler/receipt-wrangler-core';
+  ConfirmationDialogComponent
+} from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
+import { TableColumn } from "src/table/table-column.interface";
+import { TableComponent } from "src/table/table/table.component";
 
-import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
+import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Sort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { Select, Store } from "@ngxs/store";
+import {
+  Group, GroupRole, GroupsService, GroupState, RemoveGroup, SnackbarService
+} from "@receipt-wrangler/receipt-wrangler-core";
+
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
 
 @Component({
   selector: 'app-group-list',
@@ -43,7 +40,7 @@ export class GroupListComponent {
 
   @ViewChild(TableComponent) private table!: TableComponent;
 
-  public groupRole = GroupMember.GroupRoleEnum;
+  public groupRole = GroupRole;
 
   public columns: TableColumn[] = [];
 

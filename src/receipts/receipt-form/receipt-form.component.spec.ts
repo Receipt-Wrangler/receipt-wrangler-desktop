@@ -12,6 +12,7 @@ import {
   GroupState,
   Receipt,
   ReceiptImageService,
+  ReceiptStatus,
   SnackbarService,
 } from '@receipt-wrangler/receipt-wrangler-core';
 import { of } from 'rxjs';
@@ -72,7 +73,7 @@ describe('ReceiptFormComponent', () => {
       date: mockedDate,
       paidByUserId: '',
       groupId: 0,
-      status: Receipt.StatusEnum.OPEN,
+      status: ReceiptStatus.OPEN,
     });
   });
 

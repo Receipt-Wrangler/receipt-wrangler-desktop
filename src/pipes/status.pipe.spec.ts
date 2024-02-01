@@ -1,6 +1,9 @@
-import { Receipt } from "@receipt-wrangler/receipt-wrangler-core";
+import {
+  Receipt,
+  ReceiptStatus,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
-import { StatusPipe } from "./status.pipe";
+import { StatusPipe } from './status.pipe';
 
 describe('StatusPipe', () => {
   it('create an instance', () => {
@@ -10,28 +13,28 @@ describe('StatusPipe', () => {
 
   it('should return Open', () => {
     const pipe = new StatusPipe();
-    const result = pipe.transform(Receipt.StatusEnum.OPEN);
+    const result = pipe.transform(ReceiptStatus.OPEN);
 
     expect(result).toEqual('Open');
   });
 
   it('should return Needs Attention', () => {
     const pipe = new StatusPipe();
-    const result = pipe.transform(Receipt.StatusEnum.NEEDSATTENTION);
+    const result = pipe.transform(ReceiptStatus.NEEDSATTENTION);
 
     expect(result).toEqual('Needs Attention');
   });
 
   it('should return Resolved', () => {
     const pipe = new StatusPipe();
-    const result = pipe.transform(Receipt.StatusEnum.RESOLVED);
+    const result = pipe.transform(ReceiptStatus.RESOLVED);
 
     expect(result).toEqual('Resolved');
   });
 
   it('should return Resolved', () => {
     const pipe = new StatusPipe();
-    const result = pipe.transform(Receipt.StatusEnum.DRAFT);
+    const result = pipe.transform(ReceiptStatus.DRAFT);
 
     expect(result).toEqual('Draft');
   });

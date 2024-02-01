@@ -1,25 +1,16 @@
+import { Observable, of, take, tap } from 'rxjs';
+
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CanActivateFn } from '@angular/router';
-
-import { receiptGuardGuard } from './receipt-guard.guard';
-import { Store } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import {
   ApiModule,
-  Group,
-  GroupMember,
+  GroupRole,
   ReceiptService,
 } from '@receipt-wrangler/receipt-wrangler-core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxsModule } from '@ngxs/store';
-import {
-  Observable,
-  catchError,
-  finalize,
-  of,
-  take,
-  tap,
-  throwError,
-} from 'rxjs';
+
+import { receiptGuardGuard } from './receipt-guard.guard';
 
 describe('receiptGuardGuard', () => {
   const executeGuard: CanActivateFn = (...guardParameters) =>
@@ -46,7 +37,7 @@ describe('receiptGuardGuard', () => {
     );
     const route: any = {
       data: {
-        groupRole: GroupMember.GroupRoleEnum.VIEWER,
+        groupRole: GroupRole.VIEWER,
       },
       params: {
         id: 1,
@@ -55,7 +46,7 @@ describe('receiptGuardGuard', () => {
 
     executeGuard(route, {} as any);
 
-    expect(spy).toHaveBeenCalledWith(1, GroupMember.GroupRoleEnum.VIEWER);
+    expect(spy).toHaveBeenCalledWith(1, GroupRole.VIEWER);
   });
 
   it('should allow the user through', (done) => {
@@ -64,7 +55,7 @@ describe('receiptGuardGuard', () => {
     );
     const route: any = {
       data: {
-        groupRole: GroupMember.GroupRoleEnum.VIEWER,
+        groupRole: GroupRole.VIEWER,
       },
       params: {
         id: 1,
@@ -89,7 +80,7 @@ describe('receiptGuardGuard', () => {
   //   );
   //   const route: any = {
   //     data: {
-  //       groupRole: GroupMember.GroupRoleEnum.VIEWER,
+  //       groupRole: GroupRole.VIEWER,
   //     },
   //     params: {
   //       id: 1,

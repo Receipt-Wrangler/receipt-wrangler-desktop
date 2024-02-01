@@ -14,6 +14,7 @@ import {
   SnackbarService,
   UpdateUser,
   User,
+  UserRole,
   UserService,
   UserState,
 } from '@receipt-wrangler/receipt-wrangler-core';
@@ -78,7 +79,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: User.UserRoleEnum.ADMIN,
+      userRole: UserRole.ADMIN,
     } as User;
 
     component.user = user;
@@ -87,7 +88,7 @@ describe('UserFormComponent', () => {
     expect(component.form.value).toEqual({
       displayName: 'Pizza man',
       username: 'Waffle guy',
-      userRole: User.UserRoleEnum.ADMIN,
+      userRole: UserRole.ADMIN,
     });
     expect(component.form.get('isDummyUser')?.value).toEqual(false);
   });
@@ -122,7 +123,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: User.UserRoleEnum.ADMIN,
+      userRole: UserRole.ADMIN,
     } as User;
 
     component.user = user;
@@ -134,7 +135,7 @@ describe('UserFormComponent', () => {
       {
         displayName: 'Pizza man',
         username: 'Waffle guy',
-        userRole: User.UserRoleEnum.ADMIN,
+        userRole: UserRole.ADMIN,
       } as User,
       1
     );
@@ -181,7 +182,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: User.UserRoleEnum.ADMIN,
+      userRole: UserRole.ADMIN,
     } as User;
 
     component.user = user;
@@ -193,7 +194,7 @@ describe('UserFormComponent', () => {
       {
         displayName: 'Pizza man',
         username: 'Waffle guy',
-        userRole: User.UserRoleEnum.ADMIN,
+        userRole: UserRole.ADMIN,
       } as User,
       1
     );
@@ -221,7 +222,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: User.UserRoleEnum.ADMIN,
+      userRole: UserRole.ADMIN,
     } as User;
 
     const userServiceSpy = spyOn(TestBed.inject(UserService), 'createUser');
@@ -238,7 +239,7 @@ describe('UserFormComponent', () => {
       username: 'Waffle guy',
       isDummyUser: false,
       password: 'Dough boy',
-      userRole: User.UserRoleEnum.ADMIN,
+      userRole: UserRole.ADMIN,
     });
 
     component.submit();
@@ -247,7 +248,7 @@ describe('UserFormComponent', () => {
       displayName: 'Pizza man',
       username: 'Waffle guy',
       isDummyUser: false,
-      userRole: User.UserRoleEnum.ADMIN,
+      userRole: UserRole.ADMIN,
       password: 'Dough boy',
     } as any);
 

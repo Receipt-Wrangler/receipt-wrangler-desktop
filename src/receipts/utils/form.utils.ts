@@ -1,13 +1,7 @@
 import {
-  AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-import { FileDataView, Item } from '@receipt-wrangler/receipt-wrangler-core';
+  AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators
+} from "@angular/forms";
+import { Item, ItemStatus } from "@receipt-wrangler/receipt-wrangler-core";
 
 export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
   return new FormGroup({
@@ -23,7 +17,7 @@ export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
     ]),
     isTaxed: new FormControl(item?.isTaxed ?? false),
     status: new FormControl(
-      item?.status ?? Item.StatusEnum.OPEN,
+      item?.status ?? ItemStatus.OPEN,
       Validators.required
     ),
   });

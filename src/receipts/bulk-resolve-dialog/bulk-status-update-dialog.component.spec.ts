@@ -2,7 +2,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { PipesModule, Receipt } from '@receipt-wrangler/receipt-wrangler-core';
+import {
+  PipesModule,
+  Receipt,
+  ReceiptStatus,
+} from '@receipt-wrangler/receipt-wrangler-core';
 import { BulkStatusUpdateComponent } from './bulk-status-update-dialog.component';
 
 describe('BulkStatusUpdateComponent', () => {
@@ -38,7 +42,7 @@ describe('BulkStatusUpdateComponent', () => {
 
     expect(component.form.value).toEqual({
       comment: '',
-      status: Receipt.StatusEnum.RESOLVED,
+      status: ReceiptStatus.RESOLVED,
     });
   });
 
@@ -53,13 +57,13 @@ describe('BulkStatusUpdateComponent', () => {
     const spy = spyOn(component.matDialogRef, 'close');
     component.form.patchValue({
       comment: 'resolved',
-      status: Receipt.StatusEnum.NEEDSATTENTION,
+      status: ReceiptStatus.NEEDSATTENTION,
     });
     component.submitButtonClicked();
 
     expect(spy).toHaveBeenCalledWith({
       comment: 'resolved',
-      status: Receipt.StatusEnum.NEEDSATTENTION,
+      status: ReceiptStatus.NEEDSATTENTION,
     });
   });
 });

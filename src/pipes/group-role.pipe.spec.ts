@@ -1,10 +1,12 @@
-import { AuthState } from '@receipt-wrangler/receipt-wrangler-core';
-import { GroupState } from '@receipt-wrangler/receipt-wrangler-core';
 import { GroupUtil } from 'src/utils/group.utils';
 
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { GroupMember } from '@receipt-wrangler/receipt-wrangler-core';
+import {
+  AuthState,
+  GroupRole,
+  GroupState,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 import { GroupRolePipe } from './group-role.pipe';
 
@@ -28,7 +30,7 @@ describe('GroupRolePipe', () => {
   });
 
   it('should return true if there is no groupId', () => {
-    const result = pipe.transform(undefined, GroupMember.GroupRoleEnum.OWNER);
+    const result = pipe.transform(undefined, GroupRole.OWNER);
 
     expect(result).toEqual(true);
   });
@@ -40,15 +42,13 @@ describe('GroupRolePipe', () => {
         groups: [
           {
             id: 1,
-            groupMembers: [
-              { userId: 1, groupRole: GroupMember.GroupRoleEnum.EDITOR },
-            ],
+            groupMembers: [{ userId: 1, groupRole: GroupRole.EDITOR }],
           },
         ],
       },
     });
 
-    const result = pipe.transform(1, GroupMember.GroupRoleEnum.OWNER);
+    const result = pipe.transform(1, GroupRole.OWNER);
 
     expect(result).toEqual(false);
   });
@@ -60,18 +60,13 @@ describe('GroupRolePipe', () => {
         groups: [
           {
             id: 1,
-            groupMembers: [
-              { userId: 1, groupRole: GroupMember.GroupRoleEnum.EDITOR },
-            ],
+            groupMembers: [{ userId: 1, groupRole: GroupRole.EDITOR }],
           },
         ],
       },
     });
 
-    const result = pipe.transform(
-      'not a number',
-      GroupMember.GroupRoleEnum.OWNER
-    );
+    const result = pipe.transform('not a number', GroupRole.OWNER);
 
     expect(result).toEqual(false);
   });
@@ -83,15 +78,13 @@ describe('GroupRolePipe', () => {
         groups: [
           {
             id: 1,
-            groupMembers: [
-              { userId: 1, groupRole: GroupMember.GroupRoleEnum.EDITOR },
-            ],
+            groupMembers: [{ userId: 1, groupRole: GroupRole.EDITOR }],
           },
         ],
       },
     });
 
-    const result = pipe.transform('all', GroupMember.GroupRoleEnum.OWNER);
+    const result = pipe.transform('all', GroupRole.OWNER);
 
     expect(result).toEqual(true);
   });

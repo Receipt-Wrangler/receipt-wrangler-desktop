@@ -1,21 +1,21 @@
-import { PagedRequestField } from '@receipt-wrangler/receipt-wrangler-core';
+import { FilterOperation } from "@receipt-wrangler/receipt-wrangler-core";
 
-export const listOperationOptions = Object.values(
-  PagedRequestField.OperationEnum
-).filter((k) => k === 'CONTAINS');
+export const listOperationOptions = Object.values(FilterOperation).filter(
+  (k) => k === 'CONTAINS'
+);
 
-export const dateOperationOptions = Object.values(
-  PagedRequestField.OperationEnum
-).filter((k) => !k.includes('CONTAINS'));
+export const dateOperationOptions = Object.values(FilterOperation).filter(
+  (k) => !k.includes('CONTAINS')
+);
 
-export const numberOperationOptions = Object.values(
-  PagedRequestField.OperationEnum
-).filter((k) => !k.includes('CONTAINS'));
+export const numberOperationOptions = Object.values(FilterOperation).filter(
+  (k) => !k.includes('CONTAINS')
+);
 
-export const textOperationOptions = Object.values(
-  PagedRequestField.OperationEnum
-).filter((k) => !k.includes('THAN'));
+export const textOperationOptions = Object.values(FilterOperation).filter(
+  (k) => !k.includes('THAN')
+);
 
-export const usersOperationOptions = Object.values(
-  PagedRequestField.OperationEnum
-).filter((k) => k === 'CONTAINS');
+export const usersOperationOptions = Object.values(FilterOperation).filter(
+  (k) => k === 'CONTAINS'
+);

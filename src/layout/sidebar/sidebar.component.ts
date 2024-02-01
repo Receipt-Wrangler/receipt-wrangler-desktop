@@ -1,19 +1,14 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
+import { map, Observable, switchMap, take, tap } from "rxjs";
+import { LayoutState } from "src/store/layout.state";
+import { SetPage } from "src/store/receipt-table.actions";
+
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Router } from "@angular/router";
+import { Select, Store } from "@ngxs/store";
 import {
-  AuthService,
-  AuthState,
-  Group,
-  GroupState,
-  Logout,
-  SetSelectedGroupId,
-  SnackbarService,
-  User,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { Observable, map, switchMap, take, tap } from 'rxjs';
-import { LayoutState } from 'src/store/layout.state';
-import { SetPage } from 'src/store/receipt-table.actions';
+  AuthService, AuthState, Group, GroupState, GroupStatus, Logout, SetSelectedGroupId,
+  SnackbarService, User
+} from "@receipt-wrangler/receipt-wrangler-core";
 
 @Component({
   selector: 'app-sidebar',
@@ -45,9 +40,7 @@ export class SidebarComponent implements OnInit {
   public ngOnInit(): void {
     this.groups = this.store
       .select(GroupState.groups)
-      .pipe(
-        map((g) => g.filter((g) => g.status !== Group.StatusEnum.ARCHIVED))
-      );
+      .pipe(map((g) => g.filter((g) => g.status !== GroupStatus.ARCHIVED)));
   }
 
   public groupClicked(groupId: number): void {

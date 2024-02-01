@@ -1,17 +1,16 @@
-import { FormMode } from 'src/enums/form-mode.enum';
-import { GroupRoleGuard } from 'src/guards/group-role.guard';
-import { FormConfig } from 'src/interfaces/form-config.interface';
+import { FormMode } from "src/enums/form-mode.enum";
+import { GroupRoleGuard } from "src/guards/group-role.guard";
+import { FormConfig } from "src/interfaces/form-config.interface";
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { GroupMember } from '@receipt-wrangler/receipt-wrangler-core';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { GroupRole } from "@receipt-wrangler/receipt-wrangler-core";
 
-import { GroupFormComponent } from './group-form/group-form.component';
-import { GroupListComponent } from './group-list/group-list.component';
-import { GroupResolverService } from './resolvers/group-resolver.service';
-import { GroupSettingsComponent } from './group-settings/group-settings.component';
-import { developmentGuard } from 'src/guards/development.guard';
-import { GroupTabsComponent } from './group-tabs/group-tabs.component';
+import { GroupFormComponent } from "./group-form/group-form.component";
+import { GroupListComponent } from "./group-list/group-list.component";
+import { GroupSettingsComponent } from "./group-settings/group-settings.component";
+import { GroupTabsComponent } from "./group-tabs/group-tabs.component";
+import { GroupResolverService } from "./resolvers/group-resolver.service";
 
 const routes: Routes = [
   {
@@ -39,7 +38,7 @@ const routes: Routes = [
         mode: FormMode.view,
         headerText: 'View Group',
       } as FormConfig,
-      groupRole: GroupMember.GroupRoleEnum.VIEWER,
+      groupRole: GroupRole.VIEWER,
     },
     canActivate: [GroupRoleGuard],
     children: [
@@ -54,7 +53,7 @@ const routes: Routes = [
             mode: FormMode.view,
             headerText: 'View Group',
           } as FormConfig,
-          groupRole: GroupMember.GroupRoleEnum.VIEWER,
+          groupRole: GroupRole.VIEWER,
           entityType: 'Details',
           setHeaderText: true,
         },
@@ -70,7 +69,7 @@ const routes: Routes = [
           formConfig: {
             mode: FormMode.edit,
           } as FormConfig,
-          groupRole: GroupMember.GroupRoleEnum.OWNER,
+          groupRole: GroupRole.OWNER,
           entityType: 'Details',
           setHeaderText: true,
         },
@@ -88,7 +87,7 @@ const routes: Routes = [
           } as FormConfig,
           setHeaderText: true,
           entityType: 'Settings',
-          groupRole: GroupMember.GroupRoleEnum.OWNER,
+          groupRole: GroupRole.OWNER,
         },
         canActivate: [GroupRoleGuard],
       },
@@ -104,7 +103,7 @@ const routes: Routes = [
           } as FormConfig,
           setHeaderText: true,
           entityType: 'Settings',
-          groupRole: GroupMember.GroupRoleEnum.OWNER,
+          groupRole: GroupRole.OWNER,
         },
         canActivate: [GroupRoleGuard],
       },
