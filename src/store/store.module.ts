@@ -35,7 +35,14 @@ import { DashboardState } from './dashboard.state';
       disabled: environment.isProd,
     }),
     NgxsStoragePluginModule.forRoot({
-      key: ['groups', 'layout', 'receiptTable', 'categoryTable', 'dashboards'],
+      key: [
+        'auth',
+        'categoryTable',
+        'dashboards',
+        'groups',
+        'layout',
+        'receiptTable',
+      ],
     }),
   ],
 })
