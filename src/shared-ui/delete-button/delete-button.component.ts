@@ -6,4 +6,9 @@ import { FormButtonComponent } from '../form-button/form-button.component';
   templateUrl: './delete-button.component.html',
   styleUrls: ['./delete-button.component.scss'],
 })
-export class DeleteButtonComponent extends FormButtonComponent {}
+export class DeleteButtonComponent extends FormButtonComponent {
+  constructor() {
+    super();
+    this.color = 'warn';
+  }
+}

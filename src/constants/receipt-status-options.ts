@@ -1,7 +1,11 @@
-import { FormOption } from "src/interfaces/form-option.interface";
-import { formatStatus } from "src/utils";
+import { FormOption } from 'src/interfaces/form-option.interface';
+import { formatStatus } from 'src/utils';
 
-import { GroupStatus, ItemStatus, ReceiptStatus } from "@receipt-wrangler/receipt-wrangler-core";
+import {
+  GroupStatus,
+  ItemStatus,
+  ReceiptStatus,
+} from '@receipt-wrangler/receipt-wrangler-core';
 
 export const RECEIPT_STATUS_OPTIONS: FormOption[] = Object.keys(
   ReceiptStatus
@@ -16,7 +20,7 @@ export const RECEIPT_STATUS_OPTIONS: FormOption[] = Object.keys(
 export const RECEIPT_ITEM_STATUS_OPTIONS: FormOption[] = Object.keys(
   ItemStatus
 ).map((key) => {
-  const value = (GroupStatus as any)[key];
+  const value = (ItemStatus as any)[key];
   return {
     value: value,
     displayValue: formatStatus(value),
