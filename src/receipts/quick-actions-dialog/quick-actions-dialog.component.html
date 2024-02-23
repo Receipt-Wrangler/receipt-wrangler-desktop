@@ -25,6 +25,10 @@
         </div>
       </div>
     </ng-container>
-    <app-button type="submit" buttonText="Split"></app-button>
+    <app-dialog-footer
+      submitButtonTooltip="Split"
+      (submitClicked)="addSplits()"
+      (cancelClicked)="closeDialog()"
+    ></app-dialog-footer>
   </form>
 </app-dialog>

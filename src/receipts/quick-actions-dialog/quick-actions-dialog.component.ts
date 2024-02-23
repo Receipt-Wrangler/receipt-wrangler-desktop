@@ -160,4 +160,8 @@ export class QuickActionsDialogComponent implements OnInit {
       amount: amount,
     } as any as Item;
   }
+
+  public closeDialog(): void {
+    this.dialogRef.close(false);
+  }
 }
