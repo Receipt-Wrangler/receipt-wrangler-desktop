@@ -6,7 +6,7 @@
     ></app-radio-group>
   </div>
 
-  <form [formGroup]="localForm" (ngSubmit)="addSplits()">
+  <form [formGroup]="localForm">
     <app-user-autocomplete
       label="Users to Split Between"
       [inputFormControl]="localForm | formGet : 'usersToSplit'"
