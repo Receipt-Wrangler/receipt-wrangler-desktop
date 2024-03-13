@@ -6,7 +6,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { AppDataService, initAppDataService, } from "src/services/app-data.service";
-import { ApiModule } from "../api";
+import { ApiModule, Configuration } from "../api";
 import { AuthFormUtil } from "../auth";
 import { IconModule } from "../icon/icon.module";
 import { HttpInterceptorService } from "../interceptors/http-interceptor.service";
@@ -19,7 +19,9 @@ import { AppComponent } from "./app.component";
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    ApiModule,
+    ApiModule.forRoot(() => new Configuration({
+      basePath: "",
+    })),
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
