@@ -1,15 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import { GroupGuard } from './group.guard';
-import {
-  GroupState,
-  SetSelectedDashboardId,
-  SetSelectedGroupId,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { Router } from '@angular/router';
+import { TestBed } from "@angular/core/testing";
+import { Router } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
+import { NgxsModule, Store } from "@ngxs/store";
+import { GroupState, SetSelectedDashboardId, SetSelectedGroupId } from "../store";
+import { GroupGuard } from "./group.guard";
 
-describe('GroupGuard', () => {
+describe("GroupGuard", () => {
   let guard: GroupGuard;
   let store: Store;
   let navigateSpy: jasmine.Spy;
@@ -19,54 +15,54 @@ describe('GroupGuard', () => {
       imports: [NgxsModule.forRoot([GroupState]), RouterTestingModule],
     });
 
-    navigateSpy = spyOn(TestBed.inject(Router), 'navigate');
+    navigateSpy = spyOn(TestBed.inject(Router), "navigate");
     navigateSpy.and.returnValues(Promise.resolve(true));
     store = TestBed.inject(Store);
     guard = TestBed.inject(GroupGuard);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(guard).toBeTruthy();
   });
 
-  it('should return true', () => {
-    store.reset({ groups: { groups: [{ id: '1' }] } });
+  it("should return true", () => {
+    store.reset({ groups: { groups: [{ id: "1" }] } });
     const result = guard.canActivate(
-      { params: { groupId: '1' } } as any,
+      { params: { groupId: "1" } } as any,
       {} as any
     );
 
     expect(result).toBe(true);
   });
 
-  it('should return false', () => {
-    store.reset({ groups: { groups: [{ id: '1' }] } });
-    let storeSpy = spyOn(store, 'dispatch');
+  it("should return false", () => {
+    store.reset({ groups: { groups: [{ id: "1" }] } });
+    let storeSpy = spyOn(store, "dispatch");
 
     const result = guard.canActivate(
       {
-        params: { groupId: '2' },
+        params: { groupId: "2" },
         data: {
-          groupGuardBasePath: 'dashboard/group',
+          groupGuardBasePath: "dashboard/group",
         },
       } as any,
       {} as any
     );
 
     expect(result).toBe(false);
-    expect(navigateSpy).toHaveBeenCalledWith(['dashboard/group/1']);
-    expect(storeSpy).toHaveBeenCalledWith(new SetSelectedGroupId('1'));
+    expect(navigateSpy).toHaveBeenCalledWith(["dashboard/group/1"]);
+    expect(storeSpy).toHaveBeenCalledWith(new SetSelectedGroupId("1"));
   });
 
-  it('should reset selected dashboard id', () => {
-    store.reset({ groups: { groups: [{ id: '1' }], selectedGroupId: '3' } });
-    let storeSpy = spyOn(store, 'dispatch');
+  it("should reset selected dashboard id", () => {
+    store.reset({ groups: { groups: [{ id: "1" }], selectedGroupId: "3" } });
+    let storeSpy = spyOn(store, "dispatch");
 
     const result = guard.canActivate(
       {
-        params: { groupId: '1' },
+        params: { groupId: "1" },
         data: {
-          groupGuardBasePath: 'dashboard/group',
+          groupGuardBasePath: "dashboard/group",
         },
       } as any,
       {} as any
@@ -78,15 +74,15 @@ describe('GroupGuard', () => {
     );
   });
 
-  it('should reset selected dashboard id when group not found', () => {
-    store.reset({ groups: { groups: [{ id: '1' }], selectedGroupId: '3' } });
-    let storeSpy = spyOn(store, 'dispatch');
+  it("should reset selected dashboard id when group not found", () => {
+    store.reset({ groups: { groups: [{ id: "1" }], selectedGroupId: "3" } });
+    let storeSpy = spyOn(store, "dispatch");
 
     const result = guard.canActivate(
       {
-        params: { groupId: '70' },
+        params: { groupId: "70" },
         data: {
-          groupGuardBasePath: 'dashboard/group',
+          groupGuardBasePath: "dashboard/group",
         },
       } as any,
       {} as any
@@ -98,15 +94,15 @@ describe('GroupGuard', () => {
     );
   });
 
-  it('should not reset selected dashboard id when group not found', () => {
-    store.reset({ groups: { groups: [{ id: '1' }], selectedGroupId: '70' } });
-    let storeSpy = spyOn(store, 'dispatch');
+  it("should not reset selected dashboard id when group not found", () => {
+    store.reset({ groups: { groups: [{ id: "1" }], selectedGroupId: "70" } });
+    let storeSpy = spyOn(store, "dispatch");
 
     const result = guard.canActivate(
       {
-        params: { groupId: '70' },
+        params: { groupId: "70" },
         data: {
-          groupGuardBasePath: 'dashboard/group',
+          groupGuardBasePath: "dashboard/group",
         },
       } as any,
       {} as any

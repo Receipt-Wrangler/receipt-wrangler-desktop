@@ -1,28 +1,22 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { NgxsModule } from '@ngxs/store';
-import {
-  ApiModule,
-  PipesModule as CorePipesModule,
-  GroupState,
-  Receipt,
-  ReceiptImageService,
-  ReceiptStatus,
-  SnackbarService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { of } from 'rxjs';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
-import { ReceiptFormComponent } from './receipt-form.component';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { ActivatedRoute } from "@angular/router";
+import { NgxsModule } from "@ngxs/store";
+import { of } from "rxjs";
+import { FormMode } from "src/enums/form-mode.enum";
+import { PipesModule } from "src/pipes/pipes.module";
+import { SharedUiModule } from "src/shared-ui/shared-ui.module";
+import { ApiModule, ReceiptImageService, ReceiptStatus } from "../../api";
+import { SnackbarService } from "../../services";
+import { GroupState } from "../../store";
+import { ReceiptFormComponent } from "./receipt-form.component";
 
-describe('ReceiptFormComponent', () => {
+describe("ReceiptFormComponent", () => {
   let component: ReceiptFormComponent;
   let fixture: ComponentFixture<ReceiptFormComponent>;
 
@@ -31,7 +25,7 @@ describe('ReceiptFormComponent', () => {
       declarations: [ReceiptFormComponent],
       imports: [
         ApiModule,
-        CorePipesModule,
+        PipesModule,
         HttpClientTestingModule,
         MatDialogModule,
         MatSnackBarModule,
@@ -56,28 +50,28 @@ describe('ReceiptFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init form correctly when there is no initial data', () => {
+  it("should init form correctly when there is no initial data", () => {
     const mockedDate = new Date(2020, 0, 1);
     jasmine.clock().mockDate(mockedDate);
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
-      name: '',
-      amount: '',
+      name: "",
+      amount: "",
       categories: [],
       tags: [],
       date: mockedDate,
-      paidByUserId: '',
+      paidByUserId: "",
       groupId: 0,
       status: ReceiptStatus.OPEN,
     });
   });
 
-  it('should patch magic fill values correctly', () => {
+  it("should patch magic fill values correctly", () => {
     // Mock timezone offset to be EST
     Date.prototype.getTimezoneOffset = () => 240;
     component.images = [{ id: 1 } as any];
@@ -87,18 +81,18 @@ describe('ReceiptFormComponent', () => {
       currentlyShownImageIndex: 0,
     } as any;
     component.categories = [
-      { id: 1, name: 'category' } as any,
-      { id: 2, name: 'category2' } as any,
+      { id: 1, name: "category" } as any,
+      { id: 2, name: "category2" } as any,
     ];
     component.tags = [
-      { id: 1, name: 'tag' } as any,
-      { id: 2, name: 'tag2' } as any,
+      { id: 1, name: "tag" } as any,
+      { id: 2, name: "tag2" } as any,
     ];
 
     const magicReceipt = {
-      name: 'magic',
-      amount: '482.32',
-      date: '2023-08-05T00:00:00.000Z',
+      name: "magic",
+      amount: "482.32",
+      date: "2023-08-05T00:00:00.000Z",
       categories: [{ id: 1 } as any],
       tags: [
         {
@@ -109,12 +103,12 @@ describe('ReceiptFormComponent', () => {
 
     const receiptImageServiceSpy = spyOn(
       TestBed.inject(ReceiptImageService),
-      'magicFillReceiptForm'
+      "magicFillReceiptForm"
     ).and.returnValue(of(magicReceipt));
 
     const snackbarSpy = spyOn(
       TestBed.inject(SnackbarService),
-      'success'
+      "success"
     ).and.returnValue(undefined);
 
     component.magicFill();
@@ -125,16 +119,16 @@ describe('ReceiptFormComponent', () => {
 
     expect(receiptValue.name).toEqual(magicReceipt.name);
     expect(receiptValue.amount).toEqual(magicReceipt.amount);
-    expect(receiptValue.date).toEqual(new Date('2023-08-05T04:00:00.000Z'));
+    expect(receiptValue.date).toEqual(new Date("2023-08-05T04:00:00.000Z"));
     expect(receiptValue.categories).toEqual([component.categories[0]]);
     expect(receiptValue.tags).toEqual([component.tags[1]]);
     expect(snackbarSpy).toHaveBeenCalledWith(
-      'Magic fill successfully filled name, amount, date, categories, tags from selected image!',
+      "Magic fill successfully filled name, amount, date, categories, tags from selected image!",
       { duration: 10000 }
     );
   });
 
-  it('should not patch magic fill values if they are the defaults', () => {
+  it("should not patch magic fill values if they are the defaults", () => {
     component.images = [{ id: 1 } as any];
     component.ngOnInit();
     component.mode = FormMode.edit;
@@ -143,22 +137,22 @@ describe('ReceiptFormComponent', () => {
     } as any;
 
     const originalData = {
-      name: 'a different name',
-      amount: '482.32',
-      date: '2023-08-05T04:09:12.316Z',
+      name: "a different name",
+      amount: "482.32",
+      date: "2023-08-05T04:09:12.316Z",
     } as any;
 
     component.form.patchValue(originalData);
 
     const magicReceipt = {
-      name: 'magic',
-      amount: '0',
-      date: '0001-01-01T00:00:00Z',
+      name: "magic",
+      amount: "0",
+      date: "0001-01-01T00:00:00Z",
     } as any;
 
     const receiptImageServiceSpy = spyOn(
       TestBed.inject(ReceiptImageService),
-      'magicFillReceiptForm'
+      "magicFillReceiptForm"
     ).and.returnValue(of(magicReceipt));
 
     component.magicFill();
@@ -172,7 +166,7 @@ describe('ReceiptFormComponent', () => {
     expect(receiptValue.date).toEqual(originalData.date);
   });
 
-  it('should not patch any values when they are all default values and pop error snackbar', () => {
+  it("should not patch any values when they are all default values and pop error snackbar", () => {
     component.images = [{ id: 1 } as any];
     component.ngOnInit();
     component.mode = FormMode.edit;
@@ -181,27 +175,27 @@ describe('ReceiptFormComponent', () => {
     } as any;
 
     const originalData = {
-      name: 'a different name',
-      amount: '482.32',
-      date: '2023-08-05T04:09:12.316Z',
+      name: "a different name",
+      amount: "482.32",
+      date: "2023-08-05T04:09:12.316Z",
     } as any;
 
     component.form.patchValue(originalData);
 
     const magicReceipt = {
-      name: '',
-      amount: '0',
-      date: '0001-01-01T00:00:00Z',
+      name: "",
+      amount: "0",
+      date: "0001-01-01T00:00:00Z",
     } as any;
 
     const receiptImageServiceSpy = spyOn(
       TestBed.inject(ReceiptImageService),
-      'magicFillReceiptForm'
+      "magicFillReceiptForm"
     ).and.returnValue(of(magicReceipt));
 
     const snackbarSpy = spyOn(
       TestBed.inject(SnackbarService),
-      'error'
+      "error"
     ).and.returnValue(undefined);
 
     component.magicFill();
@@ -214,7 +208,7 @@ describe('ReceiptFormComponent', () => {
     expect(receiptValue.amount).toEqual(originalData.amount);
     expect(receiptValue.date).toEqual(originalData.date);
     expect(snackbarSpy).toHaveBeenCalledWith(
-      'Could not find any values to fill! Try reuploading a clearer image.'
+      "Could not find any values to fill! Try reuploading a clearer image."
     );
   });
 });

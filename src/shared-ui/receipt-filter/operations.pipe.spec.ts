@@ -1,28 +1,24 @@
-import {
-  FilterOperation,
-  PagedRequestField,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { FilterOperation } from "../../api";
+import { OperationsPipe } from "./operations.pipe";
 
-import { OperationsPipe } from './operations.pipe';
-
-describe('OperationsPipe', () => {
-  it('create an instance', () => {
+describe("OperationsPipe", () => {
+  it("create an instance", () => {
     const pipe = new OperationsPipe();
     expect(pipe).toBeTruthy();
   });
 
-  it('return empty array when the value is not recognized', () => {
+  it("return empty array when the value is not recognized", () => {
     const pipe = new OperationsPipe();
 
-    const result = pipe.transform('bad value');
+    const result = pipe.transform("bad value");
 
     expect(result).toEqual([]);
   });
 
-  it('should return options for date', () => {
+  it("should return options for date", () => {
     const pipe = new OperationsPipe();
 
-    const result = pipe.transform('date');
+    const result = pipe.transform("date");
 
     expect(result).toEqual([
       FilterOperation.EQUALS,
@@ -31,18 +27,18 @@ describe('OperationsPipe', () => {
     ]);
   });
 
-  it('should return options for text', () => {
+  it("should return options for text", () => {
     const pipe = new OperationsPipe();
 
-    const result = pipe.transform('text');
+    const result = pipe.transform("text");
 
     expect(result).toEqual([FilterOperation.CONTAINS, FilterOperation.EQUALS]);
   });
 
-  it('should return options for number', () => {
+  it("should return options for number", () => {
     const pipe = new OperationsPipe();
 
-    const result = pipe.transform('number');
+    const result = pipe.transform("number");
 
     expect(result).toEqual([
       FilterOperation.EQUALS,
@@ -51,18 +47,18 @@ describe('OperationsPipe', () => {
     ]);
   });
 
-  it('should return options for list', () => {
+  it("should return options for list", () => {
     const pipe = new OperationsPipe();
 
-    const result = pipe.transform('list');
+    const result = pipe.transform("list");
 
     expect(result).toEqual([FilterOperation.CONTAINS]);
   });
 
-  it('should return options for users', () => {
+  it("should return options for users", () => {
     const pipe = new OperationsPipe();
 
-    const result = pipe.transform('users');
+    const result = pipe.transform("users");
 
     expect(result).toEqual([FilterOperation.CONTAINS]);
   });

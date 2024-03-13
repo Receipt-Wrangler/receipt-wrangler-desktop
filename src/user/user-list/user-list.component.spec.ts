@@ -1,16 +1,14 @@
-import { TableModule } from 'src/table/table.module';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgxsModule } from "@ngxs/store";
+import { TableModule } from "src/table/table.module";
+import { ApiModule } from "../../api";
+import { UserListComponent } from "./user-list.component";
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NgxsModule } from '@ngxs/store';
-import { ApiModule } from '@receipt-wrangler/receipt-wrangler-core';
-
-import { UserListComponent } from './user-list.component';
-
-describe('UserListComponent', () => {
+describe("UserListComponent", () => {
   let component: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
 
@@ -33,7 +31,7 @@ describe('UserListComponent', () => {
     // fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

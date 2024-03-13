@@ -1,20 +1,16 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NgxsModule, Store } from '@ngxs/store';
-import {
-  ApiModule,
-  AuthService,
-  Logout,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
+import { NgxsModule, Store } from "@ngxs/store";
+import { of } from "rxjs";
+import { ToggleIsSidebarOpen } from "src/store/layout.state.actions";
+import { ApiModule, AuthService } from "../../api";
+import { Logout } from "../../store";
+import { HeaderComponent } from "./header.component";
 
-import { HeaderComponent } from './header.component';
-import { ToggleIsSidebarOpen } from 'src/store/layout.state.actions';
-import { of } from 'rxjs';
-import { Router } from '@angular/router';
-
-describe('HeaderComponent', () => {
+describe("HeaderComponent", () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
 
@@ -35,30 +31,30 @@ describe('HeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should toggle sidebar', () => {
-    const store = spyOn(TestBed.inject(Store), 'dispatch');
+  it("should toggle sidebar", () => {
+    const store = spyOn(TestBed.inject(Store), "dispatch");
     component.toggleSidebar();
 
     expect(store).toHaveBeenCalledOnceWith(new ToggleIsSidebarOpen());
   });
 
-  it('should log the user out', () => {
-    const router = spyOn(TestBed.inject(Router), 'navigate');
+  it("should log the user out", () => {
+    const router = spyOn(TestBed.inject(Router), "navigate");
 
-    const store = spyOn(TestBed.inject(Store), 'dispatch');
+    const store = spyOn(TestBed.inject(Store), "dispatch");
     store.and.returnValue(of(undefined) as any);
 
-    const authService = spyOn(TestBed.inject(AuthService), 'logout');
+    const authService = spyOn(TestBed.inject(AuthService), "logout");
     authService.and.returnValue(of(undefined) as any);
 
     component.logout();
 
     expect(authService).toHaveBeenCalledTimes(1);
     expect(store).toHaveBeenCalledOnceWith(new Logout());
-    expect(router).toHaveBeenCalledWith(['/']);
+    expect(router).toHaveBeenCalledWith(["/"]);
   });
 });

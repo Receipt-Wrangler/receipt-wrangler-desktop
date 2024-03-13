@@ -1,15 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ScrollingModule } from "@angular/cdk/scrolling";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { NgxsModule, Store } from "@ngxs/store";
+import { of } from "rxjs";
+import { ReceiptFilterService } from "src/services/receipt-filter.service";
+import { GroupState } from "../../store";
+import { FilteredReceiptsComponent } from "./filtered-receipts.component";
 
-import { FilteredReceiptsComponent } from './filtered-receipts.component';
-import { NgxsModule, Store, setValue } from '@ngxs/store';
-import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of } from 'rxjs';
-import { ScrollingModule } from '@angular/cdk/scrolling';
-import { ReceiptFilterService } from 'src/services/receipt-filter.service';
-import { GroupState } from '@receipt-wrangler/receipt-wrangler-core';
-
-describe('FilteredReceiptsComponent', () => {
+describe("FilteredReceiptsComponent", () => {
   let component: FilteredReceiptsComponent;
   let store: Store;
   let fixture: ComponentFixture<FilteredReceiptsComponent>;
@@ -31,25 +30,25 @@ describe('FilteredReceiptsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get data', () => {
+  it("should get data", () => {
     const serviceSpy = spyOn(
       TestBed.inject(ReceiptFilterService),
-      'getPagedReceiptsForGroups'
+      "getPagedReceiptsForGroups"
     ).and.returnValue(of([] as any));
     store.reset({
       groups: {
-        selectedGroupId: '1',
+        selectedGroupId: "1",
       },
     });
 
     component.ngOnInit();
 
     expect(serviceSpy).toHaveBeenCalledWith(
-      '1',
+      "1",
       undefined,
       undefined,
       undefined,
@@ -57,22 +56,22 @@ describe('FilteredReceiptsComponent', () => {
       {
         page: 1,
         pageSize: 25,
-        orderBy: 'date',
-        sortDirection: 'desc',
+        orderBy: "date",
+        sortDirection: "desc",
         filter: undefined,
       }
     );
   });
 
-  it('should get next page of data', () => {
+  it("should get next page of data", () => {
     const serviceSpy = spyOn(
       TestBed.inject(ReceiptFilterService),
-      'getPagedReceiptsForGroups'
+      "getPagedReceiptsForGroups"
     ).and.returnValue(of({ data: [{} as any] } as any));
 
     store.reset({
       groups: {
-        selectedGroupId: '1',
+        selectedGroupId: "1",
       },
     });
 
@@ -84,7 +83,7 @@ describe('FilteredReceiptsComponent', () => {
     });
 
     expect(serviceSpy).toHaveBeenCalledWith(
-      '1',
+      "1",
       undefined,
       undefined,
       undefined,
@@ -92,8 +91,8 @@ describe('FilteredReceiptsComponent', () => {
       {
         page: 2,
         pageSize: 25,
-        orderBy: 'date',
-        sortDirection: 'desc',
+        orderBy: "date",
+        sortDirection: "desc",
         filter: undefined,
       }
     );
@@ -106,15 +105,15 @@ describe('FilteredReceiptsComponent', () => {
     ]);
   });
 
-  it('should not get next page of data', () => {
+  it("should not get next page of data", () => {
     const serviceSpy = spyOn(
       TestBed.inject(ReceiptFilterService),
-      'getPagedReceiptsForGroups'
+      "getPagedReceiptsForGroups"
     ).and.returnValue(of({ data: [{} as any] } as any));
 
     store.reset({
       groups: {
-        selectedGroupId: '1',
+        selectedGroupId: "1",
       },
     });
 

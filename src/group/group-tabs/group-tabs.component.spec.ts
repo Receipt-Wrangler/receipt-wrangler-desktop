@@ -1,11 +1,11 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgxsModule, Store } from '@ngxs/store';
-import { FeatureConfigState } from '@receipt-wrangler/receipt-wrangler-core';
-import { GroupTabsComponent } from './group-tabs.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { NgxsModule, Store } from "@ngxs/store";
+import { FeatureConfigState } from "../../store";
+import { GroupTabsComponent } from "./group-tabs.component";
 
-describe('GroupTabsComponent', () => {
+describe("GroupTabsComponent", () => {
   let component: GroupTabsComponent;
   let fixture: ComponentFixture<GroupTabsComponent>;
 
@@ -20,22 +20,22 @@ describe('GroupTabsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init tabs without group settings', () => {
+  it("should init tabs without group settings", () => {
     component.ngOnInit();
 
     expect(component.tabs).toEqual([
       {
-        label: 'Group Details',
-        routerLink: 'details/view',
+        label: "Group Details",
+        routerLink: "details/view",
       },
     ]);
   });
 
-  it('init tabs with group settings', () => {
+  it("init tabs with group settings", () => {
     const store = TestBed.inject(Store);
     store.reset({
       ...store.snapshot(),
@@ -47,12 +47,12 @@ describe('GroupTabsComponent', () => {
 
     expect(component.tabs).toEqual([
       {
-        label: 'Group Details',
-        routerLink: 'details/view',
+        label: "Group Details",
+        routerLink: "details/view",
       },
       {
-        label: 'Group Settings',
-        routerLink: 'settings/view',
+        label: "Group Settings",
+        routerLink: "settings/view",
       },
     ]);
   });

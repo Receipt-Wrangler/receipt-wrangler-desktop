@@ -1,15 +1,12 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import {
-  PipesModule,
-  Receipt,
-  ReceiptStatus,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { BulkStatusUpdateComponent } from './bulk-status-update-dialog.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { ReceiptStatus } from "../../api";
+import { PipesModule } from "../../pipes";
+import { BulkStatusUpdateComponent } from "./bulk-status-update-dialog.component";
 
-describe('BulkStatusUpdateComponent', () => {
+describe("BulkStatusUpdateComponent", () => {
   let component: BulkStatusUpdateComponent;
   let fixture: ComponentFixture<BulkStatusUpdateComponent>;
 
@@ -33,36 +30,36 @@ describe('BulkStatusUpdateComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init form correctly', () => {
+  it("should init form correctly", () => {
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
-      comment: '',
+      comment: "",
       status: ReceiptStatus.RESOLVED,
     });
   });
 
-  it('should close dialog with undefined', () => {
-    const spy = spyOn(component.matDialogRef, 'close');
+  it("should close dialog with undefined", () => {
+    const spy = spyOn(component.matDialogRef, "close");
     component.cancelButtonClicked();
 
     expect(spy).toHaveBeenCalledWith(undefined);
   });
 
-  it('should close dialog with form value', () => {
-    const spy = spyOn(component.matDialogRef, 'close');
+  it("should close dialog with form value", () => {
+    const spy = spyOn(component.matDialogRef, "close");
     component.form.patchValue({
-      comment: 'resolved',
+      comment: "resolved",
       status: ReceiptStatus.NEEDSATTENTION,
     });
     component.submitButtonClicked();
 
     expect(spy).toHaveBeenCalledWith({
-      comment: 'resolved',
+      comment: "resolved",
       status: ReceiptStatus.NEEDSATTENTION,
     });
   });

@@ -1,13 +1,11 @@
-import { GroupState } from '@receipt-wrangler/receipt-wrangler-core';
+import { DatePipe } from "@angular/common";
+import { TestBed } from "@angular/core/testing";
+import { NgxsModule, Store } from "@ngxs/store";
+import { SearchResult } from "../../api";
+import { GroupState } from "../../store";
+import { SearchResultPipe } from "./search-result.pipe";
 
-import { DatePipe } from '@angular/common';
-import { TestBed } from '@angular/core/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import { SearchResult } from '@receipt-wrangler/receipt-wrangler-core';
-
-import { SearchResultPipe } from './search-result.pipe';
-
-describe('SearchResultPipe', () => {
+describe("SearchResultPipe", () => {
   let pipe: SearchResultPipe;
   let store: Store;
 
@@ -22,17 +20,17 @@ describe('SearchResultPipe', () => {
     store = TestBed.inject(Store);
   });
 
-  it('should create the pipe', () => {
+  it("should create the pipe", () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('should return search result string', () => {
+  it("should return search result string", () => {
     store.reset({
       groups: {
         groups: [
           {
             id: 1,
-            name: 'group name',
+            name: "group name",
             isDefault: true,
             groupMembers: [],
           },
@@ -42,14 +40,14 @@ describe('SearchResultPipe', () => {
 
     const searchResult: SearchResult = {
       id: 1,
-      name: 'my result',
-      type: 'receipt',
+      name: "my result",
+      type: "receipt",
       groupId: 1,
-      date: '2022-12-12',
+      date: "2022-12-12",
     };
 
     const result = pipe.transform(searchResult);
 
-    expect(result).toEqual('Dec 12, 2022 - my result (group name)');
+    expect(result).toEqual("Dec 12, 2022 - my result (group name)");
   });
 });

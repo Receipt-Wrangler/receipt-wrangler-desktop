@@ -1,17 +1,11 @@
-import { of } from 'rxjs';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { of } from "rxjs";
+import { ApiModule, Notification, NotificationsService } from "../../api";
+import { NotificationsListComponent } from "./notifications-list.component";
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  ApiModule,
-  Notification,
-  NotificationsService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-
-import { NotificationsListComponent } from './notifications-list.component';
-
-describe('NotificationsListComponent', () => {
+describe("NotificationsListComponent", () => {
   let component: NotificationsListComponent;
   let fixture: ComponentFixture<NotificationsListComponent>;
   let service: NotificationsService;
@@ -29,31 +23,31 @@ describe('NotificationsListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load notifications on init', () => {
+  it("should load notifications on init", () => {
     const mockNotifications: Notification[] = [
       {
         id: 1,
-        body: 'Body 1',
+        body: "Body 1",
         userId: 10,
-        type: 'Type 1',
-        title: 'Title 1',
-        createdAt: '2023-07-03',
+        type: "Type 1",
+        title: "Title 1",
+        createdAt: "2023-07-03",
       },
       {
         id: 2,
-        body: 'Body 2',
+        body: "Body 2",
         userId: 20,
-        type: 'Type 2',
-        title: 'Title 2',
-        createdAt: '2023-07-04',
+        type: "Type 2",
+        title: "Title 2",
+        createdAt: "2023-07-04",
       },
     ];
 
-    spyOn(service, 'getNotificationsForuser').and.returnValue(
+    spyOn(service, "getNotificationsForuser").and.returnValue(
       of(mockNotifications as any)
     );
 
@@ -63,26 +57,26 @@ describe('NotificationsListComponent', () => {
     expect(service.getNotificationsForuser).toHaveBeenCalled();
   });
 
-  it('should delete all notifications', () => {
-    spyOn(service, 'deleteAllNotificationsForUser').and.returnValue(
+  it("should delete all notifications", () => {
+    spyOn(service, "deleteAllNotificationsForUser").and.returnValue(
       of(undefined as any)
     );
     component.notifications = [
       {
         id: 1,
-        body: 'Body 1',
+        body: "Body 1",
         userId: 10,
-        type: 'Type 1',
-        title: 'Title 1',
-        createdAt: '2023-07-03',
+        type: "Type 1",
+        title: "Title 1",
+        createdAt: "2023-07-03",
       },
       {
         id: 2,
-        body: 'Body 2',
+        body: "Body 2",
         userId: 20,
-        type: 'Type 2',
-        title: 'Title 2',
-        createdAt: '2023-07-04',
+        type: "Type 2",
+        title: "Title 2",
+        createdAt: "2023-07-04",
       },
     ];
 
@@ -92,23 +86,23 @@ describe('NotificationsListComponent', () => {
     expect(service.deleteAllNotificationsForUser).toHaveBeenCalled();
   });
 
-  it('should delete a notification by id', () => {
+  it("should delete a notification by id", () => {
     component.notifications = [
       {
         id: 1,
-        body: 'Body 1',
+        body: "Body 1",
         userId: 10,
-        type: 'Type 1',
-        title: 'Title 1',
-        createdAt: '2023-07-03',
+        type: "Type 1",
+        title: "Title 1",
+        createdAt: "2023-07-03",
       },
       {
         id: 2,
-        body: 'Body 2',
+        body: "Body 2",
         userId: 20,
-        type: 'Type 2',
-        title: 'Title 2',
-        createdAt: '2023-07-04',
+        type: "Type 2",
+        title: "Title 2",
+        createdAt: "2023-07-04",
       },
     ];
 
@@ -117,11 +111,11 @@ describe('NotificationsListComponent', () => {
     expect(component.notifications).toEqual([
       {
         id: 2,
-        body: 'Body 2',
+        body: "Body 2",
         userId: 20,
-        type: 'Type 2',
-        title: 'Title 2',
-        createdAt: '2023-07-04',
+        type: "Type 2",
+        title: "Title 2",
+        createdAt: "2023-07-04",
       },
     ]);
   });

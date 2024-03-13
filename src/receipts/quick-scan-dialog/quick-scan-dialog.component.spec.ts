@@ -1,39 +1,20 @@
-import {
-  ComponentFixture,
-  ComponentFixtureNoNgZone,
-  TestBed,
-} from '@angular/core/testing';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed, } from "@angular/core/testing";
+import { MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { ActivatedRoute } from "@angular/router";
+import { NgxsModule, Store } from "@ngxs/store";
+import { SharedUiModule } from "src/shared-ui/shared-ui.module";
+import { LayoutState } from "src/store/layout.state";
+import { ApiModule, ReceiptFileUploadCommand, ReceiptStatus } from "../../api";
+import { PipesModule } from "../../pipes";
+import { SnackbarService } from "../../services";
+import { AuthState, GroupState } from "../../store";
+import { QuickScanDialogComponent } from "./quick-scan-dialog.component";
 
-import { QuickScanDialogComponent } from './quick-scan-dialog.component';
-import {
-  ApiModule,
-  AuthState,
-  FileData,
-  GroupState,
-  PipesModule,
-  Receipt,
-  ReceiptFileUploadCommand,
-  ReceiptService,
-  ReceiptStatus,
-  SnackbarService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { StoreModule } from 'src/store/store.module';
-import { NgxsModule, Store } from '@ngxs/store';
-import { LayoutModule } from '@angular/cdk/layout';
-import { LayoutState } from 'src/store/layout.state';
-import { SelectModule } from 'src/select/select.module';
-import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
-import { MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { DialogRef } from '@angular/cdk/dialog';
-import { of } from 'rxjs';
-import { jsDocComment } from '@angular/compiler';
-
-describe('QuickScanDialogComponent', () => {
+describe("QuickScanDialogComponent", () => {
   let component: QuickScanDialogComponent;
   let fixture: ComponentFixture<QuickScanDialogComponent>;
   let store: Store;
@@ -70,11 +51,11 @@ describe('QuickScanDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init form correctly', () => {
+  it("should init form correctly", () => {
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
@@ -84,7 +65,7 @@ describe('QuickScanDialogComponent', () => {
     });
   });
 
-  it('should init form correctly with user preferences', () => {
+  it("should init form correctly with user preferences", () => {
     component.ngOnInit();
     store.reset({
       auth: {
@@ -105,7 +86,7 @@ describe('QuickScanDialogComponent', () => {
     });
   });
 
-  it('should init form correctly in all group', () => {
+  it("should init form correctly in all group", () => {
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
@@ -115,29 +96,29 @@ describe('QuickScanDialogComponent', () => {
     });
   });
 
-  it('should push fileData into images when loaded', () => {
-    spyOn(URL, 'createObjectURL').and.returnValue('awesome');
+  it("should push fileData into images when loaded", () => {
+    spyOn(URL, "createObjectURL").and.returnValue("awesome");
     const fileData = {} as ReceiptFileUploadCommand;
     component.fileLoaded(fileData);
 
     expect(component.images).toEqual([fileData]);
   });
 
-  it('should close the dialog', () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialogRef), 'close');
+  it("should close the dialog", () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialogRef), "close");
 
     component.cancelButtonClicked();
 
     expect(dialogSpy).toHaveBeenCalled();
   });
 
-  it('should show error if no image has been selected', () => {
-    const snackbarSpy = spyOn(TestBed.inject(SnackbarService), 'error');
+  it("should show error if no image has been selected", () => {
+    const snackbarSpy = spyOn(TestBed.inject(SnackbarService), "error");
 
     component.submitButtonClicked();
 
     expect(snackbarSpy).toHaveBeenCalledOnceWith(
-      'Please select an image to upload'
+      "Please select an image to upload"
     );
   });
 

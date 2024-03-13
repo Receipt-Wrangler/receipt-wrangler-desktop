@@ -1,38 +1,20 @@
-import {
-  CategoryService,
-  FilterOperation,
-  InputModule,
-  ReceiptStatus,
-  TagService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { of } from 'rxjs';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { SetReceiptFilter } from 'src/store/receipt-table.actions';
-import {
-  defaultReceiptFilter,
-  ReceiptTableState,
-} from 'src/store/receipt-table.state';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, } from "@angular/material/dialog";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { NgxsModule, Store } from "@ngxs/store";
+import { of } from "rxjs";
+import { PipesModule } from "src/pipes/pipes.module";
+import { SetReceiptFilter } from "src/store/receipt-table.actions";
+import { defaultReceiptFilter, ReceiptTableState, } from "src/store/receipt-table.state";
+import { CategoryService, FilterOperation, ReceiptStatus, TagService } from "../../api";
+import { InputModule } from "../../input";
+import { OperationsPipe } from "./operations.pipe";
+import { ReceiptFilterComponent } from "./receipt-filter.component";
 
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxsModule, Store } from '@ngxs/store';
-import {
-  PipesModule as CorePipesModule,
-  PagedRequestField,
-  Receipt,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { OperationsPipe } from './operations.pipe';
-import { ReceiptFilterComponent } from './receipt-filter.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-
-describe('ReceiptFilterComponent', () => {
+describe("ReceiptFilterComponent", () => {
   let component: ReceiptFilterComponent;
   let fixture: ComponentFixture<ReceiptFilterComponent>;
   let store: Store;
@@ -40,11 +22,11 @@ describe('ReceiptFilterComponent', () => {
   const filledFilter = {
     date: {
       operation: FilterOperation.EQUALS,
-      value: '2023-01-06',
+      value: "2023-01-06",
     },
     name: {
       operation: FilterOperation.EQUALS,
-      value: 'hello world',
+      value: "hello world",
     },
     amount: {
       operation: FilterOperation.GREATERTHAN,
@@ -68,7 +50,7 @@ describe('ReceiptFilterComponent', () => {
     },
     resolvedDate: {
       operation: FilterOperation.GREATERTHAN,
-      value: '2023-01-06',
+      value: "2023-01-06",
     },
   };
 
@@ -76,7 +58,7 @@ describe('ReceiptFilterComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ReceiptFilterComponent, OperationsPipe],
       imports: [
-        CorePipesModule,
+        PipesModule,
         HttpClientTestingModule,
         InputModule,
         MatDialogModule,
@@ -111,15 +93,15 @@ describe('ReceiptFilterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init form with no default initial data', () => {
-    spyOn(TestBed.inject(CategoryService), 'getAllCategories').and.returnValue(
+  it("should init form with no default initial data", () => {
+    spyOn(TestBed.inject(CategoryService), "getAllCategories").and.returnValue(
       of([]) as any
     );
-    spyOn(TestBed.inject(TagService), 'getAllTags').and.returnValue(
+    spyOn(TestBed.inject(TagService), "getAllTags").and.returnValue(
       of([]) as any
     );
     component.ngOnInit();
@@ -127,11 +109,11 @@ describe('ReceiptFilterComponent', () => {
     expect(component.form.value).toEqual(defaultReceiptFilter);
   });
 
-  it('should init form with initial data', () => {
-    spyOn(TestBed.inject(CategoryService), 'getAllCategories').and.returnValue(
+  it("should init form with initial data", () => {
+    spyOn(TestBed.inject(CategoryService), "getAllCategories").and.returnValue(
       of([]) as any
     );
-    spyOn(TestBed.inject(TagService), 'getAllTags').and.returnValue(
+    spyOn(TestBed.inject(TagService), "getAllTags").and.returnValue(
       of([]) as any
     );
     store.reset({
@@ -144,11 +126,11 @@ describe('ReceiptFilterComponent', () => {
     expect(component.form.value).toEqual(filledFilter);
   });
 
-  it('should reset form', () => {
-    spyOn(TestBed.inject(CategoryService), 'getAllCategories').and.returnValue(
+  it("should reset form", () => {
+    spyOn(TestBed.inject(CategoryService), "getAllCategories").and.returnValue(
       of([]) as any
     );
-    spyOn(TestBed.inject(TagService), 'getAllTags').and.returnValue(
+    spyOn(TestBed.inject(TagService), "getAllTags").and.returnValue(
       of([]) as any
     );
     store.reset({
@@ -164,12 +146,12 @@ describe('ReceiptFilterComponent', () => {
     expect(component.form.value).toEqual(defaultReceiptFilter);
   });
 
-  it('should set form in state and close dialog', () => {
+  it("should set form in state and close dialog", () => {
     const dialogRefSpy = spyOn(
       TestBed.inject(MatDialogRef<ReceiptFilterComponent>),
-      'close'
+      "close"
     );
-    const storeRefSpy = spyOn(store, 'dispatch').and.returnValue(of(undefined));
+    const storeRefSpy = spyOn(store, "dispatch").and.returnValue(of(undefined));
 
     component.submitButtonClicked();
 
@@ -179,10 +161,10 @@ describe('ReceiptFilterComponent', () => {
     expect(dialogRefSpy).toHaveBeenCalledOnceWith(true);
   });
 
-  it('should close dialog on cancel', () => {
+  it("should close dialog on cancel", () => {
     const dialogRefSpy = spyOn(
       TestBed.inject(MatDialogRef<ReceiptFilterComponent>),
-      'close'
+      "close"
     );
     component.cancelButtonClicked();
 

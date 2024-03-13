@@ -1,26 +1,21 @@
-import { BehaviorSubject, of } from 'rxjs';
-import { PipesModule } from 'src/pipes/pipes.module';
+import { CommonModule } from "@angular/common";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatCardModule } from "@angular/material/card";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatListModule } from "@angular/material/list";
+import { ActivatedRoute, Params } from "@angular/router";
+import { NgxsModule, Store } from "@ngxs/store";
+import { BehaviorSubject } from "rxjs";
+import { PipesModule } from "src/pipes/pipes.module";
+import { DashboardState } from "src/store/dashboard.state";
+import { ApiModule, Dashboard } from "../../api";
+import { SummaryCardComponent } from "../../shared-ui/summary-card/summary-card.component";
+import { GroupState } from "../../store";
+import { DashboardRoutingModule } from "../dashboard-routing.module";
+import { DashboardComponent } from "./dashboard.component";
 
-import { CommonModule } from '@angular/common';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
-import { ActivatedRoute, Params } from '@angular/router';
-import { NgxsModule, Store } from '@ngxs/store';
-import {
-  ApiModule,
-  Dashboard,
-  GroupState,
-} from '@receipt-wrangler/receipt-wrangler-core';
-
-import { DashboardRoutingModule } from '../dashboard-routing.module';
-import { SummaryCardComponent } from '../../shared-ui/summary-card/summary-card.component';
-import { DashboardComponent } from './dashboard.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { DashboardState } from 'src/store/dashboard.state';
-
-describe('DashboardComponent', () => {
+describe("DashboardComponent", () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let dashboards: Dashboard[];
@@ -31,13 +26,13 @@ describe('DashboardComponent', () => {
       {
         id: 1,
         userId: 1,
-        name: 'Test Dashboard',
+        name: "Test Dashboard",
         widgets: [],
       } as Dashboard,
       {
         id: 2,
         userId: 1,
-        name: 'Test Dashboard 2',
+        name: "Test Dashboard 2",
         widgets: [],
       } as Dashboard,
     ];
@@ -58,7 +53,7 @@ describe('DashboardComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: new BehaviorSubject<Params>({ id: '1' }),
+            params: new BehaviorSubject<Params>({ id: "1" }),
           },
         },
       ],
@@ -69,7 +64,7 @@ describe('DashboardComponent', () => {
     store.reset({
       dashboards: {
         dashboards: {
-          '1': dashboards,
+          "1": dashboards,
         },
       },
     });
@@ -78,28 +73,28 @@ describe('DashboardComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set dashboards', () => {
+  it("should set dashboards", () => {
     store.reset({
       ...store.snapshot(),
       groups: {
-        selectedGroupId: '1',
+        selectedGroupId: "1",
       },
     });
     component.ngOnInit();
     expect(component.dashboards).toEqual(dashboards);
   });
 
-  it('should set selected dashboard', () => {
+  it("should set selected dashboard", () => {
     const store = TestBed.inject(Store);
     store.reset({
       ...store.snapshot(),
       groups: {
-        selectedGroupId: '1',
-        selectedDashboardId: '2',
+        selectedGroupId: "1",
+        selectedDashboardId: "2",
       },
     });
     component.ngOnInit();
