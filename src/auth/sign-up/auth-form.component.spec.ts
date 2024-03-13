@@ -6,7 +6,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
 import { of } from 'rxjs';
-
 import { ApiModule } from '../../api';
 import { ButtonModule } from '../../button';
 import { FeatureDirective } from '../../directives/feature.directive';
@@ -18,6 +17,7 @@ import { AuthForm } from './auth-form.component';
 import { AuthState } from '../../store/auth.state';
 import { FeatureConfigState } from '../../store/feature-config.state';
 import { AuthFormUtil } from './auth-form.util';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AuthForm', () => {
   let component: AuthForm;
@@ -36,6 +36,7 @@ describe('AuthForm', () => {
         PipesModule,
         ReactiveFormsModule,
         ApiModule,
+        RouterTestingModule,
       ],
       providers: [
         SnackbarService,
