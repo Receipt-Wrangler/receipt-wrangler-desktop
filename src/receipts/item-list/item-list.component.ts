@@ -1,36 +1,15 @@
-import { Observable } from 'rxjs';
-import { RECEIPT_ITEM_STATUS_OPTIONS } from 'src/constants/receipt-status-options';
-import { FormMode } from 'src/enums/form-mode.enum';
-
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  QueryList,
-  ViewChildren,
-  ViewEncapsulation,
-} from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormGroup,
-} from '@angular/forms';
-import { MatExpansionPanel } from '@angular/material/expansion';
-import { ActivatedRoute } from '@angular/router';
-import { Select } from '@ngxs/store';
-import {
-  GroupRole,
-  InputComponent,
-  Item,
-  ItemStatus,
-  Receipt,
-  User,
-  UserState,
-} from '@receipt-wrangler/receipt-wrangler-core';
-
-import { buildItemForm } from '../utils/form.utils';
+import { ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChildren, ViewEncapsulation, } from "@angular/core";
+import { AbstractControl, FormArray, FormBuilder, FormGroup, } from "@angular/forms";
+import { MatExpansionPanel } from "@angular/material/expansion";
+import { ActivatedRoute } from "@angular/router";
+import { Select } from "@ngxs/store";
+import { Observable } from "rxjs";
+import { RECEIPT_ITEM_STATUS_OPTIONS } from "src/constants/receipt-status-options";
+import { FormMode } from "src/enums/form-mode.enum";
+import { GroupRole, Item, ItemStatus, Receipt, User } from "../../api";
+import { InputComponent } from "../../input";
+import { UserState } from "../../store";
+import { buildItemForm } from "../utils/form.utils";
 
 export interface ItemData {
   item: Item;
@@ -38,16 +17,16 @@ export interface ItemData {
 }
 
 @Component({
-  selector: 'app-item-list',
-  templateUrl: './item-list.component.html',
-  styleUrls: ['./item-list.component.scss'],
+  selector: "app-item-list",
+  templateUrl: "./item-list.component.html",
+  styleUrls: ["./item-list.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
 export class ItemListComponent implements OnInit {
-  @ViewChildren('userExpansionPanel')
+  @ViewChildren("userExpansionPanel")
   public userExpansionPanels!: QueryList<MatExpansionPanel>;
 
-  @ViewChildren('nameField')
+  @ViewChildren("nameField")
   public nameFields!: QueryList<InputComponent>;
 
   @Select(UserState.users) public users!: Observable<User[]>;
@@ -71,7 +50,7 @@ export class ItemListComponent implements OnInit {
   public itemStatusOptions = RECEIPT_ITEM_STATUS_OPTIONS;
 
   public get receiptItems(): FormArray {
-    return this.form.get('receiptItems') as FormArray;
+    return this.form.get("receiptItems") as FormArray;
   }
 
   constructor(
@@ -81,29 +60,29 @@ export class ItemListComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.originalReceipt = this.activatedRoute.snapshot.data['receipt'];
-    this.mode = this.activatedRoute.snapshot.data['mode'];
+    this.originalReceipt = this.activatedRoute.snapshot.data["receipt"];
+    this.mode = this.activatedRoute.snapshot.data["mode"];
     this.initForm();
     this.setUserItemMap();
   }
 
   private initForm(): void {
     this.form.addControl(
-      'receiptItems',
+      "receiptItems",
       this.formBuilder.array(
         this.originalReceipt?.receiptItems
           ? this.originalReceipt.receiptItems.map((item) =>
-              buildItemForm(item, this.originalReceipt?.id?.toString())
-            )
+            buildItemForm(item, this.originalReceipt?.id?.toString())
+          )
           : []
       )
     );
   }
 
   public setUserItemMap(): void {
-    const receiptItems = this.form.get('receiptItems');
+    const receiptItems = this.form.get("receiptItems");
     if (receiptItems) {
-      const items = this.form.get('receiptItems')?.value as Item[];
+      const items = this.form.get("receiptItems")?.value as Item[];
       const map = new Map<string, ItemData[]>();
 
       if (items?.length > 0) {
@@ -142,7 +121,7 @@ export class ItemListComponent implements OnInit {
 
   public submitNewItemFormGroup(): void {
     if (this.newItemFormGroup.valid) {
-      const formArray = this.form.get('receiptItems') as FormArray;
+      const formArray = this.form.get("receiptItems") as FormArray;
       formArray.push(this.newItemFormGroup);
       this.exitAddMode();
       this.setUserItemMap();
@@ -150,7 +129,7 @@ export class ItemListComponent implements OnInit {
   }
 
   public removeItem(itemData: ItemData): void {
-    const formArray = this.form.get('receiptItems') as FormArray;
+    const formArray = this.form.get("receiptItems") as FormArray;
     formArray.removeAt(itemData.arrayIndex);
     this.setUserItemMap();
   }
@@ -160,7 +139,7 @@ export class ItemListComponent implements OnInit {
       this.receiptItems.push(
         buildItemForm(
           {
-            name: '',
+            name: "",
             chargedToUserId: Number(userId),
           } as Item,
           this.originalReceipt?.id?.toString()
@@ -211,13 +190,13 @@ export class ItemListComponent implements OnInit {
   public allUserItemsResolved(userId: string): boolean {
     const userItems = this.getItemsForUser(userId);
     return userItems.every(
-      (i) => i.get('status')?.value === ItemStatus.RESOLVED
+      (i) => i.get("status")?.value === ItemStatus.RESOLVED
     );
   }
 
   private getItemsForUser(userId: string): AbstractControl[] {
     return this.receiptItems.controls.filter(
-      (i) => i.get('chargedToUserId')?.value?.toString() === userId
+      (i) => i.get("chargedToUserId")?.value?.toString() === userId
     );
   }
 }

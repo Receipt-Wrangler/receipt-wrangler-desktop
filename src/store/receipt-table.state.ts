@@ -1,23 +1,18 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import {
-  FilterOperation, ReceiptPagedRequestFilter
-} from "@receipt-wrangler/receipt-wrangler-core";
-
+import { FilterOperation, ReceiptPagedRequestFilter } from "../api";
 import { ReceiptTableInterface } from "../interfaces";
-import {
-  ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData
-} from "./receipt-table.actions";
+import { ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData } from "./receipt-table.actions";
 
 export const defaultReceiptFilter = {
-  date: { operation: FilterOperation.EQUALS, value: '' },
+  date: { operation: FilterOperation.EQUALS, value: "" },
   amount: {
     operation: FilterOperation.EQUALS,
-    value: '',
+    value: "",
   },
   name: {
     operation: FilterOperation.EQUALS,
-    value: '',
+    value: "",
   },
   paidBy: {
     operation: FilterOperation.CONTAINS,
@@ -37,18 +32,18 @@ export const defaultReceiptFilter = {
   },
   resolvedDate: {
     operation: FilterOperation.EQUALS,
-    value: '',
+    value: "",
   },
 } as ReceiptPagedRequestFilter;
 
 // TODO: look into fixing date equals
 @State<ReceiptTableInterface>({
-  name: 'receiptTable',
+  name: "receiptTable",
   defaults: {
     page: 1,
     pageSize: 50,
-    orderBy: 'date',
-    sortDirection: 'desc',
+    orderBy: "date",
+    sortDirection: "desc",
     filter: defaultReceiptFilter,
   },
 })
@@ -76,7 +71,7 @@ export class ReceiptTableState {
 
     Object.keys(filter).forEach((key) => {
       const stringValue = filter[key]?.value?.toString();
-      if (filter[key]?.value?.toString()?.length > 0 && stringValue !== '0') {
+      if (filter[key]?.value?.toString()?.length > 0 && stringValue !== "0") {
         filtersApplied += 1;
       }
     });

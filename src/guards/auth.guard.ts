@@ -1,20 +1,15 @@
-import { Observable } from 'rxjs';
-
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
-import { Store } from '@ngxs/store';
-import { AuthState, GroupState } from '@receipt-wrangler/receipt-wrangler-core';
+import { Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree, } from "@angular/router";
+import { Store } from "@ngxs/store";
+import { Observable } from "rxjs";
+import { AuthState, GroupState } from "../store";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AuthGuard {
   constructor(private router: Router, private store: Store) {}
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -24,7 +19,7 @@ export class AuthGuard {
     | boolean
     | UrlTree {
     const isLoggedIn = this.store.selectSnapshot(AuthState.isLoggedIn);
-    const navigatingToAuth = route.url.toString().includes('auth');
+    const navigatingToAuth = route.url.toString().includes("auth");
 
     // if user tries to go to login screens while already logged in
     if (navigatingToAuth && isLoggedIn) {
@@ -37,7 +32,7 @@ export class AuthGuard {
     }
 
     if (!isLoggedIn) {
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(["/auth/login"]);
     }
 
     return isLoggedIn;

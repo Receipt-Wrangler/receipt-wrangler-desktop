@@ -1,17 +1,14 @@
-import { Inject, inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import {
-  Dashboard,
-  GroupState,
-  SetSelectedDashboardId,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { DashboardState } from 'src/store/dashboard.state';
+import { inject } from "@angular/core";
+import { CanActivateFn, Router } from "@angular/router";
+import { Store } from "@ngxs/store";
+import { DashboardState } from "src/store/dashboard.state";
+import { Dashboard } from "../../api";
+import { GroupState, SetSelectedDashboardId } from "../../store";
 
 export const dashboardGuard: CanActivateFn = (route, state) => {
   const store = inject(Store);
   const selectedGroupId = store.selectSnapshot(GroupState.selectedGroupId);
-  const dashboardId = route?.params?.['dashboardId'];
+  const dashboardId = route?.params?.["dashboardId"];
   const dashboards: Dashboard[] = store.selectSnapshot(
     DashboardState.getDashboardsByGroupId(selectedGroupId)
   );

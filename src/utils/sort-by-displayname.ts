@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Sort } from '@angular/material/sort';
-import { Store } from '@ngxs/store';
-import { UserState } from '@receipt-wrangler/receipt-wrangler-core';
+import { Injectable } from "@angular/core";
+import { Sort } from "@angular/material/sort";
+import { Store } from "@ngxs/store";
+import { UserState } from "../store";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class SortByDisplayName {
   constructor(private store: Store) {}
@@ -15,13 +15,13 @@ export class SortByDisplayName {
       const aDisplayName =
         this.store.selectSnapshot(
           UserState.getUserById(a[userIdKey].toString())
-        )?.displayName ?? '';
+        )?.displayName ?? "";
       const bDisplayName =
         this.store.selectSnapshot(
           UserState.getUserById(b[userIdKey].toString())
-        )?.displayName ?? '';
+        )?.displayName ?? "";
 
-      if (sortState.direction === 'asc') {
+      if (sortState.direction === "asc") {
         return aDisplayName.localeCompare(bDisplayName);
       } else {
         return bDisplayName.localeCompare(aDisplayName);

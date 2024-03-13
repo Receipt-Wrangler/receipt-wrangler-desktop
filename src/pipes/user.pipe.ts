@@ -1,14 +1,15 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { User, UserState } from '@receipt-wrangler/receipt-wrangler-core';
+import { Pipe, PipeTransform } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { User } from "../api";
+import { UserState } from "../store";
 
 @Pipe({
-  name: 'user',
+  name: "user",
 })
 export class UserPipe implements PipeTransform {
   constructor(private store: Store) {}
 
   public transform(userId?: string): User | undefined {
-    return this.store.selectSnapshot(UserState.getUserById(userId ?? ''));
+    return this.store.selectSnapshot(UserState.getUserById(userId ?? ""));
   }
 }

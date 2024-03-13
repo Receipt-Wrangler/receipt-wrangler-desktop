@@ -1,31 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Select, Store } from '@ngxs/store';
-import {
-  Dashboard,
-  DashboardService,
-  GroupState,
-  SetSelectedDashboardId,
-  SnackbarService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { Observable, switchMap, take, tap } from 'rxjs';
-import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
-import { DashboardFormComponent } from '../dashboard-form/dashboard-form.component';
-import { DashboardState } from 'src/store/dashboard.state';
-import {
-  AddDashboardToGroup,
-  DeleteDashboardFromGroup,
-  UpdateDashBoardForGroup,
-} from 'src/store/dashboard.state.actions';
-import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
+import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { Select, Store } from "@ngxs/store";
+import { Observable, take, tap } from "rxjs";
+import { DEFAULT_DIALOG_CONFIG } from "src/constants";
+import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
+import { DashboardState } from "src/store/dashboard.state";
+import { AddDashboardToGroup, DeleteDashboardFromGroup, UpdateDashBoardForGroup, } from "src/store/dashboard.state.actions";
+import { Dashboard, DashboardService } from "../../api";
+import { SnackbarService } from "../../services";
+import { GroupState, SetSelectedDashboardId } from "../../store";
+import { DashboardFormComponent } from "../dashboard-form/dashboard-form.component";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-group-dashboards',
-  templateUrl: './group-dashboards.component.html',
-  styleUrls: ['./group-dashboards.component.scss'],
+  selector: "app-group-dashboards",
+  templateUrl: "./group-dashboards.component.html",
+  styleUrls: ["./group-dashboards.component.scss"],
 })
 export class GroupDashboardsComponent implements OnInit {
   constructor(
@@ -104,7 +96,7 @@ export class GroupDashboardsComponent implements OnInit {
       dialogRef.componentInstance.dashboard = dashboard;
       dialogRef.componentInstance.headerText = `Edit Dashboard ${dashboard?.name}`;
     } else {
-      dialogRef.componentInstance.headerText = 'Add a Dashboard';
+      dialogRef.componentInstance.headerText = "Add a Dashboard";
     }
 
     dialogRef
@@ -148,7 +140,7 @@ export class GroupDashboardsComponent implements OnInit {
   public openDeleteConfirmationDialog(): void {
     const dialogRef = this.matDialog.open(ConfirmationDialogComponent, {
       ...DEFAULT_DIALOG_CONFIG,
-      panelClass: 'overflow-scroll',
+      panelClass: "overflow-scroll",
     });
     const dashboardId = this.store.selectSnapshot(
       GroupState.selectedDashboardId
@@ -157,7 +149,7 @@ export class GroupDashboardsComponent implements OnInit {
       (d) => d.id.toString() === dashboardId
     );
 
-    dialogRef.componentInstance.headerText = 'Delete Dashboard';
+    dialogRef.componentInstance.headerText = "Delete Dashboard";
     dialogRef.componentInstance.dialogContent = `Are you sure you want to delete dashboard "${selectedDashboard?.name}"? This action is irreversable.`;
 
     dialogRef
@@ -172,7 +164,7 @@ export class GroupDashboardsComponent implements OnInit {
                 take(1),
                 tap(() => {
                   this.snackbarService.success(
-                    'Successfully deleted dashboard'
+                    "Successfully deleted dashboard"
                   );
                   const dashboardLink = this.store.selectSnapshot(
                     GroupState.dashboardLink

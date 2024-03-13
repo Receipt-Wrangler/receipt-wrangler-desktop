@@ -1,14 +1,13 @@
-import { RECEIPT_STATUS_OPTIONS } from "src/constants/receipt-status-options";
-
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
-import { ReceiptStatus } from "@receipt-wrangler/receipt-wrangler-core";
+import { RECEIPT_STATUS_OPTIONS } from "src/constants/receipt-status-options";
+import { ReceiptStatus } from "../../api";
 
 @Component({
-  selector: 'app-bulk-status-update-dialog',
-  templateUrl: './bulk-status-update-dialog.component.html',
-  styleUrls: ['./bulk-status-update-dialog.component.scss'],
+  selector: "app-bulk-status-update-dialog",
+  templateUrl: "./bulk-status-update-dialog.component.html",
+  styleUrls: ["./bulk-status-update-dialog.component.scss"],
 })
 export class BulkStatusUpdateComponent implements OnInit {
   public form: FormGroup = new FormGroup({});
@@ -27,7 +26,7 @@ export class BulkStatusUpdateComponent implements OnInit {
   private initForm(): void {
     this.form = this.formBuilder.group({
       status: [ReceiptStatus.RESOLVED, Validators.required],
-      comment: '',
+      comment: "",
     });
   }
 

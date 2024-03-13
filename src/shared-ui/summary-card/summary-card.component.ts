@@ -1,26 +1,21 @@
-import { switchMap, take, tap } from 'rxjs';
+import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { UntilDestroy } from "@ngneat/until-destroy";
+import { take, tap } from "rxjs";
+import { UserService } from "../../api";
 
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Store } from '@ngxs/store';
-import {
-  GroupState,
-  UserService,
-} from '@receipt-wrangler/receipt-wrangler-core';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-summary-card',
-  templateUrl: './summary-card.component.html',
-  styleUrls: ['./summary-card.component.scss'],
+  selector: "app-summary-card",
+  templateUrl: "./summary-card.component.html",
+  styleUrls: ["./summary-card.component.scss"],
 })
 export class SummaryCardComponent implements OnChanges {
   constructor(private userService: UserService) {}
 
-  @Input() public headerText: string = '';
+  @Input() public headerText: string = "";
 
-  @Input() public groupId: string | number = '';
+  @Input() public groupId: string | number = "";
 
   @Input() public receiptIds: number[] = [];
 
@@ -28,7 +23,7 @@ export class SummaryCardComponent implements OnChanges {
   public userOwesMap: Map<string, string> = new Map();
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['groupId'] || changes['receiptIds']) {
+    if (changes["groupId"] || changes["receiptIds"]) {
       this.buildOweMap();
     }
   }

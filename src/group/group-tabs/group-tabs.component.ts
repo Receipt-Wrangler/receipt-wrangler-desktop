@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { FeatureConfigState } from '@receipt-wrangler/receipt-wrangler-core';
-import { TabConfig } from 'src/shared-ui/tabs/tab-config.interface';
+import { Component } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { TabConfig } from "src/shared-ui/tabs/tab-config.interface";
+import { FeatureConfigState } from "../../store";
 
 @Component({
-  selector: 'app-group-tabs',
-  templateUrl: './group-tabs.component.html',
-  styleUrls: ['./group-tabs.component.scss'],
+  selector: "app-group-tabs",
+  templateUrl: "./group-tabs.component.html",
+  styleUrls: ["./group-tabs.component.scss"],
 })
 export class GroupTabsComponent {
   public tabs: TabConfig[] = [];
 
-  public activeLInk: string = '';
+  public activeLInk: string = "";
 
   public ngOnInit(): void {
     this.initTabs();
@@ -22,18 +22,18 @@ export class GroupTabsComponent {
   private initTabs(): void {
     this.tabs = [
       {
-        label: 'Group Details',
-        routerLink: 'details/view',
+        label: "Group Details",
+        routerLink: "details/view",
       },
     ];
 
     const hasAiPoweredReceipts = this.store.selectSnapshot(
-      FeatureConfigState.hasFeature('aiPoweredReceipts')
+      FeatureConfigState.hasFeature("aiPoweredReceipts")
     );
     if (hasAiPoweredReceipts) {
       this.tabs.push({
-        label: 'Group Settings',
-        routerLink: 'settings/view',
+        label: "Group Settings",
+        routerLink: "settings/view",
       });
     }
   }

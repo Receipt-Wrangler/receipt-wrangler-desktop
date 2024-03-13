@@ -1,28 +1,20 @@
-import { RadioButtonData } from 'src/radio-group/models';
-
-import { Component, Input, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Item, Receipt, User } from '@receipt-wrangler/receipt-wrangler-core';
-
-import { buildItemForm } from '../utils/form.utils';
+import { Component, Input, OnInit } from "@angular/core";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { RadioButtonData } from "src/radio-group/models";
+import { Item, Receipt, User } from "../../api";
+import { buildItemForm } from "../utils/form.utils";
 
 enum QuickActions {
-  'SplitEvenly' = 'Split Evenly',
-  'SplitEvenlyWithOptionalParts' = 'Split Evenly With Portions',
+  "SplitEvenly" = "Split Evenly",
+  "SplitEvenlyWithOptionalParts" = "Split Evenly With Portions",
 }
 
 @Component({
-  selector: 'app-quick-actions-dialog',
-  templateUrl: './quick-actions-dialog.component.html',
-  styleUrls: ['./quick-actions-dialog.component.scss'],
+  selector: "app-quick-actions-dialog",
+  templateUrl: "./quick-actions-dialog.component.html",
+  styleUrls: ["./quick-actions-dialog.component.scss"],
 })
 export class QuickActionsDialogComponent implements OnInit {
   @Input() public originalReceipt?: Receipt;
@@ -45,11 +37,11 @@ export class QuickActionsDialogComponent implements OnInit {
   public quickActionsEnum = QuickActions;
 
   private get usersFormArray(): FormArray {
-    return this.localForm.get('usersToSplit') as FormArray;
+    return this.localForm.get("usersToSplit") as FormArray;
   }
 
   private get receiptItems(): FormArray {
-    return this.parentForm.get('receiptItems') as FormArray;
+    return this.parentForm.get("receiptItems") as FormArray;
   }
 
   constructor(
@@ -72,28 +64,28 @@ export class QuickActionsDialogComponent implements OnInit {
 
   private listenForUserChanges(): void {
     this.localForm
-      .get('usersToSplit')
+      .get("usersToSplit")
       ?.valueChanges.subscribe((users: User[]) => {
-        users.forEach((u) => {
-          if (!this.localForm.get(u.id.toString())) {
-            this.localForm.addControl(u.id.toString(), new FormControl(1));
-          }
-        });
+      users.forEach((u) => {
+        if (!this.localForm.get(u.id.toString())) {
+          this.localForm.addControl(u.id.toString(), new FormControl(1));
+        }
       });
+    });
   }
 
   public addSplits(): void {
     const receiptAmount = Number.parseFloat(
-      this.parentForm.get('amount')?.value
+      this.parentForm.get("amount")?.value
     );
     if (receiptAmount < 0 || !receiptAmount) {
-      this.matSnackbar.open('Receipt amount does not exist or is invalid!');
+      this.matSnackbar.open("Receipt amount does not exist or is invalid!");
       return;
     }
 
     if (this.localForm.valid) {
       if (
-        this.localForm.get('quickAction')?.value === this.radioValues[0].value
+        this.localForm.get("quickAction")?.value === this.radioValues[0].value
       ) {
         this.addEvenSplitItems();
       } else {
@@ -106,7 +98,7 @@ export class QuickActionsDialogComponent implements OnInit {
   private addEvenSplitItems(amount?: number): void {
     const users: User[] = this.usersFormArray.controls.map((c) => c.value);
     const receiptAmount =
-      amount ?? Number.parseFloat(this.parentForm.get('amount')?.value ?? 1);
+      amount ?? Number.parseFloat(this.parentForm.get("amount")?.value ?? 1);
 
     users.forEach((u) => {
       const item = this.buildSplitItem(
@@ -124,7 +116,7 @@ export class QuickActionsDialogComponent implements OnInit {
   }
 
   private splitEvenlyWithOptionalParts(): void {
-    let amount = Number.parseFloat(this.parentForm.get('amount')?.value);
+    let amount = Number.parseFloat(this.parentForm.get("amount")?.value);
     const users: User[] = this.usersFormArray.value;
 
     // Build optional parts first

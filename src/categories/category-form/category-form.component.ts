@@ -1,22 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import {
-  Category,
-  CategoryService,
-  CategoryView,
-  SnackbarService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { of, take, tap } from 'rxjs';
-import { DuplicateValidator } from 'src/validators/duplicate-validator';
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { take, tap } from "rxjs";
+import { DuplicateValidator } from "src/validators/duplicate-validator";
+import { Category, CategoryService, CategoryView } from "../../api";
+import { SnackbarService } from "../../services";
 
 @Component({
-  selector: 'app-category-form',
-  templateUrl: './category-form.component.html',
-  styleUrls: ['./category-form.component.scss'],
+  selector: "app-category-form",
+  templateUrl: "./category-form.component.html",
+  styleUrls: ["./category-form.component.scss"],
 })
 export class CategoryForm implements OnInit {
-  @Input() public headerText: string = '';
+  @Input() public headerText: string = "";
 
   @Input() public category?: CategoryView;
 
@@ -35,12 +31,12 @@ export class CategoryForm implements OnInit {
   }
 
   private initForm(): void {
-    const name = this.category?.name ?? '';
+    const name = this.category?.name ?? "";
 
-    const nameValidator = this.duplicateValidator.isUnique('category', 0, name);
+    const nameValidator = this.duplicateValidator.isUnique("category", 0, name);
     this.form = this.formBuilder.group({
       name: [name, Validators.required, nameValidator],
-      description: [this.category?.description ?? ''],
+      description: [this.category?.description ?? ""],
     });
   }
 
@@ -56,7 +52,7 @@ export class CategoryForm implements OnInit {
         .pipe(
           take(1),
           tap(() => {
-            this.snackService.success('Category updated successfully');
+            this.snackService.success("Category updated successfully");
             this.matDialogRef.close(true);
           })
         )
@@ -67,7 +63,7 @@ export class CategoryForm implements OnInit {
         .pipe(
           take(1),
           tap(() => {
-            this.snackService.success('Category created successfully');
+            this.snackService.success("Category created successfully");
             this.matDialogRef.close(true);
           })
         )

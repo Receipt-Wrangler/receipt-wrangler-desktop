@@ -1,12 +1,3 @@
-import { startWith, take, tap } from "rxjs";
-import { DEFAULT_HOST_CLASS } from "src/constants";
-import { GROUP_STATUS_OPTIONS } from "src/constants/receipt-status-options";
-import { FormMode } from "src/enums/form-mode.enum";
-import { FormConfig } from "src/interfaces/form-config.interface";
-import { TableColumn } from "src/table/table-column.interface";
-import { TableComponent } from "src/table/table/table.component";
-import { SortByDisplayName } from "src/utils/sort-by-displayname";
-
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
@@ -15,33 +6,40 @@ import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
-import {
-  AddGroup, Group, GroupMember, GroupRole, GroupsService, GroupStatus, SnackbarService, UpdateGroup
-} from "@receipt-wrangler/receipt-wrangler-core";
-
+import { startWith, take, tap } from "rxjs";
+import { DEFAULT_HOST_CLASS } from "src/constants";
+import { GROUP_STATUS_OPTIONS } from "src/constants/receipt-status-options";
+import { FormMode } from "src/enums/form-mode.enum";
+import { FormConfig } from "src/interfaces/form-config.interface";
+import { TableColumn } from "src/table/table-column.interface";
+import { TableComponent } from "src/table/table/table.component";
+import { SortByDisplayName } from "src/utils/sort-by-displayname";
+import { Group, GroupMember, GroupRole, GroupsService, GroupStatus } from "../../api";
+import { SnackbarService } from "../../services";
+import { AddGroup, UpdateGroup } from "../../store";
 import { GroupMemberFormComponent } from "../group-member-form/group-member-form.component";
 import { buildGroupMemberForm } from "../utils/group-member.utils";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-create-group-form',
-  templateUrl: './group-form.component.html',
-  styleUrls: ['./group-form.component.scss'],
+  selector: "app-create-group-form",
+  templateUrl: "./group-form.component.html",
+  styleUrls: ["./group-form.component.scss"],
   host: DEFAULT_HOST_CLASS,
 })
 export class GroupFormComponent implements OnInit, AfterViewInit {
-  @ViewChild('nameCell') public nameCell!: TemplateRef<any>;
+  @ViewChild("nameCell") public nameCell!: TemplateRef<any>;
 
-  @ViewChild('groupRoleCell') public groupRoleCell!: TemplateRef<any>;
+  @ViewChild("groupRoleCell") public groupRoleCell!: TemplateRef<any>;
 
-  @ViewChild('actionsCell') public actionsCell!: TemplateRef<any>;
+  @ViewChild("actionsCell") public actionsCell!: TemplateRef<any>;
 
   @ViewChild(TableComponent) public table!: TableComponent;
 
   public form: FormGroup = new FormGroup({});
 
   public get groupMembers(): FormArray {
-    return this.form.get('groupMembers') as FormArray;
+    return this.form.get("groupMembers") as FormArray;
   }
 
   public formConfig!: FormConfig;
@@ -54,7 +52,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
 
   public disableDeleteButton: boolean = false;
 
-  public editLink: string = '';
+  public editLink: string = "";
 
   public groupRole = GroupRole;
 
@@ -75,8 +73,8 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
   ) {}
 
   public ngOnInit(): void {
-    this.originalGroup = this.activatedRoute.snapshot.data['group'];
-    this.formConfig = this.activatedRoute.snapshot.data['formConfig'];
+    this.originalGroup = this.activatedRoute.snapshot.data["group"];
+    this.formConfig = this.activatedRoute.snapshot.data["formConfig"];
     if (this.originalGroup) {
       this.editLink = `/groups/${this.originalGroup.id}/details/edit`;
     }
@@ -107,28 +105,28 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
   private setColumns(): void {
     this.columns = [
       {
-        columnHeader: 'Name',
-        matColumnDef: 'name',
+        columnHeader: "Name",
+        matColumnDef: "name",
         template: this.nameCell,
         sortable: true,
       },
       {
-        columnHeader: 'Group Role',
-        matColumnDef: 'groupRole',
+        columnHeader: "Group Role",
+        matColumnDef: "groupRole",
         template: this.groupRoleCell,
         sortable: true,
       },
       {
-        columnHeader: 'Actions',
-        matColumnDef: 'actions',
+        columnHeader: "Actions",
+        matColumnDef: "actions",
         template: this.actionsCell,
         sortable: true,
       },
     ];
-    this.displayedColumns = ['name', 'groupRole'];
+    this.displayedColumns = ["name", "groupRole"];
 
     if (this.formConfig.mode !== FormMode.view) {
-      this.displayedColumns.push('actions');
+      this.displayedColumns.push("actions");
     }
   }
 
@@ -140,8 +138,8 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
   }
 
   public sortName(sortState: Sort): void {
-    if (sortState.active === 'name') {
-      if (sortState.direction === '') {
+    if (sortState.active === "name") {
+      if (sortState.direction === "") {
         this.dataSource.data = this.groupMembers.value;
         return;
       }
@@ -149,7 +147,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
       const newData = this.sortByDisplayName.sort(
         this.dataSource.data,
         sortState,
-        'userId'
+        "userId"
       );
 
       this.dataSource.data = newData;
@@ -164,7 +162,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
       );
     }
     this.form = this.formBuilder.group({
-      name: [this.originalGroup?.name ?? '', Validators.required],
+      name: [this.originalGroup?.name ?? "", Validators.required],
       groupMembers: this.formBuilder.array(groupMembers),
       status: this.originalGroup?.status ?? GroupStatus.ACTIVE,
     });
@@ -184,7 +182,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
     const dialogRef = this.matDialog.open(GroupMemberFormComponent);
 
     dialogRef.componentInstance.currentGroupMembers = this.groupMembers.value;
-    dialogRef.componentInstance.headerText = 'Add Group Member';
+    dialogRef.componentInstance.headerText = "Add Group Member";
 
     dialogRef
       .afterClosed()
@@ -202,7 +200,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
 
     dialogRef.componentInstance.currentGroupMembers = this.groupMembers.value;
     dialogRef.componentInstance.groupMember = groupMember;
-    dialogRef.componentInstance.headerText = 'Edit Group Member';
+    dialogRef.componentInstance.headerText = "Edit Group Member";
 
     dialogRef
       .afterClosed()
@@ -224,7 +222,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
         (gm) => gm.groupRole === GroupRole.OWNER
       );
       if (owners.length === 0 && this.formConfig.mode !== FormMode.add) {
-        this.snackbarService.error('Group must have at least one owner!');
+        this.snackbarService.error("Group must have at least one owner!");
         return;
       }
       switch (this.formConfig.mode) {
@@ -248,7 +246,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap(() => {
-          this.snackbarService.success('Group successfully created');
+          this.snackbarService.success("Group successfully created");
         }),
         tap((group: Group) => {
           this.store.dispatch(new AddGroup(group));
@@ -264,7 +262,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((group: Group) => {
-          this.snackbarService.success('Group successfully updated');
+          this.snackbarService.success("Group successfully updated");
           this.store.dispatch(new UpdateGroup(group));
           this.router.navigateByUrl(`/groups/${this.originalGroup?.id}/view`);
         })

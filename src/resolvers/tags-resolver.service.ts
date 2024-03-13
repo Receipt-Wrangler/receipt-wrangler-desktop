@@ -1,11 +1,10 @@
-import { Observable } from 'rxjs';
-
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Tag, TagService } from '@receipt-wrangler/receipt-wrangler-core';
+import { Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+import { Observable } from "rxjs";
+import { Tag, TagService } from "../api";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class TagsResolverService {
   constructor(private tagService: TagService) {}

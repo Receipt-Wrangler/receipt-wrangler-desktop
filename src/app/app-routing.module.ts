@@ -1,77 +1,76 @@
-import { AuthGuard } from "src/guards/auth.guard";
-import { SidebarComponent } from "src/layout/sidebar/sidebar.component";
-
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { UserRole } from "@receipt-wrangler/receipt-wrangler-core";
+import { AuthGuard } from "src/guards/auth.guard";
+import { SidebarComponent } from "src/layout/sidebar/sidebar.component";
+import { UserRole } from "../api";
 
 // set up dashboard
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: SidebarComponent,
     children: [
       {
-        path: 'auth',
+        path: "auth",
         loadChildren: () =>
-          import('@receipt-wrangler/receipt-wrangler-core').then(
+          import("../auth").then(
             (m) => m.AuthModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: 'dashboard',
+        path: "dashboard",
         loadChildren: () =>
-          import('../dashboard/dashboard.module').then(
+          import("../dashboard/dashboard.module").then(
             (m) => m.DashboardModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: 'categories',
+        path: "categories",
         loadChildren: () =>
-          import('../categories/categories.module').then(
+          import("../categories/categories.module").then(
             (m) => m.CategoriesModule
           ),
         canActivate: [AuthGuard],
       },
       {
-        path: 'tags',
+        path: "tags",
         loadChildren: () =>
-          import('../tags/tags.module').then((m) => m.TagsModule),
+          import("../tags/tags.module").then((m) => m.TagsModule),
         canActivate: [AuthGuard],
       },
       {
-        path: 'groups',
+        path: "groups",
         loadChildren: () =>
-          import('../group/group.module').then((m) => m.GroupsModule),
+          import("../group/group.module").then((m) => m.GroupsModule),
         canActivate: [AuthGuard],
       },
       {
-        path: 'receipts',
+        path: "receipts",
         loadChildren: () =>
-          import('../receipts/receipts.module').then((m) => m.ReceiptsModule),
+          import("../receipts/receipts.module").then((m) => m.ReceiptsModule),
         canActivate: [AuthGuard],
       },
       {
-        path: 'settings',
+        path: "settings",
         loadChildren: () =>
-          import('../settings/settings.module').then((m) => m.SettingsModule),
+          import("../settings/settings.module").then((m) => m.SettingsModule),
         canActivate: [AuthGuard],
       },
       {
-        path: 'users',
+        path: "users",
         loadChildren: () =>
-          import('../user/user.module').then((m) => m.UserModule),
+          import("../user/user.module").then((m) => m.UserModule),
         canActivate: [AuthGuard],
         data: {
           role: UserRole.ADMIN,
         },
       },
       {
-        path: '',
-        redirectTo: '/auth/login',
-        pathMatch: 'full',
+        path: "",
+        redirectTo: "/auth/login",
+        pathMatch: "full",
       },
     ],
   },

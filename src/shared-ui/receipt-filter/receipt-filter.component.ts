@@ -1,42 +1,20 @@
-import { forkJoin, take, tap } from 'rxjs';
-import { RECEIPT_STATUS_OPTIONS } from 'src/constants';
-import { SetReceiptFilter } from 'src/store/receipt-table.actions';
-import {
-  ReceiptTableState,
-  defaultReceiptFilter,
-} from 'src/store/receipt-table.state';
-
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  TemplateRef,
-} from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormGroup,
-} from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Store } from '@ngxs/store';
-import {
-  Category,
-  CategoryService,
-  ReceiptPagedRequestFilter,
-  Tag,
-  TagService,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, } from "@angular/core";
+import { AbstractControl, FormArray, FormBuilder, FormGroup, } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { Store } from "@ngxs/store";
+import { forkJoin, take, tap } from "rxjs";
+import { RECEIPT_STATUS_OPTIONS } from "src/constants";
+import { SetReceiptFilter } from "src/store/receipt-table.actions";
+import { defaultReceiptFilter, ReceiptTableState, } from "src/store/receipt-table.state";
+import { Category, CategoryService, ReceiptPagedRequestFilter, Tag, TagService } from "../../api";
 
 @Component({
-  selector: 'app-receipt-filter',
-  templateUrl: './receipt-filter.component.html',
-  styleUrls: ['./receipt-filter.component.scss'],
+  selector: "app-receipt-filter",
+  templateUrl: "./receipt-filter.component.html",
+  styleUrls: ["./receipt-filter.component.scss"],
 })
 export class ReceiptFilterComponent implements OnInit {
-  @Input() public headerText: string = '';
+  @Input() public headerText: string = "";
 
   @Input() public footerTemplate?: TemplateRef<any>;
 
@@ -145,17 +123,17 @@ export class ReceiptFilterComponent implements OnInit {
     }
 
     return this.formBuilder.group({
-      operation: operation ?? '',
+      operation: operation ?? "",
       value: control,
     });
   }
 
   public resetFilter(): void {
     this.form.patchValue(defaultReceiptFilter);
-    (this.form.get('paidBy.value') as FormArray).clear();
-    (this.form.get('categories.value') as FormArray).clear();
-    (this.form.get('tags.value') as FormArray).clear();
-    (this.form.get('status.value') as FormArray).clear();
+    (this.form.get("paidBy.value") as FormArray).clear();
+    (this.form.get("categories.value") as FormArray).clear();
+    (this.form.get("tags.value") as FormArray).clear();
+    (this.form.get("status.value") as FormArray).clear();
   }
 
   public submitButtonClicked(): void {

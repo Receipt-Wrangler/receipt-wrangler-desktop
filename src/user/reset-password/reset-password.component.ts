@@ -1,17 +1,14 @@
-import { take, tap } from 'rxjs';
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import {
-  SnackbarService,
-  User,
-  UserService,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { take, tap } from "rxjs";
+import { User, UserService } from "../../api";
+import { SnackbarService } from "../../services";
 
 @Component({
-  selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss'],
+  selector: "app-reset-password",
+  templateUrl: "./reset-password.component.html",
+  styleUrls: ["./reset-password.component.scss"],
 })
 export class ResetPasswordComponent implements OnInit {
   @Input() public user!: User;
@@ -31,7 +28,7 @@ export class ResetPasswordComponent implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      password: ['', Validators.required],
+      password: ["", Validators.required],
     });
   }
 
@@ -42,7 +39,7 @@ export class ResetPasswordComponent implements OnInit {
         .pipe(
           take(1),
           tap(() => {
-            this.snackbarService.success('Password successfully set');
+            this.snackbarService.success("Password successfully set");
             this.matDialogRef.close();
           })
         )

@@ -1,15 +1,11 @@
-import { take, tap } from 'rxjs';
-
-import { Component, OnInit } from '@angular/core';
-import {
-  Notification,
-  NotificationsService,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { Component, OnInit } from "@angular/core";
+import { take, tap } from "rxjs";
+import { Notification, NotificationsService } from "../../api";
 
 @Component({
-  selector: 'app-notifications-list',
-  templateUrl: './notifications-list.component.html',
-  styleUrls: ['./notifications-list.component.scss'],
+  selector: "app-notifications-list",
+  templateUrl: "./notifications-list.component.html",
+  styleUrls: ["./notifications-list.component.scss"],
 })
 export class NotificationsListComponent implements OnInit {
   public notifications: Notification[] = [];

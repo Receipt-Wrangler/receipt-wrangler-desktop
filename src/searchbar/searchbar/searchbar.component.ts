@@ -1,25 +1,21 @@
-import { of, switchMap, take, tap } from 'rxjs';
-
-import { Component, ViewEncapsulation } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import {
-  SearchResult,
-  SearchService,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { Component, ViewEncapsulation } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { of, switchMap, take, tap } from "rxjs";
+import { SearchResult, SearchService } from "../../api";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-searchbar',
-  templateUrl: './searchbar.component.html',
-  styleUrls: ['./searchbar.component.scss'],
+  selector: "app-searchbar",
+  templateUrl: "./searchbar.component.html",
+  styleUrls: ["./searchbar.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
 export class SearchbarComponent {
   public results: SearchResult[] = [];
 
-  public searchFormControl = new FormControl('');
+  public searchFormControl = new FormControl("");
 
   public displayWith = (searchResult: SearchResult) => {
     return searchResult?.name;
@@ -33,7 +29,7 @@ export class SearchbarComponent {
         untilDestroyed(this),
         switchMap((value) =>
           value
-            ? this.searchService.receiptSearch(value ?? '').pipe(take(1))
+            ? this.searchService.receiptSearch(value ?? "").pipe(take(1))
             : of([] as SearchResult[])
         ),
         tap((results) => {
@@ -45,7 +41,7 @@ export class SearchbarComponent {
 
   public navigateToResult(result: SearchResult) {
     switch (result.type) {
-      case 'Receipt':
+      case "Receipt":
         this.router.navigateByUrl(`/receipts/${result.id}/view`);
         break;
     }

@@ -1,29 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import {
-  AppData,
-  AuthState,
-  FeatureConfigService,
-  SetAuthState,
-  SetFeatureConfig,
-  SetGroups,
-  SetUserPreferences,
-  SetUsers,
-  SnackbarService,
-  UserService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import {
-  catchError,
-  defer,
-  firstValueFrom,
-  forkJoin,
-  map,
-  switchMap,
-} from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { catchError, defer, firstValueFrom, forkJoin, map, switchMap, } from "rxjs";
+import { AppData, FeatureConfigService, UserService } from "../api";
+import { AuthState, SetAuthState, SetFeatureConfig, SetGroups, SetUserPreferences, SetUsers } from "../store";
+import { SnackbarService } from "./snackbar.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AppDataService {
   constructor(
@@ -52,7 +35,7 @@ export class AppDataService {
           }),
           map(() => true),
           catchError(() => {
-            this.snackbarService.error('Failed to load app data');
+            this.snackbarService.error("Failed to load app data");
             return defer(() => Promise.resolve(false));
           })
         )
@@ -65,7 +48,7 @@ export class AppDataService {
           ),
           map(() => true),
           catchError(() => {
-            this.snackbarService.error('Failed to reach server');
+            this.snackbarService.error("Failed to reach server");
             return defer(() => Promise.resolve(false));
           })
         )

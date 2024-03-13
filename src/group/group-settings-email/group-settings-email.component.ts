@@ -1,38 +1,20 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import {
-  Group,
-  GroupSettingsWhiteListEmail,
-  SubjectLineRegex,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { startWith, tap } from 'rxjs';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { BaseFormComponent, FormCommand } from 'src/form';
-import { FormListComponent } from 'src/shared-ui/form-list/form-list.component';
+import { Component, Input, OnInit, QueryList, ViewChildren, } from "@angular/core";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { startWith, tap } from "rxjs";
+import { FormMode } from "src/enums/form-mode.enum";
+import { BaseFormComponent, FormCommand } from "src/form";
+import { FormListComponent } from "src/shared-ui/form-list/form-list.component";
+import { Group, GroupSettingsWhiteListEmail, SubjectLineRegex } from "../../api";
 
 @Component({
-  selector: 'app-group-settings-email',
-  templateUrl: './group-settings-email.component.html',
-  styleUrls: ['./group-settings-email.component.scss'],
+  selector: "app-group-settings-email",
+  templateUrl: "./group-settings-email.component.html",
+  styleUrls: ["./group-settings-email.component.scss"],
 })
 export class GroupSettingsEmailComponent
   extends BaseFormComponent
-  implements OnInit
-{
+  implements OnInit {
   @Input() public override form: FormGroup = new FormGroup({});
 
   @ViewChildren(FormListComponent)
@@ -52,15 +34,15 @@ export class GroupSettingsEmailComponent
   }
 
   public get subjectLineRegexes(): FormArray {
-    return this.form.get('subjectLineRegexes') as FormArray;
+    return this.form.get("subjectLineRegexes") as FormArray;
   }
 
   public get emailWhiteList(): FormArray {
-    return this.form.get('emailWhiteList') as FormArray;
+    return this.form.get("emailWhiteList") as FormArray;
   }
 
   public ngOnInit(): void {
-    this.group = this.activatedRoute.snapshot.data['group'];
+    this.group = this.activatedRoute.snapshot.data["group"];
     this.setFormConfigFromRoute(this.activatedRoute);
     this.initForm();
   }
@@ -70,12 +52,12 @@ export class GroupSettingsEmailComponent
     this.addValidators();
     this.listenForEnableEmailIntegrationChanges();
     if (this.formConfig.mode === FormMode.view) {
-      this.form.get('emailIntegrationEnabled')?.disable();
+      this.form.get("emailIntegrationEnabled")?.disable();
     }
   }
 
   private listenForEnableEmailIntegrationChanges(): void {
-    const control = this.form.get('emailIntegrationEnabled');
+    const control = this.form.get("emailIntegrationEnabled");
 
     control?.valueChanges
       .pipe(
@@ -83,76 +65,76 @@ export class GroupSettingsEmailComponent
         tap((enabled) => {
           if (enabled) {
             this.emitFormCommand({
-              path: 'emailToRead',
-              command: 'addValidators',
+              path: "emailToRead",
+              command: "addValidators",
               payload: [Validators.required],
             });
             this.emitFormCommand({
-              path: 'emailDefaultReceiptStatus',
-              command: 'addValidators',
+              path: "emailDefaultReceiptStatus",
+              command: "addValidators",
               payload: [Validators.required],
             });
             this.emitFormCommand({
-              path: 'emailDefaultReceiptPaidById',
-              command: 'addValidators',
+              path: "emailDefaultReceiptPaidById",
+              command: "addValidators",
               payload: [Validators.required],
             });
           } else {
             this.emitFormCommand({
-              path: 'emailToRead',
-              command: 'removeValidators',
+              path: "emailToRead",
+              command: "removeValidators",
               payload: [Validators.required],
             });
             this.emitFormCommand({
-              path: 'emailDefaultReceiptStatus',
-              command: 'removeValidators',
+              path: "emailDefaultReceiptStatus",
+              command: "removeValidators",
               payload: [Validators.required],
             });
             this.emitFormCommand({
-              path: 'emailDefaultReceiptPaidById',
-              command: 'removeValidators',
+              path: "emailDefaultReceiptPaidById",
+              command: "removeValidators",
               payload: [Validators.required],
             });
 
             const errors = control.errors;
 
-            if (errors?.['required']) {
-              delete errors['required'];
+            if (errors?.["required"]) {
+              delete errors["required"];
             }
 
             this.emitFormCommand({
-              path: 'emailToRead',
-              command: 'setErrors',
+              path: "emailToRead",
+              command: "setErrors",
               payload: {
                 required: null,
               },
             });
             this.emitFormCommand({
-              path: 'emailDefaultReceiptStatus',
-              command: 'setErrors',
+              path: "emailDefaultReceiptStatus",
+              command: "setErrors",
               payload: {
                 required: null,
               },
             });
             this.emitFormCommand({
-              path: 'emailDefaultReceiptPaidById',
-              command: 'setErrors',
+              path: "emailDefaultReceiptPaidById",
+              command: "setErrors",
               payload: {
                 required: null,
               },
             });
           }
           this.emitFormCommand({
-            path: 'emailToRead',
-            command: 'updateValueAndValidity',
+            path: "emailToRead",
+            command: "updateValueAndValidity",
           });
           this.emitFormCommand({
-            path: 'emailDefaultReceiptStatus',
-            command: 'updateValueAndValidity',
+            path: "emailDefaultReceiptStatus",
+            command: "updateValueAndValidity",
           });
           this.emitFormCommand({
-            path: 'emailDefaultReceiptPaidById',
-            command: 'updateValueAndValidity',
+            path: "emailDefaultReceiptPaidById",
+            command: "updateValueAndValidity",
           });
         })
       )
@@ -161,35 +143,35 @@ export class GroupSettingsEmailComponent
 
   private addValidators(): void {
     this.emitFormCommand({
-      path: 'emailToRead',
-      command: 'addValidators',
+      path: "emailToRead",
+      command: "addValidators",
       payload: [Validators.email],
     });
   }
 
   private setInitialValues(): void {
     this.emitFormCommand({
-      path: 'emailIntegrationEnabled',
-      command: 'patchValue',
+      path: "emailIntegrationEnabled",
+      command: "patchValue",
       payload: this.group?.groupSettings?.emailIntegrationEnabled,
     });
 
     const formCommand: FormCommand = {
-      path: 'emailToRead',
-      command: 'patchValue',
+      path: "emailToRead",
+      command: "patchValue",
       payload: this.group?.groupSettings?.emailToRead,
     };
     this.emitFormCommand(formCommand);
 
     this.emitFormCommand({
-      path: 'emailDefaultReceiptStatus',
-      command: 'patchValue',
+      path: "emailDefaultReceiptStatus",
+      command: "patchValue",
       payload: this.group?.groupSettings?.emailDefaultReceiptStatus,
     });
 
     this.emitFormCommand({
-      path: 'emailDefaultReceiptPaidById',
-      command: 'patchValue',
+      path: "emailDefaultReceiptPaidById",
+      command: "patchValue",
       payload: this.group?.groupSettings?.emailDefaultReceiptPaidById,
     });
 
@@ -199,8 +181,8 @@ export class GroupSettingsEmailComponent
 
     groupSettingsEmails.forEach((groupSettingsEmail) => {
       this.emitFormCommand({
-        path: 'emailWhiteList',
-        command: 'push',
+        path: "emailWhiteList",
+        command: "push",
         payload: groupSettingsEmail,
       });
     });
@@ -211,8 +193,8 @@ export class GroupSettingsEmailComponent
 
     subjectLineRegexes.forEach((regex) => {
       this.emitFormCommand({
-        path: 'subjectLineRegexes',
-        command: 'push',
+        path: "subjectLineRegexes",
+        command: "push",
         payload: regex,
       });
     });
@@ -231,14 +213,14 @@ export class GroupSettingsEmailComponent
 
   private buildSubjectLineRegexes(regex?: SubjectLineRegex): FormGroup {
     return this.formBuidler.group({
-      regex: new FormControl(regex?.regex ?? '', [Validators.required]),
+      regex: new FormControl(regex?.regex ?? "", [Validators.required]),
     });
   }
 
   public addSubjectLineRegex(): void {
     this.emitFormCommand({
-      path: 'subjectLineRegexes',
-      command: 'push',
+      path: "subjectLineRegexes",
+      command: "push",
       payload: this.buildSubjectLineRegexes(),
     });
   }
@@ -252,8 +234,8 @@ export class GroupSettingsEmailComponent
   public subjectLineItemCancelButtonClicked(): void {
     const lastIndex = this.subjectLineRegexes.length - 1;
     const formCommand: FormCommand = {
-      path: 'subjectLineRegexes',
-      command: 'removeAt',
+      path: "subjectLineRegexes",
+      command: "removeAt",
       payload: lastIndex,
     };
     this.emitFormCommand(formCommand);
@@ -261,8 +243,8 @@ export class GroupSettingsEmailComponent
 
   public subjectLineItemDeleteButtonClicked(index: number): void {
     const formCommand: FormCommand = {
-      path: 'subjectLineRegexes',
-      command: 'removeAt',
+      path: "subjectLineRegexes",
+      command: "removeAt",
       payload: index,
     };
     this.emitFormCommand(formCommand);
@@ -270,8 +252,8 @@ export class GroupSettingsEmailComponent
 
   public addEmailWhiteList(): void {
     this.emitFormCommand({
-      path: 'emailWhiteList',
-      command: 'push',
+      path: "emailWhiteList",
+      command: "push",
       payload: this.buildGroupSettingsEmail(),
     });
   }
@@ -279,8 +261,8 @@ export class GroupSettingsEmailComponent
   public emailWhiteListItemCancelButtonClicked(): void {
     const lastIndex = this.emailWhiteList.length - 1;
     const formCommand: FormCommand = {
-      path: 'emailWhiteList',
-      command: 'removeAt',
+      path: "emailWhiteList",
+      command: "removeAt",
       payload: lastIndex,
     };
     this.emitFormCommand(formCommand);
@@ -288,8 +270,8 @@ export class GroupSettingsEmailComponent
 
   public emailWhiteListItemDeleteButtonClicked(index: number): void {
     const formCommand: FormCommand = {
-      path: 'emailWhiteList',
-      command: 'removeAt',
+      path: "emailWhiteList",
+      command: "removeAt",
       payload: index,
     };
     this.emitFormCommand(formCommand);

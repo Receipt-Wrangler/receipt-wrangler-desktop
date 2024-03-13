@@ -1,21 +1,20 @@
-import { Observable, tap } from "rxjs";
-import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
-import { DashboardState } from "src/store/dashboard.state";
-
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
-import { Dashboard, GroupState, WidgetType } from "@receipt-wrangler/receipt-wrangler-core";
-
+import { Observable, tap } from "rxjs";
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
+import { DashboardState } from "src/store/dashboard.state";
+import { Dashboard, WidgetType } from "../../api";
+import { GroupState } from "../../store";
 import { DashboardFormComponent } from "../dashboard-form/dashboard-form.component";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: "app-dashboard",
+  templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.scss"],
   host: DEFAULT_HOST_CLASS,
 })
 export class DashboardComponent implements OnInit {
@@ -82,6 +81,6 @@ export class DashboardComponent implements OnInit {
 
     dialogRef.componentInstance.headerText = dashboard
       ? `Edit Dashboard ${dashboard.name}`
-      : 'Add a dashboard';
+      : "Add a dashboard";
   }
 }

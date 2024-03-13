@@ -1,32 +1,29 @@
+import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { take, tap } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
-
-import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
-import {
-  ReceiptFileUploadCommand, ReceiptImageService
-} from "@receipt-wrangler/receipt-wrangler-core";
+import { ReceiptFileUploadCommand, ReceiptImageService } from "../../api";
 
 @Component({
-  selector: 'app-upload-image',
-  templateUrl: './upload-image.component.html',
-  styleUrls: ['./upload-image.component.scss'],
+  selector: "app-upload-image",
+  templateUrl: "./upload-image.component.html",
+  styleUrls: ["./upload-image.component.scss"],
 })
 export class UploadImageComponent {
-  @Input() public receiptId?: string = '';
+  @Input() public receiptId?: string = "";
 
   @Input() public multiple: boolean = true;
 
   @Output() public fileLoaded: EventEmitter<ReceiptFileUploadCommand> =
     new EventEmitter();
 
-  @ViewChild('uploadInput') uploadInput!: any;
+  @ViewChild("uploadInput") uploadInput!: any;
 
   public formMode = FormMode;
 
   public acceptFileTypes: string[] = [
-    'image/*',
-    'application/pdf',
-    'image/heic',
+    "image/*",
+    "application/pdf",
+    "image/heic",
   ];
 
   constructor(private receiptImageService: ReceiptImageService) {}
@@ -51,7 +48,7 @@ export class UploadImageComponent {
           receiptId: Number(this.receiptId),
         };
 
-        if (f.type === 'application/pdf' || f.type === 'image/heic') {
+        if (f.type === "application/pdf" || f.type === "image/heic") {
           this.receiptImageService
             .convertToJpgForm(f)
             .pipe(

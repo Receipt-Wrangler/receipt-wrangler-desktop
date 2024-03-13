@@ -1,22 +1,13 @@
-import { catchError, Observable, switchMap, take, throwError } from 'rxjs';
-import {
-  HttpErrorResponse,
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest,
-  HttpStatusCode,
-} from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
-import {
-  AuthService,
-  AuthState,
-  SnackbarService,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpStatusCode, } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { catchError, Observable, switchMap, take, throwError } from "rxjs";
+import { AuthService } from "../api";
+import { SnackbarService } from "../services";
+import { AuthState } from "../store";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class HttpInterceptorService implements HttpInterceptor {
   constructor(
@@ -32,11 +23,11 @@ export class HttpInterceptorService implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((e: HttpErrorResponse) => {
         const isLoggedIn = this.store.selectSnapshot(AuthState.isLoggedIn);
-        if (!isLoggedIn && req.url.includes('token')) {
+        if (!isLoggedIn && req.url.includes("token")) {
           return next.handle(req);
         }
 
-        const regex = new RegExp('5d{2}');
+        const regex = new RegExp("5d{2}");
         if (e.error?.errorMsg) {
           this.snackbarService.error(e.error?.errorMsg);
         }

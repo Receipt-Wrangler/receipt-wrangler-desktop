@@ -1,20 +1,18 @@
-import { take } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
-import { EventType, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import {
-  AuthService,
-  AuthState,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { HideProgressBar } from 'src/store/layout.state.actions';
+import { Component, OnInit } from "@angular/core";
+import { EventType, Router } from "@angular/router";
+import { Store } from "@ngxs/store";
+import { take } from "rxjs";
+import { HideProgressBar } from "src/store/layout.state.actions";
+import { AuthService } from "../api";
+import { AuthState } from "../store";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
-  title = 'receipt-wrangler';
+  title = "receipt-wrangler";
 
   constructor(
     private authService: AuthService,

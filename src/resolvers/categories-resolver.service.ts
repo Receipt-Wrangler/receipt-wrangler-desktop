@@ -1,14 +1,10 @@
-import { Observable } from 'rxjs';
-
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import {
-  Category,
-  CategoryService,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+import { Observable } from "rxjs";
+import { Category, CategoryService } from "../api";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class CategoriesResolverService {
   constructor(private categoryService: CategoryService) {}
