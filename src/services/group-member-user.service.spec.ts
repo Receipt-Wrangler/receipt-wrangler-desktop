@@ -1,11 +1,9 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
+import { NgxsModule, Store } from "@ngxs/store";
+import { GroupState, UserState } from "../store";
+import { GroupMemberUserService } from "./group-member-user.service";
 
-import { GroupMemberUserService } from './group-member-user.service';
-import { StoreModule } from 'src/store/store.module';
-import { NgxsModule, Store } from '@ngxs/store';
-import { GroupState, UserState } from '@receipt-wrangler/receipt-wrangler-core';
-
-describe('GroupMemberUserService', () => {
+describe("GroupMemberUserService", () => {
   let service: GroupMemberUserService;
 
   beforeEach(() => {
@@ -15,11 +13,11 @@ describe('GroupMemberUserService', () => {
     service = TestBed.inject(GroupMemberUserService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get correct users in group', () => {
+  it("should get correct users in group", () => {
     const store = TestBed.inject(Store);
     store.reset({
       users: {
@@ -38,7 +36,7 @@ describe('GroupMemberUserService', () => {
       groups: {
         groups: [
           {
-            name: 'Group 1',
+            name: "Group 1",
             id: 1,
             groupMembers: [
               {
@@ -59,7 +57,7 @@ describe('GroupMemberUserService', () => {
       },
     });
 
-    const users = service.getUsersInGroup('1');
+    const users = service.getUsersInGroup("1");
     expect(users).toEqual([
       {
         id: 1,
@@ -73,7 +71,7 @@ describe('GroupMemberUserService', () => {
     ] as any);
   });
 
-  it('should return empty array if the group is invalid', () => {
+  it("should return empty array if the group is invalid", () => {
     const store = TestBed.inject(Store);
     store.reset({
       users: {},
@@ -82,7 +80,7 @@ describe('GroupMemberUserService', () => {
       },
     });
 
-    const users = service.getUsersInGroup('1');
+    const users = service.getUsersInGroup("1");
     expect(users).toEqual([]);
   });
 });

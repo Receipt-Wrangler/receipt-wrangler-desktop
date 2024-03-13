@@ -1,11 +1,9 @@
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 import { FormMode } from "src/enums/form-mode.enum";
 import { GroupRoleGuard } from "src/guards/group-role.guard";
 import { FormConfig } from "src/interfaces/form-config.interface";
-
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { GroupRole } from "@receipt-wrangler/receipt-wrangler-core";
-
+import { GroupRole } from "../api";
 import { GroupFormComponent } from "./group-form/group-form.component";
 import { GroupListComponent } from "./group-list/group-list.component";
 import { GroupSettingsComponent } from "./group-settings/group-settings.component";
@@ -14,21 +12,21 @@ import { GroupResolverService } from "./resolvers/group-resolver.service";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: GroupListComponent,
   },
   {
-    path: 'create',
+    path: "create",
     component: GroupFormComponent,
     data: {
       formConfig: {
         mode: FormMode.add,
-        headerText: 'Create Group',
+        headerText: "Create Group",
       } as FormConfig,
     },
   },
   {
-    path: ':id',
+    path: ":id",
     component: GroupTabsComponent,
     resolve: {
       group: GroupResolverService,
@@ -36,14 +34,14 @@ const routes: Routes = [
     data: {
       formConfig: {
         mode: FormMode.view,
-        headerText: 'View Group',
+        headerText: "View Group",
       } as FormConfig,
       groupRole: GroupRole.VIEWER,
     },
     canActivate: [GroupRoleGuard],
     children: [
       {
-        path: 'details/view',
+        path: "details/view",
         component: GroupFormComponent,
         resolve: {
           group: GroupResolverService,
@@ -51,16 +49,16 @@ const routes: Routes = [
         data: {
           formConfig: {
             mode: FormMode.view,
-            headerText: 'View Group',
+            headerText: "View Group",
           } as FormConfig,
           groupRole: GroupRole.VIEWER,
-          entityType: 'Details',
+          entityType: "Details",
           setHeaderText: true,
         },
         canActivate: [GroupRoleGuard],
       },
       {
-        path: 'details/edit',
+        path: "details/edit",
         component: GroupFormComponent,
         resolve: {
           group: GroupResolverService,
@@ -70,13 +68,13 @@ const routes: Routes = [
             mode: FormMode.edit,
           } as FormConfig,
           groupRole: GroupRole.OWNER,
-          entityType: 'Details',
+          entityType: "Details",
           setHeaderText: true,
         },
         canActivate: [GroupRoleGuard],
       },
       {
-        path: 'settings/view',
+        path: "settings/view",
         component: GroupSettingsComponent,
         resolve: {
           group: GroupResolverService,
@@ -86,13 +84,13 @@ const routes: Routes = [
             mode: FormMode.view,
           } as FormConfig,
           setHeaderText: true,
-          entityType: 'Settings',
+          entityType: "Settings",
           groupRole: GroupRole.OWNER,
         },
         canActivate: [GroupRoleGuard],
       },
       {
-        path: 'settings/edit',
+        path: "settings/edit",
         component: GroupSettingsComponent,
         resolve: {
           group: GroupResolverService,
@@ -102,7 +100,7 @@ const routes: Routes = [
             mode: FormMode.edit,
           } as FormConfig,
           setHeaderText: true,
-          entityType: 'Settings',
+          entityType: "Settings",
           groupRole: GroupRole.OWNER,
         },
         canActivate: [GroupRoleGuard],

@@ -1,24 +1,19 @@
-import { take, tap } from 'rxjs';
-import { DuplicateValidator } from 'src/validators/duplicate-validator';
-
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import {
-  SnackbarService,
-  TagService,
-  TagView,
-  UpsertTagCommand,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { take, tap } from "rxjs";
+import { DuplicateValidator } from "src/validators/duplicate-validator";
+import { TagService, TagView, UpsertTagCommand } from "../../api";
+import { SnackbarService } from "../../services";
 
 @Component({
-  selector: 'app-tag-form',
-  templateUrl: './tag-form.component.html',
-  styleUrls: ['./tag-form.component.scss'],
+  selector: "app-tag-form",
+  templateUrl: "./tag-form.component.html",
+  styleUrls: ["./tag-form.component.scss"],
   providers: [DuplicateValidator],
 })
 export class TagFormComponent implements OnInit {
-  @Input() public headerText: string = '';
+  @Input() public headerText: string = "";
 
   @Input() public tag?: TagView;
 
@@ -37,12 +32,12 @@ export class TagFormComponent implements OnInit {
   }
 
   private initForm(): void {
-    const name = this.tag?.name ?? '';
+    const name = this.tag?.name ?? "";
 
-    const nameValidator = this.duplicateValidator.isUnique('tag', 0, name);
+    const nameValidator = this.duplicateValidator.isUnique("tag", 0, name);
     this.form = this.formBuilder.group({
       name: [name, Validators.required, nameValidator],
-      description: [this.tag?.description ?? ''],
+      description: [this.tag?.description ?? ""],
     });
   }
 
@@ -57,7 +52,7 @@ export class TagFormComponent implements OnInit {
         .pipe(
           take(1),
           tap(() => {
-            this.snackService.success('Tag updated successfully');
+            this.snackService.success("Tag updated successfully");
             this.matDialogRef.close(true);
           })
         )
@@ -68,7 +63,7 @@ export class TagFormComponent implements OnInit {
         .pipe(
           take(1),
           tap(() => {
-            this.snackService.success('Tag created successfully');
+            this.snackService.success("Tag created successfully");
             this.matDialogRef.close(true);
           })
         )

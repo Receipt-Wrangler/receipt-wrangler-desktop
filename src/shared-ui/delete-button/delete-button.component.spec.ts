@@ -1,11 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatTableModule } from "@angular/material/table";
+import { ActivatedRoute } from "@angular/router";
+import { ButtonModule } from "../../button";
+import { DeleteButtonComponent } from "./delete-button.component";
 
-import { DeleteButtonComponent } from './delete-button.component';
-import { ButtonModule } from '@receipt-wrangler/receipt-wrangler-core';
-import { MatTableModule } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
-
-describe('DeleteButtonComponent', () => {
+describe("DeleteButtonComponent", () => {
   let component: DeleteButtonComponent;
   let fixture: ComponentFixture<DeleteButtonComponent>;
 
@@ -26,7 +25,7 @@ describe('DeleteButtonComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

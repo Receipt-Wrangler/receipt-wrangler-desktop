@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngxs/store";
-import { AuthState, GroupRole, GroupState } from "@receipt-wrangler/receipt-wrangler-core";
+import { GroupRole } from "../api";
+import { AuthState, GroupState } from "../store";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class GroupUtil {
   constructor(private store: Store) {}

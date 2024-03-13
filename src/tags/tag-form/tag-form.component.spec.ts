@@ -1,29 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatDialogModule, MatDialogRef, } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { of } from "rxjs";
+import { DuplicateValidator } from "src/validators/duplicate-validator";
+import { ApiModule, TagService, TagView } from "../../api";
+import { PipesModule } from "../../pipes";
+import { TagFormComponent } from "./tag-form.component";
 
-import { TagFormComponent } from './tag-form.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import {
-  ApiModule,
-  Category,
-  CategoryService,
-  CategoryView,
-  PipesModule,
-  TagService,
-  TagView,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ca } from 'date-fns/locale';
-import { of } from 'rxjs';
-import { DuplicateValidator } from 'src/validators/duplicate-validator';
-
-describe('CategoryForm', () => {
+describe("CategoryForm", () => {
   let component: TagFormComponent;
   let fixture: ComponentFixture<TagFormComponent>;
 
@@ -54,15 +41,15 @@ describe('CategoryForm', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init form with data', () => {
+  it("should init form with data", () => {
     const tag: TagView = {
       id: 1,
-      name: 'test',
-      description: 'test',
+      name: "test",
+      description: "test",
       numberOfReceipts: 1,
     };
     component.tag = tag;
@@ -70,22 +57,22 @@ describe('CategoryForm', () => {
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
-      name: 'test',
-      description: 'test',
+      name: "test",
+      description: "test",
     });
   });
 
-  it('should submit form with correct data, when editing', () => {
-    const tagServiceSpy = spyOn(TestBed.inject(TagService), 'updateTag');
+  it("should submit form with correct data, when editing", () => {
+    const tagServiceSpy = spyOn(TestBed.inject(TagService), "updateTag");
     tagServiceSpy.and.returnValue(of({} as any));
     const nameValidateSpy = spyOn(
       TestBed.inject(TagService),
-      'getTagCountByName'
+      "getTagCountByName"
     ).and.returnValue(of(0) as any);
     const tag: TagView = {
       id: 1,
-      name: 'test',
-      description: 'test',
+      name: "test",
+      description: "test",
       numberOfReceipts: 1,
     };
     component.tag = tag;
@@ -95,31 +82,31 @@ describe('CategoryForm', () => {
 
     expect(tagServiceSpy).toHaveBeenCalledOnceWith(
       {
-        name: 'test',
-        description: 'test',
+        name: "test",
+        description: "test",
       },
       1
     );
   });
 
-  it('should submit form with correct data, when creating', () => {
+  it("should submit form with correct data, when creating", () => {
     const nameValidateSpy = spyOn(
       TestBed.inject(TagService),
-      'getTagCountByName'
+      "getTagCountByName"
     ).and.returnValue(of(0) as any);
-    const tagServiceSpy = spyOn(TestBed.inject(TagService), 'createTag');
+    const tagServiceSpy = spyOn(TestBed.inject(TagService), "createTag");
     tagServiceSpy.and.returnValue(of({} as any));
 
     component.ngOnInit();
     component.form.patchValue({
-      name: 'test',
-      description: 'test',
+      name: "test",
+      description: "test",
     });
     component.submit();
 
     expect(tagServiceSpy).toHaveBeenCalledOnceWith({
-      name: 'test',
-      description: 'test',
+      name: "test",
+      description: "test",
     });
   });
 });

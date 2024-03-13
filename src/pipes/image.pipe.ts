@@ -1,13 +1,13 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { FileData } from '@receipt-wrangler/receipt-wrangler-core';
+import { Pipe, PipeTransform } from "@angular/core";
+import { FileData } from "../api";
 
 @Pipe({
-  name: 'image',
+  name: "image",
 })
 export class ImagePipe implements PipeTransform {
   public transform(image: FileData): string {
     const imageData = image.imageData as any as string;
-    if (imageData.includes('data')) {
+    if (imageData.includes("data")) {
       return imageData;
     } else {
       return `data:${image.fileType};base64,${btoa(imageData)}`;

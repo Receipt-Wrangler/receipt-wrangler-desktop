@@ -1,13 +1,11 @@
-import { DatePipe } from '@angular/common';
-import { Pipe, PipeTransform } from '@angular/core';
-import { Store } from '@ngxs/store';
-import {
-  GroupState,
-  SearchResult,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { DatePipe } from "@angular/common";
+import { Pipe, PipeTransform } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { SearchResult } from "../../api";
+import { GroupState } from "../../store";
 
 @Pipe({
-  name: 'searchResult',
+  name: "searchResult",
 })
 export class SearchResultPipe implements PipeTransform {
   constructor(private datePipe: DatePipe, private store: Store) {}

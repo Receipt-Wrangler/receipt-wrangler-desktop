@@ -1,14 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { CarouselModule as NgxCarouselModule } from 'ngx-bootstrap/carousel';
-import { ImageCropperModule } from 'ngx-image-cropper';
-import { ButtonModule } from '@receipt-wrangler/receipt-wrangler-core';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { CarouselComponent } from './carousel.component';
+import { CommonModule } from "@angular/common";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { CarouselModule as NgxCarouselModule } from "ngx-bootstrap/carousel";
+import { ImageCropperModule } from "ngx-image-cropper";
+import { PipesModule } from "src/pipes/pipes.module";
+import { ButtonModule } from "../../button";
+import { CarouselComponent } from "./carousel.component";
 
-describe('CarouselComponent', () => {
+describe("CarouselComponent", () => {
   let component: CarouselComponent;
   let fixture: ComponentFixture<CarouselComponent>;
 
@@ -31,7 +31,7 @@ describe('CarouselComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

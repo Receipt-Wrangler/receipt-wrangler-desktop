@@ -1,25 +1,15 @@
-import { AutocomleteComponent } from 'src/autocomplete/autocomlete/autocomlete.component';
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Store } from '@ngxs/store';
-import {
-  GroupState,
-  User,
-  UserState,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { GroupMemberUserService } from 'src/services/group-member-user.service';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { Store } from "@ngxs/store";
+import { AutocomleteComponent } from "src/autocomplete/autocomlete/autocomlete.component";
+import { GroupMemberUserService } from "src/services/group-member-user.service";
+import { User } from "../../api";
+import { UserState } from "../../store";
 
 @Component({
-  selector: 'app-user-autocomplete',
-  templateUrl: './user-autocomplete.component.html',
-  styleUrls: ['./user-autocomplete.component.scss'],
+  selector: "app-user-autocomplete",
+  templateUrl: "./user-autocomplete.component.html",
+  styleUrls: ["./user-autocomplete.component.scss"],
   providers: [GroupMemberUserService],
 })
 export class UserAutocompleteComponent implements OnInit, OnChanges {
@@ -33,7 +23,7 @@ export class UserAutocompleteComponent implements OnInit, OnChanges {
 
   @Input() public inputFormControl!: FormControl;
 
-  @Input() public label = '';
+  @Input() public label = "";
 
   @Input() public multiple: boolean = false;
 
@@ -50,11 +40,11 @@ export class UserAutocompleteComponent implements OnInit, OnChanges {
   public users: User[] = [];
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['groupId']) {
-      this.updateValueOnGroupChange(changes['groupId'].currentValue);
+    if (changes["groupId"]) {
+      this.updateValueOnGroupChange(changes["groupId"].currentValue);
     }
 
-    if (changes['usersToOmit']) {
+    if (changes["usersToOmit"]) {
       this.filterUsers();
     }
   }
@@ -88,6 +78,6 @@ export class UserAutocompleteComponent implements OnInit, OnChanges {
     if (user) {
       return user.displayName;
     }
-    return '';
+    return "";
   }
 }

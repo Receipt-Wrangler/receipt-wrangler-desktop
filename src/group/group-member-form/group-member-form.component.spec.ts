@@ -1,15 +1,13 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { NgxsModule, Store } from '@ngxs/store';
-import {
-  AuthState,
-  PipesModule,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { GroupMemberFormComponent } from './group-member-form.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { NgxsModule, Store } from "@ngxs/store";
+import { PipesModule } from "../../pipes";
+import { AuthState } from "../../store";
+import { GroupMemberFormComponent } from "./group-member-form.component";
 
-describe('GroupMemberFormComponent', () => {
+describe("GroupMemberFormComponent", () => {
   let component: GroupMemberFormComponent;
   let fixture: ComponentFixture<GroupMemberFormComponent>;
 
@@ -33,12 +31,12 @@ describe('GroupMemberFormComponent', () => {
     fixture = TestBed.createComponent(GroupMemberFormComponent);
     component = fixture.componentInstance;
     TestBed.inject(Store).reset({
-      auth: { userId: '1' },
+      auth: { userId: "1" },
     });
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

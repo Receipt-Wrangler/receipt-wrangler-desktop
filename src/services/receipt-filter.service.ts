@@ -1,16 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { SortDirection } from '@angular/material/sort';
-import { Store } from '@ngxs/store';
-import {
-  PagedData,
-  ReceiptPagedRequestCommand,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { Observable } from 'rxjs';
-import { ReceiptTableState } from 'src/store/receipt-table.state';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { SortDirection } from "@angular/material/sort";
+import { Store } from "@ngxs/store";
+import { Observable } from "rxjs";
+import { ReceiptTableState } from "src/store/receipt-table.state";
+import { PagedData, ReceiptPagedRequestCommand } from "../api";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ReceiptFilterService {
   constructor(private store: Store, private httpClient: HttpClient) {}
@@ -39,14 +36,14 @@ export class ReceiptFilterService {
     }
 
     if (!filterData?.filter?.date?.value && filterData?.filter?.date) {
-      filterData.filter.date.value = '';
+      filterData.filter.date.value = "";
     }
 
     if (
       !filterData?.filter?.resolvedDate?.value &&
       filterData?.filter?.resolvedDate
     ) {
-      filterData.filter.resolvedDate.value = '';
+      filterData.filter.resolvedDate.value = "";
     }
 
     if (!filterData?.filter?.amount?.value && filterData?.filter?.amount) {

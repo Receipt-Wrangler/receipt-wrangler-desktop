@@ -1,20 +1,18 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
-import { NgxsModule } from '@ngxs/store';
-import {
-  AuthState,
-  FeatureConfigState,
-  GroupState,
-  UserState,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { LayoutState } from './layout.state';
-import { ReceiptTableState } from './receipt-table.state';
-import { CategoryTableState } from './category-table.state';
-import { environment } from 'src/environments/environment.development';
-import { TagTableState } from './tag-table.state';
-import { DashboardState } from './dashboard.state';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
+import { NgxsStoragePluginModule } from "@ngxs/storage-plugin";
+import { NgxsModule } from "@ngxs/store";
+import { environment } from "src/environments/environment.development";
+import { AuthState } from "./auth.state";
+import { CategoryTableState } from "./category-table.state";
+import { DashboardState } from "./dashboard.state";
+import { FeatureConfigState } from "./feature-config.state";
+import { GroupState } from "./group.state";
+import { LayoutState } from "./layout.state";
+import { ReceiptTableState } from "./receipt-table.state";
+import { TagTableState } from "./tag-table.state";
+import { UserState } from "./user.state";
 
 @NgModule({
   declarations: [],
@@ -36,12 +34,12 @@ import { DashboardState } from './dashboard.state';
     }),
     NgxsStoragePluginModule.forRoot({
       key: [
-        'auth',
-        'categoryTable',
-        'dashboards',
-        'groups',
-        'layout',
-        'receiptTable',
+        "auth",
+        "categoryTable",
+        "dashboards",
+        "groups",
+        "layout",
+        "receiptTable",
       ],
     }),
   ],

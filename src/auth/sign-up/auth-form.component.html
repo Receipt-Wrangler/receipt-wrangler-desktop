@@ -1,0 +1,47 @@
+<div class="d-flex align-items-center justify-content-center">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <h2>{{ headerText }}</h2>
+    <div class="d-flex flex-column">
+      <ng-template
+        *ngIf="additionalFieldsTemplate"
+        [ngTemplateOutlet]="additionalFieldsTemplate"
+      ></ng-template>
+      <ng-container *ngIf="isSignUp | async">
+        <app-input
+          label="Displayname"
+          [inputFormControl]="form | formGet : 'displayname'"
+        >
+        </app-input>
+      </ng-container>
+      <app-input
+        label="Username"
+        [inputFormControl]="form | formGet : 'username'"
+      >
+      </app-input>
+      <app-input
+        label="Password"
+        type="password"
+        [showVisibilityEye]="true"
+        [inputFormControl]="form | formGet : 'password'"
+      >
+      </app-input>
+    </div>
+    <div class="w-100 d-flex flex-column">
+      <app-button
+        class="w-100"
+        buttonClass="w-100 mb-2"
+        type="submit"
+        [buttonText]="primaryButtonText"
+      ></app-button>
+      <app-button
+        *appFeature="'enableLocalSignUp'"
+        class="w-100"
+        buttonClass="w-100 "
+        type="button"
+        color="accent"
+        [buttonText]="secondaryButtonText"
+        [routerLink]="secondaryButtonRouterLink"
+      ></app-button>
+    </div>
+  </form>
+</div>

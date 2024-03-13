@@ -1,41 +1,28 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
-import { FormArray, FormControl, Validators } from '@angular/forms';
-import {
-  MatAutocompleteSelectedEvent,
-  MatAutocompleteTrigger,
-} from '@angular/material/autocomplete';
-import { map, Observable, of, startWith } from 'rxjs';
-import { BaseInputComponent } from '@receipt-wrangler/receipt-wrangler-core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild, } from "@angular/core";
+import { FormArray, FormControl, Validators } from "@angular/forms";
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger, } from "@angular/material/autocomplete";
+import { map, Observable, of, startWith } from "rxjs";
+import { BaseInputComponent } from "../../base-input";
 
 @Component({
-  selector: 'app-autocomlete',
-  templateUrl: './autocomlete.component.html',
-  styleUrls: ['./autocomlete.component.scss'],
+  selector: "app-autocomlete",
+  templateUrl: "./autocomlete.component.html",
+  styleUrls: ["./autocomlete.component.scss"],
 })
 export class AutocomleteComponent
   extends BaseInputComponent
-  implements OnInit, OnChanges
-{
+  implements OnInit, OnChanges {
   @Input() public options: any[] = [];
 
   @Input() public optionTemplate!: TemplateRef<any>;
 
   @Input() public optionChipTemplate!: TemplateRef<any>;
 
-  @Input() public optionFilterKey: string = '';
+  @Input() public optionFilterKey: string = "";
 
-  @Input() public optionValueKey: string = '';
+  @Input() public optionValueKey: string = "";
 
-  @Input() public optionDisplayKey: string = '';
+  @Input() public optionDisplayKey: string = "";
 
   @Input() public multiple: boolean = false;
 
@@ -45,17 +32,17 @@ export class AutocomleteComponent
 
   @Input() public defaultCreatableObject: any = {};
 
-  @Input() public creatableValueKey: string = '';
+  @Input() public creatableValueKey: string = "";
 
   @ViewChild(MatAutocompleteTrigger)
   public matAutocompleteTrigger!: MatAutocompleteTrigger;
 
-  @ViewChild('inputMultiple')
+  @ViewChild("inputMultiple")
   public inputMultiple!: ElementRef;
 
   public filteredOptions: Observable<any[]> = of([]);
 
-  public filterFormControl: FormControl = new FormControl('');
+  public filterFormControl: FormControl = new FormControl("");
 
   public creatableOptionId = (Math.random() + 1).toString(36).substring(7);
 
@@ -70,7 +57,7 @@ export class AutocomleteComponent
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['options']) {
+    if (changes["options"]) {
       this.filteredOptions = this.filterFormControl.valueChanges.pipe(
         startWith(this.filterFormControl.value),
         map((value) => {
@@ -111,7 +98,7 @@ export class AutocomleteComponent
   }
 
   public _filter(value: string): any[] {
-    value = value ?? '';
+    value = value ?? "";
     const filterValue = value.toString()?.toLowerCase();
 
     if (this.multiple) {
@@ -184,6 +171,6 @@ export class AutocomleteComponent
     } else {
       this.inputFormControl.setValue(null);
     }
-    this.filterFormControl.setValue('');
+    this.filterFormControl.setValue("");
   }
 }

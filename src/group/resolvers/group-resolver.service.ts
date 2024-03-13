@@ -1,12 +1,11 @@
-import { Observable, tap } from 'rxjs';
-
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Group, GroupsService } from '@receipt-wrangler/receipt-wrangler-core';
-import { setEntityHeaderText } from 'src/utils';
+import { Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+import { Observable, tap } from "rxjs";
+import { setEntityHeaderText } from "src/utils";
+import { Group, GroupsService } from "../../api";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class GroupResolverService {
   constructor(private groupsService: GroupsService) {}
@@ -16,15 +15,15 @@ export class GroupResolverService {
     state: RouterStateSnapshot
   ): Observable<Group> {
     return this.groupsService
-      .getGroupById(route.params['id'] || route.parent?.params['id'])
+      .getGroupById(route.params["id"] || route.parent?.params["id"])
       .pipe(
         tap((group) => {
-          if (route.data['setHeaderText'] && route.data['formConfig']) {
-            route.data['formConfig'].headerText = setEntityHeaderText(
+          if (route.data["setHeaderText"] && route.data["formConfig"]) {
+            route.data["formConfig"].headerText = setEntityHeaderText(
               group,
-              'name',
-              route.data['formConfig'],
-              route.data['entityType']
+              "name",
+              route.data["formConfig"],
+              route.data["entityType"]
             );
           }
         })

@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { GroupState, UserState } from '@receipt-wrangler/receipt-wrangler-core';
+import { Injectable } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { GroupState, UserState } from "../store";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ParameterizedDataParser {
   constructor(private store: Store) {}
@@ -11,8 +11,8 @@ export class ParameterizedDataParser {
   public link?: string;
 
   public parse(body: string): string {
-    let result = '';
-    const groupRegex = new RegExp('\\${(.+?)}', 'g');
+    let result = "";
+    const groupRegex = new RegExp("\\${(.+?)}", "g");
     result = body.replaceAll(
       groupRegex,
       this.resolveParameterisedData.bind(this)
@@ -22,16 +22,16 @@ export class ParameterizedDataParser {
 
   private resolveParameterisedData(data: string): string {
     const cleanedData = this.trimUnnecessaryCharacters(data);
-    const partsToResolve = cleanedData.split(':');
+    const partsToResolve = cleanedData.split(":");
     return this.resolveData(partsToResolve);
   }
 
   private trimUnnecessaryCharacters(data: string): string {
     let result = data;
-    const charactersToTrim = ['$', '{', '}'];
+    const charactersToTrim = ["$", "{", "}"];
 
     charactersToTrim.forEach((c) => {
-      result = result.replace(c, '');
+      result = result.replace(c, "");
     });
 
     return result;
@@ -42,37 +42,37 @@ export class ParameterizedDataParser {
     const idDotKey = parts[1];
     const type = parts[2];
 
-    const idKeyParts = idDotKey.split('.');
+    const idKeyParts = idDotKey.split(".");
     const id = idKeyParts[0];
     const key = idKeyParts[1];
 
     switch (idType) {
-      case 'userId':
+      case "userId":
         const user = this.store.selectSnapshot(UserState.getUserById(id));
         if (user && key) {
           return (user as any)[key];
         }
         break;
-      case 'groupId':
+      case "groupId":
         const group = this.store.selectSnapshot(GroupState.getGroupById(id));
-        if (type === 'link') {
+        if (type === "link") {
           this.link = `/receipts/group/${id}`;
-          return '';
+          return "";
         }
-        if (group && key && type === 'string') {
+        if (group && key && type === "string") {
           return (group as any)[key];
         }
 
         break;
-      case 'receiptId':
-        if (type === 'link') {
+      case "receiptId":
+        if (type === "link") {
           this.link = `/receipts/${id}/view`;
-          return '';
+          return "";
         }
 
         break;
     }
 
-    return '';
+    return "";
   }
 }

@@ -1,17 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { BaseInputComponent } from '@receipt-wrangler/receipt-wrangler-core';
+import { Component, Input, OnInit } from "@angular/core";
+import { BaseInputComponent } from "../../base-input";
 
 @Component({
-  selector: 'app-select',
-  templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss'],
+  selector: "app-select",
+  templateUrl: "./select.component.html",
+  styleUrls: ["./select.component.scss"],
 })
 export class SelectComponent extends BaseInputComponent implements OnInit {
   @Input() public options: any[] = [];
 
-  @Input() public optionValueKey: string = '';
+  @Input() public optionValueKey: string = "";
 
-  @Input() public optionDisplayKey: string = '';
+  @Input() public optionDisplayKey: string = "";
 
   constructor() {
     super();

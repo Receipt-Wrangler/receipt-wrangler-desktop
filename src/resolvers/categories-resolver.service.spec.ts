@@ -1,10 +1,9 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import { ApiModule } from '@receipt-wrangler/receipt-wrangler-core';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { ApiModule } from "../api";
+import { CategoriesResolverService } from "./categories-resolver.service";
 
-import { CategoriesResolverService } from './categories-resolver.service';
-
-describe('CategoriesResolverService', () => {
+describe("CategoriesResolverService", () => {
   let service: CategoriesResolverService;
 
   beforeEach(() => {
@@ -14,7 +13,7 @@ describe('CategoriesResolverService', () => {
     service = TestBed.inject(CategoriesResolverService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

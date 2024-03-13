@@ -1,18 +1,10 @@
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
-import { Store } from '@ngxs/store';
-import {
-  GroupState,
-  SetSelectedDashboardId,
-  SetSelectedGroupId,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, } from "@angular/router";
+import { Store } from "@ngxs/store";
+import { GroupState, SetSelectedDashboardId, SetSelectedGroupId } from "../store";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class GroupGuard {
   constructor(private store: Store, private router: Router) {}
@@ -21,22 +13,22 @@ export class GroupGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    const groupId = route.params['groupId'];
+    const groupId = route.params["groupId"];
     const group = this.store.selectSnapshot(GroupState.getGroupById(groupId));
 
     if (group) {
       this.resetSelectedDashboardIfGroupDashboardChanged(
-        groupId?.toString() ?? ''
+        groupId?.toString() ?? ""
       );
       return true;
     } else {
       const newGroupId = this.store.selectSnapshot(GroupState.groups)[0]?.id;
-      const basePath = route.data['groupGuardBasePath'];
+      const basePath = route.data["groupGuardBasePath"];
 
       this.resetSelectedDashboardIfGroupDashboardChanged(
-        newGroupId?.toString() ?? ''
+        newGroupId?.toString() ?? ""
       );
-      this.store.dispatch(new SetSelectedGroupId(newGroupId?.toString() ?? ''));
+      this.store.dispatch(new SetSelectedGroupId(newGroupId?.toString() ?? ""));
       this.router.navigate([`${basePath}/${newGroupId}`]);
       return false;
     }

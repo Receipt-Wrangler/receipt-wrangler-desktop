@@ -1,30 +1,17 @@
-import { take, tap } from 'rxjs';
-import { ReceiptFilterService } from 'src/services/receipt-filter.service';
-
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Store } from '@ngxs/store';
-import {
-  GroupState,
-  Receipt,
-  ReceiptPagedRequestCommand,
-  Widget,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation, } from "@angular/core";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { Store } from "@ngxs/store";
+import { take, tap } from "rxjs";
+import { ReceiptFilterService } from "src/services/receipt-filter.service";
+import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../api";
+import { GroupState } from "../../store";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-filtered-receipts',
-  templateUrl: './filtered-receipts.component.html',
-  styleUrls: ['./filtered-receipts.component.scss'],
+  selector: "app-filtered-receipts",
+  templateUrl: "./filtered-receipts.component.html",
+  styleUrls: ["./filtered-receipts.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
 export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
@@ -73,8 +60,8 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
       page: this.page,
       pageSize: this.pageSize,
       filter: this.widget.configuration,
-      orderBy: 'date',
-      sortDirection: 'desc',
+      orderBy: "date",
+      sortDirection: "desc",
     };
     this.receiptFilterService
       .getPagedReceiptsForGroups(

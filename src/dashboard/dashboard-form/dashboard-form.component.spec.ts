@@ -1,24 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgxsModule, Store } from "@ngxs/store";
+import { of } from "rxjs";
+import { Dashboard, DashboardService, WidgetType } from "../../api";
+import { PipesModule } from "../../pipes";
+import { SnackbarService } from "../../services";
+import { GroupState } from "../../store";
+import { DashboardFormComponent } from "./dashboard-form.component";
 
-import { DashboardFormComponent } from './dashboard-form.component';
-import {
-  Dashboard,
-  DashboardService,
-  GroupState,
-  PipesModule,
-  SnackbarService,
-  Widget,
-  WidgetType,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs';
-
-describe('DashboardFormComponent', () => {
+describe("DashboardFormComponent", () => {
   let component: DashboardFormComponent;
   let fixture: ComponentFixture<DashboardFormComponent>;
   let store: Store;
@@ -52,31 +46,31 @@ describe('DashboardFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init form with no data correctly', () => {
+  it("should init form with no data correctly", () => {
     store.reset({
       groups: {
-        selectedGroupId: '1',
+        selectedGroupId: "1",
       },
     });
 
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
-      name: '',
-      groupId: '1',
+      name: "",
+      groupId: "1",
       showSummaryCard: false,
       widgets: [],
     });
   });
 
-  it('should add summary card widget when show summary card set to true', () => {
+  it("should add summary card widget when show summary card set to true", () => {
     store.reset({
       groups: {
-        selectedGroupId: '1',
+        selectedGroupId: "1",
       },
     });
 
@@ -87,8 +81,8 @@ describe('DashboardFormComponent', () => {
     });
 
     expect(component.form.value).toEqual({
-      name: '',
-      groupId: '1',
+      name: "",
+      groupId: "1",
       showSummaryCard: true,
       widgets: [
         {
@@ -98,10 +92,10 @@ describe('DashboardFormComponent', () => {
     });
   });
 
-  it('should add summary card widget when show summary card set to true, then remove it when set to false', () => {
+  it("should add summary card widget when show summary card set to true, then remove it when set to false", () => {
     store.reset({
       groups: {
-        selectedGroupId: '1',
+        selectedGroupId: "1",
       },
     });
 
@@ -112,8 +106,8 @@ describe('DashboardFormComponent', () => {
     });
 
     expect(component.form.value).toEqual({
-      name: '',
-      groupId: '1',
+      name: "",
+      groupId: "1",
       showSummaryCard: true,
       widgets: [
         {
@@ -127,27 +121,27 @@ describe('DashboardFormComponent', () => {
     });
 
     expect(component.form.value).toEqual({
-      name: '',
-      groupId: '1',
+      name: "",
+      groupId: "1",
       showSummaryCard: false,
       widgets: [],
     });
   });
 
-  it('should submit valid form', () => {
+  it("should submit valid form", () => {
     const dashboard: Dashboard = {
       id: 1,
       userId: 1,
-      name: 'test',
+      name: "test",
       groupId: 1,
       widgets: [],
     } as Dashboard;
 
     const serviceSpy = spyOn(
       TestBed.inject(DashboardService),
-      'createDashboard'
+      "createDashboard"
     ).and.callFake(() => of(dashboard as any));
-    const snackbarSpy = spyOn(SnackbarService.prototype, 'success');
+    const snackbarSpy = spyOn(SnackbarService.prototype, "success");
 
     store.reset({
       groups: {
@@ -157,13 +151,13 @@ describe('DashboardFormComponent', () => {
 
     component.ngOnInit();
     component.form.patchValue({
-      name: 'test',
+      name: "test",
     });
 
     component.submit();
 
     expect(serviceSpy).toHaveBeenCalledWith({
-      name: 'test',
+      name: "test",
       groupId: 1,
       widgets: [],
       showSummaryCard: false,

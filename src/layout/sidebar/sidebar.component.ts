@@ -1,19 +1,17 @@
-import { map, Observable, switchMap, take, tap } from "rxjs";
-import { LayoutState } from "src/store/layout.state";
-import { SetPage } from "src/store/receipt-table.actions";
-
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { Router } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
-import {
-  AuthService, AuthState, Group, GroupState, GroupStatus, Logout, SetSelectedGroupId,
-  SnackbarService, User
-} from "@receipt-wrangler/receipt-wrangler-core";
+import { map, Observable, switchMap, take, tap } from "rxjs";
+import { LayoutState } from "src/store/layout.state";
+import { SetPage } from "src/store/receipt-table.actions";
+import { AuthService, Group, GroupStatus, User } from "../../api";
+import { SnackbarService } from "../../services";
+import { AuthState, GroupState, Logout, SetSelectedGroupId } from "../../store";
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+  selector: "app-sidebar",
+  templateUrl: "./sidebar.component.html",
+  styleUrls: ["./sidebar.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
 export class SidebarComponent implements OnInit {
@@ -60,8 +58,8 @@ export class SidebarComponent implements OnInit {
       .pipe(
         take(1),
         switchMap(() => this.store.dispatch(new Logout())),
-        switchMap(() => this.router.navigate(['/'])),
-        tap(() => this.snackbarService.success('Successfully logged out'))
+        switchMap(() => this.router.navigate(["/"])),
+        tap(() => this.snackbarService.success("Successfully logged out"))
       )
       .subscribe();
   }

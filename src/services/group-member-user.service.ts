@@ -1,14 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
-import {
-  GroupState,
-  User,
-  UserState,
-  GroupMember,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { Injectable } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { GroupMember, User } from "../api";
+import { GroupState, UserState } from "../store";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class GroupMemberUserService {
   constructor(private store: Store) {}

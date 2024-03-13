@@ -1,19 +1,16 @@
-import { SharedUiModule } from 'src/shared-ui/shared-ui.module';
-import { AuthState } from '@receipt-wrangler/receipt-wrangler-core';
-import { GroupState } from '@receipt-wrangler/receipt-wrangler-core';
-import { LayoutState } from 'src/store/layout.state';
+import { HttpClientModule } from "@angular/common/http";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgxsModule } from "@ngxs/store";
+import { SharedUiModule } from "src/shared-ui/shared-ui.module";
+import { LayoutState } from "src/store/layout.state";
+import { ApiModule } from "../../api";
+import { AuthState, GroupState } from "../../store";
+import { SidebarComponent } from "./sidebar.component";
 
-import { HttpClientModule } from '@angular/common/http';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NgxsModule } from '@ngxs/store';
-import { ApiModule } from '@receipt-wrangler/receipt-wrangler-core';
-
-import { SidebarComponent } from './sidebar.component';
-
-describe('SidebarComponent', () => {
+describe("SidebarComponent", () => {
   let component: SidebarComponent;
   let fixture: ComponentFixture<SidebarComponent>;
 
@@ -36,7 +33,7 @@ describe('SidebarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,45 +1,34 @@
-import {
-  Component,
-  EmbeddedViewRef,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBarRef } from '@angular/material/snack-bar';
-import { Store } from '@ngxs/store';
-import {
-  AuthState,
-  GroupState,
-  QuickScanCommand,
-  ReceiptFileUploadCommand,
-  ReceiptService,
-  SnackbarService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { finalize, take, tap } from 'rxjs';
-import { ToggleShowProgressBar } from 'src/store/layout.state.actions';
-import { UploadImageComponent } from '../upload-image/upload-image.component';
+import { Component, EmbeddedViewRef, OnInit, TemplateRef, ViewChild, } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBarRef } from "@angular/material/snack-bar";
+import { Store } from "@ngxs/store";
+import { finalize, take, tap } from "rxjs";
+import { ToggleShowProgressBar } from "src/store/layout.state.actions";
+import { QuickScanCommand, ReceiptFileUploadCommand, ReceiptService } from "../../api";
+import { SnackbarService } from "../../services";
+import { AuthState, GroupState } from "../../store";
+import { UploadImageComponent } from "../upload-image/upload-image.component";
 
 @Component({
-  selector: 'app-quick-scan-dialog',
-  templateUrl: './quick-scan-dialog.component.html',
-  styleUrls: ['./quick-scan-dialog.component.scss'],
+  selector: "app-quick-scan-dialog",
+  templateUrl: "./quick-scan-dialog.component.html",
+  styleUrls: ["./quick-scan-dialog.component.scss"],
 })
 export class QuickScanDialogComponent implements OnInit {
   @ViewChild(UploadImageComponent)
   public uploadImageComponent!: UploadImageComponent;
 
-  @ViewChild('successfullScanSnackbar')
+  @ViewChild("successfullScanSnackbar")
   public successfullScanSnackbarTemplate!: TemplateRef<any>;
 
   public form: FormGroup = new FormGroup({});
 
   public images: ReceiptFileUploadCommand[] = [];
 
-  public imageBlobUrl: string = '';
+  public imageBlobUrl: string = "";
 
-  public encodedImage: string = '';
+  public encodedImage: string = "";
 
   public quickScannedReceiptId: number = 0;
 
@@ -61,7 +50,7 @@ export class QuickScanDialogComponent implements OnInit {
     let selectedGroupId: string | undefined = this.store.selectSnapshot(
       GroupState.selectedGroupId
     );
-    if (selectedGroupId === 'all') {
+    if (selectedGroupId === "all") {
       selectedGroupId = undefined;
     }
     const userPreferences = this.store.selectSnapshot(
@@ -86,7 +75,7 @@ export class QuickScanDialogComponent implements OnInit {
   public fileLoaded(fileData: ReceiptFileUploadCommand): void {
     this.images.push(fileData);
     this.imageBlobUrl = URL.createObjectURL(fileData.file);
-    this.encodedImage = fileData.encodedImage ?? '';
+    this.encodedImage = fileData.encodedImage ?? "";
   }
 
   public openImageUploadComponent(): void {
@@ -125,7 +114,7 @@ export class QuickScanDialogComponent implements OnInit {
         .subscribe();
     }
     if (this.images.length === 0) {
-      this.snackbarService.error('Please select an image to upload');
+      this.snackbarService.error("Please select an image to upload");
     }
   }
 
@@ -133,9 +122,9 @@ export class QuickScanDialogComponent implements OnInit {
     const file = this.images[0];
     const command: QuickScanCommand = {
       file: file.file,
-      groupId: Number(this.form.get('groupId')?.value),
-      status: this.form.get('status')?.value,
-      paidByUserId: Number(this.form.get('paidByUserId')?.value),
+      groupId: Number(this.form.get("groupId")?.value),
+      status: this.form.get("status")?.value,
+      paidByUserId: Number(this.form.get("paidByUserId")?.value),
     };
 
     return command;

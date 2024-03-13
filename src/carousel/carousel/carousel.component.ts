@@ -1,22 +1,8 @@
-import { ImageTransform } from 'ngx-image-cropper';
-import { FormMode } from 'src/enums/form-mode.enum';
-
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewEncapsulation,
-} from '@angular/core';
-import {
-  FileDataView,
-  ReceiptFileUploadCommand,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { Observable, of, tap } from 'rxjs';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation, } from "@angular/core";
+import { UntilDestroy } from "@ngneat/until-destroy";
+import { ImageTransform } from "ngx-image-cropper";
+import { FormMode } from "src/enums/form-mode.enum";
+import { FileDataView, ReceiptFileUploadCommand } from "../../api";
 
 interface CarouselDatasource {
   blob?: File;
@@ -25,9 +11,9 @@ interface CarouselDatasource {
 
 @UntilDestroy()
 @Component({
-  selector: 'app-carousel',
-  templateUrl: './carousel.component.html',
-  styleUrls: ['./carousel.component.scss'],
+  selector: "app-carousel",
+  templateUrl: "./carousel.component.html",
+  styleUrls: ["./carousel.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
 export class CarouselComponent {

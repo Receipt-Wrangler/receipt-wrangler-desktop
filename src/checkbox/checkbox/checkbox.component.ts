@@ -1,16 +1,16 @@
-import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { BaseInputInterface } from '@receipt-wrangler/receipt-wrangler-core';
+import { Component, Input } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { BaseInputInterface } from "../../base-input";
 
 @Component({
-  selector: 'app-checkbox',
-  templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss'],
+  selector: "app-checkbox",
+  templateUrl: "./checkbox.component.html",
+  styleUrls: ["./checkbox.component.scss"],
 })
 export class CheckboxComponent implements BaseInputInterface {
   @Input() public inputFormControl: FormControl<any> = new FormControl();
 
-  @Input() public label: string = '';
+  @Input() public label: string = "";
 
   @Input() public additionalErrorMessages?:
     | { [key: string]: string }

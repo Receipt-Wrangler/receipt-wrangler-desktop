@@ -1,15 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { ActivatedRoute } from "@angular/router";
+import { NgxsModule } from "@ngxs/store";
+import { ApiModule } from "../../api";
+import { GroupSettingsComponent } from "./group-settings.component";
 
-import { GroupSettingsComponent } from './group-settings.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ApiModule } from '@receipt-wrangler/receipt-wrangler-core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxsModule } from '@ngxs/store';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-
-describe('GroupSettingsComponent', () => {
+describe("GroupSettingsComponent", () => {
   let component: GroupSettingsComponent;
   let fixture: ComponentFixture<GroupSettingsComponent>;
 
@@ -41,20 +39,20 @@ describe('GroupSettingsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init form with empty values', () => {
+  it("should init form with empty values", () => {
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
-      emailToRead: '',
+      emailToRead: "",
       emailIntegrationEnabled: false,
       subjectLineRegexes: [],
       emailWhiteList: [],
-      emailDefaultReceiptStatus: '',
-      emailDefaultReceiptPaidById: '',
+      emailDefaultReceiptStatus: "",
+      emailDefaultReceiptPaidById: "",
     });
   });
 });

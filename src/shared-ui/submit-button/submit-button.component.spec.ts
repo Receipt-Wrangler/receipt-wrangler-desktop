@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ButtonModule } from '@receipt-wrangler/receipt-wrangler-core';
-import { SubmitButtonComponent } from './submit-button.component';
-import { ActivatedRoute } from '@angular/router';
-import { NgxsModule } from '@ngxs/store';
-import { LayoutState } from 'src/store/layout.state';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ActivatedRoute } from "@angular/router";
+import { NgxsModule } from "@ngxs/store";
+import { LayoutState } from "src/store/layout.state";
+import { ButtonModule } from "../../button";
+import { SubmitButtonComponent } from "./submit-button.component";
 
-describe('SubmitButtonComponent', () => {
+describe("SubmitButtonComponent", () => {
   let component: SubmitButtonComponent;
   let fixture: ComponentFixture<SubmitButtonComponent>;
 
@@ -26,7 +26,7 @@ describe('SubmitButtonComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

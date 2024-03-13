@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   test:
@@ -16,14 +16,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 18.16.0
-
-      - name: Setup auth env
-        run: sh ./setup-ci.sh
-
       - name: Setup node env
         run: npm ci --force # TODO: Remove --force
         working-directory: ${{env.working-directory}}
-
       - name: Test
         run: |
           npm run test:ci
@@ -41,7 +36,6 @@ jobs:
           indicators: true
           output: both
           #thresholds: '60 80'
-
       - name: Upload Coverage Report to Codecov
         uses: codecov/codecov-action@v3
         with:
@@ -60,8 +54,6 @@ jobs:
       #     path: code-coverage-results.md
 
   build:
-    env:
-      GH_PACKAGE_READ_TOKEN_DESKTOP: ${{ secrets.GH_PACKAGE_READ_TOKEN_DESKTOP }}
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -72,8 +64,6 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Setup env
-        run: sh ./setup-ci.sh
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:

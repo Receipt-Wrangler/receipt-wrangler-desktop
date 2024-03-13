@@ -1,16 +1,11 @@
-import { GroupUtil } from 'src/utils/group.utils';
+import { TestBed } from "@angular/core/testing";
+import { NgxsModule, Store } from "@ngxs/store";
+import { GroupUtil } from "src/utils/group.utils";
+import { GroupRole } from "../api";
+import { AuthState, GroupState } from "../store";
+import { GroupRolePipe } from "./group-role.pipe";
 
-import { TestBed } from '@angular/core/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import {
-  AuthState,
-  GroupRole,
-  GroupState,
-} from '@receipt-wrangler/receipt-wrangler-core';
-
-import { GroupRolePipe } from './group-role.pipe';
-
-describe('GroupRolePipe', () => {
+describe("GroupRolePipe", () => {
   let store: Store;
   let pipe: GroupRolePipe;
 
@@ -25,17 +20,17 @@ describe('GroupRolePipe', () => {
     store = TestBed.inject(Store);
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('should return true if there is no groupId', () => {
+  it("should return true if there is no groupId", () => {
     const result = pipe.transform(undefined, GroupRole.OWNER);
 
     expect(result).toEqual(true);
   });
 
-  it('should return false if user does not have the right role, and the input is a number', () => {
+  it("should return false if user does not have the right role, and the input is a number", () => {
     store.reset({
       auth: { userId: 1 },
       groups: {
@@ -53,7 +48,7 @@ describe('GroupRolePipe', () => {
     expect(result).toEqual(false);
   });
 
-  it('should return false if the groupId is not parsable', () => {
+  it("should return false if the groupId is not parsable", () => {
     store.reset({
       auth: { userId: 1 },
       groups: {
@@ -66,12 +61,12 @@ describe('GroupRolePipe', () => {
       },
     });
 
-    const result = pipe.transform('not a number', GroupRole.OWNER);
+    const result = pipe.transform("not a number", GroupRole.OWNER);
 
     expect(result).toEqual(false);
   });
 
-  it('should return true if the groupId is all', () => {
+  it("should return true if the groupId is all", () => {
     store.reset({
       auth: { userId: 1 },
       groups: {
@@ -84,7 +79,7 @@ describe('GroupRolePipe', () => {
       },
     });
 
-    const result = pipe.transform('all', GroupRole.OWNER);
+    const result = pipe.transform("all", GroupRole.OWNER);
 
     expect(result).toEqual(true);
   });

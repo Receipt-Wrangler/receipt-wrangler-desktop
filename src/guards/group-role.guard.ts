@@ -1,13 +1,13 @@
-import { Observable } from "rxjs";
-import { GroupUtil } from "src/utils";
-
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { Store } from "@ngxs/store";
-import { GroupRole, GroupState } from "@receipt-wrangler/receipt-wrangler-core";
+import { Observable } from "rxjs";
+import { GroupUtil } from "src/utils";
+import { GroupRole } from "../api";
+import { GroupState } from "../store";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class GroupRoleGuard {
   constructor(
@@ -15,6 +15,7 @@ export class GroupRoleGuard {
     private groupUtil: GroupUtil,
     private router: Router
   ) {}
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -25,11 +26,11 @@ export class GroupRoleGuard {
     | UrlTree {
     let hasAccess = false;
     let groupId: number | undefined = undefined;
-    const groupRole = route.data['groupRole'] as GroupRole;
+    const groupRole = route.data["groupRole"] as GroupRole;
 
-    const useRouteId = route.data['useRouteGroupId'];
+    const useRouteId = route.data["useRouteGroupId"];
     if (useRouteId) {
-      groupId = Number.parseInt(route.params['id']);
+      groupId = Number.parseInt(route.params["id"]);
     } else {
       groupId = Number.parseInt(
         this.store.selectSnapshot(GroupState.selectedGroupId)

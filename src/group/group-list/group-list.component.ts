@@ -1,42 +1,38 @@
-import { Observable, take, tap } from "rxjs";
-import {
-  ConfirmationDialogComponent
-} from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
-import { TableColumn } from "src/table/table-column.interface";
-import { TableComponent } from "src/table/table/table.component";
-
 import { Component, TemplateRef, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Select, Store } from "@ngxs/store";
-import {
-  Group, GroupRole, GroupsService, GroupState, RemoveGroup, SnackbarService
-} from "@receipt-wrangler/receipt-wrangler-core";
-
+import { Observable, take, tap } from "rxjs";
+import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
+import { TableColumn } from "src/table/table-column.interface";
+import { TableComponent } from "src/table/table/table.component";
+import { Group, GroupRole, GroupsService } from "../../api";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
+import { SnackbarService } from "../../services";
+import { GroupState, RemoveGroup } from "../../store";
 
 @Component({
-  selector: 'app-group-list',
-  templateUrl: './group-list.component.html',
-  styleUrls: ['./group-list.component.scss'],
+  selector: "app-group-list",
+  templateUrl: "./group-list.component.html",
+  styleUrls: ["./group-list.component.scss"],
   host: DEFAULT_HOST_CLASS,
 })
 export class GroupListComponent {
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
-  @ViewChild('nameCell') private nameCell!: TemplateRef<any>;
+  @ViewChild("nameCell") private nameCell!: TemplateRef<any>;
 
-  @ViewChild('numberOfMembersCell')
+  @ViewChild("numberOfMembersCell")
   private numberOfMembersCell!: TemplateRef<any>;
 
-  @ViewChild('isDefaultGroupCell') private defaultGroupCell!: TemplateRef<any>;
+  @ViewChild("isDefaultGroupCell") private defaultGroupCell!: TemplateRef<any>;
 
-  @ViewChild('createdAtCell') private createdAtCell!: TemplateRef<any>;
+  @ViewChild("createdAtCell") private createdAtCell!: TemplateRef<any>;
 
-  @ViewChild('updatedAtCell') private updatedAtCell!: TemplateRef<any>;
+  @ViewChild("updatedAtCell") private updatedAtCell!: TemplateRef<any>;
 
-  @ViewChild('actionsCell') private actionsCell!: TemplateRef<any>;
+  @ViewChild("actionsCell") private actionsCell!: TemplateRef<any>;
 
   @ViewChild(TableComponent) private table!: TableComponent;
 
@@ -70,55 +66,55 @@ export class GroupListComponent {
   private setColumns(): void {
     this.columns = [
       {
-        columnHeader: 'Name',
-        matColumnDef: 'name',
+        columnHeader: "Name",
+        matColumnDef: "name",
         template: this.nameCell,
         sortable: true,
       },
       {
-        columnHeader: 'Number of Members',
-        matColumnDef: 'numberOfMembers',
+        columnHeader: "Number of Members",
+        matColumnDef: "numberOfMembers",
         template: this.numberOfMembersCell,
         sortable: true,
       },
       {
-        columnHeader: 'Is Default Group',
-        matColumnDef: 'isDefault',
+        columnHeader: "Is Default Group",
+        matColumnDef: "isDefault",
         template: this.defaultGroupCell,
         sortable: true,
       },
       {
-        columnHeader: 'Created At',
-        matColumnDef: 'createdAt',
+        columnHeader: "Created At",
+        matColumnDef: "createdAt",
         template: this.createdAtCell,
         sortable: true,
       },
       {
-        columnHeader: 'Updated At',
-        matColumnDef: 'updatedAt',
+        columnHeader: "Updated At",
+        matColumnDef: "updatedAt",
         template: this.updatedAtCell,
         sortable: true,
       },
       {
-        columnHeader: 'Actions',
-        matColumnDef: 'actions',
+        columnHeader: "Actions",
+        matColumnDef: "actions",
         template: this.actionsCell,
         sortable: false,
       },
     ];
     this.displayedColumns = [
-      'name',
-      'numberOfMembers',
-      'isDefault',
-      'createdAt',
-      'updatedAt',
-      'actions',
+      "name",
+      "numberOfMembers",
+      "isDefault",
+      "createdAt",
+      "updatedAt",
+      "actions",
     ];
   }
 
   public sortNumberOfMembers(sortState: Sort): void {
-    if (sortState.active === 'numberOfMembers') {
-      if (sortState.direction === '') {
+    if (sortState.active === "numberOfMembers") {
+      if (sortState.direction === "") {
         this.dataSource.data = this.store.selectSnapshot(
           GroupState.groupsWithoutAll
         );
@@ -127,7 +123,7 @@ export class GroupListComponent {
 
       const newData = Array.from(this.dataSource.data);
       newData.sort((a, b) => {
-        if (sortState.direction == 'asc') {
+        if (sortState.direction == "asc") {
           return b.groupMembers.length - a.groupMembers.length;
         } else {
           return a.groupMembers.length - b.groupMembers.length;
@@ -153,7 +149,7 @@ export class GroupListComponent {
         DEFAULT_DIALOG_CONFIG
       );
 
-      dialogRef.componentInstance.headerText = 'Delete Group';
+      dialogRef.componentInstance.headerText = "Delete Group";
       dialogRef.componentInstance.dialogContent = `Are you sure you would like to the group '${group.name}'? All receipts will be deleted as a result.`;
 
       dialogRef.afterClosed().subscribe((r) => {
@@ -163,7 +159,7 @@ export class GroupListComponent {
             .pipe(
               take(1),
               tap(() => {
-                this.snackbarService.success('Group successfully deleted');
+                this.snackbarService.success("Group successfully deleted");
                 this.store.dispatch(new RemoveGroup(group.id.toString()));
                 this.dataSource.data = this.store.selectSnapshot(
                   GroupState.groupsWithoutAll

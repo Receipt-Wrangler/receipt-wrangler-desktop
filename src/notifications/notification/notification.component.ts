@@ -1,16 +1,12 @@
-import { take, tap } from 'rxjs';
-import { ParameterizedDataParser } from 'src/utils';
-
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  Notification,
-  NotificationsService,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { take, tap } from "rxjs";
+import { ParameterizedDataParser } from "src/utils";
+import { Notification, NotificationsService } from "../../api";
 
 @Component({
-  selector: 'app-notification',
-  templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss'],
+  selector: "app-notification",
+  templateUrl: "./notification.component.html",
+  styleUrls: ["./notification.component.scss"],
 })
 export class NotificationComponent implements OnInit {
   @Input() public notification!: Notification;
@@ -20,7 +16,7 @@ export class NotificationComponent implements OnInit {
 
   public link?: string;
 
-  public parsedBody: string = '';
+  public parsedBody: string = "";
 
   constructor(
     private notificationsService: NotificationsService,

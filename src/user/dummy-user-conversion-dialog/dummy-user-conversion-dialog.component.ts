@@ -1,19 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Store } from '@ngxs/store';
-import {
-  UpdateUser,
-  User,
-  UserService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { switchMap, take, tap } from 'rxjs';
-import { SnackbarService } from '@receipt-wrangler/receipt-wrangler-core';
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { Store } from "@ngxs/store";
+import { switchMap, take, tap } from "rxjs";
+import { User, UserService } from "../../api";
+import { SnackbarService } from "../../services";
+import { UpdateUser } from "../../store";
 
 @Component({
-  selector: 'app-dummy-user-conversion-dialog',
-  templateUrl: './dummy-user-conversion-dialog.component.html',
-  styleUrls: ['./dummy-user-conversion-dialog.component.scss'],
+  selector: "app-dummy-user-conversion-dialog",
+  templateUrl: "./dummy-user-conversion-dialog.component.html",
+  styleUrls: ["./dummy-user-conversion-dialog.component.scss"],
 })
 export class DummyUserConversionDialogComponent implements OnInit {
   @Input() public user!: User;
@@ -34,7 +31,7 @@ export class DummyUserConversionDialogComponent implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      password: ['', Validators.required],
+      password: ["", Validators.required],
     });
   }
 

@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { NgxsModule } from "@ngxs/store";
+import { FormMode } from "src/enums/form-mode.enum";
+import { PipesModule } from "src/pipes/pipes.module";
+import { ButtonModule } from "../../button";
+import { SharedUiModule } from "../shared-ui.module";
+import { FormComponent } from "./form.component";
 
-import { FormComponent } from './form.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { FormMode } from 'src/enums/form-mode.enum';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ButtonModule } from '@receipt-wrangler/receipt-wrangler-core';
-import { SharedUiModule } from '../shared-ui.module';
-import { NgxsModule } from '@ngxs/store';
-import { ActivatedRoute } from '@angular/router';
-
-describe('FormComponent', () => {
+describe("FormComponent", () => {
   let component: FormComponent;
   let fixture: ComponentFixture<FormComponent>;
 
@@ -35,14 +34,14 @@ describe('FormComponent', () => {
     fixture = TestBed.createComponent(FormComponent);
     component = fixture.componentInstance;
     component.formConfig = {
-      headerText: 'test',
+      headerText: "test",
       mode: FormMode.add,
     };
     component.form = new FormGroup({});
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

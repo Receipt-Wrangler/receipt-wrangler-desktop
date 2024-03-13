@@ -1,18 +1,12 @@
-import { Observable, of, take, tap } from 'rxjs';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { CanActivateFn } from "@angular/router";
+import { NgxsModule, Store } from "@ngxs/store";
+import { Observable, of, take, tap } from "rxjs";
+import { ApiModule, GroupRole, ReceiptService } from "../api";
+import { receiptGuardGuard } from "./receipt-guard.guard";
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import { CanActivateFn } from '@angular/router';
-import { NgxsModule, Store } from '@ngxs/store';
-import {
-  ApiModule,
-  GroupRole,
-  ReceiptService,
-} from '@receipt-wrangler/receipt-wrangler-core';
-
-import { receiptGuardGuard } from './receipt-guard.guard';
-
-describe('receiptGuardGuard', () => {
+describe("receiptGuardGuard", () => {
   const executeGuard: CanActivateFn = (...guardParameters) =>
     TestBed.runInInjectionContext(() => receiptGuardGuard(...guardParameters));
   let store: Store;
@@ -27,12 +21,12 @@ describe('receiptGuardGuard', () => {
     receiptService = TestBed.inject(ReceiptService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(executeGuard).toBeTruthy();
   });
 
-  it('should call service with the correct arguments', () => {
-    const spy = spyOn(receiptService, 'hasAccessToReceipt').and.returnValue(
+  it("should call service with the correct arguments", () => {
+    const spy = spyOn(receiptService, "hasAccessToReceipt").and.returnValue(
       of(false) as any
     );
     const route: any = {
@@ -49,8 +43,8 @@ describe('receiptGuardGuard', () => {
     expect(spy).toHaveBeenCalledWith(1, GroupRole.VIEWER);
   });
 
-  it('should allow the user through', (done) => {
-    spyOn(receiptService, 'hasAccessToReceipt').and.returnValue(
+  it("should allow the user through", (done) => {
+    spyOn(receiptService, "hasAccessToReceipt").and.returnValue(
       of(true) as any
     );
     const route: any = {

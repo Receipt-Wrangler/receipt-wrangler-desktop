@@ -1,21 +1,20 @@
-import { filter, Observable, switchMap, take, tap } from "rxjs";
-import { LayoutState } from "src/store/layout.state";
-import { ToggleIsSidebarOpen } from "src/store/layout.state.actions";
-
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
-import {
-  AuthService, AuthState, GroupRole, GroupState, Logout, NotificationsService, SnackbarService, User
-} from "@receipt-wrangler/receipt-wrangler-core";
+import { filter, Observable, switchMap, take, tap } from "rxjs";
+import { LayoutState } from "src/store/layout.state";
+import { ToggleIsSidebarOpen } from "src/store/layout.state.actions";
+import { AuthService, GroupRole, NotificationsService, User } from "../../api";
+import { SnackbarService } from "../../services";
+import { AuthState, GroupState, Logout } from "../../store";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"],
 })
 export class HeaderComponent implements OnInit {
   @Select(AuthState.isLoggedIn) public isLoggedIn!: Observable<boolean>;
@@ -28,13 +27,13 @@ export class HeaderComponent implements OnInit {
   @Select(LayoutState.showProgressBar)
   public showProgressBar!: Observable<boolean>;
 
-  public receiptHeaderLink: string[] = [''];
+  public receiptHeaderLink: string[] = [""];
 
-  public dashboardHeaderLink: string[] = [''];
+  public dashboardHeaderLink: string[] = [""];
 
-  public settingsBaseHeaderLink: string[] = [''];
+  public settingsBaseHeaderLink: string[] = [""];
 
-  public groupName = '';
+  public groupName = "";
 
   public groupRoleEnum = GroupRole;
 
@@ -65,7 +64,7 @@ export class HeaderComponent implements OnInit {
             this.store.selectSnapshot(GroupState.dashboardLink),
           ];
           this.settingsBaseHeaderLink = [
-            this.store.selectSnapshot(GroupState.settingsLinkBase) + '/view',
+            this.store.selectSnapshot(GroupState.settingsLinkBase) + "/view",
           ];
           const newGroup = this.store.selectSnapshot(
             GroupState.getGroupById(groupId)
@@ -109,8 +108,8 @@ export class HeaderComponent implements OnInit {
       .pipe(
         take(1),
         switchMap(() => this.store.dispatch(new Logout())),
-        switchMap(() => this.router.navigate(['/'])),
-        tap(() => this.snackbarService.success('Successfully logged out'))
+        switchMap(() => this.router.navigate(["/"])),
+        tap(() => this.snackbarService.success("Successfully logged out"))
       )
       .subscribe();
   }

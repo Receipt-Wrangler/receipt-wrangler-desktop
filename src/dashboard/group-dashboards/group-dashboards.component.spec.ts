@@ -1,29 +1,19 @@
-import {
-  ComponentFixture,
-  ComponentFixtureNoNgZone,
-  TestBed,
-} from '@angular/core/testing';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed, } from "@angular/core/testing";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { NgxsModule, Store } from "@ngxs/store";
+import { BehaviorSubject } from "rxjs";
+import { PipesModule } from "src/pipes/pipes.module";
+import { DashboardState } from "src/store/dashboard.state";
+import { Dashboard, DashboardService } from "../../api";
+import { ButtonModule } from "../../button";
+import { GroupState, SetSelectedDashboardId } from "../../store";
+import { GroupDashboardsComponent } from "./group-dashboards.component";
 
-import { GroupDashboardsComponent } from './group-dashboards.component';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NgxsModule, Store } from '@ngxs/store';
-import { MatDialogModule } from '@angular/material/dialog';
-import {
-  ButtonModule,
-  PipesModule as CorePipesModule,
-  Dashboard,
-  DashboardService,
-  GroupState,
-  SetSelectedDashboardId,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { PipesModule } from 'src/pipes/pipes.module';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
-import { DashboardState } from 'src/store/dashboard.state';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-
-describe('GroupDashboardsComponent', () => {
+describe("GroupDashboardsComponent", () => {
   let component: GroupDashboardsComponent;
   let fixture: ComponentFixture<GroupDashboardsComponent>;
   let store: Store;
@@ -32,7 +22,7 @@ describe('GroupDashboardsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [GroupDashboardsComponent],
       imports: [
-        CorePipesModule,
+        PipesModule,
         MatDialogModule,
         NgxsModule.forRoot([GroupState, DashboardState]),
         PipesModule,
@@ -59,7 +49,7 @@ describe('GroupDashboardsComponent', () => {
     store = TestBed.inject(Store);
     store.reset({
       groups: {
-        selectedGroupId: '1',
+        selectedGroupId: "1",
       },
     });
     fixture = TestBed.createComponent(GroupDashboardsComponent);
@@ -67,26 +57,26 @@ describe('GroupDashboardsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set dashboards with dashboards', () => {
+  it("should set dashboards with dashboards", () => {
     const dashboards: Dashboard[] = [
       {
         id: 1,
-        name: 'test',
+        name: "test",
         groupId: 1,
         userId: 1,
       },
     ];
     store.reset({
       groups: {
-        selectedGroupId: '1',
+        selectedGroupId: "1",
       },
       dashboards: {
         dashboards: {
-          '1': dashboards,
+          "1": dashboards,
         },
       },
     });
@@ -96,11 +86,11 @@ describe('GroupDashboardsComponent', () => {
     expect(component.dashboards).toEqual(dashboards);
   });
 
-  it('should set dashboards with dashboards on seleced group id change', () => {
+  it("should set dashboards with dashboards on seleced group id change", () => {
     const dashboards: Dashboard[] = [
       {
         id: 1,
-        name: 'test',
+        name: "test",
         groupId: 1,
         userId: 1,
       },
@@ -108,7 +98,7 @@ describe('GroupDashboardsComponent', () => {
     const newDashboards: Dashboard[] = [
       {
         id: 2,
-        name: 'test',
+        name: "test",
         groupId: 1,
         userId: 1,
       },
@@ -116,11 +106,11 @@ describe('GroupDashboardsComponent', () => {
     const activatedRoute = TestBed.inject(ActivatedRoute);
     store.reset({
       groups: {
-        selectedGroupId: '1',
+        selectedGroupId: "1",
       },
       dashboards: {
         dashboards: {
-          '1': dashboards,
+          "1": dashboards,
         },
       },
     });
@@ -130,11 +120,11 @@ describe('GroupDashboardsComponent', () => {
 
     store.reset({
       groups: {
-        selectedGroupId: '2',
+        selectedGroupId: "2",
       },
       dashboards: {
         dashboards: {
-          '2': newDashboards,
+          "2": newDashboards,
         },
       },
     });
@@ -146,8 +136,8 @@ describe('GroupDashboardsComponent', () => {
     expect(component.dashboards).toEqual(newDashboards);
   });
 
-  it('should not navigate to selected dashboard', () => {
-    const routerSpy = spyOn(TestBed.inject(Router), 'navigateByUrl');
+  it("should not navigate to selected dashboard", () => {
+    const routerSpy = spyOn(TestBed.inject(Router), "navigateByUrl");
     store.reset({
       groups: {
         selectedDashboardId: undefined,
@@ -159,12 +149,12 @@ describe('GroupDashboardsComponent', () => {
     expect(routerSpy).toHaveBeenCalledTimes(0);
   });
 
-  it('should set selected dashboard id', () => {
+  it("should set selected dashboard id", () => {
     const store = TestBed.inject(Store);
-    const storeSpy = spyOn(store, 'dispatch');
+    const storeSpy = spyOn(store, "dispatch");
 
     component.setSelectedDashboardId(1);
 
-    expect(storeSpy).toHaveBeenCalledWith(new SetSelectedDashboardId('1'));
+    expect(storeSpy).toHaveBeenCalledWith(new SetSelectedDashboardId("1"));
   });
 });

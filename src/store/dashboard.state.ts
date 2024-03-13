@@ -1,28 +1,12 @@
-import { Injectable } from '@angular/core';
-import {
-  Action,
-  Selector,
-  State,
-  StateContext,
-  Store,
-  createSelector,
-} from '@ngxs/store';
-import {
-  Dashboard,
-  DashboardService,
-  GroupState,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { take, tap } from 'rxjs';
-import { DashboardStateInterface } from 'src/interfaces/dashboard-state.interface';
-import {
-  AddDashboardToGroup,
-  DeleteDashboardFromGroup,
-  SetDashboardsForGroup,
-  UpdateDashBoardForGroup,
-} from './dashboard.state.actions';
+import { Injectable } from "@angular/core";
+import { Action, createSelector, Selector, State, StateContext, } from "@ngxs/store";
+import { take, tap } from "rxjs";
+import { DashboardStateInterface } from "src/interfaces/dashboard-state.interface";
+import { Dashboard, DashboardService } from "../api";
+import { AddDashboardToGroup, DeleteDashboardFromGroup, SetDashboardsForGroup, UpdateDashBoardForGroup, } from "./dashboard.state.actions";
 
 @State<DashboardStateInterface>({
-  name: 'dashboards',
+  name: "dashboards",
   defaults: {
     dashboards: {},
   },

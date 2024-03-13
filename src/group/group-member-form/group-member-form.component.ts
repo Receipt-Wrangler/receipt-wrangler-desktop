@@ -1,27 +1,23 @@
-import { Observable } from 'rxjs';
-
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
-import {
-  AuthState,
-  GroupMember,
-} from '@receipt-wrangler/receipt-wrangler-core';
-
-import { GROUP_ROLE_OPTIONS } from '../role-options';
-import { buildGroupMemberForm } from '../utils/group-member.utils';
-import { FormOption } from 'src/interfaces/form-option.interface';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { Select, Store } from "@ngxs/store";
+import { Observable } from "rxjs";
+import { FormOption } from "src/interfaces/form-option.interface";
+import { GroupMember } from "../../api";
+import { AuthState } from "../../store";
+import { GROUP_ROLE_OPTIONS } from "../role-options";
+import { buildGroupMemberForm } from "../utils/group-member.utils";
 
 @Component({
-  selector: 'app-group-member-form',
-  templateUrl: './group-member-form.component.html',
-  styleUrls: ['./group-member-form.component.scss'],
+  selector: "app-group-member-form",
+  templateUrl: "./group-member-form.component.html",
+  styleUrls: ["./group-member-form.component.scss"],
 })
 export class GroupMemberFormComponent implements OnInit {
   @Select(AuthState.userId) public userId!: Observable<string>;
 
-  public headerText: string = '';
+  public headerText: string = "";
 
   public form: FormGroup = new FormGroup({});
 

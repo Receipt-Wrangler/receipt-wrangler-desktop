@@ -1,50 +1,35 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Store } from '@ngxs/store';
-import {
-  PagedRequestCommand,
-  SnackbarService,
-  TagService,
-  TagView,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { of, switchMap, take, tap } from 'rxjs';
-import {
-  SetOrderBy,
-  SetPage,
-  SetPageSize,
-  SetSortDirection,
-} from 'src/store/paged-table.state.actions';
-import { TagTableState } from 'src/store/tag-table.state';
-import { TableColumn } from 'src/table/table-column.interface';
-import { TableComponent } from 'src/table/table/table.component';
-import { TagFormComponent } from '../tag-form/tag-form.component';
-import { DEFAULT_DIALOG_CONFIG } from 'src/constants';
-import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { PageEvent } from "@angular/material/paginator";
+import { Sort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { Store } from "@ngxs/store";
+import { of, switchMap, take, tap } from "rxjs";
+import { DEFAULT_DIALOG_CONFIG } from "src/constants";
+import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
+import { SetOrderBy, SetPage, SetPageSize, SetSortDirection, } from "src/store/paged-table.state.actions";
+import { TagTableState } from "src/store/tag-table.state";
+import { TableColumn } from "src/table/table-column.interface";
+import { TableComponent } from "src/table/table/table.component";
+import { PagedRequestCommand, TagService, TagView } from "../../api";
+import { SnackbarService } from "../../services";
+import { TagFormComponent } from "../tag-form/tag-form.component";
 
 @Component({
-  selector: 'app-tags-list',
-  templateUrl: './tags-list.component.html',
-  styleUrls: ['./tags-list.component.scss'],
+  selector: "app-tags-list",
+  templateUrl: "./tags-list.component.html",
+  styleUrls: ["./tags-list.component.scss"],
 })
 export class TagsListComponent implements OnInit, AfterViewInit {
-  @ViewChild('nameCell') public nameCell!: TemplateRef<any>;
+  @ViewChild("nameCell") public nameCell!: TemplateRef<any>;
 
-  @ViewChild('descriptionCell')
+  @ViewChild("descriptionCell")
   public descriptionCell!: TemplateRef<any>;
 
-  @ViewChild('numberOfReceiptsCell')
+  @ViewChild("numberOfReceiptsCell")
   public numberOfReceiptsCell!: TemplateRef<any>;
 
-  @ViewChild('actionsCell')
+  @ViewChild("actionsCell")
   public actionsCell!: TemplateRef<any>;
 
   @ViewChild(TableComponent) public table!: TableComponent;
@@ -65,7 +50,7 @@ export class TagsListComponent implements OnInit, AfterViewInit {
 
   public totalCount: number = 0;
 
-  public headerText: string = 'Tags';
+  public headerText: string = "Tags";
 
   public ngOnInit(): void {
     this.initTableData();
@@ -119,36 +104,36 @@ export class TagsListComponent implements OnInit, AfterViewInit {
   private setColumns(): void {
     this.columns = [
       {
-        columnHeader: 'Name',
-        matColumnDef: 'name',
+        columnHeader: "Name",
+        matColumnDef: "name",
         template: this.nameCell,
         sortable: true,
       },
       {
-        columnHeader: 'Number of Receipts with Tags',
-        matColumnDef: 'numberOfReceipts',
+        columnHeader: "Number of Receipts with Tags",
+        matColumnDef: "numberOfReceipts",
         template: this.numberOfReceiptsCell,
         sortable: true,
       },
       {
-        columnHeader: 'Description',
-        matColumnDef: 'description',
+        columnHeader: "Description",
+        matColumnDef: "description",
         template: this.descriptionCell,
         sortable: true,
       },
       {
-        columnHeader: 'Actions',
-        matColumnDef: 'actions',
+        columnHeader: "Actions",
+        matColumnDef: "actions",
         template: this.actionsCell,
         sortable: false,
       },
     ];
 
     this.displayedColumns = [
-      'name',
-      'description',
-      'numberOfReceipts',
-      'actions',
+      "name",
+      "description",
+      "numberOfReceipts",
+      "actions",
     ];
   }
 
@@ -210,7 +195,7 @@ export class TagsListComponent implements OnInit, AfterViewInit {
           if (confirmed) {
             return this.tagService.deleteTag(tagView.id).pipe(
               tap(() => {
-                this.snackbarService.success('Tag successfully deleted');
+                this.snackbarService.success("Tag successfully deleted");
                 this.getTags();
               })
             );

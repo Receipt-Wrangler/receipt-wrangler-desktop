@@ -1,26 +1,25 @@
-import { BehaviorSubject, take, tap } from "rxjs";
-import { ReceiptFilterComponent } from "src/shared-ui/receipt-filter/receipt-filter.component";
-
 import { Component, OnInit, QueryList, ViewChildren } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
-import {
-  Dashboard, DashboardService, GroupState, SnackbarService, Widget, WidgetType
-} from "@receipt-wrangler/receipt-wrangler-core";
+import { BehaviorSubject, take, tap } from "rxjs";
+import { ReceiptFilterComponent } from "src/shared-ui/receipt-filter/receipt-filter.component";
+import { Dashboard, DashboardService, Widget, WidgetType } from "../../api";
+import { SnackbarService } from "../../services";
+import { GroupState } from "../../store";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-dashboard-form',
-  templateUrl: './dashboard-form.component.html',
-  styleUrls: ['./dashboard-form.component.scss'],
+  selector: "app-dashboard-form",
+  templateUrl: "./dashboard-form.component.html",
+  styleUrls: ["./dashboard-form.component.scss"],
 })
 export class DashboardFormComponent implements OnInit {
   @ViewChildren(ReceiptFilterComponent)
   public receiptFilterComponents!: QueryList<ReceiptFilterComponent>;
 
-  public headerText: string = '';
+  public headerText: string = "";
 
   public form: FormGroup = new FormGroup({});
 
@@ -37,7 +36,7 @@ export class DashboardFormComponent implements OnInit {
   public originalWidgets: Widget[] = [];
 
   public get widgets(): FormArray {
-    return this.form.get('widgets') as FormArray;
+    return this.form.get("widgets") as FormArray;
   }
 
   constructor(
@@ -56,7 +55,7 @@ export class DashboardFormComponent implements OnInit {
 
   public initForm(): void {
     this.form = this.formBuilder.group({
-      name: [this.dashboard?.name ?? '', Validators.required],
+      name: [this.dashboard?.name ?? "", Validators.required],
       groupId: [
         this.store.selectSnapshot(GroupState.selectedGroupId),
         Validators.required,
@@ -74,25 +73,25 @@ export class DashboardFormComponent implements OnInit {
 
   private listenForShowSummaryCardChanges(): void {
     this.form
-      .get('showSummaryCard')
+      .get("showSummaryCard")
       ?.valueChanges.pipe(
-        untilDestroyed(this),
-        tap((value) => {
-          if (value) {
-            const formGroup = this.buildWidgetFormGroup({
-              widgetType: WidgetType.GROUPSUMMARY,
-            } as Widget);
-            this.widgets.push(formGroup);
-          } else {
-            const index = this.widgets.controls.findIndex(
-              (c) => c.value.widgetType === WidgetType.GROUPSUMMARY
-            );
-            if (index > -1) {
-              this.widgets.removeAt(index);
-            }
+      untilDestroyed(this),
+      tap((value) => {
+        if (value) {
+          const formGroup = this.buildWidgetFormGroup({
+            widgetType: WidgetType.GROUPSUMMARY,
+          } as Widget);
+          this.widgets.push(formGroup);
+        } else {
+          const index = this.widgets.controls.findIndex(
+            (c) => c.value.widgetType === WidgetType.GROUPSUMMARY
+          );
+          if (index > -1) {
+            this.widgets.removeAt(index);
           }
-        })
-      )
+        }
+      })
+    )
       .subscribe();
   }
 
@@ -115,7 +114,7 @@ export class DashboardFormComponent implements OnInit {
 
     if (this.filterOpen.value !== undefined) {
       this.snackbarService.error(
-        'Please finish editing the open filter before submitting'
+        "Please finish editing the open filter before submitting"
       );
       return;
     }
@@ -126,7 +125,7 @@ export class DashboardFormComponent implements OnInit {
         .pipe(
           take(1),
           tap((dashboard) => {
-            this.snackbarService.success('Dashboard successfully created');
+            this.snackbarService.success("Dashboard successfully created");
             this.matDialogRef.close(dashboard);
           })
         )
@@ -137,7 +136,7 @@ export class DashboardFormComponent implements OnInit {
         .pipe(
           take(1),
           tap((dashboard) => {
-            this.snackbarService.success('Dashboard successfully updated');
+            this.snackbarService.success("Dashboard successfully updated");
             this.matDialogRef.close(dashboard);
           })
         )
@@ -163,7 +162,7 @@ export class DashboardFormComponent implements OnInit {
     widgetIndex: number
   ): void {
     (this.widgets.at(widgetIndex) as FormGroup).addControl(
-      'configuration',
+      "configuration",
       filterFormGroup
     );
   }
@@ -185,7 +184,7 @@ export class DashboardFormComponent implements OnInit {
       const widget = this.widgets.at(this.widgets.length - 1) as FormGroup;
       if (widget.valid) {
         const form = this.receiptFilterComponents.last.form;
-        widget.get('configuration')?.patchValue(form.value);
+        widget.get("configuration")?.patchValue(form.value);
         this.originalWidgets.push(widget.value);
 
         this.filterOpen.next(undefined);
@@ -198,7 +197,7 @@ export class DashboardFormComponent implements OnInit {
 
       if (widget.valid) {
         const form = this.receiptFilterComponents.first.form;
-        widget.get('configuration')?.patchValue(form.value);
+        widget.get("configuration")?.patchValue(form.value);
         this.originalWidgets.splice(
           this.filterOpen.value as number,
           1,

@@ -1,10 +1,9 @@
-import { GroupUtil } from "src/utils/group.utils";
-
 import { Pipe, PipeTransform } from "@angular/core";
-import { GroupRole } from "@receipt-wrangler/receipt-wrangler-core";
+import { GroupUtil } from "src/utils/group.utils";
+import { GroupRole } from "../api";
 
 @Pipe({
-  name: 'groupRole',
+  name: "groupRole",
 })
 export class GroupRolePipe implements PipeTransform {
   constructor(private groupUtil: GroupUtil) {}
@@ -15,7 +14,7 @@ export class GroupRolePipe implements PipeTransform {
     acceptAllGroup: boolean = true
   ): boolean {
     // if group id is just a number
-    if (groupId === 'all') {
+    if (groupId === "all") {
       return acceptAllGroup;
     }
     if (groupId) {

@@ -1,4 +1,4 @@
-import { Dashboard } from '@receipt-wrangler/receipt-wrangler-core';
+import { Dashboard } from "../api";
 
 export interface DashboardStateInterface {
   dashboards: { [groupId: string]: Dashboard[] };

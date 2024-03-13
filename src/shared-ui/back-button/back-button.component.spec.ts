@@ -1,10 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ActivatedRoute } from "@angular/router";
+import { ButtonModule } from "../../button";
+import { BackButtonComponent } from "./back-button.component";
 
-import { BackButtonComponent } from './back-button.component';
-import { ButtonModule } from '@receipt-wrangler/receipt-wrangler-core';
-import { ActivatedRoute } from '@angular/router';
-
-describe('BackButtonComponent', () => {
+describe("BackButtonComponent", () => {
   let component: BackButtonComponent;
   let fixture: ComponentFixture<BackButtonComponent>;
 
@@ -25,7 +24,7 @@ describe('BackButtonComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,23 +1,18 @@
-import { of } from 'rxjs';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { Router } from "@angular/router";
+import { of } from "rxjs";
+import { ApiModule, SearchResult, SearchService } from "../../api";
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
-import {
-  ApiModule,
-  SearchResult,
-  SearchService,
-} from '@receipt-wrangler/receipt-wrangler-core';
+import { SearchbarComponent } from "./searchbar.component";
 
-import { SearchbarComponent } from './searchbar.component';
-
-describe('SearchbarComponent', () => {
+describe("SearchbarComponent", () => {
   let component: SearchbarComponent;
   let fixture: ComponentFixture<SearchbarComponent>;
 
@@ -41,63 +36,63 @@ describe('SearchbarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should attempt to navigate to result', () => {
-    const spy = spyOn(TestBed.inject(Router), 'navigateByUrl');
+  it("should attempt to navigate to result", () => {
+    const spy = spyOn(TestBed.inject(Router), "navigateByUrl");
     const result: SearchResult = {
       id: 1,
       groupId: 1,
-      type: 'Receipt',
-      name: 'Hello',
-      date: 'totally a date',
+      type: "Receipt",
+      name: "Hello",
+      date: "totally a date",
     };
 
     component.navigateToResult(result);
-    expect(spy).toHaveBeenCalledWith('/receipts/1/view');
+    expect(spy).toHaveBeenCalledWith("/receipts/1/view");
   });
 
-  it('should do nothing when there is an invalid type', () => {
-    const spy = spyOn(TestBed.inject(Router), 'navigateByUrl');
+  it("should do nothing when there is an invalid type", () => {
+    const spy = spyOn(TestBed.inject(Router), "navigateByUrl");
     const result: SearchResult = {
       id: 1,
       groupId: 1,
-      type: 'Not a valid type',
-      name: 'Hello',
-      date: 'totally a date',
+      type: "Not a valid type",
+      name: "Hello",
+      date: "totally a date",
     };
 
     component.navigateToResult(result);
     expect(spy).toHaveBeenCalledTimes(0);
   });
 
-  it('should attempt to call the search service', () => {
-    const spy = spyOn(TestBed.inject(SearchService), 'receiptSearch');
+  it("should attempt to call the search service", () => {
+    const spy = spyOn(TestBed.inject(SearchService), "receiptSearch");
     spy.and.returnValue(
       of([
         {
           id: 1,
           groupId: 1,
-          type: 'Not a valid type',
-          name: 'Hello',
-          date: 'totally a date',
+          type: "Not a valid type",
+          name: "Hello",
+          date: "totally a date",
         },
       ] as any)
     );
 
     component.ngOnInit();
-    component.searchFormControl.patchValue('new search');
+    component.searchFormControl.patchValue("new search");
 
-    expect(spy).toHaveBeenCalledWith('new search');
+    expect(spy).toHaveBeenCalledWith("new search");
     expect(component.results).toEqual([
       {
         id: 1,
         groupId: 1,
-        type: 'Not a valid type',
-        name: 'Hello',
-        date: 'totally a date',
+        type: "Not a valid type",
+        name: "Hello",
+        date: "totally a date",
       },
     ]);
   });

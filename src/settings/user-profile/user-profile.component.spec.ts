@@ -1,23 +1,17 @@
-import { HttpClientModule } from '@angular/common/http';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { NgxsModule, Store } from '@ngxs/store';
-import {
-  ApiModule,
-  AuthService,
-  AuthState,
-  PipesModule as CorePipesModule,
-  UserService,
-  UserState,
-} from '@receipt-wrangler/receipt-wrangler-core';
-import { of } from 'rxjs';
-import { UserProfileComponent } from './user-profile.component';
-import { PipesModule } from 'src/pipes/pipes.module';
+import { HttpClientModule } from "@angular/common/http";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { ActivatedRoute } from "@angular/router";
+import { NgxsModule, Store } from "@ngxs/store";
+import { of } from "rxjs";
+import { PipesModule } from "src/pipes/pipes.module";
+import { ApiModule, AuthService, UserService } from "../../api";
+import { AuthState, UserState } from "../../store";
+import { UserProfileComponent } from "./user-profile.component";
 
-describe('UserProfileComponent', () => {
+describe("UserProfileComponent", () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
 
@@ -26,7 +20,7 @@ describe('UserProfileComponent', () => {
       declarations: [UserProfileComponent],
       imports: [
         ApiModule,
-        CorePipesModule,
+        PipesModule,
         HttpClientModule,
         MatSnackBarModule,
         NgxsModule.forRoot([AuthState, UserState]),
@@ -46,39 +40,39 @@ describe('UserProfileComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init form correctly', () => {
+  it("should init form correctly", () => {
     const store = TestBed.inject(Store);
     store.reset({
       auth: {
-        username: 'cheetos',
-        displayname: 'burger',
-        defaultAvatarColor: '#CD5C5C',
+        username: "cheetos",
+        displayname: "burger",
+        defaultAvatarColor: "#CD5C5C",
       },
     });
 
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
-      username: 'cheetos',
-      displayName: 'burger',
-      defaultAvatarColor: '#CD5C5C',
+      username: "cheetos",
+      displayName: "burger",
+      defaultAvatarColor: "#CD5C5C",
     });
   });
 
-  it('should submit form and update state correctly', () => {
+  it("should submit form and update state correctly", () => {
     const store = TestBed.inject(Store);
-    const serviceSpy = spyOn(TestBed.inject(UserService), 'updateUserProfile');
-    const authSpy = spyOn(TestBed.inject(AuthService), 'getNewRefreshToken');
+    const serviceSpy = spyOn(TestBed.inject(UserService), "updateUserProfile");
+    const authSpy = spyOn(TestBed.inject(AuthService), "getNewRefreshToken");
 
-    spyOn(TestBed.inject(UserService), 'getUserClaims').and.returnValue(
+    spyOn(TestBed.inject(UserService), "getUserClaims").and.returnValue(
       of({
-        userId: '1',
-        displayname: 'store',
-        username: 'general',
+        userId: "1",
+        displayname: "store",
+        username: "general",
       } as any)
     );
 
@@ -86,19 +80,19 @@ describe('UserProfileComponent', () => {
     authSpy.and.returnValue(of(undefined as any));
 
     store.reset({
-      users: { users: [{ id: 1, displayName: 'cheetos', username: 'burger' }] },
+      users: { users: [{ id: 1, displayName: "cheetos", username: "burger" }] },
       auth: {
-        userId: '1',
-        username: 'cheetos',
-        displayname: 'burger',
-        defaultAvatarColor: '#CD5C5C',
+        userId: "1",
+        username: "cheetos",
+        displayname: "burger",
+        defaultAvatarColor: "#CD5C5C",
       },
     });
 
     component.ngOnInit();
     component.form.patchValue({
-      username: 'general',
-      displayName: 'store',
+      username: "general",
+      displayName: "store",
     });
 
     component.submit();
@@ -107,9 +101,9 @@ describe('UserProfileComponent', () => {
     const updatedUsers = store.selectSnapshot(UserState.users);
 
     expect(serviceSpy).toHaveBeenCalledWith({
-      username: 'general',
-      displayName: 'store',
-      defaultAvatarColor: '#CD5C5C',
+      username: "general",
+      displayName: "store",
+      defaultAvatarColor: "#CD5C5C",
     } as any);
     expect(authSpy).toHaveBeenCalled();
 
