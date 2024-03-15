@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: 20.11.1
       - name: Setup node env
-        run: npm ci
+        run: npm ci --verbose
         working-directory: ${{env.working-directory}}
       - name: Test
         run: |
