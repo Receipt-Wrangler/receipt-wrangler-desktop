@@ -1,44 +1,28 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  TemplateRef,
-} from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { BehaviorSubject, take, tap } from 'rxjs';
-import { GroupState } from '../../store/group.state';
-import { UserValidators } from '../../validators/user-validators';
-import { AuthFormUtil } from './auth-form.util';
+import { Component, EventEmitter, OnInit, Output, } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup, Validators, } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Store } from "@ngxs/store";
+import { BehaviorSubject, take, tap } from "rxjs";
+import { GroupState } from "../../store/group.state";
+import { UserValidators } from "../../validators/user-validators";
+import { AuthFormUtil } from "./auth-form.util";
 
 @Component({
-  selector: 'app-auth-form',
-  templateUrl: './auth-form.component.html',
-  styleUrls: ['./auth-form.component.scss'],
+  selector: "app-auth-form",
+  templateUrl: "./auth-form.component.html",
+  styleUrls: ["./auth-form.component.scss"],
   providers: [UserValidators],
 })
 export class AuthForm implements OnInit {
-  @Input() public additionalFieldsTemplate?: TemplateRef<any>;
-
-  @Input() public emitSubmit: boolean = false;
-
   @Output() public submitted: EventEmitter<void> = new EventEmitter<void>();
 
   public form: FormGroup = new FormGroup({});
   public isSignUp: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
-  public headerText: string = '';
-  public primaryButtonText: string = '';
-  public secondaryButtonText: string = '';
+  public headerText: string = "";
+  public primaryButtonText: string = "";
+  public secondaryButtonText: string = "";
   public secondaryButtonRouterLink: string[] = [];
 
   constructor(
@@ -60,7 +44,7 @@ export class AuthForm implements OnInit {
     this.route.data
       .pipe(
         tap((data) => {
-          this.isSignUp.next(!!data?.['isSignUp']);
+          this.isSignUp.next(!!data?.["isSignUp"]);
         })
       )
       .subscribe();
@@ -71,28 +55,28 @@ export class AuthForm implements OnInit {
       .pipe(
         tap((isSignUp) => {
           if (isSignUp) {
-            this.headerText = 'Sign Up';
-            this.primaryButtonText = 'Sign Up';
-            this.secondaryButtonRouterLink = ['/auth/login'];
-            this.secondaryButtonText = 'Back to Login';
+            this.headerText = "Sign Up";
+            this.primaryButtonText = "Sign Up";
+            this.secondaryButtonRouterLink = ["/auth/login"];
+            this.secondaryButtonText = "Back to Login";
             this.form
-              .get('username')
-              ?.addAsyncValidators(this.userValidators.uniqueUsername(0, ''));
+              .get("username")
+              ?.addAsyncValidators(this.userValidators.uniqueUsername(0, ""));
             this.form.addControl(
-              'displayname',
-              new FormControl('', Validators.required)
+              "displayname",
+              new FormControl("", Validators.required)
             );
           } else {
-            this.headerText = 'Login';
-            this.primaryButtonText = 'Login';
-            this.secondaryButtonRouterLink = ['/auth/sign-up'];
-            this.secondaryButtonText = 'Sign Up';
+            this.headerText = "Login";
+            this.primaryButtonText = "Login";
+            this.secondaryButtonRouterLink = ["/auth/sign-up"];
+            this.secondaryButtonText = "Sign Up";
             this.form
-              .get('username')
+              .get("username")
               ?.removeAsyncValidators(
-                this.userValidators.uniqueUsername(0, '')
+                this.userValidators.uniqueUsername(0, "")
               );
-            this.form.removeControl('displayname');
+            this.form.removeControl("displayname");
           }
         })
       )
@@ -101,28 +85,24 @@ export class AuthForm implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      username: ['', [Validators.required]],
-      password: ['', Validators.required],
+      username: ["", [Validators.required]],
+      password: ["", Validators.required],
     });
   }
 
   public submit(): void {
-    if (this.emitSubmit) {
-      this.submitted.emit();
-    } else {
-      const isSignUp = this.isSignUp.getValue();
+    const isSignUp = this.isSignUp.getValue();
 
-      this.authFormUtil
-        .getSubmitObservable(this.form, isSignUp)
-        .pipe(
-          take(1),
-          tap(() => {
-            this.router.navigate([
-              this.store.selectSnapshot(GroupState.dashboardLink),
-            ]);
-          })
-        )
-        .subscribe();
-    }
+    this.authFormUtil
+      .getSubmitObservable(this.form, isSignUp)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.router.navigate([
+            this.store.selectSnapshot(GroupState.dashboardLink),
+          ]);
+        })
+      )
+      .subscribe();
   }
 }
