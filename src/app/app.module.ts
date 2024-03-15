@@ -20,7 +20,7 @@ import { AppComponent } from "./app.component";
   declarations: [AppComponent],
   imports: [
     ApiModule.forRoot(() => new Configuration({
-      basePath: "",
+      basePath: "https://wrangler.mybitbunker.net/api",
     })),
     AppRoutingModule,
     BrowserAnimationsModule,

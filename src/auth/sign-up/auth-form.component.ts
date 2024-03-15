@@ -3,8 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators, } from "@angular/forms
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { BehaviorSubject, take, tap } from "rxjs";
-import { GroupState } from "../../store/group.state";
-import { UserValidators } from "../../validators/user-validators";
+import { GroupState } from "../../store";
+import { UserValidators } from "../../validators";
 import { AuthFormUtil } from "./auth-form.util";
 
 @Component({
