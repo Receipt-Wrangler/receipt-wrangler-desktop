@@ -70,10 +70,14 @@ export class GroupState {
     return `/receipts/group/${state.selectedGroupId}`;
   }
 
-  // TODO: needs to be fixed
   @Selector()
   static dashboardLink(state: GroupStateInterface): string {
-    return `/dashboard/group/${state.selectedGroupId}`;
+    let groupId = state.selectedGroupId;
+    if (!groupId) {
+      groupId = state.groups[0].id.toString();
+    }
+
+    return `/dashboard/group/${groupId}`;
   }
 
   @Selector()
