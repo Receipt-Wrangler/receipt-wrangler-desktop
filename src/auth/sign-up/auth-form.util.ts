@@ -1,15 +1,17 @@
 import { Injectable } from "@angular/core";
 import { FormGroup } from "@angular/forms";
+import { Store } from "@ngxs/store";
 import { catchError, map, Observable, of, switchMap, tap } from "rxjs";
-import { AuthService } from "../../api";
-import { AppInitService, SnackbarService } from "../../services";
+import { AppData, AuthService } from "../../api";
+import { SnackbarService } from "../../services";
+import { setAppData } from "../../utils";
 
 @Injectable()
 export class AuthFormUtil {
   constructor(
     private authService: AuthService,
     private snackbarService: SnackbarService,
-    private appInitService: AppInitService
+    private store: Store
   ) {}
 
   public getSubmitObservable(
@@ -32,7 +34,7 @@ export class AuthFormUtil {
         tap(() => {
           this.snackbarService.success("Successfully logged in");
         }),
-        switchMap(() => this.appInitService.getAppData()),
+        switchMap((appData: AppData) => setAppData(this.store, appData)),
         map(() => undefined)
       );
     } else {

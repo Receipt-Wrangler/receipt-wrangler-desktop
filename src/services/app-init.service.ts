@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngxs/store";
-import { catchError, forkJoin, Observable, of, switchMap, tap, } from "rxjs";
+import { catchError, Observable, of, switchMap, tap, } from "rxjs";
 import { AppData, AuthService, UserService, } from "../api";
-import { SetAuthState, SetFeatureConfig, SetGroups, SetUserPreferences, SetUsers } from "../store";
+import { setAppData } from "../utils";
 
 @Injectable({
   providedIn: "root",
@@ -29,19 +29,10 @@ export class AppInitService {
     });
   }
 
-  public getAppData(): Observable<AppData> {
-    return this.userService.getAppData().pipe(switchMap((appData: AppData) => this.setAppData(appData)));
+  public getAppData(): Observable<any[]> {
+    return this.userService.getAppData().pipe(switchMap((appData: AppData) => setAppData(this.store, appData)));
   }
 
-  private setAppData(appData: AppData): Observable<any> {
-    return forkJoin([
-      this.store.dispatch(new SetAuthState(appData.claims)),
-      this.store.dispatch(new SetFeatureConfig(appData.featureConfig)),
-      this.store.dispatch(new SetGroups(appData.groups)),
-      this.store.dispatch(new SetUserPreferences(appData.userPreferences)),
-      this.store.dispatch(new SetUsers(appData.users)),
-    ]);
-  }
 }
 
 export function initAppData(appInitService: AppInitService) {
