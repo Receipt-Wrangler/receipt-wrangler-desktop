@@ -2,10 +2,6 @@
   <form [formGroup]="form" (ngSubmit)="submit()">
     <h2>{{ headerText }}</h2>
     <div class="d-flex flex-column">
-      <ng-template
-        *ngIf="additionalFieldsTemplate"
-        [ngTemplateOutlet]="additionalFieldsTemplate"
-      ></ng-template>
       <ng-container *ngIf="isSignUp | async">
         <app-input
           label="Displayname"
