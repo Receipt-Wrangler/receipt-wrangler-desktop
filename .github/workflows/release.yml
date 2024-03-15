@@ -2,19 +2,19 @@ name: Release
 
 on:
   release:
-    types: [ published ]
+    types: [published]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js 18.16.0
-        uses: actions/setup-node@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 18.16.0
+          node-version: 20.11.1
       - name: Setup node env
-        run: npm ci --force # TODO: Remove --force
+        run: npm ci
         working-directory: ${{env.working-directory}}
       - name: Test
         run: |
@@ -54,20 +54,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Login to Docker Hub
-        uses: docker/login-action@v2.1.0
+        uses: docker/login-action@v3.1.0
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
         with:
           platforms: "linux/arm64, linux/amd64"
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3.2.0
       - name: Build and push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5.3.0
         with:
           context: .
           platforms: linux/arm64/v8, linux/amd64
