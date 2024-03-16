@@ -9,27 +9,26 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ReceiptStatus } from './receiptStatus';
 
 
-/**
- * Tag to relate receipts to
- */
-export interface TagView { 
-    createdAt?: string;
-    createdBy?: number;
+export interface UserPreferencesAllOf { 
+    /**
+     * User preferences id
+     */
     id: number;
     /**
-     * Name of the tag
+     * User foreign key
      */
-    name: string;
+    userId: number;
     /**
-     * Description of the tag
+     * Group foreign key
      */
-    description?: string;
-    updatedAt?: string;
+    quickScanDefaultGroupId?: number;
     /**
-     * Number of receipts associated with this tag
+     * User foreign key
      */
-    numberOfReceipts: number;
+    quickScanDefaultPaidById?: number;
+    quickScanDefaultStatus?: ReceiptStatus;
 }
 

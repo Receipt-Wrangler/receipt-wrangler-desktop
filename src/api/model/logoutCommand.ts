@@ -11,25 +11,10 @@
  */
 
 
-/**
- * Tag to relate receipts to
- */
-export interface TagView { 
-    createdAt?: string;
-    createdBy?: number;
-    id: number;
+export interface LogoutCommand { 
     /**
-     * Name of the tag
+     * Refresh token
      */
-    name: string;
-    /**
-     * Description of the tag
-     */
-    description?: string;
-    updatedAt?: string;
-    /**
-     * Number of receipts associated with this tag
-     */
-    numberOfReceipts: number;
+    refreshToken: string;
 }
 

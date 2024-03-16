@@ -11,18 +11,13 @@
  */
 
 
-export interface BulkStatusUpdateCommand { 
-    /**
-     * Optional comment to leave on each receipt
-     */
-    comment?: string;
-    /**
-     * Status to update to
-     */
-    status: string;
-    /**
-     * Receipt ids to update
-     */
-    receiptIds: Array<number>;
-}
+/**
+ * Field value
+ */
+/**
+ * @type PagedRequestFieldValue
+ * Field value
+ * @export
+ */
+export type PagedRequestFieldValue = Array<number> | Array<string> | number | string;
 

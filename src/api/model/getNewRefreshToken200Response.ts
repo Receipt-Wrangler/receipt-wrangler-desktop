@@ -9,20 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Claims } from './claims';
+import { UserRole } from './userRole';
+import { TokenPair } from './tokenPair';
 
 
-export interface BulkStatusUpdateCommand { 
-    /**
-     * Optional comment to leave on each receipt
-     */
-    comment?: string;
-    /**
-     * Status to update to
-     */
-    status: string;
-    /**
-     * Receipt ids to update
-     */
-    receiptIds: Array<number>;
-}
+/**
+ * @type GetNewRefreshToken200Response
+ * @export
+ */
+export type GetNewRefreshToken200Response = Claims | TokenPair;
 

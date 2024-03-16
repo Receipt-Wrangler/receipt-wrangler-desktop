@@ -11,25 +11,14 @@
  */
 
 
-/**
- * Tag to relate receipts to
- */
-export interface TagView { 
-    createdAt?: string;
-    createdBy?: number;
-    id: number;
+export interface FileDataViewAllOf { 
     /**
-     * Name of the tag
+     * Base64 encoded image
+     */
+    encodedImage: string;
+    /**
+     * File name
      */
     name: string;
-    /**
-     * Description of the tag
-     */
-    description?: string;
-    updatedAt?: string;
-    /**
-     * Number of receipts associated with this tag
-     */
-    numberOfReceipts: number;
 }
 

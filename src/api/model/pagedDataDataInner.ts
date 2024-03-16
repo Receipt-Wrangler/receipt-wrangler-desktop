@@ -9,15 +9,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Comment } from './comment';
+import { Item } from './item';
+import { Category } from './category';
+import { Receipt } from './receipt';
+import { ReceiptStatus } from './receiptStatus';
+import { Tag } from './tag';
+import { FileData } from './fileData';
 
 
 /**
- * Command to reset user\'s password profile
+ * @type PagedDataDataInner
+ * @export
  */
-export interface ResetPasswordCommand { 
-    /**
-     * User\'s new password
-     */
-    password: string;
-}
+export type PagedDataDataInner = Category | Receipt | Tag;
 

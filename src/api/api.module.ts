@@ -2,7 +2,6 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
-
 import { AuthService } from './api/auth.service';
 import { CategoryService } from './api/category.service';
 import { CommentService } from './api/comment.service';
@@ -21,20 +20,7 @@ import { UserPreferencesService } from './api/userPreferences.service';
   imports:      [],
   declarations: [],
   exports:      [],
-  providers: [
-    AuthService,
-    CategoryService,
-    CommentService,
-    DashboardService,
-    FeatureConfigService,
-    GroupsService,
-    NotificationsService,
-    ReceiptService,
-    ReceiptImageService,
-    SearchService,
-    TagService,
-    UserService,
-    UserPreferencesService ]
+  providers: []
 })
 export class ApiModule {
     public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders<ApiModule> {
