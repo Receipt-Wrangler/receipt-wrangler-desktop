@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { take, tap } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
-import { ReceiptFileUploadCommand, ReceiptImageService } from "../../open-api";
+import { ReceiptFileUploadCommand } from "../../interfaces";
+import { ReceiptImageService } from "../../open-api";
 
 @Component({
   selector: "app-upload-image",

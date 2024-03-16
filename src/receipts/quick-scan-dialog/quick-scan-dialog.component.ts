@@ -5,10 +5,12 @@ import { MatSnackBarRef } from "@angular/material/snack-bar";
 import { Store } from "@ngxs/store";
 import { finalize, take, tap } from "rxjs";
 import { ToggleShowProgressBar } from "src/store/layout.state.actions";
-import { QuickScanCommand, ReceiptFileUploadCommand, ReceiptService } from "../../open-api";
+import { QuickScanCommand, ReceiptFileUploadCommand } from "../../interfaces";
+import { ReceiptService } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { AuthState, GroupState } from "../../store";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
+
 
 @Component({
   selector: "app-quick-scan-dialog",
@@ -92,7 +94,7 @@ export class QuickScanDialogComponent implements OnInit {
       this.store.dispatch(new ToggleShowProgressBar());
       this.receiptService
         .quickScanReceipt(
-          command.file,
+          [command.file],
           command.groupId,
           command.paidByUserId,
           command.status
