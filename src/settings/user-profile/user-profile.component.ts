@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { switchMap, take, tap } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
@@ -31,9 +31,10 @@ export class UserProfileComponent implements OnInit {
     private claimsService: ClaimsService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     private snackbarService: SnackbarService,
     private store: Store,
-    private userService: UserService
+    private userService: UserService,
   ) {}
 
   public ngOnInit(): void {
@@ -75,6 +76,7 @@ export class UserProfileComponent implements OnInit {
           }),
           tap(() => {
             this.snackbarService.success("User profile successfully updated");
+            this.router.navigate(["/settings/user-profile/view"]);
           })
         )
         .subscribe();
