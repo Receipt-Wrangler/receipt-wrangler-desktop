@@ -19,11 +19,9 @@ export class AppInitService {
   public initAppData(): Promise<boolean> {
 
     return new Promise((resolve) => {
-      const isLoggedIn = this.store.selectSnapshot((state) => AuthState.isLoggedIn);
-
+      const isLoggedIn = this.store.selectSnapshot((state) => AuthState.isLoggedIn(state));
 
       if (!isLoggedIn) {
-        console.warn("hit");
         this.featureConfigService.getFeatureConfig().pipe(
           take(1),
           switchMap((config) => this.store.dispatch(new SetFeatureConfig(config))),
@@ -31,6 +29,7 @@ export class AppInitService {
             resolve(true);
           })
         ).subscribe();
+        return;
       }
 
       this.authService.getNewRefreshToken().pipe(
