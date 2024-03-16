@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngxs/store";
-import { catchError, Observable, of, switchMap, tap, } from "rxjs";
-import { AppData, AuthService, UserService, } from "../open-api";
+import { catchError, finalize, Observable, of, switchMap, take, tap, } from "rxjs";
+import { AppData, AuthService, FeatureConfigService, UserService, } from "../open-api";
+import { AuthState, SetFeatureConfig } from "../store";
 import { setAppData } from "../utils";
 
 @Injectable({
@@ -12,12 +13,28 @@ export class AppInitService {
     private authService: AuthService,
     private store: Store,
     private userService: UserService,
+    private featureConfigService: FeatureConfigService
   ) {}
 
   public initAppData(): Promise<boolean> {
 
     return new Promise((resolve) => {
+      const isLoggedIn = this.store.selectSnapshot((state) => AuthState.isLoggedIn);
+
+
+      if (!isLoggedIn) {
+        console.warn("hit");
+        this.featureConfigService.getFeatureConfig().pipe(
+          take(1),
+          switchMap((config) => this.store.dispatch(new SetFeatureConfig(config))),
+          finalize(() => {
+            resolve(true);
+          })
+        ).subscribe();
+      }
+
       this.authService.getNewRefreshToken().pipe(
+        take(1),
         switchMap(() => this.getAppData()),
         tap(() => resolve(true)),
         catchError((err) => {
@@ -36,5 +53,5 @@ export class AppInitService {
 }
 
 export function initAppData(appInitService: AppInitService) {
-  return () => appInitService.initAppData();
+  return async () => await appInitService.initAppData();
 }
