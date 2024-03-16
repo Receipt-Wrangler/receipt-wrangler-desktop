@@ -133,7 +133,11 @@ export class AuthForm implements OnInit {
             this.snackbarService.success('Successfully logged in');
           }),
           switchMap((appData: AppData) => setAppData(this.store, appData)),
-          tap(() => this.store.selectSnapshot(GroupState.dashboardLink))
+          tap(() =>
+            this.router.navigate([
+              this.store.selectSnapshot(GroupState.dashboardLink),
+            ])
+          )
         )
         .subscribe();
     }
