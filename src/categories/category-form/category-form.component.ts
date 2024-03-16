@@ -48,7 +48,7 @@ export class CategoryForm implements OnInit {
         description: this.form.value.description,
       };
       this.categoryService
-        .updateCategory(category, category.id as number)
+        .updateCategory(category.id as number, category)
         .pipe(
           take(1),
           tap(() => {

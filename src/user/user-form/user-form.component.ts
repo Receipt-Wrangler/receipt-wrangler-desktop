@@ -91,7 +91,7 @@ export class UserFormComponent implements OnInit {
   public submit(): void {
     if (this.form.valid && this.user) {
       this.userService
-        .updateUserById(this.form.value, this.user.id)
+        .updateUserById(this.user.id, this.form.value)
         .pipe(
           take(1),
           tap(() => {

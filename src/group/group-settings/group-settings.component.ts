@@ -50,7 +50,7 @@ export class GroupSettingsComponent
   public submit(): void {
     if (this.form.valid) {
       this.groupsService
-        .updateGroupSettings(this.form.value, this.group.id)
+        .updateGroupSettings(this.group.id, this.form.value)
         .pipe(
           take(1),
           tap(() => {

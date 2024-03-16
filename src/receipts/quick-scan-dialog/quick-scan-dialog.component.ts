@@ -91,7 +91,7 @@ export class QuickScanDialogComponent implements OnInit {
       const command = this.buildQuickScanCommand();
       this.store.dispatch(new ToggleShowProgressBar());
       this.receiptService
-        .quickScanReceiptForm(
+        .quickScanReceipt(
           command.file,
           command.groupId,
           command.paidByUserId,

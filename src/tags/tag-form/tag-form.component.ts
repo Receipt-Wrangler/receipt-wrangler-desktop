@@ -48,7 +48,7 @@ export class TagFormComponent implements OnInit {
         description: this.form.value.description,
       };
       this.categoryService
-        .updateTag(command, this.tag.id as number)
+        .updateTag (this.tag.id as number, command)
         .pipe(
           take(1),
           tap(() => {

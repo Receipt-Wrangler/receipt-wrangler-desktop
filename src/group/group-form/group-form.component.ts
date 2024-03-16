@@ -258,7 +258,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
 
   private updateGroup(): void {
     this.groupsService
-      .updateGroup(this.form.value, this.originalGroup?.id ?? 0)
+      .updateGroup(this.originalGroup?.id ?? 0, this.form.value)
       .pipe(
         take(1),
         tap((group: Group) => {

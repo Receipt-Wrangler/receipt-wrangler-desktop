@@ -39,7 +39,7 @@ export class DummyUserConversionDialogComponent implements OnInit {
     if (this.form.valid) {
       let userId: string = this.user?.id?.toString();
       this.userService
-        .convertDummyUserById(this.form.value, Number.parseInt(userId))
+        .convertDummyUserById( Number.parseInt(userId), this.form.value)
         .pipe(
           take(1),
           tap(() => {

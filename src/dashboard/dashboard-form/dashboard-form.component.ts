@@ -132,7 +132,7 @@ export class DashboardFormComponent implements OnInit {
         .subscribe();
     } else if (canSubmit && this.dashboard) {
       this.dashboardService
-        .updateDashboard(this.form.value, this.dashboard.id)
+        .updateDashboard(this.dashboard.id, this.form.value)
         .pipe(
           take(1),
           tap((dashboard) => {
