@@ -72,12 +72,7 @@ export class GroupState {
 
   @Selector()
   static dashboardLink(state: GroupStateInterface): string {
-    let groupId = state.selectedGroupId;
-    if (!groupId) {
-      groupId = state.groups[0].id.toString();
-    }
-
-    return `/dashboard/group/${groupId}`;
+    return `/dashboard/group/${state.selectedGroupId}`;
   }
 
   @Selector()
