@@ -50,7 +50,7 @@ export class UploadImageComponent {
 
         if (f.type === "application/pdf" || f.type === "image/heic") {
           this.receiptImageService
-            .convertToJpgForm(f)
+            .convertToJpg(f)
             .pipe(
               take(1),
               tap((encodedImage) => {

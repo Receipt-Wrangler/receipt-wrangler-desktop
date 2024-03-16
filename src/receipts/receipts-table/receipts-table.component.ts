@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation, } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
@@ -17,31 +10,24 @@ import { finalize, map, Observable, take, tap } from 'rxjs';
 import { fadeInOut } from 'src/animations';
 import { ReceiptFilterService } from 'src/services/receipt-filter.service';
 import { ConfirmationDialogComponent } from 'src/shared-ui/confirmation-dialog/confirmation-dialog.component';
-import {
-  HideProgressBar,
-  ShowProgressBar,
-} from 'src/store/layout.state.actions';
-import {
-  ResetReceiptFilter,
-  SetPage,
-  SetPageSize,
-  SetReceiptFilterData,
-} from 'src/store/receipt-table.actions';
+import { HideProgressBar, ShowProgressBar, } from 'src/store/layout.state.actions';
+import { ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilterData, } from 'src/store/receipt-table.actions';
 import { ReceiptTableState } from 'src/store/receipt-table.state';
 import { TableColumn } from 'src/table/table-column.interface';
 import { TableComponent } from 'src/table/table/table.component';
 import { GroupUtil } from 'src/utils/group.utils';
+import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
 import {
   BulkStatusUpdateCommand,
   Category,
   GroupRole,
   GroupsService,
+  PagedDataDataInner,
   Receipt,
   ReceiptService,
   ReceiptStatus,
   Tag,
 } from '../../open-api';
-import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
 import { SnackbarService } from '../../services';
 import { ReceiptFilterComponent } from '../../shared-ui/receipt-filter/receipt-filter.component';
 import { GroupState } from '../../store';
@@ -107,8 +93,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public groupRole = GroupRole;
 
-  public dataSource: MatTableDataSource<Receipt> =
-    new MatTableDataSource<Receipt>([]);
+  public dataSource: MatTableDataSource<PagedDataDataInner> =
+    new MatTableDataSource<PagedDataDataInner>([]);
 
   public displayedColumns: string[] = [];
 
@@ -153,7 +139,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.dataSource = new MatTableDataSource<Receipt>(pagedData.data);
+          this.dataSource = new MatTableDataSource<PagedDataDataInner>(pagedData.data);
           this.totalCount = pagedData.totalCount;
           this.setColumns();
         })
@@ -418,9 +404,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
           (
             commentForm:
               | {
-                  comment: string;
-                  status: ReceiptStatus;
-                }
+              comment: string;
+              status: ReceiptStatus;
+            }
               | undefined
           ) => {
             if (this.table.selection.hasValue() && commentForm) {
@@ -442,7 +428,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
                     receipts.forEach((r) => {
                       const receiptInTable = newReceipts.find(
                         (nr) => r.id === nr.id
-                      );
+                      ) as Receipt;
                       if (receiptInTable) {
                         receiptInTable.status = r.status;
                         receiptInTable.resolvedDate = r.resolvedDate;
