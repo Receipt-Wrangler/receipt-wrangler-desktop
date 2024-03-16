@@ -3,7 +3,7 @@ import { EventType, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { take } from "rxjs";
 import { HideProgressBar } from "src/store/layout.state.actions";
-import { AuthService } from "../api";
+import { AuthService } from "../open-api";
 import { AuthState } from "../store";
 
 @Component({

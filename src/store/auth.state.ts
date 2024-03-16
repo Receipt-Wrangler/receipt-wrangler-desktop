@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Action, createSelector, Selector, State, StateContext } from "@ngxs/store";
 
-import { UserPreferences } from "../api";
-import { User } from "../api/model/user";
+import { UserPreferences } from "../open-api";
+import { User } from "../open-api/model/user";
 import { AuthStateInterface } from "./auth-state.interface";
 import { Logout, SetAuthState, SetUserPreferences } from "./auth.state.actions";
 

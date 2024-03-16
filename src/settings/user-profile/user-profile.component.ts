@@ -5,7 +5,7 @@ import { Store } from "@ngxs/store";
 import { switchMap, take, tap } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
 import { FormConfig } from "src/interfaces";
-import { AuthService, User, UserService } from "../../api";
+import { AuthService, User, UserService } from "../../open-api";
 import { ClaimsService, SnackbarService } from "../../services";
 import { AuthState, UpdateUser } from "../../store";
 

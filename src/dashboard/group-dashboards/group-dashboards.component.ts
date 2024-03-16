@@ -8,7 +8,7 @@ import { DEFAULT_DIALOG_CONFIG } from "src/constants";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { DashboardState } from "src/store/dashboard.state";
 import { AddDashboardToGroup, DeleteDashboardFromGroup, UpdateDashBoardForGroup, } from "src/store/dashboard.state.actions";
-import { Dashboard, DashboardService } from "../../api";
+import { Dashboard, DashboardService } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { GroupState, SetSelectedDashboardId } from "../../store";
 import { DashboardFormComponent } from "../dashboard-form/dashboard-form.component";

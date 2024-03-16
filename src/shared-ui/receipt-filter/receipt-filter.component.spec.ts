@@ -9,7 +9,7 @@ import { of } from "rxjs";
 import { PipesModule } from "src/pipes/pipes.module";
 import { SetReceiptFilter } from "src/store/receipt-table.actions";
 import { defaultReceiptFilter, ReceiptTableState, } from "src/store/receipt-table.state";
-import { CategoryService, FilterOperation, ReceiptStatus, TagService } from "../../api";
+import { CategoryService, FilterOperation, ReceiptStatus, TagService } from "../../open-api";
 import { InputModule } from "../../input";
 import { OperationsPipe } from "./operations.pipe";
 import { ReceiptFilterComponent } from "./receipt-filter.component";

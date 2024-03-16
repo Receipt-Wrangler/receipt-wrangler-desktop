@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { FilterOperation, ReceiptPagedRequestFilter } from "../api";
+import { FilterOperation, ReceiptPagedRequestFilter } from "../open-api";
 import { ReceiptTableInterface } from "../interfaces";
 import { ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData } from "./receipt-table.actions";
 

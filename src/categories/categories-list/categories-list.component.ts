@@ -11,7 +11,7 @@ import { CategoryTableState } from "src/store/category-table.state";
 import { SetOrderBy, SetPage, SetPageSize, SetSortDirection, } from "src/store/paged-table.state.actions";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
-import { CategoryService, CategoryView, PagedRequestCommand } from "../../api";
+import { CategoryService, CategoryView, PagedRequestCommand } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { CategoryForm } from "../category-form/category-form.component";
 

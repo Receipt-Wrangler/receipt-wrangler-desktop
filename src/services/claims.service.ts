@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, switchMap, take } from 'rxjs';
-import { UserService } from '../api/api/user.service';
+import { UserService } from '../open-api/api/user.service';
 import { SetAuthState } from '../store/auth.state.actions';
 
 @Injectable({

@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from "@angular/core";
 import { Store } from "@ngxs/store";
 import { catchError, Observable, switchMap, take, throwError } from "rxjs";
-import { AuthService } from "../api";
+import { AuthService } from "../open-api";
 import { SnackbarService } from "../services";
 import { AuthState } from "../store";
 

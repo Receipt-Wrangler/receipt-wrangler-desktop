@@ -1,6 +1,6 @@
 import { FormOption } from "src/interfaces/form-option.interface";
 import { formatStatus } from "src/utils";
-import { GroupRole, UserRole } from "../api";
+import { GroupRole, UserRole } from "../open-api";
 
 export const GROUP_ROLE_OPTIONS: FormOption[] = Object.keys(GroupRole).map(
   (key) => {

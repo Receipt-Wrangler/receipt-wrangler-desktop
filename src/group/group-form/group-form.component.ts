@@ -14,7 +14,7 @@ import { FormConfig } from "src/interfaces/form-config.interface";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
 import { SortByDisplayName } from "src/utils/sort-by-displayname";
-import { Group, GroupMember, GroupRole, GroupsService, GroupStatus } from "../../api";
+import { Group, GroupMember, GroupRole, GroupsService, GroupStatus } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { AddGroup, UpdateGroup } from "../../store";
 import { GroupMemberFormComponent } from "../group-member-form/group-member-form.component";

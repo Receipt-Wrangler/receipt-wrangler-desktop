@@ -6,7 +6,7 @@ import {
   State,
   StateContext,
 } from '@ngxs/store';
-import { FeatureConfig } from '../api';
+import { FeatureConfig } from '../open-api';
 import { SetFeatureConfig } from './feature-config.state.actions';
 
 @State<FeatureConfig>({

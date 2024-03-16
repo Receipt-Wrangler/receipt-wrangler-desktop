@@ -7,7 +7,7 @@ import { ActivatedRoute } from "@angular/router";
 import { NgxsModule, Store } from "@ngxs/store";
 import { of } from "rxjs";
 import { PipesModule } from "src/pipes/pipes.module";
-import { ApiModule, AuthService, UserService } from "../../api";
+import { ApiModule, AuthService, UserService } from "../../open-api";
 import { AuthState, UserState } from "../../store";
 import { UserProfileComponent } from "./user-profile.component";
 

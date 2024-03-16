@@ -2,7 +2,7 @@ import { Component, Input } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
 import { Observable } from "rxjs";
-import { Group } from "../../api";
+import { Group } from "../../open-api";
 import { GroupState } from "../../store";
 
 @Component({

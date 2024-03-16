@@ -4,7 +4,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
-import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../api";
+import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../open-api";
 import { GroupState } from "../../store";
 
 @UntilDestroy()

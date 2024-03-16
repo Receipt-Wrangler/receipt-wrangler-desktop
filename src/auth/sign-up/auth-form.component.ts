@@ -19,7 +19,7 @@ import {
 import { GroupState } from '../../store';
 import { UserValidators } from '../../validators';
 import { AuthFormUtil } from './auth-form.util';
-import { AppData, AuthService } from 'src/api';
+import { AppData, AuthService } from 'src/open-api';
 import { SnackbarService } from 'src/services';
 import { setAppData } from 'src/utils';
 

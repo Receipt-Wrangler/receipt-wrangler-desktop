@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { take, tap } from "rxjs";
 import { DuplicateValidator } from "src/validators/duplicate-validator";
-import { Category, CategoryService, CategoryView } from "../../api";
+import { Category, CategoryService, CategoryView } from "../../open-api";
 import { SnackbarService } from "../../services";
 
 @Component({

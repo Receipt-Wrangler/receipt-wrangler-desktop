@@ -1,5 +1,5 @@
-import { UserRole } from "../api";
-import { UserPreferences } from "../api/model/userPreferences";
+import { UserRole } from "../open-api";
+import { UserPreferences } from "../open-api/model/userPreferences";
 
 export interface AuthStateInterface {
   userId?: string;

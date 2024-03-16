@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { Store } from "@ngxs/store";
 import { catchError, map, Observable, of, switchMap, tap } from "rxjs";
-import { AppData, AuthService } from "../../api";
+import { AppData, AuthService } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { setAppData } from "../../utils";
 

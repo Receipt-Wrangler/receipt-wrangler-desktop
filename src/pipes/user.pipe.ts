@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import { Store } from "@ngxs/store";
-import { User } from "../api";
+import { User } from "../open-api";
 import { UserState } from "../store";
 
 @Pipe({

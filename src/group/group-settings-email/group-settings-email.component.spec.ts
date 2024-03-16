@@ -4,7 +4,7 @@ import { FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { PipesModule } from "src/pipes/pipes.module";
-import { Group, ReceiptStatus } from "../../api";
+import { Group, ReceiptStatus } from "../../open-api";
 
 import { GroupSettingsEmailComponent } from "./group-settings-email.component";
 

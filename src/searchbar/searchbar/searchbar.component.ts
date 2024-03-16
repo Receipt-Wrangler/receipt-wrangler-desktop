@@ -3,7 +3,7 @@ import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { of, switchMap, take, tap } from "rxjs";
-import { SearchResult, SearchService } from "../../api";
+import { SearchResult, SearchService } from "../../open-api";
 
 @UntilDestroy()
 @Component({

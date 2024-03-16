@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { NgxsModule, Store } from "@ngxs/store";
-import { GroupRole } from "../api";
+import { GroupRole } from "../open-api";
 import { AuthState, GroupState } from "../store";
 import { GroupUtil } from "./group.utils";
 

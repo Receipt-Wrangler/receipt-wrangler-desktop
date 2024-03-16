@@ -1,4 +1,4 @@
-import { ReceiptStatus } from "../api";
+import { ReceiptStatus } from "../open-api";
 import { StatusPipe } from "./status.pipe";
 
 describe("StatusPipe", () => {

@@ -1,4 +1,4 @@
-import { FeatureConfig } from '../api';
+import { FeatureConfig } from '../open-api';
 
 export class SetFeatureConfig {
   static readonly type = '[FeatureConfig] Set Feature Config';

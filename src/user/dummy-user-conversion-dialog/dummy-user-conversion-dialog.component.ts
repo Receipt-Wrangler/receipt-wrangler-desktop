@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
 import { switchMap, take, tap } from "rxjs";
-import { User, UserService } from "../../api";
+import { User, UserService } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { UpdateUser } from "../../store";
 

@@ -4,7 +4,7 @@ import { UntilDestroy } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
 import { Observable, take, tap } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
-import { Comment, CommentService } from "../../api";
+import { Comment, CommentService } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { AuthState } from "../../store";
 

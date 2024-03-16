@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
-import { ApiModule } from "../../api";
+import { ApiModule } from "../../open-api";
 import { UploadImageComponent } from "./upload-image.component";
 
 describe("UploadImageComponent", () => {

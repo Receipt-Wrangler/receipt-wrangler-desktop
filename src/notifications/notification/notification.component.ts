@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { take, tap } from "rxjs";
 import { ParameterizedDataParser } from "src/utils";
-import { Notification, NotificationsService } from "../../api";
+import { Notification, NotificationsService } from "../../open-api";
 
 @Component({
   selector: "app-notification",

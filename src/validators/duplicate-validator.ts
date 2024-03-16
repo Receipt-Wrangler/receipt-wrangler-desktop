@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AbstractControl, AsyncValidatorFn, ValidationErrors, } from "@angular/forms";
 import { map, Observable, of } from "rxjs";
-import { CategoryService, TagService } from "../api";
+import { CategoryService, TagService } from "../open-api";
 
 type DuplicateValidatorType = "category" | "tag";
 

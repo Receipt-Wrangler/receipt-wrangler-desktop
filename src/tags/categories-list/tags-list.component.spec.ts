@@ -8,7 +8,7 @@ import { of } from "rxjs";
 import { DEFAULT_DIALOG_CONFIG } from "src/constants";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { TagTableState } from "src/store/tag-table.state";
-import { ApiModule, TagService } from "../../api";
+import { ApiModule, TagService } from "../../open-api";
 import { TagFormComponent } from "../tag-form/tag-form.component";
 import { TagsListComponent } from "./tags-list.component";
 

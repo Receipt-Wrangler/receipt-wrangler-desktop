@@ -11,7 +11,7 @@ import { of } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
 import { PipesModule } from "src/pipes/pipes.module";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
-import { ApiModule, ReceiptImageService, ReceiptStatus } from "../../api";
+import { ApiModule, ReceiptImageService, ReceiptStatus } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { GroupState } from "../../store";
 import { ReceiptFormComponent } from "./receipt-form.component";

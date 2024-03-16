@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "src/guards/auth.guard";
 import { SidebarComponent } from "src/layout/sidebar/sidebar.component";
-import { UserRole } from "../api";
+import { UserRole } from "../open-api";
 
 // set up dashboard
 const routes: Routes = [

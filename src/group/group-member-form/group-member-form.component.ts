@@ -4,7 +4,7 @@ import { MatDialogRef } from "@angular/material/dialog";
 import { Select, Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { FormOption } from "src/interfaces/form-option.interface";
-import { GroupMember } from "../../api";
+import { GroupMember } from "../../open-api";
 import { AuthState } from "../../store";
 import { GROUP_ROLE_OPTIONS } from "../role-options";
 import { buildGroupMemberForm } from "../utils/group-member.utils";

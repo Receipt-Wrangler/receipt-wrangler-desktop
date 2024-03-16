@@ -5,7 +5,7 @@ import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { NgxsModule, Store } from "@ngxs/store";
 import { of } from "rxjs";
-import { ApiModule, UserService } from "../../api";
+import { ApiModule, UserService } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { SnackbarService } from "../../services";
 import { UpdateUser, UserState } from "../../store";

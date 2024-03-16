@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { UntilDestroy } from "@ngneat/until-destroy";
 import { take, tap } from "rxjs";
-import { UserService } from "../../api";
+import { UserService } from "../../open-api";
 
 
 @UntilDestroy()

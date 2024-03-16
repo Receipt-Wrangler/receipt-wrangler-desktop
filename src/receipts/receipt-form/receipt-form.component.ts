@@ -26,7 +26,7 @@ import {
   ReceiptService,
   ReceiptStatus,
   Tag
-} from "../../api";
+} from "../../open-api";
 import { SnackbarService } from "../../services";
 import { FeatureConfigState, GroupState, UserState } from "../../store";
 import { ItemListComponent } from "../item-list/item-list.component";

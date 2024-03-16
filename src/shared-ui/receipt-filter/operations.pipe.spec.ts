@@ -1,4 +1,4 @@
-import { FilterOperation } from "../../api";
+import { FilterOperation } from "../../open-api";
 import { OperationsPipe } from "./operations.pipe";
 
 describe("OperationsPipe", () => {

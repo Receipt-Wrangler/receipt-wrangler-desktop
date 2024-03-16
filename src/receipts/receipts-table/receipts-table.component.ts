@@ -40,7 +40,7 @@ import {
   ReceiptService,
   ReceiptStatus,
   Tag,
-} from '../../api';
+} from '../../open-api';
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from '../../constants';
 import { SnackbarService } from '../../services';
 import { ReceiptFilterComponent } from '../../shared-ui/receipt-filter/receipt-filter.component';

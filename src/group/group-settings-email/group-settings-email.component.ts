@@ -5,7 +5,7 @@ import { startWith, tap } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
 import { BaseFormComponent, FormCommand } from "src/form";
 import { FormListComponent } from "src/shared-ui/form-list/form-list.component";
-import { Group, GroupSettingsWhiteListEmail, SubjectLineRegex } from "../../api";
+import { Group, GroupSettingsWhiteListEmail, SubjectLineRegex } from "../../open-api";
 
 @Component({
   selector: "app-group-settings-email",

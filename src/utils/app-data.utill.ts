@@ -1,6 +1,6 @@
 import { Store } from '@ngxs/store';
 import { forkJoin, Observable, of } from 'rxjs';
-import { AppData } from '../api';
+import { AppData } from '../open-api';
 import {
   GroupState,
   SetAuthState,

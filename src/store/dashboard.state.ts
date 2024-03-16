@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Action, createSelector, Selector, State, StateContext, } from "@ngxs/store";
 import { take, tap } from "rxjs";
 import { DashboardStateInterface } from "src/interfaces/dashboard-state.interface";
-import { Dashboard, DashboardService } from "../api";
+import { Dashboard, DashboardService } from "../open-api";
 import { AddDashboardToGroup, DeleteDashboardFromGroup, SetDashboardsForGroup, UpdateDashBoardForGroup, } from "./dashboard.state.actions";
 
 @State<DashboardStateInterface>({

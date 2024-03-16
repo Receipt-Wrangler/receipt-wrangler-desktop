@@ -5,7 +5,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-import { ApiModule, Configuration } from '../api';
+import { ApiModule, Configuration } from '../open-api';
 import { AuthFormUtil } from '../auth';
 import { IconModule } from '../icon/icon.module';
 import { HttpInterceptorService } from '../interceptors/http-interceptor.service';

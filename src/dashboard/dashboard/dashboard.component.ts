@@ -6,7 +6,7 @@ import { Select, Store } from "@ngxs/store";
 import { Observable, tap } from "rxjs";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
 import { DashboardState } from "src/store/dashboard.state";
-import { Dashboard, WidgetType } from "../../api";
+import { Dashboard, WidgetType } from "../../open-api";
 import { GroupState } from "../../store";
 import { DashboardFormComponent } from "../dashboard-form/dashboard-form.component";
 

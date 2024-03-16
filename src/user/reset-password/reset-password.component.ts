@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { take, tap } from "rxjs";
-import { User, UserService } from "../../api";
+import { User, UserService } from "../../open-api";
 import { SnackbarService } from "../../services";
 
 @Component({

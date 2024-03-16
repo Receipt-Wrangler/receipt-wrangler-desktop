@@ -11,7 +11,7 @@ import { SetOrderBy, SetPage, SetPageSize, SetSortDirection, } from "src/store/p
 import { TagTableState } from "src/store/tag-table.state";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
-import { PagedRequestCommand, TagService, TagView } from "../../api";
+import { PagedRequestCommand, TagService, TagView } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { TagFormComponent } from "../tag-form/tag-form.component";
 

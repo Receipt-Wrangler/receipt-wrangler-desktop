@@ -4,7 +4,7 @@ import { ResolveFn } from "@angular/router";
 import { NgxsModule, Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { SetDashboardsForGroup } from "src/store/dashboard.state.actions";
-import { Dashboard, DashboardService } from "../../api";
+import { Dashboard, DashboardService } from "../../open-api";
 import { dashboardResolver } from "./dashboard.resolver";
 
 describe("dashboardResolver", () => {

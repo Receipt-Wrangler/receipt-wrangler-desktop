@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngxs/store";
 import { catchError, Observable, of, switchMap, tap, } from "rxjs";
-import { AppData, AuthService, UserService, } from "../api";
+import { AppData, AuthService, UserService, } from "../open-api";
 import { setAppData } from "../utils";
 
 @Injectable({

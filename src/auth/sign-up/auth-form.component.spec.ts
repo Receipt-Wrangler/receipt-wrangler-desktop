@@ -6,7 +6,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
 import { of } from 'rxjs';
-import { ApiModule } from '../../api';
+import { ApiModule } from '../../open-api';
 import { ButtonModule } from '../../button';
 import { FeatureDirective } from '../../directives/feature.directive';
 import { InputModule } from '../../input';

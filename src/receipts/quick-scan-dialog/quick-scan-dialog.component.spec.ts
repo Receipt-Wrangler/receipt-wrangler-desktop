@@ -8,7 +8,7 @@ import { ActivatedRoute } from "@angular/router";
 import { NgxsModule, Store } from "@ngxs/store";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 import { LayoutState } from "src/store/layout.state";
-import { ApiModule, ReceiptFileUploadCommand, ReceiptStatus } from "../../api";
+import { ApiModule, ReceiptFileUploadCommand, ReceiptStatus } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { SnackbarService } from "../../services";
 import { AuthState, GroupState } from "../../store";

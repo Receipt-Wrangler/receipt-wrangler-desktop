@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import { Store } from "@ngxs/store";
-import { Group } from "../api";
+import { Group } from "../open-api";
 import { GroupState } from "../store";
 
 @Pipe({

@@ -5,7 +5,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
 import { BehaviorSubject, take, tap } from "rxjs";
 import { ReceiptFilterComponent } from "src/shared-ui/receipt-filter/receipt-filter.component";
-import { Dashboard, DashboardService, Widget, WidgetType } from "../../api";
+import { Dashboard, DashboardService, Widget, WidgetType } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { GroupState } from "../../store";
 

@@ -3,7 +3,7 @@ import { TestBed } from "@angular/core/testing";
 import { CanActivateFn } from "@angular/router";
 import { NgxsModule, Store } from "@ngxs/store";
 import { Observable, of, take, tap } from "rxjs";
-import { ApiModule, GroupRole, ReceiptService } from "../api";
+import { ApiModule, GroupRole, ReceiptService } from "../open-api";
 import { receiptGuardGuard } from "./receipt-guard.guard";
 
 describe("receiptGuardGuard", () => {

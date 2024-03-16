@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { Observable } from "rxjs";
-import { Tag, TagService } from "../api";
+import { Tag, TagService } from "../open-api";
 
 @Injectable({
   providedIn: "root",

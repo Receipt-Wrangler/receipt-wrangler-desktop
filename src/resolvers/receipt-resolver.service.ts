@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { Observable } from "rxjs";
-import { Receipt, ReceiptService } from "../api";
+import { Receipt, ReceiptService } from "../open-api";
 
 
 @Injectable({

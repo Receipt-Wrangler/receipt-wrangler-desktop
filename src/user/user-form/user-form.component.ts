@@ -7,7 +7,7 @@ import { catchError, defer, iif, of, startWith, switchMap, take, tap, } from "rx
 import { USER_ROLE_OPTIONS } from "src/group/role-options";
 import { FormOption } from "src/interfaces/form-option.interface";
 import { UserValidators } from "src/validators/user-validators";
-import { AuthService, User, UserService } from "../../api";
+import { AuthService, User, UserService } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { AddUser, AuthState, UpdateUser } from "../../store";
 

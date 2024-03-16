@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import { GroupUtil } from "src/utils/group.utils";
-import { GroupRole } from "../api";
+import { GroupRole } from "../open-api";
 
 @Pipe({
   name: "groupRole",

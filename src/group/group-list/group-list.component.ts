@@ -7,7 +7,7 @@ import { Observable, take, tap } from "rxjs";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
-import { Group, GroupRole, GroupsService } from "../../api";
+import { Group, GroupRole, GroupsService } from "../../open-api";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
 import { SnackbarService } from "../../services";
 import { GroupState, RemoveGroup } from "../../store";

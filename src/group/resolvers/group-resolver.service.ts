@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { Observable, tap } from "rxjs";
 import { setEntityHeaderText } from "src/utils";
-import { Group, GroupsService } from "../../api";
+import { Group, GroupsService } from "../../open-api";
 
 @Injectable({
   providedIn: "root",

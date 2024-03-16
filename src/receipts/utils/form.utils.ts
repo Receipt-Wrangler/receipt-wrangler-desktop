@@ -1,5 +1,5 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { Item, ItemStatus } from "../../api";
+import { Item, ItemStatus } from "../../open-api";
 
 export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
   return new FormGroup({

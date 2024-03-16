@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
 import { NgxsModule, Store } from "@ngxs/store";
 import { of } from "rxjs";
 import { ToggleIsSidebarOpen } from "src/store/layout.state.actions";
-import { ApiModule, AuthService } from "../../api";
+import { ApiModule, AuthService } from "../../open-api";
 import { Logout } from "../../store";
 import { HeaderComponent } from "./header.component";
 

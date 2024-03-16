@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgxsModule, Store } from "@ngxs/store";
 import { of } from "rxjs";
-import { ApiModule, NotificationsService } from "../../api";
+import { ApiModule, NotificationsService } from "../../open-api";
 import { GroupState } from "../../store";
 import { NotificationComponent } from "./notification.component";
 

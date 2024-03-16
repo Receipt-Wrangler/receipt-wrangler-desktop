@@ -16,7 +16,7 @@ import { SelectModule } from "src/select/select.module";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 import { TableModule } from "src/table/table.module";
 import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.module";
-import { ApiModule, Group, GroupRole, GroupsService, GroupStatus } from "../../api";
+import { ApiModule, Group, GroupRole, GroupsService, GroupStatus } from "../../open-api";
 import { ButtonModule } from "../../button";
 import { InputModule } from "../../input";
 import { AddGroup, UpdateGroup } from "../../store";

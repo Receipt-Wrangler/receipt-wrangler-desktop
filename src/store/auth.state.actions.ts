@@ -1,5 +1,5 @@
-import { Claims } from "../api";
-import { UserPreferences } from "../api/model/userPreferences";
+import { Claims } from "../open-api";
+import { UserPreferences } from "../open-api/model/userPreferences";
 
 export class SetAuthState {
   static readonly type = '[Auth] Set Auth State';

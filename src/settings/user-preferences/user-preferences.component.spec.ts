@@ -8,7 +8,7 @@ import { NgxsModule, Store } from "@ngxs/store";
 import { of } from "rxjs";
 import { InputReadonlyPipe } from "src/pipes/input-readonly.pipe";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
-import { UserPreferences, UserPreferencesService } from "../../api";
+import { UserPreferences, UserPreferencesService } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { AuthState } from "../../store";
 

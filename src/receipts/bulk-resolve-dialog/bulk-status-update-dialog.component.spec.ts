@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
-import { ReceiptStatus } from "../../api";
+import { ReceiptStatus } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { BulkStatusUpdateComponent } from "./bulk-status-update-dialog.component";
 

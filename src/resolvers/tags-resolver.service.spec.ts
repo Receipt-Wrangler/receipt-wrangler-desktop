@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { ApiModule } from "../api";
+import { ApiModule } from "../open-api";
 
 import { TagsResolverService } from "./tags-resolver.service";
 

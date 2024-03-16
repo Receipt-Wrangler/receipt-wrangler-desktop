@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Select } from "@ngxs/store";
 import { Observable, take, tap } from "rxjs";
 import { BaseFormComponent } from "src/form/base-form/base-form.component";
-import { Group, GroupsService } from "../../api";
+import { Group, GroupsService } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { GroupState } from "../../store";
 

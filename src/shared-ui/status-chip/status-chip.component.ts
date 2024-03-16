@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { ReceiptStatus } from "../../api";
+import { ReceiptStatus } from "../../open-api";
 
 @Component({
   selector: "app-status-chip",

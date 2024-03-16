@@ -3,7 +3,7 @@ import { FormControl } from "@angular/forms";
 import { Store } from "@ngxs/store";
 import { AutocomleteComponent } from "src/autocomplete/autocomlete/autocomlete.component";
 import { GroupMemberUserService } from "src/services/group-member-user.service";
-import { User } from "../../api";
+import { User } from "../../open-api";
 import { UserState } from "../../store";
 
 @Component({

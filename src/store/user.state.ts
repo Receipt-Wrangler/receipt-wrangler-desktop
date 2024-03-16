@@ -6,7 +6,7 @@ import {
   State,
   StateContext,
 } from '@ngxs/store';
-import { User } from '../api/model/user';
+import { User } from '../open-api/model/user';
 import {
   AddUser,
   RemoveUser,

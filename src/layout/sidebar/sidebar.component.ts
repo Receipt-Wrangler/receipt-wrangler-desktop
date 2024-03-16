@@ -4,7 +4,7 @@ import { Select, Store } from "@ngxs/store";
 import { map, Observable, switchMap, take, tap } from "rxjs";
 import { LayoutState } from "src/store/layout.state";
 import { SetPage } from "src/store/receipt-table.actions";
-import { AuthService, Group, GroupStatus, User } from "../../api";
+import { AuthService, Group, GroupStatus, User } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { AuthState, GroupState, Logout, SetSelectedGroupId } from "../../store";
 

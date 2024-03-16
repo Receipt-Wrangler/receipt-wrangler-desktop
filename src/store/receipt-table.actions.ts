@@ -1,4 +1,4 @@
-import { ReceiptPagedRequestFilter } from "../api";
+import { ReceiptPagedRequestFilter } from "../open-api";
 import { ReceiptTableInterface } from "../interfaces";
 
 export class SetPage {
