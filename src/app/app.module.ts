@@ -5,10 +5,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-import {
-  AppDataService,
-  initAppDataService,
-} from 'src/services/app-data.service';
 import { ApiModule, Configuration } from '../api';
 import { AuthFormUtil } from '../auth';
 import { IconModule } from '../icon/icon.module';
@@ -18,6 +14,7 @@ import { PipesModule } from '../pipes';
 import { StoreModule } from '../store/store.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppInitService, initAppData } from 'src/services';
 
 @NgModule({
   declarations: [AppComponent],
@@ -50,8 +47,8 @@ import { AppComponent } from './app.component';
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: initAppDataService,
-      deps: [AppDataService],
+      useFactory: initAppData,
+      deps: [AppInitService],
       multi: true,
     },
     provideNgxMask(),
