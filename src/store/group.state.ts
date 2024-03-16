@@ -72,7 +72,6 @@ export class GroupState {
 
   @Selector()
   static dashboardLink(state: GroupStateInterface): string {
-    console.warn(state.selectedGroupId);
     return `/dashboard/group/${state.selectedGroupId}`;
   }
 
