@@ -9,6 +9,7 @@ import { UserState } from "../store";
 export class UserPipe implements PipeTransform {
   constructor(private store: Store) {}
 
+  // TODO: fix user not showing up in comments
   public transform(userId?: string): User | undefined {
     return this.store.selectSnapshot(UserState.getUserById(userId ?? ""));
   }
