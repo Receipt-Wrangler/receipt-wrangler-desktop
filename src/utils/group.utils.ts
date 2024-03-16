@@ -13,7 +13,7 @@ export class GroupUtil {
     groupId: number | undefined,
     groupRole: GroupRole
   ): boolean {
-    const roles = [GroupRole.VIEWER, GroupRole.EDITOR, GroupRole.OWNER];
+    const roles = [GroupRole.Viewer, GroupRole.Editor, GroupRole.Owner];
     const requiredIndex = roles.findIndex((v) => v === groupRole) as number;
 
     if (!groupId) {

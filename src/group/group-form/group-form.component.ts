@@ -164,7 +164,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
     this.form = this.formBuilder.group({
       name: [this.originalGroup?.name ?? "", Validators.required],
       groupMembers: this.formBuilder.array(groupMembers),
-      status: this.originalGroup?.status ?? GroupStatus.ACTIVE,
+      status: this.originalGroup?.status ?? GroupStatus.Active,
     });
 
     this.groupMembers.valueChanges
@@ -219,7 +219,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
   public submit(): void {
     if (this.form.valid) {
       const owners = (this.groupMembers.value as GroupMember[]).filter(
-        (gm) => gm.groupRole === GroupRole.OWNER
+        (gm) => gm.groupRole === GroupRole.Owner
       );
       if (owners.length === 0 && this.formConfig.mode !== FormMode.add) {
         this.snackbarService.error("Group must have at least one owner!");

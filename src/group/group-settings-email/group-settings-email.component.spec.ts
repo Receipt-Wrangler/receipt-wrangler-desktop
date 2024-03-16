@@ -100,7 +100,7 @@ describe("GroupSettingsEmailComponent", () => {
             email: "twoHundred@test.com",
           },
         ],
-        emailDefaultReceiptStatus: ReceiptStatus.OPEN,
+        emailDefaultReceiptStatus: ReceiptStatus.Open,
         emailDefaultReceiptPaidById: 1,
       },
     } as any;

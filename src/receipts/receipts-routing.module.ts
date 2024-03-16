@@ -33,7 +33,7 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.add,
-      groupRole: GroupRole.EDITOR,
+      groupRole: GroupRole.Editor,
     },
     canActivate: [GroupRoleGuard],
   },
@@ -47,7 +47,7 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.view,
-      groupRole: GroupRole.VIEWER,
+      groupRole: GroupRole.Viewer,
     },
     canActivate: [receiptGuardGuard],
   },
@@ -61,7 +61,7 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.edit,
-      groupRole: GroupRole.EDITOR,
+      groupRole: GroupRole.Editor,
     },
     canActivate: [receiptGuardGuard],
   },

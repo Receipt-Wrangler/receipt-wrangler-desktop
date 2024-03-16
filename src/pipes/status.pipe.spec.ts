@@ -9,7 +9,7 @@ describe("StatusPipe", () => {
 
   it("should return Open", () => {
     const pipe = new StatusPipe();
-    const result = pipe.transform(ReceiptStatus.OPEN);
+    const result = pipe.transform(ReceiptStatus.Open);
 
     expect(result).toEqual("Open");
   });
@@ -23,7 +23,7 @@ describe("StatusPipe", () => {
 
   it("should return Resolved", () => {
     const pipe = new StatusPipe();
-    const result = pipe.transform(ReceiptStatus.RESOLVED);
+    const result = pipe.transform(ReceiptStatus.Resolved);
 
     expect(result).toEqual("Resolved");
   });

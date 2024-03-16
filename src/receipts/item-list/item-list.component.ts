@@ -182,7 +182,7 @@ export class ItemListComponent implements OnInit {
 
     filtered.forEach((i) =>
       i.patchValue({
-        status: ItemStatus.RESOLVED,
+        status: ItemStatus.Resolved,
       })
     );
   }
@@ -190,7 +190,7 @@ export class ItemListComponent implements OnInit {
   public allUserItemsResolved(userId: string): boolean {
     const userItems = this.getItemsForUser(userId);
     return userItems.every(
-      (i) => i.get("status")?.value === ItemStatus.RESOLVED
+      (i) => i.get("status")?.value === ItemStatus.Resolved
     );
   }
 

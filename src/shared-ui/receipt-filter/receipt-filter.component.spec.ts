@@ -21,35 +21,35 @@ describe("ReceiptFilterComponent", () => {
 
   const filledFilter = {
     date: {
-      operation: FilterOperation.EQUALS,
+      operation: FilterOperation.Equals,
       value: "2023-01-06",
     },
     name: {
-      operation: FilterOperation.EQUALS,
+      operation: FilterOperation.Equals,
       value: "hello world",
     },
     amount: {
-      operation: FilterOperation.GREATERTHAN,
+      operation: FilterOperation.GreaterThan,
       value: 12.05,
     },
     paidBy: {
-      operation: FilterOperation.CONTAINS,
+      operation: FilterOperation.Contains,
       value: [1],
     },
     categories: {
-      operation: FilterOperation.CONTAINS,
+      operation: FilterOperation.Contains,
       value: [2],
     },
     tags: {
-      operation: FilterOperation.CONTAINS,
+      operation: FilterOperation.Contains,
       value: [3, 4],
     },
     status: {
-      operation: FilterOperation.CONTAINS,
-      value: [ReceiptStatus.OPEN],
+      operation: FilterOperation.Contains,
+      value: [ReceiptStatus.Open],
     },
     resolvedDate: {
-      operation: FilterOperation.GREATERTHAN,
+      operation: FilterOperation.GreaterThan,
       value: "2023-01-06",
     },
   };

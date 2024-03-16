@@ -83,7 +83,7 @@ describe("GroupFormComponent", () => {
     formGroup.patchValue({
       userId: "2",
       groupId: "1",
-      groupRole: GroupRole.VIEWER,
+      groupRole: GroupRole.Viewer,
     });
     spyOn(matDialog, "open").and.returnValue({
       afterClosed: () => of(formGroup),
@@ -103,12 +103,12 @@ describe("GroupFormComponent", () => {
       {
         userId: 2,
         groupId: 1,
-        groupRole: GroupRole.OWNER,
+        groupRole: GroupRole.Owner,
       },
       {
         userId: 3,
         groupId: 1,
-        groupRole: GroupRole.OWNER,
+        groupRole: GroupRole.Owner,
       },
     ];
     const matDialog = TestBed.inject(MatDialog);
@@ -116,7 +116,7 @@ describe("GroupFormComponent", () => {
     formGroup.patchValue({
       userId: 3,
       groupId: 1,
-      groupRole: GroupRole.OWNER,
+      groupRole: GroupRole.Owner,
     });
     spyOn(matDialog, "open").and.returnValue({
       afterClosed: () => of(formGroup),
@@ -132,12 +132,12 @@ describe("GroupFormComponent", () => {
           {
             userId: 2,
             groupId: 1,
-            groupRole: GroupRole.OWNER,
+            groupRole: GroupRole.Owner,
           },
           {
             userId: 1,
             groupId: 1,
-            groupRole: GroupRole.VIEWER,
+            groupRole: GroupRole.Viewer,
           },
         ],
       },
@@ -158,7 +158,7 @@ describe("GroupFormComponent", () => {
     const result = {
       userId: 1,
       groupId: 1,
-      groupRole: GroupRole.VIEWER,
+      groupRole: GroupRole.Viewer,
     };
 
     route.snapshot.data = {
@@ -170,7 +170,7 @@ describe("GroupFormComponent", () => {
           {
             userId: 2,
             groupId: 1,
-            groupRole: GroupRole.OWNER,
+            groupRole: GroupRole.Owner,
           },
           result,
         ],
@@ -197,7 +197,7 @@ describe("GroupFormComponent", () => {
       name: "test",
       isDefault: true,
       groupMembers: [],
-      status: GroupStatus.ACTIVE,
+      status: GroupStatus.Active,
       isAllGroup: false,
     };
 
@@ -227,7 +227,7 @@ describe("GroupFormComponent", () => {
 
     expect(createSpy).toHaveBeenCalledWith({
       name: "test",
-      status: GroupStatus.ACTIVE,
+      status: GroupStatus.Active,
       groupMembers: [],
     } as any);
     expect(storeSpy).toHaveBeenCalledWith(new AddGroup(returnValue));
@@ -243,17 +243,17 @@ describe("GroupFormComponent", () => {
       id: 1,
       name: "test",
       isDefault: true,
-      status: GroupStatus.ACTIVE,
+      status: GroupStatus.Active,
       groupMembers: [
         {
           userId: 2,
           groupId: 1,
-          groupRole: GroupRole.OWNER,
+          groupRole: GroupRole.Owner,
         },
         {
           userId: 1,
           groupId: 1,
-          groupRole: GroupRole.VIEWER,
+          groupRole: GroupRole.Viewer,
         },
       ],
       isAllGroup: false,
@@ -278,7 +278,7 @@ describe("GroupFormComponent", () => {
       new FormGroup({
         userId: new FormControl(3),
         groupId: new FormControl(1),
-        groupRole: new FormControl(GroupRole.EDITOR),
+        groupRole: new FormControl(GroupRole.Editor),
       })
     );
 
@@ -294,22 +294,22 @@ describe("GroupFormComponent", () => {
     expect(updateSpy).toHaveBeenCalledWith(
       {
         name: "new name",
-        status: GroupStatus.ACTIVE,
+        status: GroupStatus.Active,
         groupMembers: [
           {
             userId: 2,
             groupId: 1,
-            groupRole: GroupRole.OWNER,
+            groupRole: GroupRole.Owner,
           },
           {
             userId: 1,
             groupId: 1,
-            groupRole: GroupRole.VIEWER,
+            groupRole: GroupRole.Viewer,
           },
           {
             userId: 3,
             groupId: 1,
-            groupRole: GroupRole.EDITOR,
+            groupRole: GroupRole.Editor,
           },
         ],
       } as Group,

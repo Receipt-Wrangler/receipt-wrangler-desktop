@@ -86,7 +86,7 @@ describe("DashboardFormComponent", () => {
       showSummaryCard: true,
       widgets: [
         {
-          widgetType: WidgetType.GROUPSUMMARY,
+          widgetType: WidgetType.GroupSummary,
         },
       ],
     });
@@ -111,7 +111,7 @@ describe("DashboardFormComponent", () => {
       showSummaryCard: true,
       widgets: [
         {
-          widgetType: WidgetType.GROUPSUMMARY,
+          widgetType: WidgetType.GroupSummary,
         },
       ],
     });

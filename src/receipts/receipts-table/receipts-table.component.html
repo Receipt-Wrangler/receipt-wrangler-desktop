@@ -5,7 +5,7 @@
       icon="add"
       matButtonType="iconButton"
       tooltip="Add Receipt"
-      [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
+      [disabled]="!(groupId | groupRole : groupRole.Editor)"
       [buttonRouterLink]="['/receipts/add']"
     ></app-button>
     <app-button
@@ -15,7 +15,7 @@
       matButtonType="iconButton"
       tooltip="Quick Scan"
       color="accent"
-      [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
+      [disabled]="!(groupId | groupRole : groupRole.Editor)"
       (clicked)="showQuickScanDialog()"
     ></app-button>
     <app-button
@@ -26,7 +26,7 @@
       color="accent"
       matBadgeColor="accent"
       [matBadgeContent]="numFiltersApplied | async"
-      [disabled]="!(groupId | groupRole : groupRole.EDITOR)"
+      [disabled]="!(groupId | groupRole : groupRole.Editor)"
       (clicked)="filterButtonClicked()"
     ></app-button>
     <app-button
@@ -47,7 +47,7 @@
       tooltip="Poll email(s)"
       color="accent"
       matBadgeColor="accent"
-      [disabled]="!(groupId | groupRole : groupRole.VIEWER)"
+      [disabled]="!(groupId | groupRole : groupRole.Viewer)"
       (clicked)="pollEmail()"
     ></app-button>
     <app-button
@@ -120,7 +120,7 @@
     <app-edit-button
       color="accent"
       [buttonRouterLink]="['/receipts/' + element.id + '/edit']"
-      [disabled]="!(element.groupId | groupRole : groupRole.EDITOR)"
+      [disabled]="!(element.groupId | groupRole : groupRole.Editor)"
     ></app-edit-button>
     <app-button
       matButtonType="iconButton"
@@ -128,7 +128,7 @@
       tooltip="Duplciate"
       color="accent"
       (clicked)="duplicateReceipt(element.id)"
-      [disabled]="!(element.groupId | groupRole : groupRole.EDITOR)"
+      [disabled]="!(element.groupId | groupRole : groupRole.Editor)"
     ></app-button>
     <app-button
       matButtonType="iconButton"
@@ -137,7 +137,7 @@
       color="warn"
       tooltip="Delete"
       (clicked)="deleteReceipt(element)"
-      [disabled]="!(element.groupId | groupRole : groupRole.EDITOR)"
+      [disabled]="!(element.groupId | groupRole : groupRole.Editor)"
     ></app-button>
   </div>
 </ng-template>

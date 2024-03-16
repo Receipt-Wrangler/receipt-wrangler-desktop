@@ -70,7 +70,7 @@ describe("UserFormComponent", () => {
       displayName: "Pizza man",
       username: "Waffle guy",
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: UserRole.Admin,
     } as User;
 
     component.user = user;
@@ -79,7 +79,7 @@ describe("UserFormComponent", () => {
     expect(component.form.value).toEqual({
       displayName: "Pizza man",
       username: "Waffle guy",
-      userRole: UserRole.ADMIN,
+      userRole: UserRole.Admin,
     });
     expect(component.form.get("isDummyUser")?.value).toEqual(false);
   });
@@ -114,7 +114,7 @@ describe("UserFormComponent", () => {
       displayName: "Pizza man",
       username: "Waffle guy",
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: UserRole.Admin,
     } as User;
 
     component.user = user;
@@ -126,7 +126,7 @@ describe("UserFormComponent", () => {
       {
         displayName: "Pizza man",
         username: "Waffle guy",
-        userRole: UserRole.ADMIN,
+        userRole: UserRole.Admin,
       } as User,
       1
     );
@@ -173,7 +173,7 @@ describe("UserFormComponent", () => {
       displayName: "Pizza man",
       username: "Waffle guy",
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: UserRole.Admin,
     } as User;
 
     component.user = user;
@@ -185,7 +185,7 @@ describe("UserFormComponent", () => {
       {
         displayName: "Pizza man",
         username: "Waffle guy",
-        userRole: UserRole.ADMIN,
+        userRole: UserRole.Admin,
       } as User,
       1
     );
@@ -213,7 +213,7 @@ describe("UserFormComponent", () => {
       displayName: "Pizza man",
       username: "Waffle guy",
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: UserRole.Admin,
     } as User;
 
     const userServiceSpy = spyOn(TestBed.inject(UserService), "createUser");
@@ -230,7 +230,7 @@ describe("UserFormComponent", () => {
       username: "Waffle guy",
       isDummyUser: false,
       password: "Dough boy",
-      userRole: UserRole.ADMIN,
+      userRole: UserRole.Admin,
     });
 
     component.submit();
@@ -239,7 +239,7 @@ describe("UserFormComponent", () => {
       displayName: "Pizza man",
       username: "Waffle guy",
       isDummyUser: false,
-      userRole: UserRole.ADMIN,
+      userRole: UserRole.Admin,
       password: "Dough boy",
     } as any);
 

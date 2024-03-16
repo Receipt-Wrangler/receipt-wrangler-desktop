@@ -67,7 +67,7 @@ describe("ReceiptFormComponent", () => {
       date: mockedDate,
       paidByUserId: "",
       groupId: 0,
-      status: ReceiptStatus.OPEN,
+      status: ReceiptStatus.Open,
     });
   });
 

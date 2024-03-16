@@ -40,13 +40,13 @@
 <ng-template #actionsCell let-element="element" let-index="index">
   <div class="d-flex">
     <app-edit-button
-      *ngIf="element.id | groupRole : groupRole.OWNER"
+      *ngIf="element.id | groupRole : groupRole.Owner"
       color="accent"
       tooltip="Edit group"
       [buttonRouterLink]="['/groups/' + element.id + '/details/edit']"
     ></app-edit-button>
     <app-delete-button
-      *ngIf="element.id | groupRole : groupRole.OWNER"
+      *ngIf="element.id | groupRole : groupRole.Owner"
       tooltip="Delete Group"
       [disabled]="(groups | async)?.length === 1"
       (clicked)="deleteGroup(index)"

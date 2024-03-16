@@ -13,9 +13,9 @@ export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
       Validators.min(0),
       itemTotalValidator(),
     ]),
-    isTaxed: new FormControl(item?.isTaxed ?? false),
+    isTaxed: new FormControl(item?.IsTaxed ?? false),
     status: new FormControl(
-      item?.status ?? ItemStatus.OPEN,
+      item?.status ?? ItemStatus.Open,
       Validators.required
     ),
   });

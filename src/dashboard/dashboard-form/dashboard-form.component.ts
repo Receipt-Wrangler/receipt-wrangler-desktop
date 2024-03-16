@@ -62,7 +62,7 @@ export class DashboardFormComponent implements OnInit {
       ],
       showSummaryCard: [
         this?.dashboard?.widgets?.find(
-          (w) => w.widgetType === WidgetType.GROUPSUMMARY
+          (w) => w.widgetType === WidgetType.GroupSummary
         ) ?? false,
       ],
       widgets: this.formBuilder.array(
@@ -79,12 +79,12 @@ export class DashboardFormComponent implements OnInit {
       tap((value) => {
         if (value) {
           const formGroup = this.buildWidgetFormGroup({
-            widgetType: WidgetType.GROUPSUMMARY,
+            widgetType: WidgetType.GroupSummary,
           } as Widget);
           this.widgets.push(formGroup);
         } else {
           const index = this.widgets.controls.findIndex(
-            (c) => c.value.widgetType === WidgetType.GROUPSUMMARY
+            (c) => c.value.widgetType === WidgetType.GroupSummary
           );
           if (index > -1) {
             this.widgets.removeAt(index);
@@ -97,7 +97,7 @@ export class DashboardFormComponent implements OnInit {
 
   private buildWidgetFormGroup(widget: Widget): FormGroup {
     switch (widget.widgetType) {
-      case WidgetType.FILTEREDRECEIPTS:
+      case WidgetType.FilteredReceipts:
         return this.formBuilder.group({
           name: [widget.name, Validators.required],
           widgetType: [widget.widgetType, Validators.required],
@@ -150,7 +150,7 @@ export class DashboardFormComponent implements OnInit {
 
   public addFilteredReceiptWidget(): void {
     const formGroup = this.buildWidgetFormGroup({
-      widgetType: WidgetType.FILTEREDRECEIPTS,
+      widgetType: WidgetType.FilteredReceipts,
     } as Widget);
     this.filterOpen.next(this.widgets.length);
     this.widgets.push(formGroup);

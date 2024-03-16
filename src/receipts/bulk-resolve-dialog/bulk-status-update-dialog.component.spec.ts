@@ -39,7 +39,7 @@ describe("BulkStatusUpdateComponent", () => {
 
     expect(component.form.value).toEqual({
       comment: "",
-      status: ReceiptStatus.RESOLVED,
+      status: ReceiptStatus.Resolved,
     });
   });
 

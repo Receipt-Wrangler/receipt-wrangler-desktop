@@ -38,7 +38,7 @@ export class SidebarComponent implements OnInit {
   public ngOnInit(): void {
     this.groups = this.store
       .select(GroupState.groups)
-      .pipe(map((g) => g.filter((g) => g.status !== GroupStatus.ARCHIVED)));
+      .pipe(map((g) => g.filter((g) => g.status !== GroupStatus.Archived)));
   }
 
   public groupClicked(groupId: number): void {

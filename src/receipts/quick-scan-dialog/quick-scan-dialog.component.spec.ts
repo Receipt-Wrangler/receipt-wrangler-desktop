@@ -71,7 +71,7 @@ describe("QuickScanDialogComponent", () => {
       auth: {
         userPreferences: {
           quickScanDefaultPaidById: 1,
-          quickScanDefaultStatus: ReceiptStatus.OPEN,
+          quickScanDefaultStatus: ReceiptStatus.Open,
           quickScanDefaultGroupId: 1,
         },
       },
@@ -81,7 +81,7 @@ describe("QuickScanDialogComponent", () => {
 
     expect(component.form.value).toEqual({
       paidByUserId: 1,
-      status: ReceiptStatus.OPEN,
+      status: ReceiptStatus.Open,
       groupId: 1,
     });
   });
@@ -154,7 +154,7 @@ describe("QuickScanDialogComponent", () => {
   //     fileType: 'image/jpeg',
   //     size: 100,
   //     groupId: 1,
-  //     status: ReceiptStatus.OPEN,
+  //     status: ReceiptStatus.Open,
   //     paidByUserId: 1,
   //   });
   // });

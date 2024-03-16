@@ -5,33 +5,33 @@ import { ReceiptTableInterface } from "../interfaces";
 import { ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData } from "./receipt-table.actions";
 
 export const defaultReceiptFilter = {
-  date: { operation: FilterOperation.EQUALS, value: "" },
+  date: { operation: FilterOperation.Equals, value: "" },
   amount: {
-    operation: FilterOperation.EQUALS,
+    operation: FilterOperation.Equals,
     value: "",
   },
   name: {
-    operation: FilterOperation.EQUALS,
+    operation: FilterOperation.Equals,
     value: "",
   },
   paidBy: {
-    operation: FilterOperation.CONTAINS,
+    operation: FilterOperation.Contains,
     value: [],
   },
   categories: {
-    operation: FilterOperation.CONTAINS,
+    operation: FilterOperation.Contains,
     value: [],
   },
   tags: {
-    operation: FilterOperation.CONTAINS,
+    operation: FilterOperation.Contains,
     value: [],
   },
   status: {
-    operation: FilterOperation.CONTAINS,
+    operation: FilterOperation.Contains,
     value: [],
   },
   resolvedDate: {
-    operation: FilterOperation.EQUALS,
+    operation: FilterOperation.Equals,
     value: "",
   },
 } as ReceiptPagedRequestFilter;
