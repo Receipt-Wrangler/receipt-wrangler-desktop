@@ -1,47 +1,47 @@
 <app-dialog headerText="Quick Scan" [actionsTemplate]="actionsTemplate">
-  <app-upload-image
-    [multiple]="true"
-    (fileLoaded)="fileLoaded($event)"
-  ></app-upload-image>
-  <div
-    *ngIf="images.length === 0"
-  >
-    <strong> Select images to upload</strong>
-  </div>
-  <carousel
-    [interval]="0"
-    [isAnimated]="true"
-    [showIndicators]="false"
-    (activeSlideChange)="setCurrentlySelectedIndex($event)"
-  >
-    <slide *ngFor="let preview of images; let i = index">
-      <div class="d-flex flex-column justify-content-center">
-        <img
-          class="mb-2"
-          alt="quick scan image"
-          [src]="preview.encodedImage || preview.url ?? ''"
-        >
-        <app-group-autocomplete
-          [inputFormControl]="form | formGet : 'groupIds.' + i"
-        ></app-group-autocomplete>
-        <app-user-autocomplete
-          class="w-100"
-          label="Paid By"
-          [inputFormControl]="form | formGet : 'paidByUserIds.' + i"
-          [groupId]="form.get('groupIds.' + i)?.value"
-          [selectGroupMembersOnly]="true"
-        ></app-user-autocomplete>
-        <app-status-select
-          [inputFormControl]="form | formGet : 'statuses.' + i"
-        ></app-status-select>
+  <form [formGroup]="form">
+    <app-upload-image
+      [multiple]="true"
+      (fileLoaded)="fileLoaded($event)"
+    ></app-upload-image>
+    <div
+      *ngIf="images.length === 0"
+    >
+      <strong> Select images to upload</strong>
+    </div>
+    <carousel
+      [interval]="0"
+      [isAnimated]="true"
+      [showIndicators]="false"
+      [(activeSlide)]="currentlySelectedIndex"
+    >
+      <slide *ngFor="let preview of images; let i = index">
+        <div class="d-flex flex-column justify-content-center">
+          <img
+            class="mb-2"
+            alt="quick scan image"
+            [src]="preview.encodedImage || preview.url ?? ''"
+          >
+          <app-group-autocomplete
+            [inputFormControl]="form | formGet : 'groupIds.' + i"
+          ></app-group-autocomplete>
+          <app-user-autocomplete
+            class="w-100"
+            label="Paid By"
+            [inputFormControl]="form | formGet : 'paidByUserIds.' + i"
+            [groupId]="form.get('groupIds.' + i)?.value"
+            [selectGroupMembersOnly]="true"
+          ></app-user-autocomplete>
+          <app-status-select
+            [inputFormControl]="form | formGet : 'statuses.' + i"
+          ></app-status-select>
+        </div>
+      </slide>
+    </carousel>
 
-      </div>
-    </slide>
-
-  </carousel>
-
+  </form>
   <app-dialog-footer
-    submitButtonTooltip="Submit Scan"
+    submitButtonTooltip="Submit Scans"
     [disableWhenProgressBarIsShown]="true"
     (submitClicked)="submitButtonClicked()"
     (cancelClicked)="cancelButtonClicked()"
@@ -68,13 +68,13 @@
     <app-button
       class="me-2"
       matButtonType="iconButton"
-      tooltip="Upload images"
+      tooltip="Upload Images"
       icon="upload"
       (clicked)="openImageUploadComponent()">
     </app-button>
     <app-delete-button
       *ngIf="images.length > 0"
-      tooltip="Remove current image"
+      tooltip="Remove Current Image"
       (clicked)="removeImage(currentlySelectedIndex)"
     >
     </app-delete-button>

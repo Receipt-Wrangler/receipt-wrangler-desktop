@@ -40,6 +40,18 @@ export class QuickScanDialogComponent implements OnInit {
     private store: Store
   ) {}
 
+  public get paidByUserIds(): FormArray {
+    return this.form.get("paidByUserIds") as FormArray;
+  }
+
+  public get statuses(): FormArray {
+    return this.form.get("statuses") as FormArray;
+  }
+
+  public get groupIds(): FormArray {
+    return this.form.get("groupIds") as FormArray;
+  }
+
   public ngOnInit(): void {
     this.initForm();
   }
@@ -59,9 +71,9 @@ export class QuickScanDialogComponent implements OnInit {
     this.images.push(fileData);
     const userPreferences = this.store.selectSnapshot(AuthState.userPreferences);
 
-    (this.form.get("paidByUserIds") as FormArray).push(new FormControl(userPreferences?.quickScanDefaultPaidById ?? "", Validators.required));
-    (this.form.get("statuses") as FormArray).push(new FormControl(userPreferences?.quickScanDefaultStatus ?? "", Validators.required));
-    (this.form.get("groupIds") as FormArray).push(new FormControl(userPreferences?.quickScanDefaultGroupId ?? "", Validators.required));
+    this.paidByUserIds.push(new FormControl(userPreferences?.quickScanDefaultPaidById ?? "", Validators.required));
+    this.statuses.push(new FormControl(userPreferences?.quickScanDefaultStatus ?? "", Validators.required));
+    this.groupIds.push(new FormControl(userPreferences?.quickScanDefaultGroupId ?? "", Validators.required));
 
     console.warn("fileLoaded", fileData, this.images, this.form);
   }
@@ -72,6 +84,9 @@ export class QuickScanDialogComponent implements OnInit {
   }
 
   public removeImage(index: number): void {
+    this.paidByUserIds.removeAt(index);
+    this.statuses.removeAt(index);
+    this.groupIds.removeAt(index);
     this.images.splice(index, 1);
   }
 
@@ -103,9 +118,13 @@ export class QuickScanDialogComponent implements OnInit {
                     .subscribe();*/
     }
     if (this.images.length === 0) {
-      this.snackbarService.error("Please select an image to upload");
+      this.snackbarService.error("Please select images to upload");
+    }
+    if (this.form.invalid) {
+      this.snackbarService.error("Please fill in all required fields. Some images are missing required fields.");
     }
   }
+
 
   private buildQuickScanCommand(): QuickScanCommand {
     const file = this.images[0];
