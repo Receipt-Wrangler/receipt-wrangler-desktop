@@ -16,6 +16,7 @@ import { PipesModule } from "src/pipes/pipes.module";
 import { SelectModule } from "src/select/select.module";
 import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.module";
 import { ButtonModule } from "../button";
+import { DirectivesModule } from "../directives";
 import { InputModule } from "../input";
 import { AddButtonComponent } from "./add-button/add-button.component";
 import { BackButtonComponent } from "./back-button/back-button.component";
@@ -34,6 +35,7 @@ import { FormSectionComponent } from "./form-section/form-section.component";
 import { FormComponent } from "./form/form.component";
 import { GroupAutocompleteComponent } from "./group-autocomplete/group-autocomplete.component";
 import { HelpIconComponent } from "./help-icon/help-icon.component";
+import { QuickScanButtonComponent } from "./quick-scan-button/quick-scan-button.component";
 import { OperationsPipe } from "./receipt-filter/operations.pipe";
 import { ReceiptFilterComponent } from "./receipt-filter/receipt-filter.component";
 import { StatusChipComponent } from "./status-chip/status-chip.component";
@@ -70,6 +72,7 @@ import { TabsComponent } from "./tabs/tabs.component";
     SummaryCardComponent,
     TableHeaderComponent,
     TabsComponent,
+    QuickScanButtonComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -91,6 +94,7 @@ import { TabsComponent } from "./tabs/tabs.component";
     RouterModule,
     SelectModule,
     UserAutocompleteModule,
+    DirectivesModule,
   ],
   exports: [
     AddButtonComponent,
@@ -110,6 +114,7 @@ import { TabsComponent } from "./tabs/tabs.component";
     GroupAutocompleteComponent,
     HelpIconComponent,
     OperationsPipe,
+    QuickScanButtonComponent,
     ReceiptFilterComponent,
     StatusChipComponent,
     StatusSelectComponent,

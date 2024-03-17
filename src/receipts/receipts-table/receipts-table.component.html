@@ -8,16 +8,11 @@
       [disabled]="!(groupId | groupRole : groupRole.Editor)"
       [buttonRouterLink]="['/receipts/add']"
     ></app-button>
-    <app-button
-      *appFeature="'aiPoweredReceipts'"
+    <app-quick-scan-button
       class="me-2"
-      icon="receipt_long"
-      matButtonType="iconButton"
-      tooltip="Quick Scan"
-      color="accent"
-      [disabled]="!(groupId | groupRole : groupRole.Editor)"
-      (clicked)="showQuickScanDialog()"
-    ></app-button>
+      (afterClosed)="getFilteredReceipts()"
+    >
+    </app-quick-scan-button>
     <app-button
       class="me-2 filter-button"
       icon="filter_alt"
@@ -82,7 +77,7 @@
 </div>
 
 <ng-template #dateCell let-element="element"
-  >{{ element.date | date }}
+>{{ element.date | date }}
 </ng-template>
 
 <ng-template #nameCell let-element="element">
