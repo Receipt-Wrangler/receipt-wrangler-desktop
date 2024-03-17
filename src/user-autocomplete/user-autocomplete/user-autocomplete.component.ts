@@ -70,13 +70,12 @@ export class UserAutocompleteComponent implements OnInit, OnChanges {
       .filter((u) => !this.usersToOmit.includes(u.id.toString()));
   }
 
-  public displayWith(id: number): string {
-    const user = this.store.selectSnapshot(
-      UserState.getUserById(id.toString())
-    );
-
-    if (user) {
-      return user.displayName;
+  public displayWith(id?: number): string {
+    if (id) {
+      const user = this.store.selectSnapshot(
+        UserState.getUserById(id.toString())
+      );
+      return user?.displayName ?? "";
     }
     return "";
   }

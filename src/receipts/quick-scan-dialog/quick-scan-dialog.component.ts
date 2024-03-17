@@ -1,5 +1,5 @@
 import { Component, EmbeddedViewRef, OnInit, TemplateRef, ViewChild, } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBarRef } from "@angular/material/snack-bar";
 import { Store } from "@ngxs/store";
@@ -7,6 +7,7 @@ import { ToggleShowProgressBar } from "src/store/layout.state.actions";
 import { QuickScanCommand, ReceiptFileUploadCommand } from "../../interfaces";
 import { ReceiptService, ReceiptStatus } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { AuthState } from "../../store";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 
 
@@ -25,10 +26,6 @@ export class QuickScanDialogComponent implements OnInit {
   public form: FormGroup = new FormGroup({});
 
   public images: ReceiptFileUploadCommand[] = [];
-
-  public imageBlobUrl: string = "";
-
-  public encodedImage: string = "";
 
   public quickScannedReceiptId: number = 0;
 
@@ -55,10 +52,19 @@ export class QuickScanDialogComponent implements OnInit {
   }
 
   public fileLoaded(fileData: ReceiptFileUploadCommand): void {
+    if (fileData.file && !fileData.encodedImage) {
+      fileData.url = URL.createObjectURL(fileData.file);
+    }
     this.images.push(fileData);
-    this.imageBlobUrl = URL.createObjectURL(fileData.file);
-    this.encodedImage = fileData.encodedImage ?? "";
+    const userPreferences = this.store.selectSnapshot(AuthState.userPreferences);
+
+    (this.form.get("paidByUserIds") as FormArray).push(new FormControl(userPreferences?.quickScanDefaultPaidById ?? "", Validators.required));
+    (this.form.get("statuses") as FormArray).push(new FormControl(userPreferences?.quickScanDefaultStatus ?? "", Validators.required));
+    (this.form.get("groupIds") as FormArray).push(new FormControl(userPreferences?.quickScanDefaultGroupId ?? "", Validators.required));
+
+    console.warn("fileLoaded", fileData, this.images, this.form);
   }
+
 
   public openImageUploadComponent(): void {
     this.uploadImageComponent.clickInput();

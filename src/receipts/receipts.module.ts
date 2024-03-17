@@ -8,9 +8,9 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTableModule } from "@angular/material/table";
+import { CarouselModule } from "ngx-bootstrap/carousel";
 import { AutocompleteModule } from "src/autocomplete/autocomplete.module";
 import { AvatarModule } from "src/avatar";
-import { CarouselModule } from "src/carousel/carousel.module";
 import { DatepickerModule } from "src/datepicker/datepicker.module";
 import { PipesModule } from "src/pipes/pipes.module";
 import { RadioGroupModule } from "src/radio-group/radio-group.module";
@@ -21,6 +21,7 @@ import { TableModule } from "src/table/table.module";
 import { TextareaModule } from "src/textarea/textarea.module";
 import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.module";
 import { ButtonModule } from "../button";
+import { CarouselModule as ReceiptWranglerCarousel } from "../carousel/carousel.module";
 import { DirectivesModule } from "../directives";
 import { InputModule } from "../input";
 import { BulkStatusUpdateComponent } from "./bulk-resolve-dialog/bulk-status-update-dialog.component";
@@ -55,8 +56,8 @@ import { UserTotalPipe } from "./user-total.pipe";
     AvatarModule,
     ButtonModule,
     CarouselModule,
+    CarouselModule,
     CommonModule,
-    PipesModule,
     DatepickerModule,
     DirectivesModule,
     DragDropModule,
@@ -68,8 +69,10 @@ import { UserTotalPipe } from "./user-total.pipe";
     MatProgressSpinnerModule,
     MatTableModule,
     PipesModule,
+    PipesModule,
     RadioGroupModule,
     ReactiveFormsModule,
+    ReceiptWranglerCarousel,
     ReceiptsRoutingModule,
     SelectModule,
     SharedUiModule,

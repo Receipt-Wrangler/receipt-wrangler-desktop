@@ -5,36 +5,39 @@
   ></app-upload-image>
   <div
     *ngIf="images.length === 0"
-    tabindex="0"
-    class="file-upload-zone mb-4 d-flex justify-content-center align-items-center"
-    (click)="openImageUploadComponent()"
   >
-    <mat-icon class="me-2">add_circle_outline</mat-icon>
     <strong> Select images to upload</strong>
   </div>
-  <div *ngIf="images.length > 0" class="mb-2">
-    <div class="d-flex align-items-center">
-      <h3>Image Uploaded</h3>
-      <app-delete-button
-        tooltip="Remove image"
-        (clicked)="removeImage(0)"
-      ></app-delete-button>
-    </div>
-    <img class="image-preview" [src]="encodedImage || imageBlobUrl"/>
-  </div>
-  <app-group-autocomplete
-    [inputFormControl]="form | formGet : 'groupId'"
-  ></app-group-autocomplete>
-  <app-user-autocomplete
-    class="w-100"
-    label="Paid By"
-    [inputFormControl]="form | formGet : 'paidByUserId'"
-    [groupId]="form.get('groupId')?.value"
-    [selectGroupMembersOnly]="true"
-  ></app-user-autocomplete>
-  <app-status-select
-    [inputFormControl]="form | formGet : 'status'"
-  ></app-status-select>
+  <carousel
+    [interval]="0"
+    [isAnimated]="true"
+    [showIndicators]="false"
+  >
+    <slide *ngFor="let preview of images; let i = index">
+      <div class="d-flex flex-column justify-content-center">
+        <img
+          class="mb-2"
+          alt="quick scan image"
+          [src]="preview.encodedImage || preview.url ?? ''"
+        >
+        <app-group-autocomplete
+          [inputFormControl]="form | formGet : 'groupIds.' + i"
+        ></app-group-autocomplete>
+        <app-user-autocomplete
+          class="w-100"
+          label="Paid By"
+          [inputFormControl]="form | formGet : 'paidByUserIds.' + i"
+          [groupId]="form.get('groupIds.' + i)?.value"
+          [selectGroupMembersOnly]="true"
+        ></app-user-autocomplete>
+        <app-status-select
+          [inputFormControl]="form | formGet : 'statuses.' + i"
+        ></app-status-select>
+
+      </div>
+    </slide>
+
+  </carousel>
 
   <app-dialog-footer
     submitButtonTooltip="Submit Scan"
