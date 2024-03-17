@@ -10,7 +10,6 @@ import { SnackbarService } from "../../services";
 import { AuthState } from "../../store";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 
-
 @Component({
   selector: "app-quick-scan-dialog",
   templateUrl: "./quick-scan-dialog.component.html",
@@ -30,6 +29,8 @@ export class QuickScanDialogComponent implements OnInit {
   public quickScannedReceiptId: number = 0;
 
   public snackbarRef!: MatSnackBarRef<EmbeddedViewRef<any>>;
+
+  public currentlySelectedIndex: number = 0;
 
   constructor(
     private dialogRef: MatDialogRef<QuickScanDialogComponent>,
@@ -124,5 +125,9 @@ export class QuickScanDialogComponent implements OnInit {
 
   public closeSnackbar(): void {
     this.snackbarRef.dismiss();
+  }
+
+  public setCurrentlySelectedIndex(index: number): void {
+    this.currentlySelectedIndex = index;
   }
 }

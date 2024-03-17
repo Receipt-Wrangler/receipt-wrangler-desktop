@@ -12,6 +12,7 @@
     [interval]="0"
     [isAnimated]="true"
     [showIndicators]="false"
+    (activeSlideChange)="setCurrentlySelectedIndex($event)"
   >
     <slide *ngFor="let preview of images; let i = index">
       <div class="d-flex flex-column justify-content-center">
@@ -63,10 +64,19 @@
 </ng-template>
 
 <ng-template #actionsTemplate>
-  <app-button
-    matButtonType="iconButton"
-    tooltip="Upload images"
-    icon="upload"
-    (clicked)="openImageUploadComponent()">
-  </app-button>
+  <div class="d-flex align-items-center">
+    <app-button
+      class="me-2"
+      matButtonType="iconButton"
+      tooltip="Upload images"
+      icon="upload"
+      (clicked)="openImageUploadComponent()">
+    </app-button>
+    <app-delete-button
+      *ngIf="images.length > 0"
+      tooltip="Remove current image"
+      (clicked)="removeImage(currentlySelectedIndex)"
+    >
+    </app-delete-button>
+  </div>
 </ng-template>
