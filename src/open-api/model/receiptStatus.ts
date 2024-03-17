@@ -11,6 +11,9 @@
  */
 
 
+/**
+ * Status of a receipt
+ */
 export type ReceiptStatus = 'OPEN' | 'NEEDS_ATTENTION' | 'RESOLVED' | 'DRAFT';
 
 export const ReceiptStatus = {

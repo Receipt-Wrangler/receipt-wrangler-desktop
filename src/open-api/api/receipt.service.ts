@@ -620,27 +620,27 @@ export class ReceiptService {
      * Quick scan a receipt
      * This take an image and use magic fill to fill and save the receipt [SYSTEM USER]
      * @param files 
-     * @param groupId Group foreign key
-     * @param paidByUserId User foreign key
-     * @param status 
+     * @param groupIds 
+     * @param paidByUserIds 
+     * @param statuses 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public quickScanReceipt(files: Array<Blob>, groupId: number, paidByUserId: number, status: ReceiptStatus, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Receipt>;
-    public quickScanReceipt(files: Array<Blob>, groupId: number, paidByUserId: number, status: ReceiptStatus, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Receipt>>;
-    public quickScanReceipt(files: Array<Blob>, groupId: number, paidByUserId: number, status: ReceiptStatus, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Receipt>>;
-    public quickScanReceipt(files: Array<Blob>, groupId: number, paidByUserId: number, status: ReceiptStatus, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public quickScanReceipt(files: Array<Blob>, groupIds: Array<number>, paidByUserIds: Array<number>, statuses: Array<ReceiptStatus>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Receipt>;
+    public quickScanReceipt(files: Array<Blob>, groupIds: Array<number>, paidByUserIds: Array<number>, statuses: Array<ReceiptStatus>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Receipt>>;
+    public quickScanReceipt(files: Array<Blob>, groupIds: Array<number>, paidByUserIds: Array<number>, statuses: Array<ReceiptStatus>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Receipt>>;
+    public quickScanReceipt(files: Array<Blob>, groupIds: Array<number>, paidByUserIds: Array<number>, statuses: Array<ReceiptStatus>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (files === null || files === undefined) {
             throw new Error('Required parameter files was null or undefined when calling quickScanReceipt.');
         }
-        if (groupId === null || groupId === undefined) {
-            throw new Error('Required parameter groupId was null or undefined when calling quickScanReceipt.');
+        if (groupIds === null || groupIds === undefined) {
+            throw new Error('Required parameter groupIds was null or undefined when calling quickScanReceipt.');
         }
-        if (paidByUserId === null || paidByUserId === undefined) {
-            throw new Error('Required parameter paidByUserId was null or undefined when calling quickScanReceipt.');
+        if (paidByUserIds === null || paidByUserIds === undefined) {
+            throw new Error('Required parameter paidByUserIds was null or undefined when calling quickScanReceipt.');
         }
-        if (status === null || status === undefined) {
-            throw new Error('Required parameter status was null or undefined when calling quickScanReceipt.');
+        if (statuses === null || statuses === undefined) {
+            throw new Error('Required parameter statuses was null or undefined when calling quickScanReceipt.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -697,14 +697,32 @@ export class ReceiptService {
                 localVarFormParams = localVarFormParams.append('files', [...files].join(COLLECTION_FORMATS['csv'])) as any || localVarFormParams;
             }
         }
-        if (groupId !== undefined) {
-            localVarFormParams = localVarFormParams.append('groupId', <any>groupId) as any || localVarFormParams;
+        if (groupIds) {
+            if (localVarUseForm) {
+                groupIds.forEach((element) => {
+                    localVarFormParams = localVarFormParams.append('groupIds', <any>element) as any || localVarFormParams;
+            })
+            } else {
+                localVarFormParams = localVarFormParams.append('groupIds', [...groupIds].join(COLLECTION_FORMATS['csv'])) as any || localVarFormParams;
+            }
         }
-        if (paidByUserId !== undefined) {
-            localVarFormParams = localVarFormParams.append('paidByUserId', <any>paidByUserId) as any || localVarFormParams;
+        if (paidByUserIds) {
+            if (localVarUseForm) {
+                paidByUserIds.forEach((element) => {
+                    localVarFormParams = localVarFormParams.append('paidByUserIds', <any>element) as any || localVarFormParams;
+            })
+            } else {
+                localVarFormParams = localVarFormParams.append('paidByUserIds', [...paidByUserIds].join(COLLECTION_FORMATS['csv'])) as any || localVarFormParams;
+            }
         }
-        if (status !== undefined) {
-            localVarFormParams = localVarFormParams.append('status', <any>status) as any || localVarFormParams;
+        if (statuses) {
+            if (localVarUseForm) {
+                statuses.forEach((element) => {
+                    localVarFormParams = localVarFormParams.append('statuses', <any>element) as any || localVarFormParams;
+            })
+            } else {
+                localVarFormParams = localVarFormParams.append('statuses', [...statuses].join(COLLECTION_FORMATS['csv'])) as any || localVarFormParams;
+            }
         }
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
