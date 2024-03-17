@@ -1,4 +1,4 @@
-<app-dialog headerText="Quick Scan">
+<app-dialog headerText="Quick Scan" [actionsTemplate]="actionsTemplate">
   <app-upload-image
     [multiple]="true"
     (fileLoaded)="fileLoaded($event)"
@@ -57,4 +57,13 @@
       (clicked)="closeSnackbar()"
     ></app-button>
   </div>
+</ng-template>
+
+<ng-template #actionsTemplate>
+  <app-button
+    matButtonType="iconButton"
+    tooltip="Upload images"
+    icon="upload"
+    (clicked)="openImageUploadComponent()">
+  </app-button>
 </ng-template>

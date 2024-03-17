@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef } from "@angular/core";
 
 @Component({
-  selector: 'app-dialog',
-  templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.scss'],
+  selector: "app-dialog",
+  templateUrl: "./dialog.component.html",
+  styleUrls: ["./dialog.component.scss"],
 })
 export class DialogComponent {
-  @Input() public headerText: string = '';
+  @Input() public headerText: string = "";
+
+  @Input() public actionsTemplate?: TemplateRef<any>;
 }
