@@ -16,7 +16,7 @@ describe("StatusPipe", () => {
 
   it("should return Needs Attention", () => {
     const pipe = new StatusPipe();
-    const result = pipe.transform(ReceiptStatus.NEEDSATTENTION);
+    const result = pipe.transform(ReceiptStatus.NeedsAttention);
 
     expect(result).toEqual("Needs Attention");
   });
@@ -30,7 +30,7 @@ describe("StatusPipe", () => {
 
   it("should return Resolved", () => {
     const pipe = new StatusPipe();
-    const result = pipe.transform(ReceiptStatus.DRAFT);
+    const result = pipe.transform(ReceiptStatus.Draft);
 
     expect(result).toEqual("Draft");
   });

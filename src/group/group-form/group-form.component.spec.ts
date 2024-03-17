@@ -16,9 +16,9 @@ import { SelectModule } from "src/select/select.module";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 import { TableModule } from "src/table/table.module";
 import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.module";
-import { ApiModule, Group, GroupRole, GroupsService, GroupStatus } from "../../open-api";
 import { ButtonModule } from "../../button";
 import { InputModule } from "../../input";
+import { ApiModule, Group, GroupRole, GroupsService, GroupStatus } from "../../open-api";
 import { AddGroup, UpdateGroup } from "../../store";
 import { GroupMemberFormComponent } from "../group-member-form/group-member-form.component";
 import { buildGroupMemberForm } from "../utils/group-member.utils";
@@ -292,6 +292,7 @@ describe("GroupFormComponent", () => {
     component.submit();
 
     expect(updateSpy).toHaveBeenCalledWith(
+      component.originalGroup?.id as number,
       {
         name: "new name",
         status: GroupStatus.Active,
@@ -312,8 +313,7 @@ describe("GroupFormComponent", () => {
             groupRole: GroupRole.Editor,
           },
         ],
-      } as Group,
-      component.originalGroup?.id as number
+      } as Group
     );
     expect(storeSpy).toHaveBeenCalledWith(new UpdateGroup(returnValue));
     expect(routerSpy).toHaveBeenCalledWith("/groups/1/view");

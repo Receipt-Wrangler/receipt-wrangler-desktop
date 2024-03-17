@@ -23,7 +23,7 @@ describe("OperationsPipe", () => {
     expect(result).toEqual([
       FilterOperation.Equals,
       FilterOperation.GreaterThan,
-      FilterOperation.LESSTHAN,
+      FilterOperation.LessThan,
     ]);
   });
 
@@ -43,7 +43,7 @@ describe("OperationsPipe", () => {
     expect(result).toEqual([
       FilterOperation.Equals,
       FilterOperation.GreaterThan,
-      FilterOperation.LESSTHAN,
+      FilterOperation.LessThan,
     ]);
   });
 

@@ -54,13 +54,13 @@ describe("BulkStatusUpdateComponent", () => {
     const spy = spyOn(component.matDialogRef, "close");
     component.form.patchValue({
       comment: "resolved",
-      status: ReceiptStatus.NEEDSATTENTION,
+      status: ReceiptStatus.NeedsAttention,
     });
     component.submitButtonClicked();
 
     expect(spy).toHaveBeenCalledWith({
       comment: "resolved",
-      status: ReceiptStatus.NEEDSATTENTION,
+      status: ReceiptStatus.NeedsAttention,
     });
   });
 });

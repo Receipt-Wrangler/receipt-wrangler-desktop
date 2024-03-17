@@ -103,7 +103,7 @@ describe("ReceiptFormComponent", () => {
 
     const receiptImageServiceSpy = spyOn(
       TestBed.inject(ReceiptImageService),
-      "magicFillReceiptForm"
+      "magicFillReceipt"
     ).and.returnValue(of(magicReceipt));
 
     const snackbarSpy = spyOn(
@@ -113,7 +113,7 @@ describe("ReceiptFormComponent", () => {
 
     component.magicFill();
 
-    expect(receiptImageServiceSpy).toHaveBeenCalledWith(undefined, 1);
+    expect(receiptImageServiceSpy).toHaveBeenCalledWith(1, undefined);
 
     const receiptValue = component.form.getRawValue();
 
@@ -152,12 +152,12 @@ describe("ReceiptFormComponent", () => {
 
     const receiptImageServiceSpy = spyOn(
       TestBed.inject(ReceiptImageService),
-      "magicFillReceiptForm"
+      "magicFillReceipt"
     ).and.returnValue(of(magicReceipt));
 
     component.magicFill();
 
-    expect(receiptImageServiceSpy).toHaveBeenCalledWith(undefined, 1);
+    expect(receiptImageServiceSpy).toHaveBeenCalledWith(1, undefined,);
 
     const receiptValue = component.form.getRawValue();
 
@@ -190,7 +190,7 @@ describe("ReceiptFormComponent", () => {
 
     const receiptImageServiceSpy = spyOn(
       TestBed.inject(ReceiptImageService),
-      "magicFillReceiptForm"
+      "magicFillReceipt"
     ).and.returnValue(of(magicReceipt));
 
     const snackbarSpy = spyOn(
@@ -200,7 +200,7 @@ describe("ReceiptFormComponent", () => {
 
     component.magicFill();
 
-    expect(receiptImageServiceSpy).toHaveBeenCalledWith(undefined, 1);
+    expect(receiptImageServiceSpy).toHaveBeenCalledWith(1, undefined);
 
     const receiptValue = component.form.getRawValue();
 

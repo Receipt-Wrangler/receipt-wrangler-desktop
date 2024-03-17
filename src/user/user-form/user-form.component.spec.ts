@@ -123,12 +123,12 @@ describe("UserFormComponent", () => {
     component.submit();
 
     expect(userServiceSpy).toHaveBeenCalledWith(
+      1,
       {
         displayName: "Pizza man",
         username: "Waffle guy",
         userRole: UserRole.Admin,
       } as User,
-      1
     );
 
     expect(storeSpy).toHaveBeenCalledOnceWith(
@@ -182,12 +182,12 @@ describe("UserFormComponent", () => {
     component.submit();
 
     expect(userServiceSpy).toHaveBeenCalledWith(
+      1,
       {
         displayName: "Pizza man",
         username: "Waffle guy",
         userRole: UserRole.Admin,
       } as User,
-      1
     );
 
     expect(storeSpy).toHaveBeenCalledOnceWith(

@@ -90,10 +90,10 @@ describe("DummyUserConversionDialogComponent", () => {
     component.submitButtonClicked();
 
     expect(usersSpy).toHaveBeenCalledWith(
+      1,
       {
         password: "hello world",
       },
-      1
     );
     expect(storeSpy).toHaveBeenCalledWith(
       new UpdateUser("1", { id: 1, isDummyUser: false } as any)

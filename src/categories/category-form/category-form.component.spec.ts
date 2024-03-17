@@ -84,12 +84,12 @@ describe("CategoryForm", () => {
     component.submit();
 
     expect(categoryServiceSpy).toHaveBeenCalledOnceWith(
+      1,
       {
         id: 1,
         name: "test",
         description: "test",
       },
-      1
     );
   });
 
