@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@ang
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBarRef } from "@angular/material/snack-bar";
 import { Store } from "@ngxs/store";
+import { finalize, take, tap } from "rxjs";
 import { ToggleShowProgressBar } from "src/store/layout.state.actions";
 import { QuickScanCommand, ReceiptFileUploadCommand } from "../../interfaces";
 import { ReceiptService, ReceiptStatus } from "../../open-api";
@@ -94,28 +95,23 @@ export class QuickScanDialogComponent implements OnInit {
     if (this.form.valid && this.images.length > 0) {
       const command = this.buildQuickScanCommand();
       this.store.dispatch(new ToggleShowProgressBar());
-      /*            this.receiptService
-                    .quickScanReceipt(
-                      [command.file],
-                      command.groupId,
-                      command.paidByUserId,
-                      command.status
-                    )
-                    .pipe(
-                      take(1),
-                      tap((receipt) => {
-                        this.quickScannedReceiptId = receipt.id;
-                        this.snackbarRef = this.snackbarService.successFromTemplate(
-                          this.successfullScanSnackbarTemplate,
-                          {
-                            duration: 8000,
-                          }
-                        );
-                        this.dialogRef.close();
-                      }),
-                      finalize(() => this.store.dispatch(new ToggleShowProgressBar()))
-                    )
-                    .subscribe();*/
+      this.receiptService
+        .quickScanReceipt(
+          this.images.map((i) => i.file),
+          this.groupIds.value,
+          this.paidByUserIds.value,
+          this.statuses.value
+        )
+        .pipe(
+          take(1),
+          tap((receipt) => {
+            this.quickScannedReceiptId = receipt.id;
+            this.snackbarService.success(`${this.images.length} receipt(s) successfully scanned`);
+            this.dialogRef.close();
+          }),
+          finalize(() => this.store.dispatch(new ToggleShowProgressBar()))
+        )
+        .subscribe();
     }
     if (this.images.length === 0) {
       this.snackbarService.error("Please select images to upload");
