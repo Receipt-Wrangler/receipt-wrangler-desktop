@@ -1,6 +1,6 @@
 <app-dialog headerText="Quick Scan">
   <app-upload-image
-    [multiple]="false"
+    [multiple]="true"
     (fileLoaded)="fileLoaded($event)"
   ></app-upload-image>
   <div
@@ -10,7 +10,7 @@
     (click)="openImageUploadComponent()"
   >
     <mat-icon class="me-2">add_circle_outline</mat-icon>
-    <strong> Select one image to upload</strong>
+    <strong> Select images to upload</strong>
   </div>
   <div *ngIf="images.length > 0" class="mb-2">
     <div class="d-flex align-items-center">
@@ -20,7 +20,7 @@
         (clicked)="removeImage(0)"
       ></app-delete-button>
     </div>
-    <img class="image-preview" [src]="encodedImage || imageBlobUrl" />
+    <img class="image-preview" [src]="encodedImage || imageBlobUrl"/>
   </div>
   <app-group-autocomplete
     [inputFormControl]="form | formGet : 'groupId'"

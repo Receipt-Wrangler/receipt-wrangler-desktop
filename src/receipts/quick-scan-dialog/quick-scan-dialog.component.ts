@@ -1,14 +1,12 @@
 import { Component, EmbeddedViewRef, OnInit, TemplateRef, ViewChild, } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBarRef } from "@angular/material/snack-bar";
 import { Store } from "@ngxs/store";
-import { finalize, take, tap } from "rxjs";
 import { ToggleShowProgressBar } from "src/store/layout.state.actions";
 import { QuickScanCommand, ReceiptFileUploadCommand } from "../../interfaces";
-import { ReceiptService } from "../../open-api";
+import { ReceiptService, ReceiptStatus } from "../../open-api";
 import { SnackbarService } from "../../services";
-import { AuthState, GroupState } from "../../store";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 
 
@@ -49,28 +47,10 @@ export class QuickScanDialogComponent implements OnInit {
   }
 
   private initForm(): void {
-    let selectedGroupId: string | undefined = this.store.selectSnapshot(
-      GroupState.selectedGroupId
-    );
-    if (selectedGroupId === "all") {
-      selectedGroupId = undefined;
-    }
-    const userPreferences = this.store.selectSnapshot(
-      AuthState.userPreferences
-    );
     this.form = this.formBuilder.group({
-      paidByUserId: [
-        userPreferences?.quickScanDefaultPaidById ?? undefined,
-        Validators.required,
-      ],
-      status: [
-        userPreferences?.quickScanDefaultStatus ?? undefined,
-        Validators.required,
-      ],
-      groupId: [
-        userPreferences?.quickScanDefaultGroupId ?? undefined,
-        Validators.required,
-      ],
+      paidByUserIds: this.formBuilder.array<number>([]),
+      statuses: this.formBuilder.array<ReceiptStatus>([]),
+      groupIds: this.formBuilder.array<number>([]),
     });
   }
 
@@ -92,28 +72,28 @@ export class QuickScanDialogComponent implements OnInit {
     if (this.form.valid && this.images.length > 0) {
       const command = this.buildQuickScanCommand();
       this.store.dispatch(new ToggleShowProgressBar());
-      this.receiptService
-        .quickScanReceipt(
-          [command.file],
-          command.groupId,
-          command.paidByUserId,
-          command.status
-        )
-        .pipe(
-          take(1),
-          tap((receipt) => {
-            this.quickScannedReceiptId = receipt.id;
-            this.snackbarRef = this.snackbarService.successFromTemplate(
-              this.successfullScanSnackbarTemplate,
-              {
-                duration: 8000,
-              }
-            );
-            this.dialogRef.close();
-          }),
-          finalize(() => this.store.dispatch(new ToggleShowProgressBar()))
-        )
-        .subscribe();
+      /*            this.receiptService
+                    .quickScanReceipt(
+                      [command.file],
+                      command.groupId,
+                      command.paidByUserId,
+                      command.status
+                    )
+                    .pipe(
+                      take(1),
+                      tap((receipt) => {
+                        this.quickScannedReceiptId = receipt.id;
+                        this.snackbarRef = this.snackbarService.successFromTemplate(
+                          this.successfullScanSnackbarTemplate,
+                          {
+                            duration: 8000,
+                          }
+                        );
+                        this.dialogRef.close();
+                      }),
+                      finalize(() => this.store.dispatch(new ToggleShowProgressBar()))
+                    )
+                    .subscribe();*/
     }
     if (this.images.length === 0) {
       this.snackbarService.error("Please select an image to upload");
