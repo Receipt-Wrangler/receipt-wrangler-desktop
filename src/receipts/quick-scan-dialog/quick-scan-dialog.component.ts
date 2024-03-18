@@ -68,8 +68,6 @@ export class QuickScanDialogComponent implements OnInit {
     this.paidByUserIds.push(new FormControl(userPreferences?.quickScanDefaultPaidById ?? "", Validators.required));
     this.statuses.push(new FormControl(userPreferences?.quickScanDefaultStatus ?? "", Validators.required));
     this.groupIds.push(new FormControl(userPreferences?.quickScanDefaultGroupId ?? "", Validators.required));
-
-    console.warn("fileLoaded", fileData, this.images, this.form);
   }
 
 

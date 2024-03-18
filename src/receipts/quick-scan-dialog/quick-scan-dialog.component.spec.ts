@@ -1,11 +1,13 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, } from "@angular/core/testing";
-import { MatDialogRef } from "@angular/material/dialog";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatDialog, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { ActivatedRoute } from "@angular/router";
 import { NgxsModule, Store } from "@ngxs/store";
+import { CarouselModule } from "ngx-bootstrap/carousel";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 import { LayoutState } from "src/store/layout.state";
 import { ReceiptFileUploadCommand } from "../../interfaces";
@@ -25,12 +27,15 @@ describe("QuickScanDialogComponent", () => {
       declarations: [QuickScanDialogComponent],
       imports: [
         ApiModule,
-        NoopAnimationsModule,
+        CarouselModule,
         HttpClientTestingModule,
-        NgxsModule.forRoot([AuthState, GroupState, LayoutState]),
-        SharedUiModule,
+        MatDialogModule,
         MatSnackBarModule,
+        NgxsModule.forRoot([AuthState, GroupState, LayoutState]),
+        NoopAnimationsModule,
         PipesModule,
+        ReactiveFormsModule,
+        SharedUiModule,
       ],
       providers: [
         {
@@ -38,7 +43,11 @@ describe("QuickScanDialogComponent", () => {
           useValue: {},
         },
         {
-          provide: MatDialogRef,
+          provide: MatDialog,
+          useValue: {}
+        },
+        {
+          provide: MatDialogRef<QuickScanDialogComponent>,
           useValue: {
             close: () => {},
           },
@@ -60,40 +69,9 @@ describe("QuickScanDialogComponent", () => {
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
-      paidByUserId: null,
-      status: null,
-      groupId: null,
-    });
-  });
-
-  it("should init form correctly with user preferences", () => {
-    component.ngOnInit();
-    store.reset({
-      auth: {
-        userPreferences: {
-          quickScanDefaultPaidById: 1,
-          quickScanDefaultStatus: ReceiptStatus.Open,
-          quickScanDefaultGroupId: 1,
-        },
-      },
-    });
-
-    component.ngOnInit();
-
-    expect(component.form.value).toEqual({
-      paidByUserId: 1,
-      status: ReceiptStatus.Open,
-      groupId: 1,
-    });
-  });
-
-  it("should init form correctly in all group", () => {
-    component.ngOnInit();
-
-    expect(component.form.value).toEqual({
-      paidByUserId: null,
-      status: null,
-      groupId: null,
+      paidByUserIds: [],
+      statuses: [],
+      groupIds: [],
     });
   });
 
@@ -119,9 +97,42 @@ describe("QuickScanDialogComponent", () => {
     component.submitButtonClicked();
 
     expect(snackbarSpy).toHaveBeenCalledOnceWith(
-      "Please select an image to upload"
+      "Please select images to upload"
     );
   });
+
+  it("should push new image when there are no user preferences", () => {
+    component.fileLoaded({} as any);
+
+    expect(component.form.value).toEqual({
+      paidByUserIds: [""],
+      statuses: [""],
+      groupIds: [""]
+    });
+    expect(component.images).toEqual([{} as any]);
+  });
+
+  it("should push new image when there user preferences", () => {
+    store.reset({
+      auth: {
+        userPreferences: {
+          quickScanDefaultPaidById: 1,
+          quickScanDefaultStatus: ReceiptStatus.Open,
+          quickScanDefaultGroupId: 1,
+        },
+      },
+    });
+
+    component.fileLoaded({} as any);
+
+    expect(component.form.value).toEqual({
+      paidByUserIds: [1],
+      statuses: [ReceiptStatus.Open],
+      groupIds: [1]
+    });
+    expect(component.images).toEqual([{} as any]);
+  });
+
 
   // TODO: fix
   // it('should call API with command', () => {
