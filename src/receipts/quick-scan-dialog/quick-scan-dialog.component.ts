@@ -104,9 +104,8 @@ export class QuickScanDialogComponent implements OnInit {
         )
         .pipe(
           take(1),
-          tap((receipt) => {
-            this.quickScannedReceiptId = receipt.id;
-            this.snackbarService.success(`${this.images.length} receipt(s) successfully scanned`);
+          tap((receipts) => {
+            this.snackbarService.success(`${receipts.length} receipt(s) successfully scanned`);
             this.dialogRef.close();
           }),
           finalize(() => this.store.dispatch(new ToggleShowProgressBar()))
