@@ -3,7 +3,7 @@ import { ResolveFn } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { SetDashboardsForGroup } from "src/store/dashboard.state.actions";
-import { Dashboard } from "../../api";
+import { Dashboard } from "../../open-api";
 
 export const dashboardResolver: ResolveFn<Observable<Dashboard[]>> = (
   route,

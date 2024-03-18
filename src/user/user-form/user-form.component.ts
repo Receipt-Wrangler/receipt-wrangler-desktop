@@ -7,7 +7,7 @@ import { catchError, defer, iif, of, startWith, switchMap, take, tap, } from "rx
 import { USER_ROLE_OPTIONS } from "src/group/role-options";
 import { FormOption } from "src/interfaces/form-option.interface";
 import { UserValidators } from "src/validators/user-validators";
-import { AuthService, User, UserService } from "../../api";
+import { AuthService, User, UserService } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { AddUser, AuthState, UpdateUser } from "../../store";
 
@@ -91,7 +91,7 @@ export class UserFormComponent implements OnInit {
   public submit(): void {
     if (this.form.valid && this.user) {
       this.userService
-        .updateUserById(this.form.value, this.user.id)
+        .updateUserById(this.user.id, this.form.value)
         .pipe(
           take(1),
           tap(() => {

@@ -7,7 +7,7 @@ import { NgxsModule, Store } from "@ngxs/store";
 import { of } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
 import { PipesModule } from "src/pipes/pipes.module";
-import { ApiModule, Comment, CommentService } from "../../api";
+import { ApiModule, Comment, CommentService } from "../../open-api";
 import { AuthState } from "../../store";
 import { ReceiptCommentsComponent } from "./receipt-comments.component";
 import { TopLevelCommentPipe } from "./top-level-comment.pipe";
@@ -295,7 +295,7 @@ describe("ReceiptCommentsComponent", () => {
     });
   });
 
-  it("should send api call if form is valid and is in view mode", () => {
+  it("should send open-api call if form is valid and is in view mode", () => {
     const spy = spyOn(TestBed.inject(CommentService), "addComment");
     spy.and.returnValue(
       of({

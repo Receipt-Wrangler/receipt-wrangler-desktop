@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngxs/store";
-import { GroupMember, User } from "../api";
+import { GroupMember, User } from "../open-api";
 import { GroupState, UserState } from "../store";
 
 @Injectable({

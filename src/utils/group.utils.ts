@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngxs/store";
-import { GroupRole } from "../api";
+import { GroupRole } from "../open-api";
 import { AuthState, GroupState } from "../store";
 
 @Injectable({
@@ -13,7 +13,7 @@ export class GroupUtil {
     groupId: number | undefined,
     groupRole: GroupRole
   ): boolean {
-    const roles = [GroupRole.VIEWER, GroupRole.EDITOR, GroupRole.OWNER];
+    const roles = [GroupRole.Viewer, GroupRole.Editor, GroupRole.Owner];
     const requiredIndex = roles.findIndex((v) => v === groupRole) as number;
 
     if (!groupId) {

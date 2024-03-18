@@ -52,7 +52,7 @@
       <mat-panel-description>
         <div class="d-flex justify-content-between align-items-center w-100">
           <span>Total amount owed: {{ userItemMap | userTotal : key }}</span>
-          <div *ngIf="originalReceipt?.groupId | groupRole : groupRole.EDITOR">
+          <div *ngIf="originalReceipt?.groupId | groupRole : groupRole.Editor">
             <app-button
               matButtonType="iconButton"
               icon="check"
@@ -76,7 +76,7 @@
             *ngIf="!(mode | inputReadonly)"
             tooltip="Remove Share"
             [disabled]="
-              !(originalReceipt?.groupId | groupRole : groupRole.EDITOR)
+              !(originalReceipt?.groupId | groupRole : groupRole.Editor)
             "
             (clicked)="removeItem(itemData)"
           ></app-delete-button>

@@ -1,4 +1,4 @@
-import { User } from '../api/model/user';
+import { User } from '../open-api/model/user';
 
 export class SetUsers {
   static readonly type = '[User] Set Users';

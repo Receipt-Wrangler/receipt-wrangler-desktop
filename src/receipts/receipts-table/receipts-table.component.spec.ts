@@ -10,7 +10,7 @@ import { NgxsModule } from "@ngxs/store";
 import { of } from "rxjs";
 import { PipesModule } from "src/pipes/pipes.module";
 import { ReceiptTableState } from "src/store/receipt-table.state";
-import { ApiModule, Receipt } from "../../api";
+import { ApiModule, Receipt } from "../../open-api";
 import { ReceiptsTableComponent } from "./receipts-table.component";
 
 describe("ReceiptsTableComponent", () => {

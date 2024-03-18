@@ -1,4 +1,4 @@
-import { FilterOperation } from "../../api";
+import { FilterOperation } from "../../open-api";
 import { OperationsPipe } from "./operations.pipe";
 
 describe("OperationsPipe", () => {
@@ -21,9 +21,9 @@ describe("OperationsPipe", () => {
     const result = pipe.transform("date");
 
     expect(result).toEqual([
-      FilterOperation.EQUALS,
-      FilterOperation.GREATERTHAN,
-      FilterOperation.LESSTHAN,
+      FilterOperation.Equals,
+      FilterOperation.GreaterThan,
+      FilterOperation.LessThan,
     ]);
   });
 
@@ -32,7 +32,7 @@ describe("OperationsPipe", () => {
 
     const result = pipe.transform("text");
 
-    expect(result).toEqual([FilterOperation.CONTAINS, FilterOperation.EQUALS]);
+    expect(result).toEqual([FilterOperation.Contains, FilterOperation.Equals]);
   });
 
   it("should return options for number", () => {
@@ -41,9 +41,9 @@ describe("OperationsPipe", () => {
     const result = pipe.transform("number");
 
     expect(result).toEqual([
-      FilterOperation.EQUALS,
-      FilterOperation.GREATERTHAN,
-      FilterOperation.LESSTHAN,
+      FilterOperation.Equals,
+      FilterOperation.GreaterThan,
+      FilterOperation.LessThan,
     ]);
   });
 
@@ -52,7 +52,7 @@ describe("OperationsPipe", () => {
 
     const result = pipe.transform("list");
 
-    expect(result).toEqual([FilterOperation.CONTAINS]);
+    expect(result).toEqual([FilterOperation.Contains]);
   });
 
   it("should return options for users", () => {
@@ -60,6 +60,6 @@ describe("OperationsPipe", () => {
 
     const result = pipe.transform("users");
 
-    expect(result).toEqual([FilterOperation.CONTAINS]);
+    expect(result).toEqual([FilterOperation.Contains]);
   });
 });

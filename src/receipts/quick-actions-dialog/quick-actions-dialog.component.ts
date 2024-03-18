@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators, } from "@an
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RadioButtonData } from "src/radio-group/models";
-import { Item, Receipt, User } from "../../api";
+import { Item, Receipt, User } from "../../open-api";
 import { buildItemForm } from "../utils/form.utils";
 
 enum QuickActions {

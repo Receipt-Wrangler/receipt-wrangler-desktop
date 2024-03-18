@@ -8,7 +8,7 @@ import { MatInputModule } from "@angular/material/input";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { Router } from "@angular/router";
 import { of } from "rxjs";
-import { ApiModule, SearchResult, SearchService } from "../../api";
+import { ApiModule, SearchResult, SearchService } from "../../open-api";
 
 import { SearchbarComponent } from "./searchbar.component";
 

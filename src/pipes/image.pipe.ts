@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { FileData } from "../api";
+import { FileData } from "../open-api";
 
 @Pipe({
   name: "image",

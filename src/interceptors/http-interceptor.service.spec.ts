@@ -3,7 +3,7 @@ import { TestBed } from "@angular/core/testing";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgxsModule } from "@ngxs/store";
-import { ApiModule } from "../api";
+import { ApiModule } from "../open-api";
 import { HttpInterceptorService } from "./http-interceptor.service";
 
 describe("HttpInterceptorService", () => {

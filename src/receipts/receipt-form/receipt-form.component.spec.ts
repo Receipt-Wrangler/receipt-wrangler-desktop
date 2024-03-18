@@ -11,7 +11,7 @@ import { of } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
 import { PipesModule } from "src/pipes/pipes.module";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
-import { ApiModule, ReceiptImageService, ReceiptStatus } from "../../api";
+import { ApiModule, ReceiptImageService, ReceiptStatus } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { GroupState } from "../../store";
 import { ReceiptFormComponent } from "./receipt-form.component";
@@ -67,7 +67,7 @@ describe("ReceiptFormComponent", () => {
       date: mockedDate,
       paidByUserId: "",
       groupId: 0,
-      status: ReceiptStatus.OPEN,
+      status: ReceiptStatus.Open,
     });
   });
 
@@ -103,7 +103,7 @@ describe("ReceiptFormComponent", () => {
 
     const receiptImageServiceSpy = spyOn(
       TestBed.inject(ReceiptImageService),
-      "magicFillReceiptForm"
+      "magicFillReceipt"
     ).and.returnValue(of(magicReceipt));
 
     const snackbarSpy = spyOn(
@@ -113,7 +113,7 @@ describe("ReceiptFormComponent", () => {
 
     component.magicFill();
 
-    expect(receiptImageServiceSpy).toHaveBeenCalledWith(undefined, 1);
+    expect(receiptImageServiceSpy).toHaveBeenCalledWith(1, undefined);
 
     const receiptValue = component.form.getRawValue();
 
@@ -152,12 +152,12 @@ describe("ReceiptFormComponent", () => {
 
     const receiptImageServiceSpy = spyOn(
       TestBed.inject(ReceiptImageService),
-      "magicFillReceiptForm"
+      "magicFillReceipt"
     ).and.returnValue(of(magicReceipt));
 
     component.magicFill();
 
-    expect(receiptImageServiceSpy).toHaveBeenCalledWith(undefined, 1);
+    expect(receiptImageServiceSpy).toHaveBeenCalledWith(1, undefined,);
 
     const receiptValue = component.form.getRawValue();
 
@@ -190,7 +190,7 @@ describe("ReceiptFormComponent", () => {
 
     const receiptImageServiceSpy = spyOn(
       TestBed.inject(ReceiptImageService),
-      "magicFillReceiptForm"
+      "magicFillReceipt"
     ).and.returnValue(of(magicReceipt));
 
     const snackbarSpy = spyOn(
@@ -200,7 +200,7 @@ describe("ReceiptFormComponent", () => {
 
     component.magicFill();
 
-    expect(receiptImageServiceSpy).toHaveBeenCalledWith(undefined, 1);
+    expect(receiptImageServiceSpy).toHaveBeenCalledWith(1, undefined);
 
     const receiptValue = component.form.getRawValue();
 

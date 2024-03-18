@@ -1,6 +1,6 @@
 import { FormOption } from "src/interfaces/form-option.interface";
 import { formatStatus } from "src/utils";
-import { GroupStatus, ItemStatus, ReceiptStatus } from "../api";
+import { GroupStatus, ItemStatus, ReceiptStatus } from "../open-api";
 
 export const RECEIPT_STATUS_OPTIONS: FormOption[] = Object.keys(
   ReceiptStatus

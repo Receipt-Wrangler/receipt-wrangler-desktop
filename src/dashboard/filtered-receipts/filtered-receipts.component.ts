@@ -4,7 +4,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
-import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../api";
+import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../open-api";
 import { GroupState } from "../../store";
 
 @UntilDestroy()
@@ -75,7 +75,7 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.receipts = [...this.receipts, ...pagedData.data];
+          this.receipts = [...this.receipts, ...pagedData.data as Receipt[]];
           this.cdr.detectChanges();
         })
       )

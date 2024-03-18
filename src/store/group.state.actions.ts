@@ -1,4 +1,4 @@
-import { Group } from '../api/model/group';
+import { Group } from '../open-api/model/group';
 
 export class AddGroup {
   static readonly type = '[Group] Add Group';

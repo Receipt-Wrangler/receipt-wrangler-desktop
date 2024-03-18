@@ -40,28 +40,30 @@
           <mat-icon>person</mat-icon>
         </button> -->
         <button
-          class="mt-4"
+          class="mt-4 mb-1"
           mat-icon-button
-          [routerLink]="['/receipts/add']"
           routerLinkActive="active-sub-button"
           matTooltip="Add Receipt"
           type="button"
           color="accent"
+          [routerLink]="['/receipts/add']"
         >
           <mat-icon>article</mat-icon>
         </button>
+        <app-quick-scan-button class="mb-1"></app-quick-scan-button>
         <button
+          class="mb-1"
           mat-icon-button
-          [routerLink]="['/groups/create']"
           routerLinkActive="active-sub-button"
           matTooltip="Add Group"
           type="button"
           color="accent"
+          [routerLink]="['/groups/create']"
         >
           <mat-icon>group</mat-icon>
         </button>
       </div>
-      <hr />
+      <hr/>
       <div *ngFor="let group of groups | async" class="p-2">
         <ng-container
           [ngTemplateOutlet]="groupAvatar"

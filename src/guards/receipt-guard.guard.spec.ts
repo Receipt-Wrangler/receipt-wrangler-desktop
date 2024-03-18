@@ -3,7 +3,7 @@ import { TestBed } from "@angular/core/testing";
 import { CanActivateFn } from "@angular/router";
 import { NgxsModule, Store } from "@ngxs/store";
 import { Observable, of, take, tap } from "rxjs";
-import { ApiModule, GroupRole, ReceiptService } from "../api";
+import { ApiModule, GroupRole, ReceiptService } from "../open-api";
 import { receiptGuardGuard } from "./receipt-guard.guard";
 
 describe("receiptGuardGuard", () => {
@@ -31,7 +31,7 @@ describe("receiptGuardGuard", () => {
     );
     const route: any = {
       data: {
-        groupRole: GroupRole.VIEWER,
+        groupRole: GroupRole.Viewer,
       },
       params: {
         id: 1,
@@ -40,7 +40,7 @@ describe("receiptGuardGuard", () => {
 
     executeGuard(route, {} as any);
 
-    expect(spy).toHaveBeenCalledWith(1, GroupRole.VIEWER);
+    expect(spy).toHaveBeenCalledWith(1, GroupRole.Viewer);
   });
 
   it("should allow the user through", (done) => {
@@ -49,7 +49,7 @@ describe("receiptGuardGuard", () => {
     );
     const route: any = {
       data: {
-        groupRole: GroupRole.VIEWER,
+        groupRole: GroupRole.Viewer,
       },
       params: {
         id: 1,
@@ -74,7 +74,7 @@ describe("receiptGuardGuard", () => {
   //   );
   //   const route: any = {
   //     data: {
-  //       groupRole: GroupRole.VIEWER,
+  //       groupRole: GroupRole.Viewer,
   //     },
   //     params: {
   //       id: 1,

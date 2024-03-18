@@ -6,7 +6,7 @@ import { Select } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { RECEIPT_ITEM_STATUS_OPTIONS } from "src/constants/receipt-status-options";
 import { FormMode } from "src/enums/form-mode.enum";
-import { GroupRole, Item, ItemStatus, Receipt, User } from "../../api";
+import { GroupRole, Item, ItemStatus, Receipt, User } from "../../open-api";
 import { InputComponent } from "../../input";
 import { UserState } from "../../store";
 import { buildItemForm } from "../utils/form.utils";
@@ -182,7 +182,7 @@ export class ItemListComponent implements OnInit {
 
     filtered.forEach((i) =>
       i.patchValue({
-        status: ItemStatus.RESOLVED,
+        status: ItemStatus.Resolved,
       })
     );
   }
@@ -190,7 +190,7 @@ export class ItemListComponent implements OnInit {
   public allUserItemsResolved(userId: string): boolean {
     const userItems = this.getItemsForUser(userId);
     return userItems.every(
-      (i) => i.get("status")?.value === ItemStatus.RESOLVED
+      (i) => i.get("status")?.value === ItemStatus.Resolved
     );
   }
 

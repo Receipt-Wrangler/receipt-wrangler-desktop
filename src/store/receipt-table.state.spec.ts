@@ -2,7 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import { NgxsModule, Store } from "@ngxs/store";
 import { ReceiptTableInterface } from "src/interfaces";
 import { GroupRolePipe } from "src/pipes/group-role.pipe";
-import { FilterOperation, ReceiptPagedRequestFilter, ReceiptStatus } from "../api";
+import { FilterOperation, ReceiptPagedRequestFilter, ReceiptStatus } from "../open-api";
 import { ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData, } from "./receipt-table.actions";
 import { defaultReceiptFilter, ReceiptTableState } from "./receipt-table.state";
 
@@ -18,35 +18,35 @@ describe("ReceiptTableState", () => {
 
     filledFilter = {
       date: {
-        operation: FilterOperation.EQUALS,
+        operation: FilterOperation.Equals,
         value: "2023-01-06",
       },
       name: {
-        operation: FilterOperation.EQUALS,
+        operation: FilterOperation.Equals,
         value: "hello world",
       },
       amount: {
-        operation: FilterOperation.GREATERTHAN,
+        operation: FilterOperation.GreaterThan,
         value: 12.05,
       },
       paidBy: {
-        operation: FilterOperation.CONTAINS,
+        operation: FilterOperation.Contains,
         value: [1],
       },
       categories: {
-        operation: FilterOperation.CONTAINS,
+        operation: FilterOperation.Contains,
         value: [2],
       },
       tags: {
-        operation: FilterOperation.CONTAINS,
+        operation: FilterOperation.Contains,
         value: [3, 4],
       },
       status: {
-        operation: FilterOperation.CONTAINS,
-        value: [ReceiptStatus.OPEN],
+        operation: FilterOperation.Contains,
+        value: [ReceiptStatus.Open],
       },
       resolvedDate: {
-        operation: FilterOperation.GREATERTHAN,
+        operation: FilterOperation.GreaterThan,
         value: "2023-01-06",
       },
     } as any;

@@ -1,4 +1,4 @@
-import { FilterOperation } from "../api";
+import { FilterOperation } from "../open-api";
 
 export const listOperationOptions = Object.values(FilterOperation).filter(
   (k) => k === "CONTAINS"

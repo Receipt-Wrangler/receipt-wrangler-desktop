@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { GroupMember } from "../../api";
+import { GroupMember } from "../../open-api";
 
 export function buildGroupMemberForm(groupMember?: GroupMember): FormGroup {
   return new FormGroup({

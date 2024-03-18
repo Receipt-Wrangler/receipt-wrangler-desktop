@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { NgxsModule, Store } from "@ngxs/store";
 import { GroupUtil } from "src/utils/group.utils";
-import { GroupRole } from "../api";
+import { GroupRole } from "../open-api";
 import { AuthState, GroupState } from "../store";
 import { GroupRolePipe } from "./group-role.pipe";
 
@@ -25,7 +25,7 @@ describe("GroupRolePipe", () => {
   });
 
   it("should return true if there is no groupId", () => {
-    const result = pipe.transform(undefined, GroupRole.OWNER);
+    const result = pipe.transform(undefined, GroupRole.Owner);
 
     expect(result).toEqual(true);
   });
@@ -37,13 +37,13 @@ describe("GroupRolePipe", () => {
         groups: [
           {
             id: 1,
-            groupMembers: [{ userId: 1, groupRole: GroupRole.EDITOR }],
+            groupMembers: [{ userId: 1, groupRole: GroupRole.Editor }],
           },
         ],
       },
     });
 
-    const result = pipe.transform(1, GroupRole.OWNER);
+    const result = pipe.transform(1, GroupRole.Owner);
 
     expect(result).toEqual(false);
   });
@@ -55,13 +55,13 @@ describe("GroupRolePipe", () => {
         groups: [
           {
             id: 1,
-            groupMembers: [{ userId: 1, groupRole: GroupRole.EDITOR }],
+            groupMembers: [{ userId: 1, groupRole: GroupRole.Editor }],
           },
         ],
       },
     });
 
-    const result = pipe.transform("not a number", GroupRole.OWNER);
+    const result = pipe.transform("not a number", GroupRole.Owner);
 
     expect(result).toEqual(false);
   });
@@ -73,13 +73,13 @@ describe("GroupRolePipe", () => {
         groups: [
           {
             id: 1,
-            groupMembers: [{ userId: 1, groupRole: GroupRole.EDITOR }],
+            groupMembers: [{ userId: 1, groupRole: GroupRole.Editor }],
           },
         ],
       },
     });
 
-    const result = pipe.transform("all", GroupRole.OWNER);
+    const result = pipe.transform("all", GroupRole.Owner);
 
     expect(result).toEqual(true);
   });

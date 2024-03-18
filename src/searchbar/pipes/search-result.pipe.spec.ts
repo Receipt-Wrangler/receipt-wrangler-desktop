@@ -1,7 +1,7 @@
 import { DatePipe } from "@angular/common";
 import { TestBed } from "@angular/core/testing";
 import { NgxsModule, Store } from "@ngxs/store";
-import { SearchResult } from "../../api";
+import { SearchResult } from "../../open-api";
 import { GroupState } from "../../store";
 import { SearchResultPipe } from "./search-result.pipe";
 

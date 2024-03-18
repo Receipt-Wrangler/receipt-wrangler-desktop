@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { NgxsModule } from "@ngxs/store";
-import { ApiModule } from "../../api";
+import { ApiModule } from "../../open-api";
 import { GroupSettingsComponent } from "./group-settings.component";
 
 describe("GroupSettingsComponent", () => {

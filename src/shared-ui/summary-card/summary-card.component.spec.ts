@@ -5,7 +5,7 @@ import { MatListModule } from "@angular/material/list";
 import { ActivatedRoute } from "@angular/router";
 import { NgxsModule } from "@ngxs/store";
 import { of } from "rxjs";
-import { ApiModule, UserService } from "../../api";
+import { ApiModule, UserService } from "../../open-api";
 import { SummaryCardComponent } from "./summary-card.component";
 
 describe("SummaryCardComponent", () => {

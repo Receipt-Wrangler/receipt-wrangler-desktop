@@ -1,4 +1,4 @@
-import { Dashboard } from "../api";
+import { Dashboard } from "../open-api";
 
 export class SetDashboardsForGroup {
   static readonly type = "[Dashboards] Set Dashboards For Group";

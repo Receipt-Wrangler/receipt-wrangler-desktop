@@ -15,18 +15,8 @@ import { FormMode } from "src/enums/form-mode.enum";
 import { LayoutState } from "src/store/layout.state";
 import { HideProgressBar, ShowProgressBar } from "src/store/layout.state.actions";
 import { UserAutocompleteComponent } from "src/user-autocomplete/user-autocomplete/user-autocomplete.component";
-import {
-  Category,
-  FileDataView,
-  Group,
-  GroupRole,
-  Receipt,
-  ReceiptFileUploadCommand,
-  ReceiptImageService,
-  ReceiptService,
-  ReceiptStatus,
-  Tag
-} from "../../api";
+import { ReceiptFileUploadCommand } from "../../interfaces";
+import { Category, FileDataView, Group, GroupRole, Receipt, ReceiptImageService, ReceiptService, ReceiptStatus, Tag } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { FeatureConfigState, GroupState, UserState } from "../../store";
 import { ItemListComponent } from "../item-list/item-list.component";
@@ -203,7 +193,7 @@ export class ReceiptFormComponent implements OnInit {
         this.originalReceipt?.groupId ?? selectedGroupId,
         Validators.required,
       ],
-      status: this.originalReceipt?.status ?? ReceiptStatus.OPEN,
+      status: this.originalReceipt?.status ?? ReceiptStatus.Open,
     });
 
     if (this.mode === FormMode.view) {
@@ -315,7 +305,7 @@ export class ReceiptFormComponent implements OnInit {
 
     this.store.dispatch(new ShowProgressBar());
     this.receiptImageService
-      .magicFillReceiptForm(file, receiptImageId)
+      .magicFillReceipt(receiptImageId, file)
       .pipe(
         take(1),
         tap((magicFilledReceipt) => {
@@ -445,7 +435,7 @@ export class ReceiptFormComponent implements OnInit {
         break;
       case FormMode.edit:
         this.receiptImageService
-          .uploadReceiptImageForm(
+          .uploadReceiptImage(
             command.file,
             this.originalReceipt?.id as number,
             ""
@@ -516,7 +506,7 @@ export class ReceiptFormComponent implements OnInit {
             () => this.filesToUpload.length > 0,
             forkJoin(
               this.filesToUpload.map((file) => {
-                return this.receiptImageService.uploadReceiptImageForm(
+                return this.receiptImageService.uploadReceiptImage(
                   file.file,
                   receipt.id,
                   ""
@@ -535,7 +525,7 @@ export class ReceiptFormComponent implements OnInit {
 
   private updateReceipt(): void {
     this.receiptService
-      .updateReceipt(this.form.value, this.originalReceipt?.id as number)
+      .updateReceipt(this.originalReceipt?.id as number, this.form.value)
       .pipe(
         take(1),
         tap(() => {

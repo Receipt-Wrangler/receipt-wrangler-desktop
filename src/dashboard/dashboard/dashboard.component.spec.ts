@@ -9,7 +9,7 @@ import { NgxsModule, Store } from "@ngxs/store";
 import { BehaviorSubject } from "rxjs";
 import { PipesModule } from "src/pipes/pipes.module";
 import { DashboardState } from "src/store/dashboard.state";
-import { ApiModule, Dashboard } from "../../api";
+import { ApiModule, Dashboard } from "../../open-api";
 import { SummaryCardComponent } from "../../shared-ui/summary-card/summary-card.component";
 import { GroupState } from "../../store";
 import { DashboardRoutingModule } from "../dashboard-routing.module";

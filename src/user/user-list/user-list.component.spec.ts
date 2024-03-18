@@ -5,7 +5,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { NgxsModule } from "@ngxs/store";
 import { TableModule } from "src/table/table.module";
-import { ApiModule } from "../../api";
+import { ApiModule } from "../../open-api";
 import { UserListComponent } from "./user-list.component";
 
 describe("UserListComponent", () => {

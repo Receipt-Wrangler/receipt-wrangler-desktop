@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
-import { ApiModule } from '../api/api.module';
+import { ApiModule } from '../open-api/api.module';
 import { AppInitService } from './app-init.service';
 
 describe('AppInitService', () => {

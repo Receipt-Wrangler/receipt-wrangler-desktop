@@ -6,7 +6,7 @@ import { MatDialogModule, MatDialogRef, } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { of } from "rxjs";
 import { DuplicateValidator } from "src/validators/duplicate-validator";
-import { ApiModule, TagService, TagView } from "../../api";
+import { ApiModule, TagService, TagView } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { TagFormComponent } from "./tag-form.component";
 
@@ -81,11 +81,11 @@ describe("CategoryForm", () => {
     component.submit();
 
     expect(tagServiceSpy).toHaveBeenCalledOnceWith(
+      1,
       {
         name: "test",
         description: "test",
       },
-      1
     );
   });
 

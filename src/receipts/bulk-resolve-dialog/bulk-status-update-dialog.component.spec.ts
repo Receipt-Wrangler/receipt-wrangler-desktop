@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
-import { ReceiptStatus } from "../../api";
+import { ReceiptStatus } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { BulkStatusUpdateComponent } from "./bulk-status-update-dialog.component";
 
@@ -39,7 +39,7 @@ describe("BulkStatusUpdateComponent", () => {
 
     expect(component.form.value).toEqual({
       comment: "",
-      status: ReceiptStatus.RESOLVED,
+      status: ReceiptStatus.Resolved,
     });
   });
 
@@ -54,13 +54,13 @@ describe("BulkStatusUpdateComponent", () => {
     const spy = spyOn(component.matDialogRef, "close");
     component.form.patchValue({
       comment: "resolved",
-      status: ReceiptStatus.NEEDSATTENTION,
+      status: ReceiptStatus.NeedsAttention,
     });
     component.submitButtonClicked();
 
     expect(spy).toHaveBeenCalledWith({
       comment: "resolved",
-      status: ReceiptStatus.NEEDSATTENTION,
+      status: ReceiptStatus.NeedsAttention,
     });
   });
 });

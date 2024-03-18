@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
 import { switchMap, take, tap } from "rxjs";
-import { User, UserService } from "../../api";
+import { User, UserService } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { UpdateUser } from "../../store";
 
@@ -39,7 +39,7 @@ export class DummyUserConversionDialogComponent implements OnInit {
     if (this.form.valid) {
       let userId: string = this.user?.id?.toString();
       this.userService
-        .convertDummyUserById(this.form.value, Number.parseInt(userId))
+        .convertDummyUserById( Number.parseInt(userId), this.form.value)
         .pipe(
           take(1),
           tap(() => {

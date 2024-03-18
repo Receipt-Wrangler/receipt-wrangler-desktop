@@ -11,7 +11,7 @@ import { SetOrderBy, SetPage, SetPageSize, SetSortDirection, } from "src/store/p
 import { TagTableState } from "src/store/tag-table.state";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
-import { PagedRequestCommand, TagService, TagView } from "../../api";
+import {PagedDataDataInner, PagedRequestCommand, TagService, TagView} from "../../open-api";
 import { SnackbarService } from "../../services";
 import { TagFormComponent } from "../tag-form/tag-form.component";
 
@@ -41,8 +41,8 @@ export class TagsListComponent implements OnInit, AfterViewInit {
     private tagService: TagService
   ) {}
 
-  public dataSource: MatTableDataSource<TagView> =
-    new MatTableDataSource<TagView>([]);
+  public dataSource: MatTableDataSource<PagedDataDataInner> =
+    new MatTableDataSource<PagedDataDataInner>([]);
 
   public displayedColumns: string[] = [];
 
@@ -74,7 +74,7 @@ export class TagsListComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.dataSource = new MatTableDataSource<TagView>(pagedData.data);
+          this.dataSource = new MatTableDataSource<PagedDataDataInner>(pagedData.data);
           this.totalCount = pagedData.totalCount;
         })
       )
@@ -137,13 +137,13 @@ export class TagsListComponent implements OnInit, AfterViewInit {
     ];
   }
 
-  public openEditDialog(tagView: TagView): void {
+  public openEditDialog(tagView: PagedDataDataInner): void {
     const dialogRef = this.matDialog.open(
       TagFormComponent,
       DEFAULT_DIALOG_CONFIG
     );
 
-    dialogRef.componentInstance.tag = tagView;
+    dialogRef.componentInstance.tag = tagView as TagView;
     dialogRef.componentInstance.headerText = `Edit ${tagView.name}`;
 
     dialogRef
@@ -180,7 +180,7 @@ export class TagsListComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
-  public openDeleteConfirmationDialog(tagView: TagView) {
+  public openDeleteConfirmationDialog(tagView: PagedDataDataInner) {
     const dialogRef = this.matDialog.open(
       ConfirmationDialogComponent,
       DEFAULT_DIALOG_CONFIG
@@ -193,7 +193,7 @@ export class TagsListComponent implements OnInit, AfterViewInit {
         take(1),
         switchMap((confirmed) => {
           if (confirmed) {
-            return this.tagService.deleteTag(tagView.id).pipe(
+            return this.tagService.deleteTag(tagView.id as number).pipe(
               tap(() => {
                 this.snackbarService.success("Tag successfully deleted");
                 this.getTags();

@@ -2,7 +2,7 @@ import { inject } from "@angular/core";
 import { CanActivateFn, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { catchError, map, take, tap } from "rxjs";
-import { ReceiptService } from "../api";
+import { ReceiptService } from "../open-api";
 import { GroupState } from "../store";
 
 export const receiptGuardGuard: CanActivateFn = (route, state) => {

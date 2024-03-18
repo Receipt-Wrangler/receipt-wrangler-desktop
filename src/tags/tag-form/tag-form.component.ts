@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { take, tap } from "rxjs";
 import { DuplicateValidator } from "src/validators/duplicate-validator";
-import { TagService, TagView, UpsertTagCommand } from "../../api";
+import { TagService, TagView, UpsertTagCommand } from "../../open-api";
 import { SnackbarService } from "../../services";
 
 @Component({
@@ -48,7 +48,7 @@ export class TagFormComponent implements OnInit {
         description: this.form.value.description,
       };
       this.categoryService
-        .updateTag(command, this.tag.id as number)
+        .updateTag (this.tag.id as number, command)
         .pipe(
           take(1),
           tap(() => {

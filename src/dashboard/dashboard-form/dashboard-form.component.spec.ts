@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { NgxsModule, Store } from "@ngxs/store";
 import { of } from "rxjs";
-import { Dashboard, DashboardService, WidgetType } from "../../api";
+import { Dashboard, DashboardService, WidgetType } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { SnackbarService } from "../../services";
 import { GroupState } from "../../store";
@@ -86,7 +86,7 @@ describe("DashboardFormComponent", () => {
       showSummaryCard: true,
       widgets: [
         {
-          widgetType: WidgetType.GROUPSUMMARY,
+          widgetType: WidgetType.GroupSummary,
         },
       ],
     });
@@ -111,7 +111,7 @@ describe("DashboardFormComponent", () => {
       showSummaryCard: true,
       widgets: [
         {
-          widgetType: WidgetType.GROUPSUMMARY,
+          widgetType: WidgetType.GroupSummary,
         },
       ],
     });

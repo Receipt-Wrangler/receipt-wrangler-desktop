@@ -55,7 +55,7 @@
 <ng-template #headerButtonsTemplate>
   <app-edit-button
     *ngIf="formConfig.mode | inputReadonly"
-    [disabled]="!(originalGroup?.id ?? 0 | groupRole : groupRole.OWNER)"
+    [disabled]="!(originalGroup?.id ?? 0 | groupRole : groupRole.Owner)"
     [buttonRouterLink]="[editLink]"
   ></app-edit-button>
 </ng-template>
@@ -70,14 +70,15 @@
 
 <ng-template #actionsCell let-index="index">
   <div class="d-flex">
+    <app-edit-button
+      tooltip="Edit group member"
+      color="accent"
+      (clicked)="editGroupMemberClicked(index)"
+    ></app-edit-button>
     <app-delete-button
       tooltip="Remove group member"
       [disabled]="disableDeleteButton"
       (clicked)="removeGroupMember(index)"
     ></app-delete-button>
-    <app-edit-button
-      tooltip="Edit group member"
-      (clicked)="editGroupMemberClicked(index)"
-    ></app-edit-button>
   </div>
 </ng-template>

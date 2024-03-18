@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { take, tap } from "rxjs";
 import { DuplicateValidator } from "src/validators/duplicate-validator";
-import { Category, CategoryService, CategoryView } from "../../api";
+import { Category, CategoryService, CategoryView } from "../../open-api";
 import { SnackbarService } from "../../services";
 
 @Component({
@@ -48,7 +48,7 @@ export class CategoryForm implements OnInit {
         description: this.form.value.description,
       };
       this.categoryService
-        .updateCategory(category, category.id as number)
+        .updateCategory(category.id as number, category)
         .pipe(
           take(1),
           tap(() => {

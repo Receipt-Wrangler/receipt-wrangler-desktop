@@ -1,7 +1,7 @@
 import { DatePipe } from "@angular/common";
 import { Pipe, PipeTransform } from "@angular/core";
 import { Store } from "@ngxs/store";
-import { SearchResult } from "../../api";
+import { SearchResult } from "../../open-api";
 import { GroupState } from "../../store";
 
 @Pipe({

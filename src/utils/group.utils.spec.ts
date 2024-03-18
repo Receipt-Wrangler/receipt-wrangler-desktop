@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { NgxsModule, Store } from "@ngxs/store";
-import { GroupRole } from "../api";
+import { GroupRole } from "../open-api";
 import { AuthState, GroupState } from "../store";
 import { GroupUtil } from "./group.utils";
 
@@ -24,7 +24,7 @@ describe("GroupUtil", () => {
 
   describe("hasGroupAccess", () => {
     const testGroupId = 1;
-    const testGroupRole = GroupRole.EDITOR;
+    const testGroupRole = GroupRole.Editor;
 
     it("should return true when groupId is undefined", () => {
       const result = groupUtil.hasGroupAccess(undefined, testGroupRole);
@@ -44,7 +44,7 @@ describe("GroupUtil", () => {
           groups: [
             {
               id: testGroupId,
-              groupMembers: [{ userId: "3", groupRole: GroupRole.EDITOR }],
+              groupMembers: [{ userId: "3", groupRole: GroupRole.Editor }],
             },
           ],
         },
@@ -62,7 +62,7 @@ describe("GroupUtil", () => {
           groups: [
             {
               id: testGroupId,
-              groupMembers: [{ userId: userId, groupRole: GroupRole.VIEWER }],
+              groupMembers: [{ userId: userId, groupRole: GroupRole.Viewer }],
             },
           ],
         },
@@ -80,7 +80,7 @@ describe("GroupUtil", () => {
           groups: [
             {
               id: testGroupId,
-              groupMembers: [{ userId: userId, groupRole: GroupRole.OWNER }],
+              groupMembers: [{ userId: userId, groupRole: GroupRole.Owner }],
             },
           ],
         },

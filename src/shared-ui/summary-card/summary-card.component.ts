@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { UntilDestroy } from "@ngneat/until-destroy";
 import { take, tap } from "rxjs";
-import { UserService } from "../../api";
+import { UserService } from "../../open-api";
 
 
 @UntilDestroy()
@@ -45,7 +45,8 @@ export class SummaryCardComponent implements OnChanges {
             if (Number(result[k]) > 0) {
               this.userOwesMap.set(key, result[k].toString());
             } else {
-              this.usersOweMap.set(key, Math.abs(result[k]).toString());
+              const parsed = Number.parseFloat(result[k]);
+              this.usersOweMap.set(key, Math.abs(parsed).toString());
             }
           });
         })

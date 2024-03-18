@@ -6,7 +6,7 @@ import { MatDialogModule, MatDialogRef, } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { of } from "rxjs";
 import { DuplicateValidator } from "src/validators/duplicate-validator";
-import { ApiModule, CategoryService, CategoryView } from "../../api";
+import { ApiModule, CategoryService, CategoryView } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { CategoryForm } from "./category-form.component";
 
@@ -84,12 +84,12 @@ describe("CategoryForm", () => {
     component.submit();
 
     expect(categoryServiceSpy).toHaveBeenCalledOnceWith(
+      1,
       {
         id: 1,
         name: "test",
         description: "test",
       },
-      1
     );
   });
 

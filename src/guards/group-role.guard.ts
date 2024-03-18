@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from "@a
 import { Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { GroupUtil } from "src/utils";
-import { GroupRole } from "../api";
+import { GroupRole } from "../open-api";
 import { GroupState } from "../store";
 
 @Injectable({

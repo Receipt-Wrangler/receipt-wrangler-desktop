@@ -5,7 +5,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
 import { BehaviorSubject, take, tap } from "rxjs";
 import { ReceiptFilterComponent } from "src/shared-ui/receipt-filter/receipt-filter.component";
-import { Dashboard, DashboardService, Widget, WidgetType } from "../../api";
+import { Dashboard, DashboardService, Widget, WidgetType } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { GroupState } from "../../store";
 
@@ -62,7 +62,7 @@ export class DashboardFormComponent implements OnInit {
       ],
       showSummaryCard: [
         this?.dashboard?.widgets?.find(
-          (w) => w.widgetType === WidgetType.GROUPSUMMARY
+          (w) => w.widgetType === WidgetType.GroupSummary
         ) ?? false,
       ],
       widgets: this.formBuilder.array(
@@ -79,12 +79,12 @@ export class DashboardFormComponent implements OnInit {
       tap((value) => {
         if (value) {
           const formGroup = this.buildWidgetFormGroup({
-            widgetType: WidgetType.GROUPSUMMARY,
+            widgetType: WidgetType.GroupSummary,
           } as Widget);
           this.widgets.push(formGroup);
         } else {
           const index = this.widgets.controls.findIndex(
-            (c) => c.value.widgetType === WidgetType.GROUPSUMMARY
+            (c) => c.value.widgetType === WidgetType.GroupSummary
           );
           if (index > -1) {
             this.widgets.removeAt(index);
@@ -97,7 +97,7 @@ export class DashboardFormComponent implements OnInit {
 
   private buildWidgetFormGroup(widget: Widget): FormGroup {
     switch (widget.widgetType) {
-      case WidgetType.FILTEREDRECEIPTS:
+      case WidgetType.FilteredReceipts:
         return this.formBuilder.group({
           name: [widget.name, Validators.required],
           widgetType: [widget.widgetType, Validators.required],
@@ -132,7 +132,7 @@ export class DashboardFormComponent implements OnInit {
         .subscribe();
     } else if (canSubmit && this.dashboard) {
       this.dashboardService
-        .updateDashboard(this.form.value, this.dashboard.id)
+        .updateDashboard(this.dashboard.id, this.form.value)
         .pipe(
           take(1),
           tap((dashboard) => {
@@ -150,7 +150,7 @@ export class DashboardFormComponent implements OnInit {
 
   public addFilteredReceiptWidget(): void {
     const formGroup = this.buildWidgetFormGroup({
-      widgetType: WidgetType.FILTEREDRECEIPTS,
+      widgetType: WidgetType.FilteredReceipts,
     } as Widget);
     this.filterOpen.next(this.widgets.length);
     this.widgets.push(formGroup);

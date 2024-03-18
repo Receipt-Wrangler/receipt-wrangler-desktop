@@ -6,7 +6,7 @@ import { Select, Store } from "@ngxs/store";
 import { filter, Observable, switchMap, take, tap } from "rxjs";
 import { LayoutState } from "src/store/layout.state";
 import { ToggleIsSidebarOpen } from "src/store/layout.state.actions";
-import { AuthService, GroupRole, NotificationsService, User } from "../../api";
+import { AuthService, GroupRole, NotificationsService, User } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { AuthState, GroupState, Logout } from "../../store";
 

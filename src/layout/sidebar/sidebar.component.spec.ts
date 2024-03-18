@@ -6,7 +6,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { NgxsModule } from "@ngxs/store";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 import { LayoutState } from "src/store/layout.state";
-import { ApiModule } from "../../api";
+import { ApiModule } from "../../open-api";
 import { AuthState, GroupState } from "../../store";
 import { SidebarComponent } from "./sidebar.component";
 

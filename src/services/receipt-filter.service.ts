@@ -4,7 +4,7 @@ import { SortDirection } from "@angular/material/sort";
 import { Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { ReceiptTableState } from "src/store/receipt-table.state";
-import { PagedData, ReceiptPagedRequestCommand } from "../api";
+import { PagedData, ReceiptPagedRequestCommand } from "../open-api";
 
 @Injectable({
   providedIn: "root",

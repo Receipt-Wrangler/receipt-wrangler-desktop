@@ -11,7 +11,7 @@ import { CategoryTableState } from "src/store/category-table.state";
 import { SetOrderBy, SetPage, SetPageSize, SetSortDirection, } from "src/store/paged-table.state.actions";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
-import { CategoryService, CategoryView, PagedRequestCommand } from "../../api";
+import { CategoryService, CategoryView, PagedDataDataInner, PagedRequestCommand } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { CategoryForm } from "../category-form/category-form.component";
 
@@ -41,8 +41,8 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
     private store: Store,
   ) {}
 
-  public dataSource: MatTableDataSource<CategoryView> =
-    new MatTableDataSource<CategoryView>([]);
+  public dataSource: MatTableDataSource<PagedDataDataInner> =
+    new MatTableDataSource<PagedDataDataInner>([]);
 
   public displayedColumns: string[] = [];
 
@@ -74,7 +74,7 @@ export class CategoriesListComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.dataSource = new MatTableDataSource<CategoryView>(
+          this.dataSource = new MatTableDataSource<PagedDataDataInner>(
             pagedData.data
           );
           this.totalCount = pagedData.totalCount;

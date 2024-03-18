@@ -8,7 +8,7 @@ import { of } from "rxjs";
 import { DEFAULT_DIALOG_CONFIG } from "src/constants";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { CategoryTableState } from "src/store/category-table.state";
-import { ApiModule, CategoryService } from "../../api";
+import { ApiModule, CategoryService } from "../../open-api";
 import { CategoryForm } from "../category-form/category-form.component";
 import { CategoriesListComponent } from "./categories-list.component";
 

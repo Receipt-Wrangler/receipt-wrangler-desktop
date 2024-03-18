@@ -1,26 +1,13 @@
 @import "../../variables.scss";
 
-$zone-border: dotted 2px map-get($primary-palette, 400) !important;
+app-quick-scan-dialog {
+  .carousel-control {
+    display: none;
+  }
 
-.file-upload-zone {
-  width: 100%;
-  height: 200px;
-  border: dotted 2px #ccc;
-  border-radius: 10px;
-  cursor: pointer;
+  .image-preview {
+    width: auto;
+    height: 200px;
+  }
 }
 
-.file-upload-zone:focus {
-  border: $zone-border;
-  background-color: lightgray;
-}
-
-.file-upload-zone:hover {
-  border: $zone-border;
-  background-color: lightgray;
-}
-
-.image-preview {
-  width: auto;
-  height: 200px;
-}

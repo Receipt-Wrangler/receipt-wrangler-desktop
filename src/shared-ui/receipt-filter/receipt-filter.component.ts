@@ -6,7 +6,7 @@ import { forkJoin, take, tap } from "rxjs";
 import { RECEIPT_STATUS_OPTIONS } from "src/constants";
 import { SetReceiptFilter } from "src/store/receipt-table.actions";
 import { defaultReceiptFilter, ReceiptTableState, } from "src/store/receipt-table.state";
-import { Category, CategoryService, ReceiptPagedRequestFilter, Tag, TagService } from "../../api";
+import { Category, CategoryService, ReceiptPagedRequestFilter, Tag, TagService } from "../../open-api";
 
 @Component({
   selector: "app-receipt-filter",

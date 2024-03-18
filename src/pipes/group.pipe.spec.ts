@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { NgxsModule, Store } from "@ngxs/store";
-import { Group } from "../api";
+import { Group } from "../open-api";
 import { GroupState } from "../store";
 import { GroupPipe } from "./group.pipe";
 

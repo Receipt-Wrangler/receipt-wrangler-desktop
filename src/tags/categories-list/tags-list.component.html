@@ -14,14 +14,14 @@
   ></app-table>
 </div>
 
-<ng-template #nameCell let-element="element">{{ element.name }} </ng-template>
+<ng-template #nameCell let-element="element">{{ element.name }}</ng-template>
 
 <ng-template #descriptionCell let-element="element"
-  >{{ element.description }}
+>{{ element.description }}
 </ng-template>
 
 <ng-template #numberOfReceiptsCell let-element="element"
-  >{{ element.numberOfReceipts }}
+>{{ element.numberOfReceipts }}
 </ng-template>
 
 <ng-template #actionsCell let-element="element" let-index="index">
@@ -32,7 +32,6 @@
   ></app-edit-button>
   <app-delete-button
     *appRole="'ADMIN'"
-    color="accent"
     (clicked)="openDeleteConfirmationDialog(element)"
   ></app-delete-button>
 </ng-template>

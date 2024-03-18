@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, Output, ViewEncapsulation, } from "@ang
 import { UntilDestroy } from "@ngneat/until-destroy";
 import { ImageTransform } from "ngx-image-cropper";
 import { FormMode } from "src/enums/form-mode.enum";
-import { FileDataView, ReceiptFileUploadCommand } from "../../api";
+import { ReceiptFileUploadCommand } from "../../interfaces";
+import { FileDataView } from "../../open-api";
 
 interface CarouselDatasource {
   blob?: File;

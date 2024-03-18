@@ -3,7 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { FormMode } from "src/enums/form-mode.enum";
 import { GroupRoleGuard } from "src/guards/group-role.guard";
 import { FormConfig } from "src/interfaces/form-config.interface";
-import { GroupRole } from "../api";
+import { GroupRole } from "../open-api";
 import { GroupFormComponent } from "./group-form/group-form.component";
 import { GroupListComponent } from "./group-list/group-list.component";
 import { GroupSettingsComponent } from "./group-settings/group-settings.component";
@@ -36,7 +36,7 @@ const routes: Routes = [
         mode: FormMode.view,
         headerText: "View Group",
       } as FormConfig,
-      groupRole: GroupRole.VIEWER,
+      groupRole: GroupRole.Viewer,
     },
     canActivate: [GroupRoleGuard],
     children: [
@@ -51,7 +51,7 @@ const routes: Routes = [
             mode: FormMode.view,
             headerText: "View Group",
           } as FormConfig,
-          groupRole: GroupRole.VIEWER,
+          groupRole: GroupRole.Viewer,
           entityType: "Details",
           setHeaderText: true,
         },
@@ -67,7 +67,7 @@ const routes: Routes = [
           formConfig: {
             mode: FormMode.edit,
           } as FormConfig,
-          groupRole: GroupRole.OWNER,
+          groupRole: GroupRole.Owner,
           entityType: "Details",
           setHeaderText: true,
         },
@@ -85,7 +85,7 @@ const routes: Routes = [
           } as FormConfig,
           setHeaderText: true,
           entityType: "Settings",
-          groupRole: GroupRole.OWNER,
+          groupRole: GroupRole.Owner,
         },
         canActivate: [GroupRoleGuard],
       },
@@ -101,7 +101,7 @@ const routes: Routes = [
           } as FormConfig,
           setHeaderText: true,
           entityType: "Settings",
-          groupRole: GroupRole.OWNER,
+          groupRole: GroupRole.Owner,
         },
         canActivate: [GroupRoleGuard],
       },

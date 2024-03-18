@@ -40,6 +40,7 @@ import { UserState } from "./user.state";
         "groups",
         "layout",
         "receiptTable",
+        "users",
       ],
     }),
   ],

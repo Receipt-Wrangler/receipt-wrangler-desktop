@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { take, tap } from "rxjs";
-import { Notification, NotificationsService } from "../../api";
+import { Notification, NotificationsService } from "../../open-api";
 
 @Component({
   selector: "app-notifications-list",

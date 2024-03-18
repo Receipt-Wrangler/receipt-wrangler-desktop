@@ -7,7 +7,7 @@ import { receiptGuardGuard } from "src/guards/receipt-guard.guard";
 import { CategoriesResolverService } from "src/resolvers/categories-resolver.service";
 import { ReceiptResolverService } from "src/resolvers/receipt-resolver.service";
 import { TagsResolverService } from "src/resolvers/tags-resolver.service";
-import { GroupRole } from "../api";
+import { GroupRole } from "../open-api";
 import { ReceiptFormComponent } from "./receipt-form/receipt-form.component";
 import { ReceiptsTableComponent } from "./receipts-table/receipts-table.component";
 
@@ -33,7 +33,7 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.add,
-      groupRole: GroupRole.EDITOR,
+      groupRole: GroupRole.Editor,
     },
     canActivate: [GroupRoleGuard],
   },
@@ -47,7 +47,7 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.view,
-      groupRole: GroupRole.VIEWER,
+      groupRole: GroupRole.Viewer,
     },
     canActivate: [receiptGuardGuard],
   },
@@ -61,7 +61,7 @@ const routes: Routes = [
     },
     data: {
       mode: FormMode.edit,
-      groupRole: GroupRole.EDITOR,
+      groupRole: GroupRole.Editor,
     },
     canActivate: [receiptGuardGuard],
   },

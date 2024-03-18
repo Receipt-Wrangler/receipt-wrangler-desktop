@@ -2,7 +2,7 @@ import { inject } from "@angular/core";
 import { CanActivateFn, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { DashboardState } from "src/store/dashboard.state";
-import { Dashboard } from "../../api";
+import { Dashboard } from "../../open-api";
 import { GroupState, SetSelectedDashboardId } from "../../store";
 
 export const dashboardGuard: CanActivateFn = (route, state) => {

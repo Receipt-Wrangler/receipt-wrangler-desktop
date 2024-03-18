@@ -1,38 +1,30 @@
-import { Component, EmbeddedViewRef, OnInit, TemplateRef, ViewChild, } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit, ViewChild, ViewEncapsulation, } from "@angular/core";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
-import { MatSnackBarRef } from "@angular/material/snack-bar";
 import { Store } from "@ngxs/store";
 import { finalize, take, tap } from "rxjs";
 import { ToggleShowProgressBar } from "src/store/layout.state.actions";
-import { QuickScanCommand, ReceiptFileUploadCommand, ReceiptService } from "../../api";
+import { QuickScanCommand, ReceiptFileUploadCommand } from "../../interfaces";
+import { ReceiptService, ReceiptStatus } from "../../open-api";
 import { SnackbarService } from "../../services";
-import { AuthState, GroupState } from "../../store";
+import { AuthState } from "../../store";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 
 @Component({
   selector: "app-quick-scan-dialog",
   templateUrl: "./quick-scan-dialog.component.html",
   styleUrls: ["./quick-scan-dialog.component.scss"],
+  encapsulation: ViewEncapsulation.None
 })
 export class QuickScanDialogComponent implements OnInit {
   @ViewChild(UploadImageComponent)
   public uploadImageComponent!: UploadImageComponent;
 
-  @ViewChild("successfullScanSnackbar")
-  public successfullScanSnackbarTemplate!: TemplateRef<any>;
-
   public form: FormGroup = new FormGroup({});
 
   public images: ReceiptFileUploadCommand[] = [];
 
-  public imageBlobUrl: string = "";
-
-  public encodedImage: string = "";
-
-  public quickScannedReceiptId: number = 0;
-
-  public snackbarRef!: MatSnackBarRef<EmbeddedViewRef<any>>;
+  public currentlySelectedIndex: number = 0;
 
   constructor(
     private dialogRef: MatDialogRef<QuickScanDialogComponent>,
@@ -42,47 +34,51 @@ export class QuickScanDialogComponent implements OnInit {
     private store: Store
   ) {}
 
+  public get paidByUserIds(): FormArray {
+    return this.form.get("paidByUserIds") as FormArray;
+  }
+
+  public get statuses(): FormArray {
+    return this.form.get("statuses") as FormArray;
+  }
+
+  public get groupIds(): FormArray {
+    return this.form.get("groupIds") as FormArray;
+  }
+
   public ngOnInit(): void {
     this.initForm();
   }
 
   private initForm(): void {
-    let selectedGroupId: string | undefined = this.store.selectSnapshot(
-      GroupState.selectedGroupId
-    );
-    if (selectedGroupId === "all") {
-      selectedGroupId = undefined;
-    }
-    const userPreferences = this.store.selectSnapshot(
-      AuthState.userPreferences
-    );
     this.form = this.formBuilder.group({
-      paidByUserId: [
-        userPreferences?.quickScanDefaultPaidById ?? undefined,
-        Validators.required,
-      ],
-      status: [
-        userPreferences?.quickScanDefaultStatus ?? undefined,
-        Validators.required,
-      ],
-      groupId: [
-        userPreferences?.quickScanDefaultGroupId ?? undefined,
-        Validators.required,
-      ],
+      paidByUserIds: this.formBuilder.array<number>([]),
+      statuses: this.formBuilder.array<ReceiptStatus>([]),
+      groupIds: this.formBuilder.array<number>([]),
     });
   }
 
   public fileLoaded(fileData: ReceiptFileUploadCommand): void {
+    if (fileData.file && !fileData.encodedImage) {
+      fileData.url = URL.createObjectURL(fileData.file);
+    }
     this.images.push(fileData);
-    this.imageBlobUrl = URL.createObjectURL(fileData.file);
-    this.encodedImage = fileData.encodedImage ?? "";
+    const userPreferences = this.store.selectSnapshot(AuthState.userPreferences);
+
+    this.paidByUserIds.push(new FormControl(userPreferences?.quickScanDefaultPaidById ?? "", Validators.required));
+    this.statuses.push(new FormControl(userPreferences?.quickScanDefaultStatus ?? "", Validators.required));
+    this.groupIds.push(new FormControl(userPreferences?.quickScanDefaultGroupId ?? "", Validators.required));
   }
+
 
   public openImageUploadComponent(): void {
     this.uploadImageComponent.clickInput();
   }
 
   public removeImage(index: number): void {
+    this.paidByUserIds.removeAt(index);
+    this.statuses.removeAt(index);
+    this.groupIds.removeAt(index);
     this.images.splice(index, 1);
   }
 
@@ -91,22 +87,16 @@ export class QuickScanDialogComponent implements OnInit {
       const command = this.buildQuickScanCommand();
       this.store.dispatch(new ToggleShowProgressBar());
       this.receiptService
-        .quickScanReceiptForm(
-          command.file,
-          command.groupId,
-          command.paidByUserId,
-          command.status
+        .quickScanReceipt(
+          this.images.map((i) => i.file),
+          this.groupIds.value,
+          this.paidByUserIds.value,
+          this.statuses.value
         )
         .pipe(
           take(1),
-          tap((receipt) => {
-            this.quickScannedReceiptId = receipt.id;
-            this.snackbarRef = this.snackbarService.successFromTemplate(
-              this.successfullScanSnackbarTemplate,
-              {
-                duration: 8000,
-              }
-            );
+          tap((receipts) => {
+            this.snackbarService.success(`${receipts.length} receipt(s) successfully scanned`);
             this.dialogRef.close();
           }),
           finalize(() => this.store.dispatch(new ToggleShowProgressBar()))
@@ -114,9 +104,13 @@ export class QuickScanDialogComponent implements OnInit {
         .subscribe();
     }
     if (this.images.length === 0) {
-      this.snackbarService.error("Please select an image to upload");
+      this.snackbarService.error("Please select images to upload");
+    }
+    if (this.form.invalid) {
+      this.snackbarService.error("Please fill in all required fields. Some images are missing required fields.");
     }
   }
+
 
   private buildQuickScanCommand(): QuickScanCommand {
     const file = this.images[0];
@@ -134,7 +128,7 @@ export class QuickScanDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  public closeSnackbar(): void {
-    this.snackbarRef.dismiss();
+  public navigateImages(delta: number): void {
+    this.currentlySelectedIndex = Math.abs((this.currentlySelectedIndex + delta) % this.images.length);
   }
 }

@@ -8,7 +8,7 @@ import { NgxsModule, Store } from "@ngxs/store";
 import { BehaviorSubject } from "rxjs";
 import { PipesModule } from "src/pipes/pipes.module";
 import { DashboardState } from "src/store/dashboard.state";
-import { Dashboard, DashboardService } from "../../api";
+import { Dashboard, DashboardService } from "../../open-api";
 import { ButtonModule } from "../../button";
 import { GroupState, SetSelectedDashboardId } from "../../store";
 import { GroupDashboardsComponent } from "./group-dashboards.component";

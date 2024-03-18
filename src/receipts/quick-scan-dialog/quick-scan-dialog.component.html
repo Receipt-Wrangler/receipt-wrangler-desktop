@@ -1,60 +1,85 @@
-<app-dialog headerText="Quick Scan">
-  <app-upload-image
-    [multiple]="false"
-    (fileLoaded)="fileLoaded($event)"
-  ></app-upload-image>
-  <div
-    *ngIf="images.length === 0"
-    tabindex="0"
-    class="file-upload-zone mb-4 d-flex justify-content-center align-items-center"
-    (click)="openImageUploadComponent()"
-  >
-    <mat-icon class="me-2">add_circle_outline</mat-icon>
-    <strong> Select one image to upload</strong>
-  </div>
-  <div *ngIf="images.length > 0" class="mb-2">
-    <div class="d-flex align-items-center">
-      <h3>Image Uploaded</h3>
-      <app-delete-button
-        tooltip="Remove image"
-        (clicked)="removeImage(0)"
-      ></app-delete-button>
+<app-dialog headerText="Quick Scan" [actionsTemplate]="actionsTemplate">
+  <form [formGroup]="form">
+    <app-upload-image
+      [multiple]="true"
+      (fileLoaded)="fileLoaded($event)"
+    ></app-upload-image>
+    <div
+      *ngIf="images.length === 0"
+    >
+      <strong> Select images to upload</strong>
     </div>
-    <img class="image-preview" [src]="encodedImage || imageBlobUrl" />
-  </div>
-  <app-group-autocomplete
-    [inputFormControl]="form | formGet : 'groupId'"
-  ></app-group-autocomplete>
-  <app-user-autocomplete
-    class="w-100"
-    label="Paid By"
-    [inputFormControl]="form | formGet : 'paidByUserId'"
-    [groupId]="form.get('groupId')?.value"
-    [selectGroupMembersOnly]="true"
-  ></app-user-autocomplete>
-  <app-status-select
-    [inputFormControl]="form | formGet : 'status'"
-  ></app-status-select>
+    <carousel
+      [interval]="0"
+      [isAnimated]="true"
+      [showIndicators]="false"
+      [(activeSlide)]="currentlySelectedIndex"
+    >
+      <slide *ngFor="let preview of images; let i = index">
+        <div class="d-flex flex-column justify-content-center">
+          <img
+            class="mb-2"
+            alt="quick scan image"
+            [src]="preview.encodedImage || preview.url ?? ''"
+          >
+          <app-group-autocomplete
+            [inputFormControl]="form | formGet : 'groupIds.' + i"
+          ></app-group-autocomplete>
+          <app-user-autocomplete
+            class="w-100"
+            label="Paid By"
+            [inputFormControl]="form | formGet : 'paidByUserIds.' + i"
+            [groupId]="form.get('groupIds.' + i)?.value"
+            [selectGroupMembersOnly]="true"
+          ></app-user-autocomplete>
+          <app-status-select
+            [inputFormControl]="form | formGet : 'statuses.' + i"
+          ></app-status-select>
+        </div>
+      </slide>
+    </carousel>
 
+  </form>
   <app-dialog-footer
-    submitButtonTooltip="Submit Scan"
+    submitButtonTooltip="Submit Scans"
     [disableWhenProgressBarIsShown]="true"
     (submitClicked)="submitButtonClicked()"
     (cancelClicked)="cancelButtonClicked()"
   ></app-dialog-footer>
 </app-dialog>
 
-<ng-template #successfullScanSnackbar>
-  <div class="d-flex justify-content-end align-items-center">
-    <span class="me-4">
-      Receipt successfully scan. Click navigate to view scanned receipt.
-    </span>
+<ng-template #actionsTemplate>
+  <div class="d-flex align-items-center">
     <app-button
-      buttonText="Navigate"
-      matButtonType="basic"
-      color="secondary"
-      [buttonRouterLink]="['/receipts/' + quickScannedReceiptId + '/view']"
-      (clicked)="closeSnackbar()"
-    ></app-button>
+      class="me-2"
+      matButtonType="iconButton"
+      tooltip="Upload Images"
+      icon="upload"
+      (clicked)="openImageUploadComponent()">
+    </app-button>
+    <app-button
+      *ngIf="images.length > 1"
+      matButtonType="iconButton"
+      icon="arrow_back"
+      tooltip="Navigate left"
+      color="accent"
+      (clicked)="navigateImages(-1)"
+    >
+    </app-button>
+    <app-button
+      *ngIf="images.length > 1"
+      matButtonType="iconButton"
+      icon="arrow_forward"
+      tooltip="Navigate right"
+      color="accent"
+      (clicked)="navigateImages(1)"
+    >
+    </app-button>
+    <app-delete-button
+      *ngIf="images.length > 0"
+      tooltip="Remove Current Image"
+      (clicked)="removeImage(currentlySelectedIndex)"
+    >
+    </app-delete-button>
   </div>
 </ng-template>

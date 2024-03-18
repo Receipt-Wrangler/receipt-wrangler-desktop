@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { take, tap } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
-import { ReceiptFileUploadCommand, ReceiptImageService } from "../../api";
+import { ReceiptFileUploadCommand } from "../../interfaces";
+import { ReceiptImageService } from "../../open-api";
 
 @Component({
   selector: "app-upload-image",
@@ -50,7 +51,7 @@ export class UploadImageComponent {
 
         if (f.type === "application/pdf" || f.type === "image/heic") {
           this.receiptImageService
-            .convertToJpgForm(f)
+            .convertToJpg(f)
             .pipe(
               take(1),
               tap((encodedImage) => {

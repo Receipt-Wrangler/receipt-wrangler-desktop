@@ -1,4 +1,4 @@
-import { ReceiptStatus } from "../api";
+import { ReceiptStatus } from "../open-api";
 import { StatusPipe } from "./status.pipe";
 
 describe("StatusPipe", () => {
@@ -9,28 +9,28 @@ describe("StatusPipe", () => {
 
   it("should return Open", () => {
     const pipe = new StatusPipe();
-    const result = pipe.transform(ReceiptStatus.OPEN);
+    const result = pipe.transform(ReceiptStatus.Open);
 
     expect(result).toEqual("Open");
   });
 
   it("should return Needs Attention", () => {
     const pipe = new StatusPipe();
-    const result = pipe.transform(ReceiptStatus.NEEDSATTENTION);
+    const result = pipe.transform(ReceiptStatus.NeedsAttention);
 
     expect(result).toEqual("Needs Attention");
   });
 
   it("should return Resolved", () => {
     const pipe = new StatusPipe();
-    const result = pipe.transform(ReceiptStatus.RESOLVED);
+    const result = pipe.transform(ReceiptStatus.Resolved);
 
     expect(result).toEqual("Resolved");
   });
 
   it("should return Resolved", () => {
     const pipe = new StatusPipe();
-    const result = pipe.transform(ReceiptStatus.DRAFT);
+    const result = pipe.transform(ReceiptStatus.Draft);
 
     expect(result).toEqual("Draft");
   });

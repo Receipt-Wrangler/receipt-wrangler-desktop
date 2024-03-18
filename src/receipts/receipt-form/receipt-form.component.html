@@ -172,7 +172,7 @@
       class="mb-4"
       [onlyIcon]="false"
       [mode]="mode"
-      [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
+      [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
       [disableOnLoading]="true"
     ></app-submit-button>
   </app-form-button-bar>
@@ -225,7 +225,7 @@
     matButtonType="iconButton"
     tooltip="Edit"
     icon="edit"
-    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
+    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
     [buttonRouterLink]="[editLink]"
   ></app-button>
   <app-button
@@ -235,7 +235,7 @@
     matButtonType="iconButton"
     tooltip="Duplicate"
     icon="file_copy"
-    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
+    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
     (clicked)="duplicateReceipt()"
   ></app-button>
 </ng-template>
@@ -249,7 +249,7 @@
     tooltip="Add share"
     color="accent"
     (clicked)="initItemListAddMode()"
-    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
+    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
   ></app-button>
   <app-button
     *ngIf="!(mode | inputReadonly)"
@@ -258,7 +258,7 @@
     color="accent"
     matButtonType="iconButton"
     tooltip="Quick Actions"
-    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.EDITOR)"
+    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
     (clicked)="openQuickActionsModal()"
   ></app-button>
 </ng-template>
@@ -272,7 +272,7 @@
     icon="photo_library"
     tooltip="Upload Image(s)"
     [disabled]="
-      !(originalReceipt?.groupId | groupRole : groupRole.EDITOR) ||
+      !(originalReceipt?.groupId | groupRole : groupRole.Editor) ||
       ((showProgressBar | async) ?? false)
     "
     (clicked)="uploadImageButtonClicked()"
