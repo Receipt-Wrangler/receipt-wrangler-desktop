@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild, } from "@angular/core";
+import { Component, OnInit, ViewChild, ViewEncapsulation, } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
@@ -14,20 +14,15 @@ import { UploadImageComponent } from "../upload-image/upload-image.component";
   selector: "app-quick-scan-dialog",
   templateUrl: "./quick-scan-dialog.component.html",
   styleUrls: ["./quick-scan-dialog.component.scss"],
+  encapsulation: ViewEncapsulation.None
 })
 export class QuickScanDialogComponent implements OnInit {
   @ViewChild(UploadImageComponent)
   public uploadImageComponent!: UploadImageComponent;
 
-  @ViewChild("successfullScanSnackbar")
-  public successfullScanSnackbarTemplate!: TemplateRef<any>;
-
   public form: FormGroup = new FormGroup({});
 
   public images: ReceiptFileUploadCommand[] = [];
-
-  public quickScannedReceiptId: number = 0;
-
 
   public currentlySelectedIndex: number = 0;
 
@@ -133,14 +128,6 @@ export class QuickScanDialogComponent implements OnInit {
 
   public cancelButtonClicked(): void {
     this.dialogRef.close();
-  }
-
-  public closeSnackbar(): void {
-    // this.snackbarRef.dismiss();
-  }
-
-  public setCurrentlySelectedIndex(index: number): void {
-    this.currentlySelectedIndex = index;
   }
 
   public navigateImages(delta: number): void {
