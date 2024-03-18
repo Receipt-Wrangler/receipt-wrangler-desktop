@@ -1,7 +1,6 @@
-import { Component, EmbeddedViewRef, OnInit, TemplateRef, ViewChild, } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild, } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
-import { MatSnackBarRef } from "@angular/material/snack-bar";
 import { Store } from "@ngxs/store";
 import { finalize, take, tap } from "rxjs";
 import { ToggleShowProgressBar } from "src/store/layout.state.actions";
@@ -29,7 +28,6 @@ export class QuickScanDialogComponent implements OnInit {
 
   public quickScannedReceiptId: number = 0;
 
-  public snackbarRef!: MatSnackBarRef<EmbeddedViewRef<any>>;
 
   public currentlySelectedIndex: number = 0;
 
@@ -138,10 +136,14 @@ export class QuickScanDialogComponent implements OnInit {
   }
 
   public closeSnackbar(): void {
-    this.snackbarRef.dismiss();
+    // this.snackbarRef.dismiss();
   }
 
   public setCurrentlySelectedIndex(index: number): void {
     this.currentlySelectedIndex = index;
+  }
+
+  public navigateImages(delta: number): void {
+    this.currentlySelectedIndex = Math.abs((this.currentlySelectedIndex + delta) % this.images.length);
   }
 }
