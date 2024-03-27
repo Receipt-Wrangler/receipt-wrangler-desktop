@@ -150,7 +150,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     const group = this.store.selectSnapshot(
       GroupState.getGroupById(this.groupId)
     );
-    console.warn("group", group);
     if (group) {
       if (group.name.toLowerCase().includes("receipt")) {
         this.headerText = group.name;
