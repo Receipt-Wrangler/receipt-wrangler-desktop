@@ -21,5 +21,6 @@ export interface ReceiptPagedRequestFilter {
     tags?: PagedRequestField;
     status?: PagedRequestField;
     resolvedDate?: PagedRequestField;
+    createdAt?: PagedRequestField;
 }
 
