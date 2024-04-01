@@ -178,7 +178,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   private setColumns(): void {
     const columns = [
       {
-        columnHeader: "Added On",
+        columnHeader: "Added At",
         matColumnDef: "created_at",
         template: this.createdAtCell,
         sortable: true,
