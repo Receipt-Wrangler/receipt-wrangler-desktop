@@ -106,6 +106,10 @@ export class ReceiptFilterComponent implements OnInit {
         filter?.resolvedDate?.value,
         filter?.resolvedDate?.operation
       ),
+      createdAt: this.buildFieldFormGroup(
+        filter?.createdAt?.value,
+        filter?.createdAt?.operation
+      ),
     });
     this.formInitialized.emit(this.form);
   }
