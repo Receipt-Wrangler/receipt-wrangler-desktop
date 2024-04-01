@@ -55,6 +55,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     private store: Store
   ) {}
 
+  @ViewChild("createdAtCell") createdAtCell!: TemplateRef<any>;
+
   @ViewChild("dateCell") dateCell!: TemplateRef<any>;
 
   @ViewChild("nameCell") nameCell!: TemplateRef<any>;
@@ -176,6 +178,12 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   private setColumns(): void {
     const columns = [
       {
+        columnHeader: "Added On",
+        matColumnDef: "created_at",
+        template: this.createdAtCell,
+        sortable: true,
+      },
+      {
         columnHeader: "Receipt Date",
         matColumnDef: "date",
         template: this.dateCell,
@@ -189,7 +197,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       },
       {
         columnHeader: "Paid By",
-        matColumnDef: "paidBy",
+        matColumnDef: "paid_by_user_id",
         template: this.paidByCell,
         sortable: true,
       },
@@ -219,7 +227,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       },
       {
         columnHeader: "Resolved Date",
-        matColumnDef: "resolvedDate",
+        matColumnDef: "resolved_date",
         template: this.resolvedDateCell,
         sortable: true,
       },
@@ -232,14 +240,15 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     ] as TableColumn[];
     this.displayedColumns = [
       "select",
+      "created_at",
       "date",
       "name",
-      "paidBy",
+      "paid_by_user_id",
       "amount",
       "categories",
       "tags",
       "status",
-      "resolvedDate",
+      "resolved_date",
       "actions",
     ];
     const filter = this.store.selectSnapshot(ReceiptTableState.filterData);

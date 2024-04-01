@@ -75,6 +75,10 @@
   ></app-table>
 </div>
 
+<ng-template #createdAtCell let-element="element"
+>{{ element.createdAt | date }}
+</ng-template>
+
 <ng-template #dateCell let-element="element"
 >{{ element.date | date }}
 </ng-template>
