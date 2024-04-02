@@ -96,6 +96,15 @@
     ></ng-template>
 
     <ng-template
+      [ngTemplateOutlet]="filterField"
+      [ngTemplateOutletContext]="{
+        label: 'Added At',
+        fieldName: 'createdAt',
+        type: 'date'
+      }"
+    ></ng-template>
+
+    <ng-template
       [ngTemplateOutlet]="footerTemplate ?? defaultFooter"
     ></ng-template>
   </ng-container>

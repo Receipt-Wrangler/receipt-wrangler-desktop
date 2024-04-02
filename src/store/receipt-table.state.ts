@@ -34,6 +34,10 @@ export const defaultReceiptFilter = {
     operation: FilterOperation.Equals,
     value: "",
   },
+  createdAt: {
+    operation: FilterOperation.Equals,
+    value: "",
+  },
 } as ReceiptPagedRequestFilter;
 
 // TODO: look into fixing date equals
