@@ -52,6 +52,10 @@ describe("ReceiptFilterComponent", () => {
       operation: FilterOperation.GreaterThan,
       value: "2023-01-06",
     },
+    createdAt: {
+      operation: FilterOperation.GreaterThan,
+      value: "2023-01-06",
+    },
   };
 
   beforeEach(() => {
