@@ -4,10 +4,10 @@ import { FormMode } from "src/enums/form-mode.enum";
 import { GroupRoleGuard } from "src/guards/group-role.guard";
 import { GroupGuard } from "src/guards/group.guard";
 import { receiptGuardGuard } from "src/guards/receipt-guard.guard";
-import { CategoriesResolverService } from "src/resolvers/categories-resolver.service";
-import { ReceiptResolverService } from "src/resolvers/receipt-resolver.service";
-import { TagsResolverService } from "src/resolvers/tags-resolver.service";
 import { GroupRole } from "../open-api";
+import { categoryResolverFn } from "../resolvers/categories.resolver";
+import { receiptResolverFn } from "../resolvers/receipt.resolver";
+import { tagResolverFn } from "../resolvers/tags.resolver";
 import { ReceiptFormComponent } from "./receipt-form/receipt-form.component";
 import { ReceiptsTableComponent } from "./receipts-table/receipts-table.component";
 
@@ -17,8 +17,8 @@ const routes: Routes = [
     component: ReceiptsTableComponent,
     canActivate: [GroupGuard],
     resolve: {
-      tags: TagsResolverService,
-      categories: CategoriesResolverService,
+      tags: tagResolverFn,
+      categories: categoryResolverFn,
     },
     data: {
       groupGuardBasePath: `/receipts/group`,
@@ -28,8 +28,8 @@ const routes: Routes = [
     path: "add",
     component: ReceiptFormComponent,
     resolve: {
-      tags: TagsResolverService,
-      categories: CategoriesResolverService,
+      tags: tagResolverFn,
+      categories: categoryResolverFn,
     },
     data: {
       mode: FormMode.add,
@@ -41,9 +41,9 @@ const routes: Routes = [
     path: ":id/view",
     component: ReceiptFormComponent,
     resolve: {
-      tags: TagsResolverService,
-      categories: CategoriesResolverService,
-      receipt: ReceiptResolverService,
+      tags: tagResolverFn,
+      categories: categoryResolverFn,
+      receipt: receiptResolverFn,
     },
     data: {
       mode: FormMode.view,
@@ -55,9 +55,9 @@ const routes: Routes = [
     path: ":id/edit",
     component: ReceiptFormComponent,
     resolve: {
-      tags: TagsResolverService,
-      categories: CategoriesResolverService,
-      receipt: ReceiptResolverService,
+      tags: tagResolverFn,
+      categories: categoryResolverFn,
+      receipt: receiptResolverFn,
     },
     data: {
       mode: FormMode.edit,
@@ -76,4 +76,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ReceiptsRoutingModule {}
+export class ReceiptsRoutingModule {
+}

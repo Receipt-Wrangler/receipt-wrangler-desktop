@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "receipt-wrangler:build:production"
+              "buildTarget": "receipt-wrangler:build:production"
             },
             "development": {
-              "browserTarget": "receipt-wrangler:build:development"
+              "buildTarget": "receipt-wrangler:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "receipt-wrangler:build"
+            "buildTarget": "receipt-wrangler:build"
           }
         },
         "test": {

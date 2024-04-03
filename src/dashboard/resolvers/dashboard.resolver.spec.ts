@@ -5,14 +5,14 @@ import { NgxsModule, Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { SetDashboardsForGroup } from "src/store/dashboard.state.actions";
 import { Dashboard, DashboardService } from "../../open-api";
-import { dashboardResolver } from "./dashboard.resolver";
+import { dashboardResolverFn } from "./dashboard.resolver";
 
 describe("dashboardResolver", () => {
   const executeResolver: ResolveFn<Observable<Dashboard[]>> = (
     ...resolverParameters
   ) =>
     TestBed.runInInjectionContext(() =>
-      dashboardResolver(...resolverParameters)
+      dashboardResolverFn(...resolverParameters)
     );
 
   beforeEach(() => {

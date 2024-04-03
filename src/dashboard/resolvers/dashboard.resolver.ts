@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { SetDashboardsForGroup } from "src/store/dashboard.state.actions";
 import { Dashboard } from "../../open-api";
 
-export const dashboardResolver: ResolveFn<Observable<Dashboard[]>> = (
+export const dashboardResolverFn: ResolveFn<Observable<Dashboard[]>> = (
   route,
   state
 ) => {
