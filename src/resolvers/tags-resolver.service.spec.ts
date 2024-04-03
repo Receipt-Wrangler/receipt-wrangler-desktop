@@ -1,20 +1,26 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { ApiModule } from "../open-api";
-
-import { TagsResolverService } from "./tags-resolver.service";
+import { ResolveFn } from "@angular/router";
+import { ApiModule, Tag, TagService } from "../open-api";
+import { tagResolverFn } from "./tags-resolver.service";
 
 describe("TagsResolverService", () => {
-  let service: TagsResolverService;
+  const executeResolver: ResolveFn<Tag[]> = (
+    ...resolverParameters
+  ) =>
+    TestBed.runInInjectionContext(() =>
+      tagResolverFn(...resolverParameters)
+    );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ApiModule, HttpClientTestingModule],
     });
-    service = TestBed.inject(TagsResolverService);
   });
 
-  it("should be created", () => {
-    expect(service).toBeTruthy();
+  it("should call tag service", () => {
+    const serviceSpy = spyOn(TestBed.inject(TagService), "getAllTags");
+    executeResolver({} as any, {} as any);
+    expect(serviceSpy).toHaveBeenCalled();
   });
 });

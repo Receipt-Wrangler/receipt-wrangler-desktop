@@ -1,19 +1,26 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { ApiModule } from "../open-api";
-import { CategoriesResolverService } from "./categories-resolver.service";
+import { ResolveFn } from "@angular/router";
+import { ApiModule, Category, CategoryService } from "../open-api";
+import { categoryResolverFn } from "./categories-resolver.service";
 
 describe("CategoriesResolverService", () => {
-  let service: CategoriesResolverService;
+  const executeResolver: ResolveFn<Category[]> = (
+    ...resolverParameters
+  ) =>
+    TestBed.runInInjectionContext(() =>
+      categoryResolverFn(...resolverParameters)
+    );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ApiModule, HttpClientTestingModule],
     });
-    service = TestBed.inject(CategoriesResolverService);
   });
 
-  it("should be created", () => {
-    expect(service).toBeTruthy();
+  it("should call get all categories", () => {
+    const serviceSpy = spyOn(TestBed.inject(CategoryService), "getAllCategories");
+    executeResolver({} as any, {} as any);
+    expect(serviceSpy).toHaveBeenCalled();
   });
 });
