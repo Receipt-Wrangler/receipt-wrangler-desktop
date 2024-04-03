@@ -5,9 +5,9 @@ import { GroupRoleGuard } from "src/guards/group-role.guard";
 import { GroupGuard } from "src/guards/group.guard";
 import { receiptGuardGuard } from "src/guards/receipt-guard.guard";
 import { GroupRole } from "../open-api";
-import { categoryResolverFn } from "../resolvers/categories-resolver.service";
-import { receiptResolverFn } from "../resolvers/receipt-resolver.service";
-import { tagResolverFn } from "../resolvers/tags-resolver.service";
+import { categoryResolverFn } from "../resolvers/categories.resolver";
+import { receiptResolverFn } from "../resolvers/receipt.resolver";
+import { tagResolverFn } from "../resolvers/tags.resolver";
 import { ReceiptFormComponent } from "./receipt-form/receipt-form.component";
 import { ReceiptsTableComponent } from "./receipts-table/receipts-table.component";
 

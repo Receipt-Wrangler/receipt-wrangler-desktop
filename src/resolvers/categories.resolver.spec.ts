@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { ResolveFn } from "@angular/router";
 import { ApiModule, Category, CategoryService } from "../open-api";
-import { categoryResolverFn } from "./categories-resolver.service";
+import { categoryResolverFn } from "./categories.resolver";
 
 describe("CategoriesResolverService", () => {
   const executeResolver: ResolveFn<Category[]> = (

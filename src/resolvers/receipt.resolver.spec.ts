@@ -4,7 +4,7 @@ import { ResolveFn } from "@angular/router";
 import { NgxsModule } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { ApiModule, Receipt, ReceiptService } from "../open-api";
-import { receiptResolverFn } from "./receipt-resolver.service";
+import { receiptResolverFn } from "./receipt.resolver";
 
 describe("ReceiptResolverService", () => {
   const executeResolver: ResolveFn<Observable<Receipt>> = (

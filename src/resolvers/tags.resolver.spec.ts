@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { ResolveFn } from "@angular/router";
 import { ApiModule, Tag, TagService } from "../open-api";
-import { tagResolverFn } from "./tags-resolver.service";
+import { tagResolverFn } from "./tags.resolver";
 
 describe("TagsResolverService", () => {
   const executeResolver: ResolveFn<Tag[]> = (
