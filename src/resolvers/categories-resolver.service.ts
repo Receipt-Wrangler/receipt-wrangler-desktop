@@ -1,18 +1,12 @@
-import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+import {inject, Injectable} from "@angular/core";
+import {ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot} from "@angular/router";
 import { Observable } from "rxjs";
 import { Category, CategoryService } from "../open-api";
 
-@Injectable({
-  providedIn: "root",
-})
-export class CategoriesResolverService {
-  constructor(private categoryService: CategoryService) {}
-
-  public resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Category[] | Observable<Category[]> | Promise<Category[]> {
-    return this.categoryService.getAllCategories();
-  }
+export const categoryResolverFn: ResolveFn<Category[]> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const categoryService = inject(CategoryService);
+  return categoryService.getAllCategories();
 }
