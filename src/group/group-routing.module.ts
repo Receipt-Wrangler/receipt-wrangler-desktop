@@ -8,7 +8,7 @@ import { GroupFormComponent } from "./group-form/group-form.component";
 import { GroupListComponent } from "./group-list/group-list.component";
 import { GroupSettingsComponent } from "./group-settings/group-settings.component";
 import { GroupTabsComponent } from "./group-tabs/group-tabs.component";
-import { GroupResolverService } from "./resolvers/group-resolver.service";
+import { groupResolverFn } from "./resolvers/group-resolver.service";
 
 const routes: Routes = [
   {
@@ -29,7 +29,7 @@ const routes: Routes = [
     path: ":id",
     component: GroupTabsComponent,
     resolve: {
-      group: GroupResolverService,
+      group: groupResolverFn,
     },
     data: {
       formConfig: {
@@ -44,7 +44,7 @@ const routes: Routes = [
         path: "details/view",
         component: GroupFormComponent,
         resolve: {
-          group: GroupResolverService,
+          group: groupResolverFn,
         },
         data: {
           formConfig: {
@@ -61,7 +61,7 @@ const routes: Routes = [
         path: "details/edit",
         component: GroupFormComponent,
         resolve: {
-          group: GroupResolverService,
+          group: groupResolverFn,
         },
         data: {
           formConfig: {
@@ -77,7 +77,7 @@ const routes: Routes = [
         path: "settings/view",
         component: GroupSettingsComponent,
         resolve: {
-          group: GroupResolverService,
+          group: groupResolverFn,
         },
         data: {
           formConfig: {
@@ -93,7 +93,7 @@ const routes: Routes = [
         path: "settings/edit",
         component: GroupSettingsComponent,
         resolve: {
-          group: GroupResolverService,
+          group: groupResolverFn,
         },
         data: {
           formConfig: {
