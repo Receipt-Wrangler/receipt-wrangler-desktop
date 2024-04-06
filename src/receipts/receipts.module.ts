@@ -29,8 +29,6 @@ import { ItemListComponent } from "./item-list/item-list.component";
 import { QuickActionsDialogComponent } from "./quick-actions-dialog/quick-actions-dialog.component";
 import { QuickScanDialogComponent } from "./quick-scan-dialog/quick-scan-dialog.component";
 import { ReceiptCommentsComponent } from "./receipt-comments/receipt-comments.component";
-import { ReplyButtonTextPipe } from "./receipt-comments/reply-button-text.pipe";
-import { TopLevelCommentPipe } from "./receipt-comments/top-level-comment.pipe";
 import { ReceiptFormComponent } from "./receipt-form/receipt-form.component";
 import { ReceiptsRoutingModule } from "./receipts-routing.module";
 import { ReceiptsTableComponent } from "./receipts-table/receipts-table.component";
@@ -45,8 +43,6 @@ import { UserTotalPipe } from "./user-total.pipe";
     ReceiptCommentsComponent,
     ReceiptFormComponent,
     ReceiptsTableComponent,
-    ReplyButtonTextPipe,
-    TopLevelCommentPipe,
     UploadImageComponent,
     UserTotalPipe,
     QuickScanDialogComponent,

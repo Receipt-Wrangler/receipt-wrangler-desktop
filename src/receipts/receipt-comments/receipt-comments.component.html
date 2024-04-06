@@ -16,7 +16,7 @@
       [ngTemplateOutlet]="add"
     ></ng-container>
     <div
-      *ngFor="let comment of commentsArray | topLevelComment; let index = index"
+      *ngFor="let comment of commentsArray.controls; let index = index"
     >
       <ng-container
         [ngTemplateOutlet]="commentDisplay"

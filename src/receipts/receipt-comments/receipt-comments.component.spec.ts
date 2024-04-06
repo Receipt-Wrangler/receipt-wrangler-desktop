@@ -10,7 +10,6 @@ import { PipesModule } from "src/pipes/pipes.module";
 import { ApiModule, Comment, CommentService } from "../../open-api";
 import { AuthState } from "../../store";
 import { ReceiptCommentsComponent } from "./receipt-comments.component";
-import { TopLevelCommentPipe } from "./top-level-comment.pipe";
 
 describe("ReceiptCommentsComponent", () => {
   let component: ReceiptCommentsComponent;
@@ -52,7 +51,7 @@ describe("ReceiptCommentsComponent", () => {
     ];
 
     await TestBed.configureTestingModule({
-      declarations: [ReceiptCommentsComponent, TopLevelCommentPipe],
+      declarations: [ReceiptCommentsComponent],
       imports: [
         ApiModule,
         ReactiveFormsModule,
@@ -83,13 +82,11 @@ describe("ReceiptCommentsComponent", () => {
         comment: "comment",
         userId: 1,
         receiptId: 1,
-        commentId: null,
       },
       {
         comment: "new comment",
         userId: 1,
         receiptId: 1,
-        commentId: null,
       },
     ]);
   });
@@ -150,7 +147,6 @@ describe("ReceiptCommentsComponent", () => {
       userId: 1,
       receiptId: 1,
       comment: "new comment",
-      commentId: null,
     });
   });
 
@@ -162,7 +158,6 @@ describe("ReceiptCommentsComponent", () => {
         userId: 1,
         receiptId: 1,
         comment: "new comment",
-        commentId: null,
         createdAt: "",
         updatedAt: "",
       }) as any
@@ -184,7 +179,6 @@ describe("ReceiptCommentsComponent", () => {
       userId: 1,
       receiptId: 1,
       comment: "new comment",
-      commentId: null,
     });
     expect(component.comments.length).toEqual(1);
     expect(component.comments[0]).toEqual({
@@ -192,7 +186,6 @@ describe("ReceiptCommentsComponent", () => {
       userId: 1,
       receiptId: 1,
       comment: "new comment",
-      commentId: null,
       createdAt: "",
       updatedAt: "",
     } as any);

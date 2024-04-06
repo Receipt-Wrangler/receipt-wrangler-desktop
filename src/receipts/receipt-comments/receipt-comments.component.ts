@@ -42,9 +42,7 @@ export class ReceiptCommentsComponent implements OnInit {
 
   private initForm(): void {
     this.comments.forEach((c) => {
-      if (!c.commentId) {
-        this.commentsArray.push(this.buildCommentFormGroup(c));
-      }
+      this.commentsArray.push(this.buildCommentFormGroup(c));
     });
   }
 
@@ -56,7 +54,6 @@ export class ReceiptCommentsComponent implements OnInit {
         Number.parseInt(this.store.selectSnapshot(AuthState.userId)),
       ],
       receiptId: [comment?.receiptId ?? this.receiptId],
-      commentId: [comment?.commentId ?? undefined],
     });
   }
 
