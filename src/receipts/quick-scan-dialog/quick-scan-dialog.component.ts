@@ -129,6 +129,17 @@ export class QuickScanDialogComponent implements OnInit {
   }
 
   public navigateImages(delta: number): void {
-    this.currentlySelectedIndex = Math.abs((this.currentlySelectedIndex + delta) % this.images.length);
+    const newValue = this.currentlySelectedIndex + delta;
+    if (newValue === -1) {
+      this.currentlySelectedIndex = this.images.length - 1;
+      return;
+    }
+
+    if (newValue > this.images.length - 1) {
+      this.currentlySelectedIndex = 0;
+      return;
+    }
+
+    this.currentlySelectedIndex = newValue;
   }
 }
