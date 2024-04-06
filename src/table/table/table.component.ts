@@ -1,23 +1,15 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { TableColumn } from '../table-column.interface';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { SelectionModel } from '@angular/cdk/collections';
+import { LiveAnnouncer } from "@angular/cdk/a11y";
+import { SelectionModel } from "@angular/cdk/collections";
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, } from "@angular/core";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatSort, Sort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { TableColumn } from "../table-column.interface";
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
+  selector: "app-table",
+  templateUrl: "./table.component.html",
+  styleUrls: ["./table.component.scss"],
 })
 export class TableComponent implements OnChanges {
   @ViewChild(MatSort) public sort!: MatSort;
@@ -42,12 +34,12 @@ export class TableComponent implements OnChanges {
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['columns']) {
+    if (changes["columns"]) {
       const column = this.columns.find((c) => c.defaultSortDirection);
       if (column) {
         this.defaultSort = {
           active: column.matColumnDef,
-          direction: column.defaultSortDirection ?? 'desc',
+          direction: column.defaultSortDirection ?? "desc",
         };
         this.sort.sort({
           id: column.matColumnDef,
@@ -56,8 +48,8 @@ export class TableComponent implements OnChanges {
         });
       } else {
         this.defaultSort = {
-          active: '',
-          direction: '',
+          active: "",
+          direction: "",
         };
       }
     }
@@ -87,13 +79,14 @@ export class TableComponent implements OnChanges {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+      this._liveAnnouncer.announce("Sorting cleared");
     }
 
     this.sorted.emit(sortState);
   }
 
   public pageChanged(pageEvent: PageEvent): void {
+    this.selection.clear();
     this.pageChange.emit(pageEvent);
   }
 }
