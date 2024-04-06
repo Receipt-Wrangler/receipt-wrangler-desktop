@@ -1,12 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { Select } from "@ngxs/store";
-import { Observable, take, tap } from "rxjs";
+import { take, tap } from "rxjs";
 import { BaseFormComponent } from "src/form/base-form/base-form.component";
 import { Group, GroupsService } from "../../open-api";
 import { SnackbarService } from "../../services";
-import { GroupState } from "../../store";
 
 @Component({
   selector: "app-group-settings",
@@ -16,8 +14,8 @@ import { GroupState } from "../../store";
 export class GroupSettingsComponent
   extends BaseFormComponent
   implements OnInit {
-  @Select(GroupState.settingsLinkBase)
-  public settingsLinkBase!: Observable<string>;
+
+  public editSettingsUrl: string = "";
 
   public group!: Group;
 
@@ -34,6 +32,7 @@ export class GroupSettingsComponent
     this.setFormConfigFromRoute(this.activatedRoute);
     this.initForm();
     this.group = this.activatedRoute.snapshot.data["group"];
+    this.editSettingsUrl = `/groups/${this.group.id}/settings/edit`;
   }
 
   private initForm(): void {

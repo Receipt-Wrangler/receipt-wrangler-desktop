@@ -1,18 +1,19 @@
 import { Component, OnInit } from "@angular/core";
 import { EventType, Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
-import { take } from "rxjs";
+import { interval, take, tap } from "rxjs";
 import { HideProgressBar } from "src/store/layout.state.actions";
-import { AuthService } from "../open-api";
-import { AuthState } from "../store";
+import { AuthService, Claims } from "../open-api";
+import { AuthState, SetAuthState } from "../store";
 
+@UntilDestroy()
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
-  title = "receipt-wrangler";
 
   constructor(
     private authService: AuthService,
@@ -23,6 +24,32 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(new HideProgressBar());
     this.listenForNavigationStart();
+    this.refreshTokens();
+  }
+
+  private refreshTokens(): void {
+    const fifteenMinutes = 1000 * 60 * 15;
+    interval(fifteenMinutes)
+      .pipe(
+        untilDestroyed(this),
+        tap(() => {
+          this.getNewRefreshToken();
+        })
+      ).subscribe();
+  }
+
+  private getNewRefreshToken(): void {
+    if (this.store.selectSnapshot(AuthState.isLoggedIn)) {
+      this.authService.getNewRefreshToken()
+        .pipe
+        (
+          take(1),
+          tap((response) => {
+            this.store.dispatch(new SetAuthState(response as Claims));
+          })
+        )
+        .subscribe();
+    }
   }
 
   private listenForNavigationStart(): void {

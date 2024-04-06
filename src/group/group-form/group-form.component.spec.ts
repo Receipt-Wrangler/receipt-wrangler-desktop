@@ -231,7 +231,7 @@ describe("GroupFormComponent", () => {
       groupMembers: [],
     } as any);
     expect(storeSpy).toHaveBeenCalledWith(new AddGroup(returnValue));
-    expect(routerSpy).toHaveBeenCalledWith("/groups/1/view");
+    expect(routerSpy).toHaveBeenCalledWith("/groups/1/details/view");
   });
 
   it("should update group", () => {
@@ -316,6 +316,6 @@ describe("GroupFormComponent", () => {
       } as Group
     );
     expect(storeSpy).toHaveBeenCalledWith(new UpdateGroup(returnValue));
-    expect(routerSpy).toHaveBeenCalledWith("/groups/1/view");
+    expect(routerSpy).toHaveBeenCalledWith("/groups/1/details/view");
   });
 });

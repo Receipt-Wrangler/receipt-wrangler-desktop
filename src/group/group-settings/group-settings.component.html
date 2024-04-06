@@ -2,7 +2,7 @@
   [form]="form"
   [formConfig]="formConfig"
   [formTemplate]="formTemplate"
-  [editButtonRouterLink]="[((settingsLinkBase | async) ?? '') + '/edit']"
+  [editButtonRouterLink]="[editSettingsUrl]"
   (submitted)="submit()"
 ></app-form>
 

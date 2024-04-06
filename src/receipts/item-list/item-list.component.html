@@ -2,7 +2,7 @@
   <ng-container *ngIf="isAdding">
     <mat-card class="w-100 mt-2">
       <mat-card-header>
-        <mat-card-title> Add Share </mat-card-title>
+        <mat-card-title> Add Share</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <app-user-autocomplete
@@ -26,6 +26,7 @@
           </app-input>
           <app-submit-button
             tooltip="Done"
+            type="button"
             (clicked)="submitNewItemFormGroup()"
           ></app-submit-button>
           <app-cancel-button

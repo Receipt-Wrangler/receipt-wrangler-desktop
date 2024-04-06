@@ -1,21 +1,22 @@
 <mat-card>
-  <mat-card-header>
+  <mat-card-header class="mb-4">
     <mat-card-title><strong>Comments</strong></mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="w-100">
       <app-textarea
+        *ngIf="mode === formMode.add || mode === formMode.edit"
         label="Comment"
         placeholder="Leave a comment"
         [inputFormControl]="newCommentFormControl"
       ></app-textarea>
     </div>
     <ng-container
-      *ngIf="mode === formMode.add || mode === formMode.view"
+      *ngIf="mode === formMode.add || mode === formMode.edit"
       [ngTemplateOutlet]="add"
     ></ng-container>
     <div
-      *ngFor="let comment of commentsArray | topLevelComment; let index = index"
+      *ngFor="let comment of commentsArray.controls; let index = index"
     >
       <ng-container
         [ngTemplateOutlet]="commentDisplay"
@@ -30,63 +31,7 @@
           'mb-2': mode === formMode.edit
         }"
       >
-        <ng-container
-          *ngIf="
-            comment?.value?.replies?.length && comment.value.replies.length > 0
-          "
-        >
-          <app-button
-            class="reply-button"
-            matButtonType="basic"
-            [buttonText]="comment | replyButtonText"
-            (clicked)="viewRepliesClicked(comment)"
-          ></app-button>
-        </ng-container>
-        <app-button
-          *ngIf="mode === formMode.view"
-          class="reply-button"
-          matButtonType="basic"
-          buttonText="Reply"
-          (clicked)="replyClicked(comment, index)"
-        ></app-button>
       </div>
-      <ng-container *ngIf="comment?.value?.isReplyOpen">
-        <div class="content-margin">
-          <app-textarea
-            label="Comment"
-            placeholder="Leave a reply"
-            [inputFormControl]="
-              newCommentReplyMap[comments[index].id] | formGet : 'comment'
-            "
-          ></app-textarea>
-        </div>
-        <div class="d-flex justify-content-end">
-          <app-submit-button
-            (clicked)="replySaveButtonClicked(comment, index)"
-          ></app-submit-button>
-          <app-cancel-button
-            (clicked)="replyCancelButtonClicked(comment)"
-          ></app-cancel-button>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="comment?.value?.isViewRepliesOpen">
-        <div
-          class="content-margin mb-2"
-          *ngFor="
-            let reply of $any(comment | formGet : 'replies').controls;
-            let replyIndex = index
-          "
-        >
-          <ng-container
-            [ngTemplateOutlet]="commentDisplay"
-            [ngTemplateOutletContext]="{
-              commentControl: reply,
-              commentIndex: index,
-              replyIndex: replyIndex
-            }"
-          ></ng-container>
-        </div>
-      </ng-container>
     </div>
   </mat-card-content>
 </mat-card>
@@ -95,9 +40,8 @@
   #commentDisplay
   let-commentControl="commentControl"
   let-commentIndex="commentIndex"
-  let-replyIndex="replyIndex"
 >
-  <div class="d-flex justify-content-between align-items-center">
+  <div class="d-flex justify-content-between align-items-center mb-2">
     <div class="d-flex align-items-center">
       <app-avatar
         class="me-2"
@@ -115,7 +59,6 @@
             [ngTemplateOutlet]="dateWrapper"
             [ngTemplateOutletContext]="{
               commentIndex: commentIndex,
-              replyIndex: replyIndex
             }"
           ></ng-container>
         </div>
@@ -125,11 +68,11 @@
     <ng-container
       *ngIf="
         commentControl?.value?.userId?.toString() === (loggedInUserId | async)
+         && (mode === formMode.add || mode === formMode.edit)
       "
     >
       <app-delete-button
-        *ngIf="(commentControl.value?.replies ?? []).length === 0"
-        (clicked)="deleteComment(commentIndex, replyIndex)"
+        (clicked)="deleteComment(commentIndex)"
       ></app-delete-button>
     </ng-container>
   </div>
@@ -138,17 +81,8 @@
 <ng-template
   #dateWrapper
   let-commentIndex="commentIndex"
-  let-replyIndex="replyIndex"
 >
   <ng-template
-    *ngIf="replyIndex >= 0"
-    [ngTemplateOutlet]="date"
-    [ngTemplateOutletContext]="{
-      comment: comments[commentIndex].replies[replyIndex]
-    }"
-  ></ng-template>
-  <ng-template
-    *ngIf="replyIndex === undefined"
     [ngTemplateOutlet]="date"
     [ngTemplateOutletContext]="{
       comment: comments[commentIndex]
