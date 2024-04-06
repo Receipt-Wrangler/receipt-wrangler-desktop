@@ -58,7 +58,7 @@ export class ReceiptCommentsComponent implements OnInit {
   }
 
   public addComment(): void {
-    const isValid = this.newCommentFormControl.valid;
+    const isValid = this.newCommentFormControl.valid && this.newCommentFormControl.value.trim() !== "";
     const newComment = {
       comment: this.newCommentFormControl.value,
       userId: Number.parseInt(this.store.selectSnapshot(AuthState.userId)),
