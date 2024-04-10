@@ -8,6 +8,7 @@
         <app-user-autocomplete
           label="Shared with"
           [inputFormControl]="newItemFormGroup | formGet : 'chargedToUserId'"
+          [groupId]="(form | formGet : 'groupId').value"
           [readonly]="mode | inputReadonly"
         ></app-user-autocomplete>
         <div class="d-flex align-items-center mt-2">
