@@ -30,6 +30,12 @@
             <span>
               Updated at: {{ originalReceipt?.updatedAt | date : "medium" }}
             </span>
+            <ng-container *ngIf="originalReceipt?.resolvedDate">
+              <span class="mt-2">
+                Resolved at:
+                {{ originalReceipt?.resolvedDate | date : "medium" }}
+              </span
+              ></ng-container>
           </div>
         </app-form-section>
       </ng-container>
@@ -179,15 +185,15 @@
 </form>
 
 <ng-template #categoryOptionTemplate let-option="option"
-  >{{ option.name }}
+>{{ option.name }}
 </ng-template>
 
 <ng-template #tagOptionTemplate let-option="option"
-  >{{ option.name }}
+>{{ option.name }}
 </ng-template>
 
 <ng-template #groupOptionTemplate let-option="option"
-  >{{ option.name }}
+>{{ option.name }}
 </ng-template>
 
 <ng-template #successDuplciateSnackbar>

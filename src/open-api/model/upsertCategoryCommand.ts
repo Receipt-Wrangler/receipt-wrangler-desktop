@@ -11,20 +11,17 @@
  */
 
 
-/**
- * Tag to relate receipts to
- */
-export interface UpsertTagCommand { 
+export interface UpsertCategoryCommand { 
     /**
-     * Tag id
+     * Category id
      */
     id?: number;
     /**
-     * Tag name
+     * Category name
      */
     name: string;
     /**
-     * Tag description
+     * Category description
      */
     description?: string;
 }

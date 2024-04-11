@@ -22,7 +22,7 @@ import { FileData } from './fileData';
  */
 export interface Receipt { 
     /**
-     * Reciept total amount
+     * Receipt total amount
      */
     amount: string;
     /**

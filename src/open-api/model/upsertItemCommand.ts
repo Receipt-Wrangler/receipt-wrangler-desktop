@@ -9,23 +9,26 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ItemStatus } from './itemStatus';
 
 
-/**
- * Tag to relate receipts to
- */
-export interface UpsertTagCommand { 
+export interface UpsertItemCommand { 
     /**
-     * Tag id
+     * Amount the item costs
      */
-    id?: number;
+    amount: string;
     /**
-     * Tag name
+     * User foreign key
+     */
+    chargedToUserId: number;
+    /**
+     * Item name
      */
     name: string;
     /**
-     * Tag description
+     * Receipt foreign key
      */
-    description?: string;
+    receiptId: number;
+    status: ItemStatus;
 }
 

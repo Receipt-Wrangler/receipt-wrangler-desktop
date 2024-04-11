@@ -11,21 +11,18 @@
  */
 
 
-/**
- * Tag to relate receipts to
- */
-export interface UpsertTagCommand { 
+export interface UpsertCommentCommand { 
     /**
-     * Tag id
+     * Comment itself
      */
-    id?: number;
+    comment: string;
     /**
-     * Tag name
+     * Receipt foreign key
      */
-    name: string;
+    receiptId: number;
     /**
-     * Tag description
+     * User foreign key
      */
-    description?: string;
+    userId: number;
 }
 
