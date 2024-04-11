@@ -13,6 +13,10 @@
 
 export interface UpsertCategoryCommand { 
     /**
+     * Category id
+     */
+    id?: number;
+    /**
      * Category name
      */
     name: string;

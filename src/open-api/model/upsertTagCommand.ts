@@ -16,6 +16,10 @@
  */
 export interface UpsertTagCommand { 
     /**
+     * Tag id
+     */
+    id?: number;
+    /**
      * Tag name
      */
     name: string;
