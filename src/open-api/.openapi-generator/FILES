@@ -66,7 +66,11 @@ model/tagView.ts
 model/tokenPair.ts
 model/updateGroupSettingsCommand.ts
 model/updateProfileCommand.ts
+model/upsertCategoryCommand.ts
+model/upsertCommentCommand.ts
 model/upsertDashboardCommand.ts
+model/upsertItemCommand.ts
+model/upsertReceiptCommand.ts
 model/upsertTagCommand.ts
 model/upsertWidgetCommand.ts
 model/user.ts
