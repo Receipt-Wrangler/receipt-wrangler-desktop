@@ -5,7 +5,8 @@
       <mat-chip-row
         *ngFor="let option of inputFormControl.value; let i = index"
         (removed)="removeOption(i)"
-        ><ng-template
+      >
+        <ng-template
           *ngIf="optionChipTemplate"
           [ngTemplateOutlet]="optionChipTemplate"
           [ngTemplateOutletContext]="{
@@ -19,7 +20,8 @@
         </div>
         <button *ngIf="!readonly" matChipRemove>
           <mat-icon>cancel</mat-icon>
-        </button></mat-chip-row
+        </button>
+      </mat-chip-row
       >
     </mat-chip-grid>
     <input
@@ -73,22 +75,25 @@
       <ng-container *ngIf="!optionTemplate">
         {{
           option | optionDisplay : options : optionDisplayKey : optionValueKey
-        }}</ng-container
+        }}
+      </ng-container
       >
     </mat-option>
     <ng-container
       *ngIf="
         creatable &&
         (filteredOptions | async)?.length === 0 &&
-        filterFormControl.value.length > 0
+        filterFormControl?.value?.length > 0
       "
     >
       <mat-option [id]="creatableOptionId" [value]="filterFormControl.value"
-        >Add {{ filterFormControl.value }}</mat-option
+      >Add {{ filterFormControl.value }}
+      </mat-option
       >
     </ng-container>
   </mat-autocomplete>
   <mat-error *ngFor="let err of formControlErrors | async">{{
-    err.message
-  }}</mat-error>
+      err.message
+    }}
+  </mat-error>
 </mat-form-field>
