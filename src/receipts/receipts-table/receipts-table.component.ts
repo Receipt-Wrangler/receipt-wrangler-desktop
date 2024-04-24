@@ -15,7 +15,6 @@ import { ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilterData, } from 
 import { ReceiptTableState } from "src/store/receipt-table.state";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
-import { GroupUtil } from "src/utils/group.utils";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
 import {
   BulkStatusUpdateCommand,
@@ -28,6 +27,7 @@ import {
   ReceiptStatus,
   Tag,
 } from "../../open-api";
+import { GroupRolePipe } from "../../pipes/group-role.pipe";
 import { SnackbarService } from "../../services";
 import { ReceiptFilterComponent } from "../../shared-ui/receipt-filter/receipt-filter.component";
 import { GroupState } from "../../store";
@@ -38,6 +38,7 @@ import { BulkStatusUpdateComponent } from "../bulk-resolve-dialog/bulk-status-up
   selector: "app-receipts-table",
   templateUrl: "./receipts-table.component.html",
   styleUrls: ["./receipts-table.component.scss"],
+  providers: [GroupRolePipe],
   animations: [fadeInOut],
   encapsulation: ViewEncapsulation.None,
   host: DEFAULT_HOST_CLASS,
@@ -45,14 +46,14 @@ import { BulkStatusUpdateComponent } from "../bulk-resolve-dialog/bulk-status-up
 export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(
     private activatedRoute: ActivatedRoute,
-    private groupUtil: GroupUtil,
     private groupsService: GroupsService,
     private matDialog: MatDialog,
     private receiptFilterService: ReceiptFilterService,
     private receiptService: ReceiptService,
     private router: Router,
     private snackbarService: SnackbarService,
-    private store: Store
+    private store: Store,
+    private groupPipe: GroupRolePipe
   ) {}
 
   @ViewChild("createdAtCell") createdAtCell!: TemplateRef<any>;
@@ -107,8 +108,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public firstSort: boolean = true;
 
-  public actionTooltipText: string =
-    "You need to be an owner or editor of the group to perform this action.";
+  public canEdit: boolean = false;
 
   public headerText: string = "";
 
@@ -116,6 +116,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     this.groupId = this.store
       .selectSnapshot(GroupState.selectedGroupId)
       ?.toString();
+    this.setCanEdit();
 
     this.setHeaderText();
     this.numFiltersApplied = this.store
@@ -130,11 +131,12 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         })
       );
     const data = this.activatedRoute.snapshot.data;
-
     this.categories = data["categories"];
-
     this.tags = data["tags"];
+    this.getInitialData();
+  }
 
+  private getInitialData(): void {
     this.receiptFilterService
       .getPagedReceiptsForGroups(this.groupId)
       .pipe(
@@ -146,6 +148,10 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe();
+  }
+
+  private setCanEdit(): void {
+    this.canEdit = this.groupPipe.transform(this.groupId, GroupRole.Editor);
   }
 
   private setHeaderText(): void {
@@ -231,14 +237,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         template: this.resolvedDateCell,
         sortable: true,
       },
-      {
-        columnHeader: "Actions",
-        matColumnDef: "actions",
-        template: this.actionsCell,
-        sortable: false,
-      },
     ] as TableColumn[];
-    this.displayedColumns = [
+    const displayColumns = [
       "select",
       "created_at",
       "date",
@@ -249,8 +249,19 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       "tags",
       "status",
       "resolved_date",
-      "actions",
     ];
+
+    if (this.canEdit) {
+      columns.push(
+        {
+          columnHeader: "Actions",
+          matColumnDef: "actions",
+          template: this.actionsCell,
+          sortable: false,
+        },
+      );
+      displayColumns.push("actions");
+    }
     const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
     const orderByIndex = columns.findIndex(
       (c) => c.matColumnDef === filter.orderBy
@@ -263,6 +274,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     }
 
     this.columns = columns;
+    this.displayedColumns = displayColumns;
   }
 
   public sort(sortState: Sort): void {
