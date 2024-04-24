@@ -63,6 +63,9 @@ const routes: Routes = [
         loadChildren: () =>
           import("../system-settings/system-settings.module").then((m) => m.SystemSettingsModule),
         canActivate: [AuthGuard],
+        data: {
+          role: UserRole.Admin,
+        },
       },
       {
         path: "users",
