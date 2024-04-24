@@ -1,17 +1,12 @@
-import { Component } from "@angular/core";
-import { SharedUiModule } from "../../shared-ui/shared-ui.module";
+import { Component, OnInit } from "@angular/core";
 import { TabConfig } from "../../shared-ui/tabs/tab-config.interface";
 
 @Component({
   selector: "app-system-settings",
-  standalone: true,
-  imports: [
-    SharedUiModule
-  ],
   templateUrl: "./system-settings.component.html",
   styleUrl: "./system-settings.component.scss"
 })
-export class SystemSettingsComponent {
+export class SystemSettingsComponent implements OnInit {
   public tabs: TabConfig[] = [];
 
   public ngOnInit(): void {

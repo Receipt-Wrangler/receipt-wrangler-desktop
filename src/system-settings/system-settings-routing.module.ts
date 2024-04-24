@@ -8,7 +8,7 @@ import { SystemSettingsComponent } from "./system-settings/system-settings.compo
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "system-emails/view",
+    redirectTo: "system-emails",
     pathMatch: "full",
   },
   {
@@ -16,7 +16,7 @@ const routes: Routes = [
     component: SystemSettingsComponent,
     children: [
       {
-        path: "system-emails/view",
+        path: "system-emails",
         component: SystemEmailsComponent,
         data: {
           formConfig: {

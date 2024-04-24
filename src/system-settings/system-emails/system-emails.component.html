@@ -1,0 +1,38 @@
+<div class="d-flex flex-column">
+  <app-table-header headerText="Emails">
+    <app-add-button
+      tooltip="Add email"
+    ></app-add-button>
+  </app-table-header>
+  <div class="table-container">
+    <app-table
+      [dataSource]="dataSource"
+      [columns]="columns"
+      [displayedColumns]="displayedColumns"
+    ></app-table>
+  </div>
+</div>
+
+<ng-template #usernameCell let-element="element">
+  {{ element.username }}
+</ng-template>
+
+<ng-template #displayNameCell let-element="element">
+  {{ element.displayName }}
+</ng-template>
+
+<ng-template #userRoleCell let-element="element">
+</ng-template>
+
+<ng-template #createdAtCell let-element="element">
+  {{ element.createdAt | date : "short" }}
+</ng-template>
+
+<ng-template #updatedAtCell let-element="element">
+  {{ element.updatedAt | date : "short" }}
+</ng-template>
+
+<ng-template #actionsCell let-element="element" let-index="index">
+  <div class="d-flex align-items-center">
+  </div>
+</ng-template>
