@@ -82,7 +82,10 @@
       <button [routerLink]="['/tags']" mat-menu-item>Manage Tags</button>
       <button [routerLink]="['/groups']" mat-menu-item>Manage Groups</button>
       <button mat-menu-item [routerLink]="['/settings/user-profile/view']">
-        Settings
+        User Settings
+      </button>
+      <button *appRole="'ADMIN'" [routerLink]="['/system-settings']" mat-menu-item>
+        System Settings
       </button>
       <button mat-menu-item (click)="logout()">Logout</button>
     </mat-menu>
