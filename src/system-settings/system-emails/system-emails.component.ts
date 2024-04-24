@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
+import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 
 @Component({
-  selector: 'app-system-emails',
+  selector: "app-system-emails",
   standalone: true,
-  imports: [],
-  templateUrl: './system-emails.component.html',
-  styleUrl: './system-emails.component.scss'
+  imports: [
+    SharedUiModule
+  ],
+  templateUrl: "./system-emails.component.html",
+  styleUrl: "./system-emails.component.scss"
 })
 export class SystemEmailsComponent {
 

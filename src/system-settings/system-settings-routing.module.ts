@@ -8,6 +8,11 @@ import { SystemSettingsComponent } from "./system-settings/system-settings.compo
 const routes: Routes = [
   {
     path: "",
+    redirectTo: "system-emails/view",
+    pathMatch: "full",
+  },
+  {
+    path: "",
     component: SystemSettingsComponent,
     children: [
       {
@@ -22,11 +27,7 @@ const routes: Routes = [
       },
     ]
   },
-  {
-    path: "",
-    redirectTo: "system-emails/view",
-    pathMatch: "full",
-  },
+
 ];
 
 @NgModule({
