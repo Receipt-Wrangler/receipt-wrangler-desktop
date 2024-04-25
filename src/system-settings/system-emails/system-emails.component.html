@@ -9,6 +9,9 @@
       [dataSource]="dataSource"
       [columns]="columns"
       [displayedColumns]="displayedColumns"
+      [pagination]="true"
+      (sorted)="sorted($event)"
+      (pageChange)="pageChanged($event)"
     ></app-table>
   </div>
 </div>
@@ -17,7 +20,7 @@
   {{ element.username }}
 </ng-template>
 
-<ng-template #displayNameCell let-element="element">
+<ng-template #hostCell let-element="element">
   {{ element.displayName }}
 </ng-template>
 
