@@ -26,6 +26,8 @@ export class SystemEmailsComponent implements OnInit, AfterViewInit {
 
   public dataSource: MatTableDataSource<SystemEmail> = new MatTableDataSource<SystemEmail>([]);
 
+  public totalCount: number = 0;
+
   constructor(private systemEmailService: SystemEmailService, private store: Store) {
   }
 
@@ -77,8 +79,9 @@ export class SystemEmailsComponent implements OnInit, AfterViewInit {
     this.systemEmailService.getPagedSystemEmails(pagedRequestCommand)
       .pipe(
         take(1),
-        tap((systemEmails) => {
-          this.dataSource = new MatTableDataSource(systemEmails);
+        tap((pagedData) => {
+          this.dataSource = new MatTableDataSource(pagedData.data as SystemEmail[]);
+          this.totalCount = pagedData.totalCount;
         })
       )
       .subscribe();

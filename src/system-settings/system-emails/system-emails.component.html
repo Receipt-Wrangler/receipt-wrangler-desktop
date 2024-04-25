@@ -10,6 +10,7 @@
       [columns]="columns"
       [displayedColumns]="displayedColumns"
       [pagination]="true"
+      [length]="totalCount"
       (sorted)="sorted($event)"
       (pageChange)="pageChanged($event)"
     ></app-table>

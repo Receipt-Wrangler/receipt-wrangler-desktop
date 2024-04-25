@@ -19,9 +19,9 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { PagedRequestCommand } from '../model/pagedRequestCommand';
+import { PagedData } from '../model/pagedData';
 // @ts-ignore
-import { SystemEmail } from '../model/systemEmail';
+import { PagedRequestCommand } from '../model/pagedRequestCommand';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -100,9 +100,9 @@ export class SystemEmailService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPagedSystemEmails(pagedRequestCommand: PagedRequestCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<SystemEmail>>;
-    public getPagedSystemEmails(pagedRequestCommand: PagedRequestCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<SystemEmail>>>;
-    public getPagedSystemEmails(pagedRequestCommand: PagedRequestCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<SystemEmail>>>;
+    public getPagedSystemEmails(pagedRequestCommand: PagedRequestCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<PagedData>;
+    public getPagedSystemEmails(pagedRequestCommand: PagedRequestCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<PagedData>>;
+    public getPagedSystemEmails(pagedRequestCommand: PagedRequestCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<PagedData>>;
     public getPagedSystemEmails(pagedRequestCommand: PagedRequestCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (pagedRequestCommand === null || pagedRequestCommand === undefined) {
             throw new Error('Required parameter pagedRequestCommand was null or undefined when calling getPagedSystemEmails.');
@@ -156,7 +156,7 @@ export class SystemEmailService {
         }
 
         let localVarPath = `/systemEmail/`;
-        return this.httpClient.request<Array<SystemEmail>>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PagedData>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: pagedRequestCommand,
