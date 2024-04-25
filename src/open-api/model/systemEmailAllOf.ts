@@ -11,18 +11,22 @@
  */
 
 
-export interface UpsertCommentCommand { 
+export interface SystemEmailAllOf { 
     /**
-     * Comment itself
+     * IMAP host
      */
-    comment: string;
+    host?: string;
     /**
-     * Receipt foreign key
+     * IMAP port
      */
-    receiptId: number;
+    port?: number;
     /**
-     * User foreign key
+     * IMAP username
      */
-    userId?: number;
+    username?: string;
+    /**
+     * IMAP password
+     */
+    password?: string;
 }
 

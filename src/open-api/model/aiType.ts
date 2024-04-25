@@ -11,18 +11,11 @@
  */
 
 
-export interface UpsertCommentCommand { 
-    /**
-     * Comment itself
-     */
-    comment: string;
-    /**
-     * Receipt foreign key
-     */
-    receiptId: number;
-    /**
-     * User foreign key
-     */
-    userId?: number;
-}
+export type AiType = 'OPENAI_CUSTOM' | 'OPENAI' | 'GEMINI';
+
+export const AiType = {
+    OpenaiCustom: 'OPENAI_CUSTOM' as AiType,
+    Openai: 'OPENAI' as AiType,
+    Gemini: 'GEMINI' as AiType
+};
 

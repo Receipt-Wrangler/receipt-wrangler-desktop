@@ -11,18 +11,30 @@
  */
 
 
-export interface UpsertCommentCommand { 
+export interface SystemEmail { 
+    id: number;
+    createdAt: string;
+    createdBy?: number;
     /**
-     * Comment itself
+     * Created by entity\'s name
      */
-    comment: string;
+    createdByString?: string;
+    updatedAt?: string;
     /**
-     * Receipt foreign key
+     * IMAP host
      */
-    receiptId: number;
+    host?: string;
     /**
-     * User foreign key
+     * IMAP port
      */
-    userId?: number;
+    port?: number;
+    /**
+     * IMAP username
+     */
+    username?: string;
+    /**
+     * IMAP password
+     */
+    password?: string;
 }
 
