@@ -2,13 +2,13 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { FormMode } from "../enums/form-mode.enum";
 import { FormConfig } from "../interfaces";
-import { SystemEmailsComponent } from "./system-emails/system-emails.component";
+import { SystemEmailTableComponent } from "./system-email-table/system-email-table.component";
 import { SystemSettingsComponent } from "./system-settings/system-settings.component";
 
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "system-emails",
+    redirectTo: "system-email-table",
     pathMatch: "full",
   },
   {
@@ -16,8 +16,8 @@ const routes: Routes = [
     component: SystemSettingsComponent,
     children: [
       {
-        path: "system-emails",
-        component: SystemEmailsComponent,
+        path: "system-email-table",
+        component: SystemEmailTableComponent,
         data: {
           formConfig: {
             mode: FormMode.view,

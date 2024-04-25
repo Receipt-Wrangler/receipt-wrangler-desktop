@@ -11,11 +11,11 @@ import { SystemEmailTableState } from "../../store/system-email-table.state";
 import { TableColumn } from "../../table/table-column.interface";
 
 @Component({
-  selector: "app-system-emails",
-  templateUrl: "./system-emails.component.html",
-  styleUrl: "./system-emails.component.scss"
+  selector: "app-system-email-table",
+  templateUrl: "./system-email-table.component.html",
+  styleUrl: "./system-email-table.component.scss"
 })
-export class SystemEmailsComponent implements OnInit, AfterViewInit {
+export class SystemEmailTableComponent implements OnInit, AfterViewInit {
   @ViewChild("usernameCell") public usernameCell!: TemplateRef<any>;
 
   @ViewChild("hostCell") public hostCell!: TemplateRef<any>;

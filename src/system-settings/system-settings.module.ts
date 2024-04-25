@@ -3,14 +3,14 @@ import { NgModule } from "@angular/core";
 import { ButtonModule } from "../button";
 import { SharedUiModule } from "../shared-ui/shared-ui.module";
 import { TableModule } from "../table/table.module";
-import { SystemEmailsComponent } from "./system-emails/system-emails.component";
+import { SystemEmailTableComponent } from "./system-email-table/system-email-table.component";
 
 import { SystemSettingsRoutingModule } from "./system-settings-routing.module";
 import { SystemSettingsComponent } from "./system-settings/system-settings.component";
 
 
 @NgModule({
-  declarations: [SystemEmailsComponent, SystemSettingsComponent],
+  declarations: [SystemEmailTableComponent, SystemSettingsComponent],
   imports: [
     CommonModule,
     SystemSettingsRoutingModule,
