@@ -20,6 +20,10 @@ export class SystemEmailsComponent implements OnInit, AfterViewInit {
 
   @ViewChild("hostCell") public hostCell!: TemplateRef<any>;
 
+  @ViewChild("createdAtCell") public createdAtCell!: TemplateRef<any>;
+
+  @ViewChild("updatedAtCell") public updatedAtCell!: TemplateRef<any>;
+
   public displayedColumns: string[] = [];
 
   public columns: TableColumn[] = [];
@@ -54,19 +58,19 @@ export class SystemEmailsComponent implements OnInit, AfterViewInit {
       {
         columnHeader: "Host",
         matColumnDef: "host",
-        template: this.usernameCell,
+        template: this.hostCell,
         sortable: true
       },
       {
         columnHeader: "Created At",
         matColumnDef: "created_at",
-        template: this.usernameCell,
+        template: this.createdAtCell,
         sortable: true
       },
       {
         columnHeader: "Updated At",
         matColumnDef: "updated_at",
-        template: this.usernameCell,
+        template: this.updatedAtCell,
         sortable: true
       }
     ];
