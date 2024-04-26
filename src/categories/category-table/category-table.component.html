@@ -10,7 +10,7 @@
     [pagination]="true"
     [length]="totalCount"
     [pageSize]="(state | async)?.pageSize ?? 1"
-    [page]="(state | async)?.page ?? 1"
+    [page]="((state | async)?.page ?? 1) - 1"
     (sorted)="sorted($event)"
     (pageChange)="updatePageData($event)"
   ></app-table>
