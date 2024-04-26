@@ -2,12 +2,12 @@ import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angul
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { Store } from "@ngxs/store";
-import { take, tap } from "rxjs";
+import { Select, Store } from "@ngxs/store";
+import { Observable, take, tap } from "rxjs";
+import { PagedTableInterface } from "../../interfaces/paged-table.interface";
 import { SystemEmail, SystemEmailService } from "../../open-api";
-import { SetOrderBy, SetSortDirection } from "../../store/paged-table.state.actions";
-import { SetPage, SetPageSize } from "../../store/receipt-table.actions";
 import { SystemEmailTableState } from "../../store/system-email-table.state";
+import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/system-email-table.state.actions";
 import { TableColumn } from "../../table/table-column.interface";
 
 @Component({
@@ -23,6 +23,8 @@ export class SystemEmailTableComponent implements OnInit, AfterViewInit {
   @ViewChild("createdAtCell") public createdAtCell!: TemplateRef<any>;
 
   @ViewChild("updatedAtCell") public updatedAtCell!: TemplateRef<any>;
+
+  @Select(SystemEmailTableState.state) public tableState!: Observable<PagedTableInterface>;
 
   public displayedColumns: string[] = [];
 
@@ -48,7 +50,8 @@ export class SystemEmailTableComponent implements OnInit, AfterViewInit {
   }
 
   private setColumns(): void {
-    this.columns = [
+
+    const columns = [
       {
         columnHeader: "Username",
         matColumnDef: "username",
@@ -73,8 +76,17 @@ export class SystemEmailTableComponent implements OnInit, AfterViewInit {
         template: this.updatedAtCell,
         sortable: true
       }
-    ];
+    ] as TableColumn[];
 
+    const state = this.store.selectSnapshot(SystemEmailTableState.state);
+    if (state.orderBy) {
+      const column = columns.find((c) => c.matColumnDef === state.orderBy);
+      if (column) {
+        column.defaultSortDirection = state.sortDirection;
+      }
+    }
+
+    this.columns = columns;
     this.displayedColumns = ["username", "host", "created_at", "updated_at"];
   }
 
