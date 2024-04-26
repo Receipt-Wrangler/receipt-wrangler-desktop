@@ -3,13 +3,14 @@ import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { Store } from "@ngxs/store";
-import { of, switchMap, take, tap } from "rxjs";
+import { Select, Store } from "@ngxs/store";
+import { Observable, of, switchMap, take, tap } from "rxjs";
 import { DEFAULT_DIALOG_CONFIG } from "src/constants";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { CategoryTableState } from "src/store/category-table.state";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
+import { PagedTableInterface } from "../../interfaces/paged-table.interface";
 import { CategoryService, CategoryView, PagedDataDataInner, PagedRequestCommand } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/category-table.state.actions";
@@ -33,6 +34,8 @@ export class CategoryTableComponent implements OnInit, AfterViewInit {
   public actionsCell!: TemplateRef<any>;
 
   @ViewChild(TableComponent) public table!: TableComponent;
+
+  @Select(CategoryTableState.state) public state!: Observable<PagedTableInterface>;
 
   constructor(
     private categoryService: CategoryService,
@@ -104,7 +107,7 @@ export class CategoryTableComponent implements OnInit, AfterViewInit {
   }
 
   private setColumns(): void {
-    this.columns = [
+    const columns = [
       {
         columnHeader: "Name",
         matColumnDef: "name",
@@ -129,8 +132,17 @@ export class CategoryTableComponent implements OnInit, AfterViewInit {
         template: this.actionsCell,
         sortable: false,
       },
-    ];
+    ] as TableColumn[];
 
+    const tableState = this.store.selectSnapshot(CategoryTableState.state);
+    if (tableState.orderBy) {
+      const column = columns.find(c => c.matColumnDef === tableState.orderBy);
+      if (column) {
+        column.defaultSortDirection = tableState.sortDirection;
+      }
+    }
+
+    this.columns = columns;
     this.displayedColumns = [
       "name",
       "description",
