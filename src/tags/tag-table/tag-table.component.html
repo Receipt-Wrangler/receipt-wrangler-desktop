@@ -8,6 +8,8 @@
     [displayedColumns]="displayedColumns"
     [dataSource]="dataSource"
     [pagination]="true"
+    [page]="((tagTableState | async)?.page ?? 1) - 1"
+    [pageSize]="(tagTableState | async)?.pageSize ?? 1"
     [length]="totalCount"
     (sorted)="sorted($event)"
     (pageChange)="updatePageData($event)"
