@@ -1,27 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Action, Selector, StateContext, createSelector } from '@ngxs/store';
-import { PagedTableInterface } from 'src/interfaces/paged-table.interface';
-import {
-  SetOrderBy,
-  SetPage,
-  SetPageSize,
-  SetPagedTableData,
-  SetSortDirection,
-} from './paged-table.state.actions';
+import { Action, createSelector, StateContext } from "@ngxs/store";
+import { PagedTableInterface } from "src/interfaces/paged-table.interface";
+import { SetOrderBy, SetPage, SetPageSize, SetSortDirection, } from "./paged-table.state.actions";
 
 export class PagedTableState {
-  static get page() {
-    return createSelector([this], (state: PagedTableInterface) => {
-      return state.page;
-    });
-  }
-
-  static get pageSize() {
-    return createSelector([this], (state: PagedTableInterface) => {
-      return state.pageSize;
-    });
-  }
-
   static get state() {
     return createSelector([this], (state: PagedTableInterface) => {
       return state;
@@ -63,13 +44,5 @@ export class PagedTableState {
     patchState({
       sortDirection: payload.sortDirection,
     });
-  }
-
-  @Action(SetPagedTableData)
-  setReceiptFilterData(
-    { patchState }: StateContext<PagedTableInterface>,
-    payload: SetPagedTableData
-  ) {
-    patchState(payload.data);
   }
 }
