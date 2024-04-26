@@ -8,11 +8,11 @@ import { of, switchMap, take, tap } from "rxjs";
 import { DEFAULT_DIALOG_CONFIG } from "src/constants";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { CategoryTableState } from "src/store/category-table.state";
-import { SetOrderBy, SetPage, SetPageSize, SetSortDirection, } from "src/store/paged-table.state.actions";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
 import { CategoryService, CategoryView, PagedDataDataInner, PagedRequestCommand } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/category-table.state.actions";
 import { CategoryForm } from "../category-form/category-form.component";
 
 @Component({
