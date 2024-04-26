@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "src/guards/auth.guard";
 import { SidebarComponent } from "src/layout/sidebar/sidebar.component";
+import { developmentGuard } from "../guards/development.guard";
 import { UserRole } from "../open-api";
 
 // set up dashboard
@@ -62,7 +63,7 @@ const routes: Routes = [
         path: "system-settings",
         loadChildren: () =>
           import("../system-settings/system-settings.module").then((m) => m.SystemSettingsModule),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, developmentGuard],
         data: {
           role: UserRole.Admin,
         },

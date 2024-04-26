@@ -1,14 +1,8 @@
-import {
-  Directive,
-  EnvironmentProviders,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
-import { EnvironmentService } from 'src/services/environment.service';
+import { Directive, TemplateRef, ViewContainerRef, } from "@angular/core";
+import { EnvironmentService } from "src/services/environment.service";
 
 @Directive({
-  selector: '[appDevelopment]',
+  selector: "[appDevelopment]",
 })
 export class DevelopmentDirective {
   public hasView = false;
