@@ -7,12 +7,12 @@ import { DuplicateValidator } from "src/validators/duplicate-validator";
 import { DirectivesModule } from "../directives";
 import { InputModule } from "../input";
 import { PipesModule } from "../pipes";
-import { CategoriesListComponent } from "./categories-list/categories-list.component";
 import { CategoriesRoutingModule } from "./categories-routing.module";
 import { CategoryForm } from "./category-form/category-form.component";
+import { CategoryTableComponent } from "./category-table/category-table.component";
 
 @NgModule({
-  declarations: [CategoriesListComponent, CategoryForm],
+  declarations: [CategoryTableComponent, CategoryForm],
   imports: [
     CategoriesRoutingModule,
     CommonModule,

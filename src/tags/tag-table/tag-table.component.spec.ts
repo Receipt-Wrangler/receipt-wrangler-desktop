@@ -1,35 +1,35 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatDialog, MatDialogModule, } from "@angular/material/dialog";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { NgxsModule, Store } from "@ngxs/store";
 import { of } from "rxjs";
 import { DEFAULT_DIALOG_CONFIG } from "src/constants";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
-import { CategoryTableState } from "src/store/category-table.state";
-import { ApiModule, CategoryService } from "../../open-api";
-import { CategoryForm } from "../category-form/category-form.component";
-import { CategoriesListComponent } from "./categories-list.component";
+import { TagTableState } from "src/store/tag-table.state";
+import { ApiModule, TagService } from "../../open-api";
+import { TagFormComponent } from "../tag-form/tag-form.component";
+import { TagTableComponent } from "./tag-table.component";
 
-describe("CategoriesListComponent", () => {
-  let component: CategoriesListComponent;
-  let fixture: ComponentFixture<CategoriesListComponent>;
+describe("TagsListComponent", () => {
+  let component: TagTableComponent;
+  let fixture: ComponentFixture<TagTableComponent>;
   let store: Store;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CategoriesListComponent],
+      declarations: [TagTableComponent],
       imports: [
         ApiModule,
         HttpClientTestingModule,
         MatDialogModule,
-        NgxsModule.forRoot([CategoryTableState]),
+        NgxsModule.forRoot([TagTableState]),
         MatSnackBarModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
-    fixture = TestBed.createComponent(CategoriesListComponent);
+    fixture = TestBed.createComponent(TagTableComponent);
     store = TestBed.inject(Store);
     component = fixture.componentInstance;
   });
@@ -39,10 +39,7 @@ describe("CategoriesListComponent", () => {
   });
 
   it("should attempt to get table data, set datasource and total count", () => {
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      "getPagedCategories"
-    );
+    const serviceSpy = spyOn(TestBed.inject(TagService), "getPagedTags");
     serviceSpy.and.returnValue(
       of({
         data: [{}],
@@ -64,10 +61,7 @@ describe("CategoriesListComponent", () => {
   });
 
   it("should attempt to get table data, with new sorted direction and key", () => {
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      "getPagedCategories"
-    );
+    const serviceSpy = spyOn(TestBed.inject(TagService), "getPagedTags");
     serviceSpy.and.returnValue(
       of({
         data: [{}],
@@ -80,7 +74,7 @@ describe("CategoriesListComponent", () => {
       direction: "asc",
     });
 
-    expect(store.selectSnapshot(CategoryTableState.state)).toEqual({
+    expect(store.selectSnapshot(TagTableState.state)).toEqual({
       page: 1,
       pageSize: 50,
       orderBy: "numberOfReceipts",
@@ -95,10 +89,7 @@ describe("CategoriesListComponent", () => {
   });
 
   it("should attempt to get table data, with newpage and new page size", () => {
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      "getPagedCategories"
-    );
+    const serviceSpy = spyOn(TestBed.inject(TagService), "getPagedTags");
     serviceSpy.and.returnValue(
       of({
         data: [{}],
@@ -111,7 +102,7 @@ describe("CategoriesListComponent", () => {
       pageSize: 100,
     } as any);
 
-    expect(store.selectSnapshot(CategoryTableState.state)).toEqual({
+    expect(store.selectSnapshot(TagTableState.state)).toEqual({
       page: 3,
       pageSize: 100,
       orderBy: "name",
@@ -139,23 +130,20 @@ describe("CategoriesListComponent", () => {
 
   it("should open edit dialog and refresh data when after closed with true", () => {
     const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      "getPagedCategories"
-    );
+    const serviceSpy = spyOn(TestBed.inject(TagService), "getPagedTags");
     dialogSpy.and.returnValue({
       componentInstance: {
-        category: {},
+        tag: {},
         headerText: "",
       },
       afterClosed: () => of(true),
     } as any);
 
-    const categoryView: any = {};
-    component.openEditDialog(categoryView);
+    const tagView: any = {};
+    component.openEditDialog(tagView);
 
     expect(dialogSpy).toHaveBeenCalledOnceWith(
-      CategoryForm,
+      TagFormComponent,
       DEFAULT_DIALOG_CONFIG
     );
     expect(serviceSpy).toHaveBeenCalledTimes(1);
@@ -163,23 +151,20 @@ describe("CategoriesListComponent", () => {
 
   it("should open edit dialog and not refresh data when after closed with false", () => {
     const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      "getPagedCategories"
-    );
+    const serviceSpy = spyOn(TestBed.inject(TagService), "getPagedTags");
     dialogSpy.and.returnValue({
       componentInstance: {
-        category: {},
+        tag: {},
         headerText: "",
       },
       afterClosed: () => of(false),
     } as any);
 
-    const categoryView: any = {};
-    component.openEditDialog(categoryView);
+    const tagView: any = {};
+    component.openEditDialog(tagView);
 
     expect(dialogSpy).toHaveBeenCalledOnceWith(
-      CategoryForm,
+      TagFormComponent,
       DEFAULT_DIALOG_CONFIG
     );
     expect(serviceSpy).toHaveBeenCalledTimes(0);
@@ -187,22 +172,19 @@ describe("CategoriesListComponent", () => {
 
   it("should open confirmation dialog and refresh data when after closed with true", () => {
     const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    const deleteSpy = spyOn(TestBed.inject(CategoryService), "deleteCategory");
+    const deleteSpy = spyOn(TestBed.inject(TagService), "deleteTag");
     deleteSpy.and.returnValue(of(undefined as any));
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      "getPagedCategories"
-    );
+    const serviceSpy = spyOn(TestBed.inject(TagService), "getPagedTags");
     dialogSpy.and.returnValue({
       componentInstance: {
-        category: {},
+        tag: {},
         headerText: "",
       },
       afterClosed: () => of(true),
     } as any);
 
-    const categoryView: any = { id: 1 };
-    component.openDeleteConfirmationDialog(categoryView);
+    const tagView: any = { id: 1 };
+    component.openDeleteConfirmationDialog(tagView);
 
     expect(dialogSpy).toHaveBeenCalledOnceWith(
       ConfirmationDialogComponent,
@@ -213,20 +195,17 @@ describe("CategoriesListComponent", () => {
 
   it("should open confirmation dialog and not refresh data when after closed with false", () => {
     const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      "getPagedCategories"
-    );
+    const serviceSpy = spyOn(TestBed.inject(TagService), "getPagedTags");
     dialogSpy.and.returnValue({
       componentInstance: {
-        category: {},
+        tag: {},
         headerText: "",
       },
       afterClosed: () => of(false),
     } as any);
 
-    const categoryView: any = {};
-    component.openDeleteConfirmationDialog(categoryView);
+    const tagView: any = {};
+    component.openDeleteConfirmationDialog(tagView);
 
     expect(dialogSpy).toHaveBeenCalledOnceWith(
       ConfirmationDialogComponent,
@@ -237,13 +216,10 @@ describe("CategoriesListComponent", () => {
 
   it("should open add dialog and refresh data when after closed with true", () => {
     const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      "getPagedCategories"
-    );
+    const serviceSpy = spyOn(TestBed.inject(TagService), "getPagedTags");
     dialogSpy.and.returnValue({
       componentInstance: {
-        category: {},
+        tag: {},
         headerText: "",
       },
       afterClosed: () => of(true),
@@ -252,7 +228,7 @@ describe("CategoriesListComponent", () => {
     component.openAddDialog();
 
     expect(dialogSpy).toHaveBeenCalledOnceWith(
-      CategoryForm,
+      TagFormComponent,
       DEFAULT_DIALOG_CONFIG
     );
     expect(serviceSpy).toHaveBeenCalledTimes(1);
@@ -260,13 +236,10 @@ describe("CategoriesListComponent", () => {
 
   it("should open add dialog and not refresh data when after closed with false", () => {
     const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    const serviceSpy = spyOn(
-      TestBed.inject(CategoryService),
-      "getPagedCategories"
-    );
+    const serviceSpy = spyOn(TestBed.inject(TagService), "getPagedTags");
     dialogSpy.and.returnValue({
       componentInstance: {
-        category: {},
+        tag: {},
         headerText: "",
       },
       afterClosed: () => of(false),
@@ -275,7 +248,7 @@ describe("CategoriesListComponent", () => {
     component.openAddDialog();
 
     expect(dialogSpy).toHaveBeenCalledOnceWith(
-      CategoryForm,
+      TagFormComponent,
       DEFAULT_DIALOG_CONFIG
     );
     expect(serviceSpy).toHaveBeenCalledTimes(0);

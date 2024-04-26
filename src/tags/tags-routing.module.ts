@@ -1,16 +1,16 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { TagsListComponent } from './categories-list/tags-list.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { TagTableComponent } from "./tag-table/tag-table.component";
 
 const routes: Routes = [
   {
-    path: '',
-    component: TagsListComponent,
+    path: "",
+    component: TagTableComponent,
   },
   {
-    path: '',
-    redirectTo: 'tags',
-    pathMatch: 'full',
+    path: "",
+    redirectTo: "tags",
+    pathMatch: "full",
   },
 ];
 

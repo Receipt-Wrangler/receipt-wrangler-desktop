@@ -7,20 +7,20 @@ import { Store } from "@ngxs/store";
 import { of, switchMap, take, tap } from "rxjs";
 import { DEFAULT_DIALOG_CONFIG } from "src/constants";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
-import { SetOrderBy, SetPage, SetPageSize, SetSortDirection, } from "src/store/paged-table.state.actions";
 import { TagTableState } from "src/store/tag-table.state";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
-import {PagedDataDataInner, PagedRequestCommand, TagService, TagView} from "../../open-api";
+import { PagedDataDataInner, PagedRequestCommand, TagService, TagView } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/tag-table.state.actions";
 import { TagFormComponent } from "../tag-form/tag-form.component";
 
 @Component({
   selector: "app-tags-list",
-  templateUrl: "./tags-list.component.html",
-  styleUrls: ["./tags-list.component.scss"],
+  templateUrl: "./tag-table.component.html",
+  styleUrls: ["./tag-table.component.scss"],
 })
-export class TagsListComponent implements OnInit, AfterViewInit {
+export class TagTableComponent implements OnInit, AfterViewInit {
   @ViewChild("nameCell") public nameCell!: TemplateRef<any>;
 
   @ViewChild("descriptionCell")

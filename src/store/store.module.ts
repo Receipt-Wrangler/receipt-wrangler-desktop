@@ -43,6 +43,7 @@ import { UserState } from "./user.state";
         "layout",
         "receiptTable",
         "systemEmailTable",
+        "tagTable",
         "users",
       ],
     }),

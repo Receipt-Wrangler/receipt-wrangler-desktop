@@ -1,17 +1,17 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
-import { CategoriesListComponent } from "./categories-list/categories-list.component";
+import { CategoryTableComponent } from "./category-table/category-table.component";
 
 const routes: Routes = [
   {
-    path: '',
-    component: CategoriesListComponent,
+    path: "",
+    component: CategoryTableComponent,
   },
   {
-    path: '',
-    redirectTo: 'categories',
-    pathMatch: 'full',
+    path: "",
+    redirectTo: "categories",
+    pathMatch: "full",
   },
 ];
 
