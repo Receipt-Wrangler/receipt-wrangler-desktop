@@ -1,18 +1,21 @@
+import { Injectable } from "@angular/core";
 import { Action, State, StateContext } from "@ngxs/store";
 import { PagedTableInterface } from "src/interfaces/paged-table.interface";
-import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "./category-table.state.actions";
+import { SortDirection } from "../open-api";
 import { PagedTableState } from "./paged-table.state";
+import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "./system-email-table.state.actions";
 
 @State<PagedTableInterface>({
-  name: "categoryTable",
+  name: "systemEmailTable",
   defaults: {
     page: 1,
     pageSize: 50,
-    orderBy: "name",
-    sortDirection: "desc",
+    orderBy: "username",
+    sortDirection: SortDirection.Desc,
   },
 })
-export class CategoryTableState extends PagedTableState {
+@Injectable()
+export class SystemEmailTableState extends PagedTableState {
   @Action(SetPage)
   setPage({ patchState }: StateContext<PagedTableInterface>, payload: SetPage) {
     patchState({

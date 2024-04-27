@@ -12,6 +12,7 @@ api/notifications.service.ts
 api/receipt.service.ts
 api/receiptImage.service.ts
 api/search.service.ts
+api/systemEmail.service.ts
 api/tag.service.ts
 api/user.service.ts
 api/userPreferences.service.ts
@@ -19,6 +20,7 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/aiType.ts
 model/appData.ts
 model/baseModel.ts
 model/bulkStatusUpdateCommand.ts
@@ -47,6 +49,7 @@ model/logoutCommand.ts
 model/magicFillCommand.ts
 model/models.ts
 model/notification.ts
+model/ocrEngine.ts
 model/pagedData.ts
 model/pagedDataDataInner.ts
 model/pagedRequestCommand.ts
@@ -61,6 +64,10 @@ model/searchResult.ts
 model/signUpCommand.ts
 model/sortDirection.ts
 model/subjectLineRegex.ts
+model/systemEmail.ts
+model/systemEmailAllOf.ts
+model/systemSettings.ts
+model/systemSettingsAllOf.ts
 model/tag.ts
 model/tagView.ts
 model/tokenPair.ts

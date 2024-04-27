@@ -11,33 +11,30 @@
  */
 
 
-/**
- * User comment left on receipts
- */
-export interface Comment { 
-    /**
-     * Additional information about the comment
-     */
-    additionalInfo?: string;
-    /**
-     * Comment itself
-     */
-    comment: string;
-    /**
-     * Comment foreign key used for repleis
-     */
-    commentId?: number;
-    createdAt?: string;
-    createdBy?: number;
+export interface SystemEmail { 
     id: number;
+    createdAt: string;
+    createdBy?: number;
     /**
-     * Receipt foreign key
+     * Created by entity\'s name
      */
-    receiptId: number;
+    createdByString?: string;
     updatedAt?: string;
     /**
-     * User foreign key
+     * IMAP host
      */
-    userId: number;
+    host?: string;
+    /**
+     * IMAP port
+     */
+    port?: number;
+    /**
+     * IMAP username
+     */
+    username?: string;
+    /**
+     * IMAP password
+     */
+    password?: string;
 }
 

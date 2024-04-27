@@ -7,12 +7,12 @@ import { TableModule } from "src/table/table.module";
 import { DirectivesModule } from "../directives";
 import { InputModule } from "../input";
 import { PipesModule } from "../pipes";
-import { TagsListComponent } from "./categories-list/tags-list.component";
 import { TagFormComponent } from "./tag-form/tag-form.component";
+import { TagTableComponent } from "./tag-table/tag-table.component";
 import { TagsRoutingModule } from "./tags-routing.module";
 
 @NgModule({
-  declarations: [TagsListComponent, TagFormComponent],
+  declarations: [TagTableComponent, TagFormComponent],
   imports: [
     CommonModule,
     DirectivesModule,

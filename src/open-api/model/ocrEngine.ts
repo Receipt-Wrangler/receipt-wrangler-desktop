@@ -11,18 +11,10 @@
  */
 
 
-export interface UpsertCommentCommand { 
-    /**
-     * Comment itself
-     */
-    comment: string;
-    /**
-     * Receipt foreign key
-     */
-    receiptId: number;
-    /**
-     * User foreign key
-     */
-    userId?: number;
-}
+export type OcrEngine = 'TESSERACT' | 'EASY_OCR';
+
+export const OcrEngine = {
+    Tesseract: 'TESSERACT' as OcrEngine,
+    EasyOcr: 'EASY_OCR' as OcrEngine
+};
 

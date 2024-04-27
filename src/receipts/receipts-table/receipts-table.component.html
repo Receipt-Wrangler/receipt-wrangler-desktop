@@ -1,14 +1,15 @@
 <app-table-header [headerText]="headerText">
   <div class="d-flex align-items-center">
     <app-button
+      *ngIf="canEdit"
       class="me-2"
       icon="add"
       matButtonType="iconButton"
       tooltip="Add Receipt"
-      [disabled]="!(groupId | groupRole : groupRole.Editor)"
       [buttonRouterLink]="['/receipts/add']"
     ></app-button>
     <app-quick-scan-button
+      *ngIf="canEdit"
       class="me-2"
       (afterClosed)="getFilteredReceipts()"
     >
@@ -21,7 +22,6 @@
       color="accent"
       matBadgeColor="accent"
       [matBadgeContent]="numFiltersApplied | async"
-      [disabled]="!(groupId | groupRole : groupRole.Editor)"
       (clicked)="filterButtonClicked()"
     ></app-button>
     <app-button
@@ -34,20 +34,21 @@
       color="accent"
       (clicked)="resetFilterButtonClicked()"
     ></app-button>
-    <app-button
-      *appFeature="'aiPoweredReceipts'"
-      class="me-2"
-      icon="mail"
-      matButtonType="iconButton"
-      tooltip="Poll email(s)"
-      color="accent"
-      matBadgeColor="accent"
-      [disabled]="!(groupId | groupRole : groupRole.Viewer)"
-      (clicked)="pollEmail()"
-    ></app-button>
+    <ng-container *ngIf="canEdit">
+      <app-button
+        *appFeature="'aiPoweredReceipts'"
+        class="me-2"
+        icon="mail"
+        matButtonType="iconButton"
+        tooltip="Poll email(s)"
+        color="accent"
+        matBadgeColor="accent"
+        (clicked)="pollEmail()"
+      ></app-button>
+    </ng-container>
     <app-button
       @fadeInOut
-      *ngIf="selectedReceiptIds.length ?? false"
+      *ngIf="(selectedReceiptIds.length ?? false) && canEdit"
       buttonText="Bulk Status Update"
       color="accent"
       (click)="showStatusUpdateDialog()"
@@ -118,7 +119,6 @@
     <app-edit-button
       color="accent"
       [buttonRouterLink]="['/receipts/' + element.id + '/edit']"
-      [disabled]="!(element.groupId | groupRole : groupRole.Editor)"
     ></app-edit-button>
     <app-button
       matButtonType="iconButton"
@@ -126,7 +126,6 @@
       tooltip="Duplciate"
       color="accent"
       (clicked)="duplicateReceipt(element.id)"
-      [disabled]="!(element.groupId | groupRole : groupRole.Editor)"
     ></app-button>
     <app-button
       matButtonType="iconButton"
@@ -135,7 +134,6 @@
       color="warn"
       tooltip="Delete"
       (clicked)="deleteReceipt(element)"
-      [disabled]="!(element.groupId | groupRole : groupRole.Editor)"
     ></app-button>
   </div>
 </ng-template>

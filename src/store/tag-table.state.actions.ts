@@ -1,25 +1,25 @@
 import { SortDirection } from "@angular/material/sort";
 
 export class SetPage {
-  static readonly type = "[PagedTable] Set Page";
+  static readonly type = "[TagTableComponent] Set Page";
 
   constructor(public page: number) {}
 }
 
 export class SetPageSize {
-  static readonly type = "[PagedTable] Set Page Size";
+  static readonly type = "[TagTableComponent] Set Page Size";
 
   constructor(public pageSize: number) {}
 }
 
 export class SetOrderBy {
-  static readonly type = "[PagedTable] Set Order By";
+  static readonly type = "[TagTableComponent] Set Order By";
 
   constructor(public orderBy: string) {}
 }
 
 export class SetSortDirection {
-  static readonly type = "[PagedTable] Set Sort Direction";
+  static readonly type = "[TagTableComponent] Set Sort Direction";
 
   constructor(public sortDirection: SortDirection) {}
 }
