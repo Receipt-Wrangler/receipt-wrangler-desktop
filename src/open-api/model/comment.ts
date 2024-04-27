@@ -33,7 +33,7 @@ export interface Comment {
     /**
      * Receipt foreign key
      */
-    receiptId: Array<Comment>;
+    receiptId: number;
     updatedAt?: string;
     /**
      * User foreign key
