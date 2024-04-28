@@ -1,5 +1,11 @@
-<app-form-header [headerText]="formConfig.headerText"></app-form-header>
+<app-form-header
+  [headerText]="formConfig.headerText"
+  [bottomSpacing]="true"
+></app-form-header>
 <form [formGroup]="form" (ngSubmit)="submit()">
+  <app-form-section headerText="Audit Details">
+    <app-audit-detail-section [data]="originalSystemEmail"></app-audit-detail-section>
+  </app-form-section>
   <app-form-section headerText="Details">
     <app-input
       label="Host"

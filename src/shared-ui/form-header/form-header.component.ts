@@ -1,15 +1,17 @@
-import { Component, Input, TemplateRef } from '@angular/core';
-import { Location } from '@angular/common';
+import { Location } from "@angular/common";
+import { Component, Input, TemplateRef } from "@angular/core";
 
 @Component({
-  selector: 'app-form-header',
-  templateUrl: './form-header.component.html',
-  styleUrls: ['./form-header.component.scss'],
+  selector: "app-form-header",
+  templateUrl: "./form-header.component.html",
+  styleUrls: ["./form-header.component.scss"],
 })
 export class FormHeaderComponent {
-  @Input() public headerText: string = '';
+  @Input() public headerText: string = "";
 
   @Input() public headerButtonsTemplate?: TemplateRef<any>;
+
+  @Input() public bottomSpacing: boolean = false;
 
   constructor(private location: Location) {}
 
