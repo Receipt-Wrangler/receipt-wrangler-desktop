@@ -21,7 +21,10 @@
 </div>
 
 <ng-template #usernameCell let-element="element">
-  {{ element.username }}
+  <a [routerLink]="['/system-settings/system-emails/' + element.id + '/view']">
+    {{ element.username }}
+
+  </a>
 </ng-template>
 
 <ng-template #hostCell let-element="element">

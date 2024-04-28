@@ -19,6 +19,8 @@ export class SystemEmailFormComponent implements OnInit {
 
   public originalSystemEmail!: SystemEmail;
 
+  protected readonly FormMode = FormMode;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
