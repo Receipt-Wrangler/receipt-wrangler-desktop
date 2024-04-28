@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+import { FormMode } from "../../enums/form-mode.enum";
 
 @Component({
   selector: "app-audit-detail-section",
@@ -7,4 +8,7 @@ import { Component, Input } from "@angular/core";
 })
 export class AuditDetailSectionComponent {
   @Input() data!: any;
+
+  @Input() formMode!: FormMode;
+  protected readonly FormMode = FormMode;
 }

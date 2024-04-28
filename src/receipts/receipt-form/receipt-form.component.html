@@ -6,9 +6,10 @@
   <div class="row g-1">
     <div class="col g-4">
       <ng-container *ngIf="mode !== formMode.add">
-        <app-form-section headerText="Audit Details" [indent]="false">
-          <app-audit-detail-section [data]="originalReceipt"></app-audit-detail-section>
-        </app-form-section>
+        <app-audit-detail-section
+          [data]="originalReceipt"
+          [formMode]="mode"
+        ></app-audit-detail-section>
       </ng-container>
       <div class="row">
         <app-form-section class="col" headerText="Details" [indent]="false">

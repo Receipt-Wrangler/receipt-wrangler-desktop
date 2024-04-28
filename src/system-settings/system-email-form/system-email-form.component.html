@@ -3,9 +3,10 @@
   [bottomSpacing]="true"
 ></app-form-header>
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <app-form-section headerText="Audit Details">
-    <app-audit-detail-section [data]="originalSystemEmail"></app-audit-detail-section>
-  </app-form-section>
+  <app-audit-detail-section
+    [data]="originalSystemEmail"
+    [formMode]="formConfig.mode">
+  </app-audit-detail-section>
   <app-form-section headerText="Details">
     <app-input
       label="Host"
