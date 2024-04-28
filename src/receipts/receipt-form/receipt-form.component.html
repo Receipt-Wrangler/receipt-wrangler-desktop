@@ -6,38 +6,10 @@
   <div class="row g-1">
     <div class="col g-4">
       <ng-container *ngIf="mode !== formMode.add">
-        <app-form-section headerText="Audit Details" [indent]="false">
-          <div class="d-flex flex-column mb-3">
-            <span
-              *ngIf="
-                originalReceipt?.createdBy || originalReceipt?.createdByString
-              "
-              class="mb-1"
-            >
-              Added by:
-              <ng-container *ngIf="originalReceipt?.createdByString">
-                {{ originalReceipt?.createdByString }}
-              </ng-container>
-              <ng-container *ngIf="originalReceipt?.createdBy">
-                {{
-                  (originalReceipt?.createdBy?.toString() | user)?.displayName
-                }}
-              </ng-container>
-            </span>
-            <span class="mb-1">
-              Added at: {{ originalReceipt?.createdAt | date : "medium" }}
-            </span>
-            <span>
-              Updated at: {{ originalReceipt?.updatedAt | date : "medium" }}
-            </span>
-            <ng-container *ngIf="originalReceipt?.resolvedDate">
-              <span class="mt-2">
-                Resolved at:
-                {{ originalReceipt?.resolvedDate | date : "medium" }}
-              </span
-              ></ng-container>
-          </div>
-        </app-form-section>
+        <app-audit-detail-section
+          [data]="originalReceipt"
+          [formMode]="mode"
+        ></app-audit-detail-section>
       </ng-container>
       <div class="row">
         <app-form-section class="col" headerText="Details" [indent]="false">

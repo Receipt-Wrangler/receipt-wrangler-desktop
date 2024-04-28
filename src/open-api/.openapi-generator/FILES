@@ -78,6 +78,7 @@ model/upsertCommentCommand.ts
 model/upsertDashboardCommand.ts
 model/upsertItemCommand.ts
 model/upsertReceiptCommand.ts
+model/upsertSystemEmailCommand.ts
 model/upsertTagCommand.ts
 model/upsertWidgetCommand.ts
 model/user.ts

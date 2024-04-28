@@ -44,6 +44,7 @@ import { SubmitButtonComponent } from "./submit-button/submit-button.component";
 import { SummaryCardComponent } from "./summary-card/summary-card.component";
 import { TableHeaderComponent } from "./table-header/table-header.component";
 import { TabsComponent } from "./tabs/tabs.component";
+import { AuditDetailSectionComponent } from './audit-detail-section/audit-detail-section.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { TabsComponent } from "./tabs/tabs.component";
     TableHeaderComponent,
     TabsComponent,
     QuickScanButtonComponent,
+    AuditDetailSectionComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -122,6 +124,7 @@ import { TabsComponent } from "./tabs/tabs.component";
     SummaryCardComponent,
     TableHeaderComponent,
     TabsComponent,
+    AuditDetailSectionComponent,
   ],
 })
 export class SharedUiModule {}
