@@ -55,6 +55,7 @@ export * from './upsertCommentCommand';
 export * from './upsertDashboardCommand';
 export * from './upsertItemCommand';
 export * from './upsertReceiptCommand';
+export * from './upsertSystemEmailCommand';
 export * from './upsertTagCommand';
 export * from './upsertWidgetCommand';
 export * from './user';
