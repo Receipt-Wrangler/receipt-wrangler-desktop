@@ -24,6 +24,8 @@ export class SystemEmailTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild("updatedAtCell") public updatedAtCell!: TemplateRef<any>;
 
+  @ViewChild("actionsCell") public actionsCell!: TemplateRef<any>;
+
   @Select(SystemEmailTableState.state) public tableState!: Observable<PagedTableInterface>;
 
   public displayedColumns: string[] = [];
@@ -75,7 +77,14 @@ export class SystemEmailTableComponent implements OnInit, AfterViewInit {
         matColumnDef: "updated_at",
         template: this.updatedAtCell,
         sortable: true
-      }
+      },
+      {
+        columnHeader: "Actions",
+        matColumnDef: "actions",
+        template: this.actionsCell,
+        sortable: false
+      },
+
     ] as TableColumn[];
 
     const state = this.store.selectSnapshot(SystemEmailTableState.state);
@@ -87,7 +96,7 @@ export class SystemEmailTableComponent implements OnInit, AfterViewInit {
     }
 
     this.columns = columns;
-    this.displayedColumns = ["username", "host", "created_at", "updated_at"];
+    this.displayedColumns = ["username", "host", "created_at", "updated_at", "actions"];
   }
 
   private getTableData(): void {

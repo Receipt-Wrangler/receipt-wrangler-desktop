@@ -41,5 +41,10 @@
 
 <ng-template #actionsCell let-element="element" let-index="index">
   <div class="d-flex align-items-center">
+    <app-edit-button
+      color="accent"
+      [routerLink]="['/system-settings/system-emails/' + element.id + '/edit']"
+      [tooltip]="'Edit email'"
+    ></app-edit-button>
   </div>
 </ng-template>
