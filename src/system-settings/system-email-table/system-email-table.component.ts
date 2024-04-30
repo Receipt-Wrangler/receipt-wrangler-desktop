@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -6,6 +7,8 @@ import { Select, Store } from "@ngxs/store";
 import { Observable, take, tap } from "rxjs";
 import { PagedTableInterface } from "../../interfaces/paged-table.interface";
 import { SystemEmail, SystemEmailService } from "../../open-api";
+import { SnackbarService } from "../../services";
+import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { SystemEmailTableState } from "../../store/system-email-table.state";
 import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/system-email-table.state.actions";
 import { TableColumn } from "../../table/table-column.interface";
@@ -36,7 +39,12 @@ export class SystemEmailTableComponent implements OnInit, AfterViewInit {
 
   public totalCount: number = 0;
 
-  constructor(private systemEmailService: SystemEmailService, private store: Store) {
+  constructor(
+    public matDialog: MatDialog,
+    private snackbarService: SnackbarService,
+    private store: Store,
+    private systemEmailService: SystemEmailService,
+  ) {
   }
 
   public ngOnInit(): void {
@@ -126,5 +134,39 @@ export class SystemEmailTableComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new SetPageSize(pageEvent.pageSize));
 
     this.getTableData();
+  }
+
+  public deleteButtonClicked(id: number, index: number): void {
+    const dialogRef = this.matDialog.open(ConfirmationDialogComponent);
+    const email = this.dataSource.data[index];
+
+    dialogRef.componentInstance.headerText = "Delete System Email";
+    dialogRef.componentInstance.dialogContent = `Are you sure you want to delete the email: ${email.username}?`;
+
+    dialogRef.afterClosed()
+      .pipe(
+        take(1),
+        tap((result) => {
+          if (result) {
+            this.callDeleteApi(id, index);
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  private callDeleteApi(id: number, index: number): void {
+    this.systemEmailService.deleteSystemEmailById(id)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.getTableData();
+          const data = Array.from(this.dataSource.data);
+          data.splice(index, 1);
+          this.dataSource = new MatTableDataSource(data);
+          this.snackbarService.success("System email deleted successfully");
+        })
+      )
+      .subscribe();
   }
 }

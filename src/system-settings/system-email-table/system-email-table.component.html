@@ -46,5 +46,9 @@
       [routerLink]="['/system-settings/system-emails/' + element.id + '/edit']"
       [tooltip]="'Edit email'"
     ></app-edit-button>
+    <app-delete-button
+      tooltip="Delete email"
+      (clicked)="deleteButtonClicked(element.id, index)"
+    ></app-delete-button>
   </div>
 </ng-template>
