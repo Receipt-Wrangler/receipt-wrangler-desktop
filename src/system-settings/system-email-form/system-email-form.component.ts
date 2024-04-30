@@ -29,7 +29,7 @@ export class SystemEmailFormComponent implements OnInit {
     private systemEmailService: SystemEmailService,
     private snackbarService: SnackbarService,
     private router: Router,
-    private matDialog: MatDialog
+    public matDialog: MatDialog
   ) {}
 
   public ngOnInit() {
@@ -43,7 +43,7 @@ export class SystemEmailFormComponent implements OnInit {
       host: [this.originalSystemEmail?.host, [Validators.required]],
       port: [this.originalSystemEmail?.port, [Validators.required]],
       username: [this.originalSystemEmail?.username, [Validators.required]],
-      password: ["", this.formConfig.mode === FormMode.add ? [Validators.required] : []],
+      password: [null, this.formConfig.mode === FormMode.add ? [Validators.required] : []],
     });
   }
 
@@ -77,7 +77,6 @@ export class SystemEmailFormComponent implements OnInit {
         .pipe(
           take(1),
           tap((result) => {
-            console.warn(result);
             this.callUpdateEndpoint(result);
           })
         )
