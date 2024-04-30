@@ -45,6 +45,19 @@ const routes: Routes = [
     resolve: {
       systemEmail: systemEmailResolver,
     }
+  },
+  {
+    path: "system-emails/:id/edit",
+    component: SystemEmailFormComponent,
+    data: {
+      formConfig: {
+        mode: FormMode.edit,
+        headerText: "Edit System Email",
+      } as FormConfig,
+    },
+    resolve: {
+      systemEmail: systemEmailResolver,
+    }
   }
 
 ];

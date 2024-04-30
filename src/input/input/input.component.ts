@@ -36,6 +36,10 @@ export class InputComponent
       this.mask = "separator.2";
       this.thousandSeparator = ",";
     }
+
+    if (changes["showVisibilityEye"]?.firstChange && changes["showVisibilityEye"]?.currentValue) {
+      this.type = "password";
+    }
   }
 
   public toggleVisibility(): void {

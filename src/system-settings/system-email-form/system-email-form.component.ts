@@ -1,11 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { take, tap } from "rxjs";
 import { FormMode } from "../../enums/form-mode.enum";
 import { FormConfig } from "../../interfaces";
 import { SystemEmail, SystemEmailService } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: "app-system-email-form",
@@ -26,7 +28,8 @@ export class SystemEmailFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private systemEmailService: SystemEmailService,
     private snackbarService: SnackbarService,
-    private router: Router
+    private router: Router,
+    public matDialog: MatDialog
   ) {}
 
   public ngOnInit() {
@@ -40,15 +43,16 @@ export class SystemEmailFormComponent implements OnInit {
       host: [this.originalSystemEmail?.host, [Validators.required]],
       port: [this.originalSystemEmail?.port, [Validators.required]],
       username: [this.originalSystemEmail?.username, [Validators.required]],
-      password: [this.originalSystemEmail?.password, [Validators.required]]
+      password: [null, this.formConfig.mode === FormMode.add ? [Validators.required] : []],
     });
   }
 
   public submit(): void {
     if (this.formConfig.mode === FormMode.add) {
       this.createSystemEmail();
+    } else if (this.formConfig.mode === FormMode.edit) {
+      this.updateSystemEmail();
     }
-
   }
 
   private createSystemEmail(): void {
@@ -58,6 +62,38 @@ export class SystemEmailFormComponent implements OnInit {
         tap((systemEmail) => {
           this.snackbarService.success("System Email created successfully");
           this.router.navigateByUrl(`/system-settings/system-emails/${systemEmail.id}/view`);
+        })
+      )
+      .subscribe();
+  }
+
+  private updateSystemEmail(): void {
+    if (this.form.get("password")?.dirty) {
+      const dialogRef = this.matDialog.open(ConfirmationDialogComponent);
+      dialogRef.componentInstance.headerText = "Update email password";
+      dialogRef.componentInstance.dialogContent = "Are you sure you want to update the email password? This will replace the previous password.";
+
+      dialogRef.afterClosed()
+        .pipe(
+          take(1),
+          tap((result) => {
+            this.callUpdateEndpoint(result);
+          })
+        )
+        .subscribe();
+
+    } else {
+      this.callUpdateEndpoint(false);
+    }
+  }
+
+  private callUpdateEndpoint(updatePassword: boolean): void {
+    this.systemEmailService.updateSystemEmailById(this.originalSystemEmail.id, updatePassword, this.form.value)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.snackbarService.success("System Email updated successfully");
+          this.router.navigateByUrl(`/system-settings/system-emails/${this.originalSystemEmail.id}/view`);
         })
       )
       .subscribe();

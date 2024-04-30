@@ -1,6 +1,7 @@
 <app-form-header
   [headerText]="formConfig.headerText"
   [bottomSpacing]="true"
+  [headerButtonsTemplate]="headerButtons"
 ></app-form-header>
 <form [formGroup]="form" (ngSubmit)="submit()">
   <app-audit-detail-section
@@ -36,3 +37,11 @@
 
   </app-form-section>
 </form>
+
+<ng-template #headerButtons>
+  <app-edit-button
+    *ngIf="formConfig.mode == FormMode.view"
+    color="accent"
+    [routerLink]="['/system-settings/system-emails/' + originalSystemEmail.id + '/edit']"
+  ></app-edit-button>
+</ng-template>
