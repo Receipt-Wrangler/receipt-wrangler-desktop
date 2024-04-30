@@ -1,3 +1,4 @@
+import { Injectable } from "@angular/core";
 import { Action, State, StateContext } from "@ngxs/store";
 import { PagedTableInterface } from "src/interfaces/paged-table.interface";
 import { PagedTableState } from "./paged-table.state";
@@ -12,6 +13,7 @@ import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "./tag-table.
     sortDirection: "desc",
   },
 })
+@Injectable()
 export class TagTableState extends PagedTableState {
   @Action(SetPage)
   setPage({ patchState }: StateContext<PagedTableInterface>, payload: SetPage) {
