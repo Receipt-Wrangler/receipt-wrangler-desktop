@@ -40,7 +40,7 @@ export class SystemEmailTableComponent implements OnInit, AfterViewInit {
   public totalCount: number = 0;
 
   constructor(
-    private matDialog: MatDialog,
+    public matDialog: MatDialog,
     private snackbarService: SnackbarService,
     private store: Store,
     private systemEmailService: SystemEmailService,
