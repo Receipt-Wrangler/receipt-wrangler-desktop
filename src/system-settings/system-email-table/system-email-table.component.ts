@@ -6,7 +6,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Select, Store } from "@ngxs/store";
 import { Observable, take, tap } from "rxjs";
 import { PagedTableInterface } from "../../interfaces/paged-table.interface";
-import { SystemEmail, SystemEmailService } from "../../open-api";
+import { CheckEmailConnectivityCommand, SystemEmail, SystemEmailService } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { SystemEmailTableState } from "../../store/system-email-table.state";
@@ -166,6 +166,18 @@ export class SystemEmailTableComponent implements OnInit, AfterViewInit {
           this.dataSource = new MatTableDataSource(data);
           this.snackbarService.success("System email deleted successfully");
         })
+      )
+      .subscribe();
+  }
+
+  public checkEmailConnectivity(id: number): void {
+    const command: CheckEmailConnectivityCommand = { id: id };
+    this.systemEmailService.checkSystemEmailConnectivity(command)
+      .pipe(
+        take(1),
+        tap((() => {
+          this.snackbarService.success("Successfully connected to email server");
+        }))
       )
       .subscribe();
   }

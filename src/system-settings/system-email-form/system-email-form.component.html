@@ -44,4 +44,11 @@
     color="accent"
     [routerLink]="['/system-settings/system-emails/' + originalSystemEmail.id + '/edit']"
   ></app-edit-button>
+  <app-button
+    color="accent"
+    matButtonType="iconButton"
+    icon="mail"
+    [disabled]="(formConfig.mode == FormMode.add || formConfig.mode == FormMode.edit) && form.invalid"
+    (clicked)="checkEmailConnectivity()"
+  ></app-button>
 </ng-template>
