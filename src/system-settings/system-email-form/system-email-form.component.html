@@ -39,6 +39,14 @@
 </form>
 
 <ng-template #headerButtons>
+  <app-button
+    color="accent"
+    matButtonType="iconButton"
+    icon="mail"
+    [disabled]="formConfig.mode == FormMode.add && form.invalid"
+    (clicked)="checkEmailConnectivity()"
+  ></app-button>
+
   <app-edit-button
     *ngIf="formConfig.mode == FormMode.view"
     color="accent"

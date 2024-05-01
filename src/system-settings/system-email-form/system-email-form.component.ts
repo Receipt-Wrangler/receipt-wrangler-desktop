@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { take, tap } from "rxjs";
 import { FormMode } from "../../enums/form-mode.enum";
 import { FormConfig } from "../../interfaces";
-import { SystemEmail, SystemEmailService } from "../../open-api";
+import { CheckEmailConnectivityCommand, SystemEmail, SystemEmailService } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 
@@ -97,5 +97,27 @@ export class SystemEmailFormComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  public checkEmailConnectivity(): void {
+    const showSuccessSnackbar = () => this.snackbarService.success("Successfully connected to email server");
+
+    if (this.formConfig.mode === FormMode.add && this.form.valid) {
+      this.systemEmailService.checkSystemEmailConnectivity(this.form.value).pipe(
+        take(1),
+        tap(() => {
+          showSuccessSnackbar();
+        })
+      ).subscribe();
+    } else {
+      const command: CheckEmailConnectivityCommand = { id: this.originalSystemEmail.id };
+      this.systemEmailService.checkSystemEmailConnectivity(command)
+        .pipe(
+          take(1),
+          tap(() => {
+            showSuccessSnackbar();
+          })
+        ).subscribe();
+    }
   }
 }
