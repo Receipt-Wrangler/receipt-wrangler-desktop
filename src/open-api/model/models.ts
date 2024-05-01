@@ -4,6 +4,8 @@ export * from './baseModel';
 export * from './bulkStatusUpdateCommand';
 export * from './category';
 export * from './categoryView';
+export * from './checkEmailConnectivityCommand';
+export * from './checkEmailConnectivityCommandAllOf';
 export * from './claims';
 export * from './comment';
 export * from './dashboard';
