@@ -100,24 +100,50 @@ export class SystemEmailFormComponent implements OnInit {
   }
 
   public checkEmailConnectivity(): void {
-    const showSuccessSnackbar = () => this.snackbarService.success("Successfully connected to email server");
+    if (this.formConfig.mode === FormMode.edit && this.form.valid && this.form.dirty) {
+      const dialogRef = this.matDialog.open(ConfirmationDialogComponent);
+      dialogRef.componentInstance.headerText = "Check email connectivity";
+      dialogRef.componentInstance.dialogContent = `You have made changes to the email settings. Would you like to check connectivity with
+      the unsaved changes? Otherwise, the existing email settings will be used.`;
 
-    if (this.formConfig.mode === FormMode.add && this.form.valid) {
-      this.systemEmailService.checkSystemEmailConnectivity(this.form.value).pipe(
-        take(1),
-        tap(() => {
-          showSuccessSnackbar();
-        })
-      ).subscribe();
-    } else {
-      const command: CheckEmailConnectivityCommand = { id: this.originalSystemEmail.id };
-      this.systemEmailService.checkSystemEmailConnectivity(command)
+      dialogRef.afterClosed()
         .pipe(
           take(1),
-          tap(() => {
-            showSuccessSnackbar();
+          tap((result) => {
+            if (result) {
+              const command = {
+                id: this.originalSystemEmail.id,
+                ...this.form.value
+              } as CheckEmailConnectivityCommand;
+              this.checkConnectivitySettings(command);
+            } else {
+              this.checkConnectivitySettingsWithExistingSettings();
+            }
           })
-        ).subscribe();
+        )
+        .subscribe();
+    } else if (this.formConfig.mode === FormMode.add && this.form.valid) {
+      const command: CheckEmailConnectivityCommand = this.form.value;
+      this.checkConnectivitySettings(command);
+    } else {
+      this.checkConnectivitySettingsWithExistingSettings();
     }
+  }
+
+  private checkConnectivitySettingsWithExistingSettings(): void {
+    const command: CheckEmailConnectivityCommand = { id: this.originalSystemEmail.id };
+    this.checkConnectivitySettings(command);
+
+  }
+
+  private checkConnectivitySettings(command: CheckEmailConnectivityCommand): void {
+    this.systemEmailService.checkSystemEmailConnectivity(command)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.snackbarService.success("Successfully connected to email server");
+        })
+      )
+      .subscribe();
   }
 }

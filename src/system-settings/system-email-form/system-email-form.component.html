@@ -48,7 +48,7 @@
     color="accent"
     matButtonType="iconButton"
     icon="mail"
-    [disabled]="formConfig.mode == FormMode.add && form.invalid"
+    [disabled]="(formConfig.mode == FormMode.add || formConfig.mode == FormMode.edit) && form.invalid"
     (clicked)="checkEmailConnectivity()"
   ></app-button>
 </ng-template>
