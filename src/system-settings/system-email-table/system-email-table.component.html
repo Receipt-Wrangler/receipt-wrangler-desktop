@@ -23,7 +23,6 @@
 <ng-template #usernameCell let-element="element">
   <a [routerLink]="['/system-settings/system-emails/' + element.id + '/view']">
     {{ element.username }}
-
   </a>
 </ng-template>
 
@@ -46,6 +45,12 @@
       [routerLink]="['/system-settings/system-emails/' + element.id + '/edit']"
       [tooltip]="'Edit email'"
     ></app-edit-button>
+    <app-button
+      color="accent"
+      matButtonType="iconButton"
+      icon="mail"
+      (clicked)="checkEmailConnectivity(element.id)"
+    ></app-button>
     <app-delete-button
       tooltip="Delete email"
       (clicked)="deleteButtonClicked(element.id, index)"

@@ -39,6 +39,11 @@
 </form>
 
 <ng-template #headerButtons>
+  <app-edit-button
+    *ngIf="formConfig.mode == FormMode.view"
+    color="accent"
+    [routerLink]="['/system-settings/system-emails/' + originalSystemEmail.id + '/edit']"
+  ></app-edit-button>
   <app-button
     color="accent"
     matButtonType="iconButton"
@@ -46,10 +51,4 @@
     [disabled]="formConfig.mode == FormMode.add && form.invalid"
     (clicked)="checkEmailConnectivity()"
   ></app-button>
-
-  <app-edit-button
-    *ngIf="formConfig.mode == FormMode.view"
-    color="accent"
-    [routerLink]="['/system-settings/system-emails/' + originalSystemEmail.id + '/edit']"
-  ></app-edit-button>
 </ng-template>
