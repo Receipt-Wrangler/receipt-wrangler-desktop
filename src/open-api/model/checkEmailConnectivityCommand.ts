@@ -13,21 +13,24 @@
 
 export interface CheckEmailConnectivityCommand { 
     /**
+     * System email id
+     */
+    id?: number;
+    /**
      * IMAP host
      */
-    host: string;
+    host?: string;
     /**
      * IMAP port
      */
-    port: number;
+    port?: number;
     /**
      * IMAP username
      */
-    username: string;
+    username?: string;
     /**
      * IMAP password
      */
-    password: string;
-    id?: number;
+    password?: string;
 }
 

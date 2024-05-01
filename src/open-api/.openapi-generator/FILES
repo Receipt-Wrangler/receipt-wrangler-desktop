@@ -27,7 +27,6 @@ model/bulkStatusUpdateCommand.ts
 model/category.ts
 model/categoryView.ts
 model/checkEmailConnectivityCommand.ts
-model/checkEmailConnectivityCommandAllOf.ts
 model/claims.ts
 model/comment.ts
 model/dashboard.ts
