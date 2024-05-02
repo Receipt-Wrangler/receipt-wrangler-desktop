@@ -13,6 +13,7 @@ api/receipt.service.ts
 api/receiptImage.service.ts
 api/search.service.ts
 api/systemEmail.service.ts
+api/systemTask.service.ts
 api/tag.service.ts
 api/user.service.ts
 api/userPreferences.service.ts
@@ -22,6 +23,7 @@ git_push.sh
 index.ts
 model/aiType.ts
 model/appData.ts
+model/associatedEntityType.ts
 model/baseModel.ts
 model/bulkStatusUpdateCommand.ts
 model/category.ts
@@ -37,6 +39,7 @@ model/fileDataView.ts
 model/fileDataViewAllOf.ts
 model/filterOperation.ts
 model/getNewRefreshToken200Response.ts
+model/getSystemTaskCommand.ts
 model/group.ts
 model/groupMember.ts
 model/groupRole.ts
@@ -69,6 +72,10 @@ model/systemEmail.ts
 model/systemEmailAllOf.ts
 model/systemSettings.ts
 model/systemSettingsAllOf.ts
+model/systemTask.ts
+model/systemTaskAllOf.ts
+model/systemTaskStatus.ts
+model/systemTaskType.ts
 model/tag.ts
 model/tagView.ts
 model/tokenPair.ts
