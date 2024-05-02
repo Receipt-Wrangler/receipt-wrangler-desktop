@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { SortDirection } from './sortDirection';
 import { AssociatedEntityType } from './associatedEntityType';
 
 
@@ -19,8 +20,17 @@ export interface GetSystemTaskCommand {
     associatedEntityId?: number;
     associatedEntityType?: AssociatedEntityType;
     /**
-     * Number of tasks to get
+     * Page number
      */
-    count?: number;
+    page: number;
+    /**
+     * Number of records per page
+     */
+    pageSize: number;
+    /**
+     * field to order on
+     */
+    orderBy?: string;
+    sortDirection?: SortDirection;
 }
 
