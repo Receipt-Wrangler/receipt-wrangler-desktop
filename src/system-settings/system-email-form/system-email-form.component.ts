@@ -147,3 +147,6 @@ export class SystemEmailFormComponent implements OnInit {
       .subscribe();
   }
 }
+
+// TODO: write shared tasks table component that will use a service to communicate with the state.
+// TODO: this table component, can also in theory be used to make tables way more generic, we will have to see

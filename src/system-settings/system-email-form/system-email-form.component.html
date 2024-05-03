@@ -36,6 +36,12 @@
     </app-form-button-bar>
 
   </app-form-section>
+  <app-form-section
+    *ngIf="formConfig.mode != FormMode.add"
+    headerText="System Tasks"
+  >
+    <app-task-table></app-task-table>
+  </app-form-section>
 </form>
 
 <ng-template #headerButtons>
