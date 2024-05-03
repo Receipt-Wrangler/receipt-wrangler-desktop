@@ -1,1 +1,11 @@
-<p>task-table works!</p>
+<app-table
+  [dataSource]="dataSource"
+  [columns]="columns"
+  [displayedColumns]="displayedColumns"
+  [pagination]="true"
+  [length]="totalCount"
+  [page]="((tableService.page$ | async) || 1 - 1)"
+  [pageSize]="(tableService.pageSize$ | async) || 10"
+  (sorted)="sorted($event)"
+  (pageChange)="pageChanged($event)"
+></app-table>

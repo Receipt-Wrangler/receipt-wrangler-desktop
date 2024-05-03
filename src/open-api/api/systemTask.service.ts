@@ -100,9 +100,9 @@ export class SystemTaskService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPagedSystemTasks(getSystemTaskCommand: GetSystemTaskCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<PagedData>>;
-    public getPagedSystemTasks(getSystemTaskCommand: GetSystemTaskCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<PagedData>>>;
-    public getPagedSystemTasks(getSystemTaskCommand: GetSystemTaskCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<PagedData>>>;
+    public getPagedSystemTasks(getSystemTaskCommand: GetSystemTaskCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<PagedData>;
+    public getPagedSystemTasks(getSystemTaskCommand: GetSystemTaskCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<PagedData>>;
+    public getPagedSystemTasks(getSystemTaskCommand: GetSystemTaskCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<PagedData>>;
     public getPagedSystemTasks(getSystemTaskCommand: GetSystemTaskCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (getSystemTaskCommand === null || getSystemTaskCommand === undefined) {
             throw new Error('Required parameter getSystemTaskCommand was null or undefined when calling getPagedSystemTasks.');
@@ -156,7 +156,7 @@ export class SystemTaskService {
         }
 
         let localVarPath = `/systemTask/getPagedSystemTasks`;
-        return this.httpClient.request<Array<PagedData>>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PagedData>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: getSystemTaskCommand,
