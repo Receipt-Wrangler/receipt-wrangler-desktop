@@ -3,14 +3,15 @@ import { Action, State, StateContext } from "@ngxs/store";
 import { PagedTableInterface } from "src/interfaces/paged-table.interface";
 import { SortDirection } from "../open-api";
 import { PagedTableState } from "./paged-table.state";
-import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "./system-email-table.state.actions";
+import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "./system-email-task-table.state.actions";
+
 
 @State<PagedTableInterface>({
   name: "systemEmailTaskTable",
   defaults: {
     page: 1,
     pageSize: 50,
-    orderBy: "username",
+    orderBy: "type",
     sortDirection: SortDirection.Desc,
   },
 })

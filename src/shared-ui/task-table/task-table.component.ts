@@ -16,6 +16,14 @@ import { TableColumn } from "../../table/table-column.interface";
 export class TaskTableComponent implements OnInit, AfterViewInit {
   @ViewChild("typeCell") public typeCell!: TemplateRef<any>;
 
+  @ViewChild("startedAtCell") public startedAtCell!: TemplateRef<any>;
+
+  @ViewChild("endedAtCell") public endedAtCell!: TemplateRef<any>;
+
+  @ViewChild("statusCell") public statusCell!: TemplateRef<any>;
+
+  @ViewChild("resultDescriptionCell") public resultDescriptionCell!: TemplateRef<any>;
+
   @Input() public associatedEntityType?: AssociatedEntityType;
 
   @Input() public associatedEntityId?: number;
@@ -74,10 +82,35 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
         columnHeader: "Type",
         matColumnDef: "type",
         template: this.typeCell,
-        sortable: true
-      }];
+        sortable: true,
+      },
+      {
+        columnHeader: "Started At",
+        matColumnDef: "started_at",
+        template: this.startedAtCell,
+        sortable: true,
+      },
+      {
+        columnHeader: "Ended At",
+        matColumnDef: "ended_at",
+        template: this.endedAtCell,
+        sortable: true,
+      },
+      {
+        columnHeader: "Status",
+        matColumnDef: "status",
+        template: this.statusCell,
+        sortable: true,
+      },
+      {
+        columnHeader: "Description",
+        matColumnDef: "result_description",
+        template: this.resultDescriptionCell,
+        sortable: true,
+      }
+    ];
 
-    this.displayedColumns = ["type"];
+    this.displayedColumns = ["type", "started_at", "ended_at", "status", "result_description"];
   }
 
   public sorted(sort: Sort): void {

@@ -40,7 +40,10 @@
     *ngIf="formConfig.mode != FormMode.add"
     headerText="System Tasks"
   >
-    <app-task-table></app-task-table>
+    <app-task-table
+      [associatedEntityType]="AssociatedEntityType.SystemEmail"
+      [associatedEntityId]="originalSystemEmail.id"
+    ></app-task-table>
   </app-form-section>
 </form>
 

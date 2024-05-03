@@ -4,8 +4,30 @@
   [displayedColumns]="displayedColumns"
   [pagination]="true"
   [length]="totalCount"
-  [page]="((tableService.page$ | async) || 1 - 1)"
+  [page]="((tableService.page$ | async)  || 1 ) - 1"
   [pageSize]="(tableService.pageSize$ | async) || 10"
   (sorted)="sorted($event)"
   (pageChange)="pageChanged($event)"
 ></app-table>
+
+<ng-template let-element="element" #typeCell>
+  {{ element.type }}
+</ng-template>
+
+<ng-template let-element="element" #startedAtCell>
+  {{ element.startedAt | date: "short" }}
+</ng-template>
+
+<ng-template let-element="element" #endedAtCell>
+  {{ element.endedAt | date: "short" }}
+</ng-template>
+
+<ng-template let-element="element" #statusCell>
+  {{ element.status }}
+</ng-template>
+
+<ng-template let-element="element" #resultDescriptionCell>
+  {{ element.resultDescription }}
+</ng-template>
+
+

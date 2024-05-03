@@ -5,14 +5,20 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { take, tap } from "rxjs";
 import { FormMode } from "../../enums/form-mode.enum";
 import { FormConfig } from "../../interfaces";
-import { CheckEmailConnectivityCommand, SystemEmail, SystemEmailService } from "../../open-api";
+import { AssociatedEntityType, CheckEmailConnectivityCommand, SystemEmail, SystemEmailService } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { TABLE_SERVICE_INJECTION_TOKEN } from "../../services/injection-tokens/table-service";
+import { SystemEmailTaskTableService } from "../../services/system-email-task-table.service";
 import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: "app-system-email-form",
   templateUrl: "./system-email-form.component.html",
-  styleUrl: "./system-email-form.component.scss"
+  styleUrl: "./system-email-form.component.scss",
+  providers: [{
+    provide: TABLE_SERVICE_INJECTION_TOKEN,
+    useClass: SystemEmailTaskTableService
+  }]
 })
 export class SystemEmailFormComponent implements OnInit {
   public formConfig!: FormConfig;
@@ -146,6 +152,8 @@ export class SystemEmailFormComponent implements OnInit {
       )
       .subscribe();
   }
+
+  protected readonly AssociatedEntityType = AssociatedEntityType;
 }
 
 // TODO: write shared tasks table component that will use a service to communicate with the state.
