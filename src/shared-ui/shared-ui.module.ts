@@ -46,6 +46,7 @@ import { SubmitButtonComponent } from "./submit-button/submit-button.component";
 import { SummaryCardComponent } from "./summary-card/summary-card.component";
 import { TableHeaderComponent } from "./table-header/table-header.component";
 import { TabsComponent } from "./tabs/tabs.component";
+import { SystemTaskTypePipe } from "./task-table/system-task-type.pipe";
 import { TaskTableComponent } from "./task-table/task-table.component";
 
 @NgModule({
@@ -101,6 +102,7 @@ import { TaskTableComponent } from "./task-table/task-table.component";
     UserAutocompleteModule,
     DirectivesModule,
     TableModule,
+    SystemTaskTypePipe,
   ],
   exports: [
     AddButtonComponent,
