@@ -23,7 +23,7 @@
 </ng-template>
 
 <ng-template let-element="element" #statusCell>
-  {{ element.status }}
+  <app-status-icon [taskStatus]="element.status"></app-status-icon>
 </ng-template>
 
 <ng-template let-element="element" #resultDescriptionCell>

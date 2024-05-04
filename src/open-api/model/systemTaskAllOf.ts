@@ -21,6 +21,7 @@ export interface SystemTaskAllOf {
     endedAt?: string;
     associatedEntityId?: number;
     associatedEntityType?: AssociatedEntityType;
+    ranByUserId?: number;
     resultDescription?: string;
 }
 

@@ -110,7 +110,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
       }
     ];
 
-    this.displayedColumns = ["type", "started_at", "ended_at", "status", "result_description"];
+    this.displayedColumns = ["started_at", "ended_at", "type", "status", "result_description"];
   }
 
   public sorted(sort: Sort): void {

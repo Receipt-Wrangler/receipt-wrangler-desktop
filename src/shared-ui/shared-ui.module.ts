@@ -48,6 +48,7 @@ import { TableHeaderComponent } from "./table-header/table-header.component";
 import { TabsComponent } from "./tabs/tabs.component";
 import { SystemTaskTypePipe } from "./task-table/system-task-type.pipe";
 import { TaskTableComponent } from "./task-table/task-table.component";
+import { StatusIconComponent } from './status-icon/status-icon.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { TaskTableComponent } from "./task-table/task-table.component";
     QuickScanButtonComponent,
     AuditDetailSectionComponent,
     TaskTableComponent,
+    StatusIconComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -132,6 +134,7 @@ import { TaskTableComponent } from "./task-table/task-table.component";
     TabsComponent,
     AuditDetailSectionComponent,
     TaskTableComponent,
+    StatusIconComponent,
   ],
 })
 export class SharedUiModule {}

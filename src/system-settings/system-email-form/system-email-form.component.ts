@@ -146,7 +146,7 @@ export class SystemEmailFormComponent implements OnInit {
     this.systemEmailService.checkSystemEmailConnectivity(command)
       .pipe(
         take(1),
-        tap(() => {
+        tap((systemTask) => {
           this.snackbarService.success("Successfully connected to email server");
         })
       )

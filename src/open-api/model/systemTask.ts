@@ -29,6 +29,7 @@ export interface SystemTask {
     endedAt?: string;
     associatedEntityId?: number;
     associatedEntityType?: AssociatedEntityType;
+    ranByUserId?: number;
     resultDescription?: string;
 }
 
