@@ -1,0 +1,9 @@
+@import "../../variables.scss";
+
+.success-icon {
+  color: map-get($success-palette, 500);
+}
+
+.error-icon {
+  color: map-get($warn-palette, 500);
+}

@@ -12,6 +12,7 @@ import { GroupState } from "./group.state";
 import { LayoutState } from "./layout.state";
 import { ReceiptTableState } from "./receipt-table.state";
 import { SystemEmailTableState } from "./system-email-table.state";
+import { SystemEmailTaskTableState } from "./system-email-task-table.state";
 import { TagTableState } from "./tag-table.state";
 import { UserState } from "./user.state";
 
@@ -28,6 +29,7 @@ import { UserState } from "./user.state";
       LayoutState,
       ReceiptTableState,
       SystemEmailTableState,
+      SystemEmailTaskTableState,
       TagTableState,
       UserState,
     ]),
@@ -43,6 +45,7 @@ import { UserState } from "./user.state";
         "layout",
         "receiptTable",
         "systemEmailTable",
+        "systemEmailTaskTable",
         "tagTable",
         "users",
       ],

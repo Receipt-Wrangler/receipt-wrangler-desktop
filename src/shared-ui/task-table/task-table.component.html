@@ -1,0 +1,37 @@
+<app-table
+  [dataSource]="dataSource"
+  [columns]="columns"
+  [displayedColumns]="displayedColumns"
+  [pagination]="true"
+  [length]="totalCount"
+  [page]="((tableService.page$ | async)  || 1 ) - 1"
+  [pageSize]="(tableService.pageSize$ | async) || 10"
+  (sorted)="sorted($event)"
+  (pageChange)="pageChanged($event)"
+></app-table>
+
+<ng-template let-element="element" #typeCell>
+  {{ element.type | systemTaskType }}
+</ng-template>
+
+<ng-template let-element="element" #startedAtCell>
+  {{ element.startedAt | date: "short" }}
+</ng-template>
+
+<ng-template let-element="element" #endedAtCell>
+  {{ element.endedAt | date: "short" }}
+</ng-template>
+
+<ng-template let-element="element" #statusCell>
+  <app-status-icon [taskStatus]="element.status"></app-status-icon>
+</ng-template>
+
+<ng-template let-element="element" #ranByUserIdCell>
+  {{ (element.ranByUserId | user)?.displayName ?? "System" }}
+</ng-template>
+
+<ng-template let-element="element" #resultDescriptionCell>
+  {{ element.resultDescription }}
+</ng-template>
+
+

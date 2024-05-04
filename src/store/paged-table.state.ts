@@ -7,4 +7,16 @@ export class PagedTableState {
       return state;
     });
   }
+
+  static get page() {
+    return createSelector([this], (state: PagedTableInterface) => {
+      return state.page;
+    });
+  }
+
+  static get pageSize() {
+    return createSelector([this], (state: PagedTableInterface) => {
+      return state.pageSize;
+    });
+  }
 }

@@ -18,7 +18,9 @@ import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.
 import { ButtonModule } from "../button";
 import { DirectivesModule } from "../directives";
 import { InputModule } from "../input";
+import { TableModule } from "../table/table.module";
 import { AddButtonComponent } from "./add-button/add-button.component";
+import { AuditDetailSectionComponent } from "./audit-detail-section/audit-detail-section.component";
 import { BackButtonComponent } from "./back-button/back-button.component";
 import { CancelButtonComponent } from "./cancel-button/cancel-button.component";
 import { CardComponent } from "./card/card.component";
@@ -44,7 +46,9 @@ import { SubmitButtonComponent } from "./submit-button/submit-button.component";
 import { SummaryCardComponent } from "./summary-card/summary-card.component";
 import { TableHeaderComponent } from "./table-header/table-header.component";
 import { TabsComponent } from "./tabs/tabs.component";
-import { AuditDetailSectionComponent } from './audit-detail-section/audit-detail-section.component';
+import { SystemTaskTypePipe } from "./task-table/system-task-type.pipe";
+import { TaskTableComponent } from "./task-table/task-table.component";
+import { StatusIconComponent } from './status-icon/status-icon.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +79,8 @@ import { AuditDetailSectionComponent } from './audit-detail-section/audit-detail
     TabsComponent,
     QuickScanButtonComponent,
     AuditDetailSectionComponent,
+    TaskTableComponent,
+    StatusIconComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -97,6 +103,8 @@ import { AuditDetailSectionComponent } from './audit-detail-section/audit-detail
     SelectModule,
     UserAutocompleteModule,
     DirectivesModule,
+    TableModule,
+    SystemTaskTypePipe,
   ],
   exports: [
     AddButtonComponent,
@@ -125,6 +133,8 @@ import { AuditDetailSectionComponent } from './audit-detail-section/audit-detail
     TableHeaderComponent,
     TabsComponent,
     AuditDetailSectionComponent,
+    TaskTableComponent,
+    StatusIconComponent,
   ],
 })
 export class SharedUiModule {}
