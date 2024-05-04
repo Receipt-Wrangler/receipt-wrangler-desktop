@@ -26,6 +26,10 @@
   <app-status-icon [taskStatus]="element.status"></app-status-icon>
 </ng-template>
 
+<ng-template let-element="element" #ranByUserIdCell>
+  {{ (element.ranByUserId | user)?.displayName ?? "System" }}
+</ng-template>
+
 <ng-template let-element="element" #resultDescriptionCell>
   {{ element.resultDescription }}
 </ng-template>

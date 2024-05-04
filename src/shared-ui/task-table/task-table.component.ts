@@ -24,6 +24,8 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild("resultDescriptionCell") public resultDescriptionCell!: TemplateRef<any>;
 
+  @ViewChild("ranByUserIdCell") public ranByUserIdCell!: TemplateRef<any>;
+
   @Input() public associatedEntityType?: AssociatedEntityType;
 
   @Input() public associatedEntityId?: number;
@@ -107,10 +109,16 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
         matColumnDef: "result_description",
         template: this.resultDescriptionCell,
         sortable: true,
+      },
+      {
+        columnHeader: "Ran By",
+        matColumnDef: "ran_by_user_id",
+        template: this.ranByUserIdCell,
+        sortable: true,
       }
     ];
 
-    this.displayedColumns = ["started_at", "ended_at", "type", "status", "result_description"];
+    this.displayedColumns = ["started_at", "ended_at", "type", "ran_by_user_id", "result_description", "status"];
   }
 
   public sorted(sort: Sort): void {
