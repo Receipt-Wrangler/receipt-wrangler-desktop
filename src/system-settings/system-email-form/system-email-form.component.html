@@ -42,7 +42,7 @@
   >
     <app-task-table
       [associatedEntityType]="AssociatedEntityType.SystemEmail"
-      [associatedEntityId]="originalSystemEmail.id"
+      [associatedEntityId]="originalSystemEmail?.id"
     ></app-task-table>
   </app-form-section>
 </form>
@@ -51,7 +51,7 @@
   <app-edit-button
     *ngIf="formConfig.mode == FormMode.view"
     color="accent"
-    [routerLink]="['/system-settings/system-emails/' + originalSystemEmail.id + '/edit']"
+    [routerLink]="['/system-settings/system-emails/' + originalSystemEmail?.id + '/edit']"
   ></app-edit-button>
   <app-button
     color="accent"

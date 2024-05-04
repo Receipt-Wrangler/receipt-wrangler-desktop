@@ -1,17 +1,21 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { ActivatedRoute } from "@angular/router";
 import { NgxsModule } from "@ngxs/store";
 import { of } from "rxjs";
 import { FormMode } from "../../enums/form-mode.enum";
 import { ApiModule, SystemEmail, SystemEmailService } from "../../open-api";
 import { PipesModule } from "../../pipes";
+import { TABLE_SERVICE_INJECTION_TOKEN } from "../../services/injection-tokens/table-service";
+import { SystemEmailTaskTableService } from "../../services/system-email-task-table.service";
 import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { SharedUiModule } from "../../shared-ui/shared-ui.module";
+import { SystemEmailTaskTableState } from "../../store/system-email-task-table.state";
 
 import { SystemEmailFormComponent } from "./system-email-form.component";
 
@@ -25,15 +29,20 @@ describe("SystemEmailFormComponent", () => {
       imports: [
         ApiModule,
         HttpClientTestingModule,
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([SystemEmailTaskTableState]),
         PipesModule,
         MatDialogModule,
         MatSnackBarModule,
         ReactiveFormsModule,
         SharedUiModule,
+        NoopAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
+        {
+          provide: TABLE_SERVICE_INJECTION_TOKEN,
+          useClass: SystemEmailTaskTableService
+        },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -50,7 +59,7 @@ describe("SystemEmailFormComponent", () => {
 
     fixture = TestBed.createComponent(SystemEmailFormComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    component.form = new FormGroup({});
   });
 
   it("should create", () => {
@@ -105,6 +114,7 @@ describe("SystemEmailFormComponent", () => {
   });
 
   it("should pop dialog", () => {
+    component.ngOnInit();
     component.originalSystemEmail = { id: 1 } as any;
     component.form.get("password")?.markAsDirty();
     const matDialogSpy = spyOn(TestBed.inject(MatDialog), "open").and.returnValue({
