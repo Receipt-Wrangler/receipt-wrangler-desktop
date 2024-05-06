@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { FormMode } from "../enums/form-mode.enum";
 import { FormConfig } from "../interfaces";
+import { PromptTableComponent } from "../prompt/prompt-table/prompt-table.component";
 import { systemEmailResolver } from "./resolvers/system-email.resolver";
 import { SystemEmailFormComponent } from "./system-email-form/system-email-form.component";
 import { SystemEmailTableComponent } from "./system-email-table/system-email-table.component";
@@ -21,6 +22,10 @@ const routes: Routes = [
         path: "system-emails",
         component: SystemEmailTableComponent,
       },
+      {
+        path: "prompts",
+        component: PromptTableComponent,
+      }
     ]
   },
   {
