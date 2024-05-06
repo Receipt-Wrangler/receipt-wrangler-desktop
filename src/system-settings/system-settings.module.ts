@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { ButtonModule } from "../button";
 import { InputModule } from "../input";
 import { PipesModule } from "../pipes";
+import { PromptModule } from "../prompt/prompt.module";
 import { SharedUiModule } from "../shared-ui/shared-ui.module";
 import { TableModule } from "../table/table.module";
 import { SystemEmailFormComponent } from "./system-email-form/system-email-form.component";
@@ -16,6 +17,7 @@ import { SystemSettingsComponent } from "./system-settings/system-settings.compo
 @NgModule({
   declarations: [SystemEmailTableComponent, SystemSettingsComponent, SystemEmailFormComponent],
   imports: [
+    PromptModule,
     CommonModule,
     SystemSettingsRoutingModule,
     TableModule,
