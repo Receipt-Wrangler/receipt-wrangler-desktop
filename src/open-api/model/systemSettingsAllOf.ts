@@ -9,8 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OcrEngine } from './ocrEngine';
-import { AiType } from './aiType';
 
 
 export interface SystemSettingsAllOf { 
@@ -22,24 +20,6 @@ export interface SystemSettingsAllOf {
      * Whether AI powered receipts are enabled
      */
     aiPoweredReceipts?: boolean;
-    aiType?: AiType;
-    /**
-     * URL for AI powered receipts
-     */
-    aiUrl?: string;
-    /**
-     * Key for AI powered receipts
-     */
-    aiKey?: string;
-    /**
-     * Model for AI powered receipts
-     */
-    aiModel?: string;
-    /**
-     * Number of workers for AI powered receipts
-     */
-    numWorkers?: number;
-    ocrEngine?: OcrEngine;
     /**
      * Email polling interval
      */
