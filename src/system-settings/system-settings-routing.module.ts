@@ -44,6 +44,19 @@ const routes: Routes = [
     }
   },
   {
+    path: "prompts/:id/edit",
+    component: PromptFormComponent,
+    data: {
+      formConfig: {
+        mode: FormMode.edit,
+        headerText: "Edit Prompt",
+      } as FormConfig,
+    },
+    resolve: {
+      prompt: promptResolver
+    }
+  },
+  {
     path: "system-emails/create",
     component: SystemEmailFormComponent,
     data: {

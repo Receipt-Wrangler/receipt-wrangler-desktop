@@ -1,5 +1,6 @@
 <app-form-header
   [headerText]="formConfig.headerText"
+  [headerButtonsTemplate]="headerButtons"
 ></app-form-header>
 <app-audit-detail-section
   *ngIf="formConfig.mode != FormMode.add"
@@ -26,3 +27,10 @@
     ></app-textarea>
   </app-form-section>
 </form>
+
+<ng-template #headerButtons>
+  <app-edit-button
+    color="accent"
+    [buttonRouterLink]="['/system-settings/prompts/' + originalPrompt?.id + '/edit']"
+  ></app-edit-button>
+</ng-template>
