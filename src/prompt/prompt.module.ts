@@ -6,10 +6,11 @@ import { InputModule } from "../input";
 import { PipesModule } from "../pipes";
 import { SharedUiModule } from "../shared-ui/shared-ui.module";
 import { TableModule } from "../table/table.module";
+import { TextareaModule } from "../textarea/textarea.module";
+import { PromptFormComponent } from "./prompt-form/prompt-form.component";
 
 import { PromptRoutingModule } from "./prompt-routing.module";
 import { PromptTableComponent } from "./prompt-table/prompt-table.component";
-import { PromptFormComponent } from './prompt-form/prompt-form.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { PromptFormComponent } from './prompt-form/prompt-form.component';
     ReactiveFormsModule,
     InputModule,
     PipesModule,
+    TextareaModule,
   ]
 })
 export class PromptModule {}

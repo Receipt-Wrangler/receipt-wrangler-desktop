@@ -1,1 +1,28 @@
-<p>prompt-form works!</p>
+<app-form-header
+  [headerText]="formConfig.headerText"
+></app-form-header>
+<app-audit-detail-section
+  *ngIf="formConfig.mode != FormMode.add"
+  [data]="originalPrompt"
+></app-audit-detail-section>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <app-form-section
+    headerText="Details"
+  >
+    <app-input
+      label="Name"
+      [inputFormControl]="form | formGet:'name'"
+      [readonly]="formConfig.mode | inputReadonly"
+    ></app-input>
+    <app-input
+      label="Description"
+      [inputFormControl]="form | formGet:'description'"
+      [readonly]="formConfig.mode | inputReadonly"
+    ></app-input>
+    <app-textarea
+      label="Prompt"
+      [inputFormControl]="form | formGet: 'prompt'"
+      [readonly]="formConfig.mode | inputReadonly"
+    ></app-textarea>
+  </app-form-section>
+</form>
