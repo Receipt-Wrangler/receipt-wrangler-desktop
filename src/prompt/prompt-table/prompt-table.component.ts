@@ -22,6 +22,10 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild("descriptionCell") public descriptionCell!: TemplateRef<any>;
 
+  @ViewChild("createdAtCell") public createdAtCell!: TemplateRef<any>;
+
+  @ViewChild("updatedAtCell") public updatedAtCell!: TemplateRef<any>;
+
   public columns: TableColumn[] = [];
 
   public displayedColumns: string[] = [];
@@ -60,7 +64,18 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
         template: this.descriptionCell,
         sortable: true
       },
-
+      {
+        columnHeader: "Created At",
+        matColumnDef: "created_at",
+        template: this.createdAtCell,
+        sortable: true
+      },
+      {
+        columnHeader: "Updated At",
+        matColumnDef: "updated_at",
+        template: this.updatedAtCell,
+        sortable: true
+      },
     ] as TableColumn[];
 
     const state = this.store.selectSnapshot(PromptTableState.state);
@@ -72,7 +87,7 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
     }
 
     this.columns = columns;
-    this.displayedColumns = ["name", "description"];
+    this.displayedColumns = ["name", "description", "created_at", "updated_at"];
   }
 
   private getTableData(): void {

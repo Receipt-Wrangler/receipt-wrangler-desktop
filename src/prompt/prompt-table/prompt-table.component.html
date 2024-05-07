@@ -29,3 +29,11 @@
 <ng-template #descriptionCell let-element="element">
   {{ element.description }}
 </ng-template>
+
+<ng-template #createdAtCell let-element="element">
+  {{ element.createdAt | date : "short" }}
+</ng-template>
+
+<ng-template #updatedAtCell let-element="element">
+  {{ element.updatedAt | date : "short" }}
+</ng-template>
