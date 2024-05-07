@@ -1,23 +1,31 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { NgxsModule } from "@ngxs/store";
+import { PromptTableState } from "../../store/prompt-table.state";
+import { TableModule } from "../../table/table.module";
 
-import { PromptTableComponent } from './prompt-table.component';
+import { PromptTableComponent } from "./prompt-table.component";
 
-describe('PromptTableComponent', () => {
+describe("PromptTableComponent", () => {
   let component: PromptTableComponent;
   let fixture: ComponentFixture<PromptTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PromptTableComponent]
+      declarations: [PromptTableComponent],
+      imports: [TableModule, HttpClientTestingModule, NgxsModule.forRoot([PromptTableState]), NoopAnimationsModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(PromptTableComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
