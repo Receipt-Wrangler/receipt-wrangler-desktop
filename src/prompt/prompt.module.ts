@@ -9,11 +9,13 @@ import { TableModule } from "../table/table.module";
 
 import { PromptRoutingModule } from "./prompt-routing.module";
 import { PromptTableComponent } from "./prompt-table/prompt-table.component";
+import { PromptFormComponent } from './prompt-form/prompt-form.component';
 
 
 @NgModule({
   declarations: [
-    PromptTableComponent
+    PromptTableComponent,
+    PromptFormComponent
   ],
   imports: [
     CommonModule,
