@@ -9,9 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OcrEngine } from './ocrEngine';
+import { AiType } from './aiType';
 
 
-export interface SystemSettings { 
+export interface ReceiptProcessingSettings { 
     id: number;
     createdAt: string;
     createdBy?: number;
@@ -20,17 +22,27 @@ export interface SystemSettings {
      */
     createdByString?: string;
     updatedAt?: string;
+    aiType?: AiType;
     /**
-     * Whether local sign up is enabled
+     * URL for custom endpoints
      */
-    enableLocalSignUp?: boolean;
+    url?: string;
     /**
-     * Whether AI powered receipts are enabled
+     * Key for endpoints that require authentication
      */
-    aiPoweredReceipts?: boolean;
+    key?: string;
     /**
-     * Email polling interval
+     * LLM model
      */
-    emailPollingInterval?: number;
+    model?: string;
+    /**
+     * Number of workers to use
+     */
+    numWorkers?: number;
+    ocrEngine?: OcrEngine;
+    /**
+     * Whether these settings are enabled or not
+     */
+    enabled?: boolean;
 }
 

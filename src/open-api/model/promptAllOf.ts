@@ -11,18 +11,18 @@
  */
 
 
-export interface SystemSettingsAllOf { 
+export interface PromptAllOf { 
     /**
-     * Whether local sign up is enabled
+     * Prompt name
      */
-    enableLocalSignUp?: boolean;
+    name: string;
     /**
-     * Whether AI powered receipts are enabled
+     * Prompt description
      */
-    aiPoweredReceipts?: boolean;
+    description?: string;
     /**
-     * Email polling interval
+     * Prompt text
      */
-    emailPollingInterval?: number;
+    prompt: string;
 }
 

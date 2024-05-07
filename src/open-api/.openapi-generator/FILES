@@ -9,6 +9,7 @@ api/dashboard.service.ts
 api/featureConfig.service.ts
 api/groups.service.ts
 api/notifications.service.ts
+api/prompt.service.ts
 api/receipt.service.ts
 api/receiptImage.service.ts
 api/search.service.ts
@@ -59,9 +60,13 @@ model/pagedDataDataInner.ts
 model/pagedRequestCommand.ts
 model/pagedRequestField.ts
 model/pagedRequestFieldValue.ts
+model/prompt.ts
+model/promptAllOf.ts
 model/receipt.ts
 model/receiptPagedRequestCommand.ts
 model/receiptPagedRequestFilter.ts
+model/receiptProcessingSettings.ts
+model/receiptProcessingSettingsAllOf.ts
 model/receiptStatus.ts
 model/resetPasswordCommand.ts
 model/searchResult.ts
@@ -85,6 +90,7 @@ model/upsertCategoryCommand.ts
 model/upsertCommentCommand.ts
 model/upsertDashboardCommand.ts
 model/upsertItemCommand.ts
+model/upsertPromptCommand.ts
 model/upsertReceiptCommand.ts
 model/upsertSystemEmailCommand.ts
 model/upsertTagCommand.ts

@@ -1,0 +1,39 @@
+<div class="d-flex flex-column">
+  <app-table-header headerText="Prompts">
+    <app-add-button
+      tooltip="Create Prompt"
+      [routerLink]="['create']"
+    ></app-add-button>
+  </app-table-header>
+  <div class="table-container">
+    <app-table
+      [dataSource]="dataSource"
+      [columns]="columns"
+      [displayedColumns]="displayedColumns"
+      [pagination]="true"
+      [length]="totalCount"
+      [page]="((tableState | async)?.page || 1) - 1"
+      [pageSize]="(tableState | async)?.pageSize || 10"
+      (sorted)="sorted($event)"
+      (pageChange)="pageChanged($event)"
+    ></app-table>
+  </div>
+</div>
+
+<ng-template #nameCell let-element="element">
+  <a [routerLink]="['/system-settings/system-emails/' + element.id + '/view']">
+    {{ element.name }}
+  </a>
+</ng-template>
+
+<ng-template #descriptionCell let-element="element">
+  {{ element.description }}
+</ng-template>
+
+<ng-template #createdAtCell let-element="element">
+  {{ element.createdAt | date : "short" }}
+</ng-template>
+
+<ng-template #updatedAtCell let-element="element">
+  {{ element.updatedAt | date : "short" }}
+</ng-template>

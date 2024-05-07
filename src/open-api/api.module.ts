@@ -9,6 +9,7 @@ import { DashboardService } from './api/dashboard.service';
 import { FeatureConfigService } from './api/featureConfig.service';
 import { GroupsService } from './api/groups.service';
 import { NotificationsService } from './api/notifications.service';
+import { PromptService } from './api/prompt.service';
 import { ReceiptService } from './api/receipt.service';
 import { ReceiptImageService } from './api/receiptImage.service';
 import { SearchService } from './api/search.service';

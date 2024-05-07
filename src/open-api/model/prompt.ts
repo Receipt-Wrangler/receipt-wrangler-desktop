@@ -11,7 +11,7 @@
  */
 
 
-export interface SystemSettings { 
+export interface Prompt { 
     id: number;
     createdAt: string;
     createdBy?: number;
@@ -21,16 +21,16 @@ export interface SystemSettings {
     createdByString?: string;
     updatedAt?: string;
     /**
-     * Whether local sign up is enabled
+     * Prompt name
      */
-    enableLocalSignUp?: boolean;
+    name: string;
     /**
-     * Whether AI powered receipts are enabled
+     * Prompt description
      */
-    aiPoweredReceipts?: boolean;
+    description?: string;
     /**
-     * Email polling interval
+     * Prompt text
      */
-    emailPollingInterval?: number;
+    prompt: string;
 }
 

@@ -17,7 +17,11 @@ export class SystemSettingsComponent implements OnInit {
     this.tabs = [
       {
         label: "System Emails",
-        routerLink: "system-email-table/view",
+        routerLink: "system-emails",
+      },
+      {
+        label: "Prompts",
+        routerLink: "prompts",
       },
     ];
   }
