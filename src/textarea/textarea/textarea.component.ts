@@ -66,14 +66,44 @@ export class TextareaComponent
         return;
       }
 
+      const wordInCursor = this.getWordInCursor(end);
+
       if (this.isValidTriggerCharacter(this.inputFormControl.value, end)
-        || this.getTriggerWordFromIndex(end).word) {
+        || wordInCursor.startsWith(this.trigger)) {
         this.matAutocompleteTrigger.openPanel();
         this.filterOptions();
       } else {
         this.matAutocompleteTrigger.closePanel();
       }
     }
+  }
+
+  private getWordInCursor(startIndex: number): string {
+    let index = startIndex;
+    const charArray: string[] = [];
+
+    while (index >= 0) {
+      const char = this.inputFormControl.value[index];
+      if (this.validEndCharacters.includes(char)) {
+        break;
+      }
+
+      index--;
+    }
+
+    index++;
+
+    while (index <= this.inputFormControl.value.length) {
+      const char = this.inputFormControl.value[index];
+
+      if (this.validEndCharacters.includes(char)) {
+        break;
+      }
+      charArray.push(char);
+      index++;
+    }
+
+    return charArray.join("");
   }
 
   private filterOptions(): void {
@@ -124,8 +154,6 @@ export class TextareaComponent
       result.word = charArray.join("");
       result.triggerIndex = foundTriggerIndex;
 
-      console.warn(result.word);
-
       return result;
     } else {
       result.word = "";
@@ -142,17 +170,6 @@ export class TextareaComponent
     return value.slice(0, triggerWord.triggerIndex) + this.trigger + option + value.slice(insertionIndex) + " ";
   }
 
-  public shouldShowAutocomplete(prev: string, current: string, differences: number[]): boolean {
-    for (let i = 0; i < differences.length; i++) {
-
-      if (this.isValidTriggerCharacter(current, differences[i]) || this.getTriggerWordFromIndex(differences[i])) {
-        return true;
-      }
-    }
-
-    return current.endsWith(this.trigger);
-  }
-
   private isValidTriggerCharacter(string: string, index: number): boolean {
     const frontCharacter = string[index - 1];
     const backCharacter = string[index + 1];
@@ -160,28 +177,5 @@ export class TextareaComponent
     return string[index] === this.trigger
       && this.validEndCharacters.includes(frontCharacter)
       && this.validEndCharacters.includes(backCharacter);
-  }
-
-  public getStringDifference(string1: string, string2: string): number[] {
-    const result: number[] = [];
-    let longString;
-    let shortString;
-
-    if (string1.length > string2.length) {
-      longString = string1;
-      shortString = string2;
-    } else {
-      longString = string2;
-      shortString = string1;
-    }
-
-
-    for (let i = 0; i < longString.length; i++) {
-      if (longString[i] !== shortString[i]) {
-        result.push(i);
-      }
-    }
-
-    return result;
   }
 }
