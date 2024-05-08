@@ -58,7 +58,7 @@ export class TextareaComponent
     }
 
     if (this.isValidTriggerCharacter(this.inputFormControl.value, end)
-      || this.getTriggerWordFromIndex(end)) {
+      || this.getTriggerWordFromIndex(end).word) {
       this.matAutocompleteTrigger.openPanel();
       this.filterOptions();
     } else {
@@ -70,36 +70,54 @@ export class TextareaComponent
     const index = this.textarea.nativeElement.selectionStart - 1;
     //TODO:  capture the current word by getting the current selection, and backtracking to find trigger, then filter off of that
     const currentWord = this.getTriggerWordFromIndex(index);
-    this.filteredOptions = this.options.filter(option => option.toLowerCase().includes(currentWord.toLowerCase()));
+    this.filteredOptions = this.options.filter(option => option.toLowerCase().includes(currentWord.word.toLowerCase()));
   }
 
-  private getTriggerWordFromIndex(index: number): string {
+  private getTriggerWordFromIndex(index: number): {
+    word: string,
+    triggerIndex: number
+  } {
     let currentIndex = index;
-    let foundTrigger = false;
-    let result: string[] = [];
+    let foundTriggerIndex = -1;
+    let charArray: string[] = [];
+    const result: {
+      word: string,
+      triggerIndex: number
+    } = {
+      word: "",
+      triggerIndex: -1
+    };
 
     while (currentIndex >= 0) {
       const char = this.inputFormControl.value[currentIndex];
       if (char === this.trigger) {
-        foundTrigger = true;
+        foundTriggerIndex = currentIndex;
         break;
       }
 
-      result.unshift(char);
+      charArray.unshift(char);
       currentIndex--;
     }
 
-    if (foundTrigger) {
-      return result.join("");
+
+    if (foundTriggerIndex !== -1) {
+      result.word = charArray.join("");
+      result.triggerIndex = foundTriggerIndex;
+
+      return result;
     } else {
-      return "";
+      result.word = "";
+      result.triggerIndex = -1;
+      return result;
     }
   }
 
   public getOptionValue(option: string): string {
     const insertionIndex = this.textarea.nativeElement.selectionEnd;
-
-    return this.inputFormControl.value + option;
+    const value = this.inputFormControl.value;
+    const triggerWord = this.getTriggerWordFromIndex(insertionIndex - 1);
+    
+    return value.slice(0, triggerWord.triggerIndex) + this.trigger + option + value.slice(insertionIndex);
   }
 
   public shouldShowAutocomplete(prev: string, current: string, differences: number[]): boolean {
