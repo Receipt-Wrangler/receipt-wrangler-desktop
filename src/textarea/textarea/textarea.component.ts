@@ -64,10 +64,7 @@ export class TextareaComponent
     const index = this.textarea.nativeElement.selectionStart - 1;
     //TODO:  capture the current word by getting the current selection, and backtracking to find trigger, then filter off of that
     const currentWord = this.getTriggerWordFromIndex(index);
-    console.warn(currentWord, "current word");
     this.filteredOptions = this.options.filter(option => option.toLowerCase().includes(currentWord.toLowerCase()));
-    console.warn(this.filteredOptions, "filtered options");
-
   }
 
   private getTriggerWordFromIndex(index: number): string {
@@ -75,7 +72,7 @@ export class TextareaComponent
     let foundTrigger = false;
     let result: string[] = [];
 
-    while (currentIndex > 0) {
+    while (currentIndex >= 0) {
       const char = this.inputFormControl.value[currentIndex];
       if (char === this.trigger) {
         foundTrigger = true;
@@ -114,9 +111,6 @@ export class TextareaComponent
     const validEndCharacters = [" ", undefined];
     const frontCharacter = string[index - 1];
     const backCharacter = string[index + 1];
-
-    console.warn(string[index], "string[index]");
-    console.warn(frontCharacter, backCharacter, "front and back");
 
     return string[index] === this.trigger
       && validEndCharacters.includes(frontCharacter)
