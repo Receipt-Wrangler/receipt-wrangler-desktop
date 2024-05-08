@@ -12,7 +12,11 @@
     (selectionchange)="onSelectionChange($event)"
   ></textarea>
 
-  <mat-autocomplete #auto="matAutocomplete">
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [hideSingleSelectionIndicator]="true"
+    (optionSelected)="onOptionSelected($event)"
+  >
     <mat-option *ngFor="let option of filteredOptions" [value]="getOptionValue(option)">
       {{ option }}
     </mat-option>

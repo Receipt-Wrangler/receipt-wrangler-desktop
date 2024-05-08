@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from "@angular/core";
-import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
-import { pairwise, tap } from "rxjs";
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { BaseInputComponent } from "../../base-input";
 import { InputInterface } from "../../input";
 
@@ -28,47 +27,57 @@ export class TextareaComponent
 
   public filteredOptions: string[] = [];
 
+  public lastKnownSelection: number = -1;
+
+  public validEndCharacters = [" ", undefined];
+
   public ngAfterViewInit(): void {
     if (this.trigger) {
-      this.listenForTrigger();
     }
   }
 
-  private listenForTrigger(): void {
-    this.inputFormControl
-      .valueChanges
-      .pipe(
-        pairwise(),
-        tap(([prev, current]) => {
+  public onOptionSelected(event: MatAutocompleteSelectedEvent): void {
+    const value = this.inputFormControl.value;
+    let index = this.lastKnownSelection;
+    let insertionIndex = this.lastKnownSelection;
 
-        }))
-      .subscribe();
+    while (index <= value.length) {
+      const char = value[index];
+      if (this.validEndCharacters.includes(char)) {
+        insertionIndex = index;
+        break;
+      }
 
-    // selection aspect to close, but also surroundings
-    // TODO: get insertion working correctly
+      index++;
+    }
+
+    this.matAutocompleteTrigger.closePanel();
+    this.textarea.nativeElement.selectionEnd = insertionIndex;
   }
 
   public onSelectionChange(event: Event): void {
-    const start = this.textarea.nativeElement.selectionStart - 1;
-    const end = this.textarea.nativeElement.selectionEnd - 1;
+    if (this.trigger) {
+      this.lastKnownSelection = this.textarea.nativeElement.selectionStart;
+      const start = this.textarea.nativeElement.selectionStart - 1;
+      const end = this.textarea.nativeElement.selectionEnd - 1;
 
-    if (start !== end) {
-      this.matAutocompleteTrigger.closePanel();
-      return;
-    }
+      if (start !== end) {
+        this.matAutocompleteTrigger.closePanel();
+        return;
+      }
 
-    if (this.isValidTriggerCharacter(this.inputFormControl.value, end)
-      || this.getTriggerWordFromIndex(end).word) {
-      this.matAutocompleteTrigger.openPanel();
-      this.filterOptions();
-    } else {
-      this.matAutocompleteTrigger.closePanel();
+      if (this.isValidTriggerCharacter(this.inputFormControl.value, end)
+        || this.getTriggerWordFromIndex(end).word) {
+        this.matAutocompleteTrigger.openPanel();
+        this.filterOptions();
+      } else {
+        this.matAutocompleteTrigger.closePanel();
+      }
     }
   }
 
   private filterOptions(): void {
     const index = this.textarea.nativeElement.selectionStart - 1;
-    //TODO:  capture the current word by getting the current selection, and backtracking to find trigger, then filter off of that
     const currentWord = this.getTriggerWordFromIndex(index);
     this.filteredOptions = this.options.filter(option => option.toLowerCase().includes(currentWord.word.toLowerCase()));
   }
@@ -116,7 +125,7 @@ export class TextareaComponent
     const insertionIndex = this.textarea.nativeElement.selectionEnd;
     const value = this.inputFormControl.value;
     const triggerWord = this.getTriggerWordFromIndex(insertionIndex - 1);
-    
+
     return value.slice(0, triggerWord.triggerIndex) + this.trigger + option + value.slice(insertionIndex);
   }
 
@@ -132,13 +141,12 @@ export class TextareaComponent
   }
 
   private isValidTriggerCharacter(string: string, index: number): boolean {
-    const validEndCharacters = [" ", undefined];
     const frontCharacter = string[index - 1];
     const backCharacter = string[index + 1];
 
     return string[index] === this.trigger
-      && validEndCharacters.includes(frontCharacter)
-      && validEndCharacters.includes(backCharacter);
+      && this.validEndCharacters.includes(frontCharacter)
+      && this.validEndCharacters.includes(backCharacter);
   }
 
   public getStringDifference(string1: string, string2: string): number[] {
