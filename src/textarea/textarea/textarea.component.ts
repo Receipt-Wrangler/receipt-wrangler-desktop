@@ -78,8 +78,8 @@ export class TextareaComponent
 
   private filterOptions(): void {
     const index = this.textarea.nativeElement.selectionStart - 1;
-    const currentWord = this.getTriggerWordFromIndex(index);
-    this.filteredOptions = this.options.filter(option => option.toLowerCase().includes(currentWord.word.toLowerCase()));
+    const currentWord = this.getTriggerWordFromIndex(index).word;
+    this.filteredOptions = this.options.filter(option => option.toLowerCase().includes(currentWord.toLowerCase()));
   }
 
   private getTriggerWordFromIndex(index: number): {
@@ -104,14 +104,27 @@ export class TextareaComponent
         break;
       }
 
-      charArray.unshift(char);
       currentIndex--;
     }
 
+    // NOTE: skips past the trigger character
+    currentIndex++;
+
+    while (currentIndex <= this.inputFormControl.value.length) {
+      const char = this.inputFormControl.value[currentIndex];
+      if (this.validEndCharacters.includes(char)) {
+        break;
+      }
+
+      charArray.push(char);
+      currentIndex++;
+    }
 
     if (foundTriggerIndex !== -1) {
       result.word = charArray.join("");
       result.triggerIndex = foundTriggerIndex;
+
+      console.warn(result.word);
 
       return result;
     } else {
