@@ -30,6 +30,7 @@
 
 <ng-template #headerButtons>
   <app-edit-button
+    *ngIf="formConfig.mode === FormMode.view"
     color="accent"
     [buttonRouterLink]="['/system-settings/prompts/' + originalPrompt?.id + '/edit']"
   ></app-edit-button>
