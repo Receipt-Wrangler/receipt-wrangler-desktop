@@ -52,7 +52,7 @@ export class TextareaComponent
     }
 
     this.matAutocompleteTrigger.closePanel();
-    this.textarea.nativeElement.selectionEnd = insertionIndex;
+    this.textarea.nativeElement.selectionEnd = insertionIndex + 1;
   }
 
   public onSelectionChange(event: Event): void {
@@ -126,7 +126,7 @@ export class TextareaComponent
     const value = this.inputFormControl.value;
     const triggerWord = this.getTriggerWordFromIndex(insertionIndex - 1);
 
-    return value.slice(0, triggerWord.triggerIndex) + this.trigger + option + value.slice(insertionIndex);
+    return value.slice(0, triggerWord.triggerIndex) + this.trigger + option + value.slice(insertionIndex) + " ";
   }
 
   public shouldShowAutocomplete(prev: string, current: string, differences: number[]): boolean {
