@@ -40,24 +40,30 @@ export class TextareaComponent
       .pipe(
         pairwise(),
         tap(([prev, current]) => {
-          const difference = this.getStringDifference(prev, current);
-          console.warn(difference, "dif");
 
-          if (this.shouldShowAutocomplete(prev, current, difference)) {
-            this.matAutocompleteTrigger.openPanel();
-            this.filterOptions();
-
-          } else if (current.endsWith(" ")) {
-            this.matAutocompleteTrigger.closePanel();
-          }
-
-          if (this.matAutocompleteTrigger.panelOpen) {
-            this.filterOptions();
-          }
         }))
       .subscribe();
 
     // selection aspect to close, but also surroundings
+    // TODO: get insertion working correctly
+  }
+
+  public onSelectionChange(event: Event): void {
+    const start = this.textarea.nativeElement.selectionStart - 1;
+    const end = this.textarea.nativeElement.selectionEnd - 1;
+
+    if (start !== end) {
+      this.matAutocompleteTrigger.closePanel();
+      return;
+    }
+
+    if (this.isValidTriggerCharacter(this.inputFormControl.value, end)
+      || this.getTriggerWordFromIndex(end)) {
+      this.matAutocompleteTrigger.openPanel();
+      this.filterOptions();
+    } else {
+      this.matAutocompleteTrigger.closePanel();
+    }
   }
 
   private filterOptions(): void {

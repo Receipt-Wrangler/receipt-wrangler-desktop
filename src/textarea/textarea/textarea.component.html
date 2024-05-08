@@ -9,6 +9,7 @@
     [formControl]="inputFormControl"
     [matAutocomplete]="auto"
     [matAutocompleteDisabled]="true"
+    (selectionchange)="onSelectionChange($event)"
   ></textarea>
 
   <mat-autocomplete #auto="matAutocomplete">
