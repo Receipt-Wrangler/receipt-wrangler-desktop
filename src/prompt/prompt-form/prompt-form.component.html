@@ -21,7 +21,9 @@
       [readonly]="formConfig.mode | inputReadonly"
     ></app-input>
     <app-textarea
+      trigger="@"
       label="Prompt"
+      [options]="promptVariables"
       [inputFormControl]="form | formGet: 'prompt'"
       [readonly]="formConfig.mode | inputReadonly"
     ></app-textarea>

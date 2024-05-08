@@ -1,12 +1,24 @@
 <mat-form-field class="w-100">
   <mat-label>{{ label }}</mat-label>
   <textarea
+    #textarea
     matInput
+    id="textarea"
     [placeholder]="placeholder ?? ''"
     [readonly]="readonly"
     [formControl]="inputFormControl"
+    [matAutocomplete]="auto"
+    [matAutocompleteDisabled]="true"
   ></textarea>
+
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let option of filteredOptions" [value]="getOptionValue(option)">
+      {{ option }}
+    </mat-option>
+  </mat-autocomplete>
+
   <mat-error *ngFor="let err of formControlErrors | async">{{
-    err.message
-  }}</mat-error>
+      err.message
+    }}
+  </mat-error>
 </mat-form-field>

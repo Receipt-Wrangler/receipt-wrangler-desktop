@@ -12,6 +12,8 @@ import { Prompt } from "../../open-api";
 export class PromptFormComponent extends BaseFormComponent implements OnInit {
   public originalPrompt?: Prompt;
 
+  public promptVariables = ["categories", "tags"];
+
   constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder) {
     super();
   }
