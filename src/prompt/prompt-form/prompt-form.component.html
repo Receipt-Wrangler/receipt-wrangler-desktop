@@ -22,10 +22,14 @@
     ></app-input>
     <app-textarea
       trigger="@"
+      hint="Type @ to view available variables for use in prompts"
       label="Prompt"
       [options]="promptVariables"
       [inputFormControl]="form | formGet: 'prompt'"
       [readonly]="formConfig.mode | inputReadonly"
+      [additionalErrorMessages]="{
+        invalidVariables: 'Prompt contains invalid variables'
+      }"
     ></app-textarea>
   </app-form-section>
   <app-form-button-bar [mode]="formConfig.mode">

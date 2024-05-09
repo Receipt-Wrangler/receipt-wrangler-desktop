@@ -11,6 +11,7 @@
     [matAutocompleteDisabled]="true"
     (selectionchange)="onSelectionChange($event)"
   ></textarea>
+  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
 
   <mat-autocomplete
     #auto="matAutocomplete"

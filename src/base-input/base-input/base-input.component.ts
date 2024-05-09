@@ -1,24 +1,26 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { map, Observable, startWith } from 'rxjs';
-import { InputErrorMessage } from './input-error-message';
-import { BaseInputInterface } from '../base-input.interface';
+import { Component, Input, OnInit } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { map, Observable, startWith } from "rxjs";
+import { BaseInputInterface } from "../base-input.interface";
+import { InputErrorMessage } from "./input-error-message";
 
 @Component({
-  selector: 'app-base-input',
-  templateUrl: './base-input.component.html',
-  styleUrls: ['./base-input.component.scss'],
+  selector: "app-base-input",
+  templateUrl: "./base-input.component.html",
+  styleUrls: ["./base-input.component.scss"],
 })
 export class BaseInputComponent implements OnInit, BaseInputInterface {
   @Input() public inputFormControl: FormControl = new FormControl();
 
-  @Input() public label: string = '';
+  @Input() public label: string = "";
 
   @Input() public additionalErrorMessages?: { [key: string]: string };
 
   @Input() public readonly: boolean = false;
 
   @Input() public placeholder?: string;
+
+  @Input() public hint?: string;
 
   public formControlErrors!: Observable<InputErrorMessage[]>;
 
@@ -40,9 +42,9 @@ export class BaseInputComponent implements OnInit, BaseInputInterface {
           const keys = Object.keys(this.inputFormControl.errors as any);
           return keys.map((k: string) => {
             const value = errors[k];
-            let message = '';
+            let message = "";
 
-            if (typeof value === 'string') {
+            if (typeof value === "string") {
               message = value;
             } else if (this.errorMessages[k]) {
               message = this.errorMessages[k];

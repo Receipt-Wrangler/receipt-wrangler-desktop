@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { take, tap } from "rxjs";
 import { BaseFormComponent } from "../../form";
@@ -37,8 +37,26 @@ export class PromptFormComponent extends BaseFormComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [this.originalPrompt?.name, Validators.required],
       description: [this.originalPrompt?.description],
-      prompt: [this.originalPrompt?.prompt, Validators.required],
+      prompt: [this.originalPrompt?.prompt, [Validators.required, this.templateVariableValidator()]],
     });
+  }
+
+  private templateVariableValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const regex = /@\w+/g;
+      const matches = (control.value as string).match(regex);
+      if (!matches) {
+        return null;
+      }
+
+      const allValidVariables = matches?.every((match) => this.promptVariables.includes(match.slice(1)));
+
+      if (allValidVariables) {
+        return null;
+      } else {
+        return { invalidVariables: { value: true } };
+      }
+    };
   }
 
   public submit(): void {
