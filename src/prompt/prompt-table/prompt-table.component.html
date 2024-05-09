@@ -37,3 +37,13 @@
 <ng-template #updatedAtCell let-element="element">
   {{ element.updatedAt | date : "short" }}
 </ng-template>
+
+<ng-template #actionsCell let-element="element">
+  <div class="d-flex">
+    <app-edit-button
+      tooltip="Edit Prompt"
+      color="accent"
+      [routerLink]="['/system-settings/prompts/' + element.id + '/edit']"
+    ></app-edit-button>
+  </div>
+</ng-template>

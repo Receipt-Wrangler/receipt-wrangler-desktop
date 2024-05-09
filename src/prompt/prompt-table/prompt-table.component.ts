@@ -26,6 +26,8 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild("updatedAtCell") public updatedAtCell!: TemplateRef<any>;
 
+  @ViewChild("actionsCell") public actionsCell!: TemplateRef<any>;
+
   public columns: TableColumn[] = [];
 
   public displayedColumns: string[] = [];
@@ -76,6 +78,12 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
         template: this.updatedAtCell,
         sortable: true
       },
+      {
+        columnHeader: "Actions",
+        matColumnDef: "actions",
+        template: this.actionsCell,
+        sortable: false
+      },
     ] as TableColumn[];
 
     const state = this.store.selectSnapshot(PromptTableState.state);
@@ -87,7 +95,7 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
     }
 
     this.columns = columns;
-    this.displayedColumns = ["name", "description", "created_at", "updated_at"];
+    this.displayedColumns = ["name", "description", "created_at", "updated_at", "actions"];
   }
 
   private getTableData(): void {
