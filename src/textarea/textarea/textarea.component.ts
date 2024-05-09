@@ -68,12 +68,4 @@ export class TextareaComponent
     const triggerWordDetails = this.getTriggerWordFromIndex(insertionIndex - 1);
     return value.slice(0, triggerWordDetails.triggerIndex) + this.trigger + option + value.slice(insertionIndex) + " ";
   }
-
-  private isValidTriggerCharacter(string: string, index: number): boolean {
-    const frontCharacter = string[index - 1] || "";
-    const backCharacter = string[index + 1] || "";
-    return string[index] === this.trigger
-      && this.validEndCharacters.includes(frontCharacter)
-      && this.validEndCharacters.includes(backCharacter);
-  }
 }
