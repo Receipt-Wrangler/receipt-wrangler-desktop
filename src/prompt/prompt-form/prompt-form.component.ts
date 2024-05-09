@@ -1,8 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { take, tap } from "rxjs";
 import { BaseFormComponent } from "../../form";
-import { Prompt } from "../../open-api";
+import { Prompt, PromptService } from "../../open-api";
+import { SnackbarService } from "../../services";
 
 @Component({
   selector: "app-prompt-form",
@@ -14,7 +16,13 @@ export class PromptFormComponent extends BaseFormComponent implements OnInit {
 
   public promptVariables = ["categories", "tags"];
 
-  constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private promptService: PromptService,
+    private snackbarService: SnackbarService,
+    private router: Router
+  ) {
     super();
   }
 
@@ -34,8 +42,20 @@ export class PromptFormComponent extends BaseFormComponent implements OnInit {
   }
 
   public submit(): void {
-    if (this.form.valid) {
-
+    if (this.form.valid && this.originalPrompt) {
+      this.updatePrompt();
     }
+  }
+
+  private updatePrompt(): void {
+    this.promptService.updatePromptById(this.originalPrompt?.id ?? 0, this.form.value)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.snackbarService.success("Prompt updated successfully");
+          this.router.navigate(["/system-settings/prompts", this.originalPrompt?.id, "view"]);
+        })
+      )
+      .subscribe();
   }
 }
