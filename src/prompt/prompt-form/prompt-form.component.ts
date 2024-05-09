@@ -44,12 +44,12 @@ export class PromptFormComponent extends BaseFormComponent implements OnInit {
   private templateVariableValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const regex = /@\w+/g;
-      const matches = (control.value as string).match(regex);
+      const matches = (control.value ?? "").match(regex);
       if (!matches) {
         return null;
       }
 
-      const allValidVariables = matches?.every((match) => this.promptVariables.includes(match.slice(1)));
+      const allValidVariables = matches?.every((match: string) => this.promptVariables.includes(match.slice(1)));
 
       if (allValidVariables) {
         return null;
@@ -68,6 +68,16 @@ export class PromptFormComponent extends BaseFormComponent implements OnInit {
   }
 
   private createPrompt(): void {
+    this.promptService
+      .createPrompt(this.form.value)
+      .pipe(
+        take(1),
+        tap((prompt) => {
+          this.snackbarService.success("Prompt created successfully");
+          this.router.navigate([`/system-settings/prompts/${prompt.id}/view`]);
+        })
+      )
+      .subscribe();
   }
 
   private updatePrompt(): void {
