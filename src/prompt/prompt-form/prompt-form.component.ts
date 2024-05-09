@@ -62,11 +62,17 @@ export class PromptFormComponent extends BaseFormComponent implements OnInit {
   public submit(): void {
     if (this.form.valid && this.originalPrompt) {
       this.updatePrompt();
+    } else if (this.form.valid && !this.originalPrompt) {
+      this.createPrompt();
     }
   }
 
+  private createPrompt(): void {
+  }
+
   private updatePrompt(): void {
-    this.promptService.updatePromptById(this.originalPrompt?.id ?? 0, this.form.value)
+    this.promptService
+      .updatePromptById(this.originalPrompt?.id ?? 0, this.form.value)
       .pipe(
         take(1),
         tap(() => {

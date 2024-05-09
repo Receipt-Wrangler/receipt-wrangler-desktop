@@ -31,6 +31,16 @@ const routes: Routes = [
     ]
   },
   {
+    path: "prompts/create",
+    component: PromptFormComponent,
+    data: {
+      formConfig: {
+        mode: FormMode.add,
+        headerText: "Create Prompt",
+      } as FormConfig,
+    },
+  },
+  {
     path: "prompts/:id/view",
     component: PromptFormComponent,
     data: {
