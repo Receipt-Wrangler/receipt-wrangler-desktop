@@ -20,8 +20,8 @@ export class PromptFormComponent extends BaseFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private promptService: PromptService,
+    private router: Router,
     private snackbarService: SnackbarService,
-    private router: Router
   ) {
     super();
   }
