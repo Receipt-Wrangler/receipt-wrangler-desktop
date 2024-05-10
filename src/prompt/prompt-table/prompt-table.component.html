@@ -21,7 +21,7 @@
 </div>
 
 <ng-template #nameCell let-element="element">
-  <a [routerLink]="['/system-settings/system-emails/' + element.id + '/view']">
+  <a [routerLink]="['/system-settings/prompts/' + element.id + '/view']">
     {{ element.name }}
   </a>
 </ng-template>
@@ -36,4 +36,18 @@
 
 <ng-template #updatedAtCell let-element="element">
   {{ element.updatedAt | date : "short" }}
+</ng-template>
+
+<ng-template #actionsCell let-element="element" let-index="index">
+  <div class="d-flex">
+    <app-edit-button
+      tooltip="Edit Prompt"
+      color="accent"
+      [routerLink]="['/system-settings/prompts/' + element.id + '/edit']"
+    ></app-edit-button>
+    <app-delete-button
+      tooltip="Delete Prompt"
+      (clicked)="deletePrompt(element.id, index)"
+    ></app-delete-button>
+  </div>
 </ng-template>

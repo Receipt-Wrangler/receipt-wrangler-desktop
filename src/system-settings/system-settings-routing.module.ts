@@ -2,7 +2,9 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { FormMode } from "../enums/form-mode.enum";
 import { FormConfig } from "../interfaces";
+import { PromptFormComponent } from "../prompt/prompt-form/prompt-form.component";
 import { PromptTableComponent } from "../prompt/prompt-table/prompt-table.component";
+import { promptResolver } from "../prompt/prompt.resolver";
 import { systemEmailResolver } from "./resolvers/system-email.resolver";
 import { SystemEmailFormComponent } from "./system-email-form/system-email-form.component";
 import { SystemEmailTableComponent } from "./system-email-table/system-email-table.component";
@@ -27,6 +29,42 @@ const routes: Routes = [
         component: PromptTableComponent,
       }
     ]
+  },
+  {
+    path: "prompts/create",
+    component: PromptFormComponent,
+    data: {
+      formConfig: {
+        mode: FormMode.add,
+        headerText: "Create Prompt",
+      } as FormConfig,
+    },
+  },
+  {
+    path: "prompts/:id/view",
+    component: PromptFormComponent,
+    data: {
+      formConfig: {
+        mode: FormMode.view,
+        headerText: "View Prompt",
+      } as FormConfig,
+    },
+    resolve: {
+      prompt: promptResolver
+    }
+  },
+  {
+    path: "prompts/:id/edit",
+    component: PromptFormComponent,
+    data: {
+      formConfig: {
+        mode: FormMode.edit,
+        headerText: "Edit Prompt",
+      } as FormConfig,
+    },
+    resolve: {
+      prompt: promptResolver
+    }
   },
   {
     path: "system-emails/create",
