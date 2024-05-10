@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -6,6 +7,8 @@ import { Select, Store } from "@ngxs/store";
 import { Observable, take, tap } from "rxjs";
 import { PagedTableInterface } from "../../interfaces/paged-table.interface";
 import { Prompt, PromptService } from "../../open-api";
+import { SnackbarService } from "../../services";
+import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { PromptTableState } from "../../store/prompt-table.state";
 import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/prompt-table.state.actions";
 import { TableColumn } from "../../table/table-column.interface";
@@ -37,7 +40,12 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
   public totalCount = 0;
 
 
-  constructor(private store: Store, private promptService: PromptService) {}
+  constructor(
+    private store: Store,
+    private promptService: PromptService,
+    private matDialog: MatDialog,
+    private snackbarService: SnackbarService
+  ) {}
 
   public ngOnInit(): void {
     this.getTableData();
@@ -127,37 +135,37 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
     this.getTableData();
   }
 
-  /*  public deleteButtonClicked(id: number, index: number): void {
-      const dialogRef = this.matDialog.open(ConfirmationDialogComponent);
-      const email = this.dataSource.data[index];
+  public deletePrompt(id: number, index: number): void {
+    const dialogRef = this.matDialog.open(ConfirmationDialogComponent);
+    const prompt = this.dataSource.data[index];
 
-      dialogRef.componentInstance.headerText = "Delete System Email";
-      dialogRef.componentInstance.dialogContent = `Are you sure you want to delete the email: ${email.username}?`;
+    dialogRef.componentInstance.headerText = "Delete Prompt";
+    dialogRef.componentInstance.dialogContent = `Are you sure you want to delete the prompt: ${prompt.name}?`;
 
-      dialogRef.afterClosed()
-        .pipe(
-          take(1),
-          tap((result) => {
-            if (result) {
-              this.callDeleteApi(id, index);
-            }
-          })
-        )
-        .subscribe();
-    }
+    dialogRef.afterClosed()
+      .pipe(
+        take(1),
+        tap((result) => {
+          if (result) {
+            this.callDeleteApi(id, index);
+          }
+        })
+      )
+      .subscribe();
+  }
 
-    private callDeleteApi(id: number, index: number): void {
-      this.systemEmailService.deleteSystemEmailById(id)
-        .pipe(
-          take(1),
-          tap(() => {
-            this.getTableData();
-            const data = Array.from(this.dataSource.data);
-            data.splice(index, 1);
-            this.dataSource = new MatTableDataSource(data);
-            this.snackbarService.success("System email deleted successfully");
-          })
-        )
-        .subscribe();
-    }*/
+  private callDeleteApi(id: number, index: number): void {
+    this.promptService.deletePromptById(id)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.getTableData();
+          const data = Array.from(this.dataSource.data);
+          data.splice(index, 1);
+          this.dataSource = new MatTableDataSource(data);
+          this.snackbarService.success("Prompt deleted successfully");
+        })
+      )
+      .subscribe();
+  }
 }
