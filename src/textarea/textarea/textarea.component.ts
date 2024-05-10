@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from "@angular/core";
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from "@angular/material/autocomplete";
+import { Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { BaseInputComponent } from "../../base-input";
 import { InputInterface } from "../../input";
 
@@ -10,18 +10,22 @@ import { InputInterface } from "../../input";
 })
 export class TextareaComponent
   extends BaseInputComponent
-  implements InputInterface, AfterViewInit {
+  implements InputInterface {
   @ViewChild(MatAutocompleteTrigger) public matAutocompleteTrigger!: MatAutocompleteTrigger;
+
   @ViewChild("nativeTextarea") public textarea!: ElementRef<HTMLTextAreaElement>;
+
   @Input() public options: string[] = [];
-  @Input() public trigger: string = "@";
+
+  @Input() public trigger: string = "";
+
   public filteredOptions: string[] = [];
+
   public lastKnownSelection: number = -1;
+
   public validEndCharacters = [" ", "\n", undefined];
 
-  public ngAfterViewInit(): void {}
-
-  public onOptionSelected(event: MatAutocompleteSelectedEvent): void {
+  public onOptionSelected(): void {
     const value = this.inputFormControl.value;
     // Calculate insertion index for autocomplete selection
     let insertionIndex = value.slice(this.lastKnownSelection).search(/[\s\n]|$/);
@@ -30,7 +34,7 @@ export class TextareaComponent
     this.textarea.nativeElement.selectionEnd = insertionIndex + 1;
   }
 
-  public onSelectionChange(event: Event): void {
+  public onSelectionChange(): void {
     this.lastKnownSelection = this.textarea.nativeElement.selectionStart;
     // Extract word at cursor position for triggering autocomplete
     const currentWordDetails = this.getTriggerWordFromIndex(this.lastKnownSelection - 1);
