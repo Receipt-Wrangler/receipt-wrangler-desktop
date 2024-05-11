@@ -23,6 +23,10 @@ export class SystemSettingsComponent implements OnInit {
         label: "Prompts",
         routerLink: "prompts",
       },
+      {
+        label: "Receipt Processing Settings",
+        routerLink: "receipt-processing-settings",
+      }
     ];
   }
 }
