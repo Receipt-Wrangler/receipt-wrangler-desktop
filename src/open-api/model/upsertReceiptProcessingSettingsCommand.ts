@@ -11,19 +11,18 @@
  */
 import { OcrEngine } from './ocrEngine';
 import { AiType } from './aiType';
-import { Prompt } from './prompt';
 
 
-export interface ReceiptProcessingSettingsAllOf { 
+export interface UpsertReceiptProcessingSettingsCommand { 
     /**
      * Name of the settings
      */
-    name?: string;
+    name: string;
     /**
      * Description of the settings
      */
     description?: string;
-    aiType?: AiType;
+    aiType: AiType;
     /**
      * URL for custom endpoints
      */
@@ -39,12 +38,11 @@ export interface ReceiptProcessingSettingsAllOf {
     /**
      * Number of workers to use
      */
-    numWorkers?: number;
-    ocrEngine?: OcrEngine;
-    prompt?: Prompt;
+    numWorkers: number;
+    ocrEngine: OcrEngine;
     /**
      * Prompt foreign key
      */
-    promptId?: number;
+    promptId: number;
 }
 

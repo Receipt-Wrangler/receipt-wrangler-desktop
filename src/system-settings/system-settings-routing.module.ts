@@ -5,6 +5,9 @@ import { FormConfig } from "../interfaces";
 import { PromptFormComponent } from "../prompt/prompt-form/prompt-form.component";
 import { PromptTableComponent } from "../prompt/prompt-table/prompt-table.component";
 import { promptResolver } from "../prompt/prompt.resolver";
+import {
+  ReceiptProcessingSettingsTableComponent
+} from "../receipt-processing-settings/receipt-processing-settings-table/receipt-processing-settings-table.component";
 import { systemEmailResolver } from "./resolvers/system-email.resolver";
 import { SystemEmailFormComponent } from "./system-email-form/system-email-form.component";
 import { SystemEmailTableComponent } from "./system-email-table/system-email-table.component";
@@ -27,6 +30,10 @@ const routes: Routes = [
       {
         path: "prompts",
         component: PromptTableComponent,
+      },
+      {
+        path: "receipt-processing-settings",
+        component: ReceiptProcessingSettingsTableComponent
       }
     ]
   },

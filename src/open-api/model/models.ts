@@ -67,6 +67,7 @@ export * from './upsertDashboardCommand';
 export * from './upsertItemCommand';
 export * from './upsertPromptCommand';
 export * from './upsertReceiptCommand';
+export * from './upsertReceiptProcessingSettingsCommand';
 export * from './upsertSystemEmailCommand';
 export * from './upsertTagCommand';
 export * from './upsertWidgetCommand';

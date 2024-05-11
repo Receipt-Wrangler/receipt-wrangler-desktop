@@ -1,0 +1,35 @@
+<app-table
+  [dataSource]="dataSource"
+  [columns]="columns"
+  [displayedColumns]="displayedColumns"
+  [pagination]="true"
+  [length]="totalCount"
+  [page]="((baseTableService.page$ | async) || 1) - 1"
+  [pageSize]="(baseTableService.pageSize$ | async)|| 10"
+  (sorted)="sorted($event)"
+  (pageChange)="pageChanged($event)"
+></app-table>
+
+<ng-template #nameCell let-element="element">
+  {{ element.name }}
+</ng-template>
+
+<ng-template #descriptionCell let-element="element">
+  {{ element.description }}
+</ng-template>
+
+<ng-template #aiTypeCell let-element="element">
+  {{ element.aiType }}
+</ng-template>
+
+<ng-template #ocrEngineCell let-element="element">
+  {{ element.aiType }}
+</ng-template>
+
+<ng-template #createdAtCell let-element="element">
+  {{ element.createdAt | date: "short" }}
+</ng-template>
+
+<ng-template #updatedAtCell let-element="element">
+  {{ element.updatedAt | date: "short" }}
+</ng-template>

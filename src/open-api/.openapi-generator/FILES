@@ -12,6 +12,7 @@ api/notifications.service.ts
 api/prompt.service.ts
 api/receipt.service.ts
 api/receiptImage.service.ts
+api/receiptProcessingSettings.service.ts
 api/search.service.ts
 api/systemEmail.service.ts
 api/systemTask.service.ts
@@ -92,6 +93,7 @@ model/upsertDashboardCommand.ts
 model/upsertItemCommand.ts
 model/upsertPromptCommand.ts
 model/upsertReceiptCommand.ts
+model/upsertReceiptProcessingSettingsCommand.ts
 model/upsertSystemEmailCommand.ts
 model/upsertTagCommand.ts
 model/upsertWidgetCommand.ts
