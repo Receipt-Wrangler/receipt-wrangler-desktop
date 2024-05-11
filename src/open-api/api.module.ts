@@ -12,6 +12,7 @@ import { NotificationsService } from './api/notifications.service';
 import { PromptService } from './api/prompt.service';
 import { ReceiptService } from './api/receipt.service';
 import { ReceiptImageService } from './api/receiptImage.service';
+import { ReceiptProcessingSettingsService } from './api/receiptProcessingSettings.service';
 import { SearchService } from './api/search.service';
 import { SystemEmailService } from './api/systemEmail.service';
 import { SystemTaskService } from './api/systemTask.service';

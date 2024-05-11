@@ -23,19 +23,23 @@ export class SystemEmailTaskTableService extends BaseTableService {
     return this.store.selectSnapshot(SystemEmailTaskTableState.state);
   }
 
-  override setPage(page: number): void {
+  public setPage(page: number): void {
     this.store.dispatch(new SetPage(page));
   }
 
-  override setPageSize(pageSize: number): void {
+  public setPageSize(pageSize: number): void {
     this.store.dispatch(new SetPageSize(pageSize));
   }
 
-  override setOrderBy(orderBy: Sort): void {
+  public setOrderBy(orderBy: Sort): void {
     this.store.dispatch(new SetOrderBy(orderBy.active));
   }
 
-  override setSortDirection(sortDirection: SortDirection): void {
+  public setSortDirection(sortDirection: SortDirection): void {
     this.store.dispatch(new SetSortDirection(sortDirection));
+  }
+
+  public getPagedData(): Observable<any> {
+    throw new Error("Method not implemented.");
   }
 }

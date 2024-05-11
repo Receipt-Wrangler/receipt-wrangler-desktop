@@ -1,13 +1,15 @@
 import { Injectable } from "@angular/core";
 import { Sort } from "@angular/material/sort";
 import { Observable } from "rxjs";
-import { PagedRequestCommand, SortDirection } from "../open-api";
+import { PagedData, PagedRequestCommand, SortDirection } from "../open-api";
 
 @Injectable()
 export abstract class BaseTableService {
   abstract page$: Observable<number>;
 
   abstract pageSize$: Observable<number>;
+
+  abstract getPagedData(): Observable<PagedData>;
 
   abstract getPagedRequestCommand(): PagedRequestCommand;
 

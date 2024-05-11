@@ -11,6 +11,7 @@
  */
 import { OcrEngine } from './ocrEngine';
 import { AiType } from './aiType';
+import { Prompt } from './prompt';
 
 
 export interface ReceiptProcessingSettings { 
@@ -22,6 +23,14 @@ export interface ReceiptProcessingSettings {
      */
     createdByString?: string;
     updatedAt?: string;
+    /**
+     * Name of the settings
+     */
+    name?: string;
+    /**
+     * Description of the settings
+     */
+    description?: string;
     aiType?: AiType;
     /**
      * URL for custom endpoints
@@ -40,9 +49,10 @@ export interface ReceiptProcessingSettings {
      */
     numWorkers?: number;
     ocrEngine?: OcrEngine;
+    prompt?: Prompt;
     /**
-     * Whether these settings are enabled or not
+     * Prompt foreign key
      */
-    enabled?: boolean;
+    promptId?: number;
 }
 

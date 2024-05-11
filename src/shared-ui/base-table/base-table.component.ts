@@ -1,6 +1,10 @@
 import { Component } from "@angular/core";
+import { PageEvent } from "@angular/material/paginator";
+import { Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { take, tap } from "rxjs";
 import { PagedTableInterface } from "../../interfaces/paged-table.interface";
+import { BaseTableService } from "../../services/base-table.service";
 import { TableColumn } from "../../table/table-column.interface";
 
 @Component({
@@ -17,6 +21,8 @@ export class BaseTableComponent<T> {
 
   public totalCount = 0;
 
+  constructor(public baseTableService: BaseTableService) {}
+
   public setInitialSortedColumn(state: PagedTableInterface, columns: TableColumn[]): void {
     if (state.orderBy) {
       const column = columns.find((c) => c.matColumnDef === state.orderBy);
@@ -24,5 +30,34 @@ export class BaseTableComponent<T> {
         column.defaultSortDirection = state.sortDirection;
       }
     }
+  }
+
+  public getTableData(): void {
+    this.baseTableService
+      .getPagedData()
+      .pipe(
+        take(1),
+        tap((pagedData) => {
+          this.dataSource.data = pagedData.data as T[];
+          this.totalCount = pagedData.totalCount;
+        })
+      )
+      .subscribe();
+  }
+
+  public sorted(sort: Sort): void {
+    this.baseTableService.setOrderBy(sort);
+    this.baseTableService.setSortDirection(sort.direction);
+
+    this.getTableData();
+  }
+
+  public pageChanged(pageEvent: PageEvent): void {
+    const newPage = pageEvent.pageIndex + 1;
+
+    this.baseTableService.setPage(newPage);
+    this.baseTableService.setPageSize(pageEvent.pageSize);
+
+    this.getTableData();
   }
 }
