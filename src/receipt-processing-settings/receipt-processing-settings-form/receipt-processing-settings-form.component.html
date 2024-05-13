@@ -13,14 +13,45 @@
     label="Description"
     [inputFormControl]="form | formGet: 'description'"
   ></app-input>
+  <app-input
+    label="Number of Workers"
+    type="number"
+    [inputFormControl]="form | formGet: 'numWorkers'"
+  ></app-input>
+  <app-select
+    label="OCR Engine"
+    optionValueKey="value"
+    optionDisplayKey="displayValue"
+    [inputFormControl]="form | formGet: 'ocrEngine'"
+    [options]="ocrEngineOptions"
+  ></app-select>
   <app-select
     label="Ai Type"
     optionValueKey="value"
     optionDisplayKey="displayValue"
     [inputFormControl]="form | formGet: 'aiType'"
     [options]="aiTypeOptions"
-
   ></app-select>
+  <div class="d-flex flex-column">
+    <ng-container *ngIf="form?.value?.['aiType'] === AiType.Openai || form.value?.['aiType'] === AiType.Gemini">
+      <app-input
+        label="Api Key"
+        [inputFormControl]="form | formGet: 'key'"
+        [showVisibilityEye]="true"
+      ></app-input>
+    </ng-container>
+    <ng-container *ngIf="form.value?.['aiType'] === AiType.OpenaiCustom">
+      <app-input
+        label="Url"
+        [inputFormControl]="form | formGet: 'url'"
+      ></app-input>
+      <app-input
+        label="Model"
+        [inputFormControl]="form | formGet: 'model'"
+      ></app-input>
+    </ng-container>
+
+  </div>
 </form>
 
 

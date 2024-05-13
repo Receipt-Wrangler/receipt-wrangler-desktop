@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
+import { tap } from "rxjs";
 import { BaseFormComponent } from "../../form";
 import { FormOption } from "../../interfaces/form-option.interface";
-import { AiType, ReceiptProcessingSettings } from "../../open-api";
+import { AiType, OcrEngine, ReceiptProcessingSettings } from "../../open-api";
 
 @Component({
   selector: "app-receipt-processing-settings-form",
@@ -11,9 +12,15 @@ import { AiType, ReceiptProcessingSettings } from "../../open-api";
   styleUrl: "./receipt-processing-settings-form.component.scss"
 })
 export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent implements OnInit {
-  public originalReceiptProcessingSettings?: ReceiptProcessingSettings;
+  public readonly originalReceiptProcessingSettings?: ReceiptProcessingSettings;
 
-  public aiTypeOptions: FormOption[] = [
+  protected readonly AiType = AiType;
+
+  protected readonly openAiGeminiSpecificFields: string[] = ["key"];
+
+  protected readonly openAiCustomSpecificFields: string[] = ["url", "model"];
+
+  public readonly aiTypeOptions: FormOption[] = [
     {
       value: AiType.Openai,
       displayValue: "OpenAI"
@@ -27,6 +34,18 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
       displayValue: "Gemini",
     },
   ];
+
+  public readonly ocrEngineOptions: FormOption[] = [
+    {
+      value: OcrEngine.Tesseract,
+      displayValue: "Tesseract",
+    },
+    {
+      value: OcrEngine.EasyOcr,
+      displayValue: "EasyOCR",
+    }
+  ];
+
 
   constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder) {
     super();
@@ -42,11 +61,55 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     this.form = this.formBuilder.group({
       name: [this.originalReceiptProcessingSettings?.name, Validators.required],
       description: [this.originalReceiptProcessingSettings?.description],
+      numWorkers: [this.originalReceiptProcessingSettings?.numWorkers ?? 1, [Validators.required, Validators.min(1)]],
+      ocrEngine: [this.originalReceiptProcessingSettings?.ocrEngine, Validators.required],
       aiType: [this.originalReceiptProcessingSettings?.aiType, Validators.required],
+      key: [this.originalReceiptProcessingSettings?.key],
+      url: [this.originalReceiptProcessingSettings?.url],
+      model: [this.originalReceiptProcessingSettings?.model],
     });
+
+    this.listenForTypeChange();
+  }
+
+  private listenForTypeChange(): void {
+    this.form.get("aiType")?.valueChanges
+      .pipe(
+        tap((type: AiType) => {
+          switch (type) {
+            case AiType.Gemini:
+            case AiType.Openai:
+              this.updateOpenAiGeminiForm();
+              break;
+            case AiType.OpenaiCustom:
+              this.updateOpenAiCustomForm();
+              break;
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  private updateOpenAiGeminiForm(): void {
+    this.openAiCustomSpecificFields.forEach((field: string) => {
+      this.form.get(field)?.setValidators(null);
+      this.form.get(field)?.setErrors(null);
+    });
+
+    this.form.get("key")?.setValidators(Validators.required);
+  }
+
+  private updateOpenAiCustomForm(): void {
+    this.openAiGeminiSpecificFields.forEach((field: string) => {
+      this.form.get(field)?.setValidators(null);
+      this.form.get(field)?.setErrors(null);
+    });
+
+    this.form.get("url")?.setValidators(Validators.required);
   }
 
   public submit(): void {
 
   }
+
 }
