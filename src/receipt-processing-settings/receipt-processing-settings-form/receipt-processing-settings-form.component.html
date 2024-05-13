@@ -1,1 +1,26 @@
-<p>receipt-processing-settings-form works!</p>
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()">
+  <app-form-header
+    [headerText]="formConfig.headerText"
+    [headerButtonsTemplate]="">
+  </app-form-header>
+  <app-input
+    label="Name"
+    [inputFormControl]="form | formGet: 'name'"
+  ></app-input>
+  <app-input
+    label="Description"
+    [inputFormControl]="form | formGet: 'description'"
+  ></app-input>
+  <app-select
+    label="Ai Type"
+    optionValueKey="value"
+    optionDisplayKey="displayValue"
+    [inputFormControl]="form | formGet: 'aiType'"
+    [options]="aiTypeOptions"
+
+  ></app-select>
+</form>
+
+
