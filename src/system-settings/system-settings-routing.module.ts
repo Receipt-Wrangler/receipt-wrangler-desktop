@@ -6,6 +6,9 @@ import { PromptFormComponent } from "../prompt/prompt-form/prompt-form.component
 import { PromptTableComponent } from "../prompt/prompt-table/prompt-table.component";
 import { promptResolver } from "../prompt/prompt.resolver";
 import {
+  ReceiptProcessingSettingsFormComponent
+} from "../receipt-processing-settings/receipt-processing-settings-form/receipt-processing-settings-form.component";
+import {
   ReceiptProcessingSettingsTableComponent
 } from "../receipt-processing-settings/receipt-processing-settings-table/receipt-processing-settings-table.component";
 import { systemEmailResolver } from "./resolvers/system-email.resolver";
@@ -108,8 +111,17 @@ const routes: Routes = [
     resolve: {
       systemEmail: systemEmailResolver,
     }
-  }
-
+  },
+  {
+    path: "receipt-processing-settings/create",
+    component: ReceiptProcessingSettingsFormComponent,
+    data: {
+      formConfig: {
+        mode: FormMode.add,
+        headerText: "Create Receipt Processing Settings",
+      } as FormConfig,
+    },
+  },
 ];
 
 @NgModule({

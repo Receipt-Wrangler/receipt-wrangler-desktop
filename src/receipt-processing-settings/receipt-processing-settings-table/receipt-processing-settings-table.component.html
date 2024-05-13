@@ -1,3 +1,9 @@
+<app-table-header headerText="Receipt Processing Settings">
+  <app-add-button
+    tooltip="Create Receipt Processing Settings"
+    [routerLink]="['create']"
+  ></app-add-button>
+</app-table-header>
 <app-table
   [dataSource]="dataSource"
   [columns]="columns"
@@ -32,4 +38,8 @@
 
 <ng-template #updatedAtCell let-element="element">
   {{ element.updatedAt | date: "short" }}
+</ng-template>
+
+<ng-template #headerTemplate>
+
 </ng-template>
