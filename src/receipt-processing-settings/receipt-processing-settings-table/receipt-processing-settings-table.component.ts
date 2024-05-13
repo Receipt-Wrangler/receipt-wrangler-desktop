@@ -25,7 +25,7 @@ export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<
 
   @ViewChild("aiTypeCell") public aiTypeCell!: TemplateRef<any>;
 
-  @ViewChild("ocrTypeCell") public ocrTypeCell!: TemplateRef<any>;
+  @ViewChild("ocrEngineCell") public ocrEngineCell!: TemplateRef<any>;
 
   @ViewChild("createdAtCell") public createdAtCell!: TemplateRef<any>;
 
@@ -70,7 +70,7 @@ export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<
       {
         columnHeader: "OCR Engine",
         matColumnDef: "ocr_engine",
-        template: this.ocrTypeCell,
+        template: this.ocrEngineCell,
         sortable: true
       },
       {

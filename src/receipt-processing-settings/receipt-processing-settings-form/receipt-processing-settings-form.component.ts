@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
-import { tap } from "rxjs";
+import { ActivatedRoute, Router } from "@angular/router";
+import { take, tap } from "rxjs";
 import { BaseFormComponent } from "../../form";
 import { FormOption } from "../../interfaces/form-option.interface";
-import { AiType, OcrEngine, Prompt, ReceiptProcessingSettings } from "../../open-api";
+import { AiType, OcrEngine, Prompt, ReceiptProcessingSettings, ReceiptProcessingSettingsService } from "../../open-api";
+import { SnackbarService } from "../../services";
 
 @Component({
   selector: "app-receipt-processing-settings-form",
@@ -22,11 +23,11 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
   public readonly aiTypeOptions: FormOption[] = [
     {
-      value: AiType.Openai,
+      value: AiType.OpenAi,
       displayValue: "OpenAI"
     },
     {
-      value: AiType.OpenaiCustom,
+      value: AiType.OpenAiCustom,
       displayValue: "OpenAI Custom",
     },
     {
@@ -49,7 +50,13 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
   public prompts: Prompt[] = [];
 
 
-  constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private receiptProcessingSettingsService: ReceiptProcessingSettingsService,
+    private router: Router,
+    private snackbarService: SnackbarService,
+  ) {
     super();
   }
 
@@ -82,10 +89,10 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
         tap((type: AiType) => {
           switch (type) {
             case AiType.Gemini:
-            case AiType.Openai:
+            case AiType.OpenAi:
               this.updateOpenAiGeminiForm();
               break;
-            case AiType.OpenaiCustom:
+            case AiType.OpenAiCustom:
               this.updateOpenAiCustomForm();
               break;
           }
@@ -112,8 +119,29 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     this.form.get("url")?.setValidators(Validators.required);
   }
 
-  public submit(): void {
+  public promptDisplayWith(promptId: number): string {
+    if (promptId) {
+      const prompt = this.prompts.find((p) => p.id === promptId);
+      return prompt?.name ?? "";
+    }
 
+    return "";
+
+  }
+
+  public submit(): void {
+    if (this.form.valid && !this.originalReceiptProcessingSettings) {
+      const formValue = this.form.value;
+      formValue["numWorkers"] = Number(formValue["numWorkers"]);
+      this.receiptProcessingSettingsService.createReceiptProcessingSettings(this.form.value)
+        .pipe(
+          take(1),
+          tap((settings) => {
+            this.router.navigate([`system-settings/receipt-processing-settings/${settings.id}/view`]);
+            this.snackbarService.success("Receipt processing settings created successfully");
+          })
+        ).subscribe();
+    }
   }
 
 }

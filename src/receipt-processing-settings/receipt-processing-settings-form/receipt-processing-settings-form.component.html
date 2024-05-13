@@ -17,6 +17,8 @@
     label="Prompt"
     optionValueKey="id"
     optionDisplayKey="name"
+    optionFilterKey="name"
+    [displayWith]="promptDisplayWith.bind(this)"
     [options]="prompts"
     [multiple]="false"
     [inputFormControl]="form | formGet: 'promptId'"
@@ -41,14 +43,14 @@
     [options]="aiTypeOptions"
   ></app-select>
   <div class="d-flex flex-column">
-    <ng-container *ngIf="form?.value?.['aiType'] === AiType.Openai || form.value?.['aiType'] === AiType.Gemini">
+    <ng-container *ngIf="form?.value?.['aiType'] === AiType.OpenAi || form.value?.['aiType'] === AiType.Gemini">
       <app-input
         label="Api Key"
         [inputFormControl]="form | formGet: 'key'"
         [showVisibilityEye]="true"
       ></app-input>
     </ng-container>
-    <ng-container *ngIf="form.value?.['aiType'] === AiType.OpenaiCustom">
+    <ng-container *ngIf="form.value?.['aiType'] === AiType.OpenAiCustom">
       <app-input
         label="Url"
         [inputFormControl]="form | formGet: 'url'"
@@ -58,8 +60,14 @@
         [inputFormControl]="form | formGet: 'model'"
       ></app-input>
     </ng-container>
-
   </div>
+  <app-form-button-bar [mode]="formConfig.mode">
+    <app-submit-button
+      *ngIf="!(formConfig.mode | inputReadonly)"
+      class="mb-4"
+      [onlyIcon]="false"
+    ></app-submit-button>
+  </app-form-button-bar>
 </form>
 
 
