@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
+import { AutocompleteModule } from "../autocomplete/autocomplete.module";
 import { InputModule } from "../input";
 import { PipesModule } from "../pipes";
 import { SelectModule } from "../select/select.module";
@@ -21,7 +22,8 @@ import { ReceiptProcessingSettingsTableComponent } from "./receipt-processing-se
     ReactiveFormsModule,
     InputModule,
     PipesModule,
-    SelectModule
+    SelectModule,
+    AutocompleteModule
   ],
   exports: []
 })

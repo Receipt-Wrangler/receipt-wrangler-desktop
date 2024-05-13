@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { tap } from "rxjs";
 import { BaseFormComponent } from "../../form";
 import { FormOption } from "../../interfaces/form-option.interface";
-import { AiType, OcrEngine, ReceiptProcessingSettings } from "../../open-api";
+import { AiType, OcrEngine, Prompt, ReceiptProcessingSettings } from "../../open-api";
 
 @Component({
   selector: "app-receipt-processing-settings-form",
@@ -46,6 +46,8 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     }
   ];
 
+  public prompts: Prompt[] = [];
+
 
   constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder) {
     super();
@@ -53,6 +55,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
 
   public ngOnInit(): void {
+    this.prompts = this.activatedRoute.snapshot.data["prompts"];
     this.setFormConfigFromRoute(this.activatedRoute);
     this.initForm();
   }
@@ -64,6 +67,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
       numWorkers: [this.originalReceiptProcessingSettings?.numWorkers ?? 1, [Validators.required, Validators.min(1)]],
       ocrEngine: [this.originalReceiptProcessingSettings?.ocrEngine, Validators.required],
       aiType: [this.originalReceiptProcessingSettings?.aiType, Validators.required],
+      promptId: [this.originalReceiptProcessingSettings?.promptId, Validators.required],
       key: [this.originalReceiptProcessingSettings?.key],
       url: [this.originalReceiptProcessingSettings?.url],
       model: [this.originalReceiptProcessingSettings?.model],

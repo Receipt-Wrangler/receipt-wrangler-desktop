@@ -5,6 +5,7 @@ import { FormConfig } from "../interfaces";
 import { PromptFormComponent } from "../prompt/prompt-form/prompt-form.component";
 import { PromptTableComponent } from "../prompt/prompt-table/prompt-table.component";
 import { promptResolver } from "../prompt/prompt.resolver";
+import { promptsResolver } from "../prompt/prompts.resolver";
 import {
   ReceiptProcessingSettingsFormComponent
 } from "../receipt-processing-settings/receipt-processing-settings-form/receipt-processing-settings-form.component";
@@ -121,6 +122,9 @@ const routes: Routes = [
         headerText: "Create Receipt Processing Settings",
       } as FormConfig,
     },
+    resolve: {
+      prompts: promptsResolver,
+    }
   },
 ];
 

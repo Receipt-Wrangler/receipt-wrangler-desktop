@@ -13,6 +13,14 @@
     label="Description"
     [inputFormControl]="form | formGet: 'description'"
   ></app-input>
+  <app-autocomlete
+    label="Prompt"
+    optionValueKey="id"
+    optionDisplayKey="name"
+    [options]="prompts"
+    [multiple]="false"
+    [inputFormControl]="form | formGet: 'promptId'"
+  ></app-autocomlete>
   <app-input
     label="Number of Workers"
     type="number"
