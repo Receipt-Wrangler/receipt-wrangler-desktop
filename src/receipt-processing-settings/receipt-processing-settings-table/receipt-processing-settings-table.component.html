@@ -30,11 +30,11 @@
 </ng-template>
 
 <ng-template #aiTypeCell let-element="element">
-  {{ element.aiType }}
+  {{ element.aiType | aiType }}
 </ng-template>
 
 <ng-template #ocrEngineCell let-element="element">
-  {{ element.ocrEngine }}
+  {{ element.ocrEngine | ocrEngine }}
 </ng-template>
 
 <ng-template #createdAtCell let-element="element">

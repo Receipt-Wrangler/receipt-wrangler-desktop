@@ -8,6 +8,8 @@ import { PipesModule } from "../pipes";
 import { SelectModule } from "../select/select.module";
 import { SharedUiModule } from "../shared-ui/shared-ui.module";
 import { TableModule } from "../table/table.module";
+import { AiTypePipe } from "./pipes/ai-type.pipe";
+import { OcrEnginePipe } from "./pipes/ocr-engine.pipe";
 import { ReceiptProcessingSettingsFormComponent } from "./receipt-processing-settings-form/receipt-processing-settings-form.component";
 import { ReceiptProcessingSettingsTableComponent } from "./receipt-processing-settings-table/receipt-processing-settings-table.component";
 
@@ -23,7 +25,9 @@ import { ReceiptProcessingSettingsTableComponent } from "./receipt-processing-se
     InputModule,
     PipesModule,
     SelectModule,
-    AutocompleteModule
+    AutocompleteModule,
+    AiTypePipe,
+    OcrEnginePipe
   ],
   exports: []
 })

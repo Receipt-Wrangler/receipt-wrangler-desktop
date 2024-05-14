@@ -5,8 +5,10 @@ import { take, tap } from "rxjs";
 import { FormMode } from "../../enums/form-mode.enum";
 import { BaseFormComponent } from "../../form";
 import { FormOption } from "../../interfaces/form-option.interface";
-import { AiType, OcrEngine, Prompt, ReceiptProcessingSettings, ReceiptProcessingSettingsService } from "../../open-api";
+import { AiType, Prompt, ReceiptProcessingSettings, ReceiptProcessingSettingsService } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { aiTypeOptions } from "../constants/ai-type-options";
+import { ocrEngineOptions } from "../constants/ocr-engine-options";
 
 @Component({
   selector: "app-receipt-processing-settings-form",
@@ -22,31 +24,9 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
   protected readonly openAiCustomSpecificFields: string[] = ["url", "model"];
 
-  public readonly aiTypeOptions: FormOption[] = [
-    {
-      value: AiType.OpenAi,
-      displayValue: "OpenAI"
-    },
-    {
-      value: AiType.OpenAiCustom,
-      displayValue: "OpenAI Custom",
-    },
-    {
-      value: AiType.Gemini,
-      displayValue: "Gemini",
-    },
-  ];
+  public readonly aiTypeOptions: FormOption[] = aiTypeOptions;
 
-  public readonly ocrEngineOptions: FormOption[] = [
-    {
-      value: OcrEngine.Tesseract,
-      displayValue: "Tesseract",
-    },
-    {
-      value: OcrEngine.EasyOcr,
-      displayValue: "EasyOCR",
-    }
-  ];
+  public readonly ocrEngineOptions: FormOption[] = ocrEngineOptions;
 
   public prompts: Prompt[] = [];
 
