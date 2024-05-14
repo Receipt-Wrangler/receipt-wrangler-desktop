@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { take, tap } from "rxjs";
+import { FormMode } from "../../enums/form-mode.enum";
 import { BaseFormComponent } from "../../form";
 import { FormOption } from "../../interfaces/form-option.interface";
 import { AiType, OcrEngine, Prompt, ReceiptProcessingSettings, ReceiptProcessingSettingsService } from "../../open-api";
@@ -82,8 +83,11 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
     this.listenForTypeChange();
 
-    console.warn(this.originalReceiptProcessingSettings);
-    console.warn(this.form.value);
+    if (this.formConfig.mode === FormMode.view) {
+      this.form.get("ocrEngine")?.disable();
+      this.form.get("aiType")?.disable();
+      this.form.get("promptId")?.disable();
+    }
   }
 
   private listenForTypeChange(): void {

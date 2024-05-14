@@ -8,10 +8,12 @@
   <app-input
     label="Name"
     [inputFormControl]="form | formGet: 'name'"
+    [readonly]="formConfig.mode | inputReadonly"
   ></app-input>
   <app-input
     label="Description"
     [inputFormControl]="form | formGet: 'description'"
+    [readonly]="formConfig.mode | inputReadonly"
   ></app-input>
   <app-autocomlete
     label="Prompt"
@@ -21,11 +23,13 @@
     [displayWith]="promptDisplayWith.bind(this)"
     [options]="prompts"
     [multiple]="false"
+    [readonly]="formConfig.mode | inputReadonly"
     [inputFormControl]="form | formGet: 'promptId'"
   ></app-autocomlete>
   <app-input
     label="Number of Workers"
     type="number"
+    [readonly]="formConfig.mode | inputReadonly"
     [inputFormControl]="form | formGet: 'numWorkers'"
   ></app-input>
   <app-select
@@ -46,6 +50,7 @@
     <ng-container *ngIf="form?.value?.['aiType'] === AiType.OpenAi || form.value?.['aiType'] === AiType.Gemini">
       <app-input
         label="Api Key"
+        [readonly]="formConfig.mode | inputReadonly"
         [inputFormControl]="form | formGet: 'key'"
         [showVisibilityEye]="true"
       ></app-input>
@@ -53,10 +58,12 @@
     <ng-container *ngIf="form.value?.['aiType'] === AiType.OpenAiCustom">
       <app-input
         label="Url"
+        [readonly]="formConfig.mode | inputReadonly"
         [inputFormControl]="form | formGet: 'url'"
       ></app-input>
       <app-input
         label="Model"
+        [readonly]="formConfig.mode | inputReadonly"
         [inputFormControl]="form | formGet: 'model'"
       ></app-input>
     </ng-container>
