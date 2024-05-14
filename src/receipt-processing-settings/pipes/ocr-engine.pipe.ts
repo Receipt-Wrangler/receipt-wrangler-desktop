@@ -7,9 +7,7 @@ import { ocrEngineOptions } from "../constants/ocr-engine-options";
   standalone: true
 })
 export class OcrEnginePipe implements PipeTransform {
-
-  transform(value: OcrEngine): string {
+  public transform(value: OcrEngine): string {
     return ocrEngineOptions.find(option => option.value === value)?.displayValue ?? "";
   }
-
 }
