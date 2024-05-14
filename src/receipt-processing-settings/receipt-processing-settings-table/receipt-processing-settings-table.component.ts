@@ -31,6 +31,8 @@ export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<
 
   @ViewChild("updatedAtCell") public updatedAtCell!: TemplateRef<any>;
 
+  @ViewChild("actionsCell") public actionsCell!: TemplateRef<any>;
+
   constructor(public override baseTableService: BaseTableService, private store: Store) {
     super(baseTableService);
   }
@@ -84,6 +86,12 @@ export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<
         matColumnDef: "updated_at",
         template: this.updatedAtCell,
         sortable: true
+      },
+      {
+        columnHeader: "Actions",
+        matColumnDef: "actions",
+        template: this.actionsCell,
+        sortable: false
       }
     ] as TableColumn[];
     this.setInitialSortedColumn(this.store.selectSnapshot(ReceiptProcessingSettingsTableState.state), columns);

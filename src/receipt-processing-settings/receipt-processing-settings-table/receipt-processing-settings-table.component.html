@@ -45,6 +45,16 @@
   {{ element.updatedAt | date: "short" }}
 </ng-template>
 
+<ng-template #actionsCell let-element="element">
+  <div class="d-flex">
+    <app-edit-button
+      color="accent"
+      tooltip="Edit receipt processing settings"
+      [buttonRouterLink]="['/system-settings/receipt-processing-settings/' + element.id + '/edit']"
+    ></app-edit-button>
+  </div>
+</ng-template>
+
 <ng-template #headerTemplate>
 
 </ng-template>

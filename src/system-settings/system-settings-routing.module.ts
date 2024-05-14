@@ -141,6 +141,20 @@ const routes: Routes = [
       receiptProcessingSettings: receiptProcessingSettingsResolver,
     }
   },
+  {
+    path: "receipt-processing-settings/:id/edit",
+    component: ReceiptProcessingSettingsFormComponent,
+    data: {
+      formConfig: {
+        mode: FormMode.edit,
+        headerText: "Edit Receipt Processing Settings",
+      } as FormConfig,
+    },
+    resolve: {
+      prompts: promptsResolver,
+      receiptProcessingSettings: receiptProcessingSettingsResolver,
+    }
+  },
 ];
 
 @NgModule({

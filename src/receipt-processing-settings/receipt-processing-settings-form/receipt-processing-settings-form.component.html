@@ -1,9 +1,10 @@
 <form
   [formGroup]="form"
-  (ngSubmit)="submit()">
+  (ngSubmit)="submit()"
+>
   <app-form-header
     [headerText]="formConfig.headerText"
-    [headerButtonsTemplate]="">
+    [headerButtonsTemplate]="headerButtons">
   </app-form-header>
   <app-input
     label="Name"
@@ -77,4 +78,12 @@
   </app-form-button-bar>
 </form>
 
-
+<ng-template #headerButtons>
+  <div class="d-flex">
+    <app-edit-button
+      *ngIf="formConfig.mode === FormMode.view"
+      color="accent"
+      [buttonRouterLink]="['/system-settings/receipt-processing-settings/' + originalReceiptProcessingSettings?.id + '/edit']"
+    ></app-edit-button>
+  </div>
+</ng-template>
