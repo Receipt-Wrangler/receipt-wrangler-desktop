@@ -12,6 +12,7 @@ import {
 import {
   ReceiptProcessingSettingsTableComponent
 } from "../receipt-processing-settings/receipt-processing-settings-table/receipt-processing-settings-table.component";
+import { receiptProcessingSettingsResolver } from "../receipt-processing-settings/receipt-processing-settings.resolver";
 import { systemEmailResolver } from "./resolvers/system-email.resolver";
 import { SystemEmailFormComponent } from "./system-email-form/system-email-form.component";
 import { SystemEmailTableComponent } from "./system-email-table/system-email-table.component";
@@ -124,6 +125,20 @@ const routes: Routes = [
     },
     resolve: {
       prompts: promptsResolver,
+    }
+  },
+  {
+    path: "receipt-processing-settings/:id/view",
+    component: ReceiptProcessingSettingsFormComponent,
+    data: {
+      formConfig: {
+        mode: FormMode.view,
+        headerText: "View Receipt Processing Settings",
+      } as FormConfig,
+    },
+    resolve: {
+      prompts: promptsResolver,
+      receiptProcessingSettings: receiptProcessingSettingsResolver,
     }
   },
 ];

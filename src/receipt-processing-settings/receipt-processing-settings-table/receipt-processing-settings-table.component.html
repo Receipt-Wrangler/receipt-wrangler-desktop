@@ -17,7 +17,12 @@
 ></app-table>
 
 <ng-template #nameCell let-element="element">
-  {{ element.name }}
+  <a
+    [routerLink]="['/system-settings/receipt-processing-settings', element.id, 'view']"
+  >
+    {{ element.name }}
+
+  </a>
 </ng-template>
 
 <ng-template #descriptionCell let-element="element">

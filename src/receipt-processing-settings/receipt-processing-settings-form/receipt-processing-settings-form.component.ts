@@ -13,7 +13,7 @@ import { SnackbarService } from "../../services";
   styleUrl: "./receipt-processing-settings-form.component.scss"
 })
 export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent implements OnInit {
-  public readonly originalReceiptProcessingSettings?: ReceiptProcessingSettings;
+  public originalReceiptProcessingSettings?: ReceiptProcessingSettings;
 
   protected readonly AiType = AiType;
 
@@ -49,7 +49,6 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
   public prompts: Prompt[] = [];
 
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -62,6 +61,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
 
   public ngOnInit(): void {
+    this.originalReceiptProcessingSettings = this.activatedRoute?.snapshot?.data?.["receiptProcessingSettings"];
     this.prompts = this.activatedRoute.snapshot.data["prompts"];
     this.setFormConfigFromRoute(this.activatedRoute);
     this.initForm();
@@ -81,6 +81,9 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     });
 
     this.listenForTypeChange();
+
+    console.warn(this.originalReceiptProcessingSettings);
+    console.warn(this.form.value);
   }
 
   private listenForTypeChange(): void {
