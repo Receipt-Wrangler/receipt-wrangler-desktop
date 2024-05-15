@@ -1,12 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { take, tap } from "rxjs";
+import { DEFAULT_DIALOG_CONFIG } from "../../constants";
 import { FormMode } from "../../enums/form-mode.enum";
 import { BaseFormComponent } from "../../form";
 import { FormOption } from "../../interfaces/form-option.interface";
 import { AiType, Prompt, ReceiptProcessingSettings, ReceiptProcessingSettingsService } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { aiTypeOptions } from "../constants/ai-type-options";
 import { ocrEngineOptions } from "../constants/ocr-engine-options";
 
@@ -36,6 +39,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     private receiptProcessingSettingsService: ReceiptProcessingSettingsService,
     private router: Router,
     private snackbarService: SnackbarService,
+    private dialog: MatDialog
   ) {
     super();
   }
@@ -94,7 +98,10 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
       this.form.get(field)?.setErrors(null);
     });
 
-    this.form.get("key")?.setValidators(Validators.required);
+    const originalType = this.originalReceiptProcessingSettings?.aiType;
+    if (this.formConfig.mode === FormMode.edit && (originalType !== AiType.OpenAi || originalType !== AiType.Gemini)) {
+      this.form.get("key")?.setValidators(Validators.required);
+    }
   }
 
   private updateOpenAiCustomForm(): void {
@@ -117,18 +124,66 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
   }
 
   public submit(): void {
+    const formValue = this.form.value;
+    formValue["numWorkers"] = Number(formValue["numWorkers"]);
+
     if (this.form.valid && !this.originalReceiptProcessingSettings) {
-      const formValue = this.form.value;
-      formValue["numWorkers"] = Number(formValue["numWorkers"]);
-      this.receiptProcessingSettingsService.createReceiptProcessingSettings(this.form.value)
-        .pipe(
-          take(1),
-          tap((settings) => {
-            this.router.navigate([`system-settings/receipt-processing-settings/${settings.id}/view`]);
-            this.snackbarService.success("Receipt processing settings created successfully");
-          })
-        ).subscribe();
+      this.createSettings();
+    } else if (this.form.valid) {
+      this.updateSettings();
     }
+  }
+
+  private createSettings(): void {
+    this.receiptProcessingSettingsService.createReceiptProcessingSettings(this.form.value)
+      .pipe(
+        take(1),
+        tap((settings) => {
+          this.router.navigate([`system-settings/receipt-processing-settings/${settings.id}/view`]);
+          this.snackbarService.success("Receipt processing settings created successfully");
+        })
+      ).subscribe();
+
+  }
+
+  private updateSettings(): void {
+    if (this.form.get("key")?.dirty) {
+      this.showConfirmationDialog();
+    } else {
+      this.callUpdateApi(false);
+    }
+  }
+
+  private showConfirmationDialog(): void {
+    const ref = this.dialog.open(ConfirmationDialogComponent, DEFAULT_DIALOG_CONFIG);
+
+    ref.componentInstance.headerText = "Update Key";
+    ref.componentInstance.dialogContent = "Are you sure you want to update the key? This will replace the previous key.";
+
+    ref.afterClosed()
+      .pipe(
+        take(1),
+        tap((confirmed) => {
+          this.callUpdateApi(confirmed);
+
+        })
+      )
+      .subscribe();
+  }
+
+  private callUpdateApi(updateKey: boolean): void {
+    this.receiptProcessingSettingsService.updateReceiptProcessingSettingsById(
+      this.originalReceiptProcessingSettings?.id ?? 0,
+      updateKey,
+      this.form.value)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.router.navigate([`system-settings/receipt-processing-settings/${this.originalReceiptProcessingSettings?.id}/view`]);
+          this.snackbarService.success("Receipt processing settings updated successfully");
+        })
+      )
+      .subscribe();
   }
 
 }
