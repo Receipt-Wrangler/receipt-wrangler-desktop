@@ -384,19 +384,29 @@ export class ReceiptProcessingSettingsService {
      * Update receipt processing settings by id
      * This will update receipt processing settings by id
      * @param id Id of receipt processing settings to update
+     * @param updateKey Whether or not to update the key
      * @param upsertReceiptProcessingSettingsCommand Receipt processing settings to update
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateReceiptProcessingSettingsById(id: number, upsertReceiptProcessingSettingsCommand: UpsertReceiptProcessingSettingsCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ReceiptProcessingSettings>;
-    public updateReceiptProcessingSettingsById(id: number, upsertReceiptProcessingSettingsCommand: UpsertReceiptProcessingSettingsCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ReceiptProcessingSettings>>;
-    public updateReceiptProcessingSettingsById(id: number, upsertReceiptProcessingSettingsCommand: UpsertReceiptProcessingSettingsCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ReceiptProcessingSettings>>;
-    public updateReceiptProcessingSettingsById(id: number, upsertReceiptProcessingSettingsCommand: UpsertReceiptProcessingSettingsCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public updateReceiptProcessingSettingsById(id: number, updateKey: boolean, upsertReceiptProcessingSettingsCommand: UpsertReceiptProcessingSettingsCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ReceiptProcessingSettings>;
+    public updateReceiptProcessingSettingsById(id: number, updateKey: boolean, upsertReceiptProcessingSettingsCommand: UpsertReceiptProcessingSettingsCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ReceiptProcessingSettings>>;
+    public updateReceiptProcessingSettingsById(id: number, updateKey: boolean, upsertReceiptProcessingSettingsCommand: UpsertReceiptProcessingSettingsCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ReceiptProcessingSettings>>;
+    public updateReceiptProcessingSettingsById(id: number, updateKey: boolean, upsertReceiptProcessingSettingsCommand: UpsertReceiptProcessingSettingsCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling updateReceiptProcessingSettingsById.');
         }
+        if (updateKey === null || updateKey === undefined) {
+            throw new Error('Required parameter updateKey was null or undefined when calling updateReceiptProcessingSettingsById.');
+        }
         if (upsertReceiptProcessingSettingsCommand === null || upsertReceiptProcessingSettingsCommand === undefined) {
             throw new Error('Required parameter upsertReceiptProcessingSettingsCommand was null or undefined when calling updateReceiptProcessingSettingsById.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (updateKey !== undefined && updateKey !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updateKey, 'updateKey');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -451,6 +461,7 @@ export class ReceiptProcessingSettingsService {
             {
                 context: localVarHttpContext,
                 body: upsertReceiptProcessingSettingsCommand,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
