@@ -52,6 +52,10 @@
       tooltip="Edit receipt processing settings"
       [buttonRouterLink]="['/system-settings/receipt-processing-settings/' + element.id + '/edit']"
     ></app-edit-button>
+    <app-delete-button
+      tooltip="Delete receipt processing settings"
+      (clicked)="deleteReceiptProcessingSettings(element)"
+    ></app-delete-button>
   </div>
 </ng-template>
 
