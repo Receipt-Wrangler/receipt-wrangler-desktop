@@ -1,3 +1,9 @@
+<app-table-header headerText="Receipt Processing Settings">
+  <app-add-button
+    tooltip="Create Receipt Processing Settings"
+    [routerLink]="['create']"
+  ></app-add-button>
+</app-table-header>
 <app-table
   [dataSource]="dataSource"
   [columns]="columns"
@@ -11,7 +17,12 @@
 ></app-table>
 
 <ng-template #nameCell let-element="element">
-  {{ element.name }}
+  <a
+    [routerLink]="['/system-settings/receipt-processing-settings', element.id, 'view']"
+  >
+    {{ element.name }}
+
+  </a>
 </ng-template>
 
 <ng-template #descriptionCell let-element="element">
@@ -19,11 +30,11 @@
 </ng-template>
 
 <ng-template #aiTypeCell let-element="element">
-  {{ element.aiType }}
+  {{ element.aiType | aiType }}
 </ng-template>
 
 <ng-template #ocrEngineCell let-element="element">
-  {{ element.aiType }}
+  {{ element.ocrEngine | ocrEngine }}
 </ng-template>
 
 <ng-template #createdAtCell let-element="element">
@@ -32,4 +43,22 @@
 
 <ng-template #updatedAtCell let-element="element">
   {{ element.updatedAt | date: "short" }}
+</ng-template>
+
+<ng-template #actionsCell let-element="element">
+  <div class="d-flex">
+    <app-edit-button
+      color="accent"
+      tooltip="Edit receipt processing settings"
+      [buttonRouterLink]="['/system-settings/receipt-processing-settings/' + element.id + '/edit']"
+    ></app-edit-button>
+    <app-delete-button
+      tooltip="Delete receipt processing settings"
+      (clicked)="deleteReceiptProcessingSettings(element)"
+    ></app-delete-button>
+  </div>
+</ng-template>
+
+<ng-template #headerTemplate>
+
 </ng-template>

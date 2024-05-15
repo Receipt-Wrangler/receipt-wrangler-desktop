@@ -21,6 +21,8 @@ import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog
   }]
 })
 export class SystemEmailFormComponent implements OnInit {
+  protected readonly AssociatedEntityType = AssociatedEntityType;
+
   public formConfig!: FormConfig;
 
   public form!: FormGroup;
@@ -157,8 +159,5 @@ export class SystemEmailFormComponent implements OnInit {
       .subscribe();
   }
 
-  protected readonly AssociatedEntityType = AssociatedEntityType;
 }
 
-// TODO: write shared tasks table component that will use a service to communicate with the state.
-// TODO: this table component, can also in theory be used to make tables way more generic, we will have to see

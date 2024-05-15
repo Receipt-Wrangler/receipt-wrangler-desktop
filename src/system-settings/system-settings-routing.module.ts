@@ -5,9 +5,14 @@ import { FormConfig } from "../interfaces";
 import { PromptFormComponent } from "../prompt/prompt-form/prompt-form.component";
 import { PromptTableComponent } from "../prompt/prompt-table/prompt-table.component";
 import { promptResolver } from "../prompt/prompt.resolver";
+import { promptsResolver } from "../prompt/prompts.resolver";
+import {
+  ReceiptProcessingSettingsFormComponent
+} from "../receipt-processing-settings/receipt-processing-settings-form/receipt-processing-settings-form.component";
 import {
   ReceiptProcessingSettingsTableComponent
 } from "../receipt-processing-settings/receipt-processing-settings-table/receipt-processing-settings-table.component";
+import { receiptProcessingSettingsResolver } from "../receipt-processing-settings/receipt-processing-settings.resolver";
 import { systemEmailResolver } from "./resolvers/system-email.resolver";
 import { SystemEmailFormComponent } from "./system-email-form/system-email-form.component";
 import { SystemEmailTableComponent } from "./system-email-table/system-email-table.component";
@@ -108,8 +113,48 @@ const routes: Routes = [
     resolve: {
       systemEmail: systemEmailResolver,
     }
-  }
-
+  },
+  {
+    path: "receipt-processing-settings/create",
+    component: ReceiptProcessingSettingsFormComponent,
+    data: {
+      formConfig: {
+        mode: FormMode.add,
+        headerText: "Create Receipt Processing Settings",
+      } as FormConfig,
+    },
+    resolve: {
+      prompts: promptsResolver,
+    }
+  },
+  {
+    path: "receipt-processing-settings/:id/view",
+    component: ReceiptProcessingSettingsFormComponent,
+    data: {
+      formConfig: {
+        mode: FormMode.view,
+        headerText: "View Receipt Processing Settings",
+      } as FormConfig,
+    },
+    resolve: {
+      prompts: promptsResolver,
+      receiptProcessingSettings: receiptProcessingSettingsResolver,
+    }
+  },
+  {
+    path: "receipt-processing-settings/:id/edit",
+    component: ReceiptProcessingSettingsFormComponent,
+    data: {
+      formConfig: {
+        mode: FormMode.edit,
+        headerText: "Edit Receipt Processing Settings",
+      } as FormConfig,
+    },
+    resolve: {
+      prompts: promptsResolver,
+      receiptProcessingSettings: receiptProcessingSettingsResolver,
+    }
+  },
 ];
 
 @NgModule({

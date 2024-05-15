@@ -9,6 +9,7 @@
     </mat-option>
   </mat-select>
   <mat-error *ngFor="let err of formControlErrors | async">{{
-    err.message
-  }}</mat-error>
+      err.message
+    }}
+  </mat-error>
 </mat-form-field>

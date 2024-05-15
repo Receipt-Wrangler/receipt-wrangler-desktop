@@ -1,8 +1,13 @@
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
-import { ReceiptProcessingSettings } from "../../open-api";
+import { take, tap } from "rxjs";
+import { DEFAULT_DIALOG_CONFIG } from "../../constants";
+import { ReceiptProcessingSettings, ReceiptProcessingSettingsService } from "../../open-api";
+import { SnackbarService } from "../../services";
 import { BaseTableService } from "../../services/base-table.service";
 import { BaseTableComponent } from "../../shared-ui/base-table/base-table.component";
+import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { ReceiptProcessingSettingsTableState } from "../../store/receipt-processing-settings-table.state";
 import { TableColumn } from "../../table/table-column.interface";
 import { ReceiptProcessingSettingsTableService } from "./receipt-processing-settings-table.service";
@@ -25,13 +30,21 @@ export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<
 
   @ViewChild("aiTypeCell") public aiTypeCell!: TemplateRef<any>;
 
-  @ViewChild("ocrTypeCell") public ocrTypeCell!: TemplateRef<any>;
+  @ViewChild("ocrEngineCell") public ocrEngineCell!: TemplateRef<any>;
 
   @ViewChild("createdAtCell") public createdAtCell!: TemplateRef<any>;
 
   @ViewChild("updatedAtCell") public updatedAtCell!: TemplateRef<any>;
 
-  constructor(public override baseTableService: BaseTableService, private store: Store) {
+  @ViewChild("actionsCell") public actionsCell!: TemplateRef<any>;
+
+  constructor(
+    public override baseTableService: BaseTableService,
+    private store: Store,
+    private receiptProcessingSettingsService: ReceiptProcessingSettingsService,
+    private snackbarService: SnackbarService,
+    private dialog: MatDialog
+  ) {
     super(baseTableService);
   }
 
@@ -70,7 +83,7 @@ export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<
       {
         columnHeader: "OCR Engine",
         matColumnDef: "ocr_engine",
-        template: this.ocrTypeCell,
+        template: this.ocrEngineCell,
         sortable: true
       },
       {
@@ -84,11 +97,49 @@ export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<
         matColumnDef: "updated_at",
         template: this.updatedAtCell,
         sortable: true
+      },
+      {
+        columnHeader: "Actions",
+        matColumnDef: "actions",
+        template: this.actionsCell,
+        sortable: false
       }
     ] as TableColumn[];
     this.setInitialSortedColumn(this.store.selectSnapshot(ReceiptProcessingSettingsTableState.state), columns);
 
     this.columns = columns;
     this.displayedColumns = columns.map((c) => c.matColumnDef);
+  }
+
+  public deleteReceiptProcessingSettings(receiptProcessingSettings: ReceiptProcessingSettings): void {
+    const ref = this.dialog.open(ConfirmationDialogComponent, DEFAULT_DIALOG_CONFIG);
+
+    ref.componentInstance.headerText = "Delete Receipt Processing Settings";
+    ref.componentInstance.dialogContent = `Are you sure you want to delete the receipt processing settings: ${receiptProcessingSettings.name}?`;
+
+    ref.afterClosed()
+      .pipe(
+        take(1),
+        tap((confirmed) => {
+          if (confirmed) {
+            this.callDeleteApi(receiptProcessingSettings);
+          }
+        })
+      )
+      .subscribe();
+
+  }
+
+  private callDeleteApi(receiptProcessingSettings: ReceiptProcessingSettings): void {
+    this.receiptProcessingSettingsService.deleteReceiptProcessingSettingsById(receiptProcessingSettings.id)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.snackbarService.success("Receipt Processing Settings deleted successfully");
+          this.getTableData();
+        })
+      )
+      .subscribe();
+
   }
 }

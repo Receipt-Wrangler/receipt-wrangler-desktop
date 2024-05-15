@@ -11,11 +11,11 @@
  */
 
 
-export type AiType = 'OPENAI_CUSTOM' | 'OPENAI' | 'GEMINI';
+export type AiType = 'OPEN_AI_CUSTOM' | 'OPEN_AI' | 'GEMINI';
 
 export const AiType = {
-    OpenaiCustom: 'OPENAI_CUSTOM' as AiType,
-    Openai: 'OPENAI' as AiType,
+    OpenAiCustom: 'OPEN_AI_CUSTOM' as AiType,
+    OpenAi: 'OPEN_AI' as AiType,
     Gemini: 'GEMINI' as AiType
 };
 
