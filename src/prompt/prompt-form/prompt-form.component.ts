@@ -14,7 +14,7 @@ import { SnackbarService } from "../../services";
 export class PromptFormComponent extends BaseFormComponent implements OnInit {
   public originalPrompt?: Prompt;
 
-  public promptVariables = ["categories", "tags"];
+  public promptVariables = ["categories", "tags", "currentYear", "ocrText"];
 
   constructor(
     private activatedRoute: ActivatedRoute,

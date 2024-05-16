@@ -1,9 +1,18 @@
 <div class="d-flex flex-column">
   <app-table-header headerText="Prompts">
-    <app-add-button
-      tooltip="Create Prompt"
-      [routerLink]="['create']"
-    ></app-add-button>
+    <div class="d-flex">
+      <app-add-button
+        tooltip="Create Prompt"
+        [routerLink]="['create']"
+      ></app-add-button>
+      <app-button
+        color="accent"
+        tooltip="Create default prompt"
+        icon="note_add"
+        matButtonType="iconButton"
+        (clicked)="createDefaultPrompt()">
+      </app-button>
+    </div>
   </app-table-header>
   <div class="table-container">
     <app-table

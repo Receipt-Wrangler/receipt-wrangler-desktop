@@ -193,4 +193,16 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
       )
       .subscribe();
   }
+
+  public createDefaultPrompt(): void {
+    this.promptService.createDefaultPrompt()
+      .pipe(
+        take(1),
+        tap((prompt) => {
+          this.router.navigate([`/system-settings/prompts/${prompt.id}/view`]);
+          this.snackbarService.success(`Default prompt created successfully`);
+        })
+      )
+      .subscribe();
+  }
 }
