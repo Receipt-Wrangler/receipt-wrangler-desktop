@@ -3,10 +3,11 @@ import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { Router } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { Observable, take, tap } from "rxjs";
 import { PagedTableInterface } from "../../interfaces/paged-table.interface";
-import { Prompt, PromptService } from "../../open-api";
+import { Prompt, PromptService, UpsertPromptCommand } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { PromptTableState } from "../../store/prompt-table.state";
@@ -41,10 +42,11 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
 
 
   constructor(
-    private store: Store,
-    private promptService: PromptService,
     private matDialog: MatDialog,
-    private snackbarService: SnackbarService
+    private promptService: PromptService,
+    private router: Router,
+    private snackbarService: SnackbarService,
+    private store: Store,
   ) {}
 
   public ngOnInit(): void {
@@ -165,6 +167,29 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
           this.dataSource = new MatTableDataSource(data);
           this.snackbarService.success("Prompt deleted successfully");
         })
+      )
+      .subscribe();
+  }
+
+  public duplicatePrompt(id: number): void {
+    const prompt = this.dataSource.data.find((p) => p.id === id);
+    if (!prompt) {
+      return;
+    }
+
+    const command: UpsertPromptCommand = {
+      name: prompt.name + " duplicate",
+      description: prompt.description,
+      prompt: prompt.prompt,
+    };
+
+    this.promptService.createPrompt(command)
+      .pipe(
+        take(1),
+        tap((prompt) => {
+          this.router.navigate([`/system-settings/prompts/${prompt.id}/view`]);
+          this.snackbarService.success(`Prompt ${prompt.name} duplicated successfully`);
+        }),
       )
       .subscribe();
   }

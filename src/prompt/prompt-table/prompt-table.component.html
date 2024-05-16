@@ -45,6 +45,13 @@
       color="accent"
       [routerLink]="['/system-settings/prompts/' + element.id + '/edit']"
     ></app-edit-button>
+    <app-button
+      color="accent"
+      tooltip="Duplicate prompt"
+      icon="file_copy"
+      matButtonType="iconButton"
+      (clicked)="duplicatePrompt(element.id)"
+    ></app-button>
     <app-delete-button
       tooltip="Delete Prompt"
       (clicked)="deletePrompt(element.id, index)"
