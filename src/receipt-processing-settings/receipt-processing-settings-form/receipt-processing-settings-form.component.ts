@@ -9,6 +9,7 @@ import { BaseFormComponent } from "../../form";
 import { FormOption } from "../../interfaces/form-option.interface";
 import {
   AiType,
+  AssociatedEntityType,
   CheckReceiptProcessingSettingsConnectivityCommand,
   Prompt,
   ReceiptProcessingSettings,
@@ -16,6 +17,8 @@ import {
   SystemTaskStatus
 } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { TABLE_SERVICE_INJECTION_TOKEN } from "../../services/injection-tokens/table-service";
+import { ReceiptProcessingSettingsTaskTableService } from "../../services/receipt-processing-settings-task-table.service";
 import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { aiTypeOptions } from "../constants/ai-type-options";
 import { ocrEngineOptions } from "../constants/ocr-engine-options";
@@ -23,7 +26,11 @@ import { ocrEngineOptions } from "../constants/ocr-engine-options";
 @Component({
   selector: "app-receipt-processing-settings-form",
   templateUrl: "./receipt-processing-settings-form.component.html",
-  styleUrl: "./receipt-processing-settings-form.component.scss"
+  styleUrl: "./receipt-processing-settings-form.component.scss",
+  providers: [{
+    provide: TABLE_SERVICE_INJECTION_TOKEN,
+    useClass: ReceiptProcessingSettingsTaskTableService
+  }]
 })
 export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent implements OnInit {
   public originalReceiptProcessingSettings?: ReceiptProcessingSettings;
@@ -221,4 +228,5 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
       ).subscribe();
   }
 
+  protected readonly AssociatedEntityType = AssociatedEntityType;
 }

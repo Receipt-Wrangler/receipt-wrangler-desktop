@@ -11,9 +11,10 @@
  */
 
 
-export type SystemTaskType = 'SYSTEM_EMAIL_CONNECTIVITY_CHECK';
+export type SystemTaskType = 'SYSTEM_EMAIL_CONNECTIVITY_CHECK' | 'RECEIPT_PROCESSING_SETTINGS_CONNECTIVITY_CHECK';
 
 export const SystemTaskType = {
-    SystemEmailConnectivityCheck: 'SYSTEM_EMAIL_CONNECTIVITY_CHECK' as SystemTaskType
+    SystemEmailConnectivityCheck: 'SYSTEM_EMAIL_CONNECTIVITY_CHECK' as SystemTaskType,
+    ReceiptProcessingSettingsConnectivityCheck: 'RECEIPT_PROCESSING_SETTINGS_CONNECTIVITY_CHECK' as SystemTaskType
 };
 
