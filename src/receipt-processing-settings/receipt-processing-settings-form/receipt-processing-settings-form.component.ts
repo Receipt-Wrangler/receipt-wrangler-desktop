@@ -7,7 +7,14 @@ import { DEFAULT_DIALOG_CONFIG } from "../../constants";
 import { FormMode } from "../../enums/form-mode.enum";
 import { BaseFormComponent } from "../../form";
 import { FormOption } from "../../interfaces/form-option.interface";
-import { AiType, Prompt, ReceiptProcessingSettings, ReceiptProcessingSettingsService } from "../../open-api";
+import {
+  AiType,
+  CheckReceiptProcessingSettingsConnectivityCommand,
+  Prompt,
+  ReceiptProcessingSettings,
+  ReceiptProcessingSettingsService,
+  SystemTaskStatus
+} from "../../open-api";
 import { SnackbarService } from "../../services";
 import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { aiTypeOptions } from "../constants/ai-type-options";
@@ -184,6 +191,34 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
         })
       )
       .subscribe();
+  }
+
+  public checkConnectivity(): void {
+    if (this.form.valid && this.formConfig.mode === FormMode.edit) {
+      const command: CheckReceiptProcessingSettingsConnectivityCommand = {
+        ...this.form.value,
+        id: this.originalReceiptProcessingSettings?.id
+      };
+      this.callCheckConnectivityApi(command);
+    } else if (this.formConfig.mode === FormMode.view) {
+      this.callCheckConnectivityApi({ ...this.originalReceiptProcessingSettings });
+    } else if (this.form.valid) {
+      this.callCheckConnectivityApi(this.form.value);
+    }
+  }
+
+  private callCheckConnectivityApi(command: CheckReceiptProcessingSettingsConnectivityCommand): void {
+    this.receiptProcessingSettingsService.checkReceiptProcessingSettingsConnectivity(command)
+      .pipe(
+        take(1),
+        tap((systemTask) => {
+          if (systemTask.status === SystemTaskStatus.Succeeded) {
+            this.snackbarService.success("Successfully connected to the server");
+          } else {
+            this.snackbarService.error("Failed to connect to the server");
+          }
+        })
+      ).subscribe();
   }
 
 }

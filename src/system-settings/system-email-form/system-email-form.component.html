@@ -57,6 +57,7 @@
     color="accent"
     matButtonType="iconButton"
     icon="mail"
+    tooltip="Check Email Connectivity"
     [disabled]="(formConfig.mode == FormMode.add || formConfig.mode == FormMode.edit) && form.invalid"
     (clicked)="checkEmailConnectivity()"
   ></app-button>

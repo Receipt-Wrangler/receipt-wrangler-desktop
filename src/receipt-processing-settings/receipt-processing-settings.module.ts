@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { AutocompleteModule } from "../autocomplete/autocomplete.module";
+import { ButtonModule } from "../button";
 import { InputModule } from "../input";
 import { PipesModule } from "../pipes";
 import { SelectModule } from "../select/select.module";
@@ -27,7 +28,8 @@ import { ReceiptProcessingSettingsTableComponent } from "./receipt-processing-se
     SelectModule,
     AutocompleteModule,
     AiTypePipe,
-    OcrEnginePipe
+    OcrEnginePipe,
+    ButtonModule
   ],
   exports: []
 })

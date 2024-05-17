@@ -85,5 +85,13 @@
       color="accent"
       [buttonRouterLink]="['/system-settings/receipt-processing-settings/' + originalReceiptProcessingSettings?.id + '/edit']"
     ></app-edit-button>
+    <app-button
+      matButtonType="iconButton"
+      icon="wifi"
+      color="accent"
+      tooltip="Check Connectivity"
+      [disabled]="form.invalid"
+      (clicked)="checkConnectivity()"
+    ></app-button>
   </div>
 </ng-template>

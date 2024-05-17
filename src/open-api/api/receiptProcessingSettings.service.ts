@@ -19,11 +19,15 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { CheckReceiptProcessingSettingsConnectivityCommand } from '../model/checkReceiptProcessingSettingsConnectivityCommand';
+// @ts-ignore
 import { PagedData } from '../model/pagedData';
 // @ts-ignore
 import { PagedRequestCommand } from '../model/pagedRequestCommand';
 // @ts-ignore
 import { ReceiptProcessingSettings } from '../model/receiptProcessingSettings';
+// @ts-ignore
+import { SystemTask } from '../model/systemTask';
 // @ts-ignore
 import { UpsertReceiptProcessingSettingsCommand } from '../model/upsertReceiptProcessingSettingsCommand';
 
@@ -95,6 +99,81 @@ export class ReceiptProcessingSettingsService {
             throw Error("key may not be null if value is not object or array");
         }
         return httpParams;
+    }
+
+    /**
+     * Check receipt processing settings connectivity
+     * @param checkReceiptProcessingSettingsConnectivityCommand Receipt processing settings to check connectivity
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public checkReceiptProcessingSettingsConnectivity(checkReceiptProcessingSettingsConnectivityCommand: CheckReceiptProcessingSettingsConnectivityCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SystemTask>;
+    public checkReceiptProcessingSettingsConnectivity(checkReceiptProcessingSettingsConnectivityCommand: CheckReceiptProcessingSettingsConnectivityCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SystemTask>>;
+    public checkReceiptProcessingSettingsConnectivity(checkReceiptProcessingSettingsConnectivityCommand: CheckReceiptProcessingSettingsConnectivityCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SystemTask>>;
+    public checkReceiptProcessingSettingsConnectivity(checkReceiptProcessingSettingsConnectivityCommand: CheckReceiptProcessingSettingsConnectivityCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (checkReceiptProcessingSettingsConnectivityCommand === null || checkReceiptProcessingSettingsConnectivityCommand === undefined) {
+            throw new Error('Required parameter checkReceiptProcessingSettingsConnectivityCommand was null or undefined when calling checkReceiptProcessingSettingsConnectivity.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (bearerAuth) required
+        localVarCredential = this.configuration.lookupCredential('bearerAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/receiptProcessingSettings/checkConnectivity`;
+        return this.httpClient.request<SystemTask>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: checkReceiptProcessingSettingsConnectivityCommand,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
     }
 
     /**
