@@ -13,10 +13,11 @@ import { SystemEmailTableComponent } from "./system-email-table/system-email-tab
 
 import { SystemSettingsRoutingModule } from "./system-settings-routing.module";
 import { SystemSettingsComponent } from "./system-settings/system-settings.component";
+import { SystemSettingsFormComponent } from './system-settings-form/system-settings-form.component';
 
 
 @NgModule({
-  declarations: [SystemEmailTableComponent, SystemSettingsComponent, SystemEmailFormComponent],
+  declarations: [SystemEmailTableComponent, SystemSettingsComponent, SystemEmailFormComponent, SystemSettingsFormComponent],
   imports: [
     ButtonModule,
     CommonModule,
