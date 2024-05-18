@@ -11,9 +11,10 @@
  */
 
 
-export type AssociatedEntityType = 'SYSTEM_EMAIL';
+export type AssociatedEntityType = 'SYSTEM_EMAIL' | 'RECEIPT_PROCESSING_SETTINGS';
 
 export const AssociatedEntityType = {
-    SystemEmail: 'SYSTEM_EMAIL' as AssociatedEntityType
+    SystemEmail: 'SYSTEM_EMAIL' as AssociatedEntityType,
+    ReceiptProcessingSettings: 'RECEIPT_PROCESSING_SETTINGS' as AssociatedEntityType
 };
 

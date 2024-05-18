@@ -158,6 +158,4 @@ export class SystemEmailFormComponent implements OnInit {
       )
       .subscribe();
   }
-
 }
-

@@ -6,6 +6,7 @@ export * from './bulkStatusUpdateCommand';
 export * from './category';
 export * from './categoryView';
 export * from './checkEmailConnectivityCommand';
+export * from './checkReceiptProcessingSettingsConnectivityCommand';
 export * from './claims';
 export * from './comment';
 export * from './dashboard';

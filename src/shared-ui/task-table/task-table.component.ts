@@ -48,7 +48,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
     this.getTableData();
   }
 
-  private getTableData(): void {
+  public getTableData(): void {
     const pagedCommand = this.tableService.getPagedRequestCommand();
     const getSystemTaskCommand: GetSystemTaskCommand = {
       page: pagedCommand.page,

@@ -34,7 +34,6 @@
         [onlyIcon]="false"
       ></app-submit-button>
     </app-form-button-bar>
-
   </app-form-section>
   <app-form-section
     *ngIf="formConfig.mode != FormMode.add"
@@ -57,6 +56,7 @@
     color="accent"
     matButtonType="iconButton"
     icon="mail"
+    tooltip="Check Email Connectivity"
     [disabled]="(formConfig.mode == FormMode.add || formConfig.mode == FormMode.edit) && form.invalid"
     (clicked)="checkEmailConnectivity()"
   ></app-button>

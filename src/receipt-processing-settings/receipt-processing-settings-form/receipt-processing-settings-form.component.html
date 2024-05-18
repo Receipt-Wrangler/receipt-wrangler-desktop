@@ -6,69 +6,84 @@
     [headerText]="formConfig.headerText"
     [headerButtonsTemplate]="headerButtons">
   </app-form-header>
-  <app-input
-    label="Name"
-    [inputFormControl]="form | formGet: 'name'"
-    [readonly]="formConfig.mode | inputReadonly"
-  ></app-input>
-  <app-input
-    label="Description"
-    [inputFormControl]="form | formGet: 'description'"
-    [readonly]="formConfig.mode | inputReadonly"
-  ></app-input>
-  <app-autocomlete
-    label="Prompt"
-    optionValueKey="id"
-    optionDisplayKey="name"
-    optionFilterKey="name"
-    [displayWith]="promptDisplayWith.bind(this)"
-    [options]="prompts"
-    [multiple]="false"
-    [readonly]="formConfig.mode | inputReadonly"
-    [inputFormControl]="form | formGet: 'promptId'"
-  ></app-autocomlete>
-  <app-input
-    label="Number of Workers"
-    type="number"
-    [readonly]="formConfig.mode | inputReadonly"
-    [inputFormControl]="form | formGet: 'numWorkers'"
-  ></app-input>
-  <app-select
-    label="OCR Engine"
-    optionValueKey="value"
-    optionDisplayKey="displayValue"
-    [inputFormControl]="form | formGet: 'ocrEngine'"
-    [options]="ocrEngineOptions"
-  ></app-select>
-  <app-select
-    label="Ai Type"
-    optionValueKey="value"
-    optionDisplayKey="displayValue"
-    [inputFormControl]="form | formGet: 'aiType'"
-    [options]="aiTypeOptions"
-  ></app-select>
-  <div class="d-flex flex-column">
-    <ng-container *ngIf="form?.value?.['aiType'] === AiType.OpenAi || form.value?.['aiType'] === AiType.Gemini">
-      <app-input
-        label="Api Key"
-        [readonly]="formConfig.mode | inputReadonly"
-        [inputFormControl]="form | formGet: 'key'"
-        [showVisibilityEye]="true"
-      ></app-input>
-    </ng-container>
-    <ng-container *ngIf="form.value?.['aiType'] === AiType.OpenAiCustom">
-      <app-input
-        label="Url"
-        [readonly]="formConfig.mode | inputReadonly"
-        [inputFormControl]="form | formGet: 'url'"
-      ></app-input>
-      <app-input
-        label="Model"
-        [readonly]="formConfig.mode | inputReadonly"
-        [inputFormControl]="form | formGet: 'model'"
-      ></app-input>
-    </ng-container>
-  </div>
+  <app-audit-detail-section
+    [data]="originalReceiptProcessingSettings"
+    [formMode]="formConfig.mode">
+  </app-audit-detail-section>
+  <app-form-section headerText="Details">
+    <app-input
+      label="Name"
+      [inputFormControl]="form | formGet: 'name'"
+      [readonly]="formConfig.mode | inputReadonly"
+    ></app-input>
+    <app-input
+      label="Description"
+      [inputFormControl]="form | formGet: 'description'"
+      [readonly]="formConfig.mode | inputReadonly"
+    ></app-input>
+    <app-autocomlete
+      label="Prompt"
+      optionValueKey="id"
+      optionDisplayKey="name"
+      optionFilterKey="name"
+      [displayWith]="promptDisplayWith.bind(this)"
+      [options]="prompts"
+      [multiple]="false"
+      [readonly]="formConfig.mode | inputReadonly"
+      [inputFormControl]="form | formGet: 'promptId'"
+    ></app-autocomlete>
+    <app-input
+      label="Number of Workers"
+      type="number"
+      [readonly]="formConfig.mode | inputReadonly"
+      [inputFormControl]="form | formGet: 'numWorkers'"
+    ></app-input>
+    <app-select
+      label="OCR Engine"
+      optionValueKey="value"
+      optionDisplayKey="displayValue"
+      [inputFormControl]="form | formGet: 'ocrEngine'"
+      [options]="ocrEngineOptions"
+    ></app-select>
+    <app-select
+      label="Ai Type"
+      optionValueKey="value"
+      optionDisplayKey="displayValue"
+      [inputFormControl]="form | formGet: 'aiType'"
+      [options]="aiTypeOptions"
+    ></app-select>
+    <div class="d-flex flex-column">
+      <ng-container *ngIf="form?.value?.['aiType'] === AiType.OpenAi || form.value?.['aiType'] === AiType.Gemini">
+        <app-input
+          label="Api Key"
+          [readonly]="formConfig.mode | inputReadonly"
+          [inputFormControl]="form | formGet: 'key'"
+          [showVisibilityEye]="true"
+        ></app-input>
+      </ng-container>
+      <ng-container *ngIf="form.value?.['aiType'] === AiType.OpenAiCustom">
+        <app-input
+          label="Url"
+          [readonly]="formConfig.mode | inputReadonly"
+          [inputFormControl]="form | formGet: 'url'"
+        ></app-input>
+        <app-input
+          label="Model"
+          [readonly]="formConfig.mode | inputReadonly"
+          [inputFormControl]="form | formGet: 'model'"
+        ></app-input>
+      </ng-container>
+    </div>
+  </app-form-section>
+  <app-form-section
+    *ngIf="formConfig.mode != FormMode.add"
+    headerText="System Tasks"
+  >
+    <app-task-table
+      [associatedEntityType]="AssociatedEntityType.ReceiptProcessingSettings"
+      [associatedEntityId]="originalReceiptProcessingSettings?.id"
+    ></app-task-table>
+  </app-form-section>
   <app-form-button-bar [mode]="formConfig.mode">
     <app-submit-button
       *ngIf="!(formConfig.mode | inputReadonly)"
@@ -85,5 +100,13 @@
       color="accent"
       [buttonRouterLink]="['/system-settings/receipt-processing-settings/' + originalReceiptProcessingSettings?.id + '/edit']"
     ></app-edit-button>
+    <app-button
+      matButtonType="iconButton"
+      icon="wifi"
+      color="accent"
+      tooltip="Check Connectivity"
+      [disabled]="form.invalid"
+      (clicked)="checkConnectivity()"
+    ></app-button>
   </div>
 </ng-template>

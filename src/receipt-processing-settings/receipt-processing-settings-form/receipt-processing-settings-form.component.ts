@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -7,18 +7,35 @@ import { DEFAULT_DIALOG_CONFIG } from "../../constants";
 import { FormMode } from "../../enums/form-mode.enum";
 import { BaseFormComponent } from "../../form";
 import { FormOption } from "../../interfaces/form-option.interface";
-import { AiType, Prompt, ReceiptProcessingSettings, ReceiptProcessingSettingsService } from "../../open-api";
+import {
+  AiType,
+  AssociatedEntityType,
+  CheckReceiptProcessingSettingsConnectivityCommand,
+  Prompt,
+  ReceiptProcessingSettings,
+  ReceiptProcessingSettingsService,
+  SystemTaskStatus
+} from "../../open-api";
 import { SnackbarService } from "../../services";
+import { TABLE_SERVICE_INJECTION_TOKEN } from "../../services/injection-tokens/table-service";
+import { ReceiptProcessingSettingsTaskTableService } from "../../services/receipt-processing-settings-task-table.service";
 import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
+import { TaskTableComponent } from "../../shared-ui/task-table/task-table.component";
 import { aiTypeOptions } from "../constants/ai-type-options";
 import { ocrEngineOptions } from "../constants/ocr-engine-options";
 
 @Component({
   selector: "app-receipt-processing-settings-form",
   templateUrl: "./receipt-processing-settings-form.component.html",
-  styleUrl: "./receipt-processing-settings-form.component.scss"
+  styleUrl: "./receipt-processing-settings-form.component.scss",
+  providers: [{
+    provide: TABLE_SERVICE_INJECTION_TOKEN,
+    useClass: ReceiptProcessingSettingsTaskTableService
+  }]
 })
 export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent implements OnInit {
+  @ViewChild(TaskTableComponent) public taskTableComponent!: TaskTableComponent;
+
   public originalReceiptProcessingSettings?: ReceiptProcessingSettings;
 
   protected readonly AiType = AiType;
@@ -31,6 +48,8 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
   public readonly ocrEngineOptions: FormOption[] = ocrEngineOptions;
 
+  protected readonly AssociatedEntityType = AssociatedEntityType;
+
   public prompts: Prompt[] = [];
 
   constructor(
@@ -39,7 +58,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     private receiptProcessingSettingsService: ReceiptProcessingSettingsService,
     private router: Router,
     private snackbarService: SnackbarService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {
     super();
   }
@@ -184,6 +203,62 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
         })
       )
       .subscribe();
+  }
+
+  public checkConnectivity(): void {
+    if (this.form.valid && this.formConfig.mode === FormMode.edit && this.form.dirty) {
+      const ref = this.dialog.open(ConfirmationDialogComponent, DEFAULT_DIALOG_CONFIG);
+      ref.componentInstance.headerText = "Check Connectivity";
+      ref.componentInstance.dialogContent = `You have made changes to the receipt processing settings.
+       Would you like to check connectivity with the unsaved changes? Otherwise the existing settings will be used.`;
+
+      ref.afterClosed()
+        .pipe(
+          take(1),
+          tap((useUnsavedChanges) => {
+            if (useUnsavedChanges) {
+              this.callCheckConnectivityApi({
+                ...this.form.value,
+                id: this.originalReceiptProcessingSettings?.id
+              }, true);
+            } else {
+              this.callCheckConnectivityApi({
+                id: this.originalReceiptProcessingSettings?.id
+              }, true);
+            }
+
+          })
+        )
+        .subscribe();
+      return;
+    }
+
+    if (this.form.valid && (this.formConfig.mode === FormMode.edit || this.formConfig.mode === FormMode.view)) {
+      const command: CheckReceiptProcessingSettingsConnectivityCommand = {
+        id: this.originalReceiptProcessingSettings?.id
+      };
+      this.callCheckConnectivityApi(command, true);
+    } else if (this.form.valid) {
+      this.callCheckConnectivityApi(this.form.value);
+    }
+  }
+
+  private callCheckConnectivityApi(command: CheckReceiptProcessingSettingsConnectivityCommand, refreshSystemTaskTable = false): void {
+    this.receiptProcessingSettingsService.checkReceiptProcessingSettingsConnectivity(command)
+      .pipe(
+        take(1),
+        tap((systemTask) => {
+          if (systemTask.status === SystemTaskStatus.Succeeded) {
+            this.snackbarService.success("Successfully connected to the server");
+          } else {
+            this.snackbarService.error("Failed to connect to the server");
+          }
+
+          if (refreshSystemTaskTable) {
+            this.taskTableComponent.getTableData();
+          }
+        })
+      ).subscribe();
   }
 
 }

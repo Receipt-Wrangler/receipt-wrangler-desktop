@@ -52,6 +52,13 @@
       tooltip="Edit receipt processing settings"
       [buttonRouterLink]="['/system-settings/receipt-processing-settings/' + element.id + '/edit']"
     ></app-edit-button>
+    <app-button
+      color="accent"
+      matButtonType="iconButton"
+      icon="wifi"
+      tooltip="Check Receipt Processing Connectivity"
+      (clicked)="checkConnectivity(element.id)"
+    ></app-button>
     <app-delete-button
       tooltip="Delete receipt processing settings"
       (clicked)="deleteReceiptProcessingSettings(element)"
