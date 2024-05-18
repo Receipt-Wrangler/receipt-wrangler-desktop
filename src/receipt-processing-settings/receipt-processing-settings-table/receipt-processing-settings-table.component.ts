@@ -3,7 +3,12 @@ import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
 import { DEFAULT_DIALOG_CONFIG } from "../../constants";
-import { ReceiptProcessingSettings, ReceiptProcessingSettingsService } from "../../open-api";
+import {
+  CheckReceiptProcessingSettingsConnectivityCommand,
+  ReceiptProcessingSettings,
+  ReceiptProcessingSettingsService,
+  SystemTaskStatus
+} from "../../open-api";
 import { SnackbarService } from "../../services";
 import { BaseTableService } from "../../services/base-table.service";
 import { BaseTableComponent } from "../../shared-ui/base-table/base-table.component";
@@ -140,6 +145,24 @@ export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<
         })
       )
       .subscribe();
+  }
 
+  public checkConnectivity(id: number): void {
+    const command: CheckReceiptProcessingSettingsConnectivityCommand = {
+      id: id
+    };
+
+    this.receiptProcessingSettingsService.checkReceiptProcessingSettingsConnectivity(command)
+      .pipe(
+        take(1),
+        tap((systemTask) => {
+          if (systemTask.status === SystemTaskStatus.Succeeded) {
+            this.snackbarService.success("Successfully connected to the server");
+          } else {
+            this.snackbarService.error("Failed to connect to the server");
+          }
+        })
+      )
+      .subscribe();
   }
 }
