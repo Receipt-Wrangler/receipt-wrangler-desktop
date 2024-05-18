@@ -15,6 +15,7 @@ api/receiptImage.service.ts
 api/receiptProcessingSettings.service.ts
 api/search.service.ts
 api/systemEmail.service.ts
+api/systemSettings.service.ts
 api/systemTask.service.ts
 api/tag.service.ts
 api/user.service.ts
@@ -96,6 +97,7 @@ model/upsertPromptCommand.ts
 model/upsertReceiptCommand.ts
 model/upsertReceiptProcessingSettingsCommand.ts
 model/upsertSystemEmailCommand.ts
+model/upsertSystemSettingsCommand.ts
 model/upsertTagCommand.ts
 model/upsertWidgetCommand.ts
 model/user.ts

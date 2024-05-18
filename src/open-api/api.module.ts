@@ -15,6 +15,7 @@ import { ReceiptImageService } from './api/receiptImage.service';
 import { ReceiptProcessingSettingsService } from './api/receiptProcessingSettings.service';
 import { SearchService } from './api/search.service';
 import { SystemEmailService } from './api/systemEmail.service';
+import { SystemSettingsService } from './api/systemSettings.service';
 import { SystemTaskService } from './api/systemTask.service';
 import { TagService } from './api/tag.service';
 import { UserService } from './api/user.service';

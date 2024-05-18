@@ -70,6 +70,7 @@ export * from './upsertPromptCommand';
 export * from './upsertReceiptCommand';
 export * from './upsertReceiptProcessingSettingsCommand';
 export * from './upsertSystemEmailCommand';
+export * from './upsertSystemSettingsCommand';
 export * from './upsertTagCommand';
 export * from './upsertWidgetCommand';
 export * from './user';
