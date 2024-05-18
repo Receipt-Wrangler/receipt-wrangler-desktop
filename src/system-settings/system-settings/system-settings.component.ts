@@ -26,7 +26,11 @@ export class SystemSettingsComponent implements OnInit {
       {
         label: "Receipt Processing Settings",
         routerLink: "receipt-processing-settings",
-      }
+      },
+      {
+        label: "System Settings",
+        routerLink: "system-settings/view",
+      },
     ];
   }
 }

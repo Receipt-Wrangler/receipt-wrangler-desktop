@@ -14,8 +14,10 @@ import {
 } from "../receipt-processing-settings/receipt-processing-settings-table/receipt-processing-settings-table.component";
 import { receiptProcessingSettingsResolver } from "../receipt-processing-settings/receipt-processing-settings.resolver";
 import { systemEmailResolver } from "./resolvers/system-email.resolver";
+import { systemSettingsResolver } from "./resolvers/system-settings.resolver";
 import { SystemEmailFormComponent } from "./system-email-form/system-email-form.component";
 import { SystemEmailTableComponent } from "./system-email-table/system-email-table.component";
+import { SystemSettingsFormComponent } from "./system-settings-form/system-settings-form.component";
 import { SystemSettingsComponent } from "./system-settings/system-settings.component";
 
 const routes: Routes = [
@@ -39,7 +41,30 @@ const routes: Routes = [
       {
         path: "receipt-processing-settings",
         component: ReceiptProcessingSettingsTableComponent
-      }
+      },
+      {
+        path: "system-settings/view",
+        component: SystemSettingsFormComponent,
+        data: {
+          formConfig: {
+            mode: FormMode.view,
+            headerText: "View System Settings",
+          } as FormConfig,
+        }
+      },
+      {
+        path: "system-settings/edit",
+        component: SystemSettingsFormComponent,
+        data: {
+          formConfig: {
+            mode: FormMode.edit,
+            headerText: "Edit System Settings",
+          } as FormConfig,
+        },
+        resolve: {
+          systemSettings: systemSettingsResolver,
+        }
+      },
     ]
   },
   {
