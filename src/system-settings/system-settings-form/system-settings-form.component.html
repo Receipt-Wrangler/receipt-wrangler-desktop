@@ -15,7 +15,7 @@
   >
     <app-checkbox
       label="Enable Local Signup"
-      [inputFormControl]="form | formGet:'enableLocalSignup'"
+      [inputFormControl]="form | formGet:'enableLocalSignUp'"
     ></app-checkbox>
     <app-input
       label="Email polling interval"
@@ -44,6 +44,14 @@
       [readonly]="(formConfig.mode |  inputReadonly) || !(form | formGet:'receiptProcessingSettingsId').value"
     ></app-autocomlete>
   </app-form-section>
+  <app-form-button-bar
+    [mode]="formConfig.mode"
+  >
+    <app-submit-button
+      class="mb-4"
+      [onlyIcon]="false"
+    ></app-submit-button>
+  </app-form-button-bar>
 </form>
 
 <ng-template #headerButtons>

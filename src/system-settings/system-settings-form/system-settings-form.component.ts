@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { tap } from "rxjs";
+import { take, tap } from "rxjs";
 import { AutocomleteComponent } from "../../autocomplete/autocomlete/autocomlete.component";
 import { BaseFormComponent } from "../../form";
-import { ReceiptProcessingSettings, SystemSettings } from "../../open-api";
+import { ReceiptProcessingSettings, SystemSettings, SystemSettingsService } from "../../open-api";
+import { SnackbarService } from "../../services";
 
 
 @UntilDestroy()
@@ -24,7 +25,13 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
 
   public filteredReceiptProcessingSettings: ReceiptProcessingSettings[] = [];
 
-  constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private systemSettingsService: SystemSettingsService,
+    private snackbarService: SnackbarService,
+  ) {
     super();
   }
 
@@ -66,6 +73,17 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   }
 
   public submit(): void {
+    const formValue = this.form.value;
+    formValue["emailPollingInterval"] = Number.parseInt(formValue["emailPollingInterval"]);
 
+    this.systemSettingsService.updateSystemSettings(formValue)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.snackbarService.success("System settings updated successfully");
+          this.router.navigate(["/system-settings/system-settings/view"]);
+        })
+      )
+      .subscribe();
   }
 }
