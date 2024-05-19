@@ -1,0 +1,63 @@
+<app-form-header
+  [headerText]="formConfig.headerText"
+  [headerButtonsTemplate]="headerButtons"
+></app-form-header>
+<app-audit-detail-section
+  *ngIf="formConfig.mode != FormMode.add"
+  [data]="originalSystemSettings"
+></app-audit-detail-section>
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+>
+  <app-form-section
+    headerText="Details"
+  >
+    <app-checkbox
+      label="Enable Local Signup"
+      [inputFormControl]="form | formGet:'enableLocalSignUp'"
+    ></app-checkbox>
+    <app-input
+      label="Email polling interval (in seconds)"
+      type="number"
+      [inputFormControl]="form | formGet:'emailPollingInterval'"
+    ></app-input>
+    <app-autocomlete
+      optionFilterKey="name"
+      optionDisplayKey="name"
+      label="Receipt Processing Settings"
+      optionValueKey="id"
+      [inputFormControl]="form | formGet:'receiptProcessingSettingsId'"
+      [options]="allReceiptProcessingSettings"
+      [displayWith]="displayWith.bind(this)"
+      [readonly]="formConfig.mode |  inputReadonly"
+    ></app-autocomlete>
+    <app-autocomlete
+      #fallbackReceiptProcessingSettings
+      optionFilterKey="name"
+      optionDisplayKey="name"
+      label="Fallback Receipt Processing Settings"
+      optionValueKey="id"
+      [inputFormControl]="form | formGet:'fallbackReceiptProcessingSettingsId'"
+      [options]="filteredReceiptProcessingSettings"
+      [displayWith]="displayWith.bind(this)"
+      [readonly]="(formConfig.mode |  inputReadonly) || !(form | formGet:'receiptProcessingSettingsId').value"
+    ></app-autocomlete>
+  </app-form-section>
+  <app-form-button-bar
+    [mode]="formConfig.mode"
+  >
+    <app-submit-button
+      class="mb-4"
+      [onlyIcon]="false"
+    ></app-submit-button>
+  </app-form-button-bar>
+</form>
+
+<ng-template #headerButtons>
+  <app-edit-button
+    *ngIf="formConfig.mode != FormMode.edit"
+    color="accent"
+    [buttonRouterLink]="['/system-settings/settings', 'edit']"
+  ></app-edit-button>
+</ng-template>

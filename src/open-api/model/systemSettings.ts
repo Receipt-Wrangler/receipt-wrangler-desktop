@@ -25,12 +25,16 @@ export interface SystemSettings {
      */
     enableLocalSignUp?: boolean;
     /**
-     * Whether AI powered receipts are enabled
-     */
-    aiPoweredReceipts?: boolean;
-    /**
      * Email polling interval
      */
     emailPollingInterval?: number;
+    /**
+     * Receipt processing settings foreign key
+     */
+    receiptProcessingSettingsId?: number;
+    /**
+     * Fallback receipt processing settings foreign key
+     */
+    fallbackReceiptProcessingSettingsId?: number;
 }
 

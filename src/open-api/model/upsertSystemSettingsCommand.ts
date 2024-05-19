@@ -11,7 +11,7 @@
  */
 
 
-export interface SystemSettingsAllOf { 
+export interface UpsertSystemSettingsCommand { 
     /**
      * Whether local sign up is enabled
      */
