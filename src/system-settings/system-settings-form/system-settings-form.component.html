@@ -1,1 +1,43 @@
-<p>system-settings-form works!</p>
+<app-form-header
+  [headerText]="formConfig.headerText"
+  [headerButtonsTemplate]="headerButtons"
+></app-form-header>
+<app-audit-detail-section
+  *ngIf="formConfig.mode != FormMode.add"
+  [data]="originalSystemSettings"
+></app-audit-detail-section>
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+>
+  <app-form-section
+    headerText="Details"
+  >
+    <app-checkbox
+      label="Enable Local Signup"
+      [inputFormControl]="form | formGet:'enableLocalSignup'"
+    ></app-checkbox>
+    <app-input
+      label="Email polling interval"
+      [inputFormControl]="form | formGet:'emailPollingInterval'"
+    ></app-input>
+    <app-autocomlete
+      optionFilterKey="name"
+      optionDisplayKey="name"
+      label="Receipt Processing Settings"
+      optionValueKey="id"
+      [inputFormControl]="form | formGet:'receiptProcessingSettingsId'"
+      [options]="allReceiptProcessingSettings"
+      [displayWith]="displayWith.bind(this)"
+      [readonly]="formConfig.mode |  inputReadonly"
+    ></app-autocomlete>
+  </app-form-section>
+</form>
+
+<ng-template #headerButtons>
+  <app-edit-button
+    *ngIf="formConfig.mode != FormMode.edit"
+    color="accent"
+    [buttonRouterLink]="['/system-settings/system-settings', 'edit']"
+  ></app-edit-button>
+</ng-template>
