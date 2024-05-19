@@ -44,7 +44,7 @@ const routes: Routes = [
         component: ReceiptProcessingSettingsTableComponent
       },
       {
-        path: "system-settings/view",
+        path: "settings/view",
         component: SystemSettingsFormComponent,
         data: {
           formConfig: {
@@ -58,7 +58,7 @@ const routes: Routes = [
         }
       },
       {
-        path: "system-settings/edit",
+        path: "settings/edit",
         component: SystemSettingsFormComponent,
         data: {
           formConfig: {

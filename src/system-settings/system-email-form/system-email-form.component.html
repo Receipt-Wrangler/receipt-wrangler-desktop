@@ -27,13 +27,6 @@
       [inputFormControl]="form | formGet: 'password'"
       [showVisibilityEye]="true"
     ></app-input>
-    <app-form-button-bar [mode]="formConfig.mode">
-      <app-submit-button
-        *ngIf="!(formConfig.mode | inputReadonly)"
-        class="mb-4"
-        [onlyIcon]="false"
-      ></app-submit-button>
-    </app-form-button-bar>
   </app-form-section>
   <app-form-section
     *ngIf="formConfig.mode != FormMode.add"
@@ -44,6 +37,13 @@
       [associatedEntityId]="originalSystemEmail?.id"
     ></app-task-table>
   </app-form-section>
+  <app-form-button-bar [mode]="formConfig.mode">
+    <app-submit-button
+      *ngIf="!(formConfig.mode | inputReadonly)"
+      class="mb-4"
+      [onlyIcon]="false"
+    ></app-submit-button>
+  </app-form-button-bar>
 </form>
 
 <ng-template #headerButtons>

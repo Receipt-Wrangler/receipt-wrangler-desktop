@@ -81,7 +81,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
         take(1),
         tap(() => {
           this.snackbarService.success("System settings updated successfully");
-          this.router.navigate(["/system-settings/system-settings/view"]);
+          this.router.navigate(["/system-settings/settings/view"]);
         })
       )
       .subscribe();

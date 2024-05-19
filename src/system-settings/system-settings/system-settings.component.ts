@@ -16,20 +16,20 @@ export class SystemSettingsComponent implements OnInit {
   private initTabs(): void {
     this.tabs = [
       {
-        label: "System Emails",
-        routerLink: "system-emails",
-      },
-      {
-        label: "Prompts",
-        routerLink: "prompts",
+        label: "System Settings",
+        routerLink: "settings/view",
       },
       {
         label: "Receipt Processing Settings",
         routerLink: "receipt-processing-settings",
       },
       {
-        label: "System Settings",
-        routerLink: "system-settings/view",
+        label: "Prompts",
+        routerLink: "prompts",
+      },
+      {
+        label: "System Emails",
+        routerLink: "system-emails",
       },
     ];
   }
