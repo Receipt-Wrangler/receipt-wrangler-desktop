@@ -2,11 +2,13 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { take, tap } from "rxjs";
+import { Store } from "@ngxs/store";
+import { switchMap, take, tap } from "rxjs";
 import { AutocomleteComponent } from "../../autocomplete/autocomlete/autocomlete.component";
 import { BaseFormComponent } from "../../form";
-import { ReceiptProcessingSettings, SystemSettings, SystemSettingsService } from "../../open-api";
+import { FeatureConfigService, ReceiptProcessingSettings, SystemSettings, SystemSettingsService } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { SetFeatureConfig } from "../../store";
 
 
 @UntilDestroy()
@@ -26,11 +28,13 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   public filteredReceiptProcessingSettings: ReceiptProcessingSettings[] = [];
 
   constructor(
+    private activatedRoute: ActivatedRoute,
+    private featureConfigService: FeatureConfigService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private systemSettingsService: SystemSettingsService,
     private snackbarService: SnackbarService,
+    private store: Store,
+    private systemSettingsService: SystemSettingsService,
   ) {
     super();
   }
@@ -82,7 +86,9 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
         tap(() => {
           this.snackbarService.success("System settings updated successfully");
           this.router.navigate(["/system-settings/settings/view"]);
-        })
+        }),
+        switchMap(() => this.featureConfigService.getFeatureConfig()),
+        tap((featureConfig) => this.store.dispatch(new SetFeatureConfig(featureConfig)))
       )
       .subscribe();
   }
