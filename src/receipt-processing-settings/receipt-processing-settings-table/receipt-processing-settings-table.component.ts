@@ -33,6 +33,8 @@ export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<
 
   @ViewChild("descriptionCell") public descriptionCell!: TemplateRef<any>;
 
+  @ViewChild("promptCell") public promptCell!: TemplateRef<any>;
+
   @ViewChild("aiTypeCell") public aiTypeCell!: TemplateRef<any>;
 
   @ViewChild("ocrEngineCell") public ocrEngineCell!: TemplateRef<any>;
@@ -78,6 +80,12 @@ export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<
         matColumnDef: "description",
         template: this.descriptionCell,
         sortable: true
+      },
+      {
+        columnHeader: "Prompt",
+        matColumnDef: "prompt",
+        template: this.promptCell,
+        sortable: false
       },
       {
         columnHeader: "AI Type",

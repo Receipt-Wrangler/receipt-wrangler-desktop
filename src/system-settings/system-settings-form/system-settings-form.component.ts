@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
-import { switchMap, take, tap } from "rxjs";
+import { startWith, switchMap, take, tap } from "rxjs";
 import { AutocomleteComponent } from "../../autocomplete/autocomlete/autocomlete.component";
 import { BaseFormComponent } from "../../form";
 import { FeatureConfigService, ReceiptProcessingSettings, SystemSettings, SystemSettingsService } from "../../open-api";
@@ -60,9 +60,11 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   private listenForReceiptProcessingSettingsChanges(): void {
     this.form.get("receiptProcessingSettingsId")?.valueChanges
       .pipe(
+        startWith(this.form.get("receiptProcessingSettingsId")?.value),
         untilDestroyed(this),
         tap((value: number) => {
           this.filteredReceiptProcessingSettings = this.allReceiptProcessingSettings.filter((rps) => rps.id !== value);
+          console.warn(this.filteredReceiptProcessingSettings, "filtered");
 
           if (!value) {
             this.fallbackReceiptProcessingSettings.clearFilter();

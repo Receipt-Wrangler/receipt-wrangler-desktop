@@ -29,6 +29,10 @@
   {{ element.description }}
 </ng-template>
 
+<ng-template #promptCell let-element="element">
+  {{ element.prompt.name }}
+</ng-template>
+
 <ng-template #aiTypeCell let-element="element">
   {{ element.aiType | aiType }}
 </ng-template>
