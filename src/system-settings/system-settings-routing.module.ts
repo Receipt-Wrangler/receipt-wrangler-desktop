@@ -91,6 +91,7 @@ const routes: Routes = [
         mode: FormMode.view,
         headerText: "View Prompt",
       } as FormConfig,
+      setHeaderText: true,
     },
     resolve: {
       prompt: promptResolver
@@ -104,6 +105,7 @@ const routes: Routes = [
         mode: FormMode.edit,
         headerText: "Edit Prompt",
       } as FormConfig,
+      setHeaderText: true,
     },
     resolve: {
       prompt: promptResolver
@@ -125,8 +127,8 @@ const routes: Routes = [
     data: {
       formConfig: {
         mode: FormMode.view,
-        headerText: "View System Email",
       } as FormConfig,
+      setHeaderText: true,
     },
     resolve: {
       systemEmail: systemEmailResolver,
@@ -138,8 +140,8 @@ const routes: Routes = [
     data: {
       formConfig: {
         mode: FormMode.edit,
-        headerText: "Edit System Email",
       } as FormConfig,
+      setHeaderText: true,
     },
     resolve: {
       systemEmail: systemEmailResolver,
@@ -164,8 +166,8 @@ const routes: Routes = [
     data: {
       formConfig: {
         mode: FormMode.view,
-        headerText: "View Receipt Processing Settings",
       } as FormConfig,
+      setHeaderText: true,
     },
     resolve: {
       prompts: promptsResolver,
@@ -178,8 +180,8 @@ const routes: Routes = [
     data: {
       formConfig: {
         mode: FormMode.edit,
-        headerText: "Edit Receipt Processing Settings",
       } as FormConfig,
+      setHeaderText: true,
     },
     resolve: {
       prompts: promptsResolver,
