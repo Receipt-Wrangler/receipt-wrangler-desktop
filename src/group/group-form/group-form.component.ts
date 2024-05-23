@@ -178,6 +178,10 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe();
+
+    if (this.formConfig.mode === FormMode.view) {
+      this.form.get("status")?.disable();
+    }
   }
 
   public addGroupMemberClicked(): void {
