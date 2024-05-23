@@ -5,12 +5,16 @@
     [readonly]="formConfig.mode | inputReadonly"
   ></app-checkbox>
 </div>
-<app-input
+<app-autocomlete
+  optionFilterKey="username"
+  optionDisplayKey="username"
   label="Email to Read Receipts From"
-  [inputFormControl]="form | formGet : 'emailToRead'"
-  [readonly]="formConfig.mode | inputReadonly"
-></app-input>
-
+  optionValueKey="id"
+  [inputFormControl]="form | formGet:'systemEmailId'"
+  [options]="systemEmails"
+  [displayWith]="systemEmailDisplayWith.bind(this)"
+  [readonly]="formConfig.mode |  inputReadonly"
+></app-autocomlete>
 <app-user-autocomplete
   class="mb-2"
   label="Default Paid By"

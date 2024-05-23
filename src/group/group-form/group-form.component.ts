@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { Sort } from "@angular/material/sort";
@@ -35,6 +35,8 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
   @ViewChild("actionsCell") public actionsCell!: TemplateRef<any>;
 
   @ViewChild(TableComponent) public table!: TableComponent;
+
+  @Input() public canEdit = true;
 
   public form: FormGroup = new FormGroup({});
 

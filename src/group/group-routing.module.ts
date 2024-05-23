@@ -3,12 +3,15 @@ import { RouterModule, Routes } from "@angular/router";
 import { FormMode } from "src/enums/form-mode.enum";
 import { GroupRoleGuard } from "src/guards/group-role.guard";
 import { FormConfig } from "src/interfaces/form-config.interface";
-import { GroupRole } from "../open-api";
+import { RoleGuard } from "../guards/role.guard";
+import { GroupRole, UserRole } from "../open-api";
+import { GroupDetailsComponent } from "./group-details/group-details.component";
 import { GroupFormComponent } from "./group-form/group-form.component";
 import { GroupListComponent } from "./group-list/group-list.component";
 import { GroupSettingsComponent } from "./group-settings/group-settings.component";
 import { GroupTabsComponent } from "./group-tabs/group-tabs.component";
 import { groupResolverFn } from "./resolvers/group-resolver.service";
+import { systemEmailsResolver } from "./resolvers/system-emails.resolver";
 
 const routes: Routes = [
   {
@@ -42,7 +45,7 @@ const routes: Routes = [
     children: [
       {
         path: "details/view",
-        component: GroupFormComponent,
+        component: GroupDetailsComponent,
         resolve: {
           group: groupResolverFn,
         },
@@ -59,7 +62,7 @@ const routes: Routes = [
       },
       {
         path: "details/edit",
-        component: GroupFormComponent,
+        component: GroupDetailsComponent,
         resolve: {
           group: groupResolverFn,
         },
@@ -67,9 +70,9 @@ const routes: Routes = [
           formConfig: {
             mode: FormMode.edit,
           } as FormConfig,
-          groupRole: GroupRole.Owner,
           entityType: "Details",
           setHeaderText: true,
+          groupRole: GroupRole.Owner,
         },
         canActivate: [GroupRoleGuard],
       },
@@ -78,6 +81,7 @@ const routes: Routes = [
         component: GroupSettingsComponent,
         resolve: {
           group: groupResolverFn,
+          systemEmails: systemEmailsResolver,
         },
         data: {
           formConfig: {
@@ -85,7 +89,7 @@ const routes: Routes = [
           } as FormConfig,
           setHeaderText: true,
           entityType: "Settings",
-          groupRole: GroupRole.Owner,
+          groupRole: GroupRole.Viewer,
         },
         canActivate: [GroupRoleGuard],
       },
@@ -94,6 +98,7 @@ const routes: Routes = [
         component: GroupSettingsComponent,
         resolve: {
           group: groupResolverFn,
+          systemEmails: systemEmailsResolver,
         },
         data: {
           formConfig: {
@@ -101,9 +106,9 @@ const routes: Routes = [
           } as FormConfig,
           setHeaderText: true,
           entityType: "Settings",
-          groupRole: GroupRole.Owner,
+          role: UserRole.Admin
         },
-        canActivate: [GroupRoleGuard],
+        canActivate: [RoleGuard],
       },
     ],
   },

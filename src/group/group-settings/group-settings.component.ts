@@ -1,10 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
 import { BaseFormComponent } from "src/form/base-form/base-form.component";
-import { Group, GroupsService } from "../../open-api";
+import { FormMode } from "../../enums/form-mode.enum";
+import { Group, GroupsService, UserRole } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { AuthState } from "../../store";
 
 @Component({
   selector: "app-group-settings",
@@ -19,17 +22,26 @@ export class GroupSettingsComponent
 
   public group!: Group;
 
+  public canEditEmailSettings: boolean = false;
+
+  // TODO: v5: Fix busted tabs, and update API to only accept updates from admin
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private groupsService: GroupsService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private store: Store,
+    private router: Router
   ) {
     super();
   }
 
   public ngOnInit(): void {
+    this.canEditEmailSettings = this.store.selectSnapshot(AuthState.hasRole(UserRole.Admin));
     this.setFormConfigFromRoute(this.activatedRoute);
+    if (!this.canEditEmailSettings) {
+      this.formConfig.mode = FormMode.view;
+    }
     this.initForm();
     this.group = this.activatedRoute.snapshot.data["group"];
     this.editSettingsUrl = `/groups/${this.group.id}/settings/edit`;
@@ -37,7 +49,7 @@ export class GroupSettingsComponent
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      emailToRead: "",
+      systemEmailId: "",
       emailIntegrationEnabled: false,
       subjectLineRegexes: this.formBuilder.array([]),
       emailWhiteList: this.formBuilder.array([]),
@@ -54,6 +66,7 @@ export class GroupSettingsComponent
           take(1),
           tap(() => {
             this.snackbarService.success("Group settings updated");
+            this.router.navigate([`/groups/${this.group.id}/settings/view`]);
           })
         )
         .subscribe();

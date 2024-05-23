@@ -16,13 +16,13 @@ import { GroupSettingsWhiteListEmail } from './groupSettingsWhiteListEmail';
 
 export interface UpdateGroupSettingsCommand { 
     /**
+     * System email foreign key
+     */
+    systemEmailId: number;
+    /**
      * Whether email integration is enabled
      */
     emailIntegrationEnabled?: boolean;
-    /**
-     * Email to read
-     */
-    emailToRead: string;
     /**
      * Subject line regexes
      */
