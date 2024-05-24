@@ -4,6 +4,8 @@ import { FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { PipesModule } from "src/pipes/pipes.module";
+import { FormMode } from "../../enums/form-mode.enum";
+import { FormConfig } from "../../interfaces";
 import { Group, ReceiptStatus } from "../../open-api";
 
 import { GroupSettingsEmailComponent } from "./group-settings-email.component";
@@ -11,6 +13,10 @@ import { GroupSettingsEmailComponent } from "./group-settings-email.component";
 describe("GroupSettingsEmailComponent", () => {
   let component: GroupSettingsEmailComponent;
   let fixture: ComponentFixture<GroupSettingsEmailComponent>;
+  const formConfig = {
+    mode: FormMode.edit,
+  } as FormConfig;
+
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,7 +28,7 @@ describe("GroupSettingsEmailComponent", () => {
           useValue: {
             snapshot: {
               data: {
-                formConfig: {},
+                formConfig: formConfig,
                 group: { id: 1 },
               },
             },
@@ -35,7 +41,7 @@ describe("GroupSettingsEmailComponent", () => {
 
     component = fixture.componentInstance;
     component.form = new FormGroup({
-      emailToRead: new FormControl(""),
+      systemEmailId: new FormControl(""),
       emailWhiteList: new FormArray([]),
       subjectLineRegexes: new FormArray([]),
       emailDefaultReceiptStatus: new FormControl(""),
@@ -45,6 +51,7 @@ describe("GroupSettingsEmailComponent", () => {
     component.formCommand.subscribe((command) =>
       component.handleFormCommand(command)
     );
+    component.formConfig = formConfig;
     fixture.detectChanges();
   });
 
@@ -55,8 +62,10 @@ describe("GroupSettingsEmailComponent", () => {
   it("should init form with empty values", () => {
     component.ngOnInit();
 
+    console.log(component.form.value);
+
     expect(component.form.value).toEqual({
-      emailToRead: undefined,
+      systemEmailId: undefined,
       emailIntegrationEnabled: undefined,
       subjectLineRegexes: [],
       emailWhiteList: [],
@@ -66,9 +75,8 @@ describe("GroupSettingsEmailComponent", () => {
 
     const form = component.form;
     expect(
-      form.get("emailToRead")?.hasValidator(Validators.required)
+      form.get("systemEmailId")?.hasValidator(Validators.required)
     ).toBeFalse();
-    expect(form.get("emailToRead")?.hasValidator(Validators.email)).toBeTrue();
 
     expect(
       form.get("emailDefaultReceiptStatus")?.hasValidator(Validators.required)
@@ -86,7 +94,7 @@ describe("GroupSettingsEmailComponent", () => {
         id: 1,
         groupId: 1,
         emailIntegrationEnabled: true,
-        emailToRead: "test@test.com",
+        systemEmailId: "test@test.com",
         subjectLineRegexes: [
           {
             regex: "test",
@@ -112,7 +120,7 @@ describe("GroupSettingsEmailComponent", () => {
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
-      emailToRead: "test@test.com",
+      systemEmailId: "test@test.com",
       emailIntegrationEnabled: true,
       subjectLineRegexes: [{ regex: "test" }],
       emailWhiteList: [
@@ -129,9 +137,8 @@ describe("GroupSettingsEmailComponent", () => {
 
     const form = component.form;
     expect(
-      form.get("emailToRead")?.hasValidator(Validators.required)
+      form.get("systemEmailId")?.hasValidator(Validators.required)
     ).toBeTrue();
-    expect(form.get("emailToRead")?.hasValidator(Validators.email)).toBeTrue();
 
     expect(
       form.get("emailDefaultReceiptStatus")?.hasValidator(Validators.required)

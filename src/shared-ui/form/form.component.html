@@ -1,6 +1,7 @@
 <app-form-header
   [headerText]="formConfig.headerText"
   [headerButtonsTemplate]="headerButtonsTemplate"
+  [bottomSpacing]="bottomSpacing"
 ></app-form-header>
 <form [formGroup]="form" (ngSubmit)="submitted.emit()">
   <div class="w-100">
@@ -9,6 +10,7 @@
   <app-form-button-bar [mode]="formConfig.mode">
     <app-submit-button
       *ngIf="!(formConfig.mode | inputReadonly)"
+      class="mb-3"
       [onlyIcon]="false"
     ></app-submit-button>
   </app-form-button-bar>
@@ -16,7 +18,8 @@
 
 <ng-template #headerButtonsTemplate>
   <app-edit-button
-    *ngIf="formConfig.mode | inputReadonly"
+    *ngIf="(formConfig.mode | inputReadonly) && canEdit"
+    color="accent"
     [buttonRouterLink]="editButtonRouterLink"
   >
   </app-edit-button>

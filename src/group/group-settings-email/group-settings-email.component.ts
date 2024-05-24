@@ -5,7 +5,8 @@ import { startWith, tap } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
 import { BaseFormComponent, FormCommand } from "src/form";
 import { FormListComponent } from "src/shared-ui/form-list/form-list.component";
-import { Group, GroupSettingsWhiteListEmail, SubjectLineRegex } from "../../open-api";
+import { FormConfig } from "../../interfaces";
+import { Group, GroupSettingsWhiteListEmail, SubjectLineRegex, SystemEmail } from "../../open-api";
 
 @Component({
   selector: "app-group-settings-email",
@@ -17,20 +18,22 @@ export class GroupSettingsEmailComponent
   implements OnInit {
   @Input() public override form: FormGroup = new FormGroup({});
 
+  @Input() public canEdit: boolean = false;
+
+  @Input() public override formConfig!: FormConfig;
+
   @ViewChildren(FormListComponent)
   public formListComponents!: QueryList<FormListComponent>;
 
   public group!: Group;
 
+  public systemEmails: SystemEmail[] = [];
+
   constructor(
     private activatedRoute: ActivatedRoute,
-    private formBuidler: FormBuilder
+    private formBuilder: FormBuilder
   ) {
     super();
-  }
-
-  public get groupSettingsId(): number | undefined {
-    return this.group?.groupSettings?.id;
   }
 
   public get subjectLineRegexes(): FormArray {
@@ -43,7 +46,10 @@ export class GroupSettingsEmailComponent
 
   public ngOnInit(): void {
     this.group = this.activatedRoute.snapshot.data["group"];
-    this.setFormConfigFromRoute(this.activatedRoute);
+    this.systemEmails = this.activatedRoute.snapshot.data["systemEmails"];
+    if (!this.canEdit && this.group.groupSettings?.systemEmail?.id) {
+      this.systemEmails = [this.group.groupSettings.systemEmail];
+    }
     this.initForm();
   }
 
@@ -65,7 +71,7 @@ export class GroupSettingsEmailComponent
         tap((enabled) => {
           if (enabled) {
             this.emitFormCommand({
-              path: "emailToRead",
+              path: "systemEmailId",
               command: "addValidators",
               payload: [Validators.required],
             });
@@ -81,7 +87,7 @@ export class GroupSettingsEmailComponent
             });
           } else {
             this.emitFormCommand({
-              path: "emailToRead",
+              path: "systemEmailId",
               command: "removeValidators",
               payload: [Validators.required],
             });
@@ -103,7 +109,7 @@ export class GroupSettingsEmailComponent
             }
 
             this.emitFormCommand({
-              path: "emailToRead",
+              path: "systemEmailId",
               command: "setErrors",
               payload: {
                 required: null,
@@ -125,7 +131,7 @@ export class GroupSettingsEmailComponent
             });
           }
           this.emitFormCommand({
-            path: "emailToRead",
+            path: "systemEmailId",
             command: "updateValueAndValidity",
           });
           this.emitFormCommand({
@@ -142,11 +148,6 @@ export class GroupSettingsEmailComponent
   }
 
   private addValidators(): void {
-    this.emitFormCommand({
-      path: "emailToRead",
-      command: "addValidators",
-      payload: [Validators.email],
-    });
   }
 
   private setInitialValues(): void {
@@ -157,9 +158,9 @@ export class GroupSettingsEmailComponent
     });
 
     const formCommand: FormCommand = {
-      path: "emailToRead",
+      path: "systemEmailId",
       command: "patchValue",
-      payload: this.group?.groupSettings?.emailToRead,
+      payload: this.group?.groupSettings?.systemEmailId,
     };
     this.emitFormCommand(formCommand);
 
@@ -203,7 +204,7 @@ export class GroupSettingsEmailComponent
   private buildGroupSettingsEmail(
     groupSettingEmail?: GroupSettingsWhiteListEmail
   ): FormGroup {
-    return this.formBuidler.group({
+    return this.formBuilder.group({
       email: new FormControl(groupSettingEmail?.email, [
         Validators.email,
         Validators.required,
@@ -212,7 +213,7 @@ export class GroupSettingsEmailComponent
   }
 
   private buildSubjectLineRegexes(regex?: SubjectLineRegex): FormGroup {
-    return this.formBuidler.group({
+    return this.formBuilder.group({
       regex: new FormControl(regex?.regex ?? "", [Validators.required]),
     });
   }
@@ -275,5 +276,9 @@ export class GroupSettingsEmailComponent
       payload: index,
     };
     this.emitFormCommand(formCommand);
+  }
+
+  public systemEmailDisplayWith(id: number): string {
+    return this.systemEmails.find((email) => email.id === id)?.username ?? "";
   }
 }

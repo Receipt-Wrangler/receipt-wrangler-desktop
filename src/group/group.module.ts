@@ -11,6 +11,7 @@ import { SelectModule } from "src/select/select.module";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 import { TableModule } from "src/table/table.module";
 import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.module";
+import { AutocompleteModule } from "../autocomplete/autocomplete.module";
 import { ButtonModule } from "../button";
 import { InputModule } from "../input";
 import { GroupFormComponent } from "./group-form/group-form.component";
@@ -20,6 +21,7 @@ import { GroupRoutingModule } from "./group-routing.module";
 import { GroupSettingsEmailComponent } from "./group-settings-email/group-settings-email.component";
 import { GroupSettingsComponent } from "./group-settings/group-settings.component";
 import { GroupTabsComponent } from "./group-tabs/group-tabs.component";
+import { GroupDetailsComponent } from './group-details/group-details.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { GroupTabsComponent } from "./group-tabs/group-tabs.component";
     GroupSettingsComponent,
     GroupSettingsEmailComponent,
     GroupTabsComponent,
+    GroupDetailsComponent,
   ],
   imports: [
     ButtonModule,
@@ -47,6 +50,7 @@ import { GroupTabsComponent } from "./group-tabs/group-tabs.component";
     SharedUiModule,
     TableModule,
     UserAutocompleteModule,
+    AutocompleteModule,
   ],
   exports: [GroupListComponent],
 })
