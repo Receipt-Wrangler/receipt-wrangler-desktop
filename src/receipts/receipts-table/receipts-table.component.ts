@@ -19,6 +19,7 @@ import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
 import {
   BulkStatusUpdateCommand,
   Category,
+  Group,
   GroupRole,
   GroupsService,
   PagedDataDataInner,
@@ -112,10 +113,13 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public headerText: string = "";
 
+  public group?: Group;
+
   public ngOnInit(): void {
     this.groupId = this.store
       .selectSnapshot(GroupState.selectedGroupId)
       ?.toString();
+    this.setGroup();
     this.setCanEdit();
 
     this.setHeaderText();
@@ -134,6 +138,10 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     this.categories = data["categories"];
     this.tags = data["tags"];
     this.getInitialData();
+  }
+
+  private setGroup(): void {
+    this.group = this.store.selectSnapshot(GroupState.getGroupById(this.groupId));
   }
 
   private getInitialData(): void {

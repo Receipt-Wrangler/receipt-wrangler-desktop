@@ -34,7 +34,7 @@
       color="accent"
       (clicked)="resetFilterButtonClicked()"
     ></app-button>
-    <ng-container *ngIf="canEdit">
+    <ng-container *ngIf="canEdit && group?.groupSettings?.emailIntegrationEnabled">
       <app-button
         *appFeature="'aiPoweredReceipts'"
         class="me-2"
