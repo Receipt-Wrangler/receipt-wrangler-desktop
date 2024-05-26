@@ -11,11 +11,13 @@
  */
 
 
-export type SystemTaskType = 'MAGIC_FILL' | 'QUICK_SCAN' | 'SYSTEM_EMAIL_CONNECTIVITY_CHECK' | 'RECEIPT_PROCESSING_SETTINGS_CONNECTIVITY_CHECK';
+export type SystemTaskType = 'MAGIC_FILL' | 'QUICK_SCAN' | 'EMAIL_READ' | 'EMAIL_UPLOAD' | 'SYSTEM_EMAIL_CONNECTIVITY_CHECK' | 'RECEIPT_PROCESSING_SETTINGS_CONNECTIVITY_CHECK';
 
 export const SystemTaskType = {
     MagicFill: 'MAGIC_FILL' as SystemTaskType,
     QuickScan: 'QUICK_SCAN' as SystemTaskType,
+    EmailRead: 'EMAIL_READ' as SystemTaskType,
+    EmailUpload: 'EMAIL_UPLOAD' as SystemTaskType,
     SystemEmailConnectivityCheck: 'SYSTEM_EMAIL_CONNECTIVITY_CHECK' as SystemTaskType,
     ReceiptProcessingSettingsConnectivityCheck: 'RECEIPT_PROCESSING_SETTINGS_CONNECTIVITY_CHECK' as SystemTaskType
 };

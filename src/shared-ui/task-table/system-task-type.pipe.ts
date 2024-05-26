@@ -17,6 +17,10 @@ export class SystemTaskTypePipe implements PipeTransform {
         return "System Email Connectivity Check";
       case "RECEIPT_PROCESSING_SETTINGS_CONNECTIVITY_CHECK":
         return "Receipt Processing Settings Connectivity Check";
+      case "EMAIL_READ":
+        return "Email Read";
+      case "EMAIL_UPLOAD":
+        return "Email Upload";
     }
   }
 }
