@@ -80,7 +80,7 @@ export class GroupListComponent extends BaseTableComponent<Group> implements OnI
         columnHeader: "Number of Members",
         matColumnDef: "number_of_members",
         template: this.numberOfMembersCell,
-        sortable: true,
+        sortable: false,
       },
       {
         columnHeader: "Created At",
