@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Action, State, StateContext } from "@ngxs/store";
-import { AssociatedGroup, PagedGroupRequestCommand, SortDirection } from "../open-api";
+import { Action, Selector, State, StateContext } from "@ngxs/store";
+import { AssociatedGroup, GroupFilter, PagedGroupRequestCommand, SortDirection } from "../open-api";
 import { SetFilter, SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "./group-table.state.actions";
 import { PagedTableState } from "./paged-table.state";
 
@@ -13,11 +13,18 @@ import { PagedTableState } from "./paged-table.state";
     sortDirection: SortDirection.Desc,
     filter: {
       associatedGroup: AssociatedGroup.Mine
-    }
+    } as GroupFilter
   },
 })
 @Injectable()
 export class GroupTableState extends PagedTableState {
+
+  @Selector()
+  static filter(state: PagedGroupRequestCommand): GroupFilter {
+    return state.filter ?? {};
+  }
+
+
   @Action(SetPage)
   setPage({ patchState }: StateContext<PagedGroupRequestCommand>, payload: SetPage) {
     patchState({

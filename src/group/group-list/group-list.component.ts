@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
-import { Observable, take, tap } from "rxjs";
+import { Observable, skip, take, tap } from "rxjs";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { TableComponent } from "src/table/table/table.component";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
@@ -10,10 +11,12 @@ import { SnackbarService } from "../../services";
 import { BaseTableService } from "../../services/base-table.service";
 import { BaseTableComponent } from "../../shared-ui/base-table/base-table.component";
 import { AuthState, GroupState, RemoveGroup } from "../../store";
+import { GroupTableState } from "../../store/group-table.state";
 import { GroupTableFilterComponent } from "../group-table-filter/group-table-filter.component";
 import { GroupTableService } from "./group-table.service";
 
 
+@UntilDestroy()
 @Component({
   selector: "app-group-list",
   templateUrl: "./group-list.component.html",
@@ -59,10 +62,21 @@ export class GroupListComponent extends BaseTableComponent<Group> implements OnI
   public ngOnInit(): void {
     this.isAdmin = this.store.selectSnapshot(AuthState.hasRole(UserRole.Admin));
     this.getTableData();
+    this.listenForFilterChanges();
   }
 
   public ngAfterViewInit(): void {
     this.initTable();
+  }
+
+  private listenForFilterChanges(): void {
+    this.store.select(GroupTableState.filter)
+      .pipe(
+        untilDestroyed(this),
+        skip(1),
+        tap(() => this.getTableData())
+      )
+      .subscribe();
   }
 
   private initTable(): void {

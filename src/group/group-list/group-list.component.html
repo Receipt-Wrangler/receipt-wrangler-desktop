@@ -52,7 +52,7 @@
 <ng-template #actionsCell let-element="element" let-index="index">
   <div class="d-flex">
     <app-edit-button
-      *ngIf="element.id | groupRole : groupRole.Owner"
+      *ngIf="(element.id | groupRole : groupRole.Owner) || isAdmin"
       color="accent"
       tooltip="Edit group"
       [buttonRouterLink]="['/groups/' + element.id + '/details/edit']"
