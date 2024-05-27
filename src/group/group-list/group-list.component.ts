@@ -33,8 +33,6 @@ export class GroupListComponent extends BaseTableComponent<Group> implements OnI
   @ViewChild("numberOfMembersCell")
   private numberOfMembersCell!: TemplateRef<any>;
 
-  @ViewChild("isDefaultGroupCell") private defaultGroupCell!: TemplateRef<any>;
-
   @ViewChild("createdAtCell") private createdAtCell!: TemplateRef<any>;
 
   @ViewChild("updatedAtCell") private updatedAtCell!: TemplateRef<any>;
@@ -85,12 +83,6 @@ export class GroupListComponent extends BaseTableComponent<Group> implements OnI
         sortable: true,
       },
       {
-        columnHeader: "Is Default Group",
-        matColumnDef: "is_default",
-        template: this.defaultGroupCell,
-        sortable: true,
-      },
-      {
         columnHeader: "Created At",
         matColumnDef: "created_at",
         template: this.createdAtCell,
@@ -112,7 +104,6 @@ export class GroupListComponent extends BaseTableComponent<Group> implements OnI
     this.displayedColumns = [
       "name",
       "number_of_members",
-      "is_default",
       "created_at",
       "updated_at",
       "actions",

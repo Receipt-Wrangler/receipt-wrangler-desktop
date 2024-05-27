@@ -30,10 +30,6 @@
   {{ element.groupMembers.length }}
 </ng-template>
 
-<ng-template #isDefaultGroupCell let-element="element" let-index="index">
-  {{ element.isDefault }}
-</ng-template>
-
 <ng-template #createdAtCell let-element="element" let-index="index">
   {{ element.createdAt | date : "short" }}
 </ng-template>
