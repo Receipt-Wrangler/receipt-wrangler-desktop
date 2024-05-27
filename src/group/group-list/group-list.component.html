@@ -7,10 +7,15 @@
   </app-table-header>
   <div class="table-container">
     <app-table
-      [columns]="columns"
       [dataSource]="dataSource"
+      [columns]="columns"
       [displayedColumns]="displayedColumns"
-      (sorted)="sortNumberOfMembers($event)"
+      [pagination]="true"
+      [length]="totalCount"
+      [page]="((baseTableService.page$ | async) || 1) - 1"
+      [pageSize]="(baseTableService.pageSize$ | async) || 10"
+      (sorted)="sorted($event)"
+      (pageChange)="pageChanged($event)"
     ></app-table>
   </div>
 </div>
