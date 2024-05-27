@@ -1,9 +1,20 @@
 <div class="d-flex flex-column">
   <app-table-header headerText="Groups">
-    <app-button
-      buttonText="Create Group"
-      [routerLink]="['create']"
-    ></app-button>
+    <div class="d-flex align-items-center">
+      <app-add-button
+        tooltip="Create Group"
+        [buttonRouterLink]="['create']"
+      ></app-add-button>
+      <ng-container *ngIf="isAdmin">
+        <app-button
+          matButtonType="iconButton"
+          icon="filter_alt"
+          color="accent"
+          tooltip="Filter Groups"
+          (clicked)="openFilterDialog()"
+        ></app-button>
+      </ng-container>
+    </div>
   </app-table-header>
   <div class="table-container">
     <app-table

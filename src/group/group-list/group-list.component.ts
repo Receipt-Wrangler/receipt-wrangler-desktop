@@ -10,6 +10,7 @@ import { SnackbarService } from "../../services";
 import { BaseTableService } from "../../services/base-table.service";
 import { BaseTableComponent } from "../../shared-ui/base-table/base-table.component";
 import { AuthState, GroupState, RemoveGroup } from "../../store";
+import { GroupTableFilterComponent } from "../group-table-filter/group-table-filter.component";
 import { GroupTableService } from "./group-table.service";
 
 
@@ -140,5 +141,9 @@ export class GroupListComponent extends BaseTableComponent<Group> implements OnI
         }
       });
     }
+  }
+
+  public openFilterDialog(): void {
+    const ref = this.matDialog.open(GroupTableFilterComponent, DEFAULT_DIALOG_CONFIG);
   }
 }
