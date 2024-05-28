@@ -2,11 +2,11 @@ import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angul
 import { MatDialog } from "@angular/material/dialog";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
-import { Observable, skip, take, tap } from "rxjs";
+import { Observable, take, tap } from "rxjs";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { TableComponent } from "src/table/table/table.component";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
-import { Group, GroupRole, GroupsService, UserRole } from "../../open-api";
+import { AssociatedGroup, Group, GroupRole, GroupsService, UserRole } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { BaseTableService } from "../../services/base-table.service";
 import { BaseTableComponent } from "../../shared-ui/base-table/base-table.component";
@@ -49,6 +49,8 @@ export class GroupListComponent extends BaseTableComponent<Group> implements OnI
 
   public isAdmin = false;
 
+  public tableHeaderText = "My Groups";
+
   constructor(
     public override baseTableService: BaseTableService,
     private groupsService: GroupsService,
@@ -61,7 +63,6 @@ export class GroupListComponent extends BaseTableComponent<Group> implements OnI
 
   public ngOnInit(): void {
     this.isAdmin = this.store.selectSnapshot(AuthState.hasRole(UserRole.Admin));
-    this.getTableData();
     this.listenForFilterChanges();
   }
 
@@ -73,8 +74,15 @@ export class GroupListComponent extends BaseTableComponent<Group> implements OnI
     this.store.select(GroupTableState.filter)
       .pipe(
         untilDestroyed(this),
-        skip(1),
-        tap(() => this.getTableData())
+        tap((filter) => {
+            this.getTableData();
+            if (filter.associatedGroup === AssociatedGroup.All) {
+              this.tableHeaderText = "All Groups";
+            } else {
+              this.tableHeaderText = "My Groups";
+            }
+          }
+        )
       )
       .subscribe();
   }

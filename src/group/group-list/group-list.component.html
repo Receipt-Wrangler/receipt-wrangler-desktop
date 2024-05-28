@@ -1,5 +1,5 @@
 <div class="d-flex flex-column">
-  <app-table-header headerText="Groups">
+  <app-table-header [headerText]="tableHeaderText">
     <div class="d-flex align-items-center">
       <app-add-button
         tooltip="Create Group"
@@ -55,7 +55,7 @@
       *ngIf="(element.id | groupRole : groupRole.Owner) || isAdmin"
       color="accent"
       tooltip="Edit group"
-      [buttonRouterLink]="['/groups/' + element.id + '/details/edit']"
+      [buttonRouterLink]="element | groupTableEditButton: isAdmin"
     ></app-edit-button>
     <app-delete-button
       *ngIf="element.id | groupRole : groupRole.Owner"

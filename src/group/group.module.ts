@@ -23,6 +23,7 @@ import { GroupSettingsComponent } from "./group-settings/group-settings.componen
 import { GroupTabsComponent } from "./group-tabs/group-tabs.component";
 import { GroupDetailsComponent } from './group-details/group-details.component';
 import { GroupTableFilterComponent } from './group-table-filter/group-table-filter.component';
+import { GroupTableEditButtonPipe } from './group-list/group-table-edit-button.pipe';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { GroupTableFilterComponent } from './group-table-filter/group-table-filt
     GroupTabsComponent,
     GroupDetailsComponent,
     GroupTableFilterComponent,
+    GroupTableEditButtonPipe,
   ],
   imports: [
     ButtonModule,
