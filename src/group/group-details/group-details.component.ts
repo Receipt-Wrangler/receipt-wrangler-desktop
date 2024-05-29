@@ -22,6 +22,6 @@ export class GroupDetailsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.group = this.activatedRoute.snapshot.data["group"];
-    this.canEdit = this.groupUtil.hasGroupAccess(this.group.id, GroupRole.Owner);
+    this.canEdit = this.groupUtil.hasGroupAccess(this.group.id, GroupRole.Owner, false);
   }
 }

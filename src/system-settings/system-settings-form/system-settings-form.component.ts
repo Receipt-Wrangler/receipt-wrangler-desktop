@@ -64,7 +64,6 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
         untilDestroyed(this),
         tap((value: number) => {
           this.filteredReceiptProcessingSettings = this.allReceiptProcessingSettings.filter((rps) => rps.id !== value);
-          console.warn(this.filteredReceiptProcessingSettings, "filtered");
 
           if (!value) {
             this.fallbackReceiptProcessingSettings.clearFilter();

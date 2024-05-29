@@ -22,6 +22,8 @@ import { GroupSettingsEmailComponent } from "./group-settings-email/group-settin
 import { GroupSettingsComponent } from "./group-settings/group-settings.component";
 import { GroupTabsComponent } from "./group-tabs/group-tabs.component";
 import { GroupDetailsComponent } from './group-details/group-details.component';
+import { GroupTableFilterComponent } from './group-table-filter/group-table-filter.component';
+import { GroupTableEditButtonPipe } from './group-list/group-table-edit-button.pipe';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { GroupDetailsComponent } from './group-details/group-details.component';
     GroupSettingsEmailComponent,
     GroupTabsComponent,
     GroupDetailsComponent,
+    GroupTableFilterComponent,
+    GroupTableEditButtonPipe,
   ],
   imports: [
     ButtonModule,

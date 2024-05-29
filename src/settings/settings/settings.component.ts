@@ -1,10 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DEFAULT_HOST_CLASS } from "src/constants";
-
-interface TabConfig {
-  label: string;
-  routerLink: string;
-}
+import { TabConfig } from "../../shared-ui/tabs/tab-config.interface";
 
 @Component({
   selector: "app-settings",
@@ -24,10 +20,12 @@ export class SettingsComponent implements OnInit {
       {
         label: "User Profile",
         routerLink: "user-profile/view",
+        name: "user-profile",
       },
       {
         label: "User Preferences",
         routerLink: "user-preferences/view",
+        name: "user-preferences",
       },
     ];
   }

@@ -3,8 +3,9 @@
     mat-tab-link
     *ngFor="let tab of tabs"
     routerLinkActive="active"
-    [active]="tab.routerLink === activeLink"
-    [routerLink]="[tab.routerLink]"
+    [active]="tab.name=== activeName"
+    [routerLink]="[tab.routerLink ]"
+    [queryParams]="{tab: tab.name}"
   >
     {{ tab.label }}
   </a>

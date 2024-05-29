@@ -1,32 +1,41 @@
-import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { Sort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
 import { Observable, take, tap } from "rxjs";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
-import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
-import { Group, GroupRole, GroupsService } from "../../open-api";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
+import { AssociatedGroup, Group, GroupRole, GroupsService, UserRole } from "../../open-api";
 import { SnackbarService } from "../../services";
-import { GroupState, RemoveGroup } from "../../store";
+import { BaseTableService } from "../../services/base-table.service";
+import { BaseTableComponent } from "../../shared-ui/base-table/base-table.component";
+import { AuthState, GroupState, RemoveGroup } from "../../store";
+import { GroupTableState } from "../../store/group-table.state";
+import { GroupTableFilterComponent } from "../group-table-filter/group-table-filter.component";
+import { GroupTableService } from "./group-table.service";
 
+
+@UntilDestroy()
 @Component({
   selector: "app-group-list",
   templateUrl: "./group-list.component.html",
   styleUrls: ["./group-list.component.scss"],
   host: DEFAULT_HOST_CLASS,
+  providers: [
+    {
+      provide: BaseTableService,
+      useClass: GroupTableService
+    }
+  ]
 })
-export class GroupListComponent {
+export class GroupListComponent extends BaseTableComponent<Group> implements OnInit, AfterViewInit {
   @Select(GroupState.groups) public groups!: Observable<Group[]>;
 
   @ViewChild("nameCell") private nameCell!: TemplateRef<any>;
 
   @ViewChild("numberOfMembersCell")
   private numberOfMembersCell!: TemplateRef<any>;
-
-  @ViewChild("isDefaultGroupCell") private defaultGroupCell!: TemplateRef<any>;
 
   @ViewChild("createdAtCell") private createdAtCell!: TemplateRef<any>;
 
@@ -38,29 +47,48 @@ export class GroupListComponent {
 
   public groupRole = GroupRole;
 
-  public columns: TableColumn[] = [];
+  public isAdmin = false;
 
-  public displayedColumns: string[] = [];
-
-  public dataSource: MatTableDataSource<Group> =
-    new MatTableDataSource<Group>();
+  public tableHeaderText = "My Groups";
 
   constructor(
+    public override baseTableService: BaseTableService,
     private groupsService: GroupsService,
     private store: Store,
     private snackbarService: SnackbarService,
     private matDialog: MatDialog
-  ) {}
+  ) {
+    super(baseTableService);
+  }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.isAdmin = this.store.selectSnapshot(AuthState.hasRole(UserRole.Admin));
+    this.listenForFilterChanges();
+  }
 
   public ngAfterViewInit(): void {
     this.initTable();
   }
 
+  private listenForFilterChanges(): void {
+    this.store.select(GroupTableState.filter)
+      .pipe(
+        untilDestroyed(this),
+        tap((filter) => {
+            this.getTableData();
+            if (filter.associatedGroup === AssociatedGroup.All) {
+              this.tableHeaderText = "All Groups";
+            } else {
+              this.tableHeaderText = "My Groups";
+            }
+          }
+        )
+      )
+      .subscribe();
+  }
+
   private initTable(): void {
     this.setColumns();
-    this.setDataSource();
   }
 
   private setColumns(): void {
@@ -73,25 +101,19 @@ export class GroupListComponent {
       },
       {
         columnHeader: "Number of Members",
-        matColumnDef: "numberOfMembers",
+        matColumnDef: "number_of_members",
         template: this.numberOfMembersCell,
-        sortable: true,
-      },
-      {
-        columnHeader: "Is Default Group",
-        matColumnDef: "isDefault",
-        template: this.defaultGroupCell,
-        sortable: true,
+        sortable: false,
       },
       {
         columnHeader: "Created At",
-        matColumnDef: "createdAt",
+        matColumnDef: "created_at",
         template: this.createdAtCell,
         sortable: true,
       },
       {
         columnHeader: "Updated At",
-        matColumnDef: "updatedAt",
+        matColumnDef: "updated_at",
         template: this.updatedAtCell,
         sortable: true,
       },
@@ -104,40 +126,11 @@ export class GroupListComponent {
     ];
     this.displayedColumns = [
       "name",
-      "numberOfMembers",
-      "isDefault",
-      "createdAt",
-      "updatedAt",
+      "number_of_members",
+      "created_at",
+      "updated_at",
       "actions",
     ];
-  }
-
-  public sortNumberOfMembers(sortState: Sort): void {
-    if (sortState.active === "numberOfMembers") {
-      if (sortState.direction === "") {
-        this.dataSource.data = this.store.selectSnapshot(
-          GroupState.groupsWithoutAll
-        );
-        return;
-      }
-
-      const newData = Array.from(this.dataSource.data);
-      newData.sort((a, b) => {
-        if (sortState.direction == "asc") {
-          return b.groupMembers.length - a.groupMembers.length;
-        } else {
-          return a.groupMembers.length - b.groupMembers.length;
-        }
-      });
-
-      this.dataSource.data = newData;
-    }
-  }
-
-  private setDataSource(): void {
-    const groups = this.store.selectSnapshot(GroupState.groupsWithoutAll);
-    this.dataSource = new MatTableDataSource<Group>(groups);
-    this.dataSource.sort = this.table.sort;
   }
 
   public deleteGroup(index: number): void {
@@ -170,5 +163,9 @@ export class GroupListComponent {
         }
       });
     }
+  }
+
+  public openFilterDialog(): void {
+    const ref = this.matDialog.open(GroupTableFilterComponent, DEFAULT_DIALOG_CONFIG);
   }
 }
