@@ -21,6 +21,7 @@
     *ngIf="(formConfig.mode | inputReadonly) && canEdit"
     color="accent"
     [buttonRouterLink]="editButtonRouterLink"
+    [buttonQueryParams]="editButtonQueryParams"
   >
   </app-edit-button>
 </ng-template>

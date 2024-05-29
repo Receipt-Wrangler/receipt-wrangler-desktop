@@ -16,6 +16,8 @@ export class FormComponent {
 
   @Input() public editButtonRouterLink: string[] = [];
 
+  @Input() public editButtonQueryParams: any = {};
+
   @Input() public canEdit = true;
 
   @Input() public bottomSpacing = false;

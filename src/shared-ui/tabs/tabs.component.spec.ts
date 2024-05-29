@@ -1,10 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatTabsModule } from "@angular/material/tabs";
+import { ActivatedRoute } from "@angular/router";
 
-import { TabsComponent } from './tabs.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
+import { TabsComponent } from "./tabs.component";
 
-describe('TabsComponent', () => {
+describe("TabsComponent", () => {
   let component: TabsComponent;
   let fixture: ComponentFixture<TabsComponent>;
 
@@ -12,6 +13,10 @@ describe('TabsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [TabsComponent],
       imports: [MatTabsModule],
+      providers: [{
+        provide: ActivatedRoute,
+        useValue: {}
+      }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     fixture = TestBed.createComponent(TabsComponent);
@@ -19,7 +24,7 @@ describe('TabsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

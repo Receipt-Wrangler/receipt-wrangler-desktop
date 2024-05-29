@@ -24,7 +24,6 @@ export class GroupSettingsComponent
 
   public canEditEmailSettings: boolean = false;
 
-  // TODO: v5: Fix busted tabs, and update API to only accept updates from admin
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,

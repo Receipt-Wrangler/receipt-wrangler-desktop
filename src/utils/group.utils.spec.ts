@@ -27,12 +27,12 @@ describe("GroupUtil", () => {
     const testGroupRole = GroupRole.Editor;
 
     it("should return true when groupId is undefined", () => {
-      const result = groupUtil.hasGroupAccess(undefined, testGroupRole);
+      const result = groupUtil.hasGroupAccess(undefined, testGroupRole, false);
       expect(result).toBeTrue();
     });
 
     it("should return false when group is not found in store", () => {
-      const result = groupUtil.hasGroupAccess(testGroupId, testGroupRole);
+      const result = groupUtil.hasGroupAccess(testGroupId, testGroupRole, false);
       expect(result).toBeFalse();
     });
 
@@ -50,7 +50,7 @@ describe("GroupUtil", () => {
         },
       });
 
-      const result = groupUtil.hasGroupAccess(testGroupId, testGroupRole);
+      const result = groupUtil.hasGroupAccess(testGroupId, testGroupRole, false);
       expect(result).toBeFalse();
     });
 
@@ -68,7 +68,7 @@ describe("GroupUtil", () => {
         },
       });
 
-      const result = groupUtil.hasGroupAccess(testGroupId, testGroupRole);
+      const result = groupUtil.hasGroupAccess(testGroupId, testGroupRole, false);
       expect(result).toBeFalse();
     });
 
@@ -86,8 +86,31 @@ describe("GroupUtil", () => {
         },
       });
 
-      const result = groupUtil.hasGroupAccess(testGroupId, testGroupRole);
+      const result = groupUtil.hasGroupAccess(testGroupId, testGroupRole, false);
       expect(result).toBeTrue();
     });
+  });
+
+
+  it("should return true when allowAdminOverride is true and user is admin", () => {
+    spyOn(store, "selectSnapshot").and.returnValues(true, "1", null);
+    const result = groupUtil.hasGroupAccess(1, GroupRole.Viewer, true);
+    expect(result).toBeTrue();
+  });
+
+  it("should return false when allowAdminOverride is false and user is admin but not in group", () => {
+    const userId = "1";
+    const group = {
+      id: "1",
+      groupMembers: [{ userId: "2" }]
+    };
+    store.reset({
+      auth: { userId: userId },
+      groups: {
+        groups: [group]
+      },
+    });
+    const result = groupUtil.hasGroupAccess(1, GroupRole.Viewer, false);
+    expect(result).toBeFalse();
   });
 });

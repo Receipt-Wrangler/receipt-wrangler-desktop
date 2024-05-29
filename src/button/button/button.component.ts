@@ -27,6 +27,8 @@ export class ButtonComponent {
 
   @Input() public buttonRouterLink: string[] = [];
 
+  @Input() public buttonQueryParams: any = {};
+
   @Input() public tooltip: string = "";
 
   @Input() public matBadgeContent?: any;

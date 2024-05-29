@@ -55,7 +55,8 @@
       *ngIf="(element.id | groupRole : groupRole.Owner) || isAdmin"
       color="accent"
       tooltip="Edit group"
-      [buttonRouterLink]="element | groupTableEditButton: isAdmin"
+      [buttonRouterLink]="(element | groupTableEditButton: isAdmin).routerLink"
+      [buttonQueryParams]="(element | groupTableEditButton: isAdmin).queryParams"
     ></app-edit-button>
     <app-delete-button
       *ngIf="element.id | groupRole : groupRole.Owner"

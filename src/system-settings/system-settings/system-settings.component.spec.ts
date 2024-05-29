@@ -17,7 +17,13 @@ describe("SystemSettingsComponent", () => {
 
         {
           provide: ActivatedRoute,
-          useValue: {}
+          useValue: {
+            snapshot: {
+              queryParams: {
+                tab: "settings",
+              },
+            }
+          }
         }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
