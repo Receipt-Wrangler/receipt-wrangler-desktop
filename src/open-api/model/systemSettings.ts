@@ -25,6 +25,10 @@ export interface SystemSettings {
      */
     enableLocalSignUp?: boolean;
     /**
+     * Debug OCR
+     */
+    debugOcr?: boolean;
+    /**
      * Email polling interval
      */
     emailPollingInterval?: number;
