@@ -7,8 +7,8 @@ import { RoleGuard } from "../guards/role.guard";
 import { GroupRole, UserRole } from "../open-api";
 import { GroupDetailsComponent } from "./group-details/group-details.component";
 import { GroupFormComponent } from "./group-form/group-form.component";
-import { GroupListComponent } from "./group-list/group-list.component";
 import { GroupSettingsComponent } from "./group-settings/group-settings.component";
+import { GroupTableComponent } from "./group-table/group-table.component";
 import { GroupTabsComponent } from "./group-tabs/group-tabs.component";
 import { groupResolverFn } from "./resolvers/group-resolver.service";
 import { systemEmailsResolver } from "./resolvers/system-emails.resolver";
@@ -16,7 +16,7 @@ import { systemEmailsResolver } from "./resolvers/system-emails.resolver";
 const routes: Routes = [
   {
     path: "",
-    component: GroupListComponent,
+    component: GroupTableComponent,
   },
   {
     path: "create",

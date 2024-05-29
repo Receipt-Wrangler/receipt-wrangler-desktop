@@ -7,6 +7,7 @@ import { startWith, switchMap, take, tap } from "rxjs";
 import { AutocomleteComponent } from "../../autocomplete/autocomlete/autocomlete.component";
 import { BaseFormComponent } from "../../form";
 import { FeatureConfigService, ReceiptProcessingSettings, SystemSettings, SystemSettingsService } from "../../open-api";
+import { InputReadonlyPipe } from "../../pipes/input-readonly.pipe";
 import { SnackbarService } from "../../services";
 import { SetFeatureConfig } from "../../store";
 
@@ -15,7 +16,8 @@ import { SetFeatureConfig } from "../../store";
 @Component({
   selector: "app-system-settings-form",
   templateUrl: "./system-settings-form.component.html",
-  styleUrl: "./system-settings-form.component.scss"
+  styleUrl: "./system-settings-form.component.scss",
+  providers: [InputReadonlyPipe]
 })
 export class SystemSettingsFormComponent extends BaseFormComponent implements OnInit {
   @ViewChild("fallbackReceiptProcessingSettings")
@@ -35,6 +37,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     private snackbarService: SnackbarService,
     private store: Store,
     private systemSettingsService: SystemSettingsService,
+    private inputReadonlyPipe: InputReadonlyPipe
   ) {
     super();
   }
@@ -49,10 +52,16 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   private initForm(): void {
     this.form = this.formBuilder.group({
       enableLocalSignUp: [this.originalSystemSettings?.enableLocalSignUp],
+      debugOcr: [this.originalSystemSettings?.debugOcr],
       emailPollingInterval: [this.originalSystemSettings?.emailPollingInterval, [Validators.required, Validators.min(0)]],
       receiptProcessingSettingsId: [this.originalSystemSettings?.receiptProcessingSettingsId],
       fallbackReceiptProcessingSettingsId: [this.originalSystemSettings?.fallbackReceiptProcessingSettingsId]
     });
+
+    if (this.inputReadonlyPipe.transform(this.formConfig.mode)) {
+      this.form.get("debugOcr")?.disable();
+      this.form.get("enableLocalSignUp")?.disable();
+    }
 
     this.listenForReceiptProcessingSettingsChanges();
   }
