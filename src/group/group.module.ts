@@ -14,20 +14,20 @@ import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.
 import { AutocompleteModule } from "../autocomplete/autocomplete.module";
 import { ButtonModule } from "../button";
 import { InputModule } from "../input";
+import { GroupDetailsComponent } from "./group-details/group-details.component";
 import { GroupFormComponent } from "./group-form/group-form.component";
-import { GroupListComponent } from "./group-list/group-list.component";
 import { GroupMemberFormComponent } from "./group-member-form/group-member-form.component";
 import { GroupRoutingModule } from "./group-routing.module";
 import { GroupSettingsEmailComponent } from "./group-settings-email/group-settings-email.component";
 import { GroupSettingsComponent } from "./group-settings/group-settings.component";
+import { GroupTableFilterComponent } from "./group-table-filter/group-table-filter.component";
+import { GroupTableEditButtonPipe } from "./group-table/group-table-edit-button.pipe";
+import { GroupTableComponent } from "./group-table/group-table.component";
 import { GroupTabsComponent } from "./group-tabs/group-tabs.component";
-import { GroupDetailsComponent } from './group-details/group-details.component';
-import { GroupTableFilterComponent } from './group-table-filter/group-table-filter.component';
-import { GroupTableEditButtonPipe } from './group-list/group-table-edit-button.pipe';
 
 @NgModule({
   declarations: [
-    GroupListComponent,
+    GroupTableComponent,
     GroupFormComponent,
     GroupMemberFormComponent,
     GroupSettingsComponent,
@@ -56,6 +56,6 @@ import { GroupTableEditButtonPipe } from './group-list/group-table-edit-button.p
     UserAutocompleteModule,
     AutocompleteModule,
   ],
-  exports: [GroupListComponent],
+  exports: [GroupTableComponent],
 })
 export class GroupsModule {}
