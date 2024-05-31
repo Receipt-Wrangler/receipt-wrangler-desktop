@@ -1,7 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ImportFormComponent } from './import-form/import-form.component';
-
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { PipesModule } from "../pipes";
+import { SelectModule } from "../select/select.module";
+import { SharedUiModule } from "../shared-ui/shared-ui.module";
+import { ImportFormComponent } from "./import-form/import-form.component";
 
 
 @NgModule({
@@ -9,10 +11,13 @@ import { ImportFormComponent } from './import-form/import-form.component';
     ImportFormComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SharedUiModule,
+    SelectModule,
+    PipesModule
   ],
   exports: [
     ImportFormComponent
   ]
 })
-export class ImportModule { }
+export class ImportModule {}

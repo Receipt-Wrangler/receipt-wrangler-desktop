@@ -1,1 +1,13 @@
-<p>import-form works!</p>
+<app-dialog headerText="Import">
+  <app-select
+    label="Import Type"
+    optionValueKey="value"
+    optionDisplayKey="displayValue"
+    [inputFormControl]="form | formGet: 'importType'"
+    [options]="importTypeOptions"
+  ></app-select>
+
+  <app-dialog-footer
+    submitButtonTooltip="Import"
+  ></app-dialog-footer>
+</app-dialog>
