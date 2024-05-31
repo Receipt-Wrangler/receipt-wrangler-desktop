@@ -77,5 +77,8 @@ import { UserTotalPipe } from "./user-total.pipe";
     TextareaModule,
     UserAutocompleteModule,
   ],
+  exports: [
+    UploadImageComponent
+  ]
 })
 export class ReceiptsModule {}
