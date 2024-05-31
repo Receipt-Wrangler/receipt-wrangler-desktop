@@ -78,7 +78,11 @@ export class ImportFormComponent extends BaseFormComponent implements OnInit {
       this.fileContents = this.sanitizer.bypassSecurityTrustHtml(dirtyHTML);
     };
     reader.readAsText(this.file);
+  }
 
+  public clearFileContents(): void {
+    this.file = null;
+    this.fileContents = "";
   }
 
   public closeDialog(): void {

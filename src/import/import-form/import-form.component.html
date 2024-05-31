@@ -35,11 +35,19 @@
 </app-dialog>
 
 <ng-template #actionsTemplate>
-  <app-button
-    class="me-2"
-    matButtonType="iconButton"
-    tooltip="Upload File"
-    icon="upload"
-    (clicked)="openFileUploadDialog()">
-  </app-button>
+  <div class="d-flex">
+    <app-button
+      class="me-2"
+      matButtonType="iconButton"
+      tooltip="Upload File"
+      icon="upload"
+      (clicked)="openFileUploadDialog()">
+    </app-button>
+    <app-delete-button
+      *ngIf="fileContents"
+      tooltip="Remove file"
+      @fadeInOut
+      (clicked)="clearFileContents()"
+    ></app-delete-button>
+  </div>
 </ng-template>
