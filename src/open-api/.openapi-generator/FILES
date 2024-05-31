@@ -8,6 +8,7 @@ api/comment.service.ts
 api/dashboard.service.ts
 api/featureConfig.service.ts
 api/groups.service.ts
+api/import.service.ts
 api/notifications.service.ts
 api/prompt.service.ts
 api/receipt.service.ts
@@ -36,6 +37,7 @@ model/checkEmailConnectivityCommand.ts
 model/checkReceiptProcessingSettingsConnectivityCommand.ts
 model/claims.ts
 model/comment.ts
+model/configImportCommand.ts
 model/dashboard.ts
 model/encodedImage.ts
 model/featureConfig.ts
@@ -52,6 +54,7 @@ model/groupRole.ts
 model/groupSettings.ts
 model/groupSettingsWhiteListEmail.ts
 model/groupStatus.ts
+model/importType.ts
 model/item.ts
 model/itemStatus.ts
 model/loginCommand.ts
