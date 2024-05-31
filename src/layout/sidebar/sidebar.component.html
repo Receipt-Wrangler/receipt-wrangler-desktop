@@ -84,12 +84,12 @@
       <button mat-menu-item [routerLink]="['/settings/user-profile/view']">
         User Settings
       </button>
-      <ng-container *appDevelopment>
-        <button *appRole="'ADMIN'" [routerLink]="['/system-settings/settings/view']" mat-menu-item>
-          System Settings
-        </button>
-
-      </ng-container>
+      <button *appRole="'ADMIN'" [routerLink]="['/system-settings/settings/view']" mat-menu-item>
+        System Settings
+      </button>
+      <button *appRole="'ADMIN'" mat-menu-item (click)="openImportDialog()">
+        Imports
+      </button>
       <button mat-menu-item (click)="logout()">Logout</button>
     </mat-menu>
   </mat-drawer>
