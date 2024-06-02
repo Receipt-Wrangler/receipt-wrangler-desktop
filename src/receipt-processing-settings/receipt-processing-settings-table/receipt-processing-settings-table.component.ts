@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
 import { DEFAULT_DIALOG_CONFIG } from "../../constants";
@@ -7,6 +8,7 @@ import {
   CheckReceiptProcessingSettingsConnectivityCommand,
   ReceiptProcessingSettings,
   ReceiptProcessingSettingsService,
+  SystemSettings,
   SystemTaskStatus
 } from "../../open-api";
 import { SnackbarService } from "../../services";
@@ -45,18 +47,22 @@ export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<
 
   @ViewChild("actionsCell") public actionsCell!: TemplateRef<any>;
 
+  public systemSettings!: SystemSettings;
+
   constructor(
     public override baseTableService: BaseTableService,
-    private store: Store,
+    private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
     private receiptProcessingSettingsService: ReceiptProcessingSettingsService,
     private snackbarService: SnackbarService,
-    private dialog: MatDialog
+    private store: Store,
   ) {
     super(baseTableService);
   }
 
   public ngOnInit(): void {
     this.getTableData();
+    this.systemSettings = this.activatedRoute.snapshot.data?.["systemSettings"];
   }
 
   public ngAfterViewInit(): void {
@@ -172,5 +178,11 @@ export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<
         })
       )
       .subscribe();
+  }
+
+  public disabledDeleteButtonClicked(settings: ReceiptProcessingSettings, disabled: boolean): void {
+    if (disabled) {
+      this.snackbarService.info(`Cannot delete ${settings.name} because it is currently active in system settings.`);
+    }
   }
 }

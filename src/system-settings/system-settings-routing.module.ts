@@ -41,7 +41,10 @@ const routes: Routes = [
       },
       {
         path: "receipt-processing-settings",
-        component: ReceiptProcessingSettingsTableComponent
+        component: ReceiptProcessingSettingsTableComponent,
+        resolve: {
+          systemSettings: systemSettingsResolver,
+        }
       },
       {
         path: "settings/view",

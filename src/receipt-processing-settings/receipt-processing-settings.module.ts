@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
+import { MatTooltip } from "@angular/material/tooltip";
 import { RouterLink } from "@angular/router";
 import { AutocompleteModule } from "../autocomplete/autocomplete.module";
 import { ButtonModule } from "../button";
@@ -29,7 +30,8 @@ import { ReceiptProcessingSettingsTableComponent } from "./receipt-processing-se
     AutocompleteModule,
     AiTypePipe,
     OcrEnginePipe,
-    ButtonModule
+    ButtonModule,
+    MatTooltip
   ],
   exports: []
 })

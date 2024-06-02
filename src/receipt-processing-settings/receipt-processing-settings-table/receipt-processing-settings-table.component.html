@@ -65,7 +65,11 @@
     ></app-button>
     <app-delete-button
       tooltip="Delete receipt processing settings"
+      [disabled]="systemSettings.receiptProcessingSettingsId === element.id ||
+       systemSettings.fallbackReceiptProcessingSettingsId === element.id"
       (clicked)="deleteReceiptProcessingSettings(element)"
+      (click)="disabledDeleteButtonClicked(element, systemSettings.receiptProcessingSettingsId === element.id ||
+       systemSettings.fallbackReceiptProcessingSettingsId === element.id)"
     ></app-delete-button>
   </div>
 </ng-template>
