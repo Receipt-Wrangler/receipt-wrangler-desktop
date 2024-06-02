@@ -63,7 +63,9 @@
     ></app-button>
     <app-delete-button
       tooltip="Delete Prompt"
+      [disabled]="(relatedPromptMap.get(element.id)?.length || 0) > 0"
       (clicked)="deletePrompt(element.id, index)"
+      (click)="disabledDeleteButtonClicked(element.id)"
     ></app-delete-button>
   </div>
 </ng-template>

@@ -3,11 +3,11 @@ import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { Observable, take, tap } from "rxjs";
 import { PagedTableInterface } from "../../interfaces/paged-table.interface";
-import { Prompt, PromptService, UpsertPromptCommand } from "../../open-api";
+import { Prompt, PromptService, ReceiptProcessingSettings, UpsertPromptCommand } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { PromptTableState } from "../../store/prompt-table.state";
@@ -40,6 +40,10 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
 
   public totalCount = 0;
 
+  public receiptProcessingSettings: ReceiptProcessingSettings[] = [];
+
+  public relatedPromptMap: Map<number, ReceiptProcessingSettings[]> = new Map<number, ReceiptProcessingSettings[]>();
+
 
   constructor(
     private matDialog: MatDialog,
@@ -47,9 +51,11 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
     private router: Router,
     private snackbarService: SnackbarService,
     private store: Store,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
+    this.receiptProcessingSettings = this.activatedRoute.snapshot.data["allReceiptProcessingSettings"];
     this.getTableData();
   }
 
@@ -116,10 +122,22 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
         tap((pagedData) => {
           this.dataSource = new MatTableDataSource(pagedData.data as Prompt[]);
           this.totalCount = pagedData.totalCount;
+          this.setPromptsWithRelatedData(pagedData.data as Prompt[]);
         })
       )
       .subscribe();
   }
+
+  private setPromptsWithRelatedData(prompts: Prompt[]): void {
+    const map = new Map<number, ReceiptProcessingSettings[]>();
+    for (const prompt of prompts) {
+      const related = this.receiptProcessingSettings.filter((r) => r.promptId === prompt.id);
+      map.set(prompt.id, related);
+    }
+
+    this.relatedPromptMap = map;
+  }
+
 
   public sorted(sort: Sort): void {
     this.store.dispatch(new SetOrderBy(sort.active));
@@ -204,5 +222,14 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe();
+  }
+
+  public disabledDeleteButtonClicked(promptId: number): void {
+    const mapData = this.relatedPromptMap.get(promptId);
+    const disabled = mapData && mapData.length > 0;
+    if (disabled) {
+      this.snackbarService.info("Cannot delete prompt as it is associated with the following receipt processing settings: " + mapData.map((m) => m.name).join(", "));
+    }
+
   }
 }

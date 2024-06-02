@@ -12,6 +12,7 @@ export class SnackbarService implements SnackbarServiceInterface {
   public info(message: string): void {
     this.snackbar.open(message, DEFAULT_SNACKBAR_ACTION, {
       ...DEFAULT_SNACKBAR_CONFIG,
+      duration: undefined,
       panelClass: ["info-snackbar"],
     });
   }

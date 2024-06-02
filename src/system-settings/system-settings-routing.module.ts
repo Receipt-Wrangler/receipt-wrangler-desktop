@@ -38,6 +38,9 @@ const routes: Routes = [
       {
         path: "prompts",
         component: PromptTableComponent,
+        resolve: {
+          allReceiptProcessingSettings: allReceiptProcessingSettingsResolver,
+        }
       },
       {
         path: "receipt-processing-settings",
