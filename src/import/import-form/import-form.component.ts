@@ -3,11 +3,12 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { prettyPrintJson } from "pretty-print-json";
+import { take, tap } from "rxjs";
 import { fadeInOut } from "../../animations";
 import { BaseFormComponent } from "../../form";
 import { ReceiptFileUploadCommand } from "../../interfaces";
 import { FormOption } from "../../interfaces/form-option.interface";
-import { ImportType } from "../../open-api";
+import { ImportService, ImportType } from "../../open-api";
 import { UploadImageComponent } from "../../receipts/upload-image/upload-image.component";
 import { SnackbarService } from "../../services";
 
@@ -32,10 +33,11 @@ export class ImportFormComponent extends BaseFormComponent implements OnInit {
   public test: string = "";
 
   constructor(
-    private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<ImportFormComponent>,
+    private formBuilder: FormBuilder,
+    private importService: ImportService,
+    private sanitizer: DomSanitizer,
     private snackbarService: SnackbarService,
-    private sanitizer: DomSanitizer
   ) {
     super();
   }
@@ -105,7 +107,15 @@ export class ImportFormComponent extends BaseFormComponent implements OnInit {
       this.snackbarService.error("Please select a config file to import");
       return;
     }
-
+    this.importService.importConfigJson(this.file)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.snackbarService.success("Config imported successfully");
+          this.dialogRef.close();
+        })
+      )
+      .subscribe();
   }
 
 }

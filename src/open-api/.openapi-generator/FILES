@@ -37,7 +37,6 @@ model/checkEmailConnectivityCommand.ts
 model/checkReceiptProcessingSettingsConnectivityCommand.ts
 model/claims.ts
 model/comment.ts
-model/configImportCommand.ts
 model/dashboard.ts
 model/encodedImage.ts
 model/featureConfig.ts

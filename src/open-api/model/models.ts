@@ -10,7 +10,6 @@ export * from './checkEmailConnectivityCommand';
 export * from './checkReceiptProcessingSettingsConnectivityCommand';
 export * from './claims';
 export * from './comment';
-export * from './configImportCommand';
 export * from './dashboard';
 export * from './encodedImage';
 export * from './featureConfig';
