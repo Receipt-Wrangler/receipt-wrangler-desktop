@@ -8,6 +8,7 @@ import { CommentService } from './api/comment.service';
 import { DashboardService } from './api/dashboard.service';
 import { FeatureConfigService } from './api/featureConfig.service';
 import { GroupsService } from './api/groups.service';
+import { ImportService } from './api/import.service';
 import { NotificationsService } from './api/notifications.service';
 import { PromptService } from './api/prompt.service';
 import { ReceiptService } from './api/receipt.service';
