@@ -44,6 +44,8 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
   protected readonly openAiCustomSpecificFields: string[] = ["url", "model"];
 
+  protected readonly ollamaSpecificFields = ["url", "model"];
+
   public readonly aiTypeOptions: FormOption[] = aiTypeOptions;
 
   public readonly ocrEngineOptions: FormOption[] = ocrEngineOptions;
@@ -69,6 +71,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     this.prompts = this.activatedRoute.snapshot.data["prompts"];
     this.setFormConfigFromRoute(this.activatedRoute);
     this.initForm();
+
   }
 
   private initForm(): void {
@@ -105,6 +108,9 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
             case AiType.OpenAiCustom:
               this.updateOpenAiCustomForm();
               break;
+            case AiType.Ollama:
+              this.updateOllamaForm();
+              break;
           }
         })
       )
@@ -125,6 +131,15 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
   private updateOpenAiCustomForm(): void {
     this.openAiGeminiSpecificFields.forEach((field: string) => {
+      this.form.get(field)?.setValidators(null);
+      this.form.get(field)?.setErrors(null);
+    });
+
+    this.form.get("url")?.setValidators(Validators.required);
+  }
+
+  private updateOllamaForm(): void {
+    this.ollamaSpecificFields.forEach((field: string) => {
       this.form.get(field)?.setValidators(null);
       this.form.get(field)?.setErrors(null);
     });
