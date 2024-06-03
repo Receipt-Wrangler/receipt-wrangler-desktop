@@ -224,11 +224,11 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
-  public disabledDeleteButtonClicked(promptId: number): void {
-    const mapData = this.relatedPromptMap.get(promptId);
+  public disabledDeleteButtonClicked(prompt: Prompt): void {
+    const mapData = this.relatedPromptMap.get(prompt.id);
     const disabled = mapData && mapData.length > 0;
     if (disabled) {
-      this.snackbarService.info("Cannot delete prompt as it is associated with the following receipt processing settings: " + mapData.map((m) => m.name).join(", "));
+      this.snackbarService.info(`Cannot delete ${prompt.name} as it is associated with the following receipt processing settings: ` + mapData.map((m) => m.name).join(", "));
     }
 
   }
