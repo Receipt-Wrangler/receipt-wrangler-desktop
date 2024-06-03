@@ -17,6 +17,7 @@ import { allReceiptProcessingSettingsResolver } from "./resolvers/receipt-proces
 import { systemEmailResolver } from "./resolvers/system-email.resolver";
 import { systemSettingsResolver } from "./resolvers/system-settings.resolver";
 import { SystemEmailFormComponent } from "./system-email-form/system-email-form.component";
+import { allGroupsResolver } from "./system-email-table/all-groups.resolver";
 import { SystemEmailTableComponent } from "./system-email-table/system-email-table.component";
 import { SystemSettingsFormComponent } from "./system-settings-form/system-settings-form.component";
 import { SystemSettingsComponent } from "./system-settings/system-settings.component";
@@ -34,14 +35,23 @@ const routes: Routes = [
       {
         path: "system-emails",
         component: SystemEmailTableComponent,
+        resolve: {
+          allGroups: allGroupsResolver,
+        }
       },
       {
         path: "prompts",
         component: PromptTableComponent,
+        resolve: {
+          allReceiptProcessingSettings: allReceiptProcessingSettingsResolver,
+        }
       },
       {
         path: "receipt-processing-settings",
-        component: ReceiptProcessingSettingsTableComponent
+        component: ReceiptProcessingSettingsTableComponent,
+        resolve: {
+          systemSettings: systemSettingsResolver,
+        }
       },
       {
         path: "settings/view",
