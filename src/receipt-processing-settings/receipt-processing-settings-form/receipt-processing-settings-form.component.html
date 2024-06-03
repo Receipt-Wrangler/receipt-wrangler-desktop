@@ -61,7 +61,8 @@
           [showVisibilityEye]="true"
         ></app-input>
       </ng-container>
-      <ng-container *ngIf="form.value?.['aiType'] === AiType.OpenAiCustom">
+      <ng-container *ngIf="form.value?.['aiType'] === AiType.OpenAiCustom ||
+      form.value?.['aiType'] === AiType.Ollama">
         <app-input
           label="Url"
           [readonly]="formConfig.mode | inputReadonly"

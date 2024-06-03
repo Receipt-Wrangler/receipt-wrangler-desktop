@@ -14,6 +14,10 @@ export const aiTypeOptions: FormOption[] = [
     value: AiType.Gemini,
     displayValue: "Gemini",
   },
+  {
+    value: AiType.Ollama,
+    displayValue: "Ollama",
+  }
 ];
 
 
