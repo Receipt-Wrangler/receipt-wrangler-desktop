@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatExpansionModule } from "@angular/material/expansion";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatTableModule } from "@angular/material/table";
@@ -19,9 +20,11 @@ import { ButtonModule } from "../button";
 import { DirectivesModule } from "../directives";
 import { InputModule } from "../input";
 import { TableModule } from "../table/table.module";
+import { AccordionComponent } from "./accordion/accordion.component";
 import { AddButtonComponent } from "./add-button/add-button.component";
 import { AuditDetailSectionComponent } from "./audit-detail-section/audit-detail-section.component";
 import { BackButtonComponent } from "./back-button/back-button.component";
+import { BaseTableComponent } from "./base-table/base-table.component";
 import { CancelButtonComponent } from "./cancel-button/cancel-button.component";
 import { CardComponent } from "./card/card.component";
 import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-dialog.component";
@@ -41,16 +44,15 @@ import { QuickScanButtonComponent } from "./quick-scan-button/quick-scan-button.
 import { OperationsPipe } from "./receipt-filter/operations.pipe";
 import { ReceiptFilterComponent } from "./receipt-filter/receipt-filter.component";
 import { StatusChipComponent } from "./status-chip/status-chip.component";
+import { StatusIconComponent } from "./status-icon/status-icon.component";
 import { StatusSelectComponent } from "./status-select/status-select.component";
 import { SubmitButtonComponent } from "./submit-button/submit-button.component";
 import { SummaryCardComponent } from "./summary-card/summary-card.component";
 import { TableHeaderComponent } from "./table-header/table-header.component";
 import { TabsComponent } from "./tabs/tabs.component";
+import { PrettyJsonPipe } from "./task-table/pretty-json.pipe";
 import { SystemTaskTypePipe } from "./task-table/system-task-type.pipe";
 import { TaskTableComponent } from "./task-table/task-table.component";
-import { StatusIconComponent } from './status-icon/status-icon.component';
-import { BaseTableComponent } from './base-table/base-table.component';
-import { PrettyJsonPipe } from './task-table/pretty-json.pipe';
 
 @NgModule({
   declarations: [
@@ -85,6 +87,7 @@ import { PrettyJsonPipe } from './task-table/pretty-json.pipe';
     StatusIconComponent,
     BaseTableComponent,
     PrettyJsonPipe,
+    AccordionComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -109,6 +112,7 @@ import { PrettyJsonPipe } from './task-table/pretty-json.pipe';
     DirectivesModule,
     TableModule,
     SystemTaskTypePipe,
+    MatExpansionModule
   ],
   exports: [
     AddButtonComponent,
@@ -140,6 +144,8 @@ import { PrettyJsonPipe } from './task-table/pretty-json.pipe';
     TaskTableComponent,
     StatusIconComponent,
     BaseTableComponent,
+    PrettyJsonPipe,
+    AccordionComponent,
   ],
 })
 export class SharedUiModule {}

@@ -14,10 +14,11 @@ import { AiTypePipe } from "./pipes/ai-type.pipe";
 import { OcrEnginePipe } from "./pipes/ocr-engine.pipe";
 import { ReceiptProcessingSettingsFormComponent } from "./receipt-processing-settings-form/receipt-processing-settings-form.component";
 import { ReceiptProcessingSettingsTableComponent } from "./receipt-processing-settings-table/receipt-processing-settings-table.component";
+import { ReceiptProcessingSettingsChildSystemTaskAccordionComponent } from './receipt-processing-settings-child-system-task-accordion/receipt-processing-settings-child-system-task-accordion.component';
 
 
 @NgModule({
-  declarations: [ReceiptProcessingSettingsTableComponent, ReceiptProcessingSettingsFormComponent],
+  declarations: [ReceiptProcessingSettingsTableComponent, ReceiptProcessingSettingsFormComponent, ReceiptProcessingSettingsChildSystemTaskAccordionComponent],
   imports: [
     CommonModule,
     TableModule,

@@ -1,0 +1,16 @@
+<mat-accordion>
+  <mat-expansion-panel
+    *ngFor="let panel of panels"
+    hideToggle
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ panel.title }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ panel.description
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <ng-template [ngTemplateOutlet]="panel.content"></ng-template>
+  </mat-expansion-panel>
+</mat-accordion>
