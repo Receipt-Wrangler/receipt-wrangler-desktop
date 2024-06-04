@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation, } from "@angular/core";
-import { ThemePalette } from "@angular/material/core";
+import {Component, EventEmitter, Input, Output, ViewEncapsulation,} from "@angular/core";
+import {ThemePalette} from "@angular/material/core";
 
 @Component({
   selector: "app-button",
@@ -25,7 +25,7 @@ export class ButtonComponent {
 
   @Input() public disabled: boolean = false;
 
-  @Input() public buttonRouterLink: string[] = [];
+  @Input() public buttonRouterLink?: string[];
 
   @Input() public buttonQueryParams: any = {};
 

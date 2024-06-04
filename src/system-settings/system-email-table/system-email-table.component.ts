@@ -154,21 +154,24 @@ export class SystemEmailTableComponent implements OnInit, AfterViewInit {
     this.getTableData();
   }
 
-  public deleteButtonClicked(id: number, index: number): void {
+  public deleteButtonClicked(systemEmail: SystemEmail): void {
     const dialogRef = this.matDialog.open(ConfirmationDialogComponent);
-    const email = this.dataSource.data[index];
 
-    console.warn(index)
+    // TODO: fix broken back buttons because they go back to the wrong plcae
+    // TODO: fix delete on prompt and system email since it uses index, and make suer other tables work too
+    // TODO: deal with deleting users with tasks
 
     dialogRef.componentInstance.headerText = "Delete System Email";
-    dialogRef.componentInstance.dialogContent = `Are you sure you want to delete the email: ${email.username}?`;
+    dialogRef.componentInstance.dialogContent = `Are you sure you want to delete the email: ${systemEmail.username}?`;
+
+    const index = this.dataSource.data.findIndex((se) => se.id === systemEmail.id);
 
     dialogRef.afterClosed()
       .pipe(
         take(1),
         tap((result) => {
           if (result) {
-            this.callDeleteApi(id, index);
+            this.callDeleteApi(systemEmail.id, index);
           }
         })
       )
