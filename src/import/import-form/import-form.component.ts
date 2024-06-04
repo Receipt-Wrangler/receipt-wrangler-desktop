@@ -1,16 +1,17 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
-import { MatDialogRef } from "@angular/material/dialog";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { prettyPrintJson } from "pretty-print-json";
-import { take, tap } from "rxjs";
-import { fadeInOut } from "../../animations";
-import { BaseFormComponent } from "../../form";
-import { ReceiptFileUploadCommand } from "../../interfaces";
-import { FormOption } from "../../interfaces/form-option.interface";
-import { ImportService, ImportType } from "../../open-api";
-import { UploadImageComponent } from "../../receipts/upload-image/upload-image.component";
-import { SnackbarService } from "../../services";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {FormBuilder, Validators} from "@angular/forms";
+import {MatDialogRef} from "@angular/material/dialog";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import {prettyPrintJson} from "pretty-print-json";
+import {take, tap} from "rxjs";
+import {fadeInOut} from "../../animations";
+import {BaseFormComponent} from "../../form";
+import {ReceiptFileUploadCommand} from "../../interfaces";
+import {FormOption} from "../../interfaces/form-option.interface";
+import {ImportService, ImportType} from "../../open-api";
+import {UploadImageComponent} from "../../receipts/upload-image/upload-image.component";
+import {SnackbarService} from "../../services";
+import {DEFAULT_PRETTY_JSON_OPTIONS} from "../../receipt-processing-settings/constants/pretty-json";
 
 @Component({
   selector: "app-import-form",
@@ -71,12 +72,7 @@ export class ImportFormComponent extends BaseFormComponent implements OnInit {
       let rawResult = reader.result as string;
       rawResult = JSON.parse(rawResult);
       const dirtyHTML = prettyPrintJson.toHtml(
-        rawResult, {
-          indent: 2,
-          lineNumbers: true,
-          quoteKeys: true,
-          linkUrls: true,
-        });
+        rawResult, DEFAULT_PRETTY_JSON_OPTIONS);
       this.fileContents = this.sanitizer.bypassSecurityTrustHtml(dirtyHTML);
     };
     reader.readAsText(this.file);

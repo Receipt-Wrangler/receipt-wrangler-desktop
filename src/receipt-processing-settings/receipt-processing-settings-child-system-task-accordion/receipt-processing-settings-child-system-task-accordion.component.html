@@ -1,28 +1,11 @@
-<div
-  *ngFor="let child of childTasks"
-  class="d-flex flex-column"
->
-  <ng-container [ngSwitch]="child.type">
-    <ng-template *ngSwitchCase="SystemTaskType.OcrProcessing" [ngTemplateOutlet]="ocrProcessingDetails"></ng-template>
-    <ng-template
-      *ngSwitchCase="SystemTaskType.ChatCompletion"
-      [ngTemplateOutlet]="chatCompletionDetails"
-      [ngTemplateOutletContext]="{ element: child }"
-    >
+<app-accordion [panels]="accordionPanels"></app-accordion>
 
-    </ng-template>
-  </ng-container>
-
-</div>
-
-<ng-template #ocrProcessingDetails>
-  ocr
+<ng-template #ocrProcessingDetails let-index="index">
+  <span class="d-flex flex-column w-25">
+    {{ childTasks?.[index]?.resultDescription }}
+  </span>
 </ng-template>
 
-<ng-template #chatCompletionDetails let-element="element">
-  <app-form-section headerText="Raw Chat Completion">
-
-    Response: <span class="json-container" [innerHTML]="element.resultDescription | prettyJson"></span>
-    <app-accordion></app-accordion>
-  </app-form-section>
+<ng-template #chatCompletionDetails let-index="index">
+  <span class="json-container" [innerHTML]="(childTasks?.[index]?.resultDescription ?? '') | prettyJson"></span>
 </ng-template>
