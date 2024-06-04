@@ -1,10 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TableComponent } from './table/table.component';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatIcon } from "@angular/material/icon";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatSortModule } from "@angular/material/sort";
+import { MatTableModule } from "@angular/material/table";
+import { ButtonModule } from "../button";
+import { TableComponent } from "./table/table.component";
 
 @NgModule({
   declarations: [TableComponent],
@@ -14,6 +16,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatSortModule,
     MatPaginatorModule,
     MatCheckboxModule,
+    MatIcon,
+    ButtonModule,
   ],
   exports: [TableComponent],
 })

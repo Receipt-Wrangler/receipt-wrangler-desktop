@@ -83,6 +83,7 @@
     <app-task-table
       [associatedEntityType]="AssociatedEntityType.ReceiptProcessingSettings"
       [associatedEntityId]="originalReceiptProcessingSettings?.id"
+      [expandedRowTemplate]="expandedRowTemplate"
     ></app-task-table>
   </app-form-section>
   <app-form-button-bar [mode]="formConfig.mode">
@@ -110,4 +111,11 @@
       (clicked)="checkConnectivity()"
     ></app-button>
   </div>
+</ng-template>
+
+<ng-template
+  #expandedRowTemplate
+  let-element="element"
+>
+  hey there
 </ng-template>

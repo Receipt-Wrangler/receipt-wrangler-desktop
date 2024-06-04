@@ -50,6 +50,7 @@ import { SystemTaskTypePipe } from "./task-table/system-task-type.pipe";
 import { TaskTableComponent } from "./task-table/task-table.component";
 import { StatusIconComponent } from './status-icon/status-icon.component';
 import { BaseTableComponent } from './base-table/base-table.component';
+import { PrettyJsonPipe } from './task-table/pretty-json.pipe';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { BaseTableComponent } from './base-table/base-table.component';
     TaskTableComponent,
     StatusIconComponent,
     BaseTableComponent,
+    PrettyJsonPipe,
   ],
   imports: [
     AutocompleteModule,

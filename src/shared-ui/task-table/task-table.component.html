@@ -6,6 +6,7 @@
   [length]="totalCount"
   [page]="((tableService.page$ | async)  || 1 ) - 1"
   [pageSize]="(tableService.pageSize$ | async) || 10"
+  [expandedRowTemplate]="expandedRowTemplate"
   (sorted)="sorted($event)"
   (pageChange)="pageChanged($event)"
 ></app-table>
@@ -31,7 +32,9 @@
 </ng-template>
 
 <ng-template let-element="element" #resultDescriptionCell>
-  {{ element.resultDescription }}
+  <div [innerHTML]="element.resultDescription">
+
+  </div>
 </ng-template>
 
 

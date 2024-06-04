@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from "@angular/animations";
 import { LiveAnnouncer } from "@angular/cdk/a11y";
 import { SelectionModel } from "@angular/cdk/collections";
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, } from "@angular/core";
@@ -10,6 +11,13 @@ import { TableColumn } from "../table-column.interface";
   selector: "app-table",
   templateUrl: "./table.component.html",
   styleUrls: ["./table.component.scss"],
+  animations: [
+    trigger("detailExpand", [
+      state("collapsed,void", style({ height: "0px", minHeight: "0" })),
+      state("expanded", style({ height: "*" })),
+      transition("expanded <=> collapsed", animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")),
+    ]),
+  ],
 })
 export class TableComponent implements OnChanges {
   @ViewChild(MatSort) public sort!: MatSort;
@@ -23,13 +31,17 @@ export class TableComponent implements OnChanges {
   @Input() public page: number = 0;
   @Input() public pageSize: number = 50;
   @Input() public length: number = 0;
+  @Input() public expandedRowTemplate: any;
 
   @Output() public sorted: EventEmitter<Sort> = new EventEmitter<Sort>();
   @Output() public pageChange: EventEmitter<PageEvent> =
     new EventEmitter<PageEvent>();
 
   public defaultSort?: Sort;
+
   public selection = new SelectionModel<any>(true, []);
+
+  public expandedElement: any;
 
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
@@ -88,5 +100,10 @@ export class TableComponent implements OnChanges {
   public pageChanged(pageEvent: PageEvent): void {
     this.selection.clear();
     this.pageChange.emit(pageEvent);
+  }
+
+  public expanderClicked(event: MouseEvent, row: any): void {
+    this.expandedElement = this.expandedElement === row ? null : row;
+    event.stopPropagation();
   }
 }

@@ -30,6 +30,8 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
 
   @Input() public associatedEntityId?: number;
 
+  @Input() public expandedRowTemplate?: TemplateRef<any>;
+
   public displayedColumns: string[] = [];
 
   public columns: TableColumn[] = [];
@@ -119,6 +121,9 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
     ];
 
     this.displayedColumns = ["started_at", "ended_at", "type", "ran_by_user_id", "result_description", "status"];
+    if (this.expandedRowTemplate) {
+      this.displayedColumns.push("expand");
+    }
   }
 
   public sorted(sort: Sort): void {
