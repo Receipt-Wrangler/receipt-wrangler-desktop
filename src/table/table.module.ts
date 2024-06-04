@@ -7,9 +7,10 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { ButtonModule } from "../button";
 import { TableComponent } from "./table/table.component";
+import { RowExpandablePipe } from './table/row-expandable.pipe';
 
 @NgModule({
-  declarations: [TableComponent],
+  declarations: [TableComponent, RowExpandablePipe],
   imports: [
     CommonModule,
     MatTableModule,

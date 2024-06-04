@@ -54,6 +54,7 @@
     <th mat-header-cell *matHeaderCellDef aria-label="row actions"></th>
     <td mat-cell *matCellDef="let element">
       <app-button
+        *ngIf="element | isRowExpandable: rowExpandable"
         matButtonType="iconButton"
         color="accent"
         [icon]="expandedElement === element ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"

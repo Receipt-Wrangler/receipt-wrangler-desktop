@@ -32,6 +32,7 @@ export class TableComponent implements OnChanges {
   @Input() public pageSize: number = 50;
   @Input() public length: number = 0;
   @Input() public expandedRowTemplate: any;
+  @Input() public rowExpandable: (row: any) => boolean = () => true;
 
   @Output() public sorted: EventEmitter<Sort> = new EventEmitter<Sort>();
   @Output() public pageChange: EventEmitter<PageEvent> =

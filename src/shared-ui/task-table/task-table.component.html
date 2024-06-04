@@ -7,6 +7,7 @@
   [page]="((tableService.page$ | async)  || 1 ) - 1"
   [pageSize]="(tableService.pageSize$ | async) || 10"
   [expandedRowTemplate]="expandedRowTemplate"
+  [rowExpandable]="rowExpandable"
   (sorted)="sorted($event)"
   (pageChange)="pageChanged($event)"
 ></app-table>

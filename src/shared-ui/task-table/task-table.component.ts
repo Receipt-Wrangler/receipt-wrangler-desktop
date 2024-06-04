@@ -40,6 +40,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
 
   public totalCount: number = 0;
 
+  public rowExpandable: (row: SystemTask) => boolean = (systemTask) => (systemTask?.childSystemTasks?.length || 0) > 0;
 
   constructor(
     @Inject(TABLE_SERVICE_INJECTION_TOKEN) public tableService: BaseTableService,
