@@ -1,7 +1,7 @@
-import { RECEIPT_STATUS_OPTIONS } from 'src/constants';
+import {RECEIPT_STATUS_OPTIONS} from 'src/constants';
 
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-status-select',
@@ -14,6 +14,8 @@ export class StatusSelectComponent implements OnChanges {
   @Input() public readonly: boolean = false;
 
   @Input() public addBlankOption: boolean = false;
+
+  @Input() public label = "Status"
 
   public receiptStatusOptions = [...RECEIPT_STATUS_OPTIONS];
 
