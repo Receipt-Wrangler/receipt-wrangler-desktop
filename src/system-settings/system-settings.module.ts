@@ -17,10 +17,13 @@ import {SystemSettingsFormComponent} from "./system-settings-form/system-setting
 import {SystemSettingsRoutingModule} from "./system-settings-routing.module";
 import {SystemSettingsComponent} from "./system-settings/system-settings.component";
 import {MatButton} from "@angular/material/button";
+import {
+  SystemEmailChildSystemTaskComponent
+} from './system-email-child-system-task/system-email-child-system-task.component';
 
 
 @NgModule({
-  declarations: [SystemEmailTableComponent, SystemSettingsComponent, SystemEmailFormComponent, SystemSettingsFormComponent],
+  declarations: [SystemEmailTableComponent, SystemSettingsComponent, SystemEmailFormComponent, SystemSettingsFormComponent, SystemEmailChildSystemTaskComponent],
   imports: [
     ButtonModule,
     CommonModule,

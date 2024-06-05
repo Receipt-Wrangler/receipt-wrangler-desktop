@@ -40,7 +40,9 @@ import {
     ButtonModule,
     MatTooltip
   ],
-  exports: []
+  exports: [
+    ReceiptProcessingSettingsChildSystemTaskAccordionComponent
+  ]
 })
 export class ReceiptProcessingSettingsModule {
 }

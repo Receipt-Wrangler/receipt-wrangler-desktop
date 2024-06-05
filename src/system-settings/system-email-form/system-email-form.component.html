@@ -39,6 +39,7 @@
     <app-task-table
       [associatedEntityType]="AssociatedEntityType.SystemEmail"
       [associatedEntityId]="originalSystemEmail?.id"
+      [expandedRowTemplate]="expandedRowTemplate"
     ></app-task-table>
   </app-form-section>
   <app-form-button-bar [mode]="formConfig.mode">
@@ -64,4 +65,14 @@
     [disabled]="(formConfig.mode == FormMode.add || formConfig.mode == FormMode.edit) && form.invalid"
     (clicked)="checkEmailConnectivity()"
   ></app-button>
+</ng-template>
+
+<ng-template
+  #expandedRowTemplate
+  let-element="element"
+>
+  <app-system-email-child-system-task
+    [childTasks]="element.childSystemTasks ?? []"
+    [allReceiptProcessingSettings]="allReceiptProcessingSettings"
+  ></app-system-email-child-system-task>
 </ng-template>
