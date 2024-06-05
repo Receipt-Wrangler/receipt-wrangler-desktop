@@ -1,12 +1,11 @@
-import {RECEIPT_STATUS_OPTIONS} from 'src/constants';
-
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { RECEIPT_STATUS_OPTIONS } from "src/constants";
 
 @Component({
-  selector: 'app-status-select',
-  templateUrl: './status-select.component.html',
-  styleUrls: ['./status-select.component.scss'],
+  selector: "app-status-select",
+  templateUrl: "./status-select.component.html",
+  styleUrls: ["./status-select.component.scss"],
 })
 export class StatusSelectComponent implements OnChanges {
   @Input() public inputFormControl!: FormControl;
@@ -15,15 +14,15 @@ export class StatusSelectComponent implements OnChanges {
 
   @Input() public addBlankOption: boolean = false;
 
-  @Input() public label = "Status"
+  @Input() public label = "Status";
 
   public receiptStatusOptions = [...RECEIPT_STATUS_OPTIONS];
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['addBlankOption']?.currentValue) {
+    if (changes["addBlankOption"]?.currentValue) {
       this.receiptStatusOptions.unshift({
         value: null,
-        displayValue: '',
+        displayValue: "",
       });
     } else {
       this.receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
