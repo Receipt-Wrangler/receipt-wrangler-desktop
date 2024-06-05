@@ -27,12 +27,13 @@
           ></app-group-autocomplete>
           <app-user-autocomplete
             class="w-100"
-            label="Paid By"
+            label="Default Paid By"
             [inputFormControl]="form | formGet : 'paidByUserIds.' + i"
             [groupId]="form.get('groupIds.' + i)?.value"
             [selectGroupMembersOnly]="true"
           ></app-user-autocomplete>
           <app-status-select
+            label="Default Status"
             [inputFormControl]="form | formGet : 'statuses.' + i"
           ></app-status-select>
         </div>
