@@ -157,10 +157,6 @@ export class SystemEmailTableComponent implements OnInit, AfterViewInit {
   public deleteButtonClicked(systemEmail: SystemEmail): void {
     const dialogRef = this.matDialog.open(ConfirmationDialogComponent);
 
-    // TODO: fix broken back buttons because they go back to the wrong plcae
-    // TODO: fix delete on prompt and system email since it uses index, and make suer other tables work too
-    // TODO: deal with deleting users with tasks
-
     dialogRef.componentInstance.headerText = "Delete System Email";
     dialogRef.componentInstance.dialogContent = `Are you sure you want to delete the email: ${systemEmail.username}?`;
 

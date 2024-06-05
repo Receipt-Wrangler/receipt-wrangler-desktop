@@ -1,6 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ReceiptProcessingSettingsChildSystemTaskAccordionComponent } from './receipt-processing-settings-child-system-task-accordion.component';
+import {
+  ReceiptProcessingSettingsChildSystemTaskAccordionComponent
+} from './receipt-processing-settings-child-system-task-accordion.component';
+import {AccordionModule} from "ngx-bootstrap/accordion";
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 
 describe('ReceiptProcessingSettingsChildSystemTaskAccordionComponent', () => {
   let component: ReceiptProcessingSettingsChildSystemTaskAccordionComponent;
@@ -8,10 +12,12 @@ describe('ReceiptProcessingSettingsChildSystemTaskAccordionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ReceiptProcessingSettingsChildSystemTaskAccordionComponent]
+      declarations: [ReceiptProcessingSettingsChildSystemTaskAccordionComponent],
+      imports: [AccordionModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(ReceiptProcessingSettingsChildSystemTaskAccordionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

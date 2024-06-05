@@ -1,16 +1,16 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatTableDataSource } from "@angular/material/table";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { ActivatedRoute } from "@angular/router";
-import { NgxsModule } from "@ngxs/store";
-import { of } from "rxjs";
-import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
-import { SharedUiModule } from "../../shared-ui/shared-ui.module";
-import { SystemEmailTableState } from "../../store/system-email-table.state";
-import { TableModule } from "../../table/table.module";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {ComponentFixture, TestBed} from "@angular/core/testing";
+import {MatTableDataSource} from "@angular/material/table";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {ActivatedRoute} from "@angular/router";
+import {NgxsModule} from "@ngxs/store";
+import {of} from "rxjs";
+import {ConfirmationDialogComponent} from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
+import {SharedUiModule} from "../../shared-ui/shared-ui.module";
+import {SystemEmailTableState} from "../../store/system-email-table.state";
+import {TableModule} from "../../table/table.module";
 
-import { SystemEmailTableComponent } from "./system-email-table.component";
+import {SystemEmailTableComponent} from "./system-email-table.component";
 
 describe("SystemEmailsComponent", () => {
   let component: SystemEmailTableComponent;
@@ -50,7 +50,7 @@ describe("SystemEmailsComponent", () => {
         username: "test",
       }
     ] as any[]);
-    component.deleteButtonClicked(1, 0);
+    component.deleteButtonClicked(component.dataSource.data[0]);
 
     expect(matDialogSpy).toHaveBeenCalledWith(ConfirmationDialogComponent);
   });
