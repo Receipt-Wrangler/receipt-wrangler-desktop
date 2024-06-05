@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SystemEmailChildSystemTaskComponent } from './system-email-child-system-task.component';
+import {SystemEmailChildSystemTaskComponent} from './system-email-child-system-task.component';
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 
 describe('SystemEmailChildSystemTaskComponent', () => {
   let component: SystemEmailChildSystemTaskComponent;
@@ -8,10 +9,11 @@ describe('SystemEmailChildSystemTaskComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SystemEmailChildSystemTaskComponent]
+      declarations: [SystemEmailChildSystemTaskComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(SystemEmailChildSystemTaskComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
