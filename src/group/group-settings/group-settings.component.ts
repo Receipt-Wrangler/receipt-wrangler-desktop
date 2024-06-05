@@ -1,13 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Store } from "@ngxs/store";
-import { take, tap } from "rxjs";
-import { BaseFormComponent } from "src/form/base-form/base-form.component";
-import { FormMode } from "../../enums/form-mode.enum";
-import { Group, GroupsService, UserRole } from "../../open-api";
-import { SnackbarService } from "../../services";
-import { AuthState } from "../../store";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Store} from "@ngxs/store";
+import {take, tap} from "rxjs";
+import {BaseFormComponent} from "src/form/base-form/base-form.component";
+import {FormMode} from "../../enums/form-mode.enum";
+import {Group, GroupsService, UserRole} from "../../open-api";
+import {SnackbarService} from "../../services";
+import {AuthState} from "../../store";
 
 @Component({
   selector: "app-group-settings",
@@ -65,7 +65,9 @@ export class GroupSettingsComponent
           take(1),
           tap(() => {
             this.snackbarService.success("Group settings updated");
-            this.router.navigate([`/groups/${this.group.id}/settings/view`]);
+            this.router.navigate([`/groups/${this.group.id}/settings/view`], {
+              queryParams: {tab: "settings"}
+            });
           })
         )
         .subscribe();

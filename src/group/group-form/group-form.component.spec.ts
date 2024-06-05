@@ -1,28 +1,28 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { MatCardModule } from "@angular/material/card";
-import { MatDialog, MatDialogModule } from "@angular/material/dialog";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatSort } from "@angular/material/sort";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { ActivatedRoute, Router } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { NgxsModule, Store } from "@ngxs/store";
-import { of } from "rxjs";
-import { FormMode } from "src/enums/form-mode.enum";
-import { PipesModule } from "src/pipes/pipes.module";
-import { SelectModule } from "src/select/select.module";
-import { SharedUiModule } from "src/shared-ui/shared-ui.module";
-import { TableModule } from "src/table/table.module";
-import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.module";
-import { ButtonModule } from "../../button";
-import { InputModule } from "../../input";
-import { ApiModule, Group, GroupRole, GroupsService, GroupStatus } from "../../open-api";
-import { AddGroup, UpdateGroup } from "../../store";
-import { GroupMemberFormComponent } from "../group-member-form/group-member-form.component";
-import { buildGroupMemberForm } from "../utils/group-member.utils";
-import { GroupFormComponent } from "./group-form.component";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {ComponentFixture, TestBed} from "@angular/core/testing";
+import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {MatCardModule} from "@angular/material/card";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatSort} from "@angular/material/sort";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {ActivatedRoute, Router} from "@angular/router";
+import {RouterTestingModule} from "@angular/router/testing";
+import {NgxsModule, Store} from "@ngxs/store";
+import {of} from "rxjs";
+import {FormMode} from "src/enums/form-mode.enum";
+import {PipesModule} from "src/pipes/pipes.module";
+import {SelectModule} from "src/select/select.module";
+import {SharedUiModule} from "src/shared-ui/shared-ui.module";
+import {TableModule} from "src/table/table.module";
+import {UserAutocompleteModule} from "src/user-autocomplete/user-autocomplete.module";
+import {ButtonModule} from "../../button";
+import {InputModule} from "../../input";
+import {ApiModule, Group, GroupRole, GroupsService, GroupStatus} from "../../open-api";
+import {AddGroup, UpdateGroup} from "../../store";
+import {GroupMemberFormComponent} from "../group-member-form/group-member-form.component";
+import {buildGroupMemberForm} from "../utils/group-member.utils";
+import {GroupFormComponent} from "./group-form.component";
 
 describe("GroupFormComponent", () => {
   let component: GroupFormComponent;
@@ -87,7 +87,7 @@ describe("GroupFormComponent", () => {
     });
     spyOn(matDialog, "open").and.returnValue({
       afterClosed: () => of(formGroup),
-      componentInstance: { currentGroupMembers: [] },
+      componentInstance: {currentGroupMembers: []},
     } as any);
     component.ngOnInit();
     component.ngAfterViewInit();
@@ -120,7 +120,7 @@ describe("GroupFormComponent", () => {
     });
     spyOn(matDialog, "open").and.returnValue({
       afterClosed: () => of(formGroup),
-      componentInstance: { currentGroupMembers: [] },
+      componentInstance: {currentGroupMembers: []},
     } as any);
     const route = TestBed.inject(ActivatedRoute);
     route.snapshot.data = {
@@ -190,7 +190,7 @@ describe("GroupFormComponent", () => {
   it("should create group", () => {
     const createSpy = spyOn(TestBed.inject(GroupsService), "createGroup");
     const storeSpy = spyOn(TestBed.inject(Store), "dispatch");
-    const routerSpy = spyOn(TestBed.inject(Router), "navigateByUrl");
+    const routerSpy = spyOn(TestBed.inject(Router), "navigate");
 
     const group: Group = {
       id: 1,
@@ -231,13 +231,17 @@ describe("GroupFormComponent", () => {
       groupMembers: [],
     } as any);
     expect(storeSpy).toHaveBeenCalledWith(new AddGroup(returnValue));
-    expect(routerSpy).toHaveBeenCalledWith("/groups/1/details/view");
+    expect(routerSpy).toHaveBeenCalledWith(["/groups/1/details/view"], {
+      queryParams: {
+        tab: "details",
+      }
+    });
   });
 
   it("should update group", () => {
     const updateSpy = spyOn(TestBed.inject(GroupsService), "updateGroup");
     const storeSpy = spyOn(TestBed.inject(Store), "dispatch");
-    const routerSpy = spyOn(TestBed.inject(Router), "navigateByUrl");
+    const routerSpy = spyOn(TestBed.inject(Router), "navigate");
 
     const group: Group = {
       id: 1,
@@ -316,6 +320,10 @@ describe("GroupFormComponent", () => {
       } as Group
     );
     expect(storeSpy).toHaveBeenCalledWith(new UpdateGroup(returnValue));
-    expect(routerSpy).toHaveBeenCalledWith("/groups/1/details/view");
+    expect(routerSpy).toHaveBeenCalledWith(["/groups/1/details/view"], {
+      queryParams: {
+        tab: "details",
+      }
+    });
   });
 });

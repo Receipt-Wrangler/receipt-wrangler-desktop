@@ -51,6 +51,7 @@
                 </ng-container>
                 <div class="d-flex align-items-center">
                   <app-receipt-filter
+                    class="w-100"
                     [filter]="$any(dashboard?.widgets?.[i]?.configuration)"
                     [footerTemplate]="filterFooter"
                     [isOpen]="(filterOpen | async) === i"
@@ -88,5 +89,5 @@
 
 <ng-template #filterFooter></ng-template>
 <ng-template #filterPreview let-index="index">
-  {{originalWidgets?.[index]?.name}}
+  {{ originalWidgets?.[index]?.name }}
 </ng-template>

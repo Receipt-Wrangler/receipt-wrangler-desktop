@@ -1,13 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Store } from "@ngxs/store";
-import { take, tap } from "rxjs";
-import { FormMode } from "src/enums/form-mode.enum";
-import { FormConfig } from "src/interfaces";
-import { UserPreferencesService } from "../../open-api";
-import { SnackbarService } from "../../services";
-import { AuthState, SetUserPreferences } from "../../store";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Store} from "@ngxs/store";
+import {take, tap} from "rxjs";
+import {FormMode} from "src/enums/form-mode.enum";
+import {FormConfig} from "src/interfaces";
+import {UserPreferencesService} from "../../open-api";
+import {SnackbarService} from "../../services";
+import {AuthState, SetUserPreferences} from "../../store";
 
 @Component({
   selector: "app-user-preferences",
@@ -28,7 +28,8 @@ export class UserPreferencesComponent implements OnInit {
     private snackbarService: SnackbarService,
     private userPreferencesService: UserPreferencesService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   public ngOnInit(): void {
     this.formConfig = this.activatedRoute.snapshot.data["formConfig"];
@@ -70,7 +71,12 @@ export class UserPreferencesComponent implements OnInit {
               "User preferences successfully updated"
             );
             this.store.dispatch(new SetUserPreferences(updatedUserPreferences));
-            this.router.navigate(["/settings/user-preferences/view"]);
+            this.router.navigate(["/settings/user-preferences/view"],
+              {
+                queryParams: {
+                  tab: "user-preferences",
+                }
+              });
           })
         )
         .subscribe();

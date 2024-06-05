@@ -14,7 +14,8 @@ import {
   Prompt,
   ReceiptProcessingSettings,
   ReceiptProcessingSettingsService,
-  SystemTaskStatus
+  SystemTaskStatus,
+  SystemTaskType
 } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { TABLE_SERVICE_INJECTION_TOKEN } from "../../services/injection-tokens/table-service";
@@ -276,4 +277,5 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
       ).subscribe();
   }
 
+  protected readonly SystemTaskType = SystemTaskType;
 }

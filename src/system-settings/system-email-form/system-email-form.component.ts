@@ -1,15 +1,22 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatDialog } from "@angular/material/dialog";
-import { ActivatedRoute, Router } from "@angular/router";
-import { take, tap } from "rxjs";
-import { FormMode } from "../../enums/form-mode.enum";
-import { FormConfig } from "../../interfaces";
-import { AssociatedEntityType, CheckEmailConnectivityCommand, SystemEmail, SystemEmailService, SystemTaskStatus } from "../../open-api";
-import { SnackbarService } from "../../services";
-import { TABLE_SERVICE_INJECTION_TOKEN } from "../../services/injection-tokens/table-service";
-import { SystemEmailTaskTableService } from "../../services/system-email-task-table.service";
-import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {MatDialog} from "@angular/material/dialog";
+import {ActivatedRoute, Router} from "@angular/router";
+import {take, tap} from "rxjs";
+import {FormMode} from "../../enums/form-mode.enum";
+import {FormConfig} from "../../interfaces";
+import {
+  AssociatedEntityType,
+  CheckEmailConnectivityCommand,
+  ReceiptProcessingSettings,
+  SystemEmail,
+  SystemEmailService,
+  SystemTaskStatus
+} from "../../open-api";
+import {SnackbarService} from "../../services";
+import {TABLE_SERVICE_INJECTION_TOKEN} from "../../services/injection-tokens/table-service";
+import {SystemEmailTaskTableService} from "../../services/system-email-task-table.service";
+import {ConfirmationDialogComponent} from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: "app-system-email-form",
@@ -31,6 +38,8 @@ export class SystemEmailFormComponent implements OnInit {
 
   protected readonly FormMode = FormMode;
 
+  public allReceiptProcessingSettings: ReceiptProcessingSettings[] = [];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -38,11 +47,13 @@ export class SystemEmailFormComponent implements OnInit {
     private snackbarService: SnackbarService,
     private router: Router,
     public matDialog: MatDialog
-  ) {}
+  ) {
+  }
 
   public ngOnInit() {
     this.formConfig = this.activatedRoute.snapshot.data["formConfig"];
     this.originalSystemEmail = this.activatedRoute.snapshot.data["systemEmail"];
+    this.allReceiptProcessingSettings = this.activatedRoute.snapshot.data["allReceiptProcessingSettings"];
     this.initForm();
   }
 
@@ -139,7 +150,7 @@ export class SystemEmailFormComponent implements OnInit {
   }
 
   private checkConnectivitySettingsWithExistingSettings(): void {
-    const command: CheckEmailConnectivityCommand = { id: this.originalSystemEmail.id };
+    const command: CheckEmailConnectivityCommand = {id: this.originalSystemEmail.id};
     this.checkConnectivitySettings(command);
 
   }

@@ -11,9 +11,11 @@
  */
 
 
-export type SystemTaskType = 'MAGIC_FILL' | 'QUICK_SCAN' | 'EMAIL_READ' | 'EMAIL_UPLOAD' | 'SYSTEM_EMAIL_CONNECTIVITY_CHECK' | 'RECEIPT_PROCESSING_SETTINGS_CONNECTIVITY_CHECK';
+export type SystemTaskType = 'OCR_PROCESSING' | 'CHAT_COMPLETION' | 'MAGIC_FILL' | 'QUICK_SCAN' | 'EMAIL_READ' | 'EMAIL_UPLOAD' | 'SYSTEM_EMAIL_CONNECTIVITY_CHECK' | 'RECEIPT_PROCESSING_SETTINGS_CONNECTIVITY_CHECK';
 
 export const SystemTaskType = {
+    OcrProcessing: 'OCR_PROCESSING' as SystemTaskType,
+    ChatCompletion: 'CHAT_COMPLETION' as SystemTaskType,
     MagicFill: 'MAGIC_FILL' as SystemTaskType,
     QuickScan: 'QUICK_SCAN' as SystemTaskType,
     EmailRead: 'EMAIL_READ' as SystemTaskType,

@@ -52,7 +52,7 @@
     <app-edit-button
       tooltip="Edit Prompt"
       color="accent"
-      [routerLink]="['/system-settings/prompts/' + element.id + '/edit']"
+      [buttonRouterLink]="['/system-settings/prompts/' + element.id + '/edit']"
     ></app-edit-button>
     <app-button
       color="accent"
@@ -64,7 +64,7 @@
     <app-delete-button
       tooltip="Delete Prompt"
       [disabled]="(relatedPromptMap.get(element.id)?.length || 0) > 0"
-      (clicked)="deletePrompt(element, index)"
+      (clicked)="deletePrompt(element)"
       (click)="disabledDeleteButtonClicked(element)"
     ></app-delete-button>
   </div>

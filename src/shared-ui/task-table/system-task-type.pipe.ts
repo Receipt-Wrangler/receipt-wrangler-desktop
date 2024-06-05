@@ -21,6 +21,10 @@ export class SystemTaskTypePipe implements PipeTransform {
         return "Email Read";
       case "EMAIL_UPLOAD":
         return "Email Upload";
+      case "CHAT_COMPLETION":
+        return "Chat Completion";
+      case "OCR_PROCESSING":
+        return "OCR Processing";
     }
   }
 }
