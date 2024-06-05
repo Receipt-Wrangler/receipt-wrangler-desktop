@@ -12,20 +12,24 @@
     <app-input
       label="Host"
       [inputFormControl]="form | formGet: 'host'"
+      [readonly]="formConfig.mode | inputReadonly"
     ></app-input>
     <app-input
       label="Port"
       [inputFormControl]="form | formGet: 'port'"
+      [readonly]="formConfig.mode | inputReadonly"
     ></app-input>
     <app-input
       label="Username"
       [inputFormControl]="form | formGet: 'username'"
+      [readonly]="formConfig.mode | inputReadonly"
     ></app-input>
     <app-input
       *ngIf="formConfig.mode != FormMode.view"
       label="Password"
       [inputFormControl]="form | formGet: 'password'"
       [showVisibilityEye]="true"
+      [readonly]="formConfig.mode | inputReadonly"
     ></app-input>
   </app-form-section>
   <app-form-section

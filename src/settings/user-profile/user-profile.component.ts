@@ -1,13 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Store } from "@ngxs/store";
-import { switchMap, take, tap } from "rxjs";
-import { FormMode } from "src/enums/form-mode.enum";
-import { FormConfig } from "src/interfaces";
-import { AuthService, User, UserService } from "../../open-api";
-import { ClaimsService, SnackbarService } from "../../services";
-import { AuthState, UpdateUser } from "../../store";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Store} from "@ngxs/store";
+import {switchMap, take, tap} from "rxjs";
+import {FormMode} from "src/enums/form-mode.enum";
+import {FormConfig} from "src/interfaces";
+import {AuthService, User, UserService} from "../../open-api";
+import {ClaimsService, SnackbarService} from "../../services";
+import {AuthState, UpdateUser} from "../../store";
 
 @Component({
   selector: "app-user-profile",
@@ -35,7 +35,8 @@ export class UserProfileComponent implements OnInit {
     private snackbarService: SnackbarService,
     private store: Store,
     private userService: UserService,
-  ) {}
+  ) {
+  }
 
   public ngOnInit(): void {
     this.user = this.store.selectSnapshot(AuthState.loggedInUser);
@@ -76,7 +77,12 @@ export class UserProfileComponent implements OnInit {
           }),
           tap(() => {
             this.snackbarService.success("User profile successfully updated");
-            this.router.navigate(["/settings/user-profile/view"]);
+            this.router.navigate(["/settings/user-profile/view"],
+              {
+                queryParams: {
+                  tab: "user-profile",
+                }
+              });
           })
         )
         .subscribe();
