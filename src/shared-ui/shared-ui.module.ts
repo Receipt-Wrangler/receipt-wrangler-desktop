@@ -53,6 +53,7 @@ import { TabsComponent } from "./tabs/tabs.component";
 import { PrettyJsonPipe } from "./task-table/pretty-json.pipe";
 import { SystemTaskTypePipe } from "./task-table/system-task-type.pipe";
 import { TaskTableComponent } from "./task-table/task-table.component";
+import { PrettyJsonComponent } from './pretty-json/pretty-json.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { TaskTableComponent } from "./task-table/task-table.component";
     BaseTableComponent,
     PrettyJsonPipe,
     AccordionComponent,
+    PrettyJsonComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -146,6 +148,7 @@ import { TaskTableComponent } from "./task-table/task-table.component";
     BaseTableComponent,
     PrettyJsonPipe,
     AccordionComponent,
+    PrettyJsonComponent,
   ],
 })
 export class SharedUiModule {}

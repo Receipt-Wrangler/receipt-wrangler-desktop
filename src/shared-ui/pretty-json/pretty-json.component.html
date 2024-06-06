@@ -1,0 +1,6 @@
+<span
+  [ngClass]="{
+    'json-container': !!(json | prettyJson),
+  }"
+  [innerHTML]="(json | prettyJson) || json">
+</span>

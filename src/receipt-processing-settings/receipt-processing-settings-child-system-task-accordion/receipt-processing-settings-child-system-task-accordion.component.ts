@@ -20,6 +20,8 @@ export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implemen
   @Input() public childTasks: SystemTask[] = [];
   protected readonly SystemTaskType = SystemTaskType;
 
+  protected readonly SystemTaskStatus = SystemTaskStatus;
+
   public accordionPanels: AccordionPanel[] = [];
 
   public ngAfterViewInit(): void {
@@ -51,10 +53,6 @@ export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implemen
           descriptionTemplate: this.statusIcon,
         });
       }
-
-
     });
   }
-
-  protected readonly SystemTaskStatus = SystemTaskStatus;
 }
