@@ -11,14 +11,24 @@ export class PrettyJsonPipe implements PipeTransform {
   }
 
 
-  public transform(resultDescription?: string): SafeHtml {
+  public transform(resultDescription?: string, verticalJson = true): SafeHtml {
+    let json = {};
+
     if (!resultDescription) {
       return "";
     }
+    let options = {};
+    if (verticalJson) {
+      options = DEFAULT_PRETTY_JSON_OPTIONS;
+    }
 
-    const json = JSON.parse(resultDescription);
-    const dirtyHtml = prettyPrintJson.toHtml(json, DEFAULT_PRETTY_JSON_OPTIONS);
+    try {
+      json = JSON.parse(resultDescription);
+    } catch (e) {
+      return "";
+    }
+
+    const dirtyHtml = prettyPrintJson.toHtml(json, options);
     return this.sanitizer.bypassSecurityTrustHtml(dirtyHtml);
   }
-
 }

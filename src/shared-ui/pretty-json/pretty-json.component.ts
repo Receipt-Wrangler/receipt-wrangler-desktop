@@ -7,4 +7,6 @@ import { Component, Input } from "@angular/core";
 })
 export class PrettyJsonComponent {
   @Input() public json?: string = "";
+
+  @Input() public verticalJson = true;
 }
