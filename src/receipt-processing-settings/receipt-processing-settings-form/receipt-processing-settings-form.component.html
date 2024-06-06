@@ -53,16 +53,19 @@
       [options]="aiTypeOptions"
     ></app-select>
     <div class="d-flex flex-column">
-      <ng-container *ngIf="form?.value?.['aiType'] === AiType.OpenAi || form.value?.['aiType'] === AiType.Gemini">
+      <ng-container *ngIf="(form | formGet: 'aiType')?.value === AiType.OpenAi ||
+       (form | formGet: 'aiType')?.value === AiType.Gemini"
+      >
         <app-input
+          *ngIf="formConfig.mode != FormMode.view"
           label="Api Key"
           [readonly]="formConfig.mode | inputReadonly"
           [inputFormControl]="form | formGet: 'key'"
           [showVisibilityEye]="true"
         ></app-input>
       </ng-container>
-      <ng-container *ngIf="form.value?.['aiType'] === AiType.OpenAiCustom ||
-      form.value?.['aiType'] === AiType.Ollama">
+      <ng-container *ngIf="(form | formGet: 'aiType')?.value === AiType.OpenAiCustom ||
+      (form | formGet: 'aiType')?.value === AiType.Ollama">
         <app-input
           label="Url"
           [readonly]="formConfig.mode | inputReadonly"
