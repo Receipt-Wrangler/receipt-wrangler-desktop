@@ -22,6 +22,12 @@
     [innerHTML]="((childTasks?.[index]?.resultDescription ?? '') | prettyJson) || childTasks?.[index]?.resultDescription"></span>
 </ng-template>
 
+<ng-template
+  #receiptUploadedDetails
+>
+  yup
+</ng-template>
+
 <ng-template #statusIcon let-index="index">
   <app-status-icon
     class="status-icon-margin"

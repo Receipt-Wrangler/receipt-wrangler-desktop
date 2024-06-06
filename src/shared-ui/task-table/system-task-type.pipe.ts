@@ -25,6 +25,8 @@ export class SystemTaskTypePipe implements PipeTransform {
         return "Chat Completion";
       case "OCR_PROCESSING":
         return "OCR Processing";
+      case "RECEIPT_UPLOADED":
+        return "Receipt Uploaded";
     }
   }
 }
