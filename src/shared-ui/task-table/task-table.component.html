@@ -33,9 +33,20 @@
 </ng-template>
 
 <ng-template let-element="element" #resultDescriptionCell>
-  <div [innerHTML]="element.resultDescription">
-
-  </div>
+  <ng-container
+    *ngIf="element.type === SystemTaskType.EmailRead"
+  >
+    Captured Metadata:
+  </ng-container>
+  <ng-container
+    *ngIf="element.type === SystemTaskType.EmailUpload || element.type === SystemTaskType.QuickScan"
+  >
+    Receipt data from AI:
+  </ng-container>
+  <app-pretty-json
+    [json]="element.resultDescription"
+    [verticalJson]="false"
+  ></app-pretty-json>
 </ng-template>
 
 

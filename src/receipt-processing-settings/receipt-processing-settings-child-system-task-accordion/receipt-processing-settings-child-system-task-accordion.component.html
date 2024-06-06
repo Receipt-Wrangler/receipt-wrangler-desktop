@@ -10,16 +10,30 @@
   </span>
 </ng-template>
 
-<ng-template #chatCompletionDetails let-index="index">
+<ng-template
+  #chatCompletionDetails
+  let-index="index"
+>
   <ng-template
     [ngTemplateOutlet]="dates"
     [ngTemplateOutletContext]="{ index: index }"
   ></ng-template>
-  <span
-    [ngClass]="{
-        'json-container': !!((childTasks?.[index]?.resultDescription ?? '' | prettyJson)),
-        }"
-    [innerHTML]="((childTasks?.[index]?.resultDescription ?? '') | prettyJson) || childTasks?.[index]?.resultDescription"></span>
+  <app-pretty-json
+    [json]="childTasks[index].resultDescription"
+  ></app-pretty-json>
+</ng-template>
+
+<ng-template
+  #receiptUploadedDetails
+  let-index="index"
+>
+  <ng-template
+    [ngTemplateOutlet]="dates"
+    [ngTemplateOutletContext]="{ index: index }"
+  ></ng-template>
+  <app-pretty-json
+    [json]="childTasks[index].resultDescription"
+  ></app-pretty-json>
 </ng-template>
 
 <ng-template #statusIcon let-index="index">

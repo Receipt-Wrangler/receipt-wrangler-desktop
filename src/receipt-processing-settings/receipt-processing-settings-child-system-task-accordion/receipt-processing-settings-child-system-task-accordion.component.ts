@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, Input, TemplateRef, ViewChild} from "@angular/core";
-import {SystemTask, SystemTaskStatus, SystemTaskType} from "../../open-api";
-import {AccordionPanel} from "../../shared-ui/accordion/accordion-panel.interface";
+import { AfterViewInit, Component, Input, TemplateRef, ViewChild } from "@angular/core";
+import { SystemTask, SystemTaskStatus, SystemTaskType } from "../../open-api";
+import { AccordionPanel } from "../../shared-ui/accordion/accordion-panel.interface";
 
 @Component({
   selector: "app-receipt-processing-settings-child-system-task-accordion",
@@ -13,10 +13,14 @@ export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implemen
 
   @ViewChild("chatCompletionDetails") public chatCompletionDetails!: TemplateRef<any>;
 
+  @ViewChild("receiptUploadedDetails") public receiptUploadedDetails!: TemplateRef<any>;
+
   @ViewChild("statusIcon") public statusIcon!: TemplateRef<any>;
 
   @Input() public childTasks: SystemTask[] = [];
   protected readonly SystemTaskType = SystemTaskType;
+
+  protected readonly SystemTaskStatus = SystemTaskStatus;
 
   public accordionPanels: AccordionPanel[] = [];
 
@@ -41,8 +45,14 @@ export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implemen
           descriptionTemplate: this.statusIcon,
         });
       }
-    })
-  }
 
-  protected readonly SystemTaskStatus = SystemTaskStatus;
+      if (task.type === SystemTaskType.ReceiptUploaded) {
+        this.accordionPanels.push({
+          title: "Receipt Uploaded",
+          content: this.receiptUploadedDetails,
+          descriptionTemplate: this.statusIcon,
+        });
+      }
+    });
+  }
 }
