@@ -59,6 +59,7 @@ describe("SystemSettingsFormComponent", () => {
     expect(component.form.value).toEqual({
       enableLocalSignUp: null,
       debugOcr: null,
+      numWorkers: 1,
       emailPollingInterval: null,
       receiptProcessingSettingsId: null,
       fallbackReceiptProcessingSettingsId: null
@@ -70,6 +71,7 @@ describe("SystemSettingsFormComponent", () => {
     activatedRoute.snapshot.data["systemSettings"] = {
       enableLocalSignUp: true,
       debugOcr: true,
+      numWorkers: 10,
       emailPollingInterval: 5,
       receiptProcessingSettingsId: 1,
       fallbackReceiptProcessingSettingsId: 2
@@ -80,6 +82,7 @@ describe("SystemSettingsFormComponent", () => {
     expect(component.form.value).toEqual({
       enableLocalSignUp: true,
       debugOcr: true,
+      numWorkers: 10,
       emailPollingInterval: 5,
       receiptProcessingSettingsId: 1,
       fallbackReceiptProcessingSettingsId: 2
@@ -98,6 +101,7 @@ describe("SystemSettingsFormComponent", () => {
     component.form.setValue({
       enableLocalSignUp: true,
       debugOcr: true,
+      numWorkers: 10,
       emailPollingInterval: "5",
       receiptProcessingSettingsId: 1,
       fallbackReceiptProcessingSettingsId: 2
@@ -108,6 +112,7 @@ describe("SystemSettingsFormComponent", () => {
     expect(updateSystemSettingsSpy).toHaveBeenCalledWith({
       enableLocalSignUp: true,
       debugOcr: true,
+      numWorkers: 10,
       emailPollingInterval: 5,
       receiptProcessingSettingsId: 1,
       fallbackReceiptProcessingSettingsId: 2
