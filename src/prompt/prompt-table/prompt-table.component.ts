@@ -1,18 +1,18 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from "@angular/core";
-import {MatDialog} from "@angular/material/dialog";
-import {PageEvent} from "@angular/material/paginator";
-import {Sort} from "@angular/material/sort";
-import {MatTableDataSource} from "@angular/material/table";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Select, Store} from "@ngxs/store";
-import {Observable, take, tap} from "rxjs";
-import {PagedTableInterface} from "../../interfaces/paged-table.interface";
-import {Prompt, PromptService, ReceiptProcessingSettings, UpsertPromptCommand} from "../../open-api";
-import {SnackbarService} from "../../services";
-import {ConfirmationDialogComponent} from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
-import {PromptTableState} from "../../store/prompt-table.state";
-import {SetOrderBy, SetPage, SetPageSize, SetSortDirection} from "../../store/prompt-table.state.actions";
-import {TableColumn} from "../../table/table-column.interface";
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { PageEvent } from "@angular/material/paginator";
+import { Sort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Select, Store } from "@ngxs/store";
+import { Observable, take, tap } from "rxjs";
+import { PagedTableInterface } from "../../interfaces/paged-table.interface";
+import { Prompt, PromptService, ReceiptProcessingSettings, UpsertPromptCommand } from "../../open-api";
+import { SnackbarService } from "../../services";
+import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
+import { PromptTableState } from "../../store/prompt-table.state";
+import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/prompt-table.state.actions";
+import { TableColumn } from "../../table/table-column.interface";
 
 @Component({
   selector: "app-prompt-table",
@@ -43,6 +43,8 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
   public receiptProcessingSettings: ReceiptProcessingSettings[] = [];
 
   public relatedPromptMap: Map<number, ReceiptProcessingSettings[]> = new Map<number, ReceiptProcessingSettings[]>();
+
+  public defaultPromptExists: boolean = true;
 
 
   constructor(
@@ -123,6 +125,7 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
         tap((pagedData) => {
           this.dataSource = new MatTableDataSource(pagedData.data as Prompt[]);
           this.totalCount = pagedData.totalCount;
+          this.setDefaultPromptExists();
           this.setPromptsWithRelatedData(pagedData.data as Prompt[]);
         })
       )
@@ -184,6 +187,7 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
           this.getTableData();
           const data = Array.from(this.dataSource.data);
           data.splice(index, 1);
+          this.setDefaultPromptExists();
           this.dataSource = new MatTableDataSource(data);
           this.snackbarService.success("Prompt deleted successfully");
         })
@@ -232,6 +236,9 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
     if (disabled) {
       this.snackbarService.info(`Cannot delete ${prompt.name} as it is associated with the following receipt processing settings: ` + mapData.map((m) => m.name).join(", "));
     }
+  }
 
+  private setDefaultPromptExists(): void {
+    this.defaultPromptExists = this.dataSource.data.some((p) => p.name === "Default Prompt");
   }
 }

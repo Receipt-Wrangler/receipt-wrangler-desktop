@@ -32,12 +32,6 @@
       [readonly]="formConfig.mode | inputReadonly"
       [inputFormControl]="form | formGet: 'promptId'"
     ></app-autocomlete>
-    <app-input
-      label="Number of Workers"
-      type="number"
-      [readonly]="formConfig.mode | inputReadonly"
-      [inputFormControl]="form | formGet: 'numWorkers'"
-    ></app-input>
     <app-select
       label="OCR Engine"
       optionValueKey="value"

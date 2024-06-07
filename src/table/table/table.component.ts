@@ -44,6 +44,8 @@ export class TableComponent implements OnChanges {
 
   public expandedElement: any;
 
+  public rowIndexes: { [key: number]: number } = {};
+
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -66,6 +68,19 @@ export class TableComponent implements OnChanges {
         };
       }
     }
+
+    if (changes["dataSource"]) {
+      this.setRowIndexes();
+    }
+  }
+
+  private setRowIndexes(): void {
+    const indexes: { [key: number]: number } = {};
+    this.dataSource.data.forEach((row, index) => {
+      indexes[row.id] = index;
+    });
+
+    this.rowIndexes = indexes;
   }
 
   public isAllSelected() {

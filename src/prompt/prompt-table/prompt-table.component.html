@@ -6,6 +6,7 @@
         [routerLink]="['create']"
       ></app-add-button>
       <app-button
+        *ngIf="!defaultPromptExists"
         color="accent"
         tooltip="Create default prompt"
         icon="note_add"
