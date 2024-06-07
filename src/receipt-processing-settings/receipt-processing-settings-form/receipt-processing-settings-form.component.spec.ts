@@ -66,7 +66,6 @@ describe("ReceiptProcessingSettingsFormComponent", () => {
     expect(component.form.value).toEqual({
       name: null,
       description: null,
-      numWorkers: 1,
       ocrEngine: null,
       aiType: null,
       promptId: null,
@@ -81,7 +80,6 @@ describe("ReceiptProcessingSettingsFormComponent", () => {
     const settings = {
       name: "name",
       description: "description",
-      numWorkers: 10,
       ocrEngine: OcrEngine.EasyOcr,
       aiType: AiType.OpenAi,
       key: "key",
@@ -94,7 +92,6 @@ describe("ReceiptProcessingSettingsFormComponent", () => {
     expect(component.form.value).toEqual({
       name: settings.name,
       description: settings.description,
-      numWorkers: settings.numWorkers,
       ocrEngine: settings.ocrEngine,
       aiType: settings.aiType,
       promptId: settings.promptId,

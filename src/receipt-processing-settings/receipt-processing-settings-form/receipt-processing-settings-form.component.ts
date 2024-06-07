@@ -79,7 +79,6 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     this.form = this.formBuilder.group({
       name: [this.originalReceiptProcessingSettings?.name, Validators.required],
       description: [this.originalReceiptProcessingSettings?.description],
-      numWorkers: [this.originalReceiptProcessingSettings?.numWorkers ?? 1, [Validators.required, Validators.min(1)]],
       ocrEngine: [this.originalReceiptProcessingSettings?.ocrEngine, Validators.required],
       aiType: [this.originalReceiptProcessingSettings?.aiType, Validators.required],
       promptId: [this.originalReceiptProcessingSettings?.promptId, Validators.required],
@@ -159,9 +158,6 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
   }
 
   public submit(): void {
-    const formValue = this.form.value;
-    formValue["numWorkers"] = Number(formValue["numWorkers"]);
-
     if (this.form.valid && !this.originalReceiptProcessingSettings) {
       this.createSettings();
     } else if (this.form.valid) {

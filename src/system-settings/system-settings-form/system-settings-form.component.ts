@@ -54,6 +54,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       enableLocalSignUp: [this.originalSystemSettings?.enableLocalSignUp],
       debugOcr: [this.originalSystemSettings?.debugOcr],
       emailPollingInterval: [this.originalSystemSettings?.emailPollingInterval, [Validators.required, Validators.min(0)]],
+      numWorkers: [this.originalSystemSettings?.numWorkers ?? 1, [Validators.required, Validators.min(1)]],
       receiptProcessingSettingsId: [this.originalSystemSettings?.receiptProcessingSettingsId],
       fallbackReceiptProcessingSettingsId: [this.originalSystemSettings?.fallbackReceiptProcessingSettingsId]
     });
@@ -89,6 +90,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   public submit(): void {
     const formValue = this.form.value;
     formValue["emailPollingInterval"] = Number.parseInt(formValue["emailPollingInterval"]);
+    formValue["numWorkers"] = Number.parseInt(formValue["numWorkers"]);
 
     this.systemSettingsService.updateSystemSettings(formValue)
       .pipe(

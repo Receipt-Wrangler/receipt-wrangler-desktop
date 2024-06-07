@@ -38,7 +38,7 @@ export class BaseTableComponent<T> {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.dataSource.data = pagedData.data as T[];
+          this.dataSource = new MatTableDataSource(pagedData.data as T[]) as MatTableDataSource<T>;
           this.totalCount = pagedData.totalCount;
         })
       )

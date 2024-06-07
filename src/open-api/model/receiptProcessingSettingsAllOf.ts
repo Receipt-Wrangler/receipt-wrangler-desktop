@@ -36,10 +36,6 @@ export interface ReceiptProcessingSettingsAllOf {
      * LLM model
      */
     model?: string;
-    /**
-     * Number of workers to use
-     */
-    numWorkers?: number;
     ocrEngine?: OcrEngine;
     prompt?: Prompt;
     /**
