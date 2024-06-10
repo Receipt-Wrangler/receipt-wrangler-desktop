@@ -4,7 +4,7 @@ WORKDIR .
 RUN mkdir desktop
 WORKDIR desktop
 COPY . .
-RUN npm i -g @angular/cli@15.0.4
+RUN npm i -g @angular/cli@17.3.3
 RUN npm i
 RUN ng build
 
