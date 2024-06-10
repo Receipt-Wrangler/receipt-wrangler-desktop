@@ -7,13 +7,10 @@ import { DEFAULT_PRETTY_JSON_OPTIONS } from "../../receipt-processing-settings/c
   name: "prettyJson"
 })
 export class PrettyJsonPipe implements PipeTransform {
-  constructor(private sanitizer: DomSanitizer) {
-  }
+  constructor(private sanitizer: DomSanitizer) {}
 
 
   public transform(resultDescription?: string, verticalJson = true): SafeHtml {
-    let json = {};
-
     if (!resultDescription) {
       return "";
     }
@@ -23,12 +20,26 @@ export class PrettyJsonPipe implements PipeTransform {
     }
 
     try {
-      json = JSON.parse(resultDescription);
+      const cleanedJsonString = this.getCleanedJsonString(resultDescription);
+      const json = JSON.parse(cleanedJsonString);
+
+      const dirtyHtml = prettyPrintJson.toHtml(json, options);
+      return this.sanitizer.bypassSecurityTrustHtml(dirtyHtml);
     } catch (e) {
       return "";
     }
+  }
 
-    const dirtyHtml = prettyPrintJson.toHtml(json, options);
-    return this.sanitizer.bypassSecurityTrustHtml(dirtyHtml);
+  private getCleanedJsonString(resultDescription: string): string {
+    let parsedJson = JSON.parse(resultDescription);
+    let jsonString = JSON.stringify(parsedJson);
+
+    jsonString = jsonString.replace(/\\t/g, "");
+    jsonString = jsonString.replace(/\\n/g, "");
+    jsonString = jsonString.replace(/\\/g, "");
+    jsonString = jsonString.replace(/"{/g, "{");
+    jsonString = jsonString.replace(/}"/g, "}");
+
+    return jsonString;
   }
 }
