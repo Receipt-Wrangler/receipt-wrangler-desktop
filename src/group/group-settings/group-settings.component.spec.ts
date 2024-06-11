@@ -54,7 +54,7 @@ describe("GroupSettingsComponent", () => {
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
-      emailToRead: "",
+      systemEmailId: "",
       emailIntegrationEnabled: false,
       subjectLineRegexes: [],
       emailWhiteList: [],

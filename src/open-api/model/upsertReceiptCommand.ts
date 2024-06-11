@@ -49,7 +49,7 @@ export interface UpsertReceiptCommand {
     /**
      * Items associated to receipt
      */
-    items?: Array<UpsertItemCommand>;
+    receiptItems?: Array<UpsertItemCommand>;
     /**
      * Comments associated to receipt
      */

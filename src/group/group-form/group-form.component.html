@@ -1,9 +1,15 @@
-<app-form-header
-  [headerText]="formConfig.headerText"
-  [headerButtonsTemplate]="headerButtonsTemplate"
+<app-form
+  [formConfig]="formConfig"
+  [form]="form"
+  [formTemplate]="formTemplate"
   [bottomSpacing]="true"
-></app-form-header>
-<form [formGroup]="form" (ngSubmit)="submit()">
+  [canEdit]="canEdit"
+  [editButtonRouterLink]="[editLink]"
+  [editButtonQueryParams]="{tab: 'details'}"
+  (submitted)="submit()"
+></app-form>
+
+<ng-template #formTemplate>
   <div class="w-100">
     <app-audit-detail-section
       [data]="originalGroup"
@@ -37,14 +43,7 @@
       </app-table>
     </app-form-section>
   </div>
-  <app-form-button-bar [mode]="formConfig.mode">
-    <app-submit-button
-      *ngIf="!(formConfig.mode | inputReadonly)"
-      class="mb-4"
-      [onlyIcon]="false"
-    ></app-submit-button>
-  </app-form-button-bar>
-</form>
+</ng-template>
 
 <ng-template #buttonTemplate>
   <app-button

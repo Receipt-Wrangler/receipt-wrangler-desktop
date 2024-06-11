@@ -16,11 +16,24 @@
     <app-checkbox
       label="Enable Local Signup"
       [inputFormControl]="form | formGet:'enableLocalSignUp'"
+      [readonly]="formConfig.mode |  inputReadonly"
     ></app-checkbox>
+    <app-checkbox
+      label="Debug OCR"
+      [inputFormControl]="form | formGet:'debugOcr'"
+      [readonly]="formConfig.mode |  inputReadonly"
+    ></app-checkbox>
+    <app-input
+      label="Number of Workers"
+      type="number"
+      [readonly]="formConfig.mode | inputReadonly"
+      [inputFormControl]="form | formGet: 'numWorkers'"
+    ></app-input>
     <app-input
       label="Email polling interval (in seconds)"
       type="number"
       [inputFormControl]="form | formGet:'emailPollingInterval'"
+      [readonly]="formConfig.mode |  inputReadonly"
     ></app-input>
     <app-autocomlete
       optionFilterKey="name"

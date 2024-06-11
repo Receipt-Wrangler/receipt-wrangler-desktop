@@ -14,7 +14,8 @@ import {
   Prompt,
   ReceiptProcessingSettings,
   ReceiptProcessingSettingsService,
-  SystemTaskStatus
+  SystemTaskStatus,
+  SystemTaskType
 } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { TABLE_SERVICE_INJECTION_TOKEN } from "../../services/injection-tokens/table-service";
@@ -44,6 +45,8 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
   protected readonly openAiCustomSpecificFields: string[] = ["url", "model"];
 
+  protected readonly ollamaSpecificFields = ["url", "model"];
+
   public readonly aiTypeOptions: FormOption[] = aiTypeOptions;
 
   public readonly ocrEngineOptions: FormOption[] = ocrEngineOptions;
@@ -69,13 +72,13 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     this.prompts = this.activatedRoute.snapshot.data["prompts"];
     this.setFormConfigFromRoute(this.activatedRoute);
     this.initForm();
+
   }
 
   private initForm(): void {
     this.form = this.formBuilder.group({
       name: [this.originalReceiptProcessingSettings?.name, Validators.required],
       description: [this.originalReceiptProcessingSettings?.description],
-      numWorkers: [this.originalReceiptProcessingSettings?.numWorkers ?? 1, [Validators.required, Validators.min(1)]],
       ocrEngine: [this.originalReceiptProcessingSettings?.ocrEngine, Validators.required],
       aiType: [this.originalReceiptProcessingSettings?.aiType, Validators.required],
       promptId: [this.originalReceiptProcessingSettings?.promptId, Validators.required],
@@ -105,6 +108,9 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
             case AiType.OpenAiCustom:
               this.updateOpenAiCustomForm();
               break;
+            case AiType.Ollama:
+              this.updateOllamaForm();
+              break;
           }
         })
       )
@@ -132,6 +138,15 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     this.form.get("url")?.setValidators(Validators.required);
   }
 
+  private updateOllamaForm(): void {
+    this.ollamaSpecificFields.forEach((field: string) => {
+      this.form.get(field)?.setValidators(null);
+      this.form.get(field)?.setErrors(null);
+    });
+
+    this.form.get("url")?.setValidators(Validators.required);
+  }
+
   public promptDisplayWith(promptId: number): string {
     if (promptId) {
       const prompt = this.prompts.find((p) => p.id === promptId);
@@ -143,9 +158,6 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
   }
 
   public submit(): void {
-    const formValue = this.form.value;
-    formValue["numWorkers"] = Number(formValue["numWorkers"]);
-
     if (this.form.valid && !this.originalReceiptProcessingSettings) {
       this.createSettings();
     } else if (this.form.valid) {
@@ -261,4 +273,5 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
       ).subscribe();
   }
 
+  protected readonly SystemTaskType = SystemTaskType;
 }

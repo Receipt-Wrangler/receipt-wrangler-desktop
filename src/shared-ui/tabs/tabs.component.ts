@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { tap } from "rxjs";
 import { TabConfig } from "./tab-config.interface";
 
@@ -11,9 +11,9 @@ import { TabConfig } from "./tab-config.interface";
 export class TabsComponent implements OnInit, OnChanges {
   @Input() public tabs: TabConfig[] = [];
 
-  public activeLink: string = "";
+  public activeName: string = "";
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes["tabs"]) {
@@ -26,14 +26,9 @@ export class TabsComponent implements OnInit, OnChanges {
   }
 
   private setActiveTab(): void {
-    const urlParts = this.router.url.split("/");
-    urlParts.shift();
-    urlParts.shift();
+    const activeTabName = this.activatedRoute.snapshot.queryParams["tab"];
 
-    const url = urlParts.join("/");
-    const tab = this.tabs.find((t) => url.includes(t.routerLink));
-
-    this.activeLink = tab ? tab.routerLink : this.tabs[0].routerLink;
+    this.activeName = this.tabs.find(t => t.name === activeTabName)?.name || this.tabs[0].name;
   }
 
   private listenToRouteChanges(): void {

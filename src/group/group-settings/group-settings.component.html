@@ -3,6 +3,8 @@
   [formConfig]="formConfig"
   [formTemplate]="formTemplate"
   [editButtonRouterLink]="[editSettingsUrl]"
+  [editButtonQueryParams]="{tab: 'settings'}"
+  [canEdit]="canEditEmailSettings"
   (submitted)="submit()"
 ></app-form>
 
@@ -10,6 +12,8 @@
   <app-form-section headerText="Email Settings">
     <app-group-settings-email
       [form]="form"
+      [canEdit]="canEditEmailSettings"
+      [formConfig]="formConfig"
       (formCommand)="handleFormCommand($event)"
     ></app-group-settings-email>
   </app-form-section>

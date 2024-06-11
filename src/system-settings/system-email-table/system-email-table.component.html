@@ -2,7 +2,7 @@
   <app-table-header headerText="Emails">
     <app-add-button
       tooltip="Create email"
-      [routerLink]="['create']"
+      [buttonRouterLink]="['create']"
     ></app-add-button>
   </app-table-header>
   <div class="table-container">
@@ -42,7 +42,7 @@
   <div class="d-flex align-items-center">
     <app-edit-button
       color="accent"
-      [routerLink]="['/system-settings/system-emails/' + element.id + '/edit']"
+      [buttonRouterLink]="['/system-settings/system-emails/' + element.id + '/edit']"
       [tooltip]="'Edit email'"
     ></app-edit-button>
     <app-button
@@ -54,7 +54,9 @@
     ></app-button>
     <app-delete-button
       tooltip="Delete email"
-      (clicked)="deleteButtonClicked(element.id, index)"
+      [disabled]="(relatedSystemEmailMap.get(element.id)?.length || 0) > 0"
+      (clicked)="deleteButtonClicked(element)"
+      (click)="disabledDeleteButtonClicked(element)"
     ></app-delete-button>
   </div>
 </ng-template>

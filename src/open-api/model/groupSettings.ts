@@ -11,6 +11,7 @@
  */
 import { SubjectLineRegex } from './subjectLineRegex';
 import { ReceiptStatus } from './receiptStatus';
+import { SystemEmail } from './systemEmail';
 import { GroupSettingsWhiteListEmail } from './groupSettingsWhiteListEmail';
 
 
@@ -27,6 +28,11 @@ export interface GroupSettings {
      * Whether email integration is enabled
      */
     emailIntegrationEnabled?: boolean;
+    /**
+     * System email foreign key
+     */
+    systemEmailId?: number;
+    systemEmail?: SystemEmail;
     /**
      * Email to read
      */

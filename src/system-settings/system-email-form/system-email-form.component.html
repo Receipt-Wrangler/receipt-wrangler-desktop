@@ -12,20 +12,24 @@
     <app-input
       label="Host"
       [inputFormControl]="form | formGet: 'host'"
+      [readonly]="formConfig.mode | inputReadonly"
     ></app-input>
     <app-input
       label="Port"
       [inputFormControl]="form | formGet: 'port'"
+      [readonly]="formConfig.mode | inputReadonly"
     ></app-input>
     <app-input
       label="Username"
       [inputFormControl]="form | formGet: 'username'"
+      [readonly]="formConfig.mode | inputReadonly"
     ></app-input>
     <app-input
       *ngIf="formConfig.mode != FormMode.view"
       label="Password"
       [inputFormControl]="form | formGet: 'password'"
       [showVisibilityEye]="true"
+      [readonly]="formConfig.mode | inputReadonly"
     ></app-input>
   </app-form-section>
   <app-form-section
@@ -35,6 +39,7 @@
     <app-task-table
       [associatedEntityType]="AssociatedEntityType.SystemEmail"
       [associatedEntityId]="originalSystemEmail?.id"
+      [expandedRowTemplate]="expandedRowTemplate"
     ></app-task-table>
   </app-form-section>
   <app-form-button-bar [mode]="formConfig.mode">
@@ -55,9 +60,19 @@
   <app-button
     color="accent"
     matButtonType="iconButton"
-    icon="mail"
+    icon="wifi"
     tooltip="Check Email Connectivity"
     [disabled]="(formConfig.mode == FormMode.add || formConfig.mode == FormMode.edit) && form.invalid"
     (clicked)="checkEmailConnectivity()"
   ></app-button>
+</ng-template>
+
+<ng-template
+  #expandedRowTemplate
+  let-element="element"
+>
+  <app-system-email-child-system-task
+    [childTasks]="element.childSystemTasks ?? []"
+    [allReceiptProcessingSettings]="allReceiptProcessingSettings"
+  ></app-system-email-child-system-task>
 </ng-template>

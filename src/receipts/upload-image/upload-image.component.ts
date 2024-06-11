@@ -10,23 +10,23 @@ import { ReceiptImageService } from "../../open-api";
   styleUrls: ["./upload-image.component.scss"],
 })
 export class UploadImageComponent {
+  @ViewChild("uploadInput") uploadInput!: any;
+
   @Input() public receiptId?: string = "";
 
   @Input() public multiple: boolean = true;
 
-  @Output() public fileLoaded: EventEmitter<ReceiptFileUploadCommand> =
-    new EventEmitter();
-
-  @ViewChild("uploadInput") uploadInput!: any;
-
-  public formMode = FormMode;
-
-  public acceptFileTypes: string[] = [
+  @Input() public acceptFileTypes: string[] = [
     "image/*",
     "application/pdf",
     "image/heic",
   ];
 
+  @Output() public fileLoaded: EventEmitter<ReceiptFileUploadCommand> =
+    new EventEmitter();
+
+  public formMode = FormMode;
+  
   constructor(private receiptImageService: ReceiptImageService) {}
 
   public clickInput(): void {

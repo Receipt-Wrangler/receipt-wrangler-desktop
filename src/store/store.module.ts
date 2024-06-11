@@ -8,6 +8,7 @@ import { AuthState } from "./auth.state";
 import { CategoryTableState } from "./category-table.state";
 import { DashboardState } from "./dashboard.state";
 import { FeatureConfigState } from "./feature-config.state";
+import { GroupTableState } from "./group-table.state";
 import { GroupState } from "./group.state";
 import { LayoutState } from "./layout.state";
 import { PromptTableState } from "./prompt-table.state";
@@ -38,6 +39,7 @@ import { UserState } from "./user.state";
       SystemEmailTaskTableState,
       TagTableState,
       UserState,
+      GroupTableState,
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.isProd,
@@ -47,6 +49,7 @@ import { UserState } from "./user.state";
         "auth",
         "categoryTable",
         "dashboards",
+        "groupTable",
         "groups",
         "layout",
         "promptTable",

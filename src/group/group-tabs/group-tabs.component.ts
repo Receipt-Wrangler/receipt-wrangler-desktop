@@ -24,6 +24,7 @@ export class GroupTabsComponent {
       {
         label: "Group Details",
         routerLink: "details/view",
+        name: "details",
       },
     ];
 
@@ -34,6 +35,7 @@ export class GroupTabsComponent {
       this.tabs.push({
         label: "Group Settings",
         routerLink: "settings/view",
+        name: "settings",
       });
     }
   }

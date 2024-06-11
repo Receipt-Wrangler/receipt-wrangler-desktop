@@ -16,6 +16,11 @@ export interface UpsertSystemSettingsCommand {
      * Whether local sign up is enabled
      */
     enableLocalSignUp?: boolean;
+    debugOcr?: boolean;
+    /**
+     * Number of workers to use
+     */
+    numWorkers?: number;
     /**
      * Email polling interval
      */

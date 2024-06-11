@@ -1,25 +1,26 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { FormMode } from "../enums/form-mode.enum";
-import { FormConfig } from "../interfaces";
-import { PromptFormComponent } from "../prompt/prompt-form/prompt-form.component";
-import { PromptTableComponent } from "../prompt/prompt-table/prompt-table.component";
-import { promptResolver } from "../prompt/prompt.resolver";
-import { promptsResolver } from "../prompt/prompts.resolver";
+import {NgModule} from "@angular/core";
+import {RouterModule, Routes} from "@angular/router";
+import {FormMode} from "../enums/form-mode.enum";
+import {FormConfig} from "../interfaces";
+import {PromptFormComponent} from "../prompt/prompt-form/prompt-form.component";
+import {PromptTableComponent} from "../prompt/prompt-table/prompt-table.component";
+import {promptResolver} from "../prompt/prompt.resolver";
+import {promptsResolver} from "../prompt/prompts.resolver";
 import {
   ReceiptProcessingSettingsFormComponent
 } from "../receipt-processing-settings/receipt-processing-settings-form/receipt-processing-settings-form.component";
 import {
   ReceiptProcessingSettingsTableComponent
 } from "../receipt-processing-settings/receipt-processing-settings-table/receipt-processing-settings-table.component";
-import { receiptProcessingSettingsResolver } from "../receipt-processing-settings/receipt-processing-settings.resolver";
-import { allReceiptProcessingSettingsResolver } from "./resolvers/receipt-processing-settings.resolver";
-import { systemEmailResolver } from "./resolvers/system-email.resolver";
-import { systemSettingsResolver } from "./resolvers/system-settings.resolver";
-import { SystemEmailFormComponent } from "./system-email-form/system-email-form.component";
-import { SystemEmailTableComponent } from "./system-email-table/system-email-table.component";
-import { SystemSettingsFormComponent } from "./system-settings-form/system-settings-form.component";
-import { SystemSettingsComponent } from "./system-settings/system-settings.component";
+import {receiptProcessingSettingsResolver} from "../receipt-processing-settings/receipt-processing-settings.resolver";
+import {allReceiptProcessingSettingsResolver} from "./resolvers/receipt-processing-settings.resolver";
+import {systemEmailResolver} from "./resolvers/system-email.resolver";
+import {systemSettingsResolver} from "./resolvers/system-settings.resolver";
+import {SystemEmailFormComponent} from "./system-email-form/system-email-form.component";
+import {allGroupsResolver} from "./system-email-table/all-groups.resolver";
+import {SystemEmailTableComponent} from "./system-email-table/system-email-table.component";
+import {SystemSettingsFormComponent} from "./system-settings-form/system-settings-form.component";
+import {SystemSettingsComponent} from "./system-settings/system-settings.component";
 
 const routes: Routes = [
   {
@@ -34,14 +35,23 @@ const routes: Routes = [
       {
         path: "system-emails",
         component: SystemEmailTableComponent,
+        resolve: {
+          allGroups: allGroupsResolver,
+        }
       },
       {
         path: "prompts",
         component: PromptTableComponent,
+        resolve: {
+          allReceiptProcessingSettings: allReceiptProcessingSettingsResolver,
+        }
       },
       {
         path: "receipt-processing-settings",
-        component: ReceiptProcessingSettingsTableComponent
+        component: ReceiptProcessingSettingsTableComponent,
+        resolve: {
+          systemSettings: systemSettingsResolver,
+        }
       },
       {
         path: "settings/view",
@@ -91,6 +101,7 @@ const routes: Routes = [
         mode: FormMode.view,
         headerText: "View Prompt",
       } as FormConfig,
+      setHeaderText: true,
     },
     resolve: {
       prompt: promptResolver
@@ -104,6 +115,7 @@ const routes: Routes = [
         mode: FormMode.edit,
         headerText: "Edit Prompt",
       } as FormConfig,
+      setHeaderText: true,
     },
     resolve: {
       prompt: promptResolver
@@ -125,11 +137,12 @@ const routes: Routes = [
     data: {
       formConfig: {
         mode: FormMode.view,
-        headerText: "View System Email",
       } as FormConfig,
+      setHeaderText: true,
     },
     resolve: {
       systemEmail: systemEmailResolver,
+      allReceiptProcessingSettings: allReceiptProcessingSettingsResolver,
     }
   },
   {
@@ -138,11 +151,12 @@ const routes: Routes = [
     data: {
       formConfig: {
         mode: FormMode.edit,
-        headerText: "Edit System Email",
       } as FormConfig,
+      setHeaderText: true,
     },
     resolve: {
       systemEmail: systemEmailResolver,
+      allReceiptProcessingSettings: allReceiptProcessingSettingsResolver,
     }
   },
   {
@@ -164,8 +178,8 @@ const routes: Routes = [
     data: {
       formConfig: {
         mode: FormMode.view,
-        headerText: "View Receipt Processing Settings",
       } as FormConfig,
+      setHeaderText: true,
     },
     resolve: {
       prompts: promptsResolver,
@@ -178,8 +192,8 @@ const routes: Routes = [
     data: {
       formConfig: {
         mode: FormMode.edit,
-        headerText: "Edit Receipt Processing Settings",
       } as FormConfig,
+      setHeaderText: true,
     },
     resolve: {
       prompts: promptsResolver,
@@ -192,4 +206,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SystemSettingsRoutingModule {}
+export class SystemSettingsRoutingModule {
+}

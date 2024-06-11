@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { map, Observable, switchMap, take, tap } from "rxjs";
 import { LayoutState } from "src/store/layout.state";
 import { SetPage } from "src/store/receipt-table.actions";
+import { DEFAULT_DIALOG_CONFIG } from "../../constants";
+import { ImportFormComponent } from "../../import/import-form/import-form.component";
 import { AuthService, Group, GroupStatus, User } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { AuthState, GroupState, Logout, SetSelectedGroupId } from "../../store";
@@ -17,9 +20,10 @@ import { AuthState, GroupState, Logout, SetSelectedGroupId } from "../../store";
 export class SidebarComponent implements OnInit {
   constructor(
     private authService: AuthService,
+    private matDialog: MatDialog,
     private router: Router,
     private snackbarService: SnackbarService,
-    private store: Store
+    private store: Store,
   ) {}
 
   @Select(AuthState.loggedInUser) public loggedInUser!: Observable<User>;
@@ -28,12 +32,13 @@ export class SidebarComponent implements OnInit {
 
   @Select(LayoutState.isSidebarOpen) public isSidebarOpen!: Observable<boolean>;
 
-  public groups!: Observable<Group[]>;
-
   @Select(GroupState.selectedGroupId)
   public selectedGroupId!: Observable<string>;
 
+  public groups!: Observable<Group[]>;
+
   public addButtonExpanded: boolean | null = null;
+
 
   public ngOnInit(): void {
     this.groups = this.store
@@ -62,5 +67,9 @@ export class SidebarComponent implements OnInit {
         tap(() => this.snackbarService.success("Successfully logged out"))
       )
       .subscribe();
+  }
+
+  public openImportDialog(): void {
+    this.matDialog.open(ImportFormComponent, DEFAULT_DIALOG_CONFIG);
   }
 }

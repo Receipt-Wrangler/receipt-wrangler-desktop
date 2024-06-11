@@ -1,24 +1,24 @@
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatDialog } from "@angular/material/dialog";
-import { Sort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import { ActivatedRoute, Router } from "@angular/router";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { Store } from "@ngxs/store";
-import { startWith, take, tap } from "rxjs";
-import { DEFAULT_HOST_CLASS } from "src/constants";
-import { GROUP_STATUS_OPTIONS } from "src/constants/receipt-status-options";
-import { FormMode } from "src/enums/form-mode.enum";
-import { FormConfig } from "src/interfaces/form-config.interface";
-import { TableColumn } from "src/table/table-column.interface";
-import { TableComponent } from "src/table/table/table.component";
-import { SortByDisplayName } from "src/utils/sort-by-displayname";
-import { Group, GroupMember, GroupRole, GroupsService, GroupStatus } from "../../open-api";
-import { SnackbarService } from "../../services";
-import { AddGroup, UpdateGroup } from "../../store";
-import { GroupMemberFormComponent } from "../group-member-form/group-member-form.component";
-import { buildGroupMemberForm } from "../utils/group-member.utils";
+import {AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild} from "@angular/core";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {MatDialog} from "@angular/material/dialog";
+import {Sort} from "@angular/material/sort";
+import {MatTableDataSource} from "@angular/material/table";
+import {ActivatedRoute, Router} from "@angular/router";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {Store} from "@ngxs/store";
+import {startWith, take, tap} from "rxjs";
+import {DEFAULT_HOST_CLASS} from "src/constants";
+import {GROUP_STATUS_OPTIONS} from "src/constants/receipt-status-options";
+import {FormMode} from "src/enums/form-mode.enum";
+import {FormConfig} from "src/interfaces/form-config.interface";
+import {TableColumn} from "src/table/table-column.interface";
+import {TableComponent} from "src/table/table/table.component";
+import {SortByDisplayName} from "src/utils/sort-by-displayname";
+import {Group, GroupMember, GroupRole, GroupsService, GroupStatus} from "../../open-api";
+import {SnackbarService} from "../../services";
+import {AddGroup, UpdateGroup} from "../../store";
+import {GroupMemberFormComponent} from "../group-member-form/group-member-form.component";
+import {buildGroupMemberForm} from "../utils/group-member.utils";
 
 @UntilDestroy()
 @Component({
@@ -35,6 +35,8 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
   @ViewChild("actionsCell") public actionsCell!: TemplateRef<any>;
 
   @ViewChild(TableComponent) public table!: TableComponent;
+
+  @Input() public canEdit = true;
 
   public form: FormGroup = new FormGroup({});
 
@@ -70,7 +72,8 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private matDialog: MatDialog,
     private sortByDisplayName: SortByDisplayName
-  ) {}
+  ) {
+  }
 
   public ngOnInit(): void {
     this.originalGroup = this.activatedRoute.snapshot.data["group"];
@@ -176,6 +179,10 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe();
+
+    if (this.formConfig.mode === FormMode.view) {
+      this.form.get("status")?.disable();
+    }
   }
 
   public addGroupMemberClicked(): void {
@@ -250,7 +257,7 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
         }),
         tap((group: Group) => {
           this.store.dispatch(new AddGroup(group));
-          this.router.navigateByUrl(`/groups/${group.id}/details/view`);
+          this.navigateToGroupDetails(group.id);
         })
       )
       .subscribe();
@@ -264,9 +271,16 @@ export class GroupFormComponent implements OnInit, AfterViewInit {
         tap((group: Group) => {
           this.snackbarService.success("Group successfully updated");
           this.store.dispatch(new UpdateGroup(group));
-          this.router.navigateByUrl(`/groups/${this.originalGroup?.id}/details/view`);
+          this.navigateToGroupDetails(group.id);
         })
       )
       .subscribe();
+  }
+
+  private navigateToGroupDetails(groupId: number): void {
+    this.router.navigate([`/groups/${groupId}/details/view`],
+      {
+        queryParams: {tab: "details"}
+      });
   }
 }

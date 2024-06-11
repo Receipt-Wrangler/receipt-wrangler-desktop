@@ -35,6 +35,7 @@
     "ngx-bootstrap": "^12.0.0",
     "ngx-image-cropper": "^7.2.1",
     "ngx-mask": "17.0.4",
+    "pretty-print-json": "^3.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.4"

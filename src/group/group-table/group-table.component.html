@@ -1,16 +1,32 @@
 <div class="d-flex flex-column">
-  <app-table-header headerText="Groups">
-    <app-button
-      buttonText="Create Group"
-      [routerLink]="['create']"
-    ></app-button>
+  <app-table-header [headerText]="tableHeaderText">
+    <div class="d-flex align-items-center">
+      <app-add-button
+        tooltip="Create Group"
+        [buttonRouterLink]="['create']"
+      ></app-add-button>
+      <ng-container *ngIf="isAdmin">
+        <app-button
+          matButtonType="iconButton"
+          icon="filter_alt"
+          color="accent"
+          tooltip="Filter Groups"
+          (clicked)="openFilterDialog()"
+        ></app-button>
+      </ng-container>
+    </div>
   </app-table-header>
   <div class="table-container">
     <app-table
-      [columns]="columns"
       [dataSource]="dataSource"
+      [columns]="columns"
       [displayedColumns]="displayedColumns"
-      (sorted)="sortNumberOfMembers($event)"
+      [pagination]="true"
+      [length]="totalCount"
+      [page]="((baseTableService.page$ | async) || 1) - 1"
+      [pageSize]="(baseTableService.pageSize$ | async) || 10"
+      (sorted)="sorted($event)"
+      (pageChange)="pageChanged($event)"
     ></app-table>
   </div>
 </div>
@@ -25,10 +41,6 @@
   {{ element.groupMembers.length }}
 </ng-template>
 
-<ng-template #isDefaultGroupCell let-element="element" let-index="index">
-  {{ element.isDefault }}
-</ng-template>
-
 <ng-template #createdAtCell let-element="element" let-index="index">
   {{ element.createdAt | date : "short" }}
 </ng-template>
@@ -40,10 +52,11 @@
 <ng-template #actionsCell let-element="element" let-index="index">
   <div class="d-flex">
     <app-edit-button
-      *ngIf="element.id | groupRole : groupRole.Owner"
+      *ngIf="(element.id | groupRole : groupRole.Owner) || isAdmin"
       color="accent"
       tooltip="Edit group"
-      [buttonRouterLink]="['/groups/' + element.id + '/details/edit']"
+      [buttonRouterLink]="(element | groupTableEditButton: isAdmin).routerLink"
+      [buttonQueryParams]="(element | groupTableEditButton: isAdmin).queryParams"
     ></app-edit-button>
     <app-delete-button
       *ngIf="element.id | groupRole : groupRole.Owner"

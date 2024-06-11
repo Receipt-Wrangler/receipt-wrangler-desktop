@@ -2,18 +2,22 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { take, tap } from "rxjs";
+import { Store } from "@ngxs/store";
+import { startWith, switchMap, take, tap } from "rxjs";
 import { AutocomleteComponent } from "../../autocomplete/autocomlete/autocomlete.component";
 import { BaseFormComponent } from "../../form";
-import { ReceiptProcessingSettings, SystemSettings, SystemSettingsService } from "../../open-api";
+import { FeatureConfigService, ReceiptProcessingSettings, SystemSettings, SystemSettingsService } from "../../open-api";
+import { InputReadonlyPipe } from "../../pipes/input-readonly.pipe";
 import { SnackbarService } from "../../services";
+import { SetFeatureConfig } from "../../store";
 
 
 @UntilDestroy()
 @Component({
   selector: "app-system-settings-form",
   templateUrl: "./system-settings-form.component.html",
-  styleUrl: "./system-settings-form.component.scss"
+  styleUrl: "./system-settings-form.component.scss",
+  providers: [InputReadonlyPipe]
 })
 export class SystemSettingsFormComponent extends BaseFormComponent implements OnInit {
   @ViewChild("fallbackReceiptProcessingSettings")
@@ -26,11 +30,14 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   public filteredReceiptProcessingSettings: ReceiptProcessingSettings[] = [];
 
   constructor(
+    private activatedRoute: ActivatedRoute,
+    private featureConfigService: FeatureConfigService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private systemSettingsService: SystemSettingsService,
     private snackbarService: SnackbarService,
+    private store: Store,
+    private systemSettingsService: SystemSettingsService,
+    private inputReadonlyPipe: InputReadonlyPipe
   ) {
     super();
   }
@@ -45,10 +52,17 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   private initForm(): void {
     this.form = this.formBuilder.group({
       enableLocalSignUp: [this.originalSystemSettings?.enableLocalSignUp],
+      debugOcr: [this.originalSystemSettings?.debugOcr],
       emailPollingInterval: [this.originalSystemSettings?.emailPollingInterval, [Validators.required, Validators.min(0)]],
+      numWorkers: [this.originalSystemSettings?.numWorkers ?? 1, [Validators.required, Validators.min(1)]],
       receiptProcessingSettingsId: [this.originalSystemSettings?.receiptProcessingSettingsId],
       fallbackReceiptProcessingSettingsId: [this.originalSystemSettings?.fallbackReceiptProcessingSettingsId]
     });
+
+    if (this.inputReadonlyPipe.transform(this.formConfig.mode)) {
+      this.form.get("debugOcr")?.disable();
+      this.form.get("enableLocalSignUp")?.disable();
+    }
 
     this.listenForReceiptProcessingSettingsChanges();
   }
@@ -56,6 +70,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   private listenForReceiptProcessingSettingsChanges(): void {
     this.form.get("receiptProcessingSettingsId")?.valueChanges
       .pipe(
+        startWith(this.form.get("receiptProcessingSettingsId")?.value),
         untilDestroyed(this),
         tap((value: number) => {
           this.filteredReceiptProcessingSettings = this.allReceiptProcessingSettings.filter((rps) => rps.id !== value);
@@ -75,6 +90,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   public submit(): void {
     const formValue = this.form.value;
     formValue["emailPollingInterval"] = Number.parseInt(formValue["emailPollingInterval"]);
+    formValue["numWorkers"] = Number.parseInt(formValue["numWorkers"]);
 
     this.systemSettingsService.updateSystemSettings(formValue)
       .pipe(
@@ -82,7 +98,9 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
         tap(() => {
           this.snackbarService.success("System settings updated successfully");
           this.router.navigate(["/system-settings/settings/view"]);
-        })
+        }),
+        switchMap(() => this.featureConfigService.getFeatureConfig()),
+        tap((featureConfig) => this.store.dispatch(new SetFeatureConfig(featureConfig)))
       )
       .subscribe();
   }

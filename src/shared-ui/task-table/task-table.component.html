@@ -6,6 +6,8 @@
   [length]="totalCount"
   [page]="((tableService.page$ | async)  || 1 ) - 1"
   [pageSize]="(tableService.pageSize$ | async) || 10"
+  [expandedRowTemplate]="expandedRowTemplate"
+  [rowExpandable]="rowExpandable"
   (sorted)="sorted($event)"
   (pageChange)="pageChanged($event)"
 ></app-table>
@@ -31,7 +33,20 @@
 </ng-template>
 
 <ng-template let-element="element" #resultDescriptionCell>
-  {{ element.resultDescription }}
+  <ng-container
+    *ngIf="element.type === SystemTaskType.EmailRead"
+  >
+    Captured Metadata:
+  </ng-container>
+  <ng-container
+    *ngIf="element.type === SystemTaskType.EmailUpload || element.type === SystemTaskType.QuickScan"
+  >
+    Receipt data from AI:
+  </ng-container>
+  <app-pretty-json
+    [json]="element.resultDescription"
+    [verticalJson]="false"
+  ></app-pretty-json>
 </ng-template>
 
 

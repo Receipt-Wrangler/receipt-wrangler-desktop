@@ -3,6 +3,7 @@
   [formConfig]="formConfig"
   [formTemplate]="formTemplate"
   [editButtonRouterLink]="['/settings/user-preferences/edit']"
+  [editButtonQueryParams]="{tab: 'user-preferences'}"
   (submitted)="submit()"
 ></app-form>
 

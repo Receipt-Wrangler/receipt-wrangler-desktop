@@ -1,17 +1,11 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  TemplateRef,
-} from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { FormConfig } from 'src/interfaces';
+import { Component, EventEmitter, Input, Output, TemplateRef, } from "@angular/core";
+import { FormGroup } from "@angular/forms";
+import { FormConfig } from "src/interfaces";
 
 @Component({
-  selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss'],
+  selector: "app-form",
+  templateUrl: "./form.component.html",
+  styleUrls: ["./form.component.scss"],
 })
 export class FormComponent {
   @Input() public formConfig!: FormConfig;
@@ -21,6 +15,12 @@ export class FormComponent {
   @Input() public formTemplate!: TemplateRef<any>;
 
   @Input() public editButtonRouterLink: string[] = [];
+
+  @Input() public editButtonQueryParams: any = {};
+
+  @Input() public canEdit = true;
+
+  @Input() public bottomSpacing = false;
 
   @Output() public submitted: EventEmitter<void> = new EventEmitter<void>();
 }

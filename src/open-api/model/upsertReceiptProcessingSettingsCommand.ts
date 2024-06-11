@@ -35,10 +35,6 @@ export interface UpsertReceiptProcessingSettingsCommand {
      * LLM model
      */
     model?: string;
-    /**
-     * Number of workers to use
-     */
-    numWorkers: number;
     ocrEngine: OcrEngine;
     /**
      * Prompt foreign key

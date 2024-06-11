@@ -27,17 +27,18 @@ export class GroupRoleGuard {
     let hasAccess = false;
     let groupId: number | undefined = undefined;
     const groupRole = route.data["groupRole"] as GroupRole;
+    const allowAdminOverride = route.data["allowAdminOverride"] as boolean;
 
     const useRouteId = route.data["useRouteGroupId"];
     if (useRouteId) {
-      groupId = Number.parseInt(route.params["id"]);
+      groupId = Number.parseInt(route?.params?.["id"] || route?.parent?.params["id"]);
     } else {
       groupId = Number.parseInt(
         this.store.selectSnapshot(GroupState.selectedGroupId)
       );
     }
 
-    hasAccess = this.groupUtil.hasGroupAccess(groupId, groupRole);
+    hasAccess = this.groupUtil.hasGroupAccess(groupId, groupRole, allowAdminOverride, true);
 
     if (!hasAccess) {
       this.router.navigate([

@@ -18,18 +18,22 @@ export class SystemSettingsComponent implements OnInit {
       {
         label: "System Settings",
         routerLink: "settings/view",
+        name: "settings",
       },
       {
         label: "Receipt Processing Settings",
         routerLink: "receipt-processing-settings",
+        name: "receipt-processing-settings",
       },
       {
         label: "Prompts",
         routerLink: "prompts",
+        name: "prompts",
       },
       {
         label: "System Emails",
         routerLink: "system-emails",
+        name: "system-emails",
       },
     ];
   }

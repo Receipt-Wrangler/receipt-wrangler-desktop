@@ -31,5 +31,6 @@ export interface SystemTask {
     associatedEntityType?: AssociatedEntityType;
     ranByUserId?: number;
     resultDescription?: string;
+    childSystemTasks?: Array<SystemTask>;
 }
 

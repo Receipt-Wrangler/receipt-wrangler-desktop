@@ -1,20 +1,30 @@
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { Store } from "@ngxs/store";
-import { GroupRole } from "../open-api";
+import { GroupRole, UserRole } from "../open-api";
 import { AuthState, GroupState } from "../store";
 
 @Injectable({
   providedIn: "root",
 })
 export class GroupUtil {
-  constructor(private store: Store) {}
+  constructor(private store: Store, private router: Router) {}
 
+  // TODO: v5 Check frontend group role permissions to allow for admins to have access to all groups
   public hasGroupAccess(
     groupId: number | undefined,
-    groupRole: GroupRole
+    groupRole: GroupRole,
+    allowAdminOverride: boolean,
+    navigateOnFail = false,
   ): boolean {
     const roles = [GroupRole.Viewer, GroupRole.Editor, GroupRole.Owner];
     const requiredIndex = roles.findIndex((v) => v === groupRole) as number;
+    if (allowAdminOverride) {
+      const isAdmin = this.store.selectSnapshot(AuthState.hasRole(UserRole.Admin));
+      if (isAdmin) {
+        return true;
+      }
+    }
 
     if (!groupId) {
       return true;
@@ -27,6 +37,9 @@ export class GroupUtil {
       );
 
       if (!group) {
+        if (navigateOnFail) {
+          this.router.navigate(["/"]);
+        }
         return hasAccess;
       }
 
@@ -35,6 +48,9 @@ export class GroupUtil {
       );
 
       if (!member) {
+        if (navigateOnFail) {
+          this.router.navigate(["/"]);
+        }
         return hasAccess;
       }
 

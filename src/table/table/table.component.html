@@ -1,6 +1,7 @@
 <table
   mat-table
   matSort
+  multiTemplateDataRows
   [dataSource]="dataSource"
   (matSortChange)="announceSortChange($event)"
 >
@@ -37,19 +38,50 @@
     </th>
     <td mat-cell *matCellDef="let element; let i = index">
       <ng-container *ngIf="column.elementKey">{{
-        element[column.elementKey]
-      }}</ng-container>
+          element[column.elementKey]
+        }}
+      </ng-container>
       <ng-container *ngIf="column.template">
         <ng-template
           [ngTemplateOutlet]="column.template"
-          [ngTemplateOutletContext]="{ element: element, index: i }"
+          [ngTemplateOutletContext]="{ element: element, index: rowIndexes[element.id] }"
         ></ng-template>
       </ng-container>
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef aria-label="row actions"></th>
+    <td mat-cell *matCellDef="let element">
+      <app-button
+        *ngIf="element | isRowExpandable: rowExpandable"
+        matButtonType="iconButton"
+        color="accent"
+        [icon]="expandedElement === element ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+        (clicked)="expanderClicked($event, element)"
+      ></app-button>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="expandedDetail">
+    <td
+      mat-cell
+      *matCellDef="let element"
+      [attr.colspan]="columns.length + 1"
+    >
+      <div
+        class="expanded-row-content"
+        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <ng-template
+          [ngTemplateOutlet]="expandedRowTemplate"
+          [ngTemplateOutletContext]="{ element: element }"
+        ></ng-template>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 </table>
 
 <mat-paginator

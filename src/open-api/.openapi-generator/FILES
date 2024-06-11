@@ -8,6 +8,7 @@ api/comment.service.ts
 api/dashboard.service.ts
 api/featureConfig.service.ts
 api/groups.service.ts
+api/import.service.ts
 api/notifications.service.ts
 api/prompt.service.ts
 api/receipt.service.ts
@@ -27,6 +28,7 @@ index.ts
 model/aiType.ts
 model/appData.ts
 model/associatedEntityType.ts
+model/associatedGroup.ts
 model/baseModel.ts
 model/bulkStatusUpdateCommand.ts
 model/category.ts
@@ -45,11 +47,13 @@ model/filterOperation.ts
 model/getNewRefreshToken200Response.ts
 model/getSystemTaskCommand.ts
 model/group.ts
+model/groupFilter.ts
 model/groupMember.ts
 model/groupRole.ts
 model/groupSettings.ts
 model/groupSettingsWhiteListEmail.ts
 model/groupStatus.ts
+model/importType.ts
 model/item.ts
 model/itemStatus.ts
 model/loginCommand.ts
@@ -60,6 +64,8 @@ model/notification.ts
 model/ocrEngine.ts
 model/pagedData.ts
 model/pagedDataDataInner.ts
+model/pagedGroupRequestCommand.ts
+model/pagedGroupRequestCommandAllOf.ts
 model/pagedRequestCommand.ts
 model/pagedRequestField.ts
 model/pagedRequestFieldValue.ts

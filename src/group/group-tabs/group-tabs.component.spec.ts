@@ -31,6 +31,7 @@ describe("GroupTabsComponent", () => {
       {
         label: "Group Details",
         routerLink: "details/view",
+        name: "details"
       },
     ]);
   });
@@ -49,10 +50,12 @@ describe("GroupTabsComponent", () => {
       {
         label: "Group Details",
         routerLink: "details/view",
+        name: "details"
       },
       {
         label: "Group Settings",
         routerLink: "settings/view",
+        name: "settings",
       },
     ]);
   });

@@ -3,11 +3,11 @@ import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { Observable, take, tap } from "rxjs";
 import { PagedTableInterface } from "../../interfaces/paged-table.interface";
-import { Prompt, PromptService, UpsertPromptCommand } from "../../open-api";
+import { Prompt, PromptService, ReceiptProcessingSettings, UpsertPromptCommand } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { PromptTableState } from "../../store/prompt-table.state";
@@ -40,6 +40,12 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
 
   public totalCount = 0;
 
+  public receiptProcessingSettings: ReceiptProcessingSettings[] = [];
+
+  public relatedPromptMap: Map<number, ReceiptProcessingSettings[]> = new Map<number, ReceiptProcessingSettings[]>();
+
+  public defaultPromptExists: boolean = true;
+
 
   constructor(
     private matDialog: MatDialog,
@@ -47,9 +53,12 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
     private router: Router,
     private snackbarService: SnackbarService,
     private store: Store,
-  ) {}
+    private activatedRoute: ActivatedRoute
+  ) {
+  }
 
   public ngOnInit(): void {
+    this.receiptProcessingSettings = this.activatedRoute.snapshot.data["allReceiptProcessingSettings"];
     this.getTableData();
   }
 
@@ -116,10 +125,23 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
         tap((pagedData) => {
           this.dataSource = new MatTableDataSource(pagedData.data as Prompt[]);
           this.totalCount = pagedData.totalCount;
+          this.setDefaultPromptExists();
+          this.setPromptsWithRelatedData(pagedData.data as Prompt[]);
         })
       )
       .subscribe();
   }
+
+  private setPromptsWithRelatedData(prompts: Prompt[]): void {
+    const map = new Map<number, ReceiptProcessingSettings[]>();
+    for (const prompt of prompts) {
+      const related = this.receiptProcessingSettings.filter((r) => r.promptId === prompt.id);
+      map.set(prompt.id, related);
+    }
+
+    this.relatedPromptMap = map;
+  }
+
 
   public sorted(sort: Sort): void {
     this.store.dispatch(new SetOrderBy(sort.active));
@@ -137,19 +159,20 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
     this.getTableData();
   }
 
-  public deletePrompt(id: number, index: number): void {
+  public deletePrompt(prompt: Prompt): void {
     const dialogRef = this.matDialog.open(ConfirmationDialogComponent);
-    const prompt = this.dataSource.data[index];
 
     dialogRef.componentInstance.headerText = "Delete Prompt";
     dialogRef.componentInstance.dialogContent = `Are you sure you want to delete the prompt: ${prompt.name}?`;
+
+    const index = this.dataSource.data.indexOf(prompt);
 
     dialogRef.afterClosed()
       .pipe(
         take(1),
         tap((result) => {
           if (result) {
-            this.callDeleteApi(id, index);
+            this.callDeleteApi(prompt.id, index);
           }
         })
       )
@@ -164,6 +187,7 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
           this.getTableData();
           const data = Array.from(this.dataSource.data);
           data.splice(index, 1);
+          this.setDefaultPromptExists();
           this.dataSource = new MatTableDataSource(data);
           this.snackbarService.success("Prompt deleted successfully");
         })
@@ -204,5 +228,17 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe();
+  }
+
+  public disabledDeleteButtonClicked(prompt: Prompt): void {
+    const mapData = this.relatedPromptMap.get(prompt.id);
+    const disabled = mapData && mapData.length > 0;
+    if (disabled) {
+      this.snackbarService.info(`Cannot delete ${prompt.name} as it is associated with the following receipt processing settings: ` + mapData.map((m) => m.name).join(", "));
+    }
+  }
+
+  private setDefaultPromptExists(): void {
+    this.defaultPromptExists = this.dataSource.data.some((p) => p.name === "Default Prompt");
   }
 }

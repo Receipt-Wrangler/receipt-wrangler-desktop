@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { SystemTaskStatus } from './systemTaskStatus';
+import { SystemTask } from './systemTask';
 import { SystemTaskType } from './systemTaskType';
 import { AssociatedEntityType } from './associatedEntityType';
 
@@ -23,5 +24,6 @@ export interface SystemTaskAllOf {
     associatedEntityType?: AssociatedEntityType;
     ranByUserId?: number;
     resultDescription?: string;
+    childSystemTasks?: Array<SystemTask>;
 }
 

@@ -3,7 +3,7 @@ import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { take, tap } from "rxjs";
-import { AssociatedEntityType, GetSystemTaskCommand, SystemTask, SystemTaskService } from "../../open-api";
+import { AssociatedEntityType, GetSystemTaskCommand, SystemTask, SystemTaskService, SystemTaskType } from "../../open-api";
 import { BaseTableService } from "../../services/base-table.service";
 import { TABLE_SERVICE_INJECTION_TOKEN } from "../../services/injection-tokens/table-service";
 import { TableColumn } from "../../table/table-column.interface";
@@ -30,6 +30,8 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
 
   @Input() public associatedEntityId?: number;
 
+  @Input() public expandedRowTemplate?: TemplateRef<any>;
+
   public displayedColumns: string[] = [];
 
   public columns: TableColumn[] = [];
@@ -38,6 +40,7 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
 
   public totalCount: number = 0;
 
+  public rowExpandable: (row: SystemTask) => boolean = (systemTask) => (systemTask?.childSystemTasks?.length || 0) > 0;
 
   constructor(
     @Inject(TABLE_SERVICE_INJECTION_TOKEN) public tableService: BaseTableService,
@@ -119,6 +122,9 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
     ];
 
     this.displayedColumns = ["started_at", "ended_at", "type", "ran_by_user_id", "result_description", "status"];
+    if (this.expandedRowTemplate) {
+      this.displayedColumns.push("expand");
+    }
   }
 
   public sorted(sort: Sort): void {
@@ -136,4 +142,6 @@ export class TaskTableComponent implements OnInit, AfterViewInit {
 
     this.getTableData();
   }
+
+  protected readonly SystemTaskType = SystemTaskType;
 }

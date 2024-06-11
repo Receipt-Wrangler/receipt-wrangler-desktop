@@ -1,7 +1,7 @@
 <app-table-header headerText="Receipt Processing Settings">
   <app-add-button
     tooltip="Create Receipt Processing Settings"
-    [routerLink]="['create']"
+    [buttonRouterLink]="['create']"
   ></app-add-button>
 </app-table-header>
 <app-table
@@ -27,6 +27,10 @@
 
 <ng-template #descriptionCell let-element="element">
   {{ element.description }}
+</ng-template>
+
+<ng-template #promptCell let-element="element">
+  {{ element.prompt.name }}
 </ng-template>
 
 <ng-template #aiTypeCell let-element="element">
@@ -61,11 +65,12 @@
     ></app-button>
     <app-delete-button
       tooltip="Delete receipt processing settings"
+      [disabled]="systemSettings.receiptProcessingSettingsId === element.id ||
+       systemSettings.fallbackReceiptProcessingSettingsId === element.id"
       (clicked)="deleteReceiptProcessingSettings(element)"
+      (click)="disabledDeleteButtonClicked(element, systemSettings.receiptProcessingSettingsId === element.id ||
+       systemSettings.fallbackReceiptProcessingSettingsId === element.id)"
     ></app-delete-button>
   </div>
 </ng-template>
 
-<ng-template #headerTemplate>
-
-</ng-template>

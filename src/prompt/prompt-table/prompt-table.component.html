@@ -3,9 +3,10 @@
     <div class="d-flex">
       <app-add-button
         tooltip="Create Prompt"
-        [routerLink]="['create']"
+        [buttonRouterLink]="['create']"
       ></app-add-button>
       <app-button
+        *ngIf="!defaultPromptExists"
         color="accent"
         tooltip="Create default prompt"
         icon="note_add"
@@ -52,7 +53,7 @@
     <app-edit-button
       tooltip="Edit Prompt"
       color="accent"
-      [routerLink]="['/system-settings/prompts/' + element.id + '/edit']"
+      [buttonRouterLink]="['/system-settings/prompts/' + element.id + '/edit']"
     ></app-edit-button>
     <app-button
       color="accent"
@@ -63,7 +64,9 @@
     ></app-button>
     <app-delete-button
       tooltip="Delete Prompt"
-      (clicked)="deletePrompt(element.id, index)"
+      [disabled]="(relatedPromptMap.get(element.id)?.length || 0) > 0"
+      (clicked)="deletePrompt(element)"
+      (click)="disabledDeleteButtonClicked(element)"
     ></app-delete-button>
   </div>
 </ng-template>
