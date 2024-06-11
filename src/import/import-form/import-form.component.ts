@@ -1,17 +1,19 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
-import {FormBuilder, Validators} from "@angular/forms";
-import {MatDialogRef} from "@angular/material/dialog";
-import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
-import {prettyPrintJson} from "pretty-print-json";
-import {take, tap} from "rxjs";
-import {fadeInOut} from "../../animations";
-import {BaseFormComponent} from "../../form";
-import {ReceiptFileUploadCommand} from "../../interfaces";
-import {FormOption} from "../../interfaces/form-option.interface";
-import {ImportService, ImportType} from "../../open-api";
-import {UploadImageComponent} from "../../receipts/upload-image/upload-image.component";
-import {SnackbarService} from "../../services";
-import {DEFAULT_PRETTY_JSON_OPTIONS} from "../../receipt-processing-settings/constants/pretty-json";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormBuilder, Validators } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { Store } from "@ngxs/store";
+import { prettyPrintJson } from "pretty-print-json";
+import { switchMap, take, tap } from "rxjs";
+import { fadeInOut } from "../../animations";
+import { BaseFormComponent } from "../../form";
+import { ReceiptFileUploadCommand } from "../../interfaces";
+import { FormOption } from "../../interfaces/form-option.interface";
+import { FeatureConfigService, ImportService, ImportType } from "../../open-api";
+import { DEFAULT_PRETTY_JSON_OPTIONS } from "../../receipt-processing-settings/constants/pretty-json";
+import { UploadImageComponent } from "../../receipts/upload-image/upload-image.component";
+import { SnackbarService } from "../../services";
+import { SetFeatureConfig } from "../../store";
 
 @Component({
   selector: "app-import-form",
@@ -39,6 +41,8 @@ export class ImportFormComponent extends BaseFormComponent implements OnInit {
     private importService: ImportService,
     private sanitizer: DomSanitizer,
     private snackbarService: SnackbarService,
+    private featureConfigService: FeatureConfigService,
+    private store: Store,
   ) {
     super();
   }
@@ -109,7 +113,9 @@ export class ImportFormComponent extends BaseFormComponent implements OnInit {
         tap(() => {
           this.snackbarService.success("Config imported successfully");
           this.dialogRef.close();
-        })
+        }),
+        switchMap(() => this.featureConfigService.getFeatureConfig()),
+        tap((featureConfig) => this.store.dispatch(new SetFeatureConfig(featureConfig)))
       )
       .subscribe();
   }

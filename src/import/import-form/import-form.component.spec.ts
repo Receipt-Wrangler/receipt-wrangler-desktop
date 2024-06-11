@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
+import { NgxsModule } from "@ngxs/store";
 import { ImportType } from "../../open-api";
 import { PipesModule } from "../../pipes";
 
@@ -19,7 +20,8 @@ describe("ImportFormComponent", () => {
         HttpClientTestingModule,
         ReactiveFormsModule,
         MatDialogModule,
-        PipesModule
+        PipesModule,
+        NgxsModule.forRoot([])
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
