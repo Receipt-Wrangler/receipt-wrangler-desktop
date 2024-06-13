@@ -11,6 +11,7 @@
  */
 import { SubjectLineRegex } from './subjectLineRegex';
 import { ReceiptStatus } from './receiptStatus';
+import { Prompt } from './prompt';
 import { SystemEmail } from './systemEmail';
 import { GroupSettingsWhiteListEmail } from './groupSettingsWhiteListEmail';
 
@@ -50,10 +51,12 @@ export interface GroupSettings {
      * User foreign key
      */
     emailDefaultReceiptPaidById?: number;
+    prompt?: Prompt;
     /**
      * Prompt foreign key
      */
     promptId?: number;
+    fallbackPrompt?: Prompt;
     /**
      * Fallback prompt foreign key
      */

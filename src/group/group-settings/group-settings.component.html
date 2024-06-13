@@ -17,4 +17,14 @@
       (formCommand)="handleFormCommand($event)"
     ></app-group-settings-email>
   </app-form-section>
+  <app-form-section
+    headerText="AI Settings"
+  >
+    <app-group-settings-ai
+      [form]="form"
+      [canEdit]="canEditEmailSettings"
+      [formConfig]="formConfig"
+      (formCommand)="handleFormCommand($event)"
+    ></app-group-settings-ai>
+  </app-form-section>
 </ng-template>

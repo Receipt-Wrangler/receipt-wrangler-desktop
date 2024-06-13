@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, Input, TemplateRef, ViewChild } from "@angular/core";
-import { SystemTask, SystemTaskStatus, SystemTaskType } from "../../open-api";
+import { AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Prompt, ReceiptProcessingSettings, SystemTask, SystemTaskStatus, SystemTaskType } from "../../open-api";
 import { AccordionPanel } from "../../shared-ui/accordion/accordion-panel.interface";
 
 @Component({
@@ -7,7 +8,7 @@ import { AccordionPanel } from "../../shared-ui/accordion/accordion-panel.interf
   templateUrl: "./receipt-processing-settings-child-system-task-accordion.component.html",
   styleUrl: "./receipt-processing-settings-child-system-task-accordion.component.scss"
 })
-export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implements AfterViewInit {
+export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implements OnInit, AfterViewInit {
 
   @ViewChild("ocrProcessingDetails") public ocrProcessingDetails!: TemplateRef<any>;
 
@@ -26,6 +27,17 @@ export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implemen
 
   public accordionPanels: AccordionPanel[] = [];
 
+  public prompts: Prompt[] = [];
+
+  public receiptProcessingSettings: ReceiptProcessingSettings[] = [];
+
+  constructor(private activatedRoute: ActivatedRoute) {}
+
+  public ngOnInit(): void {
+    this.prompts = this.activatedRoute.snapshot.data["prompts"];
+    this.receiptProcessingSettings = this.activatedRoute.snapshot.data["receiptProcessingSettings"];
+  }
+
   public ngAfterViewInit(): void {
     this.setAccordionPanels();
   }
@@ -41,8 +53,11 @@ export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implemen
       }
 
       if (task.type === SystemTaskType.PromptGenerated) {
+        const prompt = this.prompts.find(p => p.id === task.associatedEntityId);
+        const title = `Prompt Used: ${prompt?.name}`;
+
         this.accordionPanels.push({
-          title: "Prompt Used",
+          title: title,
           content: this.promptGenerationDetails,
           descriptionTemplate: this.statusIcon,
         });
