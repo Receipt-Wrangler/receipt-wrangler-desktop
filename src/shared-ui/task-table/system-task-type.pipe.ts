@@ -27,6 +27,8 @@ export class SystemTaskTypePipe implements PipeTransform {
         return "OCR Processing";
       case "RECEIPT_UPLOADED":
         return "Receipt Uploaded";
+      case "PROMPT_GENERATED":
+        return "Prompt Generated";
     }
   }
 }
