@@ -1,18 +1,31 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ActivatedRoute } from "@angular/router";
+import { AccordionModule } from "ngx-bootstrap/accordion";
 
 import {
   ReceiptProcessingSettingsChildSystemTaskAccordionComponent
-} from './receipt-processing-settings-child-system-task-accordion.component';
-import {AccordionModule} from "ngx-bootstrap/accordion";
-import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+} from "./receipt-processing-settings-child-system-task-accordion.component";
 
-describe('ReceiptProcessingSettingsChildSystemTaskAccordionComponent', () => {
+describe("ReceiptProcessingSettingsChildSystemTaskAccordionComponent", () => {
   let component: ReceiptProcessingSettingsChildSystemTaskAccordionComponent;
   let fixture: ComponentFixture<ReceiptProcessingSettingsChildSystemTaskAccordionComponent>;
-
+  
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ReceiptProcessingSettingsChildSystemTaskAccordionComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              data: {
+                prompts: [],
+              }
+            }
+          }
+        }
+      ],
       imports: [AccordionModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -23,7 +36,7 @@ describe('ReceiptProcessingSettingsChildSystemTaskAccordionComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

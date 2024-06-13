@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, Input, TemplateRef, ViewChild } from "@angular/core";
-import { SystemTask, SystemTaskStatus, SystemTaskType } from "../../open-api";
+import { AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Prompt, SystemTask, SystemTaskStatus, SystemTaskType } from "../../open-api";
 import { AccordionPanel } from "../../shared-ui/accordion/accordion-panel.interface";
 
 @Component({
@@ -7,9 +8,11 @@ import { AccordionPanel } from "../../shared-ui/accordion/accordion-panel.interf
   templateUrl: "./receipt-processing-settings-child-system-task-accordion.component.html",
   styleUrl: "./receipt-processing-settings-child-system-task-accordion.component.scss"
 })
-export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implements AfterViewInit {
+export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implements OnInit, AfterViewInit {
 
   @ViewChild("ocrProcessingDetails") public ocrProcessingDetails!: TemplateRef<any>;
+
+  @ViewChild("promptGenerationDetails") public promptGenerationDetails!: TemplateRef<any>;
 
   @ViewChild("chatCompletionDetails") public chatCompletionDetails!: TemplateRef<any>;
 
@@ -24,6 +27,14 @@ export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implemen
 
   public accordionPanels: AccordionPanel[] = [];
 
+  public prompts: Prompt[] = [];
+
+  constructor(private activatedRoute: ActivatedRoute) {}
+
+  public ngOnInit(): void {
+    this.prompts = this.activatedRoute.snapshot.data["prompts"];
+  }
+
   public ngAfterViewInit(): void {
     this.setAccordionPanels();
   }
@@ -34,6 +45,17 @@ export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implemen
         this.accordionPanels.push({
           title: "Raw OCR Processing Details",
           content: this.ocrProcessingDetails,
+          descriptionTemplate: this.statusIcon,
+        });
+      }
+
+      if (task.type === SystemTaskType.PromptGenerated) {
+        const prompt = this.prompts.find(p => p.id === task.associatedEntityId);
+        const title = `Prompt Used: ${prompt?.name}`;
+
+        this.accordionPanels.push({
+          title: title,
+          content: this.promptGenerationDetails,
           descriptionTemplate: this.statusIcon,
         });
       }

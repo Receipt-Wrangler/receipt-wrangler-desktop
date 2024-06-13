@@ -5,6 +5,7 @@ import { GroupRoleGuard } from "src/guards/group-role.guard";
 import { FormConfig } from "src/interfaces/form-config.interface";
 import { RoleGuard } from "../guards/role.guard";
 import { GroupRole, UserRole } from "../open-api";
+import { promptsResolver } from "../prompt/prompts.resolver";
 import { GroupDetailsComponent } from "./group-details/group-details.component";
 import { GroupFormComponent } from "./group-form/group-form.component";
 import { GroupSettingsComponent } from "./group-settings/group-settings.component";
@@ -85,6 +86,7 @@ const routes: Routes = [
         resolve: {
           group: groupResolverFn,
           systemEmails: systemEmailsResolver,
+          prompts: promptsResolver,
         },
         data: {
           formConfig: {
@@ -103,6 +105,7 @@ const routes: Routes = [
         resolve: {
           group: groupResolverFn,
           systemEmails: systemEmailsResolver,
+          prompts: promptsResolver
         },
         data: {
           formConfig: {

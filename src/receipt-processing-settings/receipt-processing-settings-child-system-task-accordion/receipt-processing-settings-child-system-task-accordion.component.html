@@ -10,6 +10,17 @@
   </span>
 </ng-template>
 
+
+<ng-template #promptGenerationDetails let-index="index">
+  <ng-template
+    [ngTemplateOutlet]="dates"
+    [ngTemplateOutletContext]="{ index: index }"
+  ></ng-template>
+  <span class="d-flex flex-column w-25">
+    {{ childTasks?.[index]?.resultDescription }}
+  </span>
+</ng-template>
+
 <ng-template
   #chatCompletionDetails
   let-index="index"

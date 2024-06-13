@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { Observable, take, tap } from "rxjs";
 import { PagedTableInterface } from "../../interfaces/paged-table.interface";
-import { Prompt, PromptService, ReceiptProcessingSettings, UpsertPromptCommand } from "../../open-api";
+import { Group, Prompt, PromptService, ReceiptProcessingSettings, UpsertPromptCommand } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { PromptTableState } from "../../store/prompt-table.state";
@@ -42,9 +42,11 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
 
   public receiptProcessingSettings: ReceiptProcessingSettings[] = [];
 
-  public relatedPromptMap: Map<number, ReceiptProcessingSettings[]> = new Map<number, ReceiptProcessingSettings[]>();
+  public relatedPromptMap: Map<number, (ReceiptProcessingSettings | Group)[]> = new Map<number, ReceiptProcessingSettings[]>();
 
   public defaultPromptExists: boolean = true;
+
+  public groups: Group[] = [];
 
 
   constructor(
@@ -59,6 +61,7 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
 
   public ngOnInit(): void {
     this.receiptProcessingSettings = this.activatedRoute.snapshot.data["allReceiptProcessingSettings"];
+    this.groups = this.activatedRoute.snapshot.data["allGroups"];
     this.getTableData();
   }
 
@@ -133,10 +136,11 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
   }
 
   private setPromptsWithRelatedData(prompts: Prompt[]): void {
-    const map = new Map<number, ReceiptProcessingSettings[]>();
+    const map = new Map<number, (ReceiptProcessingSettings | Group)[]>();
     for (const prompt of prompts) {
-      const related = this.receiptProcessingSettings.filter((r) => r.promptId === prompt.id);
-      map.set(prompt.id, related);
+      const relatedReceiptProcessingSettings = this.receiptProcessingSettings.filter((r) => r.promptId === prompt.id);
+      const relatedGroups = this.groups.filter((g) => g.groupSettings?.promptId === prompt.id || g.groupSettings?.fallbackPromptId === prompt.id);
+      map.set(prompt.id, [...relatedReceiptProcessingSettings, ...relatedGroups]);
     }
 
     this.relatedPromptMap = map;
@@ -234,7 +238,7 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
     const mapData = this.relatedPromptMap.get(prompt.id);
     const disabled = mapData && mapData.length > 0;
     if (disabled) {
-      this.snackbarService.info(`Cannot delete ${prompt.name} as it is associated with the following receipt processing settings: ` + mapData.map((m) => m.name).join(", "));
+      this.snackbarService.info(`Cannot delete ${prompt.name} as it is associated with the following receipt processing settings or groups: ` + mapData.map((m) => m.name).join(", "));
     }
   }
 
