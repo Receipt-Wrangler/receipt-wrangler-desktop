@@ -60,6 +60,8 @@ describe("GroupSettingsComponent", () => {
       emailWhiteList: [],
       emailDefaultReceiptStatus: "",
       emailDefaultReceiptPaidById: "",
+      promptId: "",
+      fallbackPromptId: ""
     });
   });
 });

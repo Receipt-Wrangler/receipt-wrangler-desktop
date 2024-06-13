@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Prompt, ReceiptProcessingSettings, SystemTask, SystemTaskStatus, SystemTaskType } from "../../open-api";
+import { Prompt, SystemTask, SystemTaskStatus, SystemTaskType } from "../../open-api";
 import { AccordionPanel } from "../../shared-ui/accordion/accordion-panel.interface";
 
 @Component({
@@ -29,13 +29,10 @@ export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implemen
 
   public prompts: Prompt[] = [];
 
-  public receiptProcessingSettings: ReceiptProcessingSettings[] = [];
-
   constructor(private activatedRoute: ActivatedRoute) {}
 
   public ngOnInit(): void {
     this.prompts = this.activatedRoute.snapshot.data["prompts"];
-    this.receiptProcessingSettings = this.activatedRoute.snapshot.data["receiptProcessingSettings"];
   }
 
   public ngAfterViewInit(): void {

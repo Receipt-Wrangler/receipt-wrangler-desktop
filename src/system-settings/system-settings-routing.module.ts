@@ -43,6 +43,7 @@ const routes: Routes = [
         path: "prompts",
         component: PromptTableComponent,
         resolve: {
+          allGroups: allGroupsResolver,
           allReceiptProcessingSettings: allReceiptProcessingSettingsResolver,
         }
       },
