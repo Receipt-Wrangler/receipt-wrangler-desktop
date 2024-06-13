@@ -11,6 +11,8 @@ export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implemen
 
   @ViewChild("ocrProcessingDetails") public ocrProcessingDetails!: TemplateRef<any>;
 
+  @ViewChild("promptGenerationDetails") public promptGenerationDetails!: TemplateRef<any>;
+
   @ViewChild("chatCompletionDetails") public chatCompletionDetails!: TemplateRef<any>;
 
   @ViewChild("receiptUploadedDetails") public receiptUploadedDetails!: TemplateRef<any>;
@@ -34,6 +36,14 @@ export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implemen
         this.accordionPanels.push({
           title: "Raw OCR Processing Details",
           content: this.ocrProcessingDetails,
+          descriptionTemplate: this.statusIcon,
+        });
+      }
+
+      if (task.type === SystemTaskType.PromptGenerated) {
+        this.accordionPanels.push({
+          title: "Prompt Used",
+          content: this.promptGenerationDetails,
           descriptionTemplate: this.statusIcon,
         });
       }
