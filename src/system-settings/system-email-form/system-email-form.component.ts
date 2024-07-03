@@ -1,10 +1,10 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MatDialog} from "@angular/material/dialog";
-import {ActivatedRoute, Router} from "@angular/router";
-import {take, tap} from "rxjs";
-import {FormMode} from "../../enums/form-mode.enum";
-import {FormConfig} from "../../interfaces";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { ActivatedRoute, Router } from "@angular/router";
+import { take, tap } from "rxjs";
+import { FormMode } from "../../enums/form-mode.enum";
+import { FormConfig } from "../../interfaces";
 import {
   AssociatedEntityType,
   CheckEmailConnectivityCommand,
@@ -13,10 +13,11 @@ import {
   SystemEmailService,
   SystemTaskStatus
 } from "../../open-api";
-import {SnackbarService} from "../../services";
-import {TABLE_SERVICE_INJECTION_TOKEN} from "../../services/injection-tokens/table-service";
-import {SystemEmailTaskTableService} from "../../services/system-email-task-table.service";
-import {ConfirmationDialogComponent} from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
+import { SnackbarService } from "../../services";
+import { TABLE_SERVICE_INJECTION_TOKEN } from "../../services/injection-tokens/table-service";
+import { SystemEmailTaskTableService } from "../../services/system-email-task-table.service";
+import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
+import { TaskTableComponent } from "../../shared-ui/task-table/task-table.component";
 
 @Component({
   selector: "app-system-email-form",
@@ -28,6 +29,8 @@ import {ConfirmationDialogComponent} from "../../shared-ui/confirmation-dialog/c
   }]
 })
 export class SystemEmailFormComponent implements OnInit {
+  @ViewChild(TaskTableComponent) public taskTableComponent!: TaskTableComponent;
+
   protected readonly AssociatedEntityType = AssociatedEntityType;
 
   public formConfig!: FormConfig;
@@ -150,7 +153,7 @@ export class SystemEmailFormComponent implements OnInit {
   }
 
   private checkConnectivitySettingsWithExistingSettings(): void {
-    const command: CheckEmailConnectivityCommand = {id: this.originalSystemEmail.id};
+    const command: CheckEmailConnectivityCommand = { id: this.originalSystemEmail.id };
     this.checkConnectivitySettings(command);
 
   }
@@ -164,6 +167,10 @@ export class SystemEmailFormComponent implements OnInit {
             this.snackbarService.success("Successfully connected to email server");
           } else {
             this.snackbarService.error("Failed to connect to email server");
+          }
+
+          if (this.formConfig.mode !== FormMode.add) {
+            this.taskTableComponent.getTableData();
           }
         })
       )
