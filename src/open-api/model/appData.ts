@@ -46,5 +46,9 @@ export interface AppData {
      * Refresh token
      */
     refreshToken?: string;
+    /**
+     * Currency display
+     */
+    currencyDisplay: string;
 }
 
