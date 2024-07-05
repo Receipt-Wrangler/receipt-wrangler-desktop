@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, CurrencyPipe } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
@@ -40,6 +40,7 @@ import { FormSectionComponent } from "./form-section/form-section.component";
 import { FormComponent } from "./form/form.component";
 import { GroupAutocompleteComponent } from "./group-autocomplete/group-autocomplete.component";
 import { HelpIconComponent } from "./help-icon/help-icon.component";
+import { PrettyJsonComponent } from "./pretty-json/pretty-json.component";
 import { QuickScanButtonComponent } from "./quick-scan-button/quick-scan-button.component";
 import { OperationsPipe } from "./receipt-filter/operations.pipe";
 import { ReceiptFilterComponent } from "./receipt-filter/receipt-filter.component";
@@ -53,7 +54,6 @@ import { TabsComponent } from "./tabs/tabs.component";
 import { PrettyJsonPipe } from "./task-table/pretty-json.pipe";
 import { SystemTaskTypePipe } from "./task-table/system-task-type.pipe";
 import { TaskTableComponent } from "./task-table/task-table.component";
-import { PrettyJsonComponent } from './pretty-json/pretty-json.component';
 
 @NgModule({
   declarations: [
@@ -150,5 +150,6 @@ import { PrettyJsonComponent } from './pretty-json/pretty-json.component';
     AccordionComponent,
     PrettyJsonComponent,
   ],
+  providers: [CurrencyPipe],
 })
 export class SharedUiModule {}
