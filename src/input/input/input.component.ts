@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, } from "@angular/core";
+import { Select } from "@ngxs/store";
+import { Observable } from "rxjs";
 import { BaseInputComponent } from "../../base-input";
+import { SystemSettingsState } from "../../store/system-settings.state";
 import { InputInterface } from "../input.interface";
 
 @Component({
@@ -11,6 +14,8 @@ export class InputComponent
   extends BaseInputComponent
   implements InputInterface, OnChanges {
   @ViewChild("nativeInput") public nativeInput!: { nativeElement: HTMLElement };
+
+  @Select(SystemSettingsState.currencyDisplay) public currencyDisplay!: Observable<string>;
 
   @Input() public inputId: string = "";
 
@@ -32,7 +37,6 @@ export class InputComponent
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes["isCurrency"]?.currentValue) {
-      this.maskPrefix = "$ ";
       this.mask = "separator.2";
       this.thousandSeparator = ",";
     }

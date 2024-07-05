@@ -8,7 +8,7 @@
       [type]="type"
       [readonly]="readonly"
       [formControl]="inputFormControl"
-      [prefix]="maskPrefix"
+      [prefix]="isCurrency ? ((currencyDisplay | async) ?? '') :  maskPrefix"
       [mask]="mask"
       [thousandSeparator]="thousandSeparator"
       (blur)="inputBlur.emit($event)"
@@ -25,6 +25,7 @@
     </button>
   </div>
   <mat-error *ngFor="let err of formControlErrors | async">{{
-    err.message
-  }}</mat-error>
+      err.message
+    }}
+  </mat-error>
 </mat-form-field>

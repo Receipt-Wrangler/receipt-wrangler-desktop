@@ -10,6 +10,7 @@ import { FeatureConfigService, ReceiptProcessingSettings, SystemSettings, System
 import { InputReadonlyPipe } from "../../pipes/input-readonly.pipe";
 import { SnackbarService } from "../../services";
 import { SetFeatureConfig } from "../../store";
+import { SetCurrencyDisplay } from "../../store/system-settings.state.actions";
 
 
 @UntilDestroy()
@@ -101,7 +102,8 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
           this.router.navigate(["/system-settings/settings/view"]);
         }),
         switchMap(() => this.featureConfigService.getFeatureConfig()),
-        tap((featureConfig) => this.store.dispatch(new SetFeatureConfig(featureConfig)))
+        tap((featureConfig) => this.store.dispatch(new SetFeatureConfig(featureConfig))),
+        switchMap(() => this.store.dispatch(new SetCurrencyDisplay(formValue["currencyDisplay"]?.toString()))),
       )
       .subscribe();
   }
