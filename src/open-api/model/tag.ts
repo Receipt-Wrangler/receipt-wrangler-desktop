@@ -22,6 +22,10 @@ export interface Tag {
      * Tag name
      */
     name: string;
+    /**
+     * Tag description
+     */
+    description?: string;
     updatedAt?: string;
 }
 

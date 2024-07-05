@@ -55,6 +55,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       debugOcr: [this.originalSystemSettings?.debugOcr],
       emailPollingInterval: [this.originalSystemSettings?.emailPollingInterval, [Validators.required, Validators.min(0)]],
       numWorkers: [this.originalSystemSettings?.numWorkers ?? 1, [Validators.required, Validators.min(1)]],
+      currencyDisplay: [this.originalSystemSettings?.currencyDisplay],
       receiptProcessingSettingsId: [this.originalSystemSettings?.receiptProcessingSettingsId],
       fallbackReceiptProcessingSettingsId: [this.originalSystemSettings?.fallbackReceiptProcessingSettingsId]
     });

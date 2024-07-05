@@ -30,6 +30,11 @@
       [inputFormControl]="form | formGet: 'numWorkers'"
     ></app-input>
     <app-input
+      label="Currency Display"
+      [readonly]="formConfig.mode | inputReadonly"
+      [inputFormControl]="form | formGet: 'currencyDisplay'"
+    ></app-input>
+    <app-input
       label="Email polling interval (in seconds)"
       type="number"
       [inputFormControl]="form | formGet:'emailPollingInterval'"
