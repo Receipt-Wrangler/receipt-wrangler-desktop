@@ -18,12 +18,13 @@
       >
         <div matListItemTitle>{{ receipt.name }}</div>
         <div matListItemLine>
-          {{ receipt.date | date }} - {{ receipt.amount | currency }}
+          {{ receipt.date | date }} - {{ receipt.amount | customCurrency }}
         </div>
-        <hr />
+        <hr/>
       </a>
       <mat-list-item *ngIf="receipts?.length === 0"
-        >No receipts found</mat-list-item
+      >No receipts found
+      </mat-list-item
       >
     </cdk-virtual-scroll-viewport>
   </div>

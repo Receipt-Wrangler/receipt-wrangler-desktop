@@ -16,6 +16,10 @@ export interface UpsertSystemSettingsCommand {
      * Whether local sign up is enabled
      */
     enableLocalSignUp?: boolean;
+    /**
+     * Currency display
+     */
+    currencyDisplay?: string;
     debugOcr?: boolean;
     /**
      * Number of workers to use

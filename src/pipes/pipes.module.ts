@@ -11,6 +11,7 @@ import { MapKeyPipe } from "./map-key.pipe";
 import { NamePipe } from "./name.pipe";
 import { StatusPipe } from "./status.pipe";
 import { UserPipe } from "./user.pipe";
+import { CustomCurrencyPipe } from './custom-currency.pipe';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { UserPipe } from "./user.pipe";
     NamePipe,
     StatusPipe,
     UserPipe,
+    CustomCurrencyPipe,
   ],
   imports: [CommonModule],
   exports: [
@@ -39,6 +41,7 @@ import { UserPipe } from "./user.pipe";
     NamePipe,
     StatusPipe,
     UserPipe,
+    CustomCurrencyPipe,
   ],
 })
 export class PipesModule {}

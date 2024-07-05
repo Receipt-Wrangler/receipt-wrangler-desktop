@@ -17,6 +17,10 @@ export interface SystemSettingsAllOf {
      */
     enableLocalSignUp?: boolean;
     /**
+     * Currency display
+     */
+    currencyDisplay?: string;
+    /**
      * Debug OCR
      */
     debugOcr?: boolean;
