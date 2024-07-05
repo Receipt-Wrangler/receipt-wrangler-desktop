@@ -17,6 +17,7 @@ import { ReceiptProcessingSettingsTaskTableState } from "./receipt-processing-se
 import { ReceiptTableState } from "./receipt-table.state";
 import { SystemEmailTableState } from "./system-email-table.state";
 import { SystemEmailTaskTableState } from "./system-email-task-table.state";
+import { SystemSettingsState } from "./system-settings.state";
 import { TagTableState } from "./tag-table.state";
 import { UserState } from "./user.state";
 
@@ -30,6 +31,7 @@ import { UserState } from "./user.state";
       DashboardState,
       FeatureConfigState,
       GroupState,
+      GroupTableState,
       LayoutState,
       PromptTableState,
       ReceiptProcessingSettingsTableState,
@@ -37,9 +39,9 @@ import { UserState } from "./user.state";
       ReceiptTableState,
       SystemEmailTableState,
       SystemEmailTaskTableState,
+      SystemSettingsState,
       TagTableState,
       UserState,
-      GroupTableState,
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.isProd,
@@ -58,6 +60,7 @@ import { UserState } from "./user.state";
         "receiptTable",
         "systemEmailTable",
         "systemEmailTaskTable",
+        "systemSettings",
         "tagTable",
         "users",
       ],
