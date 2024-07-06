@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
 import { addHours } from "date-fns";
-import { ImageTransform } from "ngx-image-cropper";
 import { distinctUntilChanged, finalize, forkJoin, iif, map, Observable, of, skip, startWith, switchMap, take, tap } from "rxjs";
 import { CarouselComponent } from "src/carousel/carousel/carousel.component";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
@@ -98,8 +97,6 @@ export class ReceiptFormComponent implements OnInit {
   public formHeaderText: Observable<string> = of("");
 
   public receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
-
-  public transform: ImageTransform = {};
 
   constructor(
     private receiptService: ReceiptService,
