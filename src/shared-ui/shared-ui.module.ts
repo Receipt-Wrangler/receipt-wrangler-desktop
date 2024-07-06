@@ -1,5 +1,5 @@
 import { DragDropModule } from "@angular/cdk/drag-drop";
-import { CommonModule, CurrencyPipe, NgOptimizedImage } from "@angular/common";
+import { CommonModule, CurrencyPipe } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
@@ -111,7 +111,6 @@ import { TaskTableComponent } from "./task-table/task-table.component";
     MatTableModule,
     MatTabsModule,
     MatTooltipModule,
-    NgOptimizedImage,
     PipesModule,
     PipesModule,
     ReactiveFormsModule,

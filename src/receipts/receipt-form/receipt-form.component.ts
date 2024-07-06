@@ -64,6 +64,8 @@ export class ReceiptFormComponent implements OnInit {
   @Select(LayoutState.showProgressBar)
   public showProgressBar!: Observable<boolean>;
 
+  protected readonly FormMode = FormMode;
+
   public categories: Category[] = [];
 
   public tags: Tag[] = [];
@@ -544,6 +546,4 @@ export class ReceiptFormComponent implements OnInit {
       )
       .subscribe();
   }
-
-  protected readonly FormMode = FormMode;
 }
