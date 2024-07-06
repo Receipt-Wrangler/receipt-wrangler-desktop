@@ -7,6 +7,7 @@ import { CarouselModule as NgxCarouselModule } from "ngx-bootstrap/carousel";
 import { ImageCropperModule } from "ngx-image-cropper";
 import { PipesModule } from "src/pipes/pipes.module";
 import { ButtonModule } from "../button";
+import { SharedUiModule } from "../shared-ui/shared-ui.module";
 import { CarouselComponent } from "./carousel/carousel.component";
 
 @NgModule({
@@ -20,6 +21,7 @@ import { CarouselComponent } from "./carousel/carousel.component";
     MatIconModule,
     NgxCarouselModule.forRoot(),
     PipesModule,
+    SharedUiModule,
   ],
   exports: [CarouselComponent],
 })

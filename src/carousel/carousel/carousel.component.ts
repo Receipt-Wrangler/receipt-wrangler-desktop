@@ -1,14 +1,8 @@
 import { Component, EventEmitter, Input, Output, ViewEncapsulation, } from "@angular/core";
 import { UntilDestroy } from "@ngneat/until-destroy";
-import { ImageTransform } from "ngx-image-cropper";
 import { FormMode } from "src/enums/form-mode.enum";
 import { ReceiptFileUploadCommand } from "../../interfaces";
 import { FileDataView } from "../../open-api";
-
-interface CarouselDatasource {
-  blob?: File;
-  encodedImage?: string;
-}
 
 @UntilDestroy()
 @Component({
@@ -31,11 +25,7 @@ export class CarouselComponent {
   @Output() public removeButtonClicked: EventEmitter<number> =
     new EventEmitter<number>();
 
-  public datasource: CarouselDatasource[] = [];
-
   public scale: number = 1;
-
-  public transform: ImageTransform = {};
 
   public currentlyShownImageIndex: number = -1;
 
@@ -53,7 +43,7 @@ export class CarouselComponent {
 
   public onScroll(event: WheelEvent): void {
     event.preventDefault();
-    let value = event.deltaY * -0.001;
+    let value = event.deltaY * -0.000001;
     this.adjustScale(value);
   }
 
@@ -64,9 +54,5 @@ export class CarouselComponent {
   public adjustScale(amount: number): void {
     const newScale = this.scale + amount;
     this.scale = Math.max(newScale, 0.1);
-    this.transform = {
-      ...this.transform,
-      scale: this.scale,
-    };
   }
 }

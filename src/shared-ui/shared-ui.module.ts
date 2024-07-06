@@ -1,4 +1,5 @@
-import { CommonModule, CurrencyPipe } from "@angular/common";
+import { DragDropModule } from "@angular/cdk/drag-drop";
+import { CommonModule, CurrencyPipe, NgOptimizedImage } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
@@ -40,6 +41,7 @@ import { FormSectionComponent } from "./form-section/form-section.component";
 import { FormComponent } from "./form/form.component";
 import { GroupAutocompleteComponent } from "./group-autocomplete/group-autocomplete.component";
 import { HelpIconComponent } from "./help-icon/help-icon.component";
+import { ImageViewerComponent } from "./image-viewer/image-viewer.component";
 import { PrettyJsonComponent } from "./pretty-json/pretty-json.component";
 import { QuickScanButtonComponent } from "./quick-scan-button/quick-scan-button.component";
 import { OperationsPipe } from "./receipt-filter/operations.pipe";
@@ -90,31 +92,34 @@ import { TaskTableComponent } from "./task-table/task-table.component";
     PrettyJsonPipe,
     AccordionComponent,
     PrettyJsonComponent,
+    ImageViewerComponent,
   ],
   imports: [
     AutocompleteModule,
     ButtonModule,
     CommonModule,
-    PipesModule,
     DatepickerModule,
+    DirectivesModule,
+    DragDropModule,
     InputModule,
     MatCardModule,
     MatChipsModule,
     MatDialogModule,
+    MatExpansionModule,
     MatIconModule,
     MatListModule,
     MatTableModule,
     MatTabsModule,
     MatTooltipModule,
+    NgOptimizedImage,
+    PipesModule,
     PipesModule,
     ReactiveFormsModule,
     RouterModule,
     SelectModule,
-    UserAutocompleteModule,
-    DirectivesModule,
-    TableModule,
     SystemTaskTypePipe,
-    MatExpansionModule
+    TableModule,
+    UserAutocompleteModule,
   ],
   exports: [
     AddButtonComponent,
@@ -149,6 +154,7 @@ import { TaskTableComponent } from "./task-table/task-table.component";
     PrettyJsonPipe,
     AccordionComponent,
     PrettyJsonComponent,
+    ImageViewerComponent,
   ],
   providers: [CurrencyPipe],
 })

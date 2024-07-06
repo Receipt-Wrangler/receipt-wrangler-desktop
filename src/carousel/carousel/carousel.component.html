@@ -11,25 +11,26 @@
       }"
     ></ng-template>
 
-    <image-cropper
-      cdkDrag
-      *ngIf="preview?.file && !preview?.encodedImage"
-      [imageFile]="$any(preview.file)"
-      [hideResizeSquares]="true"
-      [(transform)]="transform"
-      [allowMoveImage]="false"
-      (wheel)="onScroll($event)"
-    ></image-cropper>
+    <!--    <image-cropper
+          cdkDrag
+          *ngIf="preview?.file && !preview?.encodedImage"
+          [imageFile]="$any(preview.file)"
+          [hideResizeSquares]="true"
+          [(transform)]="transform"
+          [allowMoveImage]="false"
+          (wheel)="onScroll($event)"
+        ></image-cropper>-->
 
-    <image-cropper
-      cdkDrag
-      *ngIf="preview?.encodedImage"
-      [imageBase64]="preview.encodedImage"
-      [hideResizeSquares]="true"
-      [(transform)]="transform"
-      [allowMoveImage]="false"
-      (wheel)="onScroll($event)"
-    ></image-cropper>
+
+    <!--    <image-cropper
+          cdkDrag
+          *ngIf="preview?.encodedImage"
+          [imageBase64]="preview.encodedImage"
+          [hideResizeSquares]="true"
+          [(transform)]="transform"
+          [allowMoveImage]="false"
+          (wheel)="onScroll($event)"
+        ></image-cropper>-->
   </slide>
 
   <slide *ngFor="let image of images; let i = index">
@@ -40,15 +41,23 @@
       }"
     ></ng-template>
 
-    <image-cropper
-      cdkDrag
+    <app-image-viewer
       *ngIf="image?.encodedImage"
       [imageBase64]="image.encodedImage"
-      [hideResizeSquares]="true"
-      [(transform)]="transform"
-      [allowMoveImage]="false"
+      [scale]="scale"
       (wheel)="onScroll($event)"
-    ></image-cropper>
+    ></app-image-viewer>
+
+
+    <!--    <image-cropper
+          cdkDrag
+          *ngIf="image?.encodedImage"
+          [imageBase64]="image.encodedImage"
+          [hideResizeSquares]="true"
+          [(transform)]="transform"
+          [allowMoveImage]="false"
+          (wheel)="onScroll($event)"
+        ></image-cropper>-->
   </slide>
 </carousel>
 
