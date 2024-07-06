@@ -318,12 +318,11 @@
 <ng-template #expandedImageTemplate>
   @if (this.mode === FormMode.view || this.mode === FormMode.edit) {
     <image-cropper
+      cdkDrag
       [imageBase64]="this.images[this.carouselComponent.currentlyShownImageIndex].encodedImage"
       [hideResizeSquares]="true"
       [transform]="transform"
-      [allowMoveImage]="true"
       [initialStepSize]="1"
-
     ></image-cropper>
   }
 </ng-template>
