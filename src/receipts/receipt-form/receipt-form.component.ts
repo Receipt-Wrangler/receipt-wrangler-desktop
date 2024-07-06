@@ -175,7 +175,9 @@ export class ReceiptFormComponent implements OnInit {
     let selectedGroupId: number | string = this.store.selectSnapshot(
       GroupState.selectedGroupId
     );
-    if (selectedGroupId === "all") {
+    const group = this.store.selectSnapshot(GroupState.getGroupById(selectedGroupId));
+
+    if (group?.isAllGroup) {
       selectedGroupId = "";
     } else {
       selectedGroupId = Number(selectedGroupId);
