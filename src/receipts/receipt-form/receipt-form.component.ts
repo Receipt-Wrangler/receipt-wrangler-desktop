@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
 import { addHours } from "date-fns";
+import { ImageTransform } from "ngx-image-cropper";
 import { distinctUntilChanged, finalize, forkJoin, iif, map, Observable, of, skip, startWith, switchMap, take, tap } from "rxjs";
 import { CarouselComponent } from "src/carousel/carousel/carousel.component";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
@@ -43,6 +44,9 @@ export class ReceiptFormComponent implements OnInit {
 
   @ViewChild("quickActionsDialog")
   public quickActionsDialog!: TemplateRef<any>;
+
+  @ViewChild("expandedImageTemplate")
+  public expandedImageTemplate!: TemplateRef<any>;
 
   @ViewChild(ItemListComponent)
   public itemListComponent!: ItemListComponent;
@@ -94,6 +98,8 @@ export class ReceiptFormComponent implements OnInit {
   public formHeaderText: Observable<string> = of("");
 
   public receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
+
+  public transform: ImageTransform = {};
 
   constructor(
     private receiptService: ReceiptService,
@@ -470,6 +476,10 @@ export class ReceiptFormComponent implements OnInit {
     this.carouselComponent.zoomOut();
   }
 
+  public expandImage(): void {
+    this.matDialog.open(this.expandedImageTemplate, {});
+  }
+
   public initItemListAddMode(): void {
     this.itemListComponent.initAddMode();
   }
@@ -535,4 +545,6 @@ export class ReceiptFormComponent implements OnInit {
       )
       .subscribe();
   }
+
+  protected readonly FormMode = FormMode;
 }

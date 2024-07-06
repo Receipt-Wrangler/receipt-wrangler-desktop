@@ -15,7 +15,7 @@
       *ngIf="preview?.file && !preview?.encodedImage"
       [imageFile]="$any(preview.file)"
       [hideResizeSquares]="true"
-      [transform]="transform"
+      [(transform)]="transform"
       [allowMoveImage]="true"
       (wheel)="onScroll($event)"
     ></image-cropper>
@@ -24,7 +24,7 @@
       *ngIf="preview?.encodedImage"
       [imageBase64]="preview.encodedImage"
       [hideResizeSquares]="true"
-      [transform]="transform"
+      [(transform)]="transform"
       [allowMoveImage]="true"
       (wheel)="onScroll($event)"
     ></image-cropper>
@@ -42,7 +42,7 @@
       *ngIf="image?.encodedImage"
       [imageBase64]="image.encodedImage"
       [hideResizeSquares]="true"
-      [transform]="transform"
+      [(transform)]="transform"
       [allowMoveImage]="true"
       (wheel)="onScroll($event)"
     ></image-cropper>

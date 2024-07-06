@@ -9,6 +9,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTableModule } from "@angular/material/table";
 import { CarouselModule } from "ngx-bootstrap/carousel";
+import { ImageCropperModule } from "ngx-image-cropper";
 import { AutocompleteModule } from "src/autocomplete/autocomplete.module";
 import { AvatarModule } from "src/avatar";
 import { DatepickerModule } from "src/datepicker/datepicker.module";
@@ -76,6 +77,7 @@ import { UserTotalPipe } from "./user-total.pipe";
     TableModule,
     TextareaModule,
     UserAutocompleteModule,
+    ImageCropperModule,
   ],
   exports: [
     UploadImageComponent

@@ -267,6 +267,14 @@
   ></app-button>
   <app-button
     matButtonType="iconButton"
+    icon="expand"
+    tooltip="Expand image"
+    color="accent"
+    [disabled]="(showProgressBar | async) ?? false"
+    (clicked)="expandImage()"
+  ></app-button>
+  <app-button
+    matButtonType="iconButton"
     icon="zoom_in"
     tooltip="Zoom In"
     color="accent"
@@ -305,4 +313,17 @@
     [disabled]="(showProgressBar | async) ?? false"
     (clicked)="removeImage()"
   ></app-button>
+</ng-template>
+
+<ng-template #expandedImageTemplate>
+  @if (this.mode === FormMode.view || this.mode === FormMode.edit) {
+    <image-cropper
+      [imageBase64]="this.images[this.carouselComponent.currentlyShownImageIndex].encodedImage"
+      [hideResizeSquares]="true"
+      [transform]="transform"
+      [allowMoveImage]="true"
+      [initialStepSize]="1"
+
+    ></image-cropper>
+  }
 </ng-template>
