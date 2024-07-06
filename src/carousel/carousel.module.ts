@@ -1,3 +1,4 @@
+import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
@@ -13,6 +14,7 @@ import { CarouselComponent } from "./carousel/carousel.component";
   imports: [
     ButtonModule,
     CommonModule,
+    DragDropModule,
     ImageCropperModule,
     MatButtonModule,
     MatIconModule,

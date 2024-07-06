@@ -12,20 +12,22 @@
     ></ng-template>
 
     <image-cropper
+      cdkDrag
       *ngIf="preview?.file && !preview?.encodedImage"
       [imageFile]="$any(preview.file)"
       [hideResizeSquares]="true"
       [(transform)]="transform"
-      [allowMoveImage]="true"
+      [allowMoveImage]="false"
       (wheel)="onScroll($event)"
     ></image-cropper>
 
     <image-cropper
+      cdkDrag
       *ngIf="preview?.encodedImage"
       [imageBase64]="preview.encodedImage"
       [hideResizeSquares]="true"
       [(transform)]="transform"
-      [allowMoveImage]="true"
+      [allowMoveImage]="false"
       (wheel)="onScroll($event)"
     ></image-cropper>
   </slide>
@@ -39,11 +41,12 @@
     ></ng-template>
 
     <image-cropper
+      cdkDrag
       *ngIf="image?.encodedImage"
       [imageBase64]="image.encodedImage"
       [hideResizeSquares]="true"
       [(transform)]="transform"
-      [allowMoveImage]="true"
+      [allowMoveImage]="false"
       (wheel)="onScroll($event)"
     ></image-cropper>
   </slide>
