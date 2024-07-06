@@ -267,7 +267,7 @@
   ></app-button>
   <app-button
     matButtonType="iconButton"
-    icon="expand"
+    icon="open_in_full"
     tooltip="Expand image"
     color="accent"
     [disabled]="(showProgressBar | async) ?? false"
@@ -317,10 +317,11 @@
 
 <ng-template #expandedImageTemplate>
   @if (this.mode === FormMode.view || this.mode === FormMode.edit) {
-    <app-carousel
-      [images]="images"
-      [mode]="mode"
-      [hideButtonControls]="true"
-    ></app-carousel>
   }
+  <app-carousel
+    [images]="images"
+    [imagePreviews]="filesToUpload"
+    [mode]="mode"
+    [hideButtonControls]="true"
+  ></app-carousel>
 </ng-template>
