@@ -1,6 +1,7 @@
 <carousel
   [interval]="0"
   [isAnimated]="true"
+  [activeSlide]="currentlyShownImageIndex"
   (activeSlideChange)="updateCurrentlyShownImage($event)"
 >
   <slide *ngFor="let preview of imagePreviews; let i = index">
