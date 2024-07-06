@@ -255,40 +255,41 @@
     "
     (clicked)="uploadImageButtonClicked()"
   ></app-button>
-  <app-button
-    *ngIf="images && (images.length > 0 || filesToUpload.length > 0)"
-    class="mb-4"
-    color="accent"
-    matButtonType="iconButton"
-    [icon]="showImages ? 'visibility_off' : 'visibility'"
-    [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
-    [disabled]="(showProgressBar | async) ?? false"
-    (clicked)="toggleShowImages()"
-  ></app-button>
-  <app-button
-    matButtonType="iconButton"
-    icon="open_in_full"
-    tooltip="Expand image"
-    color="accent"
-    [disabled]="(showProgressBar | async) ?? false"
-    (clicked)="expandImage()"
-  ></app-button>
-  <app-button
-    matButtonType="iconButton"
-    icon="zoom_in"
-    tooltip="Zoom In"
-    color="accent"
-    [disabled]="(showProgressBar | async) ?? false"
-    (clicked)="zoomImageIn()"
-  ></app-button>
-  <app-button
-    matButtonType="iconButton"
-    icon="zoom_out"
-    tooltip="Zoom Out"
-    color="accent"
-    [disabled]="(showProgressBar | async) ?? false"
-    (clicked)="zoomImageOut()"
-  ></app-button>
+  @if (images && (images.length > 0 || filesToUpload.length > 0)) {
+    <app-button
+      class="mb-4"
+      color="accent"
+      matButtonType="iconButton"
+      [icon]="showImages ? 'visibility_off' : 'visibility'"
+      [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
+      [disabled]="(showProgressBar | async) ?? false"
+      (clicked)="toggleShowImages()"
+    ></app-button>
+    <app-button
+      matButtonType="iconButton"
+      icon="open_in_full"
+      tooltip="Expand image"
+      color="accent"
+      [disabled]="(showProgressBar | async) ?? false"
+      (clicked)="expandImage()"
+    ></app-button>
+    <app-button
+      matButtonType="iconButton"
+      icon="zoom_in"
+      tooltip="Zoom In"
+      color="accent"
+      [disabled]="(showProgressBar | async) ?? false"
+      (clicked)="zoomImageIn()"
+    ></app-button>
+    <app-button
+      matButtonType="iconButton"
+      icon="zoom_out"
+      tooltip="Zoom Out"
+      color="accent"
+      [disabled]="(showProgressBar | async) ?? false"
+      (clicked)="zoomImageOut()"
+    ></app-button>
+  }
   <app-button
     *ngIf="
       !(mode | inputReadonly) &&
