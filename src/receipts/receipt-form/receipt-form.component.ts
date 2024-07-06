@@ -44,6 +44,9 @@ export class ReceiptFormComponent implements OnInit {
   @ViewChild("quickActionsDialog")
   public quickActionsDialog!: TemplateRef<any>;
 
+  @ViewChild("expandedImageTemplate")
+  public expandedImageTemplate!: TemplateRef<any>;
+
   @ViewChild(ItemListComponent)
   public itemListComponent!: ItemListComponent;
 
@@ -60,6 +63,8 @@ export class ReceiptFormComponent implements OnInit {
 
   @Select(LayoutState.showProgressBar)
   public showProgressBar!: Observable<boolean>;
+
+  protected readonly FormMode = FormMode;
 
   public categories: Category[] = [];
 
@@ -169,7 +174,9 @@ export class ReceiptFormComponent implements OnInit {
     let selectedGroupId: number | string = this.store.selectSnapshot(
       GroupState.selectedGroupId
     );
-    if (selectedGroupId === "all") {
+    const group = this.store.selectSnapshot(GroupState.getGroupById(selectedGroupId));
+
+    if (group?.isAllGroup) {
       selectedGroupId = "";
     } else {
       selectedGroupId = Number(selectedGroupId);
@@ -468,6 +475,10 @@ export class ReceiptFormComponent implements OnInit {
 
   public zoomImageOut(): void {
     this.carouselComponent.zoomOut();
+  }
+
+  public expandImage(): void {
+    this.matDialog.open(this.expandedImageTemplate, {});
   }
 
   public initItemListAddMode(): void {

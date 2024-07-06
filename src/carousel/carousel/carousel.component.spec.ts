@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { CarouselModule as NgxCarouselModule } from "ngx-bootstrap/carousel";
-import { ImageCropperModule } from "ngx-image-cropper";
 import { PipesModule } from "src/pipes/pipes.module";
 import { ButtonModule } from "../../button";
 import { CarouselComponent } from "./carousel.component";
@@ -21,7 +20,6 @@ describe("CarouselComponent", () => {
         NgxCarouselModule.forRoot(),
         MatButtonModule,
         MatIconModule,
-        ImageCropperModule,
         ButtonModule,
       ],
     }).compileComponents();

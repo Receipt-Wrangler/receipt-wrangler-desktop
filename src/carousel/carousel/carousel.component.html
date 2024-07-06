@@ -11,23 +11,13 @@
       }"
     ></ng-template>
 
-    <image-cropper
-      *ngIf="preview?.file && !preview?.encodedImage"
+    <app-image-viewer
+      *ngIf="preview?.encodedImage || preview?.file"
+      [imageBase64]="preview?.encodedImage"
       [imageFile]="$any(preview.file)"
-      [hideResizeSquares]="true"
-      [transform]="transform"
-      [allowMoveImage]="true"
+      [scale]="scale"
       (wheel)="onScroll($event)"
-    ></image-cropper>
-
-    <image-cropper
-      *ngIf="preview?.encodedImage"
-      [imageBase64]="preview.encodedImage"
-      [hideResizeSquares]="true"
-      [transform]="transform"
-      [allowMoveImage]="true"
-      (wheel)="onScroll($event)"
-    ></image-cropper>
+    ></app-image-viewer>
   </slide>
 
   <slide *ngFor="let image of images; let i = index">
@@ -38,14 +28,12 @@
       }"
     ></ng-template>
 
-    <image-cropper
+    <app-image-viewer
       *ngIf="image?.encodedImage"
       [imageBase64]="image.encodedImage"
-      [hideResizeSquares]="true"
-      [transform]="transform"
-      [allowMoveImage]="true"
+      [scale]="scale"
       (wheel)="onScroll($event)"
-    ></image-cropper>
+    ></app-image-viewer>
   </slide>
 </carousel>
 
