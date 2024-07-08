@@ -481,6 +481,24 @@ export class ReceiptFormComponent implements OnInit {
     this.matDialog.open(this.expandedImageTemplate, {});
   }
 
+  public downloadImage(): void {
+    const currentImage = this.images[this.carouselComponent.currentlyShownImageIndex];
+    this.receiptImageService.downloadReceiptImageById(currentImage.id)
+      .pipe(
+        take(1),
+        tap((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", currentImage.name); // or any other extension
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        })
+      )
+      .subscribe();
+  }
+
   public initItemListAddMode(): void {
     this.itemListComponent.initAddMode();
   }

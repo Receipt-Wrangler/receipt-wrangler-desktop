@@ -263,6 +263,61 @@ export class ReceiptImageService {
     }
 
     /**
+     * Download receipt image
+     * This will download a receipt image by id, [SYSTEM USER]
+     * @param receiptImageId Id of receipt image to download
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public downloadReceiptImageById(receiptImageId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<Blob>;
+    public downloadReceiptImageById(receiptImageId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<HttpResponse<Blob>>;
+    public downloadReceiptImageById(receiptImageId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<HttpEvent<Blob>>;
+    public downloadReceiptImageById(receiptImageId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext}): Observable<any> {
+        if (receiptImageId === null || receiptImageId === undefined) {
+            throw new Error('Required parameter receiptImageId was null or undefined when calling downloadReceiptImageById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (bearerAuth) required
+        localVarCredential = this.configuration.lookupCredential('bearerAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/octet-stream'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let localVarPath = `/receiptImage/${this.configuration.encodeParam({name: "receiptImageId", value: receiptImageId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: undefined})}/download`;
+        return this.httpClient.request('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: "blob",
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Get receipt image
      * This will get a receipt image by id, [SYSTEM USER]
      * @param receiptImageId Id of receipt image to get

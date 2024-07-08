@@ -265,6 +265,17 @@
       [disabled]="(showProgressBar | async) ?? false"
       (clicked)="toggleShowImages()"
     ></app-button>
+    @if (this.mode != FormMode.add) {
+      <app-button
+        class="mb-4"
+        color="accent"
+        matButtonType="iconButton"
+        icon="download"
+        tooltip="Download Image"
+        [disabled]="(showProgressBar | async) ?? false"
+        (clicked)="downloadImage()"
+      ></app-button>
+    }
     <app-button
       matButtonType="iconButton"
       icon="open_in_full"
