@@ -178,7 +178,8 @@
       class="ms-2 w-50"
       label="Operation"
       [inputFormControl]="form | formGet : fieldName + '.operation'"
-      [options]="type | operations"
+      [options]="type | operations: false"
+      [optionsDisplayArray]="type | operations: true"
     ></app-select>
   </div>
 </ng-template>

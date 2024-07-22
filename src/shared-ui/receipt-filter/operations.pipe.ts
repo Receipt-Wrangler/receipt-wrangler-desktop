@@ -19,25 +19,33 @@ export class OperationsPipe implements PipeTransform {
     [FilterOperation.LessThan]: "Less than",
   };
 
-  public transform(type: string): string[] {
+  public transform(type: string, display: boolean): string[] {
     switch (type) {
       case "date":
-        return dateOperationOptions.map((option) => this.displayValues[option]);
+        return dateOperationOptions.map((option) => this.getDisplayValue(option, display));
 
       case "text":
-        return textOperationOptions.map((option) => this.displayValues[option]);
+        return textOperationOptions.map((option) => this.getDisplayValue(option, display));
 
       case "number":
-        return numberOperationOptions.map((option) => this.displayValues[option]);
+        return numberOperationOptions.map((option) => this.getDisplayValue(option, display));
 
       case "list":
-        return listOperationOptions.map((option) => this.displayValues[option]);
+        return listOperationOptions.map((option) => this.getDisplayValue(option, display));
 
       case "users":
-        return usersOperationOptions.map((option) => this.displayValues[option]);
+        return usersOperationOptions.map((option) => this.getDisplayValue(option, display));
 
       default:
         return [];
+    }
+  }
+
+  private getDisplayValue(option: FilterOperation, display: boolean): string {
+    if (display) {
+      return this.displayValues[option];
+    } else {
+      return option;
     }
   }
 }

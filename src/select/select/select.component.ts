@@ -9,6 +9,8 @@ import { BaseInputComponent } from "../../base-input";
 export class SelectComponent extends BaseInputComponent implements OnInit {
   @Input() public options: any[] = [];
 
+  @Input() public optionsDisplayArray: any[] = [];
+
   @Input() public optionValueKey: string = "";
 
   @Input() public optionDisplayKey: string = "";
