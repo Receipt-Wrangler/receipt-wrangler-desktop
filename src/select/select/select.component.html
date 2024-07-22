@@ -5,7 +5,7 @@
       *ngFor="let option of options; let i = index"
       [value]="optionValueKey ? option[optionValueKey] : option"
     >
-      @if (optionsDisplayArray) {
+      @if (optionsDisplayArray.length > 0) {
         {{ optionsDisplayArray[i] }}
       } @else {
         {{ optionDisplayKey ? option[optionDisplayKey] : option }}
