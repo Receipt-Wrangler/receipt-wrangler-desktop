@@ -61,4 +61,52 @@ describe("OperationsPipe", () => {
 
     expect(result).toEqual(["Contains"]);
   });
+
+  it("should return value options for users", () => {
+    const pipe = new OperationsPipe();
+
+    const result = pipe.transform("users", false);
+
+    expect(result).toEqual(["CONTAINS"]);
+  });
+
+  it("should return value options for list", () => {
+    const pipe = new OperationsPipe();
+
+    const result = pipe.transform("list", false);
+
+    expect(result).toEqual(["CONTAINS"]);
+  });
+
+  it("should return value options for number", () => {
+    const pipe = new OperationsPipe();
+
+    const result = pipe.transform("number", false);
+
+    expect(result).toEqual([
+      "EQUALS",
+      "GREATER_THAN",
+      "LESS_THAN",
+    ]);
+  });
+
+  it("should return value options for text", () => {
+    const pipe = new OperationsPipe();
+
+    const result = pipe.transform("text", false);
+
+    expect(result).toEqual(["CONTAINS", "EQUALS"]);
+  });
+
+  it("should return value options for date", () => {
+    const pipe = new OperationsPipe();
+
+    const result = pipe.transform("date", false);
+
+    expect(result).toEqual([
+      "EQUALS",
+      "GREATER_THAN",
+      "LESS_THAN",
+    ]);
+  });
 });
