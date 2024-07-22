@@ -12,6 +12,8 @@ import { BaseInputComponent } from "../../base-input";
 export class AutocomleteComponent
   extends BaseInputComponent
   implements OnInit, OnChanges {
+  @Input() public inputId: string = "";
+
   @Input() public options: any[] = [];
 
   @Input() public optionTemplate!: TemplateRef<any>;
@@ -64,6 +66,10 @@ export class AutocomleteComponent
           return this._filter(value);
         })
       );
+    }
+
+    if (changes["label"] && !this.inputId) {
+      this.inputId = this.label.replace(/ /g, "_").toLowerCase();
     }
   }
 
@@ -144,12 +150,19 @@ export class AutocomleteComponent
         );
       }
       setTimeout(() => {
-        this.matAutocompleteTrigger.openPanel();
-        this.filterFormControl.setValue(null);
+        this.clearFilterAndOpenPanel();
       }, 0);
     } else {
       this.inputFormControl.setValue(event.option.value);
     }
+  }
+
+  private clearFilterAndOpenPanel(): void {
+    if (this.inputId) {
+      (document.getElementById(this.inputId) as any).value = "";
+    }
+    this.filterFormControl.setValue("");
+    this.matAutocompleteTrigger.openPanel();
   }
 
   public removeOption(index: number) {
