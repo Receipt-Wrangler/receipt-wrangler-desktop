@@ -32,6 +32,13 @@ export class PrettyJsonPipe implements PipeTransform {
 
   private getCleanedJsonString(resultDescription: string): string {
     let parsedJson = JSON.parse(resultDescription);
+
+    for (let key in parsedJson) {
+      if (typeof parsedJson[key] === "string" && parsedJson[key].includes("\"")) {
+        parsedJson[key] = parsedJson[key].replace(/"/g, "'");
+      }
+    }
+
     let jsonString = JSON.stringify(parsedJson);
 
     jsonString = jsonString.replace(/\\t/g, "");
