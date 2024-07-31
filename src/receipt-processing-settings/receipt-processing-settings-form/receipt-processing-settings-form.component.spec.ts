@@ -72,6 +72,7 @@ describe("ReceiptProcessingSettingsFormComponent", () => {
       key: null,
       url: null,
       model: null,
+      isVisionModel: null,
     });
   });
 
@@ -84,6 +85,7 @@ describe("ReceiptProcessingSettingsFormComponent", () => {
       aiType: AiType.OpenAi,
       key: "key",
       promptId: 1,
+      isVisionModel: false,
     } as ReceiptProcessingSettings;
 
     activatedRoute.snapshot.data["receiptProcessingSettings"] = settings;
@@ -98,6 +100,7 @@ describe("ReceiptProcessingSettingsFormComponent", () => {
       key: settings.key,
       url: null,
       model: null,
+      isVisionModel: settings.isVisionModel,
     });
   });
 });
