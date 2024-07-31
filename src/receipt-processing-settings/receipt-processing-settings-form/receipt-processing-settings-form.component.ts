@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
-import { take, tap } from "rxjs";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { startWith, take, tap } from "rxjs";
 import { DEFAULT_DIALOG_CONFIG } from "../../constants";
 import { FormMode } from "../../enums/form-mode.enum";
 import { BaseFormComponent } from "../../form";
@@ -25,6 +26,7 @@ import { TaskTableComponent } from "../../shared-ui/task-table/task-table.compon
 import { aiTypeOptions } from "../constants/ai-type-options";
 import { ocrEngineOptions } from "../constants/ocr-engine-options";
 
+@UntilDestroy()
 @Component({
   selector: "app-receipt-processing-settings-form",
   templateUrl: "./receipt-processing-settings-form.component.html",
@@ -45,7 +47,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
   protected readonly openAiCustomSpecificFields: string[] = ["url", "model"];
 
-  protected readonly ollamaSpecificFields = ["url", "model"];
+  protected readonly ollamaSpecificFields = ["url", "model", "isVisionModel"];
 
   public readonly aiTypeOptions: FormOption[] = aiTypeOptions;
 
@@ -75,6 +77,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
   }
 
+
   private initForm(): void {
     this.form = this.formBuilder.group({
       name: [this.originalReceiptProcessingSettings?.name, Validators.required],
@@ -85,20 +88,38 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
       key: [this.originalReceiptProcessingSettings?.key],
       url: [this.originalReceiptProcessingSettings?.url],
       model: [this.originalReceiptProcessingSettings?.model],
+      isVisionModel: [this.originalReceiptProcessingSettings?.isVisionModel],
     });
 
     this.listenForTypeChange();
+    this.listenForIsVisionModelChange();
 
     if (this.formConfig.mode === FormMode.view) {
       this.form.get("ocrEngine")?.disable();
       this.form.get("aiType")?.disable();
       this.form.get("promptId")?.disable();
+      this.form.get("isVisionModel")?.disable();
     }
+  }
+
+  private listenForIsVisionModelChange(): void {
+    this.form.get("isVisionModel")?.valueChanges
+      .pipe(
+        untilDestroyed(this),
+        startWith(this.form.get("isVisionModel")?.value),
+        tap((isVisionModel: boolean) => {
+          if (isVisionModel) {
+            this.form.get("ocrEngine")?.disable();
+          } else {
+            this.form.get("ocrEngine")?.enable();
+          }
+        })).subscribe();
   }
 
   private listenForTypeChange(): void {
     this.form.get("aiType")?.valueChanges
       .pipe(
+        untilDestroyed(this),
         tap((type: AiType) => {
           switch (type) {
             case AiType.Gemini:
@@ -127,6 +148,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     if (this.formConfig.mode === FormMode.edit && (originalType !== AiType.OpenAi || originalType !== AiType.Gemini)) {
       this.form.get("key")?.setValidators(Validators.required);
     }
+    this.form.get("isVisionModel")?.setValue(false);
   }
 
   private updateOpenAiCustomForm(): void {
@@ -136,6 +158,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     });
 
     this.form.get("url")?.setValidators(Validators.required);
+    this.form.get("isVisionModel")?.setValue(false);
   }
 
   private updateOllamaForm(): void {

@@ -35,6 +35,10 @@ export interface UpsertReceiptProcessingSettingsCommand {
      * LLM model
      */
     model?: string;
+    /**
+     * Is vision model
+     */
+    isVisionModel?: boolean;
     ocrEngine: OcrEngine;
     /**
      * Prompt foreign key

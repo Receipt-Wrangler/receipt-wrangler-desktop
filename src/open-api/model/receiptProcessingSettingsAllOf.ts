@@ -36,6 +36,10 @@ export interface ReceiptProcessingSettingsAllOf {
      * LLM model
      */
     model?: string;
+    /**
+     * Is vision model
+     */
+    isVisionModel?: boolean;
     ocrEngine?: OcrEngine;
     prompt?: Prompt;
     /**
