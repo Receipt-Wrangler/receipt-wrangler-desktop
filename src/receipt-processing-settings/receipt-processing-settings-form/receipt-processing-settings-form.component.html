@@ -58,26 +58,35 @@
           [showVisibilityEye]="true"
         ></app-input>
       </ng-container>
-      <ng-container *ngIf="(form | formGet: 'aiType')?.value === AiType.OpenAiCustom ||
-      (form | formGet: 'aiType')?.value === AiType.Ollama">
+
+      @if ((form | formGet: 'aiType')?.value === AiType.OpenAiCustom ||
+      (form | formGet: 'aiType')?.value === AiType.Ollama) {
         <app-input
           label="Url"
           [readonly]="formConfig.mode | inputReadonly"
           [inputFormControl]="form | formGet: 'url'"
         ></app-input>
+      }
+
+      @if ((form | formGet: 'aiType')?.value === AiType.OpenAiCustom ||
+      (form | formGet: 'aiType')?.value === AiType.Ollama ||
+      (form | formGet: 'aiType')?.value === AiType.OpenAi) {
         <app-input
           label="Model"
           [readonly]="formConfig.mode | inputReadonly"
           [inputFormControl]="form | formGet: 'model'"
         ></app-input>
+      }
+
+      @if ((form | formGet: 'aiType')?.value === AiType.Ollama ||
+      (form | formGet: 'aiType')?.value === AiType.OpenAi) {
         <app-checkbox
-          *ngIf="(form | formGet: 'aiType')?.value === AiType.Ollama"
-          class="ms-4"
-          label="Is this a vision model?"
+          class="ms-4 mb-2 is-vision-model"
+          label="Use Vision?"
           [readonly]="formConfig.mode | inputReadonly"
           [inputFormControl]="form | formGet: 'isVisionModel'"
         ></app-checkbox>
-      </ng-container>
+      }
     </div>
   </app-form-section>
   <app-form-section
