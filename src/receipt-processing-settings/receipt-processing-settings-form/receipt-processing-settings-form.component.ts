@@ -43,7 +43,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
   protected readonly AiType = AiType;
 
-  protected readonly openAiGeminiSpecificFields: string[] = ["key"];
+  protected readonly openAiGeminiSpecificFields: string[] = ["key", "model", "isVisionModel"];
 
   protected readonly openAiCustomSpecificFields: string[] = ["url", "model"];
 
@@ -59,11 +59,11 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private receiptProcessingSettingsService: ReceiptProcessingSettingsService,
     private router: Router,
     private snackbarService: SnackbarService,
-    private dialog: MatDialog,
   ) {
     super();
   }
@@ -74,7 +74,6 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     this.prompts = this.activatedRoute.snapshot.data["prompts"];
     this.setFormConfigFromRoute(this.activatedRoute);
     this.initForm();
-
   }
 
 
@@ -148,7 +147,10 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     if (this.formConfig.mode === FormMode.edit && (originalType !== AiType.OpenAi || originalType !== AiType.Gemini)) {
       this.form.get("key")?.setValidators(Validators.required);
     }
-    this.form.get("isVisionModel")?.setValue(false);
+
+    if (this.form?.get("aiType")?.value === AiType.Gemini) {
+      this.form.get("isVisionModel")?.setValue(false);
+    }
   }
 
   private updateOpenAiCustomForm(): void {
@@ -158,7 +160,6 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
     });
 
     this.form.get("url")?.setValidators(Validators.required);
-    this.form.get("isVisionModel")?.setValue(false);
   }
 
   private updateOllamaForm(): void {
