@@ -70,6 +70,13 @@
           [readonly]="formConfig.mode | inputReadonly"
           [inputFormControl]="form | formGet: 'model'"
         ></app-input>
+        <app-checkbox
+          *ngIf="(form | formGet: 'aiType')?.value === AiType.Ollama"
+          class="ms-4"
+          label="Is this a vision model?"
+          [readonly]="formConfig.mode | inputReadonly"
+          [inputFormControl]="form | formGet: 'isVisionModel'"
+        ></app-checkbox>
       </ng-container>
     </div>
   </app-form-section>

@@ -197,10 +197,10 @@ export class ReceiptService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createReceipt(upsertReceiptCommand: UpsertReceiptCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public createReceipt(upsertReceiptCommand: UpsertReceiptCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public createReceipt(upsertReceiptCommand: UpsertReceiptCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public createReceipt(upsertReceiptCommand: UpsertReceiptCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public createReceipt(upsertReceiptCommand: UpsertReceiptCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Receipt>;
+    public createReceipt(upsertReceiptCommand: UpsertReceiptCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Receipt>>;
+    public createReceipt(upsertReceiptCommand: UpsertReceiptCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Receipt>>;
+    public createReceipt(upsertReceiptCommand: UpsertReceiptCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (upsertReceiptCommand === null || upsertReceiptCommand === undefined) {
             throw new Error('Required parameter upsertReceiptCommand was null or undefined when calling createReceipt.');
         }
@@ -218,6 +218,7 @@ export class ReceiptService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -252,7 +253,7 @@ export class ReceiptService {
         }
 
         let localVarPath = `/receipt/`;
-        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Receipt>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: upsertReceiptCommand,
@@ -760,10 +761,10 @@ export class ReceiptService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateReceipt(receiptId: number, upsertReceiptCommand: UpsertReceiptCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public updateReceipt(receiptId: number, upsertReceiptCommand: UpsertReceiptCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public updateReceipt(receiptId: number, upsertReceiptCommand: UpsertReceiptCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public updateReceipt(receiptId: number, upsertReceiptCommand: UpsertReceiptCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public updateReceipt(receiptId: number, upsertReceiptCommand: UpsertReceiptCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Receipt>;
+    public updateReceipt(receiptId: number, upsertReceiptCommand: UpsertReceiptCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Receipt>>;
+    public updateReceipt(receiptId: number, upsertReceiptCommand: UpsertReceiptCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Receipt>>;
+    public updateReceipt(receiptId: number, upsertReceiptCommand: UpsertReceiptCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (receiptId === null || receiptId === undefined) {
             throw new Error('Required parameter receiptId was null or undefined when calling updateReceipt.');
         }
@@ -784,6 +785,7 @@ export class ReceiptService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -818,7 +820,7 @@ export class ReceiptService {
         }
 
         let localVarPath = `/receipt/${this.configuration.encodeParam({name: "receiptId", value: receiptId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: undefined})}`;
-        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Receipt>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: upsertReceiptCommand,

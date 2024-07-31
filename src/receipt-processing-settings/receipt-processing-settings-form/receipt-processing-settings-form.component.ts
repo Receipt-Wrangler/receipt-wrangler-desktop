@@ -45,7 +45,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
 
   protected readonly openAiCustomSpecificFields: string[] = ["url", "model"];
 
-  protected readonly ollamaSpecificFields = ["url", "model"];
+  protected readonly ollamaSpecificFields = ["url", "model", "isVisionModel"];
 
   public readonly aiTypeOptions: FormOption[] = aiTypeOptions;
 
@@ -85,6 +85,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
       key: [this.originalReceiptProcessingSettings?.key],
       url: [this.originalReceiptProcessingSettings?.url],
       model: [this.originalReceiptProcessingSettings?.model],
+      isVisionModel: [this.originalReceiptProcessingSettings?.isVisionModel],
     });
 
     this.listenForTypeChange();
@@ -93,6 +94,7 @@ export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent im
       this.form.get("ocrEngine")?.disable();
       this.form.get("aiType")?.disable();
       this.form.get("promptId")?.disable();
+      this.form.get("isVisionModel")?.disable();
     }
   }
 
