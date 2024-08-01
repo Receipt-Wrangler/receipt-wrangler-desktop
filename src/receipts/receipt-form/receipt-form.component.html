@@ -107,7 +107,7 @@
                 showImages
               "
               [ngClass]="{
-              'col-3': !(userPreferences | async)?.showLargeImagePreviews
+              'col-3': !showLargeImagePreview
               }"
             >
               <ng-container *ngIf="imagesLoading">
@@ -278,6 +278,14 @@
         (clicked)="downloadImage()"
       ></app-button>
     }
+    <app-button
+      matButtonType="iconButton"
+      color="accent"
+      [icon]="showLargeImagePreview ? 'unfold_less' : 'unfold_more'"
+      [tooltip]="showLargeImagePreview ? 'Collapse Image' : 'Expand Image'"
+      [disabled]="(showProgressBar | async) ?? false"
+      (clicked)="toggleImagePreviewSize()"
+    ></app-button>
     <app-button
       matButtonType="iconButton"
       icon="fullscreen"

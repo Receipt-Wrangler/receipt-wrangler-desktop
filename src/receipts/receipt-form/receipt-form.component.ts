@@ -115,6 +115,8 @@ export class ReceiptFormComponent implements OnInit {
 
   public receiptStatusOptions = RECEIPT_STATUS_OPTIONS;
 
+  public showLargeImagePreview: boolean = false;
+
   constructor(
     private receiptService: ReceiptService,
     private receiptImageService: ReceiptImageService,
@@ -138,7 +140,12 @@ export class ReceiptFormComponent implements OnInit {
     this.initForm();
     this.getImageFiles();
     this.setHeaderText();
+    this.setShowLargeImagePreview();
     this.listenForParamChanges();
+  }
+
+  private setShowLargeImagePreview(): void {
+    this.showLargeImagePreview = this.store.selectSnapshot(AuthState.userPreferences)?.showLargeImagePreviews ?? false;
   }
 
   private setHeaderText(): void {
@@ -490,6 +497,10 @@ export class ReceiptFormComponent implements OnInit {
 
   public zoomImageOut(): void {
     this.carouselComponent.zoomOut();
+  }
+
+  public toggleImagePreviewSize(): void {
+    this.showLargeImagePreview = !this.showLargeImagePreview;
   }
 
   public expandImage(): void {
