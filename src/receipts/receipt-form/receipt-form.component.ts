@@ -16,9 +16,20 @@ import { LayoutState } from "src/store/layout.state";
 import { HideProgressBar, ShowProgressBar } from "src/store/layout.state.actions";
 import { UserAutocompleteComponent } from "src/user-autocomplete/user-autocomplete/user-autocomplete.component";
 import { ReceiptFileUploadCommand } from "../../interfaces";
-import { Category, FileDataView, Group, GroupRole, Receipt, ReceiptImageService, ReceiptService, ReceiptStatus, Tag } from "../../open-api";
+import {
+  Category,
+  FileDataView,
+  Group,
+  GroupRole,
+  Receipt,
+  ReceiptImageService,
+  ReceiptService,
+  ReceiptStatus,
+  Tag,
+  UserPreferences
+} from "../../open-api";
 import { SnackbarService } from "../../services";
-import { FeatureConfigState, GroupState, UserState } from "../../store";
+import { AuthState, FeatureConfigState, GroupState, UserState } from "../../store";
 import { ItemListComponent } from "../item-list/item-list.component";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 
@@ -53,7 +64,8 @@ export class ReceiptFormComponent implements OnInit {
   @ViewChild(CarouselComponent)
   public carouselComponent!: CarouselComponent;
 
-  @Select(GroupState.groupsWithoutAll) public groups!: Observable<Group[]>;
+  @Select(GroupState.groupsWithoutAll)
+  public groups!: Observable<Group[]>;
 
   @Select(GroupState.receiptListLink)
   public receiptListLink!: Observable<string>;
@@ -63,6 +75,9 @@ export class ReceiptFormComponent implements OnInit {
 
   @Select(LayoutState.showProgressBar)
   public showProgressBar!: Observable<boolean>;
+
+  @Select(AuthState.userPreferences)
+  public userPreferences!: Observable<UserPreferences>;
 
   protected readonly FormMode = FormMode;
 

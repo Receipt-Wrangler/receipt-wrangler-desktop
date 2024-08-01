@@ -106,7 +106,9 @@
                 (images.length > 0 || filesToUpload.length > 0) &&
                 showImages
               "
-              class="col-3"
+              [ngClass]="{
+              'col-3': !(userPreferences | async)?.showLargeImagePreviews
+              }"
             >
               <ng-container *ngIf="imagesLoading">
                 <div class="d-flex justify-content-center align-items-center">

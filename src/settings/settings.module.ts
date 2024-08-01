@@ -7,6 +7,7 @@ import { ColorPickerModule } from "src/color-picker/color-picker.module";
 import { PipesModule } from "src/pipes/pipes.module";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.module";
+import { CheckboxModule } from "../checkbox/checkbox.module";
 import { DirectivesModule } from "../directives";
 import { InputModule } from "../input";
 import { SettingsRoutingModule } from "./settings-routing.module";
@@ -32,6 +33,7 @@ import { UserProfileComponent } from "./user-profile/user-profile.component";
     SettingsRoutingModule,
     SharedUiModule,
     UserAutocompleteModule,
+    CheckboxModule,
   ],
 })
 export class SettingsModule {}
