@@ -1,13 +1,13 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Store} from "@ngxs/store";
-import {take, tap} from "rxjs";
-import {FormMode} from "src/enums/form-mode.enum";
-import {FormConfig} from "src/interfaces";
-import {UserPreferencesService} from "../../open-api";
-import {SnackbarService} from "../../services";
-import {AuthState, SetUserPreferences} from "../../store";
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Store } from "@ngxs/store";
+import { take, tap } from "rxjs";
+import { FormMode } from "src/enums/form-mode.enum";
+import { FormConfig } from "src/interfaces";
+import { UserPreferencesService } from "../../open-api";
+import { SnackbarService } from "../../services";
+import { AuthState, SetUserPreferences } from "../../store";
 
 @Component({
   selector: "app-user-preferences",
@@ -41,13 +41,16 @@ export class UserPreferencesComponent implements OnInit {
       AuthState.userPreferences
     );
     this.form = this.formBuilder.group({
+      showLargeImagePreviews: userPreferences?.showLargeImagePreviews ?? false,
       quickScanDefaultPaidById: userPreferences?.quickScanDefaultPaidById ?? "",
       quickScanDefaultGroupId: userPreferences?.quickScanDefaultGroupId ?? "",
       quickScanDefaultStatus: userPreferences?.quickScanDefaultStatus ?? "",
+
     });
 
     if (this.formConfig.mode === FormMode.view) {
       this.form.get("quickScanDefaultStatus")?.disable();
+      this.form.get("showLargeImagePreviews")?.disable();
     }
   }
 
@@ -63,7 +66,7 @@ export class UserPreferencesComponent implements OnInit {
       }
 
       this.userPreferencesService
-        .updateUserPreferences(this.form.value)
+        .updateUserPreferences(result)
         .pipe(
           take(1),
           tap((updatedUserPreferences) => {

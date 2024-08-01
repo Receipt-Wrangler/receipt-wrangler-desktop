@@ -106,7 +106,9 @@
                 (images.length > 0 || filesToUpload.length > 0) &&
                 showImages
               "
-              class="col-3"
+              [ngClass]="{
+              'col-3': !showLargeImagePreview
+              }"
             >
               <ng-container *ngIf="imagesLoading">
                 <div class="d-flex justify-content-center align-items-center">
@@ -278,8 +280,16 @@
     }
     <app-button
       matButtonType="iconButton"
-      icon="open_in_full"
-      tooltip="Expand image"
+      color="accent"
+      [icon]="showLargeImagePreview ? 'unfold_less' : 'unfold_more'"
+      [tooltip]="showLargeImagePreview ? 'Collapse Image' : 'Expand Image'"
+      [disabled]="(showProgressBar | async) ?? false"
+      (clicked)="toggleImagePreviewSize()"
+    ></app-button>
+    <app-button
+      matButtonType="iconButton"
+      icon="fullscreen"
+      tooltip="Show Fullscreen Image"
       color="accent"
       [disabled]="(showProgressBar | async) ?? false"
       (clicked)="expandImage()"

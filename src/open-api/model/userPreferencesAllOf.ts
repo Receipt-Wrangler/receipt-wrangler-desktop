@@ -30,5 +30,9 @@ export interface UserPreferencesAllOf {
      */
     quickScanDefaultPaidById?: number;
     quickScanDefaultStatus?: ReceiptStatus;
+    /**
+     * Whether to show large image previews
+     */
+    showLargeImagePreviews?: boolean;
 }
 
