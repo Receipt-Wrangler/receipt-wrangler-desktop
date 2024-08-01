@@ -54,6 +54,7 @@ describe("UserPreferencesComponent", () => {
       quickScanDefaultPaidById: "",
       quickScanDefaultGroupId: "",
       quickScanDefaultStatus: "",
+      showLargeImagePreviews: false,
     });
   });
 
@@ -67,6 +68,7 @@ describe("UserPreferencesComponent", () => {
           quickScanDefaultPaidById: "1",
           quickScanDefaultGroupId: "2",
           quickScanDefaultStatus: "OPEN",
+          showLargeImagePreviews: true,
         },
       },
     });
@@ -76,6 +78,7 @@ describe("UserPreferencesComponent", () => {
       quickScanDefaultPaidById: "1",
       quickScanDefaultGroupId: "2",
       quickScanDefaultStatus: "OPEN",
+      showLargeImagePreviews: true,
     });
   });
 
@@ -112,6 +115,7 @@ describe("UserPreferencesComponent", () => {
       quickScanDefaultPaidById: null,
       quickScanDefaultGroupId: null,
       quickScanDefaultStatus: "",
+      showLargeImagePreviews: false,
     } as any);
   });
 });
