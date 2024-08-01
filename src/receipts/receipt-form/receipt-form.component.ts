@@ -493,7 +493,10 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public expandImage(): void {
-    this.matDialog.open(this.expandedImageTemplate, {});
+    this.matDialog.open(this.expandedImageTemplate, {
+      width: "75%",
+      height: "100%",
+    });
   }
 
   public downloadImage(): void {
