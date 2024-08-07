@@ -117,6 +117,10 @@ export class ReceiptFormComponent implements OnInit {
 
   public showLargeImagePreview: boolean = false;
 
+  public queueIds: string[] = [];
+
+  public queueIndex: number = -1;
+
   constructor(
     private receiptService: ReceiptService,
     private receiptImageService: ReceiptImageService,
@@ -142,6 +146,14 @@ export class ReceiptFormComponent implements OnInit {
     this.setHeaderText();
     this.setShowLargeImagePreview();
     this.listenForParamChanges();
+    this.setQueueData();
+  }
+
+  private setQueueData(): void {
+    this.queueIds = this.activatedRoute.snapshot.queryParams["ids"] ?? [];
+    if (this.queueIds.length > 0) {
+      this.queueIndex = this.queueIds.indexOf(this.originalReceipt?.id.toString() ?? "");
+    }
   }
 
   private setShowLargeImagePreview(): void {
