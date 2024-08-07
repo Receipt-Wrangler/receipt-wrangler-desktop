@@ -1,8 +1,13 @@
 <app-card>
   <ng-container header>
-    <h3>
-      {{ widget.name }}
-    </h3>
+    <div class="d-flex align-items-center justify-content-center">
+      <h3>
+        {{ widget.name }}
+      </h3>
+      <app-edit-button
+        color="accent"
+      ></app-edit-button>
+    </div>
   </ng-container>
   <div class="content-container" content>
     <cdk-virtual-scroll-viewport
