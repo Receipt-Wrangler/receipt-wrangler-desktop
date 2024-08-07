@@ -5,6 +5,7 @@ import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
 import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../open-api";
+import { ReceiptQueueService } from "../../services/receipt-queue.service";
 import { GroupState } from "../../store";
 
 @UntilDestroy()
@@ -27,9 +28,10 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
   public receipts: Receipt[] = [];
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private receiptFilterService: ReceiptFilterService,
+    private receiptQueueService: ReceiptQueueService,
     private store: Store,
-    private cdr: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -80,5 +82,11 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe();
+  }
+
+  public queueEdit(): void {
+    this.receiptQueueService.initQueueAndNavigate(
+      this.receipts.map((receipt) => receipt.id.toString())
+    );
   }
 }
