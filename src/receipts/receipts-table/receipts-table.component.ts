@@ -30,6 +30,7 @@ import {
 } from "../../open-api";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
 import { SnackbarService } from "../../services";
+import { ReceiptQueueService } from "../../services/receipt-queue.service";
 import { ReceiptFilterComponent } from "../../shared-ui/receipt-filter/receipt-filter.component";
 import { GroupState } from "../../store";
 import { BulkStatusUpdateComponent } from "../bulk-resolve-dialog/bulk-status-update-dialog.component";
@@ -47,14 +48,15 @@ import { BulkStatusUpdateComponent } from "../bulk-resolve-dialog/bulk-status-up
 export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(
     private activatedRoute: ActivatedRoute,
+    private groupPipe: GroupRolePipe,
     private groupsService: GroupsService,
     private matDialog: MatDialog,
     private receiptFilterService: ReceiptFilterService,
+    private receiptQueueService: ReceiptQueueService,
     private receiptService: ReceiptService,
     private router: Router,
     private snackbarService: SnackbarService,
     private store: Store,
-    private groupPipe: GroupRolePipe
   ) {}
 
   @ViewChild("createdAtCell") createdAtCell!: TemplateRef<any>;
@@ -398,6 +400,10 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new SetPageSize(pageEvent.pageSize));
 
     this.getFilteredReceipts();
+  }
+
+  public initQueue(): void {
+    this.receiptQueueService.initQueueAndNavigate(this.selectedReceiptIds.map((id) => id.toString()));
   }
 
   public showStatusUpdateDialog(): void {

@@ -13,6 +13,8 @@ export class FormHeaderComponent {
 
   @Input() public bottomSpacing: boolean = false;
 
+  @Input() public displayBackButton: boolean = true;
+
   constructor(private location: Location) {}
 
   public navigateBack(): void {

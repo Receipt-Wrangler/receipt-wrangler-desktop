@@ -2,6 +2,7 @@
   <app-form-header
     [headerText]="(formHeaderText | async) ?? ''"
     [headerButtonsTemplate]="formHeaderButtons"
+    [displayBackButton]="queueIndex === -1"
   ></app-form-header>
   <div class="row g-1">
     <div class="col g-4">

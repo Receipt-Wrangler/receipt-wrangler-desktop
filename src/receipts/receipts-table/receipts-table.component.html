@@ -49,9 +49,17 @@
     <app-button
       @fadeInOut
       *ngIf="(selectedReceiptIds.length ?? false) && canEdit"
+      class="me-2"
       buttonText="Bulk Status Update"
       color="accent"
       (click)="showStatusUpdateDialog()"
+    ></app-button>
+    <app-button
+      @fadeInOut
+      *ngIf="(selectedReceiptIds.length ?? false) && canEdit"
+      buttonText="Queue Edit"
+      color="accent"
+      (click)="initQueue()"
     ></app-button>
   </div>
 </app-table-header>
