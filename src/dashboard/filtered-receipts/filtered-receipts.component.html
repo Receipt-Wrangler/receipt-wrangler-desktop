@@ -5,13 +5,13 @@
         {{ widget.name }}
       </h3>
       @if (receipts.length > 0) {
-        <app-button
-          color="accent"
+        <app-queue-start-menu
+          [receipts]="receipts"
           matButtonType="iconButton"
-          icon="queue_play_next"
-          tooltip="Queue edit"
-          (clicked)="queueEdit()"
-        ></app-button>
+          buttonIcon="queue_play_next"
+          color="accent"
+        >
+        </app-queue-start-menu>
       }
     </div>
   </ng-container>

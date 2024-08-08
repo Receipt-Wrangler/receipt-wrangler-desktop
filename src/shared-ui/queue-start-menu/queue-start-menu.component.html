@@ -1,0 +1,12 @@
+<app-button
+  [matButtonType]="matButtonType"
+  [matMenuTriggerFor]="menu"
+  [buttonText]="buttonText"
+  [color]="color"
+  [icon]="buttonIcon"
+  tooltip="Start queue"
+></app-button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="initQueue(QueueMode.VIEW)">View Mode</button>
+  <button mat-menu-item (click)="initQueue(QueueMode.EDIT)">Edit Mode</button>
+</mat-menu>

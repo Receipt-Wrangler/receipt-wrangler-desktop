@@ -29,7 +29,7 @@ import {
   UserPreferences
 } from "../../open-api";
 import { SnackbarService } from "../../services";
-import { ReceiptQueueService } from "../../services/receipt-queue.service";
+import { QueueMode, ReceiptQueueService } from "../../services/receipt-queue.service";
 import { AuthState, FeatureConfigState, GroupState, UserState } from "../../store";
 import { ItemListComponent } from "../item-list/item-list.component";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
@@ -124,6 +124,8 @@ export class ReceiptFormComponent implements OnInit {
 
   public queueIndex: number = -1;
 
+  public queueMode: QueueMode | undefined;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -173,6 +175,8 @@ export class ReceiptFormComponent implements OnInit {
     if (this.queueIndex != this.queueIds.length - 1) {
       this.submitButtonText = "Save & Next";
     }
+
+    this.queueMode = this.activatedRoute.snapshot.queryParams["queueMode"];
   }
 
   private setShowLargeImagePreview(): void {
@@ -565,13 +569,13 @@ export class ReceiptFormComponent implements OnInit {
 
   public queueNext(): void {
     if (this.queueIndex < this.queueIds.length - 1) {
-      this.receiptQueueService.queueNext(this.queueIndex, this.queueIds);
+      this.receiptQueueService.queueNext(this.queueIndex, this.queueIds, this.queueMode ?? QueueMode.VIEW,);
     }
   }
 
   public queuePrevious(): void {
     if (this.queueIndex > 0) {
-      this.receiptQueueService.queuePrevious(this.queueIndex, this.queueIds);
+      this.receiptQueueService.queuePrevious(this.queueIndex, this.queueIds, this.queueMode ?? QueueMode.VIEW,);
     }
   }
 

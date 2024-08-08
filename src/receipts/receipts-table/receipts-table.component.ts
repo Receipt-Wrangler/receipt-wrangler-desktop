@@ -401,11 +401,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
     this.getFilteredReceipts();
   }
-
-  public initQueue(): void {
-    this.receiptQueueService.initQueueAndNavigate(this.selectedReceiptIds.map((id) => id.toString()));
-  }
-
+  
   public showStatusUpdateDialog(): void {
     const ref = this.matDialog.open(
       BulkStatusUpdateComponent,

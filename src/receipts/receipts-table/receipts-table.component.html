@@ -54,13 +54,11 @@
       color="accent"
       (click)="showStatusUpdateDialog()"
     ></app-button>
-    <app-button
-      @fadeInOut
-      *ngIf="(selectedReceiptIds.length ?? false) && canEdit"
-      buttonText="Queue Edit"
+    <app-queue-start-menu
+      buttonText="Start Queue"
       color="accent"
-      (click)="initQueue()"
-    ></app-button>
+      [receiptIds]="selectedReceiptIds"
+    ></app-queue-start-menu>
   </div>
 </app-table-header>
 <app-summary-card
