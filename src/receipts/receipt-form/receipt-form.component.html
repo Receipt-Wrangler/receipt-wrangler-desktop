@@ -5,9 +5,19 @@
   ></app-form-header>
   <div class="row g-1">
     <div class="col g-4">
+      @if (queueIndex > -1) {
+        <app-form-section
+          class="col"
+          headerText="Queue Position"
+          [indent]="false"
+        >
+          <div class="mb-2">
+            Receipt {{ queueIndex + 1 }} of {{ queueIds.length }}
+          </div>
+        </app-form-section>
+      }
       <ng-container *ngIf="mode !== formMode.add">
         <app-audit-detail-section
-          class="g-0 m-0 p-0"
           [data]="originalReceipt"
           [formMode]="mode"
           [indent]="false"
