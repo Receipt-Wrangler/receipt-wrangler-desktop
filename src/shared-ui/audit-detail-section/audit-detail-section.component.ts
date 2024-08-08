@@ -10,5 +10,8 @@ export class AuditDetailSectionComponent {
   @Input() data!: any;
 
   @Input() formMode!: FormMode;
+
+  @Input() public indent: boolean = true;
+
   protected readonly FormMode = FormMode;
 }
