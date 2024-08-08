@@ -296,15 +296,6 @@
     (clicked)="uploadImageButtonClicked()"
   ></app-button>
   @if (images && (images.length > 0 || filesToUpload.length > 0)) {
-    <app-button
-      class="mb-4"
-      color="accent"
-      matButtonType="iconButton"
-      [icon]="showImages ? 'visibility_off' : 'visibility'"
-      [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
-      [disabled]="(showProgressBar | async) ?? false"
-      (clicked)="toggleShowImages()"
-    ></app-button>
     @if (this.mode != FormMode.add) {
       <app-button
         class="mb-4"
@@ -316,6 +307,15 @@
         (clicked)="downloadImage()"
       ></app-button>
     }
+    <app-button
+      class="mb-4"
+      color="accent"
+      matButtonType="iconButton"
+      [icon]="showImages ? 'visibility_off' : 'visibility'"
+      [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
+      [disabled]="(showProgressBar | async) ?? false"
+      (clicked)="toggleShowImages()"
+    ></app-button>
     <app-button
       matButtonType="iconButton"
       color="accent"
