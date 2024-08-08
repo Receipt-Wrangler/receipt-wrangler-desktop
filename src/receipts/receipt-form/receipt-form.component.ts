@@ -102,6 +102,8 @@ export class ReceiptFormComponent implements OnInit {
 
   public cancelLink = "";
 
+  public submitButtonText = "Save";
+
   public imagesLoading: boolean = false;
 
   public showImages: boolean = true;
@@ -166,6 +168,10 @@ export class ReceiptFormComponent implements OnInit {
     this.queueIds = this.activatedRoute.snapshot.queryParams["ids"] ?? [];
     if (this.queueIds.length > 0) {
       this.queueIndex = this.queueIds.indexOf(this.originalReceipt?.id.toString() ?? "");
+    }
+
+    if (this.queueIndex != this.queueIds.length - 1) {
+      this.submitButtonText = "Save & Next";
     }
   }
 
@@ -625,7 +631,15 @@ export class ReceiptFormComponent implements OnInit {
         take(1),
         tap(() => {
           this.snackbarService.success("Successfully updated receipt");
-          this.router.navigate([`/receipts/${this.originalReceipt?.id}/view`]);
+
+          if (this.queueIndex === -1) {
+            this.router.navigate([`/receipts/${this.originalReceipt?.id}/view`]);
+          } else if (this.queueIndex >= 0 && this.queueIndex !== this.queueIds.length - 1) {
+            console.warn("hit on update");
+            this.queueNext();
+          } else if (this.queueIndex === this.queueIds.length - 1) {
+            this.snackbarService.success("Successfully updated receipt. Congratulations! You have reached the end of the queue.");
+          }
         })
       )
       .subscribe();

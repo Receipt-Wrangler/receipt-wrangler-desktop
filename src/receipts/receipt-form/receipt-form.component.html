@@ -168,7 +168,7 @@
           [mode]="mode"
           [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
           [disableOnLoading]="true"
-          [buttonText]="queueIndex > -1 ? 'Save & Next' : undefined"
+          [buttonText]="submitButtonText"
         ></app-submit-button>
         @if (queueIndex > -1 && queueIndex != queueIds.length - 1) {
           <app-button
