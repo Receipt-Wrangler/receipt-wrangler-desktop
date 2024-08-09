@@ -3,6 +3,7 @@
   icon="done"
   matButtonType="iconButton"
   buttonClass="mat-success-icon"
+  [buttonText]="buttonText ?? 'Save'"
   [type]="type || 'submit'"
   [tooltip]="tooltip ?? 'Save'"
   (clicked)="clicked.emit()"

@@ -1,4 +1,4 @@
-import { Component, EmbeddedViewRef, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Component, EmbeddedViewRef, HostListener, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { MatExpansionPanel } from "@angular/material/expansion";
@@ -29,6 +29,7 @@ import {
   UserPreferences
 } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { QueueMode, ReceiptQueueService } from "../../services/receipt-queue.service";
 import { AuthState, FeatureConfigState, GroupState, UserState } from "../../store";
 import { ItemListComponent } from "../item-list/item-list.component";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
@@ -101,6 +102,8 @@ export class ReceiptFormComponent implements OnInit {
 
   public cancelLink = "";
 
+  public submitButtonText = "Save";
+
   public imagesLoading: boolean = false;
 
   public showImages: boolean = true;
@@ -117,16 +120,33 @@ export class ReceiptFormComponent implements OnInit {
 
   public showLargeImagePreview: boolean = false;
 
+  public queueIds: string[] = [];
+
+  public queueIndex: number = -1;
+
+  public queueMode: QueueMode | undefined;
+
   constructor(
-    private receiptService: ReceiptService,
-    private receiptImageService: ReceiptImageService,
-    private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private snackbarService: SnackbarService,
+    private formBuilder: FormBuilder,
     private matDialog: MatDialog,
+    private receiptImageService: ReceiptImageService,
+    private receiptQueueService: ReceiptQueueService,
+    private receiptService: ReceiptService,
+    private router: Router,
+    private snackbarService: SnackbarService,
     private store: Store,
-    private router: Router
   ) {}
+
+  @HostListener("window:keydown", ["$event"])
+  public handleKeyboardEvent(event: KeyboardEvent): void {
+    if (event.key === "ArrowRight" && this.queueIds.length > 0) {
+      this.queueNext();
+    } else if (event.key === "ArrowLeft" && this.queueIds.length > 0) {
+      this.queuePrevious();
+    }
+  }
+
 
   public form: FormGroup = new FormGroup({});
 
@@ -142,6 +162,21 @@ export class ReceiptFormComponent implements OnInit {
     this.setHeaderText();
     this.setShowLargeImagePreview();
     this.listenForParamChanges();
+    this.setQueueData();
+    document.scrollingElement?.scrollTo(0, 0);
+  }
+
+  private setQueueData(): void {
+    this.queueIds = this.activatedRoute.snapshot.queryParams["ids"] ?? [];
+    if (this.queueIds.length > 0) {
+      this.queueIndex = this.queueIds.indexOf(this.originalReceipt?.id.toString() ?? "");
+    }
+
+    if (this.queueIndex != this.queueIds.length - 1) {
+      this.submitButtonText = "Save & Next";
+    }
+
+    this.queueMode = this.activatedRoute.snapshot.queryParams["queueMode"];
   }
 
   private setShowLargeImagePreview(): void {
@@ -532,6 +567,18 @@ export class ReceiptFormComponent implements OnInit {
     this.itemListComponent.initAddMode();
   }
 
+  public queueNext(): void {
+    if (this.queueIndex < this.queueIds.length - 1) {
+      this.receiptQueueService.queueNext(this.queueIndex, this.queueIds, this.queueMode ?? QueueMode.VIEW,);
+    }
+  }
+
+  public queuePrevious(): void {
+    if (this.queueIndex > 0) {
+      this.receiptQueueService.queuePrevious(this.queueIndex, this.queueIds, this.queueMode ?? QueueMode.VIEW,);
+    }
+  }
+
   public submit(): void {
     if (this.itemsListComponent.userExpansionPanels.length > 0) {
       this.itemsListComponent.userExpansionPanels.forEach(
@@ -588,7 +635,15 @@ export class ReceiptFormComponent implements OnInit {
         take(1),
         tap(() => {
           this.snackbarService.success("Successfully updated receipt");
-          this.router.navigate([`/receipts/${this.originalReceipt?.id}/view`]);
+
+          if (this.queueIndex === -1) {
+            this.router.navigate([`/receipts/${this.originalReceipt?.id}/view`]);
+          } else if (this.queueIndex >= 0 && this.queueIndex !== this.queueIds.length - 1) {
+            console.warn("hit on update");
+            this.queueNext();
+          } else if (this.queueIndex === this.queueIds.length - 1) {
+            this.snackbarService.success("Successfully updated receipt. Congratulations! You have reached the end of the queue.");
+          }
         })
       )
       .subscribe();

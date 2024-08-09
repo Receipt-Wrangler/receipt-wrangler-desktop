@@ -1,8 +1,19 @@
 <app-card>
   <ng-container header>
-    <h3>
-      {{ widget.name }}
-    </h3>
+    <div class="d-flex align-items-center justify-content-center">
+      <h3>
+        {{ widget.name }}
+      </h3>
+      @if (receipts.length > 1) {
+        <app-queue-start-menu
+          [receipts]="receipts"
+          matButtonType="iconButton"
+          buttonIcon="queue_play_next"
+          color="accent"
+        >
+        </app-queue-start-menu>
+      }
+    </div>
   </ng-container>
   <div class="content-container" content>
     <cdk-virtual-scroll-viewport

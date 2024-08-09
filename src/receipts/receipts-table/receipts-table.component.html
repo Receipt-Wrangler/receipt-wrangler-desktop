@@ -46,13 +46,24 @@
         (clicked)="pollEmail()"
       ></app-button>
     </ng-container>
-    <app-button
-      @fadeInOut
-      *ngIf="(selectedReceiptIds.length ?? false) && canEdit"
-      buttonText="Bulk Status Update"
-      color="accent"
-      (click)="showStatusUpdateDialog()"
-    ></app-button>
+
+    @if (selectedReceiptIds.length > 0 && canEdit) {
+      <app-button
+        @fadeInOut
+        class="me-2"
+        buttonText="Bulk Status Update"
+        color="accent"
+        (click)="showStatusUpdateDialog()"
+      ></app-button>
+    }
+
+    @if (selectedReceiptIds.length > 1) {
+      <app-queue-start-menu
+        buttonText="Start Queue"
+        color="accent"
+        [receiptIds]="selectedReceiptIds"
+      ></app-queue-start-menu>
+    }
   </div>
 </app-table-header>
 <app-summary-card

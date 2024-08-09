@@ -2,13 +2,26 @@
   <app-form-header
     [headerText]="(formHeaderText | async) ?? ''"
     [headerButtonsTemplate]="formHeaderButtons"
+    [displayBackButton]="queueIndex === -1"
   ></app-form-header>
   <div class="row g-1">
     <div class="col g-4">
+      @if (queueIndex > -1) {
+        <app-form-section
+          class="col"
+          headerText="Queue"
+          [indent]="false"
+        >
+          <div class="mb-2">
+            Receipt {{ queueIndex + 1 }} of {{ queueIds.length }}
+          </div>
+        </app-form-section>
+      }
       <ng-container *ngIf="mode !== formMode.add">
         <app-audit-detail-section
           [data]="originalReceipt"
           [formMode]="mode"
+          [indent]="false"
         ></app-audit-detail-section>
       </ng-container>
       <div class="row">
@@ -146,15 +159,41 @@
     ></app-receipt-comments>
   </div>
 
-  <app-form-button-bar [mode]="mode">
-    <app-submit-button
-      *ngIf="!(mode | inputReadonly)"
-      class="mb-4"
-      [onlyIcon]="false"
-      [mode]="mode"
-      [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
-      [disableOnLoading]="true"
-    ></app-submit-button>
+  <app-form-button-bar
+    [mode]="queueIndex >= 0 ? FormMode.edit : mode"
+    [justifyContentEnd]="false"
+  >
+    <div class="w-100 row">
+      <div class="d-flex col">
+        @if (queueIndex > 0) {
+          <app-button
+            matButtonType="iconButton"
+            icon="arrow_back"
+            tooltip="Previous (Right Arrow)"
+            (clicked)="queuePrevious()"
+          ></app-button>
+        }
+      </div>
+      <div class="d-flex col align-items-center justify-content-end">
+        <app-submit-button
+          *ngIf="!(mode | inputReadonly)"
+          [onlyIcon]="false"
+          [mode]="mode"
+          [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
+          [disableOnLoading]="true"
+          [buttonText]="submitButtonText"
+        ></app-submit-button>
+        @if (queueIndex > -1 && queueIndex != queueIds.length - 1) {
+          <app-button
+            matButtonType="iconButton"
+            icon="arrow_forward"
+            tooltip="Next (Left Arrow)"
+            (clicked)="queueNext()"
+          ></app-button>
+        }
+      </div>
+
+    </div>
   </app-form-button-bar>
 </form>
 
@@ -258,15 +297,6 @@
     (clicked)="uploadImageButtonClicked()"
   ></app-button>
   @if (images && (images.length > 0 || filesToUpload.length > 0)) {
-    <app-button
-      class="mb-4"
-      color="accent"
-      matButtonType="iconButton"
-      [icon]="showImages ? 'visibility_off' : 'visibility'"
-      [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
-      [disabled]="(showProgressBar | async) ?? false"
-      (clicked)="toggleShowImages()"
-    ></app-button>
     @if (this.mode != FormMode.add) {
       <app-button
         class="mb-4"
@@ -278,6 +308,15 @@
         (clicked)="downloadImage()"
       ></app-button>
     }
+    <app-button
+      class="mb-4"
+      color="accent"
+      matButtonType="iconButton"
+      [icon]="showImages ? 'visibility_off' : 'visibility'"
+      [tooltip]="showImages ? 'Hide Images' : 'Show Images'"
+      [disabled]="(showProgressBar | async) ?? false"
+      (clicked)="toggleShowImages()"
+    ></app-button>
     <app-button
       matButtonType="iconButton"
       color="accent"

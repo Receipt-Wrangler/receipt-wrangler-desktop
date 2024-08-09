@@ -8,6 +8,7 @@ import { MatListModule } from "@angular/material/list";
 import { CheckboxModule } from "src/checkbox/checkbox.module";
 import { PipesModule } from "src/pipes/pipes.module";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
+import { ButtonModule } from "../button/index";
 import { InputModule } from "../input";
 import { DashboardFormComponent } from "./dashboard-form/dashboard-form.component";
 import { DashboardRoutingModule } from "./dashboard-routing.module";
@@ -35,6 +36,7 @@ import { GroupDashboardsComponent } from "./group-dashboards/group-dashboards.co
     ReactiveFormsModule,
     ScrollingModule,
     SharedUiModule,
+    ButtonModule,
   ],
 })
 export class DashboardModule {}

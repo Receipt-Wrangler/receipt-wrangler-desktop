@@ -8,6 +8,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
+import { MatMenuModule } from "@angular/material/menu";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -43,6 +44,7 @@ import { GroupAutocompleteComponent } from "./group-autocomplete/group-autocompl
 import { HelpIconComponent } from "./help-icon/help-icon.component";
 import { ImageViewerComponent } from "./image-viewer/image-viewer.component";
 import { PrettyJsonComponent } from "./pretty-json/pretty-json.component";
+import { QueueStartMenuComponent } from "./queue-start-menu/queue-start-menu.component";
 import { QuickScanButtonComponent } from "./quick-scan-button/quick-scan-button.component";
 import { OperationsPipe } from "./receipt-filter/operations.pipe";
 import { ReceiptFilterComponent } from "./receipt-filter/receipt-filter.component";
@@ -93,6 +95,7 @@ import { TaskTableComponent } from "./task-table/task-table.component";
     AccordionComponent,
     PrettyJsonComponent,
     ImageViewerComponent,
+    QueueStartMenuComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -117,6 +120,7 @@ import { TaskTableComponent } from "./task-table/task-table.component";
     RouterModule,
     SelectModule,
     SystemTaskTypePipe,
+    MatMenuModule,
     TableModule,
     UserAutocompleteModule,
   ],
@@ -154,6 +158,7 @@ import { TaskTableComponent } from "./task-table/task-table.component";
     AccordionComponent,
     PrettyJsonComponent,
     ImageViewerComponent,
+    QueueStartMenuComponent,
   ],
   providers: [CurrencyPipe],
 })

@@ -2,8 +2,13 @@
   *ngIf="mode && (mode === formMode.edit || mode == formMode.add)"
   class="mt-3 button-bar sticky-bottom"
 >
-  <hr />
-  <div class="d-flex p-2 button-container sticky-bottom justify-content-end">
+  <hr/>
+  <div
+    class="d-flex p-2 button-container sticky-bottom"
+    [ngClass]="{
+    'justify-content-end': justifyContentEnd
+    }"
+  >
     <ng-content></ng-content>
   </div>
 </div>

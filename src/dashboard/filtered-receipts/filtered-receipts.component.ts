@@ -5,6 +5,7 @@ import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
 import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../open-api";
+import { GroupRolePipe } from "../../pipes/group-role.pipe";
 import { GroupState } from "../../store";
 
 @UntilDestroy()
@@ -12,6 +13,7 @@ import { GroupState } from "../../store";
   selector: "app-filtered-receipts",
   templateUrl: "./filtered-receipts.component.html",
   styleUrls: ["./filtered-receipts.component.scss"],
+  providers: [GroupRolePipe],
   encapsulation: ViewEncapsulation.None,
 })
 export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
@@ -27,9 +29,9 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
   public receipts: Receipt[] = [];
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private receiptFilterService: ReceiptFilterService,
     private store: Store,
-    private cdr: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
