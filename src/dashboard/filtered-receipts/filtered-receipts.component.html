@@ -4,7 +4,7 @@
       <h3>
         {{ widget.name }}
       </h3>
-      @if (receipts.length > 0) {
+      @if (receipts.length > 1) {
         <app-queue-start-menu
           [receipts]="receipts"
           matButtonType="iconButton"
