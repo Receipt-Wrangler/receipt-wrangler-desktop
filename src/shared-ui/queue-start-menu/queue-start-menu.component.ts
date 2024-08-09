@@ -1,13 +1,16 @@
-import { Component, Input } from "@angular/core";
-import { Receipt } from "../../open-api/index";
+import { Component, Input, OnInit } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { GroupRole, Receipt } from "../../open-api/index";
+import { GroupRolePipe } from "../../pipes/group-role.pipe";
 import { QueueMode, ReceiptQueueService } from "../../services/receipt-queue.service";
+import { GroupState } from "../../store/index";
 
 @Component({
   selector: "app-queue-start-menu",
   templateUrl: "./queue-start-menu.component.html",
   styleUrl: "./queue-start-menu.component.scss"
 })
-export class QueueStartMenuComponent {
+export class QueueStartMenuComponent implements OnInit {
   @Input() public buttonText: string = "";
 
   @Input() public buttonIcon: string = "";
@@ -22,7 +25,19 @@ export class QueueStartMenuComponent {
 
   protected readonly QueueMode = QueueMode;
 
-  constructor(private receiptQueueService: ReceiptQueueService) {}
+  public canEdit: boolean = false;
+
+  constructor(private receiptQueueService: ReceiptQueueService, private store: Store, private groupRolePipe: GroupRolePipe) {}
+
+  public ngOnInit(): void {
+    this.setCanEdit();
+  }
+
+  private setCanEdit(): void {
+    const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
+    this.canEdit = this.groupRolePipe.transform(groupId, GroupRole.Editor);
+
+  }
 
   private getReceiptIds(): string[] {
     if (this.receiptIds.length > 0) {

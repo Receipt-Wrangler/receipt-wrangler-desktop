@@ -14,6 +14,7 @@ export class ReceiptQueueService {
     private router: Router,
   ) { }
 
+  // TODO: support full dashboard
   public initQueueAndNavigate(receiptIds: string[], mode: QueueMode, indexToStartAt: number = 0): void {
     this.router.navigate([`/receipts/${receiptIds[indexToStartAt]}/${mode}`], {
       queryParams: {

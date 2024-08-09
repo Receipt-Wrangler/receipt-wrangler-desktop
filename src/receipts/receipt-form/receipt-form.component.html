@@ -160,7 +160,7 @@
   </div>
 
   <app-form-button-bar
-    [mode]="mode"
+    [mode]="queueIndex >= 0 ? FormMode.edit : mode"
     [justifyContentEnd]="false"
   >
     <div class="w-100 row">

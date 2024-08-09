@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { catchError, Observable, throwError } from "rxjs";
-import { AuthService } from "../open-api";
 import { SnackbarService } from "../services";
 import { AuthState } from "../store";
 
@@ -12,7 +12,7 @@ import { AuthState } from "../store";
 export class HttpInterceptorService implements HttpInterceptor {
   constructor(
     private store: Store,
-    private authService: AuthService,
+    private activatedRoute: ActivatedRoute,
     private snackbarService: SnackbarService
   ) {}
 
@@ -28,7 +28,10 @@ export class HttpInterceptorService implements HttpInterceptor {
         }
 
         const regex = new RegExp("5d{2}");
-        if (e.error?.errorMsg) {
+        const receiptQueueMode = this.activatedRoute.snapshot.queryParams["queueMode"];
+
+        // NOTE: We check for queueMode to gracefully handle creating queues with mixed permissions
+        if (e.error?.errorMsg && !receiptQueueMode) {
           this.snackbarService.error(e.error?.errorMsg);
         }
         if (regex.test(e.status.toString())) {

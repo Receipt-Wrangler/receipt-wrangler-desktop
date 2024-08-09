@@ -3,6 +3,7 @@ import { CanActivateFn, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { catchError, map, take, tap } from "rxjs";
 import { ReceiptService } from "../open-api";
+import { QueueMode } from "../services/receipt-queue.service";
 import { GroupState } from "../store";
 
 export const receiptGuardGuard: CanActivateFn = (route, state) => {
@@ -21,7 +22,14 @@ export const receiptGuardGuard: CanActivateFn = (route, state) => {
     }),
     catchError((err) => {
       result = false;
-      router.navigate([store.selectSnapshot(GroupState.dashboardLink)]);
+      const queueMode = route.queryParams["queueMode"];
+      if (queueMode === QueueMode.EDIT) {
+        router.navigate([`/receipts/${receiptId}/view`], {
+          queryParams: { ...route.queryParams }
+        });
+      } else {
+        router.navigate([store.selectSnapshot(GroupState.dashboardLink)]);
+      }
       return err;
     }),
     map(() => result)
