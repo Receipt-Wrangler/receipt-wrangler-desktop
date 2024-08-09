@@ -13,6 +13,7 @@ import { PipesModule } from "src/pipes/pipes.module";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 import { ApiModule, ReceiptImageService, ReceiptStatus } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { QueueMode } from "../../services/receipt-queue.service";
 import { GroupState } from "../../store";
 import { ReceiptFormComponent } from "./receipt-form.component";
 
@@ -38,7 +39,7 @@ describe("ReceiptFormComponent", () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { data: {} }, params: of({}) },
+          useValue: { snapshot: { data: {}, queryParams: {} }, params: of({}) },
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -210,5 +211,30 @@ describe("ReceiptFormComponent", () => {
     expect(snackbarSpy).toHaveBeenCalledWith(
       "Could not find any values to fill! Try reuploading a clearer image."
     );
+  });
+
+  it("should set queue data when there is no data", () => {
+    component.ngOnInit();
+
+    expect(component.queueIndex).toEqual(-1);
+    expect(component.queueIds).toEqual([]);
+    expect(component.queueMode).toEqual(undefined);
+    expect(component.submitButtonText).toEqual("Save");
+  });
+
+  it("should set queue data when there is data", () => {
+    TestBed.inject(ActivatedRoute).snapshot.queryParams = {
+      ids: ["1", "2", "3"],
+      queueMode: QueueMode.VIEW,
+    };
+    TestBed.inject(ActivatedRoute).snapshot.data = {
+      receipt: { id: 2 } as any,
+    };
+    component.ngOnInit();
+
+    expect(component.queueIndex).toEqual(1);
+    expect(component.queueIds).toEqual(["1", "2", "3"]);
+    expect(component.queueMode).toEqual(QueueMode.VIEW);
+    expect(component.submitButtonText).toEqual("Save & Next");
   });
 });

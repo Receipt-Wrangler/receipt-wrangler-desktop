@@ -27,7 +27,11 @@ export class QueueStartMenuComponent implements OnInit {
 
   public canEdit: boolean = false;
 
-  constructor(private receiptQueueService: ReceiptQueueService, private store: Store, private groupRolePipe: GroupRolePipe) {}
+  constructor(
+    private receiptQueueService: ReceiptQueueService,
+    private store: Store,
+    private groupRolePipe: GroupRolePipe
+  ) {}
 
   public ngOnInit(): void {
     this.setCanEdit();
@@ -36,7 +40,6 @@ export class QueueStartMenuComponent implements OnInit {
   private setCanEdit(): void {
     const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
     this.canEdit = this.groupRolePipe.transform(groupId, GroupRole.Editor);
-
   }
 
   private getReceiptIds(): string[] {
