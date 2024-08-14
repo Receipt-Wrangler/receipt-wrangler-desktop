@@ -9,10 +9,18 @@
       </div>
       <app-form-section headerText="Widgets" [indent]="false">
         <mat-list>
-          @for (widget of widgets.controls; track widget.value) {
+          @for (widget of widgets.controls; let i = $index; track widget.value) {
             <mat-list-item>
               <span matListItemTitle>{{ widget.value.name ?? "Group Summary" }}</span>
               <span matListItemLine>{{ widget.value.widgetType | widgetType }}</span>
+              <div matListItemMeta class="d-flex align-items-center">
+                <app-edit-button></app-edit-button>
+                <app-delete-button
+                  [disabled]="(filterOpen | async) !== undefined"
+                  (clicked)="removeFilter(i)"
+                >
+                </app-delete-button>
+              </div>
             </mat-list-item>
           }
         </mat-list>
