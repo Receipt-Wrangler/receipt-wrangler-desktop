@@ -15,6 +15,7 @@ import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { FilteredReceiptsComponent } from "./filtered-receipts/filtered-receipts.component";
 import { GroupDashboardsComponent } from "./group-dashboards/group-dashboards.component";
+import { WidgetTypePipe } from './widget-type.pipe';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { GroupDashboardsComponent } from "./group-dashboards/group-dashboards.co
     DashboardFormComponent,
     GroupDashboardsComponent,
     FilteredReceiptsComponent,
+    WidgetTypePipe,
   ],
   imports: [
     CheckboxModule,
@@ -37,6 +39,9 @@ import { GroupDashboardsComponent } from "./group-dashboards/group-dashboards.co
     ScrollingModule,
     SharedUiModule,
     ButtonModule,
+  ],
+  exports: [
+    WidgetTypePipe
   ],
 })
 export class DashboardModule {}

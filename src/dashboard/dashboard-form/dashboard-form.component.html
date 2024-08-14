@@ -8,6 +8,14 @@
         ></app-input>
       </div>
       <app-form-section headerText="Widgets" [indent]="false">
+        <mat-list>
+          @for (widget of widgets.controls; track widget.value) {
+            <mat-list-item>
+              <span matListItemTitle>{{ widget.value.name ?? "Group Summary" }}</span>
+              <span matListItemLine>{{ widget.value.widgetType | widgetType }}</span>
+            </mat-list-item>
+          }
+        </mat-list>
         <div class="ms-2">
           <app-checkbox
             label="Summary"
