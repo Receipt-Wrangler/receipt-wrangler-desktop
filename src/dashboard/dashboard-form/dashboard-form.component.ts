@@ -1,19 +1,21 @@
-import { Component, OnInit, QueryList, ViewChildren } from "@angular/core";
+import { Component, OnInit, QueryList, ViewChildren, ViewEncapsulation } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
 import { BehaviorSubject, take, tap } from "rxjs";
 import { ReceiptFilterComponent } from "src/shared-ui/receipt-filter/receipt-filter.component";
 import { Dashboard, DashboardService, Widget, WidgetType } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { GroupState } from "../../store";
+import { widgetTypeOptions } from "../constants/widget-options";
 
 @UntilDestroy()
 @Component({
   selector: "app-dashboard-form",
   templateUrl: "./dashboard-form.component.html",
   styleUrls: ["./dashboard-form.component.scss"],
+  encapsulation: ViewEncapsulation.None
 })
 export class DashboardFormComponent implements OnInit {
   @ViewChildren(ReceiptFilterComponent)
@@ -25,13 +27,11 @@ export class DashboardFormComponent implements OnInit {
 
   public dashboard?: Dashboard;
 
-  public WidgetTypeEnum = WidgetType;
-
-  public filterOpen: BehaviorSubject<number | undefined> = new BehaviorSubject<
+  public widgetOpen: BehaviorSubject<number | undefined> = new BehaviorSubject<
     number | undefined
   >(undefined);
 
-  public filterIsAdd: boolean = false;
+  public isAddingWidget: boolean = false;
 
   public originalWidgets: Widget[] = [];
 
@@ -48,11 +48,10 @@ export class DashboardFormComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.originalWidgets = this.dashboard?.widgets ?? [];
+    this.originalWidgets = Array.from(this.dashboard?.widgets ?? []);
     this.initForm();
-    this.listenForShowSummaryCardChanges();
   }
-
+  
   public initForm(): void {
     this.form = this.formBuilder.group({
       name: [this.dashboard?.name ?? "", Validators.required],
@@ -60,39 +59,10 @@ export class DashboardFormComponent implements OnInit {
         this.store.selectSnapshot(GroupState.selectedGroupId),
         Validators.required,
       ],
-      showSummaryCard: [
-        this?.dashboard?.widgets?.find(
-          (w) => w.widgetType === WidgetType.GroupSummary
-        ) ?? false,
-      ],
       widgets: this.formBuilder.array(
         this.dashboard?.widgets?.map((w) => this.buildWidgetFormGroup(w)) ?? []
       ),
     });
-  }
-
-  private listenForShowSummaryCardChanges(): void {
-    this.form
-      .get("showSummaryCard")
-      ?.valueChanges.pipe(
-      untilDestroyed(this),
-      tap((value) => {
-        if (value) {
-          const formGroup = this.buildWidgetFormGroup({
-            widgetType: WidgetType.GroupSummary,
-          } as Widget);
-          this.widgets.push(formGroup);
-        } else {
-          const index = this.widgets.controls.findIndex(
-            (c) => c.value.widgetType === WidgetType.GroupSummary
-          );
-          if (index > -1) {
-            this.widgets.removeAt(index);
-          }
-        }
-      })
-    )
-      .subscribe();
   }
 
   private buildWidgetFormGroup(widget: Widget): FormGroup {
@@ -104,17 +74,18 @@ export class DashboardFormComponent implements OnInit {
         });
       default:
         return this.formBuilder.group({
+          name: [widget.name, Validators.required],
           widgetType: [widget.widgetType, Validators.required],
         });
     }
   }
 
   public submit(): void {
-    const canSubmit = this.form.valid && this.filterOpen.value === undefined;
+    const canSubmit = this.form.valid && this.widgetOpen.value === undefined;
 
-    if (this.filterOpen.value !== undefined) {
+    if (this.widgetOpen.value !== undefined) {
       this.snackbarService.error(
-        "Please finish editing the open filter before submitting"
+        "Please finish editing the open widget before submitting"
       );
       return;
     }
@@ -144,17 +115,41 @@ export class DashboardFormComponent implements OnInit {
     }
   }
 
+  public openWidget(index: number): void {
+    this.widgetOpen.next(index);
+  }
+
+  public closeWidget(): void {
+    this.widgetOpen.next(undefined);
+  }
+
+  public submitWidget(index: number): void {
+    const widgetFormGroup = (this.widgets.at(index) as FormGroup);
+    const widget = widgetFormGroup.value;
+
+    if (!widgetFormGroup.valid) {
+      return;
+    }
+
+    if (widget["widgetType"] === WidgetType.FilteredReceipts) {
+      this.filterSubmitted();
+    } else {
+      this.closeWidget();
+    }
+  }
+
   public cancelButtonClicked(): void {
     this.matDialogRef.close(undefined);
   }
 
-  public addFilteredReceiptWidget(): void {
+  public addWidget(): void {
     const formGroup = this.buildWidgetFormGroup({
-      widgetType: WidgetType.FilteredReceipts,
+      name: "",
+      widgetType: undefined,
     } as Widget);
-    this.filterOpen.next(this.widgets.length);
+    this.widgetOpen.next(this.widgets.length);
     this.widgets.push(formGroup);
-    this.filterIsAdd = true;
+    this.isAddingWidget = true;
   }
 
   public addFilterToWidget(
@@ -167,61 +162,65 @@ export class DashboardFormComponent implements OnInit {
     );
   }
 
-  public cancelFilter(): void {
-    if (this.filterIsAdd) {
+  public cancelWidgetEdit(): void {
+    if (this.isAddingWidget) {
       this.widgets.removeAt(this.widgets.length - 1);
-      this.filterOpen.next(undefined);
-      this.filterIsAdd = false;
+      this.widgetOpen.next(undefined);
+      this.isAddingWidget = false;
     } else {
-      const widget = this.originalWidgets[this.filterOpen.value as number];
-      this.patchFilterConfig(widget);
-      this.filterOpen.next(undefined);
+      const widget = this.originalWidgets[this.widgetOpen.value as number];
+
+      if (widget.widgetType === WidgetType.FilteredReceipts) {
+        this.patchFilterConfig(widget);
+      } else {
+        this.widgets.at(this.widgetOpen.value as number).patchValue(widget);
+      }
+      this.widgetOpen.next(undefined);
     }
   }
 
   public filterSubmitted(): void {
-    if (this.filterIsAdd) {
+    if (this.isAddingWidget) {
       const widget = this.widgets.at(this.widgets.length - 1) as FormGroup;
       if (widget.valid) {
         const form = this.receiptFilterComponents.last.form;
         widget.get("configuration")?.patchValue(form.value);
         this.originalWidgets.push(widget.value);
 
-        this.filterOpen.next(undefined);
-        this.filterIsAdd = false;
+        this.widgetOpen.next(undefined);
+        this.isAddingWidget = false;
       }
     } else {
       const widget = this.widgets.at(
-        this.filterOpen.value as number
+        this.widgetOpen.value as number
       ) as FormGroup;
 
       if (widget.valid) {
         const form = this.receiptFilterComponents.first.form;
         widget.get("configuration")?.patchValue(form.value);
         this.originalWidgets.splice(
-          this.filterOpen.value as number,
+          this.widgetOpen.value as number,
           1,
           widget.value
         );
 
-        this.filterOpen.next(undefined);
+        this.widgetOpen.next(undefined);
       }
     }
   }
 
   private patchFilterConfig(widget: Widget): void {
     const originalWidget =
-      this.originalWidgets[this.filterOpen.value as number];
+      this.originalWidgets[this.widgetOpen.value as number];
     this.receiptFilterComponents.first.filter = originalWidget.configuration;
     this.receiptFilterComponents.first.ngOnInit();
   }
 
-  public editFilter(index: number): void {
-    this.filterOpen.next(index);
-  }
-
-  public removeFilter(index: number): void {
+  public removeWidget(index: number): void {
     this.widgets.removeAt(index);
     this.originalWidgets.splice(index, 1);
   }
+
+  protected readonly WidgetType = WidgetType;
+  protected readonly widgetTypeOptions = widgetTypeOptions;
 }

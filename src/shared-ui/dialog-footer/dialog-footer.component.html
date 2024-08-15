@@ -4,6 +4,7 @@
     [disabled]="
       disableWhenProgressBarIsShown ? (showProgressBar | async) ?? false : false
     "
+    [type]="submitButtonType"
     (clicked)="submitClicked.emit()"
   ></app-submit-button>
   <app-cancel-button

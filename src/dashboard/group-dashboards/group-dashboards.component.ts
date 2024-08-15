@@ -82,7 +82,7 @@ export class GroupDashboardsComponent implements OnInit {
   public openDashboardDialog(isCreate?: boolean): void {
     const dialogRef = this.matDialog.open(
       DashboardFormComponent,
-      DEFAULT_DIALOG_CONFIG
+      { ...DEFAULT_DIALOG_CONFIG, width: "75%" }
     );
     const selectedDashboardId = this.store.selectSnapshot(
       GroupState.selectedDashboardId

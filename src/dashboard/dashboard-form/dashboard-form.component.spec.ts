@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { NgxsModule, Store } from "@ngxs/store";
 import { of } from "rxjs";
-import { Dashboard, DashboardService, WidgetType } from "../../open-api";
+import { Dashboard, DashboardService } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { SnackbarService } from "../../services";
 import { GroupState } from "../../store";
@@ -62,68 +62,6 @@ describe("DashboardFormComponent", () => {
     expect(component.form.value).toEqual({
       name: "",
       groupId: "1",
-      showSummaryCard: false,
-      widgets: [],
-    });
-  });
-
-  it("should add summary card widget when show summary card set to true", () => {
-    store.reset({
-      groups: {
-        selectedGroupId: "1",
-      },
-    });
-
-    component.ngOnInit();
-
-    component.form.patchValue({
-      showSummaryCard: true,
-    });
-
-    expect(component.form.value).toEqual({
-      name: "",
-      groupId: "1",
-      showSummaryCard: true,
-      widgets: [
-        {
-          widgetType: WidgetType.GroupSummary,
-        },
-      ],
-    });
-  });
-
-  it("should add summary card widget when show summary card set to true, then remove it when set to false", () => {
-    store.reset({
-      groups: {
-        selectedGroupId: "1",
-      },
-    });
-
-    component.ngOnInit();
-
-    component.form.patchValue({
-      showSummaryCard: true,
-    });
-
-    expect(component.form.value).toEqual({
-      name: "",
-      groupId: "1",
-      showSummaryCard: true,
-      widgets: [
-        {
-          widgetType: WidgetType.GroupSummary,
-        },
-      ],
-    });
-
-    component.form.patchValue({
-      showSummaryCard: false,
-    });
-
-    expect(component.form.value).toEqual({
-      name: "",
-      groupId: "1",
-      showSummaryCard: false,
       widgets: [],
     });
   });
@@ -160,7 +98,6 @@ describe("DashboardFormComponent", () => {
       name: "test",
       groupId: 1,
       widgets: [],
-      showSummaryCard: false,
     } as any);
     expect(snackbarSpy).toHaveBeenCalledTimes(1);
   });
