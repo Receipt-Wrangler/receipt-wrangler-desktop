@@ -154,6 +154,16 @@ export class DashboardFormComponent implements OnInit {
     this.widgetOpen.next(undefined);
   }
 
+  public submitWidget(index: number): void {
+    const widget = (this.widgets.at(index) as FormGroup).value;
+
+    if (widget["widgetType"] === WidgetType.FilteredReceipts) {
+      this.filterSubmitted();
+    } else {
+      this.closeWidget();
+    }
+  }
+
   public cancelButtonClicked(): void {
     this.matDialogRef.close(undefined);
   }

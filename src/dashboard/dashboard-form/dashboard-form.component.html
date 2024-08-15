@@ -34,76 +34,6 @@
             }
           }
         </mat-list>
-        <div class="ms-2">
-          <app-checkbox
-            label="Summary"
-            [inputFormControl]="form | formGet : 'showSummaryCard'"
-          ></app-checkbox>
-
-          <div class="d-flex align-items-center">
-            <h6>Filtered Receipts</h6>
-            <app-add-button
-              tooltip="Add filtered receipt widget"
-              [disabled]="(widgetOpen | async) !== undefined"
-              (clicked)="addFilteredReceiptWidget()"
-            ></app-add-button>
-            <app-submit-button
-              *ngIf="(widgetOpen | async) !== undefined"
-              type="button"
-              (clicked)="filterSubmitted()"
-            ></app-submit-button>
-            <app-cancel-button
-              *ngIf="(widgetOpen | async) !== undefined"
-              (clicked)="cancelWidgetEdit()"
-            ></app-cancel-button>
-          </div>
-          <mat-list>
-            <ng-container
-              *ngFor="let widget of widgets.controls; let i = index"
-            >
-              <mat-list-item
-                class="h-100"
-                *ngIf="
-                  widget?.value?.widgetType === WidgetTypeEnum.FilteredReceipts
-                "
-              >
-                <ng-container *ngIf="(widgetOpen | async) === i">
-                  <app-input
-                    label="Widget Name"
-                    [inputFormControl]="
-                      form | formGet : 'widgets.' + i + '.name'
-                    "
-                  ></app-input>
-                </ng-container>
-                <div class="d-flex align-items-center">
-                  <app-receipt-filter
-                    class="w-100"
-                    [filter]="$any(dashboard?.widgets?.[i]?.configuration)"
-                    [footerTemplate]="filterFooter"
-                    [isOpen]="(widgetOpen | async) === i"
-                    [inDialog]="false"
-                    [previewTemplate]="filterPreview"
-                    [previewTemplateContext]="{ index: i }"
-                    (formInitialized)="addFilterToWidget($event, i)"
-                  ></app-receipt-filter>
-                  <ng-container *ngIf="(widgetOpen | async) !== i">
-                    <app-edit-button
-                      color="accent"
-                      [disabled]="(widgetOpen | async) !== undefined"
-                      (clicked)="editFilter(i)"
-                    ></app-edit-button>
-                    <app-delete-button
-                      color="accent"
-                      [disabled]="(widgetOpen | async) !== undefined"
-                      (clicked)="removeFilter(i)"
-                    >
-                    </app-delete-button>
-                  </ng-container>
-                </div>
-              </mat-list-item>
-            </ng-container>
-          </mat-list>
-        </div>
       </app-form-section>
     </div>
     <app-dialog-footer
@@ -146,11 +76,22 @@
       >
         <ng-container *ngSwitchCase="WidgetType.GroupSummary">
         </ng-container>
-        <ng-container *ngSwitchCase="WidgetType.FilteredReceipts"> YO!</ng-container>
+        <ng-container *ngSwitchCase="WidgetType.FilteredReceipts">
+          <app-receipt-filter
+            class="w-100"
+            [filter]="$any(dashboard?.widgets?.[i]?.configuration)"
+            [footerTemplate]="filterFooter"
+            [isOpen]="(widgetOpen | async) === i"
+            [inDialog]="false"
+            [previewTemplate]="filterPreview"
+            [previewTemplateContext]="{ index: i }"
+            (formInitialized)="addFilterToWidget($event, i)"
+          ></app-receipt-filter>
+        </ng-container>
       </ng-container>
       <app-dialog-footer
         submitButtonTooltip="Done"
-        (submitClicked)="closeWidget()"
+        (submitClicked)="submitWidget(i)"
         (cancelClicked)="cancelWidgetEdit()"
       ></app-dialog-footer>
     </ng-container>
