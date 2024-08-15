@@ -1,13 +1,17 @@
 <app-dialog [headerText]="headerText">
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="d-flex flex-column">
-      <div class="mb-2">
+      <div>
         <app-input
           label="Dashboard Name"
           [inputFormControl]="form | formGet : 'name'"
         ></app-input>
       </div>
-      <app-form-section headerText="Widgets" [indent]="false">
+      <app-form-section
+        headerText="Widgets"
+        [indent]="false"
+        [headerButtonsTemplate]="widgetHeaderButtons"
+      >
         <mat-list>
           @for (widget of widgets.controls; let i = $index; track widget.value) {
             @if ((widgetOpen | async) === i) {
@@ -21,12 +25,13 @@
                 <span matListItemLine>{{ widget.value.widgetType | widgetType }}</span>
                 <div matListItemMeta class="d-flex align-items-center">
                   <app-edit-button
+                    color="accent"
                     [disabled]="(widgetOpen | async) !== undefined"
                     (clicked)="openWidget(i)"
                   ></app-edit-button>
                   <app-delete-button
                     [disabled]="(widgetOpen | async) !== undefined"
-                    (clicked)="removeFilter(i)"
+                    (clicked)="removeWidget(i)"
                   >
                   </app-delete-button>
                 </div>
@@ -44,15 +49,16 @@
 </app-dialog>
 
 <ng-template #filterFooter></ng-template>
-<ng-template #filterPreview let-index="index">
-  {{ originalWidgets?.[index]?.name }}
-</ng-template>
 
 <ng-template #widgetEdit let-i="i">
   <app-card>
     <ng-container header>
       <div class="mb-2">
-        Edit Widget
+        @if (isAddingWidget) {
+          Add Widget
+        } @else {
+          Edit Widget
+        }
       </div>
     </ng-container>
     <ng-container content>
@@ -83,17 +89,24 @@
             [footerTemplate]="filterFooter"
             [isOpen]="(widgetOpen | async) === i"
             [inDialog]="false"
-            [previewTemplate]="filterPreview"
-            [previewTemplateContext]="{ index: i }"
             (formInitialized)="addFilterToWidget($event, i)"
           ></app-receipt-filter>
         </ng-container>
       </ng-container>
       <app-dialog-footer
         submitButtonTooltip="Done"
+        submitButtonType="button"
         (submitClicked)="submitWidget(i)"
         (cancelClicked)="cancelWidgetEdit()"
       ></app-dialog-footer>
     </ng-container>
   </app-card>
+</ng-template>
+
+<ng-template #widgetHeaderButtons>
+  <app-add-button
+    tooltip="Add Widget"
+    [disabled]="(widgetOpen | async) !== undefined"
+    (clicked)="addWidget()"
+  ></app-add-button>
 </ng-template>

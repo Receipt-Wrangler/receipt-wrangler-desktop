@@ -1,14 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
 import { Observable, tap } from "rxjs";
-import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
+import { DEFAULT_HOST_CLASS } from "src/constants";
 import { DashboardState } from "src/store/dashboard.state";
 import { Dashboard, WidgetType } from "../../open-api";
 import { GroupState } from "../../store";
-import { DashboardFormComponent } from "../dashboard-form/dashboard-form.component";
 
 @UntilDestroy()
 @Component({
@@ -29,7 +27,6 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private matDialog: MatDialog,
     private store: Store
   ) {}
 
@@ -71,16 +68,5 @@ export class DashboardComponent implements OnInit {
     this.selectedDashboard = this.dashboards.find(
       (dashboard) => dashboard?.id?.toString() === selectedDashboardId
     );
-  }
-
-  public openDashboardDialog(dashboard?: Dashboard): void {
-    const dialogRef = this.matDialog.open(
-      DashboardFormComponent,
-      DEFAULT_DIALOG_CONFIG
-    );
-
-    dialogRef.componentInstance.headerText = dashboard
-      ? `Edit Dashboard ${dashboard.name}`
-      : "Add a dashboard";
   }
 }

@@ -1,7 +1,7 @@
-import { Component, OnInit, QueryList, ViewChildren } from "@angular/core";
+import { Component, OnInit, QueryList, ViewChildren, ViewEncapsulation } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
 import { BehaviorSubject, take, tap } from "rxjs";
 import { ReceiptFilterComponent } from "src/shared-ui/receipt-filter/receipt-filter.component";
@@ -15,6 +15,7 @@ import { widgetTypeOptions } from "../constants/widget-options";
   selector: "app-dashboard-form",
   templateUrl: "./dashboard-form.component.html",
   styleUrls: ["./dashboard-form.component.scss"],
+  encapsulation: ViewEncapsulation.None
 })
 export class DashboardFormComponent implements OnInit {
   @ViewChildren(ReceiptFilterComponent)
@@ -25,8 +26,6 @@ export class DashboardFormComponent implements OnInit {
   public form: FormGroup = new FormGroup({});
 
   public dashboard?: Dashboard;
-
-  public WidgetTypeEnum = WidgetType;
 
   public widgetOpen: BehaviorSubject<number | undefined> = new BehaviorSubject<
     number | undefined
@@ -49,11 +48,11 @@ export class DashboardFormComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.originalWidgets = this.dashboard?.widgets ?? [];
+    this.originalWidgets = Array.from(this.dashboard?.widgets ?? []);
     this.initForm();
-    this.listenForShowSummaryCardChanges();
   }
 
+  // TODO: fix dashboards removing on remove without saving
   public initForm(): void {
     this.form = this.formBuilder.group({
       name: [this.dashboard?.name ?? "", Validators.required],
@@ -61,39 +60,10 @@ export class DashboardFormComponent implements OnInit {
         this.store.selectSnapshot(GroupState.selectedGroupId),
         Validators.required,
       ],
-      showSummaryCard: [
-        this?.dashboard?.widgets?.find(
-          (w) => w.widgetType === WidgetType.GroupSummary
-        ) ?? false,
-      ],
       widgets: this.formBuilder.array(
         this.dashboard?.widgets?.map((w) => this.buildWidgetFormGroup(w)) ?? []
       ),
     });
-  }
-
-  private listenForShowSummaryCardChanges(): void {
-    this.form
-      .get("showSummaryCard")
-      ?.valueChanges.pipe(
-      untilDestroyed(this),
-      tap((value) => {
-        if (value) {
-          const formGroup = this.buildWidgetFormGroup({
-            widgetType: WidgetType.GroupSummary,
-          } as Widget);
-          this.widgets.push(formGroup);
-        } else {
-          const index = this.widgets.controls.findIndex(
-            (c) => c.value.widgetType === WidgetType.GroupSummary
-          );
-          if (index > -1) {
-            this.widgets.removeAt(index);
-          }
-        }
-      })
-    )
-      .subscribe();
   }
 
   private buildWidgetFormGroup(widget: Widget): FormGroup {
@@ -116,7 +86,7 @@ export class DashboardFormComponent implements OnInit {
 
     if (this.widgetOpen.value !== undefined) {
       this.snackbarService.error(
-        "Please finish editing the open filter before submitting"
+        "Please finish editing the open widget before submitting"
       );
       return;
     }
@@ -155,7 +125,12 @@ export class DashboardFormComponent implements OnInit {
   }
 
   public submitWidget(index: number): void {
-    const widget = (this.widgets.at(index) as FormGroup).value;
+    const widgetFormGroup = (this.widgets.at(index) as FormGroup);
+    const widget = widgetFormGroup.value;
+
+    if (!widgetFormGroup.valid) {
+      return;
+    }
 
     if (widget["widgetType"] === WidgetType.FilteredReceipts) {
       this.filterSubmitted();
@@ -168,9 +143,10 @@ export class DashboardFormComponent implements OnInit {
     this.matDialogRef.close(undefined);
   }
 
-  public addFilteredReceiptWidget(): void {
+  public addWidget(): void {
     const formGroup = this.buildWidgetFormGroup({
-      widgetType: WidgetType.FilteredReceipts,
+      name: "",
+      widgetType: undefined,
     } as Widget);
     this.widgetOpen.next(this.widgets.length);
     this.widgets.push(formGroup);
@@ -241,11 +217,7 @@ export class DashboardFormComponent implements OnInit {
     this.receiptFilterComponents.first.ngOnInit();
   }
 
-  public editFilter(index: number): void {
-    this.widgetOpen.next(index);
-  }
-
-  public removeFilter(index: number): void {
+  public removeWidget(index: number): void {
     this.widgets.removeAt(index);
     this.originalWidgets.splice(index, 1);
   }

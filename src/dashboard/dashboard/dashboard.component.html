@@ -3,7 +3,7 @@
     <div [ngSwitch]="widget.widgetType">
       <div *ngSwitchCase="widgetType.GroupSummary">
         <app-summary-card
-          headerText="Receipt Summary"
+          [headerText]="widget.name ?? 'Receipt Summary'"
           [groupId]="(selectedGroupId | async) ?? ''"
         ></app-summary-card>
       </div>
@@ -13,8 +13,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #summaryCard> </ng-template>
-
-<ng-template #filteredReceipts let-widgetToDisplay="widgetToDisplay">
-</ng-template>
