@@ -63,13 +63,13 @@
     </ng-container>
     <ng-container content>
       <app-input
-        label="Widget Name"
+        label="Name"
         [inputFormControl]="
                       form | formGet : 'widgets.' + i + '.name'
                     "
       ></app-input>
       <app-select
-        label="Widget Type"
+        label="Type"
         optionValueKey="value"
         optionDisplayKey="displayValue"
         [inputFormControl]="
