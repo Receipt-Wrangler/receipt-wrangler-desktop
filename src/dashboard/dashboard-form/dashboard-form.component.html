@@ -54,7 +54,7 @@
             ></app-submit-button>
             <app-cancel-button
               *ngIf="(widgetOpen | async) !== undefined"
-              (clicked)="cancelFilter()"
+              (clicked)="cancelWidgetEdit()"
             ></app-cancel-button>
           </div>
           <mat-list>
@@ -119,12 +119,40 @@
 </ng-template>
 
 <ng-template #widgetEdit let-i="i">
-  <ng-container
-    [ngSwitch]="widgets.controls[i].value.widgetType"
-  >
-    <ng-container *ngSwitchCase="WidgetType.GroupSummary">
-      <div> heyo</div>
+  <app-card>
+    <ng-container header>
+      <div class="mb-2">
+        Edit Widget
+      </div>
     </ng-container>
-    <ng-container *ngSwitchCase="WidgetType.FilteredReceipts"> YO!</ng-container>
-  </ng-container>
+    <ng-container content>
+      <app-input
+        label="Widget Name"
+        [inputFormControl]="
+                      form | formGet : 'widgets.' + i + '.name'
+                    "
+      ></app-input>
+      <app-select
+        label="Widget Type"
+        optionValueKey="value"
+        optionDisplayKey="displayValue"
+        [inputFormControl]="
+                      form | formGet : 'widgets.' + i + '.widgetType'
+                    "
+        [options]="widgetTypeOptions"
+      ></app-select>
+      <ng-container
+        [ngSwitch]="widgets.controls[i].value.widgetType"
+      >
+        <ng-container *ngSwitchCase="WidgetType.GroupSummary">
+        </ng-container>
+        <ng-container *ngSwitchCase="WidgetType.FilteredReceipts"> YO!</ng-container>
+      </ng-container>
+      <app-dialog-footer
+        submitButtonTooltip="Done"
+        (submitClicked)="closeWidget()"
+        (cancelClicked)="cancelWidgetEdit()"
+      ></app-dialog-footer>
+    </ng-container>
+  </app-card>
 </ng-template>

@@ -8,6 +8,7 @@ import { ReceiptFilterComponent } from "src/shared-ui/receipt-filter/receipt-fil
 import { Dashboard, DashboardService, Widget, WidgetType } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { GroupState } from "../../store";
+import { widgetTypeOptions } from "../constants/widget-options";
 
 @UntilDestroy()
 @Component({
@@ -104,6 +105,7 @@ export class DashboardFormComponent implements OnInit {
         });
       default:
         return this.formBuilder.group({
+          name: [widget.name, Validators.required],
           widgetType: [widget.widgetType, Validators.required],
         });
     }
@@ -148,6 +150,10 @@ export class DashboardFormComponent implements OnInit {
     this.widgetOpen.next(index);
   }
 
+  public closeWidget(): void {
+    this.widgetOpen.next(undefined);
+  }
+
   public cancelButtonClicked(): void {
     this.matDialogRef.close(undefined);
   }
@@ -171,14 +177,19 @@ export class DashboardFormComponent implements OnInit {
     );
   }
 
-  public cancelFilter(): void {
+  public cancelWidgetEdit(): void {
     if (this.isAddingWidget) {
       this.widgets.removeAt(this.widgets.length - 1);
       this.widgetOpen.next(undefined);
       this.isAddingWidget = false;
     } else {
       const widget = this.originalWidgets[this.widgetOpen.value as number];
-      this.patchFilterConfig(widget);
+
+      if (widget.widgetType === WidgetType.FilteredReceipts) {
+        this.patchFilterConfig(widget);
+      } else {
+        this.widgets.at(this.widgetOpen.value as number).patchValue(widget);
+      }
       this.widgetOpen.next(undefined);
     }
   }
@@ -230,4 +241,5 @@ export class DashboardFormComponent implements OnInit {
   }
 
   protected readonly WidgetType = WidgetType;
+  protected readonly widgetTypeOptions = widgetTypeOptions;
 }
