@@ -51,8 +51,7 @@ export class DashboardFormComponent implements OnInit {
     this.originalWidgets = Array.from(this.dashboard?.widgets ?? []);
     this.initForm();
   }
-
-  // TODO: fix dashboards removing on remove without saving
+  
   public initForm(): void {
     this.form = this.formBuilder.group({
       name: [this.dashboard?.name ?? "", Validators.required],
