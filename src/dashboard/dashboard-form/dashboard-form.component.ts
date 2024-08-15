@@ -27,11 +27,11 @@ export class DashboardFormComponent implements OnInit {
 
   public WidgetTypeEnum = WidgetType;
 
-  public filterOpen: BehaviorSubject<number | undefined> = new BehaviorSubject<
+  public widgetOpen: BehaviorSubject<number | undefined> = new BehaviorSubject<
     number | undefined
   >(undefined);
 
-  public filterIsAdd: boolean = false;
+  public isAddingWidget: boolean = false;
 
   public originalWidgets: Widget[] = [];
 
@@ -110,9 +110,9 @@ export class DashboardFormComponent implements OnInit {
   }
 
   public submit(): void {
-    const canSubmit = this.form.valid && this.filterOpen.value === undefined;
+    const canSubmit = this.form.valid && this.widgetOpen.value === undefined;
 
-    if (this.filterOpen.value !== undefined) {
+    if (this.widgetOpen.value !== undefined) {
       this.snackbarService.error(
         "Please finish editing the open filter before submitting"
       );
@@ -144,6 +144,10 @@ export class DashboardFormComponent implements OnInit {
     }
   }
 
+  public openWidget(index: number): void {
+    this.widgetOpen.next(index);
+  }
+
   public cancelButtonClicked(): void {
     this.matDialogRef.close(undefined);
   }
@@ -152,9 +156,9 @@ export class DashboardFormComponent implements OnInit {
     const formGroup = this.buildWidgetFormGroup({
       widgetType: WidgetType.FilteredReceipts,
     } as Widget);
-    this.filterOpen.next(this.widgets.length);
+    this.widgetOpen.next(this.widgets.length);
     this.widgets.push(formGroup);
-    this.filterIsAdd = true;
+    this.isAddingWidget = true;
   }
 
   public addFilterToWidget(
@@ -168,60 +172,62 @@ export class DashboardFormComponent implements OnInit {
   }
 
   public cancelFilter(): void {
-    if (this.filterIsAdd) {
+    if (this.isAddingWidget) {
       this.widgets.removeAt(this.widgets.length - 1);
-      this.filterOpen.next(undefined);
-      this.filterIsAdd = false;
+      this.widgetOpen.next(undefined);
+      this.isAddingWidget = false;
     } else {
-      const widget = this.originalWidgets[this.filterOpen.value as number];
+      const widget = this.originalWidgets[this.widgetOpen.value as number];
       this.patchFilterConfig(widget);
-      this.filterOpen.next(undefined);
+      this.widgetOpen.next(undefined);
     }
   }
 
   public filterSubmitted(): void {
-    if (this.filterIsAdd) {
+    if (this.isAddingWidget) {
       const widget = this.widgets.at(this.widgets.length - 1) as FormGroup;
       if (widget.valid) {
         const form = this.receiptFilterComponents.last.form;
         widget.get("configuration")?.patchValue(form.value);
         this.originalWidgets.push(widget.value);
 
-        this.filterOpen.next(undefined);
-        this.filterIsAdd = false;
+        this.widgetOpen.next(undefined);
+        this.isAddingWidget = false;
       }
     } else {
       const widget = this.widgets.at(
-        this.filterOpen.value as number
+        this.widgetOpen.value as number
       ) as FormGroup;
 
       if (widget.valid) {
         const form = this.receiptFilterComponents.first.form;
         widget.get("configuration")?.patchValue(form.value);
         this.originalWidgets.splice(
-          this.filterOpen.value as number,
+          this.widgetOpen.value as number,
           1,
           widget.value
         );
 
-        this.filterOpen.next(undefined);
+        this.widgetOpen.next(undefined);
       }
     }
   }
 
   private patchFilterConfig(widget: Widget): void {
     const originalWidget =
-      this.originalWidgets[this.filterOpen.value as number];
+      this.originalWidgets[this.widgetOpen.value as number];
     this.receiptFilterComponents.first.filter = originalWidget.configuration;
     this.receiptFilterComponents.first.ngOnInit();
   }
 
   public editFilter(index: number): void {
-    this.filterOpen.next(index);
+    this.widgetOpen.next(index);
   }
 
   public removeFilter(index: number): void {
     this.widgets.removeAt(index);
     this.originalWidgets.splice(index, 1);
   }
+
+  protected readonly WidgetType = WidgetType;
 }
