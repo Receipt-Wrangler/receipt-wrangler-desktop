@@ -140,9 +140,10 @@ export class ReceiptFormComponent implements OnInit {
 
   @HostListener("window:keydown", ["$event"])
   public handleKeyboardEvent(event: KeyboardEvent): void {
-    if (event.key === "ArrowRight" && this.queueIds.length > 0) {
+    const isBodyActive = document.activeElement === document.body;
+    if (event.key === "ArrowRight" && isBodyActive && this.queueIds.length > 0) {
       this.queueNext();
-    } else if (event.key === "ArrowLeft" && this.queueIds.length > 0) {
+    } else if (event.key === "ArrowLeft" && isBodyActive && this.queueIds.length > 0) {
       this.queuePrevious();
     }
   }
