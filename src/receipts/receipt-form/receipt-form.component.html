@@ -148,15 +148,20 @@
       >
         <app-item-list [form]="form"></app-item-list>
       </app-form-section>
+      <div class="mt-3">
+        <app-form-section
+          headerText="Comments"
+          [indent]="false"
+        >
+          <app-receipt-comments
+            [receiptId]="originalReceipt?.id"
+            [comments]="originalReceipt?.comments ?? []"
+            [mode]="mode"
+            (commentsUpdated)="updateComments($event)"
+          ></app-receipt-comments>
+        </app-form-section>
+      </div>
     </div>
-  </div>
-  <div class="mt-3">
-    <app-receipt-comments
-      [receiptId]="originalReceipt?.id"
-      [comments]="originalReceipt?.comments ?? []"
-      [mode]="mode"
-      (commentsUpdated)="updateComments($event)"
-    ></app-receipt-comments>
   </div>
 
   <app-form-button-bar

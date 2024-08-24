@@ -1,22 +1,24 @@
-<mat-card>
-  <mat-card-header class="mb-4">
-    <mat-card-title><strong>Comments</strong></mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="w-100">
-      <app-textarea
-        *ngIf="mode === formMode.add || mode === formMode.edit"
-        label="Comment"
-        placeholder="Leave a comment"
-        [inputFormControl]="newCommentFormControl"
-      ></app-textarea>
-    </div>
-    <ng-container
-      *ngIf="mode === formMode.add || mode === formMode.edit"
-      [ngTemplateOutlet]="add"
-    ></ng-container>
+@if (mode !== formMode.view) {
+  <div class="mb-2">
+    <app-card>
+      <strong header class="mb-3">Leave a Comment</strong>
+      <div content class="w-100">
+        <app-textarea
+          label="Comment"
+          [inputFormControl]="newCommentFormControl"
+        ></app-textarea>
+        <ng-container
+          [ngTemplateOutlet]="add"
+        ></ng-container>
+      </div>
+    </app-card>
+  </div>
+}
+
+@if (commentsArray.length > 0) {
+  <app-card>
     <div
-      *ngFor="let comment of commentsArray.controls; let index = index"
+      content *ngFor="let comment of commentsArray.controls; let index = index"
     >
       <ng-container
         [ngTemplateOutlet]="commentDisplay"
@@ -33,8 +35,10 @@
       >
       </div>
     </div>
-  </mat-card-content>
-</mat-card>
+  </app-card>
+} @else if (comments.length === 0 && mode === formMode.view) {
+  <div>No comments for this receipt</div>
+}
 
 <ng-template
   #commentDisplay
@@ -99,6 +103,6 @@
 
 <ng-template #add>
   <div class="d-flex justify-content-end">
-    <app-button buttonText="Add Comment" (clicked)="addComment()"></app-button>
+    <app-button buttonText="Comment" (clicked)="addComment()"></app-button>
   </div>
 </ng-template>
