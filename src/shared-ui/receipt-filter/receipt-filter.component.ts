@@ -67,7 +67,7 @@ export class ReceiptFilterComponent implements OnInit {
   private initForm(): void {
     const filter =
       this.filter ??
-      this.store.selectSnapshot(ReceiptTableState.filterData).filter;
+      this.store.selectSnapshot(ReceiptTableState.filterData).filter as any;
 
     this.form = this.formBuilder.group({
       date: this.buildFieldFormGroup(

@@ -35,19 +35,19 @@ export class ReceiptFilterService {
       };
     }
 
-    if (!filterData?.filter?.date?.value && filterData?.filter?.date) {
-      filterData.filter.date.value = "";
+    if ((!filterData?.filter as any)?.date?.value && filterData?.filter?.date) {
+      (filterData.filter as any).date.value = "";
     }
 
     if (
-      !filterData?.filter?.resolvedDate?.value &&
+      (!filterData?.filter as any)?.resolvedDate?.value &&
       filterData?.filter?.resolvedDate
     ) {
-      filterData.filter.resolvedDate.value = "";
+      (filterData.filter as any).resolvedDate.value = "";
     }
 
-    if (!filterData?.filter?.amount?.value && filterData?.filter?.amount) {
-      filterData.filter.amount.value = 0;
+    if ((!filterData?.filter as any)?.amount?.value && filterData?.filter?.amount) {
+      (filterData.filter as any).amount.value = 0;
     }
 
     return this.httpClient.post<PagedData>(

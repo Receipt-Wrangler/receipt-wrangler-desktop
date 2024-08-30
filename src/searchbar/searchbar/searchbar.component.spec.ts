@@ -48,6 +48,7 @@ describe("SearchbarComponent", () => {
       type: "Receipt",
       name: "Hello",
       date: "totally a date",
+      createdAt: "totally a date",
     };
 
     component.navigateToResult(result);
@@ -62,6 +63,7 @@ describe("SearchbarComponent", () => {
       type: "Not a valid type",
       name: "Hello",
       date: "totally a date",
+      createdAt: "totally a date",
     };
 
     component.navigateToResult(result);
@@ -78,6 +80,7 @@ describe("SearchbarComponent", () => {
           type: "Not a valid type",
           name: "Hello",
           date: "totally a date",
+          createdAt: "totally a date",
         },
       ] as any)
     );
@@ -93,6 +96,7 @@ describe("SearchbarComponent", () => {
         type: "Not a valid type",
         name: "Hello",
         date: "totally a date",
+        createdAt: "totally a date",
       },
     ]);
   });

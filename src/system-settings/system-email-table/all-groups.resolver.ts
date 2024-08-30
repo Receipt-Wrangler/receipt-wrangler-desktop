@@ -17,6 +17,6 @@ export const allGroupsResolver: ResolveFn<Group[]> = (route, state) => {
 
   return groupService.getPagedGroups(command).pipe(
     take(1),
-    map((response) => response.data as Group[])
+    map((response) => response.data as any as Group[])
   );
 };

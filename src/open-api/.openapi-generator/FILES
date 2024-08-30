@@ -42,7 +42,6 @@ model/encodedImage.ts
 model/featureConfig.ts
 model/fileData.ts
 model/fileDataView.ts
-model/fileDataViewAllOf.ts
 model/filterOperation.ts
 model/getNewRefreshToken200Response.ts
 model/getSystemTaskCommand.ts
@@ -65,17 +64,12 @@ model/ocrEngine.ts
 model/pagedData.ts
 model/pagedDataDataInner.ts
 model/pagedGroupRequestCommand.ts
-model/pagedGroupRequestCommandAllOf.ts
 model/pagedRequestCommand.ts
-model/pagedRequestField.ts
-model/pagedRequestFieldValue.ts
 model/prompt.ts
-model/promptAllOf.ts
 model/receipt.ts
 model/receiptPagedRequestCommand.ts
 model/receiptPagedRequestFilter.ts
 model/receiptProcessingSettings.ts
-model/receiptProcessingSettingsAllOf.ts
 model/receiptStatus.ts
 model/resetPasswordCommand.ts
 model/searchResult.ts
@@ -83,11 +77,8 @@ model/signUpCommand.ts
 model/sortDirection.ts
 model/subjectLineRegex.ts
 model/systemEmail.ts
-model/systemEmailAllOf.ts
 model/systemSettings.ts
-model/systemSettingsAllOf.ts
 model/systemTask.ts
-model/systemTaskAllOf.ts
 model/systemTaskStatus.ts
 model/systemTaskType.ts
 model/tag.ts
@@ -108,7 +99,6 @@ model/upsertTagCommand.ts
 model/upsertWidgetCommand.ts
 model/user.ts
 model/userPreferences.ts
-model/userPreferencesAllOf.ts
 model/userRole.ts
 model/userView.ts
 model/widget.ts

@@ -77,7 +77,7 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.receipts = [...this.receipts, ...pagedData.data as Receipt[]];
+          this.receipts = [...this.receipts, ...pagedData.data as any as Receipt[]];
           this.cdr.detectChanges();
         })
       )

@@ -15,6 +15,6 @@ export const allReceiptProcessingSettingsResolver: ResolveFn<ReceiptProcessingSe
   return service.getPagedProcessingSettings(command)
     .pipe(
       take(1),
-      map((response) => response.data as ReceiptProcessingSettings[])
+      map((response) => response.data as any as ReceiptProcessingSettings[])
     );
 };

@@ -2,25 +2,6 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
-import { AuthService } from './api/auth.service';
-import { CategoryService } from './api/category.service';
-import { CommentService } from './api/comment.service';
-import { DashboardService } from './api/dashboard.service';
-import { FeatureConfigService } from './api/featureConfig.service';
-import { GroupsService } from './api/groups.service';
-import { ImportService } from './api/import.service';
-import { NotificationsService } from './api/notifications.service';
-import { PromptService } from './api/prompt.service';
-import { ReceiptService } from './api/receipt.service';
-import { ReceiptImageService } from './api/receiptImage.service';
-import { ReceiptProcessingSettingsService } from './api/receiptProcessingSettings.service';
-import { SearchService } from './api/search.service';
-import { SystemEmailService } from './api/systemEmail.service';
-import { SystemSettingsService } from './api/systemSettings.service';
-import { SystemTaskService } from './api/systemTask.service';
-import { TagService } from './api/tag.service';
-import { UserService } from './api/user.service';
-import { UserPreferencesService } from './api/userPreferences.service';
 
 @NgModule({
   imports:      [],
