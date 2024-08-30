@@ -44,6 +44,7 @@ describe("SearchResultPipe", () => {
       type: "receipt",
       groupId: 1,
       date: "2022-12-12",
+      createdAt: "2022-12-12",
     };
 
     const result = pipe.transform(searchResult);

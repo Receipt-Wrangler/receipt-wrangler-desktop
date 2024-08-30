@@ -20,8 +20,11 @@ export class OperationsPipe implements PipeTransform {
   };
 
   public transform(type: string, display: boolean): string[] {
+    let operationOptions: FilterOperation[] = [];
+
     switch (type) {
       case "date":
+
         return dateOperationOptions.map((option) => this.getDisplayValue(option, display));
 
       case "text":

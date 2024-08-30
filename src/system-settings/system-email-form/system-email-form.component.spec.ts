@@ -81,7 +81,7 @@ describe("SystemEmailFormComponent", () => {
     const activatedRoute = TestBed.inject(ActivatedRoute);
     activatedRoute.snapshot.data["systemEmail"] = {
       host: "host",
-      port: 123,
+      port: "123",
       username: "username",
       password: "password"
     } as SystemEmail;
@@ -90,7 +90,7 @@ describe("SystemEmailFormComponent", () => {
 
     expect(component.form.value).toEqual({
       host: "host",
-      port: 123,
+      port: "123",
       username: "username",
       password: null
     });
