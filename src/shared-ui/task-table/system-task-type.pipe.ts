@@ -30,5 +30,6 @@ export class SystemTaskTypePipe implements PipeTransform {
       case "PROMPT_GENERATED":
         return "Prompt Generated";
     }
+    return "";
   }
 }

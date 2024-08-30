@@ -401,7 +401,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
     this.getFilteredReceipts();
   }
-  
+
   public showStatusUpdateDialog(): void {
     const ref = this.matDialog.open(
       BulkStatusUpdateComponent,
@@ -440,7 +440,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
                     receipts.forEach((r) => {
                       const receiptInTable = newReceipts.find(
                         (nr) => r.id === nr.id
-                      ) as Receipt;
+                      ) as any as Receipt;
                       if (receiptInTable) {
                         receiptInTable.status = r.status;
                         receiptInTable.resolvedDate = r.resolvedDate;

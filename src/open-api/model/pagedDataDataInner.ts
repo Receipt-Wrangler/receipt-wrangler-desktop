@@ -9,10 +9,18 @@
  * Do not edit the class manually.
  */
 import { Comment } from './comment';
-import { Item } from './item';
+import { Group } from './group';
+import { GroupMember } from './groupMember';
 import { Category } from './category';
 import { Receipt } from './receipt';
-import { ReceiptStatus } from './receiptStatus';
+import { SystemTaskType } from './systemTaskType';
+import { Item } from './item';
+import { SystemTaskStatus } from './systemTaskStatus';
+import { SystemTask } from './systemTask';
+import { GroupSettings } from './groupSettings';
+import { AssociatedEntityType } from './associatedEntityType';
+import { Prompt } from './prompt';
+import { TagView } from './tagView';
 import { Tag } from './tag';
 import { FileData } from './fileData';
 
@@ -30,7 +38,7 @@ export interface PagedDataDataInner {
      * Comments associated to receipt
      */
     comments?: Array<Comment>;
-    createdAt?: string;
+    createdAt: string;
     createdBy?: number;
     /**
      * Receipt date
@@ -46,7 +54,7 @@ export interface PagedDataDataInner {
      */
     imageFiles?: Array<FileData>;
     /**
-     * Tag name
+     * Name of the tag
      */
     name: string;
     /**
@@ -61,20 +69,49 @@ export interface PagedDataDataInner {
      * Date resolved
      */
     resolvedDate?: string;
-    status: ReceiptStatus;
+    status: SystemTaskStatus;
     /**
      * Tags associated to receipt
      */
     tags?: Array<Tag>;
     updatedAt?: string;
     /**
-     * Created by string, which is anything that is not a user
+     * Created by entity\'s name
      */
     createdByString?: string;
     /**
-     * Tag description
+     * Description of the tag
      */
     description?: string;
+    /**
+     * Prompt text
+     */
+    prompt: string;
+    groupSettings?: GroupSettings;
+    /**
+     * Members of the group
+     */
+    groupMembers: Array<GroupMember>;
+    /**
+     * Is default group (not used yet)
+     */
+    isDefault?: boolean;
+    /**
+     * Is all group for user
+     */
+    isAllGroup: boolean;
+    /**
+     * Number of receipts associated with this tag
+     */
+    numberOfReceipts: number;
+    type?: SystemTaskType;
+    startedAt?: string;
+    endedAt?: string;
+    associatedEntityId?: number;
+    associatedEntityType?: AssociatedEntityType;
+    ranByUserId?: number;
+    resultDescription?: string;
+    childSystemTasks?: Array<SystemTask>;
 }
 export namespace PagedDataDataInner {
 }
