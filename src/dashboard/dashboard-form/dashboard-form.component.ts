@@ -1,7 +1,7 @@
 import { Component, OnInit, QueryList, ViewChildren, ViewEncapsulation } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
-import { UntilDestroy } from "@ngneat/until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
 import { BehaviorSubject, take, tap } from "rxjs";
 import { ReceiptFilterComponent } from "src/shared-ui/receipt-filter/receipt-filter.component";
@@ -69,19 +69,37 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
   }
 
   private buildWidgetFormGroup(widget: Widget): FormGroup {
+    let formGroup: FormGroup;
     switch (widget.widgetType) {
       case WidgetType.FilteredReceipts:
-        return this.formBuilder.group({
+        formGroup = this.formBuilder.group({
           name: [widget.name, Validators.required],
           widgetType: [widget.widgetType, Validators.required],
           configuration: buildReceiptFilterForm(widget.configuration),
         });
+        break;
       default:
-        return this.formBuilder.group({
+        formGroup = this.formBuilder.group({
           name: [widget.name, Validators.required],
           widgetType: [widget.widgetType, Validators.required],
         });
+        break;
     }
+
+    formGroup.get("widgetType")
+      ?.valueChanges
+      .pipe(
+        untilDestroyed(this),
+        tap((widgetType: WidgetType) => {
+          if (widgetType === WidgetType.FilteredReceipts) {
+            formGroup.addControl("configuration", buildReceiptFilterForm({}));
+          } else {
+            formGroup.removeControl("configuration");
+          }
+        }),
+      ).subscribe();
+
+    return formGroup;
   }
 
   public submit(): void {
