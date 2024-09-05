@@ -3,6 +3,7 @@ import { FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { FormMode } from "src/enums/form-mode.enum";
 import { FormConfig } from "src/interfaces";
+import { applyFormCommand } from "../../utils/index";
 import { FormCommand } from "../interfaces/form-command";
 
 @Component({
@@ -27,13 +28,7 @@ export class BaseFormComponent {
   }
 
   public handleFormCommand(formCommand: FormCommand): void {
-    if (formCommand.path) {
-      (this.form.get(formCommand.path) as any)[formCommand.command](
-        formCommand.payload
-      );
-    } else {
-      (this.form as any)[formCommand.command](formCommand.payload);
-    }
+    applyFormCommand(this.form, formCommand);
   }
 
   public emitFormCommand(formCommand: FormCommand): void {

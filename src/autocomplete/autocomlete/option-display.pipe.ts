@@ -1,7 +1,7 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
-  name: 'optionDisplay',
+  name: "optionDisplay",
 })
 export class OptionDisplayPipe implements PipeTransform {
   public transform(
@@ -14,12 +14,12 @@ export class OptionDisplayPipe implements PipeTransform {
     if (optionValueKey && optionDisplayKey) {
       return options.find(
         (o) => o?.[optionValueKey] === (option?.[optionValueKey] ?? option)
-      )[optionDisplayKey];
+      )?.[optionDisplayKey];
     }
 
     // If we have the whole option object
     if (optionDisplayKey) {
-      return option[optionDisplayKey];
+      return option?.[optionDisplayKey];
     }
 
     return option;

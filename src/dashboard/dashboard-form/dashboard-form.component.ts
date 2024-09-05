@@ -5,9 +5,11 @@ import { UntilDestroy } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
 import { BehaviorSubject, take, tap } from "rxjs";
 import { ReceiptFilterComponent } from "src/shared-ui/receipt-filter/receipt-filter.component";
+import { BaseFormComponent } from "../../form/index";
 import { Dashboard, DashboardService, Widget, WidgetType } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { GroupState } from "../../store";
+import { buildReceiptFilterForm } from "../../utils/receipt-filter";
 import { widgetTypeOptions } from "../constants/widget-options";
 
 @UntilDestroy()
@@ -17,13 +19,11 @@ import { widgetTypeOptions } from "../constants/widget-options";
   styleUrls: ["./dashboard-form.component.scss"],
   encapsulation: ViewEncapsulation.None
 })
-export class DashboardFormComponent implements OnInit {
+export class DashboardFormComponent extends BaseFormComponent implements OnInit {
   @ViewChildren(ReceiptFilterComponent)
   public receiptFilterComponents!: QueryList<ReceiptFilterComponent>;
 
   public headerText: string = "";
-
-  public form: FormGroup = new FormGroup({});
 
   public dashboard?: Dashboard;
 
@@ -45,13 +45,15 @@ export class DashboardFormComponent implements OnInit {
     private store: Store,
     private snackbarService: SnackbarService,
     private matDialogRef: MatDialogRef<DashboardFormComponent>
-  ) {}
+  ) {
+    super();
+  }
 
   public ngOnInit(): void {
     this.originalWidgets = Array.from(this.dashboard?.widgets ?? []);
     this.initForm();
   }
-  
+
   public initForm(): void {
     this.form = this.formBuilder.group({
       name: [this.dashboard?.name ?? "", Validators.required],
@@ -63,6 +65,7 @@ export class DashboardFormComponent implements OnInit {
         this.dashboard?.widgets?.map((w) => this.buildWidgetFormGroup(w)) ?? []
       ),
     });
+    console.warn(this.form.value);
   }
 
   private buildWidgetFormGroup(widget: Widget): FormGroup {
@@ -71,6 +74,7 @@ export class DashboardFormComponent implements OnInit {
         return this.formBuilder.group({
           name: [widget.name, Validators.required],
           widgetType: [widget.widgetType, Validators.required],
+          configuration: buildReceiptFilterForm(widget.configuration),
         });
       default:
         return this.formBuilder.group({
@@ -152,16 +156,6 @@ export class DashboardFormComponent implements OnInit {
     this.isAddingWidget = true;
   }
 
-  public addFilterToWidget(
-    filterFormGroup: FormGroup,
-    widgetIndex: number
-  ): void {
-    (this.widgets.at(widgetIndex) as FormGroup).addControl(
-      "configuration",
-      filterFormGroup
-    );
-  }
-
   public cancelWidgetEdit(): void {
     if (this.isAddingWidget) {
       this.widgets.removeAt(this.widgets.length - 1);
@@ -171,7 +165,7 @@ export class DashboardFormComponent implements OnInit {
       const widget = this.originalWidgets[this.widgetOpen.value as number];
 
       if (widget.widgetType === WidgetType.FilteredReceipts) {
-        this.patchFilterConfig(widget);
+        this.patchFilterConfig(this.widgetOpen.value as number);
       } else {
         this.widgets.at(this.widgetOpen.value as number).patchValue(widget);
       }
@@ -183,7 +177,7 @@ export class DashboardFormComponent implements OnInit {
     if (this.isAddingWidget) {
       const widget = this.widgets.at(this.widgets.length - 1) as FormGroup;
       if (widget.valid) {
-        const form = this.receiptFilterComponents.last.form;
+        const form = this.receiptFilterComponents.last.parentForm;
         widget.get("configuration")?.patchValue(form.value);
         this.originalWidgets.push(widget.value);
 
@@ -196,7 +190,7 @@ export class DashboardFormComponent implements OnInit {
       ) as FormGroup;
 
       if (widget.valid) {
-        const form = this.receiptFilterComponents.first.form;
+        const form = this.receiptFilterComponents.first.parentForm;
         widget.get("configuration")?.patchValue(form.value);
         this.originalWidgets.splice(
           this.widgetOpen.value as number,
@@ -209,11 +203,19 @@ export class DashboardFormComponent implements OnInit {
     }
   }
 
-  private patchFilterConfig(widget: Widget): void {
-    const originalWidget =
-      this.originalWidgets[this.widgetOpen.value as number];
-    this.receiptFilterComponents.first.filter = originalWidget.configuration;
-    this.receiptFilterComponents.first.ngOnInit();
+  private patchFilterConfig(index: number): void {
+    if (this.widgets.at(index)) {
+      const originalWidget =
+        this.originalWidgets[index];
+
+      (this.widgets.at(index) as FormGroup).removeControl("configuration");
+      (this.widgets.at(index) as FormGroup).addControl(
+        "configuration",
+        buildReceiptFilterForm(originalWidget.configuration)
+      );
+
+      console.warn(this.widgets.at(index).get("configuration")?.value), "configuration";
+    }
   }
 
   public removeWidget(index: number): void {

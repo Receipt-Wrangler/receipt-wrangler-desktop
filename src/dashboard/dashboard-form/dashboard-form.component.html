@@ -85,11 +85,12 @@
         <ng-container *ngSwitchCase="WidgetType.FilteredReceipts">
           <app-receipt-filter
             class="w-100"
-            [filter]="$any(dashboard?.widgets?.[i]?.configuration)"
+            [parentForm]="form"
+            [basePath]="'widgets.' + i + '.configuration.'"
             [footerTemplate]="filterFooter"
             [isOpen]="(widgetOpen | async) === i"
             [inDialog]="false"
-            (formInitialized)="addFilterToWidget($event, i)"
+            (formCommand)="handleFormCommand($event)"
           ></app-receipt-filter>
         </ng-container>
       </ng-container>
