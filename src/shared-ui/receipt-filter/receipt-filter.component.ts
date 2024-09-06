@@ -66,6 +66,10 @@ export class ReceiptFilterComponent implements OnInit {
 
   public resetFilter(): void {
     this.formCommand.emit({
+      path: `${this.basePath}`,
+      command: "reset",
+    });
+    this.formCommand.emit({
       path: `${this.basePath}paidBy.value`,
       command: "clear",
     });

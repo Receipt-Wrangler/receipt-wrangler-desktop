@@ -324,7 +324,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
     dialogRef.componentInstance.parentForm = buildReceiptFilterForm(filter);
     dialogRef.componentInstance.headerText = "Filter Receipts";
-    const formCommandSubscription = dialogRef.componentInstance.formCommand.subscribe((formCommand) => applyFormCommand(dialogRef.componentInstance.parentForm, formCommand));
+    const formCommandSubscription = dialogRef.componentInstance.formCommand.subscribe((formCommand) => {
+      applyFormCommand(dialogRef.componentInstance.parentForm, formCommand);
+    });
 
     dialogRef
       .afterClosed()
