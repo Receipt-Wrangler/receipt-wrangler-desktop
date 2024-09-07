@@ -231,8 +231,6 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
         "configuration",
         buildReceiptFilterForm(originalWidget.configuration, this)
       );
-
-      console.warn(this.widgets.at(index).get("configuration")?.value), "configuration";
     }
   }
 
