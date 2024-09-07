@@ -65,7 +65,6 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
         this.dashboard?.widgets?.map((w) => this.buildWidgetFormGroup(w)) ?? []
       ),
     });
-    console.warn(this.form.value);
   }
 
   private buildWidgetFormGroup(widget: Widget): FormGroup {

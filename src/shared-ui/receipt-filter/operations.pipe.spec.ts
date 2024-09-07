@@ -95,8 +95,6 @@ describe("OperationsPipe", () => {
 
     const result = pipe.transform("text", false);
 
-    console.log(result);
-
     expect(result).toEqual(["CONTAINS", "EQUALS"]);
   });
 
