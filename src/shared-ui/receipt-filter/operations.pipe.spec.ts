@@ -23,7 +23,6 @@ describe("OperationsPipe", () => {
       "Equals",
       "Greater than",
       "Less than",
-      ""
     ]);
   });
 
@@ -32,7 +31,7 @@ describe("OperationsPipe", () => {
 
     const result = pipe.transform("text", true);
 
-    expect(result).toEqual(["Contains", "Equals", ""]);
+    expect(result).toEqual(["Contains", "Equals"]);
   });
 
   it("should return options for number", () => {
@@ -44,7 +43,6 @@ describe("OperationsPipe", () => {
       "Equals",
       "Greater than",
       "Less than",
-      ""
     ]);
   });
 
@@ -89,7 +87,6 @@ describe("OperationsPipe", () => {
       "EQUALS",
       "GREATER_THAN",
       "LESS_THAN",
-      ""
     ]);
   });
 
@@ -100,7 +97,7 @@ describe("OperationsPipe", () => {
 
     console.log(result);
 
-    expect(result).toEqual(["CONTAINS", "EQUALS", ""]);
+    expect(result).toEqual(["CONTAINS", "EQUALS"]);
   });
 
   it("should return value options for date", () => {
@@ -112,7 +109,6 @@ describe("OperationsPipe", () => {
       "EQUALS",
       "GREATER_THAN",
       "LESS_THAN",
-      ""
     ]);
   });
 });

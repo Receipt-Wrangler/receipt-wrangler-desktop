@@ -1,9 +1,10 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, } from "@angular/material/dialog";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { NgxsModule, Store } from "@ngxs/store";
 import { of, tap } from "rxjs";
 import { PipesModule } from "src/pipes/pipes.module";
@@ -15,6 +16,13 @@ import { applyFormCommand } from "../../utils/index";
 import { buildReceiptFilterForm } from "../../utils/receipt-filter";
 import { OperationsPipe } from "./operations.pipe";
 import { ReceiptFilterComponent } from "./receipt-filter.component";
+
+@UntilDestroy()
+@Component({
+  selector: "app-noop",
+  template: "",
+})
+class NoopComponent {}
 
 describe("ReceiptFilterComponent", () => {
   let component: ReceiptFilterComponent;
@@ -111,7 +119,9 @@ describe("ReceiptFilterComponent", () => {
       of([]) as any
     );
 
-    component.parentForm = buildReceiptFilterForm({});
+    const noopComponent = TestBed.createComponent(NoopComponent).componentInstance;
+
+    component.parentForm = buildReceiptFilterForm({}, noopComponent);
     component.ngOnInit();
 
     expect(component.parentForm.value).toEqual(defaultReceiptFilter);
@@ -130,7 +140,9 @@ describe("ReceiptFilterComponent", () => {
       },
     });
 
-    component.parentForm = buildReceiptFilterForm(filledFilter);
+    const noopComponent = TestBed.createComponent(NoopComponent).componentInstance;
+
+    component.parentForm = buildReceiptFilterForm(filledFilter, noopComponent);
     component.ngOnInit();
 
     expect(component.parentForm.value).toEqual(filledFilter);
@@ -153,7 +165,9 @@ describe("ReceiptFilterComponent", () => {
       applyFormCommand(component.parentForm, formCommand);
     })).subscribe();
 
-    component.parentForm = buildReceiptFilterForm(filledFilter);
+    const noopComponent = TestBed.createComponent(NoopComponent).componentInstance;
+
+    component.parentForm = buildReceiptFilterForm(filledFilter, noopComponent);
     component.ngOnInit();
 
     expect(component.parentForm.value).toEqual(filledFilter);
