@@ -1,42 +1,45 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { FilterOperation, ReceiptPagedRequestFilter } from "../open-api";
 import { ReceiptTableInterface } from "../interfaces";
+import { ReceiptPagedRequestFilter } from "../open-api";
 import { ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData } from "./receipt-table.actions";
 
 export const defaultReceiptFilter = {
-  date: { operation: FilterOperation.Equals, value: "" },
+  date: {
+    operation: null,
+    value: null
+  },
   amount: {
-    operation: FilterOperation.Equals,
-    value: "",
+    operation: null,
+    value: null,
   },
   name: {
-    operation: FilterOperation.Equals,
-    value: "",
+    operation: null,
+    value: null,
   },
   paidBy: {
-    operation: FilterOperation.Contains,
+    operation: null,
     value: [],
   },
   categories: {
-    operation: FilterOperation.Contains,
+    operation: null,
     value: [],
   },
   tags: {
-    operation: FilterOperation.Contains,
+    operation: null,
     value: [],
   },
   status: {
-    operation: FilterOperation.Contains,
+    operation: null,
     value: [],
   },
   resolvedDate: {
-    operation: FilterOperation.Equals,
-    value: "",
+    operation: null,
+    value: null,
   },
   createdAt: {
-    operation: FilterOperation.Equals,
-    value: "",
+    operation: null,
+    value: null,
   },
 } as ReceiptPagedRequestFilter;
 

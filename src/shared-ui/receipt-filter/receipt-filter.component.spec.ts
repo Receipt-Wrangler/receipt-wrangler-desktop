@@ -5,12 +5,14 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, } from "@angular/material/dialog";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { NgxsModule, Store } from "@ngxs/store";
-import { of } from "rxjs";
+import { of, tap } from "rxjs";
 import { PipesModule } from "src/pipes/pipes.module";
 import { SetReceiptFilter } from "src/store/receipt-table.actions";
 import { defaultReceiptFilter, ReceiptTableState, } from "src/store/receipt-table.state";
-import { CategoryService, FilterOperation, ReceiptStatus, TagService } from "../../open-api";
 import { InputModule } from "../../input";
+import { CategoryService, FilterOperation, ReceiptStatus, TagService } from "../../open-api";
+import { applyFormCommand } from "../../utils/index";
+import { buildReceiptFilterForm } from "../../utils/receipt-filter";
 import { OperationsPipe } from "./operations.pipe";
 import { ReceiptFilterComponent } from "./receipt-filter.component";
 
@@ -108,9 +110,11 @@ describe("ReceiptFilterComponent", () => {
     spyOn(TestBed.inject(TagService), "getAllTags").and.returnValue(
       of([]) as any
     );
+
+    component.parentForm = buildReceiptFilterForm({});
     component.ngOnInit();
 
-    expect(component.form.value).toEqual(defaultReceiptFilter);
+    expect(component.parentForm.value).toEqual(defaultReceiptFilter);
   });
 
   it("should init form with initial data", () => {
@@ -125,9 +129,11 @@ describe("ReceiptFilterComponent", () => {
         filter: filledFilter,
       },
     });
+
+    component.parentForm = buildReceiptFilterForm(filledFilter);
     component.ngOnInit();
 
-    expect(component.form.value).toEqual(filledFilter);
+    expect(component.parentForm.value).toEqual(filledFilter);
   });
 
   it("should reset form", () => {
@@ -142,12 +148,18 @@ describe("ReceiptFilterComponent", () => {
         filter: filledFilter,
       },
     });
+
+    component.formCommand.pipe(tap((formCommand) => {
+      applyFormCommand(component.parentForm, formCommand);
+    })).subscribe();
+
+    component.parentForm = buildReceiptFilterForm(filledFilter);
     component.ngOnInit();
 
-    expect(component.form.value).toEqual(filledFilter);
+    expect(component.parentForm.value).toEqual(filledFilter);
 
     component.resetFilter();
-    expect(component.form.value).toEqual(defaultReceiptFilter);
+    expect(component.parentForm.value).toEqual(defaultReceiptFilter);
   });
 
   it("should set form in state and close dialog", () => {
@@ -160,7 +172,7 @@ describe("ReceiptFilterComponent", () => {
     component.submitButtonClicked();
 
     expect(storeRefSpy).toHaveBeenCalledWith(
-      new SetReceiptFilter(component.form.value)
+      new SetReceiptFilter(component.parentForm.value)
     );
     expect(dialogRefSpy).toHaveBeenCalledOnceWith(true);
   });

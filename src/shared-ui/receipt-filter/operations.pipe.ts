@@ -24,7 +24,6 @@ export class OperationsPipe implements PipeTransform {
 
     switch (type) {
       case "date":
-
         return dateOperationOptions.map((option) => this.getDisplayValue(option, display));
 
       case "text":
@@ -46,9 +45,9 @@ export class OperationsPipe implements PipeTransform {
 
   private getDisplayValue(option: FilterOperation, display: boolean): string {
     if (display) {
-      return this.displayValues[option];
+      return this.displayValues?.[option] ?? "";
     } else {
-      return option;
+      return option ?? "";
     }
   }
 }
