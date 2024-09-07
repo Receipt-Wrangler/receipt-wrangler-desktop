@@ -43,9 +43,9 @@ export class OperationsPipe implements PipeTransform {
     }
   }
 
-  private getDisplayValue(option: FilterOperation, display: boolean): string {
+  private getDisplayValue(option: FilterOperation | null, display: boolean): string {
     if (display) {
-      return this.displayValues?.[option] ?? "";
+      return this.displayValues?.[option ?? ""] ?? "";
     } else {
       return option ?? "";
     }

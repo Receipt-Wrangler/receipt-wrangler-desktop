@@ -89,15 +89,18 @@ export class ReceiptFilterComponent implements OnInit {
 
   public submitButtonClicked(): void {
     const filter = this.parentForm.value;
-    this.store
-      .dispatch(new SetReceiptFilter(filter))
-      .pipe(
-        take(1),
-        tap(() => {
-          this.dialogRef.close(true);
-        })
-      )
-      .subscribe();
+
+    if (this.parentForm.valid) {
+      this.store
+        .dispatch(new SetReceiptFilter(filter))
+        .pipe(
+          take(1),
+          tap(() => {
+            this.dialogRef.close(true);
+          })
+        )
+        .subscribe();
+    }
   }
 
   public cancelButtonClicked(): void {

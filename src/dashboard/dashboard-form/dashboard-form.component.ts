@@ -75,7 +75,7 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
         formGroup = this.formBuilder.group({
           name: [widget.name, Validators.required],
           widgetType: [widget.widgetType, Validators.required],
-          configuration: buildReceiptFilterForm(widget.configuration),
+          configuration: buildReceiptFilterForm(widget.configuration, this),
         });
         break;
       default:
@@ -92,7 +92,7 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
         untilDestroyed(this),
         tap((widgetType: WidgetType) => {
           if (widgetType === WidgetType.FilteredReceipts) {
-            formGroup.addControl("configuration", buildReceiptFilterForm({}));
+            formGroup.addControl("configuration", buildReceiptFilterForm({}, this));
           } else {
             formGroup.removeControl("configuration");
           }
@@ -229,7 +229,7 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
       (this.widgets.at(index) as FormGroup).removeControl("configuration");
       (this.widgets.at(index) as FormGroup).addControl(
         "configuration",
-        buildReceiptFilterForm(originalWidget.configuration)
+        buildReceiptFilterForm(originalWidget.configuration, this)
       );
 
       console.warn(this.widgets.at(index).get("configuration")?.value), "configuration";
