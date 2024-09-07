@@ -82,6 +82,7 @@ function buildFieldFormGroup(
         operationControl.removeValidators(Validators.required);
       }
 
+      operationControl.updateValueAndValidity();
     })).subscribe();
 
   return formBuilder.group({

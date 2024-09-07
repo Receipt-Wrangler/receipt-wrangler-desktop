@@ -100,6 +100,8 @@ export class ReceiptFilterComponent implements OnInit {
           })
         )
         .subscribe();
+    } else {
+      this.parentForm.markAllAsTouched();
     }
   }
 
