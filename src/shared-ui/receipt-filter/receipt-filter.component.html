@@ -180,6 +180,7 @@
       [inputFormControl]="parentForm | formGet : basePath + fieldName + '.operation'"
       [options]="type | operations: false"
       [optionsDisplayArray]="type | operations: true"
+      [addEmptyOption]="true"
     ></app-select>
   </div>
 </ng-template>
