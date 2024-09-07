@@ -150,6 +150,7 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
     const widget = widgetFormGroup.value;
 
     if (!widgetFormGroup.valid) {
+      widgetFormGroup.markAllAsTouched();
       return;
     }
 
