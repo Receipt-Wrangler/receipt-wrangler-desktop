@@ -15,6 +15,8 @@ export class SelectComponent extends BaseInputComponent implements OnInit {
 
   @Input() public optionDisplayKey: string = "";
 
+  @Input() public addEmptyOption: boolean = false;
+
   constructor() {
     super();
   }

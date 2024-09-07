@@ -145,7 +145,7 @@
       class="w-50"
       [label]="label"
       [isCurrency]="isCurrency"
-      [inputFormControl]="form | formGet : fieldName + '.value'"
+      [inputFormControl]="parentForm | formGet : basePath +  fieldName + '.value'"
     ></app-input>
     <app-user-autocomplete
       *ngIf="type === 'users'"
@@ -153,13 +153,13 @@
       optionValueKey="id"
       [label]="label"
       [multiple]="true"
-      [inputFormControl]="form | formGet : fieldName + '.value'"
+      [inputFormControl]="parentForm | formGet : basePath + fieldName + '.value'"
     ></app-user-autocomplete>
     <app-datepicker
       *ngIf="type === 'date'"
       class="w-50"
       [label]="label"
-      [inputFormControl]="form | formGet : fieldName + '.value'"
+      [inputFormControl]="parentForm | formGet : basePath + fieldName + '.value'"
     >
     </app-datepicker>
     <app-autocomlete
@@ -167,7 +167,7 @@
       class="w-50"
       [multiple]="multiple"
       [label]="label"
-      [inputFormControl]="form | formGet : fieldName + '.value'"
+      [inputFormControl]="parentForm | formGet : basePath + fieldName + '.value'"
       [options]="options"
       [optionValueKey]="optionValueKey"
       [optionFilterKey]="optionFilterKey"
@@ -177,9 +177,10 @@
     <app-select
       class="ms-2 w-50"
       label="Operation"
-      [inputFormControl]="form | formGet : fieldName + '.operation'"
+      [inputFormControl]="parentForm | formGet : basePath + fieldName + '.operation'"
       [options]="type | operations: false"
       [optionsDisplayArray]="type | operations: true"
+      [addEmptyOption]="true"
     ></app-select>
   </div>
 </ng-template>

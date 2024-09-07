@@ -4,7 +4,7 @@ import { GroupStatus, ItemStatus, ReceiptStatus } from "../open-api";
 
 export const RECEIPT_STATUS_OPTIONS: FormOption[] = Object.keys(
   ReceiptStatus
-).map((key) => {
+).filter(k => !!(ReceiptStatus as any)[k]).map((key) => {
   const value = (ReceiptStatus as any)[key];
   return {
     value: value,

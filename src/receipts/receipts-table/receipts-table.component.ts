@@ -33,6 +33,8 @@ import { SnackbarService } from "../../services";
 import { ReceiptQueueService } from "../../services/receipt-queue.service";
 import { ReceiptFilterComponent } from "../../shared-ui/receipt-filter/receipt-filter.component";
 import { GroupState } from "../../store";
+import { applyFormCommand } from "../../utils/index";
+import { buildReceiptFilterForm } from "../../utils/receipt-filter";
 import { BulkStatusUpdateComponent } from "../bulk-resolve-dialog/bulk-status-update-dialog.component";
 
 @UntilDestroy()
@@ -309,6 +311,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   public filterButtonClicked(): void {
+    const filter = this.store.selectSnapshot(ReceiptTableState.filterData).filter as any;
+
     const dialogRef = this.matDialog.open(ReceiptFilterComponent, {
       minWidth: "50%",
       maxWidth: "100%",
@@ -318,7 +322,11 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
       },
     });
 
+    dialogRef.componentInstance.parentForm = buildReceiptFilterForm(filter, this);
     dialogRef.componentInstance.headerText = "Filter Receipts";
+    const formCommandSubscription = dialogRef.componentInstance.formCommand.subscribe((formCommand) => {
+      applyFormCommand(dialogRef.componentInstance.parentForm, formCommand);
+    });
 
     dialogRef
       .afterClosed()
@@ -329,6 +337,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
             this.store.dispatch(new SetPage(1));
             this.getFilteredReceipts();
           }
+
+          formCommandSubscription.unsubscribe();
         })
       )
       .subscribe();

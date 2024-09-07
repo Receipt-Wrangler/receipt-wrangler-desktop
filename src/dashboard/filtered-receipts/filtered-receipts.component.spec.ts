@@ -5,6 +5,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgxsModule, Store } from "@ngxs/store";
 import { of } from "rxjs";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
+import { CustomCurrencyPipe } from "../../pipes/custom-currency.pipe";
 import { GroupState } from "../../store";
 import { FilteredReceiptsComponent } from "./filtered-receipts.component";
 
@@ -21,6 +22,7 @@ describe("FilteredReceiptsComponent", () => {
         HttpClientTestingModule,
         ScrollingModule,
       ],
+      providers: [CustomCurrencyPipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     store = TestBed.inject(Store);
