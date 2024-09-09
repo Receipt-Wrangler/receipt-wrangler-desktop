@@ -1,9 +1,10 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { untilDestroyed } from "@ngneat/until-destroy";
 import { startWith, tap } from "rxjs";
+import { FilterOperation } from "../open-api/index";
 
 export function buildReceiptFilterForm(filter: any, thisContext: any): FormGroup {
-  return new FormGroup({
+  const formGroup = new FormGroup({
     date: buildFieldFormGroup(
       filter?.date?.value,
       filter?.date?.operation,
@@ -12,7 +13,8 @@ export function buildReceiptFilterForm(filter: any, thisContext: any): FormGroup
     amount: buildFieldFormGroup(
       filter?.amount?.value,
       filter?.amount?.operation,
-      thisContext
+      thisContext,
+      filter?.amount?.operation === FilterOperation.Between
     ),
     name: buildFieldFormGroup(
       filter?.name?.value,
@@ -54,6 +56,33 @@ export function buildReceiptFilterForm(filter: any, thisContext: any): FormGroup
       thisContext,
     ),
   });
+
+  listenForBetweenOperation(formGroup, "amount", thisContext);
+
+
+  return formGroup;
+}
+
+function listenForBetweenOperation(form: FormGroup, key: string, thisContext: any): void {
+  const formBuilder = new FormBuilder();
+
+  form
+    .get(key)
+    ?.get("operation")
+    ?.valueChanges
+    .pipe(
+      untilDestroyed(thisContext),
+      tap((operation: FilterOperation) => {
+        if (operation === FilterOperation.Between) {
+          (form.get(key) as FormGroup).removeControl("value");
+          (form.get(key) as FormGroup).addControl("value", formBuilder.array([null, null], Validators.required));
+          console.warn(form.value);
+        } else {
+          form.removeControl(`${key}.value`);
+          form.addControl(`${key}.value`, formBuilder.control(null));
+        }
+      }),
+    ).subscribe();
 }
 
 
