@@ -314,7 +314,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     const filter = this.store.selectSnapshot(ReceiptTableState.filterData).filter as any;
 
     const dialogRef = this.matDialog.open(ReceiptFilterComponent, {
-      minWidth: "50%",
+      minWidth: "75%",
       maxWidth: "100%",
       data: {
         categories: this.categories,

@@ -141,9 +141,9 @@
 >
   <div class="d-flex">
     @if ((parentForm | formGet : basePath + fieldName + '.operation').value === FilterOperation.Between) {
-      <div class="d-flex">
-        <div class="d-flex w-50">
-          <div class="col-sm">
+      <div class="d-flex w-100">
+        <div class="d-flex w-50 align-items-center">
+          <div class="w-50">
             <app-input
               *ngIf="type === 'text' || type === 'number'"
               [label]="label"
@@ -151,10 +151,10 @@
               [inputFormControl]="parentForm | formGet : basePath +  fieldName + '.value.0'"
             ></app-input>
           </div>
-          <span class="col">
+          <span class="between-separator">
             and
           </span>
-          <div class="col-sm">
+          <div class="w-50">
             <app-input
               *ngIf="type === 'text' || type === 'number'"
               [label]="label"
