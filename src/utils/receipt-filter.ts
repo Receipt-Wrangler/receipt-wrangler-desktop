@@ -1,6 +1,6 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { untilDestroyed } from "@ngneat/until-destroy";
-import { startWith, tap } from "rxjs";
+import { pairwise, startWith, tap } from "rxjs";
 import { FilterOperation } from "../open-api/index";
 
 export function buildReceiptFilterForm(filter: any, thisContext: any): FormGroup {
@@ -71,15 +71,16 @@ function listenForBetweenOperation(form: FormGroup, key: string, thisContext: an
     ?.get("operation")
     ?.valueChanges
     .pipe(
+      startWith(form.get(key)?.get("operation")?.value),
+      pairwise(),
       untilDestroyed(thisContext),
-      tap((operation: FilterOperation) => {
-        if (operation === FilterOperation.Between) {
+      tap(([prev, curr]: [FilterOperation | null, FilterOperation | null]) => {
+        if (curr === FilterOperation.Between) {
           (form.get(key) as FormGroup).removeControl("value");
-          (form.get(key) as FormGroup).addControl("value", formBuilder.array([null, null], Validators.required));
-          console.warn(form.value);
-        } else {
-          form.removeControl(`${key}.value`);
-          form.addControl(`${key}.value`, formBuilder.control(null));
+          (form.get(key) as FormGroup).addControl("value", formBuilder.array([null, null]));
+        } else if (prev === FilterOperation.Between && curr !== FilterOperation.Between) {
+          (form.get(key) as FormGroup).removeControl("value");
+          (form.get(key) as FormGroup).addControl("value", formBuilder.control(null));
         }
       }),
     ).subscribe();
@@ -95,7 +96,10 @@ function buildFieldFormGroup(
   const formBuilder = new FormBuilder();
   let valueControl: AbstractControl;
   const operationControl = formBuilder.control(operation);
-  if (isArray) {
+
+  if (operation === FilterOperation.Between) {
+    valueControl = formBuilder.array([value?.[0], value?.[1]]);
+  } else if (isArray) {
     valueControl = formBuilder.array(value);
   } else {
     valueControl = formBuilder.control(value);
