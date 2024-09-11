@@ -155,7 +155,6 @@
             ></app-input>
             <app-datepicker
               *ngIf="type === 'date'"
-              class="w-50"
               [label]="'Start ' + label"
               [inputFormControl]="parentForm | formGet : basePath + fieldName + '.value.0'"
               [additionalErrorMessages]="{
@@ -176,7 +175,6 @@
             ></app-input>
             <app-datepicker
               *ngIf="type === 'date'"
-              class="w-50"
               [label]="'End ' + label"
               [inputFormControl]="parentForm | formGet : basePath + fieldName + '.value.1'"
             >
@@ -184,9 +182,8 @@
           </div>
         </div>
 
-        <div class="w-50">
+        <div class="ms-2 w-50">
           <app-select
-            class="ms-2 w-50"
             label="Operation"
             [inputFormControl]="parentForm | formGet : basePath + fieldName + '.operation'"
             [options]="type | operations: false"
