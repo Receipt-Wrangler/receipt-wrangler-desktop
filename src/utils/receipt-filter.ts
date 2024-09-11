@@ -1,6 +1,6 @@
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { untilDestroyed } from "@ngneat/until-destroy";
-import { pairwise, startWith, tap } from "rxjs";
+import { distinctUntilChanged, pairwise, startWith, tap } from "rxjs";
 import { FilterOperation } from "../open-api/index";
 
 export function buildReceiptFilterForm(filter: any, thisContext: any): FormGroup {
@@ -8,7 +8,8 @@ export function buildReceiptFilterForm(filter: any, thisContext: any): FormGroup
     date: buildFieldFormGroup(
       filter?.date?.value,
       filter?.date?.operation,
-      thisContext
+      thisContext,
+      filter?.date?.operation === FilterOperation.Between
     ),
     amount: buildFieldFormGroup(
       filter?.amount?.value,
@@ -49,16 +50,20 @@ export function buildReceiptFilterForm(filter: any, thisContext: any): FormGroup
       filter?.resolvedDate?.value,
       filter?.resolvedDate?.operation,
       thisContext,
+      filter?.resolvedDate?.operation === FilterOperation.Between
     ),
     createdAt: buildFieldFormGroup(
       filter?.createdAt?.value,
       filter?.createdAt?.operation,
       thisContext,
+      filter?.createdAt?.operation === FilterOperation.Between
     ),
   });
 
   listenForBetweenOperation(formGroup, "amount", thisContext);
   listenForBetweenOperation(formGroup, "date", thisContext);
+  listenForBetweenOperation(formGroup, "resolvedDate", thisContext);
+  listenForBetweenOperation(formGroup, "createdAt", thisContext);
 
 
   return formGroup;
@@ -73,6 +78,7 @@ function listenForBetweenOperation(form: FormGroup, key: string, thisContext: an
     ?.valueChanges
     .pipe(
       startWith(form.get(key)?.get("operation")?.value),
+      distinctUntilChanged(),
       pairwise(),
       untilDestroyed(thisContext),
       tap(([prev, curr]: [FilterOperation | null, FilterOperation | null]) => {
