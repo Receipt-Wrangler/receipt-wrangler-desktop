@@ -146,9 +146,12 @@
           <div class="w-50">
             <app-input
               *ngIf="type === 'text' || type === 'number'"
-              [label]="label"
+              [label]="'Start ' + label"
               [isCurrency]="isCurrency"
               [inputFormControl]="parentForm | formGet : basePath +  fieldName + '.value.0'"
+              [additionalErrorMessages]="{
+              'invalidAmount': 'Start ' + label + ' is invalid.'
+              }"
             ></app-input>
           </div>
           <span class="between-separator">
@@ -157,7 +160,7 @@
           <div class="w-50">
             <app-input
               *ngIf="type === 'text' || type === 'number'"
-              [label]="label"
+              [label]="'End ' + label"
               [isCurrency]="isCurrency"
               [inputFormControl]="parentForm | formGet : basePath +  fieldName + '.value.1'"
             ></app-input>
