@@ -150,9 +150,19 @@
               [isCurrency]="isCurrency"
               [inputFormControl]="parentForm | formGet : basePath +  fieldName + '.value.0'"
               [additionalErrorMessages]="{
-              'invalidAmount': 'Start ' + label + ' is invalid.'
+              'invalidValue': 'Start ' + label + ' is invalid.'
               }"
             ></app-input>
+            <app-datepicker
+              *ngIf="type === 'date'"
+              class="w-50"
+              [label]="'Start ' + label"
+              [inputFormControl]="parentForm | formGet : basePath + fieldName + '.value.0'"
+              [additionalErrorMessages]="{
+              'invalidValue': 'Start ' + label + ' is invalid.'
+              }"
+            >
+            </app-datepicker>
           </div>
           <span class="between-separator">
             and
@@ -164,6 +174,13 @@
               [isCurrency]="isCurrency"
               [inputFormControl]="parentForm | formGet : basePath +  fieldName + '.value.1'"
             ></app-input>
+            <app-datepicker
+              *ngIf="type === 'date'"
+              class="w-50"
+              [label]="'End ' + label"
+              [inputFormControl]="parentForm | formGet : basePath + fieldName + '.value.1'"
+            >
+            </app-datepicker>
           </div>
         </div>
 

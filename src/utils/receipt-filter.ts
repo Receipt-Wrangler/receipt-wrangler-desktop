@@ -58,6 +58,7 @@ export function buildReceiptFilterForm(filter: any, thisContext: any): FormGroup
   });
 
   listenForBetweenOperation(formGroup, "amount", thisContext);
+  listenForBetweenOperation(formGroup, "date", thisContext);
 
 
   return formGroup;
@@ -111,7 +112,7 @@ function betweenValidator(control: AbstractControl): { [key: string]: any } | nu
   const formArray = control as FormArray;
 
   if (formArray.value[0] > formArray.value[1] && formArray.value[1] !== null) {
-    formArray.at(0).setErrors({ invalidAmount: true });
+    formArray.at(0).setErrors({ invalidValue: true });
   }
 
   if (formArray.value[0] < formArray.value[1]) {
