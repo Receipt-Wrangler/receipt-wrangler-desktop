@@ -17,6 +17,7 @@ export class OperationsPipe implements PipeTransform {
     [FilterOperation.Equals]: "Equals",
     [FilterOperation.GreaterThan]: "Greater than",
     [FilterOperation.LessThan]: "Less than",
+    [FilterOperation.Between]: "Between",
   };
 
   public transform(type: string, display: boolean): string[] {

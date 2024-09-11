@@ -10,13 +10,14 @@
  */
 
 
-export type FilterOperation = 'CONTAINS' | 'EQUALS' | 'GREATER_THAN' | 'LESS_THAN' | '';
+export type FilterOperation = 'CONTAINS' | 'EQUALS' | 'GREATER_THAN' | 'LESS_THAN' | 'BETWEEN' | '';
 
 export const FilterOperation = {
     Contains: 'CONTAINS' as FilterOperation,
     Equals: 'EQUALS' as FilterOperation,
     GreaterThan: 'GREATER_THAN' as FilterOperation,
     LessThan: 'LESS_THAN' as FilterOperation,
+    Between: 'BETWEEN' as FilterOperation,
     Empty: '' as FilterOperation
 };
 

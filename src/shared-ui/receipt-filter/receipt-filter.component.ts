@@ -6,7 +6,7 @@ import { forkJoin, take, tap } from "rxjs";
 import { RECEIPT_STATUS_OPTIONS } from "src/constants";
 import { SetReceiptFilter } from "src/store/receipt-table.actions";
 import { FormCommand } from "../../form/index";
-import { Category, CategoryService, Tag, TagService } from "../../open-api";
+import { Category, CategoryService, FilterOperation, Tag, TagService } from "../../open-api";
 
 @Component({
   selector: "app-receipt-filter",
@@ -108,4 +108,6 @@ export class ReceiptFilterComponent implements OnInit {
   public cancelButtonClicked(): void {
     this.dialogRef.close(false);
   }
+
+  protected readonly FilterOperation = FilterOperation;
 }

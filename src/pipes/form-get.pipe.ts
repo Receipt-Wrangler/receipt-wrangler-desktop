@@ -1,8 +1,8 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Pipe, PipeTransform } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Pipe({
-  name: 'formGet',
+  name: "formGet",
 })
 export class FormGetPipe implements PipeTransform {
   transform(form: FormGroup, path: string): FormControl {

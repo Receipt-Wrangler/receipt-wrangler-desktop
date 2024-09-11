@@ -13,7 +13,7 @@ export const numberOperationOptions = Object.values(FilterOperation).filter(
 );
 
 export const textOperationOptions = Object.values(FilterOperation).filter(
-  (k) => !k.includes("THAN") && !!k
+  (k) => !k.includes("THAN") && !k.includes("BETWEEN") && !!k
 );
 
 export const usersOperationOptions = Object.values(FilterOperation).filter(
