@@ -23,6 +23,7 @@ describe("OperationsPipe", () => {
       "Equals",
       "Greater than",
       "Less than",
+      "Between"
     ]);
   });
 
@@ -43,6 +44,7 @@ describe("OperationsPipe", () => {
       "Equals",
       "Greater than",
       "Less than",
+      "Between"
     ]);
   });
 
@@ -87,6 +89,7 @@ describe("OperationsPipe", () => {
       "EQUALS",
       "GREATER_THAN",
       "LESS_THAN",
+      "BETWEEN"
     ]);
   });
 
@@ -107,6 +110,7 @@ describe("OperationsPipe", () => {
       "EQUALS",
       "GREATER_THAN",
       "LESS_THAN",
+      "BETWEEN"
     ]);
   });
 });
