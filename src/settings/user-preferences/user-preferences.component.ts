@@ -5,7 +5,7 @@ import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
 import { FormConfig } from "src/interfaces";
-import { UserPreferencesService } from "../../open-api";
+import { UserPreferencesService, UserShortcut } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { AuthState, SetUserPreferences } from "../../store";
 
@@ -20,6 +20,8 @@ export class UserPreferencesComponent implements OnInit {
   public formConfig!: FormConfig;
 
   public formMode = FormMode;
+
+  public isAddingShortcut = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,13 +47,20 @@ export class UserPreferencesComponent implements OnInit {
       quickScanDefaultPaidById: userPreferences?.quickScanDefaultPaidById ?? "",
       quickScanDefaultGroupId: userPreferences?.quickScanDefaultGroupId ?? "",
       quickScanDefaultStatus: userPreferences?.quickScanDefaultStatus ?? "",
-
+      userShortcuts: this.formBuilder.array((userPreferences?.userShortcuts ?? []).map(shortcut => this.buildUserShortcut(shortcut))),
     });
 
     if (this.formConfig.mode === FormMode.view) {
       this.form.get("quickScanDefaultStatus")?.disable();
       this.form.get("showLargeImagePreviews")?.disable();
     }
+  }
+
+  private buildUserShortcut(userShortcut?: UserShortcut): FormGroup {
+    return this.formBuilder.group({
+      icon: userShortcut?.icon ?? "",
+      url: userShortcut?.url ?? ""
+    });
   }
 
   public submit(): void {
@@ -85,4 +94,6 @@ export class UserPreferencesComponent implements OnInit {
         .subscribe();
     }
   }
+
+  protected readonly FormMode = FormMode;
 }

@@ -59,6 +59,11 @@
 
 
 <ng-template #shortcutHeaderButtons>
-  <app-add-button tooltip="Add shortcut"></app-add-button>
+  @if (formConfig.mode === FormMode.edit) {
+    <app-add-button
+      tooltip="Add shortcut"
+      [disabled]="isAddingShortcut"
+    ></app-add-button>
+  }
 
 </ng-template>
