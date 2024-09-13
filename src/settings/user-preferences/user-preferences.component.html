@@ -43,5 +43,22 @@
         [addBlankOption]="true"
       ></app-status-select>
     </app-form-section>
+    <app-form-section
+      headerText="Shortcuts"
+      [headerButtonsTemplate]="shortcutHeaderButtons"
+    >
+      <mat-list role="list">
+        <mat-list-item role="listitem">Item 1</mat-list-item>
+        <mat-list-item role="listitem">Item 2</mat-list-item>
+        <mat-list-item role="listitem">Item 3</mat-list-item>
+      </mat-list>
+
+    </app-form-section>
   </div>
+</ng-template>
+
+
+<ng-template #shortcutHeaderButtons>
+  <app-add-button tooltip="Add shortcut"></app-add-button>
+
 </ng-template>

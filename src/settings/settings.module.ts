@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
+import { MatListModule } from "@angular/material/list";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { ColorPickerModule } from "src/color-picker/color-picker.module";
@@ -34,6 +35,7 @@ import { UserProfileComponent } from "./user-profile/user-profile.component";
     SharedUiModule,
     UserAutocompleteModule,
     CheckboxModule,
+    MatListModule,
   ],
 })
 export class SettingsModule {}
