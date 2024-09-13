@@ -126,10 +126,10 @@ export class PromptTableComponent implements OnInit, AfterViewInit {
       .pipe(
         take(1),
         tap((pagedData) => {
-          this.dataSource = new MatTableDataSource(pagedData.data as Prompt[]);
+          this.dataSource = new MatTableDataSource(pagedData.data as any as Prompt[]);
           this.totalCount = pagedData.totalCount;
           this.setDefaultPromptExists();
-          this.setPromptsWithRelatedData(pagedData.data as Prompt[]);
+          this.setPromptsWithRelatedData(pagedData.data as any as Prompt[]);
         })
       )
       .subscribe();

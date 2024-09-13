@@ -100,6 +100,7 @@ model/upsertWidgetCommand.ts
 model/user.ts
 model/userPreferences.ts
 model/userRole.ts
+model/userShortcut.ts
 model/userView.ts
 model/widget.ts
 model/widgetType.ts

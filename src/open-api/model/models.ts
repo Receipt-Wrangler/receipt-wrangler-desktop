@@ -72,6 +72,7 @@ export * from './upsertWidgetCommand';
 export * from './user';
 export * from './userPreferences';
 export * from './userRole';
+export * from './userShortcut';
 export * from './userView';
 export * from './widget';
 export * from './widgetType';
