@@ -21,17 +21,31 @@ export class EditableListComponent {
 
   @Output() public deleteButtonClicked: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
 
-  public rowOpen: BehaviorSubject<number | undefined> = new BehaviorSubject<
+  private rowOpen: BehaviorSubject<number | undefined> = new BehaviorSubject<
     number | undefined
   >(undefined);
+
+  public rowOpenObservable = this.rowOpen.asObservable();
 
   public handleEditButtonClicked(index: number): void {
     this.rowOpen.next(index);
     this.editButtonClicked.next(index);
   }
 
+  public getCurrentRowOpen(): number | undefined {
+    return this.rowOpen.value;
+  }
+
   public handleDeleteButtonClicked(index: number): void {
     this.rowOpen.next(undefined);
     this.deleteButtonClicked.next(index);
+  }
+
+  public openLastRow(): void {
+    this.rowOpen.next(this.listData.length - 1);
+  }
+
+  public closeRow(): void {
+    this.rowOpen.next(undefined);
   }
 }

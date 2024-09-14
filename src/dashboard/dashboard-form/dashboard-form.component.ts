@@ -1,13 +1,14 @@
-import { Component, OnInit, QueryList, ViewChildren, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
-import { BehaviorSubject, take, tap } from "rxjs";
+import { take, tap } from "rxjs";
 import { ReceiptFilterComponent } from "src/shared-ui/receipt-filter/receipt-filter.component";
 import { BaseFormComponent } from "../../form/index";
 import { Dashboard, DashboardService, Widget, WidgetType } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { EditableListComponent } from "../../shared-ui/editable-list/editable-list.component";
 import { GroupState } from "../../store";
 import { buildReceiptFilterForm } from "../../utils/receipt-filter";
 import { widgetTypeOptions } from "../constants/widget-options";
@@ -23,13 +24,12 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
   @ViewChildren(ReceiptFilterComponent)
   public receiptFilterComponents!: QueryList<ReceiptFilterComponent>;
 
+  @ViewChild(EditableListComponent)
+  public widgetList!: EditableListComponent;
+
   public headerText: string = "";
 
   public dashboard?: Dashboard;
-
-  public widgetOpen: BehaviorSubject<number | undefined> = new BehaviorSubject<
-    number | undefined
-  >(undefined);
 
   public isAddingWidget: boolean = false;
 
@@ -48,6 +48,7 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
   ) {
     super();
   }
+
 
   public ngOnInit(): void {
     this.originalWidgets = Array.from(this.dashboard?.widgets ?? []);
@@ -102,9 +103,9 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
   }
 
   public submit(): void {
-    const canSubmit = this.form.valid && this.widgetOpen.value === undefined;
+    const canSubmit = this.form.valid && this.widgetList.getCurrentRowOpen() === undefined;
 
-    if (this.widgetOpen.value !== undefined) {
+    if (this.widgetList.getCurrentRowOpen() !== undefined) {
       this.snackbarService.error(
         "Please finish editing the open widget before submitting"
       );
@@ -136,14 +137,6 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
     }
   }
 
-  public openWidget(index: number): void {
-    this.widgetOpen.next(index);
-  }
-
-  public closeWidget(): void {
-    this.widgetOpen.next(undefined);
-  }
-
   public submitWidget(index: number): void {
     const widgetFormGroup = (this.widgets.at(index) as FormGroup);
     const widget = widgetFormGroup.value;
@@ -156,7 +149,7 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
     if (widget["widgetType"] === WidgetType.FilteredReceipts) {
       this.filterSubmitted();
     } else {
-      this.closeWidget();
+      this.widgetList.closeRow();
     }
   }
 
@@ -169,25 +162,25 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
       name: "",
       widgetType: undefined,
     } as Widget);
-    this.widgetOpen.next(this.widgets.length);
     this.widgets.push(formGroup);
+    this.widgetList.openLastRow();
     this.isAddingWidget = true;
   }
 
   public cancelWidgetEdit(): void {
     if (this.isAddingWidget) {
       this.widgets.removeAt(this.widgets.length - 1);
-      this.widgetOpen.next(undefined);
+      this.widgetList.closeRow();
       this.isAddingWidget = false;
     } else {
-      const widget = this.originalWidgets[this.widgetOpen.value as number];
+      const widget = this.originalWidgets[this.widgetList.getCurrentRowOpen() as number];
 
       if (widget.widgetType === WidgetType.FilteredReceipts) {
-        this.patchFilterConfig(this.widgetOpen.value as number);
+        this.patchFilterConfig(this.widgetList.getCurrentRowOpen() as number);
       } else {
-        this.widgets.at(this.widgetOpen.value as number).patchValue(widget);
+        this.widgets.at(this.widgetList.getCurrentRowOpen() as number).patchValue(widget);
       }
-      this.widgetOpen.next(undefined);
+      this.widgetList.closeRow();
     }
   }
 
@@ -199,24 +192,24 @@ export class DashboardFormComponent extends BaseFormComponent implements OnInit 
         widget.get("configuration")?.patchValue(form.value);
         this.originalWidgets.push(widget.value);
 
-        this.widgetOpen.next(undefined);
+        this.widgetList.closeRow();
         this.isAddingWidget = false;
       }
     } else {
       const widget = this.widgets.at(
-        this.widgetOpen.value as number
+        this.widgetList.getCurrentRowOpen() as number
       ) as FormGroup;
 
       if (widget.valid) {
         const form = this.receiptFilterComponents.first.parentForm;
         widget.get("configuration")?.patchValue(form.value);
         this.originalWidgets.splice(
-          this.widgetOpen.value as number,
+          this.widgetList.getCurrentRowOpen() as number,
           1,
           widget.value
         );
 
-        this.widgetOpen.next(undefined);
+        this.widgetList.closeRow();
       }
     }
   }
