@@ -47,11 +47,18 @@
       headerText="Shortcuts"
       [headerButtonsTemplate]="shortcutHeaderButtons"
     >
-      <mat-list role="list">
-        <mat-list-item role="listitem">Item 1</mat-list-item>
-        <mat-list-item role="listitem">Item 2</mat-list-item>
-        <mat-list-item role="listitem">Item 3</mat-list-item>
-      </mat-list>
+      @if (((form | formGet: 'userShortcuts')?.value ?? [])?.length === 0) {
+        No shortcuts found.
+      } @else {
+        <mat-list role="list">
+          <ng-container *ngFor="let shortcut of (form | formGet: 'userShortcuts')?.value ?? []; let i = index;">
+
+            <mat-list-item role="listitem">
+              Item {{ i }}
+            </mat-list-item>
+          </ng-container>
+        </mat-list>
+      }
 
     </app-form-section>
   </div>
@@ -62,7 +69,7 @@
   @if (formConfig.mode === FormMode.edit) {
     <app-add-button
       tooltip="Add shortcut"
-      [disabled]="isAddingShortcut"
+      (clicked)="addNewShortcut()"
     ></app-add-button>
   }
 

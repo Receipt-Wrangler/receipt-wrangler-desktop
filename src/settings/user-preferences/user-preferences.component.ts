@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
@@ -63,6 +63,11 @@ export class UserPreferencesComponent implements OnInit {
     });
   }
 
+  public addNewShortcut(): void {
+    const userShortcuts = this.form.get("userShortcuts") as FormArray;
+    userShortcuts.push(this.buildUserShortcut());
+  }
+
   public submit(): void {
     if (this.form.valid) {
       const result = this.form.value;
@@ -96,4 +101,5 @@ export class UserPreferencesComponent implements OnInit {
   }
 
   protected readonly FormMode = FormMode;
+  protected readonly length = length;
 }
