@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
@@ -7,6 +7,7 @@ import { FormMode } from "src/enums/form-mode.enum";
 import { FormConfig } from "src/interfaces";
 import { UserPreferencesService, UserShortcut } from "../../open-api";
 import { SnackbarService } from "../../services";
+import { EditableListComponent } from "../../shared-ui/editable-list/editable-list.component";
 import { AuthState, SetUserPreferences } from "../../store";
 
 @Component({
@@ -15,22 +16,26 @@ import { AuthState, SetUserPreferences } from "../../store";
   styleUrls: ["./user-preferences.component.scss"],
 })
 export class UserPreferencesComponent implements OnInit {
+  @ViewChild(EditableListComponent) public editableListComponent!: EditableListComponent;
+
   public form: FormGroup = new FormGroup({});
 
   public formConfig!: FormConfig;
 
   public formMode = FormMode;
 
-  public isAddingShortcut = false;
-
   constructor(
-    private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private store: Store,
+    private formBuilder: FormBuilder,
+    private router: Router,
     private snackbarService: SnackbarService,
+    private store: Store,
     private userPreferencesService: UserPreferencesService,
-    private router: Router
   ) {
+  }
+
+  public get userShortcuts(): FormArray {
+    return this.form.get("userShortcuts") as FormArray;
   }
 
   public ngOnInit(): void {
@@ -58,14 +63,16 @@ export class UserPreferencesComponent implements OnInit {
 
   private buildUserShortcut(userShortcut?: UserShortcut): FormGroup {
     return this.formBuilder.group({
-      icon: userShortcut?.icon ?? "",
-      url: userShortcut?.url ?? ""
+      trackby: (Math.random() + 1).toString(36).substring(7),
+      icon: this.formBuilder.control(userShortcut?.icon ?? "", Validators.required),
+      url: this.formBuilder.control(userShortcut?.url ?? "", Validators.required),
     });
   }
 
   public addNewShortcut(): void {
     const userShortcuts = this.form.get("userShortcuts") as FormArray;
     userShortcuts.push(this.buildUserShortcut());
+    this.editableListComponent.openLastRow();
   }
 
   public submit(): void {
