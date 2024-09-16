@@ -76,6 +76,10 @@
         label="Url"
         [inputFormControl]="form | formGet : 'userShortcuts.' + i + '.url'"
       ></app-input>
+      <app-icon-autocomplete
+        label="Icon"
+        [inputFormControl]="form | formGet : 'userShortcuts.' + i + '.icon'"
+      ></app-icon-autocomplete>
     </ng-container>
   </app-card>
 </ng-template>

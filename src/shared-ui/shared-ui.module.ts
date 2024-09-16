@@ -59,6 +59,7 @@ import { PrettyJsonPipe } from "./task-table/pretty-json.pipe";
 import { SystemTaskTypePipe } from "./task-table/system-task-type.pipe";
 import { TaskTableComponent } from "./task-table/task-table.component";
 import { EditableListComponent } from './editable-list/editable-list.component';
+import { IconAutocompleteComponent } from './icon-autocomplete/icon-autocomplete.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { EditableListComponent } from './editable-list/editable-list.component';
     ImageViewerComponent,
     QueueStartMenuComponent,
     EditableListComponent,
+    IconAutocompleteComponent,
   ],
   imports: [
     AutocompleteModule,
@@ -162,6 +164,7 @@ import { EditableListComponent } from './editable-list/editable-list.component';
     ImageViewerComponent,
     QueueStartMenuComponent,
     EditableListComponent,
+    IconAutocompleteComponent,
   ],
   providers: [CurrencyPipe],
 })
