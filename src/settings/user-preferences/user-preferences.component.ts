@@ -24,6 +24,8 @@ export class UserPreferencesComponent implements OnInit {
 
   public formMode = FormMode;
 
+  public isAddingShortcut = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -64,6 +66,7 @@ export class UserPreferencesComponent implements OnInit {
   private buildUserShortcut(userShortcut?: UserShortcut): FormGroup {
     return this.formBuilder.group({
       trackby: (Math.random() + 1).toString(36).substring(7),
+      name: this.formBuilder.control(userShortcut?.name ?? "", Validators.required),
       icon: this.formBuilder.control(userShortcut?.icon ?? "", Validators.required),
       url: this.formBuilder.control(userShortcut?.url ?? "", Validators.required),
     });
@@ -73,6 +76,24 @@ export class UserPreferencesComponent implements OnInit {
     const userShortcuts = this.form.get("userShortcuts") as FormArray;
     userShortcuts.push(this.buildUserShortcut());
     this.editableListComponent.openLastRow();
+
+    this.isAddingShortcut = true;
+  }
+
+  public shortcutDoneClicked(): void {
+    if (this.userShortcuts.at(this.userShortcuts.length - 1).valid) {
+      this.isAddingShortcut = false;
+      this.editableListComponent.closeRow();
+    }
+  }
+
+  public shortcutCancelClicked(): void {
+    if (this.isAddingShortcut) {
+      this.userShortcuts.removeAt(this.userShortcuts.length - 1);
+    }
+
+    this.isAddingShortcut = false;
+    this.editableListComponent.closeRow();
   }
 
   public submit(): void {
