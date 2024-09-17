@@ -14,6 +14,7 @@ import { Category } from './category';
 import { Claims } from './claims';
 import { FeatureConfig } from './featureConfig';
 import { UserView } from './userView';
+import { Icon } from './icon';
 import { Tag } from './tag';
 
 
@@ -49,5 +50,9 @@ export interface AppData {
      * Currency display
      */
     currencyDisplay: string;
+    /**
+     * Icons in the system
+     */
+    icons: Array<Icon>;
 }
 

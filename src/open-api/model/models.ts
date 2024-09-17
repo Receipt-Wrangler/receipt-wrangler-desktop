@@ -25,6 +25,7 @@ export * from './groupRole';
 export * from './groupSettings';
 export * from './groupSettingsWhiteListEmail';
 export * from './groupStatus';
+export * from './icon';
 export * from './importType';
 export * from './item';
 export * from './itemStatus';

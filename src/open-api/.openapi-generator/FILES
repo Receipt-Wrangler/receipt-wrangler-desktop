@@ -52,6 +52,7 @@ model/groupRole.ts
 model/groupSettings.ts
 model/groupSettingsWhiteListEmail.ts
 model/groupStatus.ts
+model/icon.ts
 model/importType.ts
 model/item.ts
 model/itemStatus.ts

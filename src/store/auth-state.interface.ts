@@ -1,4 +1,4 @@
-import { UserRole } from "../open-api";
+import { Icon, UserRole } from "../open-api";
 import { UserPreferences } from "../open-api/model/userPreferences";
 
 export interface AuthStateInterface {
@@ -9,4 +9,5 @@ export interface AuthStateInterface {
   userRole?: UserRole;
   defaultAvatarColor?: string;
   userPreferences?: UserPreferences;
+  icons?: Icon[];
 }
