@@ -24,6 +24,10 @@ export interface UserShortcut {
      */
     userPreferncesId?: number;
     /**
+     * Name of the shortcut
+     */
+    name: string;
+    /**
      * Destination of the shortcut
      */
     url?: string;
