@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Action, createSelector, Selector, State, StateContext } from "@ngxs/store";
 
-import { UserPreferences } from "../open-api";
+import { Icon, UserPreferences } from "../open-api";
 import { User } from "../open-api/model/user";
 import { AuthStateInterface } from "./auth-state.interface";
 import { Logout, SetAuthState, SetIcons, SetUserPreferences } from "./auth.state.actions";
@@ -18,6 +18,11 @@ export class AuthState {
     state: AuthStateInterface
   ): UserPreferences | undefined {
     return state.userPreferences;
+  }
+
+  @Selector()
+  static icons(state: AuthStateInterface): Icon[] {
+    return state.icons ?? [];
   }
 
   @Selector()

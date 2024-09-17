@@ -4,7 +4,7 @@
   optionValueKey="value"
   [label]="label"
   [inputFormControl]="inputFormControl"
-  [options]="icons"
+  [options]="(icons | async) ?? []"
   [optionTemplate]="optionTemplate"
   [displayWith]="displayWith.bind(this)"
 ></app-autocomlete>
