@@ -26,6 +26,8 @@ export class UserPreferencesComponent implements OnInit {
 
   public isAddingShortcut = false;
 
+  public originalUserShortcuts: UserShortcut[] = [];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -49,13 +51,21 @@ export class UserPreferencesComponent implements OnInit {
     const userPreferences = this.store.selectSnapshot(
       AuthState.userPreferences
     );
+    this.originalUserShortcuts = userPreferences?.userShortcuts ?? [];
+
     this.form = this.formBuilder.group({
       showLargeImagePreviews: userPreferences?.showLargeImagePreviews ?? false,
       quickScanDefaultPaidById: userPreferences?.quickScanDefaultPaidById ?? "",
       quickScanDefaultGroupId: userPreferences?.quickScanDefaultGroupId ?? "",
       quickScanDefaultStatus: userPreferences?.quickScanDefaultStatus ?? "",
-      userShortcuts: this.formBuilder.array((userPreferences?.userShortcuts ?? []).map(shortcut => this.buildUserShortcut(shortcut))),
+      userShortcuts: this.formBuilder.array([]),
     });
+
+    if (userPreferences?.userShortcuts?.length ?? 0 > 0) {
+      userPreferences?.userShortcuts?.forEach((userShortcut) => {
+        this.userShortcuts.push(this.buildUserShortcut(userShortcut));
+      });
+    }
 
     if (this.formConfig.mode === FormMode.view) {
       this.form.get("quickScanDefaultStatus")?.disable();
@@ -65,7 +75,7 @@ export class UserPreferencesComponent implements OnInit {
 
   private buildUserShortcut(userShortcut?: UserShortcut): FormGroup {
     return this.formBuilder.group({
-      trackby: (Math.random() + 1).toString(36).substring(7),
+      // trackby: (Math.random() + 1).toString(36).substring(7),
       name: this.formBuilder.control(userShortcut?.name ?? "", Validators.required),
       icon: this.formBuilder.control(userShortcut?.icon ?? "", Validators.required),
       url: this.formBuilder.control(userShortcut?.url ?? "", Validators.required),
@@ -78,6 +88,10 @@ export class UserPreferencesComponent implements OnInit {
     this.editableListComponent.openLastRow();
 
     this.isAddingShortcut = true;
+  }
+
+  public removeShortcut(index: number): void {
+    this.userShortcuts.removeAt(index);
   }
 
   public shortcutDoneClicked(): void {

@@ -17,6 +17,8 @@ export class EditableListComponent {
 
   @Input() public editTemplate?: TemplateRef<any>;
 
+  @Input() public readonly: boolean = false;
+
   @Output() public editButtonClicked: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
 
   @Output() public deleteButtonClicked: BehaviorSubject<number> = new BehaviorSubject<number>(-1);

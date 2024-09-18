@@ -1,5 +1,5 @@
 <mat-list>
-  @for (row of listData; let i = $index; track row[trackByKey]) {
+  @for (row of listData; let i = $index; track row?.[trackByKey]) {
     @if ((rowOpenObservable | async) === i && editTemplate) {
       <ng-template
         [ngTemplateOutlet]="editTemplate"
@@ -19,18 +19,20 @@
             [ngTemplateOutletContext]="{ row: row }"
           ></ng-container>
         </span>
-        <div matListItemMeta class="d-flex align-items-center">
-          <app-edit-button
-            color="accent"
-            [disabled]="(rowOpenObservable | async) !== undefined"
-            (clicked)="handleEditButtonClicked(i)"
-          ></app-edit-button>
-          <app-delete-button
-            [disabled]="(rowOpenObservable | async) !== undefined"
-            (clicked)="handleDeleteButtonClicked(i)"
-          >
-          </app-delete-button>
-        </div>
+        @if (!readonly) {
+          <div matListItemMeta class="d-flex align-items-center">
+            <app-edit-button
+              color="accent"
+              [disabled]="(rowOpenObservable | async) !== undefined"
+              (clicked)="handleEditButtonClicked(i)"
+            ></app-edit-button>
+            <app-delete-button
+              [disabled]="(rowOpenObservable | async) !== undefined"
+              (clicked)="handleDeleteButtonClicked(i)"
+            >
+            </app-delete-button>
+          </div>
+        }
       </mat-list-item>
     }
   }
