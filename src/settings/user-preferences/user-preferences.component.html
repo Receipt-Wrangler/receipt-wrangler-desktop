@@ -4,6 +4,7 @@
   [formTemplate]="formTemplate"
   [editButtonRouterLink]="['/settings/user-preferences/edit']"
   [editButtonQueryParams]="{tab: 'user-preferences'}"
+  [submitButtonDisabled]="(userShortcutComponent?.editableListComponent?.getCurrentRowOpen() ?? -1) >= 0"
   (submitted)="submit()"
 ></app-form>
 
@@ -47,70 +48,24 @@
       headerText="Shortcuts"
       [headerButtonsTemplate]="shortcutHeaderButtons"
     >
-      <app-editable-list
-        trackByKey=""
-        [listData]="originalUserShortcuts"
-        [itemTitleTemplate]="itemTitleTemplate"
-        [itemSubtitleTemplate]="itemSubtitleTemplate"
-        [editTemplate]="editTemplate"
-        [readonly]="formConfig.mode | inputReadonly"
-        (deleteButtonClicked)="removeShortcut($event)"
-      ></app-editable-list>
+      <app-user-shortcut
+        [parentForm]="form"
+        [formConfig]="formConfig"
+        [originalUserShortcuts]="originalUserShortcuts"
+        (shortcutDoneClicked)="shortcutDoneClicked()"
+        (shortcutCancelClicked)="shortcutCancelClicked()"
+        (formCommand)="handleFormCommand($event)"
+      ></app-user-shortcut>
     </app-form-section>
   </div>
 </ng-template>
 
-<ng-template #itemTitleTemplate let-row="row">
-  <div class="d-flex align-items-center">
-    <mat-icon>{{ row.icon }}</mat-icon>
-    <div>{{ row.name }}</div>
-  </div>
-</ng-template>
-
-<ng-template #itemSubtitleTemplate let-row="row">
-  wtf
-  {{ row.url }}
-</ng-template>
-
-<ng-template
-  #editTemplate
-  let-i="i"
->
-  <app-card>
-    <ng-container header>
-      {{ isAddingShortcut ? 'Add' : 'Edit' }} Shortcut
-    </ng-container>
-    <ng-container content>
-      <div class="d-flex flex-column justify-content-center">
-        {{ form | formGet : 'userShortcuts.' + i + '.name' | json }}
-        <app-input
-          label="Name"
-          [inputFormControl]="form | formGet : 'userShortcuts.' + i + '.name'"
-        ></app-input>
-        <app-input
-          label="Url"
-          [inputFormControl]="form | formGet : 'userShortcuts.' + i + '.url'"
-        ></app-input>
-        <app-icon-autocomplete
-          label="Icon"
-          [inputFormControl]="form | formGet : 'userShortcuts.' + i + '.icon'"
-        ></app-icon-autocomplete>
-      </div>
-      <app-dialog-footer
-        (submitClicked)="shortcutDoneClicked()"
-        (cancelClicked)="shortcutCancelClicked()"
-      ></app-dialog-footer>
-    </ng-container>
-  </app-card>
-</ng-template>
-
-
 <ng-template #shortcutHeaderButtons>
   @if (formConfig.mode === FormMode.edit) {
-    {{ (editableListComponent?.getCurrentRowOpen() ?? -1) }}
+    {{ (userShortcutComponent?.editableListComponent?.getCurrentRowOpen() ?? -1) }}
     <app-add-button
       tooltip="Add shortcut"
-      [disabled]="(editableListComponent?.getCurrentRowOpen() ?? -1) >= 0"
+      [disabled]="(userShortcutComponent?.editableListComponent?.getCurrentRowOpen() ?? -1) >= 0"
       (clicked)="addNewShortcut()"
     ></app-add-button>
   }

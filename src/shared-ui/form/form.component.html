@@ -11,6 +11,7 @@
     <app-submit-button
       *ngIf="!(formConfig.mode | inputReadonly)"
       class="mb-3"
+      [disabled]="submitButtonDisabled"
       [onlyIcon]="false"
     ></app-submit-button>
   </app-form-button-bar>

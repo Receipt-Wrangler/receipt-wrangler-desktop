@@ -1,4 +1,4 @@
-import { Component, Input, Output, TemplateRef } from "@angular/core";
+import { Component, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 
 @Component({
@@ -19,9 +19,9 @@ export class EditableListComponent {
 
   @Input() public readonly: boolean = false;
 
-  @Output() public editButtonClicked: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
+  @Output() public editButtonClicked: EventEmitter<number> = new EventEmitter<number>();
 
-  @Output() public deleteButtonClicked: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
+  @Output() public deleteButtonClicked: EventEmitter<number> = new EventEmitter<number>();
 
   private rowOpen: BehaviorSubject<number | undefined> = new BehaviorSubject<
     number | undefined
