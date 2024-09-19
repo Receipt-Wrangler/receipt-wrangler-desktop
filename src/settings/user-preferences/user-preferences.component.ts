@@ -86,6 +86,15 @@ export class UserPreferencesComponent extends BaseFormComponent implements OnIni
 
   public shortcutDoneClicked(): void {
     if (this.userShortcuts.at(this.userShortcuts.length - 1).valid) {
+      if (this.userShortcutComponent.isAddingShortcut) {
+        this.originalUserShortcuts.push(this.userShortcuts.at(this.userShortcuts.length - 1).value);
+      } else {
+        const currentOpen = this.userShortcutComponent.editableListComponent.getCurrentRowOpen();
+        if (currentOpen !== undefined && currentOpen >= 0) {
+          this.originalUserShortcuts[currentOpen] = this.userShortcuts.at(currentOpen).value;
+        }
+      }
+
       this.userShortcutComponent.isAddingShortcut = false;
       this.userShortcutComponent.editableListComponent.closeRow();
     }
@@ -95,6 +104,11 @@ export class UserPreferencesComponent extends BaseFormComponent implements OnIni
     if (this.userShortcutComponent.isAddingShortcut) {
       this.userShortcuts.removeAt(this.userShortcuts.length - 1);
       this.originalUserShortcuts = this.originalUserShortcuts.slice(0, this.originalUserShortcuts.length - 1);
+    } else {
+      const currentOpen = this.userShortcutComponent.editableListComponent.getCurrentRowOpen();
+      if (currentOpen !== undefined && currentOpen >= 0) {
+        this.userShortcuts.at(currentOpen).patchValue(this.originalUserShortcuts[currentOpen]);
+      }
     }
 
     this.userShortcutComponent.isAddingShortcut = false;
