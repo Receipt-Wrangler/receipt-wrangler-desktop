@@ -31,7 +31,7 @@ export class EditableListComponent {
 
   public handleEditButtonClicked(index: number): void {
     this.rowOpen.next(index);
-    this.editButtonClicked.next(index);
+    this.editButtonClicked.emit(index);
   }
 
   public getCurrentRowOpen(): number | undefined {
@@ -40,7 +40,7 @@ export class EditableListComponent {
 
   public handleDeleteButtonClicked(index: number): void {
     this.rowOpen.next(undefined);
-    this.deleteButtonClicked.next(index);
+    this.deleteButtonClicked.emit(index);
   }
 
   public openLastRow(): void {
