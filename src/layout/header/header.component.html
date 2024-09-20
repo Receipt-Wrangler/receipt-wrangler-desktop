@@ -34,16 +34,17 @@
         <app-receipt-list-icon></app-receipt-list-icon>
       </button>
       @for (shortcut of (userPreferences | async)?.userShortcuts ?? []; track shortcut["id"]) {
-        <button
-          mat-icon-button
-          color="accent"
-          class="nav-button"
-          routerLinkActive="active-link"
-          [matTooltip]="shortcut.name"
-          [routerLink]="shortcut.url"
-        >
-          <mat-icon>{{ shortcut.icon }}</mat-icon>
-        </button>
+        <a [href]="shortcut.url">
+          <button
+            mat-icon-button
+            color="accent"
+            class="nav-button"
+            routerLinkActive="active-link"
+            [matTooltip]="shortcut.name"
+          >
+            <mat-icon>{{ shortcut.icon }}</mat-icon>
+          </button>
+        </a>
       }
     </div>
     <div class="col-auto d-flex align-items-center justify-content-end">
