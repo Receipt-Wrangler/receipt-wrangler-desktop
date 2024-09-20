@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { FormArray, FormGroup } from "@angular/forms";
 import { FormCommand } from "../../form/index";
 import { FormConfig } from "../../interfaces/index";
@@ -10,10 +10,7 @@ import { EditableListComponent } from "../../shared-ui/editable-list/editable-li
   templateUrl: "./user-shortcut.component.html",
   styleUrl: "./user-shortcut.component.scss"
 })
-export class UserShortcutComponent implements OnInit {
-  public ngOnInit(): void {
-    console.warn(this.parentForm.value, "value");
-  }
+export class UserShortcutComponent {
 
   @ViewChild(EditableListComponent) public editableListComponent!: EditableListComponent;
 
