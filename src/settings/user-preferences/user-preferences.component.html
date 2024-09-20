@@ -62,7 +62,6 @@
 
 <ng-template #shortcutHeaderButtons>
   @if (formConfig.mode === FormMode.edit) {
-    {{ (userShortcutComponent?.editableListComponent?.getCurrentRowOpen() ?? -1) }}
     <app-add-button
       tooltip="Add shortcut"
       [disabled]="(userShortcutComponent?.editableListComponent?.getCurrentRowOpen() ?? -1) >= 0"

@@ -7,20 +7,19 @@
       ></ng-template>
     } @else {
       <mat-list-item>
-        <span matListItemTitle>
-          <ng-container
-            [ngTemplateOutlet]="itemTitleTemplate"
-            [ngTemplateOutletContext]="{ row: row }"
-          ></ng-container>
-        </span>
-        <span matListItemLine>
-          <ng-container
-            [ngTemplateOutlet]="itemSubtitleTemplate"
-            [ngTemplateOutletContext]="{ row: row }"
-          ></ng-container>
-        </span>
+        <ng-container
+          matListItemTitle
+          [ngTemplateOutlet]="itemTitleTemplate"
+          [ngTemplateOutletContext]="{ row: row }"
+        ></ng-container>
+        <ng-container
+          matListItemLine
+          [ngTemplateOutlet]="itemSubtitleTemplate"
+          [ngTemplateOutletContext]="{ row: row }"
+        >
+        </ng-container>
         @if (!readonly) {
-          <div matListItemMeta class="d-flex align-items-center">
+          <div matListItemMeta>
             <app-edit-button
               color="accent"
               [disabled]="(rowOpenObservable | async) !== undefined"
