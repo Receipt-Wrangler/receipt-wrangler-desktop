@@ -4,6 +4,7 @@
   [formTemplate]="formTemplate"
   [editButtonRouterLink]="['/settings/user-preferences/edit']"
   [editButtonQueryParams]="{tab: 'user-preferences'}"
+  [submitButtonDisabled]="(userShortcutComponent?.editableListComponent?.getCurrentRowOpen() ?? -1) >= 0"
   (submitted)="submit()"
 ></app-form>
 
@@ -43,5 +44,28 @@
         [addBlankOption]="true"
       ></app-status-select>
     </app-form-section>
+    <app-form-section
+      headerText="Shortcuts"
+      [headerButtonsTemplate]="shortcutHeaderButtons"
+    >
+      <app-user-shortcut
+        [parentForm]="form"
+        [formConfig]="formConfig"
+        [originalUserShortcuts]="originalUserShortcuts"
+        (shortcutDoneClicked)="shortcutDoneClicked()"
+        (shortcutCancelClicked)="shortcutCancelClicked()"
+        (formCommand)="handleFormCommand($event)"
+      ></app-user-shortcut>
+    </app-form-section>
   </div>
+</ng-template>
+
+<ng-template #shortcutHeaderButtons>
+  @if (formConfig.mode === FormMode.edit) {
+    <app-add-button
+      tooltip="Add shortcut"
+      [disabled]="(userShortcutComponent?.editableListComponent?.getCurrentRowOpen() ?? -1) >= 0"
+      (clicked)="addNewShortcut()"
+    ></app-add-button>
+  }
 </ng-template>

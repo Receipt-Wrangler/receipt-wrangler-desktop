@@ -3,7 +3,7 @@
     id="header-container"
     class="header-container d-flex justify-content-between align-items-center"
   >
-    <div class="col d-flex jusfity-content-center align-items-center">
+    <div class="col d-flex align-items-center">
       <button
         mat-icon-button
         color="accent"
@@ -33,6 +33,19 @@
       >
         <app-receipt-list-icon></app-receipt-list-icon>
       </button>
+      @for (shortcut of (userPreferences | async)?.userShortcuts ?? []; track shortcut["id"]) {
+        <a [href]="shortcut.url">
+          <button
+            mat-icon-button
+            color="accent"
+            class="nav-button"
+            routerLinkActive="active-link"
+            [matTooltip]="shortcut.name"
+          >
+            <mat-icon>{{ shortcut.icon }}</mat-icon>
+          </button>
+        </a>
+      }
     </div>
     <div class="col-auto d-flex align-items-center justify-content-end">
       <app-searchbar class="receipt-searchbar w-100 me-2"></app-searchbar>
@@ -57,7 +70,7 @@
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <rect x="20" y="15" width="61" height="1" fill="#FFD600" />
+        <rect x="20" y="15" width="61" height="1" fill="#FFD600"/>
         <path
           d="M3.45608 3.34459L9.36487 15.8311L0 29.9899L14.0473 33L17.9493 15.8828V0L3.45608 3.34459Z"
           fill="#27B1FF"
@@ -97,7 +110,7 @@
     [routerLink]="routerLink"
     [matTooltip]="tooltip"
   >
-    <img [src]="srcPath" />
+    <img [src]="srcPath"/>
   </button>
 </ng-template>
 

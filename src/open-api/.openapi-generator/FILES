@@ -52,6 +52,7 @@ model/groupRole.ts
 model/groupSettings.ts
 model/groupSettingsWhiteListEmail.ts
 model/groupStatus.ts
+model/icon.ts
 model/importType.ts
 model/item.ts
 model/itemStatus.ts
@@ -100,6 +101,7 @@ model/upsertWidgetCommand.ts
 model/user.ts
 model/userPreferences.ts
 model/userRole.ts
+model/userShortcut.ts
 model/userView.ts
 model/widget.ts
 model/widgetType.ts

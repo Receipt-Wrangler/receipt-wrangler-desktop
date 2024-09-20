@@ -22,5 +22,7 @@ export class FormComponent {
 
   @Input() public bottomSpacing = false;
 
+  @Input() public submitButtonDisabled = false;
+
   @Output() public submitted: EventEmitter<void> = new EventEmitter<void>();
 }

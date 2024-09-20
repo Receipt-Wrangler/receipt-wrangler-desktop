@@ -1,17 +1,18 @@
 import { Injectable } from "@angular/core";
 import { Action, createSelector, Selector, State, StateContext } from "@ngxs/store";
 
-import { UserPreferences } from "../open-api";
+import { Icon, UserPreferences } from "../open-api";
 import { User } from "../open-api/model/user";
 import { AuthStateInterface } from "./auth-state.interface";
-import { Logout, SetAuthState, SetUserPreferences } from "./auth.state.actions";
+import { Logout, SetAuthState, SetIcons, SetUserPreferences } from "./auth.state.actions";
 
 @State<AuthStateInterface>({
-  name: 'auth',
+  name: "auth",
   defaults: {},
 })
 @Injectable()
 export class AuthState {
+
   @Selector()
   static userPreferences(
     state: AuthStateInterface
@@ -20,8 +21,13 @@ export class AuthState {
   }
 
   @Selector()
+  static icons(state: AuthStateInterface): Icon[] {
+    return state.icons ?? [];
+  }
+
+  @Selector()
   static userRole(state: AuthStateInterface): string {
-    return state.userRole ?? '';
+    return state.userRole ?? "";
   }
 
   @Selector()
@@ -31,7 +37,7 @@ export class AuthState {
 
   @Selector()
   static userId(state: AuthStateInterface): string {
-    return state.userId ?? '';
+    return state.userId ?? "";
   }
 
   @Selector()
@@ -46,10 +52,10 @@ export class AuthState {
   @Selector()
   static loggedInUser(state: AuthStateInterface): User {
     return {
-      defaultAvatarColor: state.defaultAvatarColor ?? '',
-      displayName: state.displayname ?? '',
-      id: Number(state.userId) ?? '',
-      username: state.username ?? '',
+      defaultAvatarColor: state.defaultAvatarColor ?? "",
+      displayName: state.displayname ?? "",
+      id: Number(state.userId) ?? "",
+      username: state.username ?? "",
     } as User;
   }
 
@@ -79,11 +85,11 @@ export class AuthState {
   @Action(Logout)
   logout({ getState, patchState }: StateContext<AuthStateInterface>) {
     patchState({
-      defaultAvatarColor: '',
-      displayname: '',
-      expirationDate: '',
-      userId: '',
-      username: '',
+      defaultAvatarColor: "",
+      displayname: "",
+      expirationDate: "",
+      userId: "",
+      username: "",
       userRole: undefined,
       userPreferences: undefined,
     });
@@ -96,6 +102,16 @@ export class AuthState {
   ) {
     patchState({
       userPreferences: payload.userPreferences,
+    });
+  }
+
+  @Action(SetIcons)
+  setIcons(
+    { patchState }: StateContext<AuthStateInterface>,
+    payload: SetIcons
+  ) {
+    patchState({
+      icons: payload.icons,
     });
   }
 }

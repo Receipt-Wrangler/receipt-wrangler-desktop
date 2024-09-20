@@ -9,6 +9,7 @@ import { of } from "rxjs";
 import { Dashboard, DashboardService } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { SnackbarService } from "../../services";
+import { EditableListComponent } from "../../shared-ui/editable-list/editable-list.component";
 import { GroupState } from "../../store";
 import { DashboardFormComponent } from "./dashboard-form.component";
 
@@ -19,7 +20,7 @@ describe("DashboardFormComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DashboardFormComponent],
+      declarations: [DashboardFormComponent, EditableListComponent],
       imports: [
         HttpClientTestingModule,
         MatSnackBarModule,

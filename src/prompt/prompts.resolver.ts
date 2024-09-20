@@ -20,7 +20,7 @@ export const promptsResolver: ResolveFn<Prompt[]> = (route, state) => {
     return promptService.getPagedPrompts(command)
       .pipe(
         map((pagedData) => {
-          return pagedData.data as Prompt[];
+          return pagedData.data as any as Prompt[];
         })
       );
   }

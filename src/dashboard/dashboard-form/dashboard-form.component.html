@@ -12,33 +12,14 @@
         [indent]="false"
         [headerButtonsTemplate]="widgetHeaderButtons"
       >
-        <mat-list>
-          @for (widget of widgets.controls; let i = $index; track widget.value) {
-            @if ((widgetOpen | async) === i) {
-              <ng-template
-                [ngTemplateOutlet]="widgetEdit"
-                [ngTemplateOutletContext]="{ i: i }"
-              ></ng-template>
-            } @else {
-              <mat-list-item>
-                <span matListItemTitle>{{ widget.value.name ?? "Group Summary" }}</span>
-                <span matListItemLine>{{ widget.value.widgetType | widgetType }}</span>
-                <div matListItemMeta class="d-flex align-items-center">
-                  <app-edit-button
-                    color="accent"
-                    [disabled]="(widgetOpen | async) !== undefined"
-                    (clicked)="openWidget(i)"
-                  ></app-edit-button>
-                  <app-delete-button
-                    [disabled]="(widgetOpen | async) !== undefined"
-                    (clicked)="removeWidget(i)"
-                  >
-                  </app-delete-button>
-                </div>
-              </mat-list-item>
-            }
-          }
-        </mat-list>
+        <app-editable-list
+          trackByKey="value"
+          [listData]="widgets.controls"
+          [editTemplate]="widgetEdit"
+          [itemTitleTemplate]="widgetItemTitleTemplate"
+          [itemSubtitleTemplate]="widgetItemSubtitleTemplate"
+          (deleteButtonClicked)="removeWidget($event)"
+        ></app-editable-list>
       </app-form-section>
     </div>
     <app-dialog-footer
@@ -88,7 +69,6 @@
             [parentForm]="form"
             [basePath]="'widgets.' + i + '.configuration.'"
             [footerTemplate]="filterFooter"
-            [isOpen]="(widgetOpen | async) === i"
             [inDialog]="false"
             (formCommand)="handleFormCommand($event)"
           ></app-receipt-filter>
@@ -104,10 +84,23 @@
   </app-card>
 </ng-template>
 
+<ng-template
+  #widgetItemTitleTemplate
+  let-row="row"
+>
+  {{ row.value.name ?? "Group Summary" }}
+</ng-template>
+
+<ng-template
+  #widgetItemSubtitleTemplate
+  let-row="row">
+  {{ row.value.widgetType | widgetType }}
+</ng-template>
+
 <ng-template #widgetHeaderButtons>
   <app-add-button
     tooltip="Add Widget"
-    [disabled]="(widgetOpen | async) !== undefined"
+    [disabled]="((widgetList?.rowOpenObservable | async) ?? -1) >= 0"
     (clicked)="addWidget()"
   ></app-add-button>
 </ng-template>

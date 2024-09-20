@@ -14,12 +14,16 @@ import { GroupMember } from './groupMember';
 import { Category } from './category';
 import { Receipt } from './receipt';
 import { SystemTaskType } from './systemTaskType';
+import { ReceiptProcessingSettings } from './receiptProcessingSettings';
 import { Item } from './item';
 import { SystemTaskStatus } from './systemTaskStatus';
+import { OcrEngine } from './ocrEngine';
 import { SystemTask } from './systemTask';
+import { AiType } from './aiType';
 import { GroupSettings } from './groupSettings';
 import { AssociatedEntityType } from './associatedEntityType';
 import { Prompt } from './prompt';
+import { SystemEmail } from './systemEmail';
 import { TagView } from './tagView';
 import { Tag } from './tag';
 import { FileData } from './fileData';
@@ -54,7 +58,7 @@ export interface PagedDataDataInner {
      */
     imageFiles?: Array<FileData>;
     /**
-     * Name of the tag
+     * Name of the settings
      */
     name: string;
     /**
@@ -80,13 +84,10 @@ export interface PagedDataDataInner {
      */
     createdByString?: string;
     /**
-     * Description of the tag
+     * Description of the settings
      */
     description?: string;
-    /**
-     * Prompt text
-     */
-    prompt: string;
+    prompt: Prompt;
     groupSettings?: GroupSettings;
     /**
      * Members of the group
@@ -112,6 +113,44 @@ export interface PagedDataDataInner {
     ranByUserId?: number;
     resultDescription?: string;
     childSystemTasks?: Array<SystemTask>;
+    aiType?: AiType;
+    /**
+     * URL for custom endpoints
+     */
+    url?: string;
+    /**
+     * Key for endpoints that require authentication
+     */
+    key?: string;
+    /**
+     * LLM model
+     */
+    model?: string;
+    /**
+     * Is vision model
+     */
+    isVisionModel?: boolean;
+    ocrEngine?: OcrEngine;
+    /**
+     * Prompt foreign key
+     */
+    promptId?: number;
+    /**
+     * IMAP host
+     */
+    host?: string;
+    /**
+     * IMAP port
+     */
+    port?: string;
+    /**
+     * IMAP username
+     */
+    username?: string;
+    /**
+     * IMAP password
+     */
+    password?: string;
 }
 export namespace PagedDataDataInner {
 }

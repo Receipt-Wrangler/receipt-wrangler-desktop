@@ -55,6 +55,7 @@ describe("UserPreferencesComponent", () => {
       quickScanDefaultGroupId: "",
       quickScanDefaultStatus: "",
       showLargeImagePreviews: false,
+      userShortcuts: []
     });
   });
 
@@ -69,6 +70,7 @@ describe("UserPreferencesComponent", () => {
           quickScanDefaultGroupId: "2",
           quickScanDefaultStatus: "OPEN",
           showLargeImagePreviews: true,
+          userShortcuts: [{ id: 1, name: "Test", url: "test", icon: "icon" }],
         },
       },
     });
@@ -79,6 +81,7 @@ describe("UserPreferencesComponent", () => {
       quickScanDefaultGroupId: "2",
       quickScanDefaultStatus: "OPEN",
       showLargeImagePreviews: true,
+      userShortcuts: [{ name: "Test", url: "test", icon: "icon", trackby: 0 }],
     });
   });
 
@@ -116,6 +119,7 @@ describe("UserPreferencesComponent", () => {
       quickScanDefaultGroupId: null,
       quickScanDefaultStatus: "",
       showLargeImagePreviews: false,
+      userShortcuts: [],
     } as any);
   });
 });

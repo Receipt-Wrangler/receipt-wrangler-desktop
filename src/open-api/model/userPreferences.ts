@@ -9,6 +9,7 @@
  * Do not edit the class manually.
  */
 import { ReceiptStatus } from './receiptStatus';
+import { UserShortcut } from './userShortcut';
 
 
 export interface UserPreferences { 
@@ -43,6 +44,7 @@ export interface UserPreferences {
      * Whether to show large image previews
      */
     showLargeImagePreviews?: boolean;
+    userShortcuts?: Array<UserShortcut>;
 }
 export namespace UserPreferences {
 }
