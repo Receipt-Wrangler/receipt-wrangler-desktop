@@ -36,6 +36,7 @@ export class GroupGuard {
 
   private resetSelectedDashboardIfGroupDashboardChanged(groupId: string): void {
     if (groupId !== this.store.selectSnapshot(GroupState.selectedGroupId)) {
+      this.store.dispatch(new SetSelectedGroupId(groupId));
       this.store.dispatch(new SetSelectedDashboardId(undefined));
     }
   }
