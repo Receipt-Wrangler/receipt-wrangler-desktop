@@ -54,7 +54,7 @@ export class UserPreferencesComponent extends BaseFormComponent implements OnIni
       quickScanDefaultPaidById: userPreferences?.quickScanDefaultPaidById ?? "",
       quickScanDefaultGroupId: userPreferences?.quickScanDefaultGroupId ?? "",
       quickScanDefaultStatus: userPreferences?.quickScanDefaultStatus ?? "",
-      userShortcuts: this.formBuilder.array(this.originalUserShortcuts.map((userShortcut) => this.buildUserShortcut(userShortcut))),
+      userShortcuts: this.formBuilder.array(this.originalUserShortcuts.map((userShortcut, i) => this.buildUserShortcut(i, userShortcut))),
     });
 
 
@@ -64,9 +64,9 @@ export class UserPreferencesComponent extends BaseFormComponent implements OnIni
     }
   }
 
-  private buildUserShortcut(userShortcut?: UserShortcut): FormGroup {
+  private buildUserShortcut(index: number, userShortcut?: UserShortcut): FormGroup {
     return this.formBuilder.group({
-      trackby: (Math.random() + 1).toString(36).substring(7),
+      trackby: index,
       name: this.formBuilder.control(userShortcut?.name ?? "", Validators.required),
       icon: this.formBuilder.control(userShortcut?.icon ?? "", Validators.required),
       url: this.formBuilder.control(userShortcut?.url ?? "", Validators.required),
@@ -75,7 +75,9 @@ export class UserPreferencesComponent extends BaseFormComponent implements OnIni
 
   public addNewShortcut(): void {
     const userShortcuts = this.form.get("userShortcuts") as FormArray;
-    const newUserShortcut = this.buildUserShortcut();
+    const newUserShortcut = this.buildUserShortcut(
+      userShortcuts.length
+    );
     userShortcuts.push(newUserShortcut);
     this.originalUserShortcuts = [...this.originalUserShortcuts, newUserShortcut.value];
     this.cdr.detectChanges();

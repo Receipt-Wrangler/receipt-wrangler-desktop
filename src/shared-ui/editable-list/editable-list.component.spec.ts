@@ -1,23 +1,26 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatListModule } from "@angular/material/list";
+import { ButtonModule } from "../../button/index";
 
-import { EditableListComponent } from './editable-list.component';
+import { EditableListComponent } from "./editable-list.component";
 
-describe('EditableListComponent', () => {
+describe("EditableListComponent", () => {
   let component: EditableListComponent;
   let fixture: ComponentFixture<EditableListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EditableListComponent]
+      declarations: [EditableListComponent],
+      imports: [MatListModule, ButtonModule],
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(EditableListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
