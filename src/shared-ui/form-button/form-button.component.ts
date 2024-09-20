@@ -15,7 +15,7 @@ export class FormButtonComponent {
 
   @Input() public color: string = "primary";
 
-  @Input() public buttonRouterLink: string[] = [];
+  @Input() public buttonRouterLink?: string[] = undefined;
 
   @Input() public buttonQueryParams: any = {};
 
