@@ -79,7 +79,9 @@ export class ReceiptTableState {
     Object.keys(filter).forEach((key) => {
       const stringValue = filter[key]?.value?.toString();
       const operationValue = filter[key]?.operation?.toString();
-      if (stringValue > 0 && stringValue !== "0" || operationValue === FilterOperation.WithinCurrentMonth) {
+      if (stringValue?.length > 0 && stringValue !== "0") {
+        filtersApplied += 1;
+      } else if (operationValue === FilterOperation.WithinCurrentMonth) {
         filtersApplied += 1;
       }
     });

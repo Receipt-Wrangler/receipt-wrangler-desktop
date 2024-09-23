@@ -23,7 +23,8 @@ describe("OperationsPipe", () => {
       "Equals",
       "Greater than",
       "Less than",
-      "Between"
+      "Between",
+      "Within current month"
     ]);
   });
 
@@ -110,7 +111,8 @@ describe("OperationsPipe", () => {
       "EQUALS",
       "GREATER_THAN",
       "LESS_THAN",
-      "BETWEEN"
+      "BETWEEN",
+      "WITHIN_CURRENT_MONTH"
     ]);
   });
 });
