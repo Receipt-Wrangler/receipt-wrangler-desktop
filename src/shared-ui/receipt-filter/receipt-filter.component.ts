@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, } from "@angular/core";
-import { FormGroup, } from "@angular/forms";
+import { FormControl, FormGroup, } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
+import { endOfDay, startOfMonth } from "date-fns";
 import { forkJoin, take, tap } from "rxjs";
 import { RECEIPT_STATUS_OPTIONS } from "src/constants";
 import { SetReceiptFilter } from "src/store/receipt-table.actions";
@@ -41,6 +42,10 @@ export class ReceiptFilterComponent implements OnInit {
 
   public tags: Tag[] = [];
 
+  public startOfMonthFormControl = new FormControl(startOfMonth(new Date()));
+
+  public endOfTodayFormControl = new FormControl(endOfDay(new Date()));
+
 
   constructor(
     private store: Store,
@@ -50,6 +55,9 @@ export class ReceiptFilterComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.startOfMonthFormControl.disable();
+    this.endOfTodayFormControl.disable();
+
     forkJoin([
       this.categoryService.getAllCategories(),
       this.tagService.getAllTags(),

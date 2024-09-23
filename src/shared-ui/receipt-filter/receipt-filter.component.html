@@ -191,9 +191,41 @@
             [addEmptyOption]="true"
           ></app-select>
         </div>
-
       </div>
+    } @else if ((parentForm | formGet : basePath + fieldName + '.operation').value === FilterOperation.WithinCurrentMonth) {
+      <div class="d-flex w-100">
+        <div class="d-flex w-50 align-items-center">
+          <div class="w-50">
+            <app-datepicker
+              *ngIf="type === 'date'"
+              [label]="'Start ' + label"
+              [inputFormControl]="startOfMonthFormControl"
+            >
+            </app-datepicker>
+          </div>
+          <span class="between-separator">
+            and
+          </span>
+          <div class="w-50">
+            <app-datepicker
+              *ngIf="type === 'date'"
+              [label]="'End ' + label"
+              [inputFormControl]="endOfTodayFormControl"
+            >
+            </app-datepicker>
+          </div>
+        </div>
 
+        <div class="ms-2 w-50">
+          <app-select
+            label="Operation"
+            [inputFormControl]="parentForm | formGet : basePath + fieldName + '.operation'"
+            [options]="type | operations: false"
+            [optionsDisplayArray]="type | operations: true"
+            [addEmptyOption]="true"
+          ></app-select>
+        </div>
+      </div>
     } @else {
       <app-input
         *ngIf="type === 'text' || type === 'number'"
