@@ -10,7 +10,7 @@
  */
 
 
-export type FilterOperation = 'CONTAINS' | 'EQUALS' | 'GREATER_THAN' | 'LESS_THAN' | 'BETWEEN' | '';
+export type FilterOperation = 'CONTAINS' | 'EQUALS' | 'GREATER_THAN' | 'LESS_THAN' | 'BETWEEN' | 'WITHIN_CURRENT_MONTH' | '';
 
 export const FilterOperation = {
     Contains: 'CONTAINS' as FilterOperation,
@@ -18,6 +18,7 @@ export const FilterOperation = {
     GreaterThan: 'GREATER_THAN' as FilterOperation,
     LessThan: 'LESS_THAN' as FilterOperation,
     Between: 'BETWEEN' as FilterOperation,
+    WithinCurrentMonth: 'WITHIN_CURRENT_MONTH' as FilterOperation,
     Empty: '' as FilterOperation
 };
 
