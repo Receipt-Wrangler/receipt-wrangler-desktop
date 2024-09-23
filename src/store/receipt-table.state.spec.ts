@@ -95,6 +95,20 @@ describe("ReceiptTableState", () => {
     expect(result).toEqual(8);
   });
 
+  it("should return 8 since all filters are applied, with date set as within current month", () => {
+    (filledFilter.date as any).operation = FilterOperation.WithinCurrentMonth;
+    (filledFilter.date as any).value = undefined;
+
+    store.reset({
+      receiptTable: {
+        filter: filledFilter,
+      },
+    });
+    const result = store.selectSnapshot(ReceiptTableState.numFiltersApplied);
+
+    expect(result).toEqual(8);
+  });
+
   it("should set page", () => {
     store.dispatch(new SetPage(40));
 

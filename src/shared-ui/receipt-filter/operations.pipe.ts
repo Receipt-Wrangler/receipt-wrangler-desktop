@@ -18,6 +18,7 @@ export class OperationsPipe implements PipeTransform {
     [FilterOperation.GreaterThan]: "Greater than",
     [FilterOperation.LessThan]: "Less than",
     [FilterOperation.Between]: "Between",
+    [FilterOperation.WithinCurrentMonth]: "Within current month"
   };
 
   public transform(type: string, display: boolean): string[] {

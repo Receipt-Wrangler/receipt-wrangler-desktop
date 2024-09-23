@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { ReceiptTableInterface } from "../interfaces";
-import { ReceiptPagedRequestFilter } from "../open-api";
+import { FilterOperation, ReceiptPagedRequestFilter } from "../open-api";
 import { ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData } from "./receipt-table.actions";
 
 export const defaultReceiptFilter = {
@@ -78,7 +78,10 @@ export class ReceiptTableState {
 
     Object.keys(filter).forEach((key) => {
       const stringValue = filter[key]?.value?.toString();
-      if (filter[key]?.value?.toString()?.length > 0 && stringValue !== "0") {
+      const operationValue = filter[key]?.operation?.toString();
+      if (stringValue?.length > 0 && stringValue !== "0") {
+        filtersApplied += 1;
+      } else if (operationValue === FilterOperation.WithinCurrentMonth) {
         filtersApplied += 1;
       }
     });
