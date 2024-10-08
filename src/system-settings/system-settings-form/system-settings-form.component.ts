@@ -30,6 +30,8 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
 
   public filteredReceiptProcessingSettings: ReceiptProcessingSettings[] = [];
 
+  public supportedLocales: string[] = [];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private featureConfigService: FeatureConfigService,
@@ -47,6 +49,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     this.setFormConfigFromRoute(this.activatedRoute);
     this.allReceiptProcessingSettings = this.activatedRoute.snapshot.data?.["allReceiptProcessingSettings"];
     this.originalSystemSettings = this.activatedRoute.snapshot.data?.["systemSettings"];
+    this.supportedLocales = this.activatedRoute.snapshot.data["locales"];
     this.initForm();
   }
 
@@ -57,6 +60,9 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       emailPollingInterval: [this.originalSystemSettings?.emailPollingInterval, [Validators.required, Validators.min(0)]],
       numWorkers: [this.originalSystemSettings?.numWorkers ?? 1, [Validators.required, Validators.min(1)]],
       currencyDisplay: [this.originalSystemSettings?.currencyDisplay],
+      showCurrencySymbol: [this.originalSystemSettings?.showCurrencySymbol],
+      currencyLocale: [this.originalSystemSettings?.currencyLocale],
+      currencyCode: [this.originalSystemSettings?.currencyCode],
       receiptProcessingSettingsId: [this.originalSystemSettings?.receiptProcessingSettingsId],
       fallbackReceiptProcessingSettingsId: [this.originalSystemSettings?.fallbackReceiptProcessingSettingsId]
     });

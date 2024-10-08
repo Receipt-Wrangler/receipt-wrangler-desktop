@@ -62,6 +62,26 @@
       [readonly]="(formConfig.mode |  inputReadonly) || !(form | formGet:'receiptProcessingSettingsId').value"
     ></app-autocomlete>
   </app-form-section>
+  <app-form-section
+    headerText="Currency Format"
+  >
+    <app-autocomlete
+      label="Currency Locale"
+      [options]="supportedLocales"
+      [inputFormControl]="form | formGet:'currencyLocale'"
+      [readonly]="(formConfig.mode | inputReadonly)"
+    ></app-autocomlete>
+    <app-input
+      label="Currency Code"
+      [inputFormControl]="form  | formGet:'currencyCode'"
+      [readonly]="(formConfig.mode  | inputReadonly)"
+    ></app-input>
+    <app-checkbox
+      label="Show Currency Symbol"
+      [inputFormControl]="form  | formGet:'showCurrencySymbol'"
+      [readonly]="(formConfig.mode | inputReadonly)"
+    ></app-checkbox>
+  </app-form-section>
   <app-form-button-bar
     [mode]="formConfig.mode"
   >
