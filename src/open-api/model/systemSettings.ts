@@ -28,6 +28,18 @@ export interface SystemSettings {
      */
     currencyDisplay?: string;
     /**
+     * Currency locale
+     */
+    currencyLocale?: string;
+    /**
+     * Currency code
+     */
+    currencyCode?: string;
+    /**
+     * Show currency symbol
+     */
+    showCurrencySymbol?: boolean;
+    /**
      * Debug OCR
      */
     debugOcr?: boolean;

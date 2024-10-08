@@ -19,6 +19,18 @@ export interface UpsertSystemSettingsCommand {
      * Currency display
      */
     currencyDisplay?: string;
+    /**
+     * Currency locale
+     */
+    currencyLocale?: string;
+    /**
+     * Currency code
+     */
+    currencyCode?: string;
+    /**
+     * Show currency symbol
+     */
+    showCurrencySymbol?: boolean;
     debugOcr?: boolean;
     /**
      * Number of workers to use
