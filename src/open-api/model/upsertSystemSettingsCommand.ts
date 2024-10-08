@@ -18,15 +18,15 @@ export interface UpsertSystemSettingsCommand {
     /**
      * Currency display
      */
-    currencyDisplay?: string;
+    currencyDisplay: string;
     /**
      * Currency locale
      */
-    currencyLocale?: string;
+    currencyLocale: string;
     /**
      * Currency code
      */
-    currencyCode?: string;
+    currencyCode: string;
     /**
      * Show currency symbol
      */

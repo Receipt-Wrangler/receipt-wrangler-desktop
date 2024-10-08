@@ -51,6 +51,18 @@ export interface AppData {
      */
     currencyDisplay: string;
     /**
+     * Currency locale
+     */
+    currencyLocale: string;
+    /**
+     * Currency code
+     */
+    currencyCode: string;
+    /**
+     * Whether to show currency symbol
+     */
+    showCurrencySymbol: boolean;
+    /**
      * Icons in the system
      */
     icons: Array<Icon>;
