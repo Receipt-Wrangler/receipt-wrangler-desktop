@@ -9,8 +9,12 @@ import { SystemSettingsState } from "../store/system-settings.state";
 export class CustomCurrencyPipe implements PipeTransform {
   constructor(private store: Store, private currencyPipe: CurrencyPipe) {}
 
-  public transform(currency: string | number): string {
-    const currencyDisplay = this.store.selectSnapshot(SystemSettingsState.currencyDisplay);
-    return this.currencyPipe.transform(currency, "", currencyDisplay) ?? "";
+  public transform(value: string | number, currencyCode?: string, locale?: string, showCurrencySymbol?: boolean): string {
+    const systemSettingsState = this.store.selectSnapshot(SystemSettingsState.state);
+    const currencyCodeToUse = currencyCode || systemSettingsState?.currencyCode;
+    const localeToUse = locale || systemSettingsState?.currencyLocale;
+    const showCurrencySymbolToUse = showCurrencySymbol || systemSettingsState?.showCurrencySymbol;
+
+    return this.currencyPipe.transform(value, currencyCodeToUse, showCurrencySymbolToUse, undefined, localeToUse) ?? "";
   }
 }
