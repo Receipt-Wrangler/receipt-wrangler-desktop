@@ -95,6 +95,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     return this.allReceiptProcessingSettings.find((rps) => rps.id === id)?.name ?? "";
   }
 
+  // TODO: Refactor to use a configurable separators instead of locales.
   public submit(): void {
     const formValue = this.form.value;
     formValue["emailPollingInterval"] = Number.parseInt(formValue["emailPollingInterval"]);

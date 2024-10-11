@@ -10,6 +10,7 @@
       [formControl]="inputFormControl"
       [prefix]="isCurrency ? ((currencyDisplay | async) ?? '') :  maskPrefix"
       [mask]="mask"
+
       [thousandSeparator]="thousandSeparator"
       (blur)="inputBlur.emit($event)"
     />

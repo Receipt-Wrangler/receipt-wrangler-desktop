@@ -18,19 +18,31 @@ export interface UpsertSystemSettingsCommand {
     /**
      * Currency display
      */
-    currencyDisplay: string;
+    currencyDisplay?: string;
     /**
      * Currency locale
      */
-    currencyLocale: string;
+    currencyLocale?: string;
     /**
      * Currency code
      */
-    currencyCode: string;
+    currencyCode?: string;
     /**
      * Show currency symbol
      */
     showCurrencySymbol?: boolean;
+    /**
+     * Currency thousandths separator
+     */
+    currencyThousandthsSeparator?: string;
+    /**
+     * Currency decimal separator
+     */
+    currencyDecimalSeparator?: string;
+    /**
+     * Currency symbol position
+     */
+    currencySymbolPosition?: string;
     debugOcr?: boolean;
     /**
      * Number of workers to use

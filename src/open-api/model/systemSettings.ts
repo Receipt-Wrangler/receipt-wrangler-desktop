@@ -40,6 +40,18 @@ export interface SystemSettings {
      */
     showCurrencySymbol?: boolean;
     /**
+     * Currency thousandths separator
+     */
+    currencyThousandthsSeparator?: string;
+    /**
+     * Currency decimal separator
+     */
+    currencyDecimalSeparator?: string;
+    /**
+     * Currency symbol position
+     */
+    currencySymbolPosition?: string;
+    /**
      * Debug OCR
      */
     debugOcr?: boolean;
