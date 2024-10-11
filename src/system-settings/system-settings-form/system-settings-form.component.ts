@@ -6,6 +6,7 @@ import { Store } from "@ngxs/store";
 import { startWith, switchMap, take, tap } from "rxjs";
 import { AutocomleteComponent } from "../../autocomplete/autocomlete/autocomlete.component";
 import { BaseFormComponent } from "../../form";
+import { FormOption } from "../../interfaces/form-option.interface";
 import { FeatureConfigService, ReceiptProcessingSettings, SystemSettings, SystemSettingsService } from "../../open-api";
 import { InputReadonlyPipe } from "../../pipes/input-readonly.pipe";
 import { SnackbarService } from "../../services";
@@ -31,6 +32,28 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   public filteredReceiptProcessingSettings: ReceiptProcessingSettings[] = [];
 
   public supportedLocales: string[] = [];
+
+  public readonly symbolPositions: FormOption[] = [
+    {
+      displayValue: "Start",
+      value: "start"
+    },
+    {
+      displayValue: "End",
+      value: "end",
+    }
+  ];
+
+  public readonly decimalSeparators: FormOption[] = [
+    {
+      displayValue: "Comma",
+      value: ","
+    },
+    {
+      displayValue: "Dot",
+      value: "."
+    }
+  ];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -60,9 +83,9 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       emailPollingInterval: [this.originalSystemSettings?.emailPollingInterval, [Validators.required, Validators.min(0)]],
       numWorkers: [this.originalSystemSettings?.numWorkers ?? 1, [Validators.required, Validators.min(1)]],
       currencyDisplay: [this.originalSystemSettings?.currencyDisplay],
-      showCurrencySymbol: [this.originalSystemSettings?.showCurrencySymbol],
-      currencyLocale: [this.originalSystemSettings?.currencyLocale],
-      currencyCode: [this.originalSystemSettings?.currencyCode],
+      currencyThousandthsSeparator: [this.originalSystemSettings.currencyThousandthsSeparator],
+      currencyDecimalSeparator: [this.originalSystemSettings.currencyDecimalSeparator],
+      currencySymbolPosition: [this.originalSystemSettings.currencySymbolPosition],
       receiptProcessingSettingsId: [this.originalSystemSettings?.receiptProcessingSettingsId],
       fallbackReceiptProcessingSettingsId: [this.originalSystemSettings?.fallbackReceiptProcessingSettingsId]
     });

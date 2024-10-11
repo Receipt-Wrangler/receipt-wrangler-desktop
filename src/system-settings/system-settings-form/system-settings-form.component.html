@@ -30,11 +30,6 @@
       [inputFormControl]="form | formGet: 'numWorkers'"
     ></app-input>
     <app-input
-      label="Currency Display"
-      [readonly]="formConfig.mode | inputReadonly"
-      [inputFormControl]="form | formGet: 'currencyDisplay'"
-    ></app-input>
-    <app-input
       label="Email polling interval (in seconds)"
       type="number"
       [inputFormControl]="form | formGet:'emailPollingInterval'"
@@ -72,22 +67,35 @@
       <span>{{ 10000 | customCurrency :  (form | formGet: 'currencyCode').value :  (form | formGet: 'currencyLocale').value : (form  | formGet:'showCurrencySymbol').value }}</span>
       <span>{{ -10000 | customCurrency :  (form | formGet: 'currencyCode').value :  (form | formGet: 'currencyLocale').value : (form | formGet: 'showCurrencySymbol').value }}</span>
     </div>
-    <app-autocomlete
-      label="Currency Locale"
-      [options]="supportedLocales"
-      [inputFormControl]="form | formGet:'currencyLocale'"
-      [readonly]="(formConfig.mode | inputReadonly)"
-    ></app-autocomlete>
     <app-input
-      label="Currency Code"
-      [inputFormControl]="form  | formGet:'currencyCode'"
-      [readonly]="(formConfig.mode  | inputReadonly)"
+      label="Symbol Display"
+      [readonly]="formConfig.mode | inputReadonly"
+      [inputFormControl]="form | formGet: 'currencyDisplay'"
     ></app-input>
-    <app-checkbox
-      label="Show Currency Symbol"
-      [inputFormControl]="form  | formGet:'showCurrencySymbol'"
-      [readonly]="(formConfig.mode | inputReadonly)"
-    ></app-checkbox>
+    <app-select
+      label="Symbol Position"
+      optionValueKey="value"
+      optionDisplayKey="displayValue"
+      [inputFormControl]="form  | formGet:'currencySymbolPosition'"
+      [readonly]="(formConfig.mode  | inputReadonly)"
+      [options]="symbolPositions"
+    ></app-select>
+    <app-select
+      label="Thousandths Separator"
+      optionValueKey="value"
+      optionDisplayKey="displayValue"
+      [inputFormControl]="form  | formGet:'currencyThousandthsSeparator'"
+      [readonly]="(formConfig.mode  | inputReadonly)"
+      [options]="decimalSeparators"
+    ></app-select>
+    <app-select
+      label="Decimal Separator"
+      optionValueKey="value"
+      optionDisplayKey="displayValue"
+      [inputFormControl]="form  | formGet:'currencyDecimalSeparator'"
+      [readonly]="(formConfig.mode  | inputReadonly)"
+      [options]="decimalSeparators"
+    ></app-select>
   </app-form-section>
   <app-form-button-bar
     [mode]="formConfig.mode"
