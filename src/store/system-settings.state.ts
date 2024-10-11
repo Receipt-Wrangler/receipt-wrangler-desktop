@@ -4,18 +4,18 @@ import { SetCurrencyData, SetCurrencyDisplay } from "./system-settings.state.act
 
 export interface SystemSettingsStateInterface {
   currencyDisplay: string;
-  currencyLocale: string;
-  currencyCode: string;
-  showCurrencySymbol: boolean;
+  currencySymbolPosition: string;
+  currencyDecimalSeparator: string;
+  currencyThousandthsSeparator: string;
 }
 
 @State<SystemSettingsStateInterface>({
   name: "systemSettings",
   defaults: {
     currencyDisplay: "$",
-    currencyLocale: "en-US",
-    currencyCode: "USD",
-    showCurrencySymbol: true,
+    currencyDecimalSeparator: "",
+    currencyThousandthsSeparator: "",
+    currencySymbolPosition: "",
   },
 })
 @Injectable()
@@ -46,9 +46,9 @@ export class SystemSettingsState {
     payload: SetCurrencyData
   ) {
     patchState({
-      currencyCode: payload.currencyCode,
-      currencyLocale: payload.currencyLocale,
-      showCurrencySymbol: payload.showCurrencySymbol
+      currencySymbolPosition: payload.currencySymbolPosition,
+      currencyThousandthsSeparator: payload.currencyThousandthsSeparator,
+      currencyDecimalSeparator: payload.currencyDecimalSeparator
     });
   }
 }

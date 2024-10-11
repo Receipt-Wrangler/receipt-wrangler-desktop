@@ -8,9 +8,9 @@ export class SetCurrencyData {
   static readonly type = "[SystemSettingsState] Set Currency Data";
 
   constructor(
-    public currencyLocale: string,
-    public currencyCode: string,
-    public showCurrencySymbol: boolean
+    public currencySymbolPosition: string,
+    public currencyDecimalSeparator: string,
+    public currencyThousandthsSeparator: string,
   ) {}
 }
 

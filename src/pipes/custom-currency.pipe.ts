@@ -11,10 +11,10 @@ export class CustomCurrencyPipe implements PipeTransform {
 
   public transform(value: string | number, currencyCode?: string, locale?: string, showCurrencySymbol?: boolean): string {
     const systemSettingsState = this.store.selectSnapshot(SystemSettingsState.state);
-    const currencyCodeToUse = currencyCode || systemSettingsState?.currencyCode;
-    const localeToUse = locale || systemSettingsState?.currencyLocale;
-    const showCurrencySymbolToUse = showCurrencySymbol || systemSettingsState?.showCurrencySymbol;
+    //const currencyCodeToUse = currencyCode || systemSettingsState?.currencyCode;
+    //const localeToUse = locale || systemSettingsState?.currencyLocale;
+    //const showCurrencySymbolToUse = showCurrencySymbol || systemSettingsState?.showCurrencySymbol;
 
-    return this.currencyPipe.transform(value, currencyCodeToUse, showCurrencySymbolToUse, undefined, localeToUse) ?? "";
+    return this.currencyPipe.transform(value) ?? "";
   }
 }

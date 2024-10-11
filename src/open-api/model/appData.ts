@@ -51,17 +51,17 @@ export interface AppData {
      */
     currencyDisplay: string;
     /**
-     * Currency locale
+     * Currency thousandths separator
      */
-    currencyLocale: string;
+    currencyThousandthsSeparator?: string;
     /**
-     * Currency code
+     * Currency decimal separator
      */
-    currencyCode: string;
+    currencyDecimalSeparator?: string;
     /**
-     * Whether to show currency symbol
+     * Currency symbol position
      */
-    showCurrencySymbol: boolean;
+    currencySymbolPosition?: string;
     /**
      * Icons in the system
      */
