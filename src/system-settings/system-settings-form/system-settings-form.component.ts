@@ -135,9 +135,9 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
         tap((featureConfig) => this.store.dispatch(new SetFeatureConfig(featureConfig))),
         switchMap(() => this.store.dispatch(new SetCurrencyDisplay(formValue["currencyDisplay"]?.toString()))),
         switchMap(() => this.store.dispatch(
-          new SetCurrencyData(formValue["currencyLocale"],
-            formValue["currencyCode"],
-            formValue["showCurrencySymbol"],
+          new SetCurrencyData(formValue["currencySymbolPosition"],
+            formValue["currencyDecimalSeparator"],
+            formValue["currencyThousandthsSeparator"],
           )))
       )
       .subscribe();

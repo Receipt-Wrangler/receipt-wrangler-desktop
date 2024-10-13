@@ -7,14 +7,52 @@ import { SystemSettingsState } from "../store/system-settings.state";
   name: "customCurrency",
 })
 export class CustomCurrencyPipe implements PipeTransform {
+  // TODO: update preview, add unit tests for this
   constructor(private store: Store, private currencyPipe: CurrencyPipe) {}
 
   public transform(value: string | number, currencyCode?: string, locale?: string, showCurrencySymbol?: boolean): string {
     const systemSettingsState = this.store.selectSnapshot(SystemSettingsState.state);
-    //const currencyCodeToUse = currencyCode || systemSettingsState?.currencyCode;
-    //const localeToUse = locale || systemSettingsState?.currencyLocale;
-    //const showCurrencySymbolToUse = showCurrencySymbol || systemSettingsState?.showCurrencySymbol;
+    let currencyValue = this.currencyPipe.transform(value, "USD", "symbol", undefined, "en-US") ?? "";
+    const currencyDecimalSeparator = systemSettingsState?.currencyDecimalSeparator ?? ".";
 
-    return this.currencyPipe.transform(value) ?? "";
+    if (currencyDecimalSeparator) {
+      currencyValue = currencyValue.replace(".", currencyDecimalSeparator);
+    }
+
+    if (systemSettingsState.currencyThousandthsSeparator) {
+      const decimalIndex = currencyValue.indexOf(currencyDecimalSeparator);
+      if (decimalIndex === -1) {
+        currencyValue = currencyValue.replace(",", systemSettingsState?.currencyThousandthsSeparator);
+      } else {
+        const currencyValues = currencyValue.split("");
+        for (let i = decimalIndex + 1; i < currencyValue.length; i++) {
+          if (currencyValues[i] === ",") {
+            currencyValues[i] = systemSettingsState.currencyThousandthsSeparator;
+          }
+        }
+
+        currencyValue = currencyValues.join("");
+      }
+    }
+
+    if (systemSettingsState.currencyDisplay) {
+      const currencySymbol = systemSettingsState.currencyDisplay || "$";
+      const currencyPosition = systemSettingsState.currencySymbolPosition || "start";
+      let currencyValues = currencyValue.split("");
+      const index = currencyValues.findIndex((v => v === "$"));
+      currencyValues.splice(index, 1);
+
+      if (currencyPosition === "start") {
+        currencyValues.unshift(currencySymbol);
+      }
+
+      if (currencyPosition === "end") {
+        currencyValues.push(currencySymbol);
+      }
+
+      currencyValue = currencyValues.join("");
+    }
+
+    return currencyValue;
   }
 }
