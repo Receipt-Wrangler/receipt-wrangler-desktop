@@ -26,6 +26,21 @@ export class SystemSettingsState {
   }
 
   @Selector()
+  static currencyDecimalSeparator(state: SystemSettingsStateInterface): string {
+    return state.currencyDecimalSeparator;
+  }
+
+  @Selector()
+  static currencyThousandthsSeparator(state: SystemSettingsStateInterface): string {
+    return state.currencyThousandthsSeparator;
+  }
+
+  @Selector()
+  static currencySymbolPosition(state: SystemSettingsStateInterface): string {
+    return state.currencySymbolPosition;
+  }
+
+  @Selector()
   static state(state: SystemSettingsStateInterface): SystemSettingsStateInterface {
     return state;
   }

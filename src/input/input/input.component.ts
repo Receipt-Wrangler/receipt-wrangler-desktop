@@ -17,6 +17,12 @@ export class InputComponent
 
   @Select(SystemSettingsState.currencyDisplay) public currencyDisplay!: Observable<string>;
 
+  @Select(SystemSettingsState.currencyDecimalSeparator) public currencyDecimalSeparator!: Observable<"." | ",">;
+
+  @Select(SystemSettingsState.currencyThousandthsSeparator) public currencyThousandthsSeparator!: Observable<"." | ",">;
+
+  @Select(SystemSettingsState.currencySymbolPosition) public currencySymbolPosition!: Observable<string>;
+
   @Input() public inputId: string = "";
 
   @Input() public type: string = "text";
@@ -28,6 +34,8 @@ export class InputComponent
   @Input() public mask: string = "";
 
   @Input() public maskPrefix: string = "";
+
+  @Input() public maskSuffix: string = "";
 
   @Input() public thousandSeparator: string = "";
 

@@ -46,11 +46,11 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
 
   public readonly decimalSeparators: FormOption[] = [
     {
-      displayValue: "Comma",
+      displayValue: ", (Comma)",
       value: ","
     },
     {
-      displayValue: "Dot",
+      displayValue: ". (Dot)",
       value: "."
     }
   ];
