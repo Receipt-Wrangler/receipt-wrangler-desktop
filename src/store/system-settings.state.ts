@@ -1,21 +1,22 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext, } from "@ngxs/store";
+import { CurrencySeparator, CurrencySymbolPosition } from "../open-api/index";
 import { SetCurrencyData, SetCurrencyDisplay } from "./system-settings.state.actions";
 
 export interface SystemSettingsStateInterface {
   currencyDisplay: string;
-  currencySymbolPosition: string;
-  currencyDecimalSeparator: string;
-  currencyThousandthsSeparator: string;
+  currencySymbolPosition: CurrencySymbolPosition;
+  currencyDecimalSeparator: CurrencySeparator;
+  currencyThousandthsSeparator: CurrencySeparator;
 }
 
 @State<SystemSettingsStateInterface>({
   name: "systemSettings",
   defaults: {
     currencyDisplay: "$",
-    currencyDecimalSeparator: "",
-    currencyThousandthsSeparator: "",
-    currencySymbolPosition: "",
+    currencyDecimalSeparator: CurrencySeparator.Period,
+    currencyThousandthsSeparator: CurrencySeparator.Comma,
+    currencySymbolPosition: CurrencySymbolPosition.Start,
   },
 })
 @Injectable()
@@ -26,17 +27,17 @@ export class SystemSettingsState {
   }
 
   @Selector()
-  static currencyDecimalSeparator(state: SystemSettingsStateInterface): string {
+  static currencyDecimalSeparator(state: SystemSettingsStateInterface): CurrencySeparator {
     return state.currencyDecimalSeparator;
   }
 
   @Selector()
-  static currencyThousandthsSeparator(state: SystemSettingsStateInterface): string {
+  static currencyThousandthsSeparator(state: SystemSettingsStateInterface): CurrencySeparator {
     return state.currencyThousandthsSeparator;
   }
 
   @Selector()
-  static currencySymbolPosition(state: SystemSettingsStateInterface): string {
+  static currencySymbolPosition(state: SystemSettingsStateInterface): CurrencySymbolPosition {
     return state.currencySymbolPosition;
   }
 

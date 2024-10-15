@@ -1,3 +1,5 @@
+import { CurrencySeparator, CurrencySymbolPosition } from "../open-api/index";
+
 export class SetCurrencyDisplay {
   static readonly type = "[SystemSettingsState] Set Currency Display";
 
@@ -8,9 +10,9 @@ export class SetCurrencyData {
   static readonly type = "[SystemSettingsState] Set Currency Data";
 
   constructor(
-    public currencySymbolPosition: string,
-    public currencyDecimalSeparator: string,
-    public currencyThousandthsSeparator: string,
+    public currencySymbolPosition: CurrencySymbolPosition,
+    public currencyDecimalSeparator: CurrencySeparator,
+    public currencyThousandthsSeparator: CurrencySeparator,
   ) {}
 }
 

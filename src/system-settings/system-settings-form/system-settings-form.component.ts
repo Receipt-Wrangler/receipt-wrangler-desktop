@@ -7,7 +7,14 @@ import { startWith, switchMap, take, tap } from "rxjs";
 import { AutocomleteComponent } from "../../autocomplete/autocomlete/autocomlete.component";
 import { BaseFormComponent } from "../../form";
 import { FormOption } from "../../interfaces/form-option.interface";
-import { FeatureConfigService, ReceiptProcessingSettings, SystemSettings, SystemSettingsService } from "../../open-api";
+import {
+  CurrencySeparator,
+  CurrencySymbolPosition,
+  FeatureConfigService,
+  ReceiptProcessingSettings,
+  SystemSettings,
+  SystemSettingsService
+} from "../../open-api";
 import { InputReadonlyPipe } from "../../pipes/input-readonly.pipe";
 import { SnackbarService } from "../../services";
 import { SetFeatureConfig } from "../../store";
@@ -31,27 +38,25 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
 
   public filteredReceiptProcessingSettings: ReceiptProcessingSettings[] = [];
 
-  public supportedLocales: string[] = [];
-
   public readonly symbolPositions: FormOption[] = [
     {
       displayValue: "Start",
-      value: "start"
+      value: CurrencySymbolPosition.Start
     },
     {
       displayValue: "End",
-      value: "end",
+      value: CurrencySymbolPosition.End,
     }
   ];
 
   public readonly decimalSeparators: FormOption[] = [
     {
       displayValue: ", (Comma)",
-      value: ","
+      value: CurrencySeparator.Comma
     },
     {
       displayValue: ". (Dot)",
-      value: "."
+      value: CurrencySeparator.Period
     }
   ];
 
@@ -72,7 +77,6 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     this.setFormConfigFromRoute(this.activatedRoute);
     this.allReceiptProcessingSettings = this.activatedRoute.snapshot.data?.["allReceiptProcessingSettings"];
     this.originalSystemSettings = this.activatedRoute.snapshot.data?.["systemSettings"];
-    this.supportedLocales = this.activatedRoute.snapshot.data["locales"];
     this.initForm();
   }
 

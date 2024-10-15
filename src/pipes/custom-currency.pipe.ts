@@ -1,6 +1,7 @@
 import { CurrencyPipe } from "@angular/common";
 import { Pipe, PipeTransform } from "@angular/core";
 import { Store } from "@ngxs/store";
+import { CurrencySymbolPosition } from "../open-api/index";
 import { SystemSettingsState } from "../store/system-settings.state";
 
 @Pipe({
@@ -42,11 +43,11 @@ export class CustomCurrencyPipe implements PipeTransform {
       const index = currencyValues.findIndex((v => v === "$"));
       currencyValues.splice(index, 1);
 
-      if (currencyPosition === "start") {
+      if (currencyPosition === CurrencySymbolPosition.Start) {
         currencyValues.unshift(currencySymbol);
       }
 
-      if (currencyPosition === "end") {
+      if (currencyPosition === CurrencySymbolPosition.End) {
         currencyValues.push(currencySymbol);
       }
 

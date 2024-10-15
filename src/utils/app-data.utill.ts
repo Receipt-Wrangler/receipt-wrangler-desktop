@@ -1,6 +1,6 @@
 import { Store } from "@ngxs/store";
 import { forkJoin, Observable, of } from "rxjs";
-import { AppData } from "../open-api";
+import { AppData, CurrencySeparator, CurrencySymbolPosition } from "../open-api";
 import {
   GroupState,
   SetAuthState,
@@ -29,11 +29,12 @@ export function setAppData(store: Store, appData: AppData): Observable<any[]> {
     store.dispatch(new SetUsers(appData.users)),
     store.dispatch(new SetCurrencyDisplay(appData.currencyDisplay)),
     store.dispatch(new SetCurrencyData(
-      appData.currencySymbolPosition ?? "",
-      appData.currencyDecimalSeparator ?? "",
-      appData.currencyThousandthsSeparator ?? ""
+      appData.currencySymbolPosition ?? CurrencySymbolPosition.Start,
+      appData.currencyDecimalSeparator ?? CurrencySeparator.Period,
+      appData.currencyThousandthsSeparator ?? CurrencySeparator.Comma
     )),
     store.dispatch(new SetIcons(appData.icons)),
     selectedGroupIdObservable,
   ]);
 }
+

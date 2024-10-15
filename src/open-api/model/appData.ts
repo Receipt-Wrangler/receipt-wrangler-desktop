@@ -12,10 +12,12 @@ import { UserPreferences } from './userPreferences';
 import { Group } from './group';
 import { Category } from './category';
 import { Claims } from './claims';
+import { CurrencySeparator } from './currencySeparator';
 import { FeatureConfig } from './featureConfig';
 import { UserView } from './userView';
 import { Icon } from './icon';
 import { Tag } from './tag';
+import { CurrencySymbolPosition } from './currencySymbolPosition';
 
 
 export interface AppData { 
@@ -50,21 +52,15 @@ export interface AppData {
      * Currency display
      */
     currencyDisplay: string;
-    /**
-     * Currency thousandths separator
-     */
-    currencyThousandthsSeparator?: string;
-    /**
-     * Currency decimal separator
-     */
-    currencyDecimalSeparator?: string;
-    /**
-     * Currency symbol position
-     */
-    currencySymbolPosition?: string;
+    currencyThousandthsSeparator?: CurrencySeparator;
+    currencyDecimalSeparator?: CurrencySeparator;
+    currencySymbolPosition?: CurrencySymbolPosition;
     /**
      * Icons in the system
      */
     icons: Array<Icon>;
 }
+export namespace AppData {
+}
+
 

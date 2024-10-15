@@ -14,7 +14,6 @@ import {
 } from "../receipt-processing-settings/receipt-processing-settings-table/receipt-processing-settings-table.component";
 import { receiptProcessingSettingsResolver } from "../receipt-processing-settings/receipt-processing-settings.resolver";
 import { allReceiptProcessingSettingsResolver } from "./resolvers/receipt-processing-settings.resolver";
-import { supportedLocalesResolver } from "./resolvers/supported-locales.resolver";
 import { systemEmailResolver } from "./resolvers/system-email.resolver";
 import { systemSettingsResolver } from "./resolvers/system-settings.resolver";
 import { SystemEmailFormComponent } from "./system-email-form/system-email-form.component";
@@ -67,7 +66,6 @@ const routes: Routes = [
         resolve: {
           allReceiptProcessingSettings: allReceiptProcessingSettingsResolver,
           systemSettings: systemSettingsResolver,
-          locales: supportedLocalesResolver
         }
       },
       {
@@ -82,7 +80,6 @@ const routes: Routes = [
         resolve: {
           allReceiptProcessingSettings: allReceiptProcessingSettingsResolver,
           systemSettings: systemSettingsResolver,
-          locales: supportedLocalesResolver
         }
       },
     ]

@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import { Store } from "@ngxs/store";
+import { CurrencySymbolPosition } from "../../open-api/index";
 import { SystemSettingsState } from "../../store/system-settings.state";
 
 @Pipe({
@@ -10,11 +11,11 @@ export class SymbolPositionPipe implements PipeTransform {
 
   public transform(position: "prefix" | "suffix"): boolean {
     const currencyPosition = this.store.selectSnapshot(SystemSettingsState.currencySymbolPosition);
-    if (currencyPosition === "start" && position === "prefix") {
+    if (currencyPosition === CurrencySymbolPosition.Start && position === "prefix") {
       return true;
     }
 
-    if (currencyPosition === "end" && position === "suffix") {
+    if (currencyPosition === CurrencySymbolPosition.End && position === "suffix") {
       return true;
     }
 
