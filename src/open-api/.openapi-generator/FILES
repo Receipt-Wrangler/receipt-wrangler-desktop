@@ -37,6 +37,8 @@ model/checkEmailConnectivityCommand.ts
 model/checkReceiptProcessingSettingsConnectivityCommand.ts
 model/claims.ts
 model/comment.ts
+model/currencySeparator.ts
+model/currencySymbolPosition.ts
 model/dashboard.ts
 model/encodedImage.ts
 model/featureConfig.ts

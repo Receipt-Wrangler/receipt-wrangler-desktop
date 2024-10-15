@@ -8,6 +8,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CurrencySeparator } from './currencySeparator';
+import { CurrencySymbolPosition } from './currencySymbolPosition';
 
 
 export interface UpsertSystemSettingsCommand { 
@@ -19,30 +21,9 @@ export interface UpsertSystemSettingsCommand {
      * Currency display
      */
     currencyDisplay?: string;
-    /**
-     * Currency locale
-     */
-    currencyLocale?: string;
-    /**
-     * Currency code
-     */
-    currencyCode?: string;
-    /**
-     * Show currency symbol
-     */
-    showCurrencySymbol?: boolean;
-    /**
-     * Currency thousandths separator
-     */
-    currencyThousandthsSeparator?: string;
-    /**
-     * Currency decimal separator
-     */
-    currencyDecimalSeparator?: string;
-    /**
-     * Currency symbol position
-     */
-    currencySymbolPosition?: string;
+    currencyThousandthsSeparator?: CurrencySeparator;
+    currencyDecimalSeparator?: CurrencySeparator;
+    currencySymbolPosition?: CurrencySymbolPosition;
     debugOcr?: boolean;
     /**
      * Number of workers to use
@@ -61,4 +42,7 @@ export interface UpsertSystemSettingsCommand {
      */
     fallbackReceiptProcessingSettingsId?: number;
 }
+export namespace UpsertSystemSettingsCommand {
+}
+
 
