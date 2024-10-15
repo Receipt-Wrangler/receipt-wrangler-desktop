@@ -77,7 +77,6 @@
       optionValueKey="value"
       optionDisplayKey="displayValue"
       [inputFormControl]="form  | formGet:'currencySymbolPosition'"
-      [readonly]="(formConfig.mode  | inputReadonly)"
       [options]="symbolPositions"
     ></app-select>
     <app-select
@@ -85,7 +84,6 @@
       optionValueKey="value"
       optionDisplayKey="displayValue"
       [inputFormControl]="form  | formGet:'currencyThousandthsSeparator'"
-      [readonly]="(formConfig.mode  | inputReadonly)"
       [options]="decimalSeparators"
     ></app-select>
     <app-select
@@ -93,7 +91,6 @@
       optionValueKey="value"
       optionDisplayKey="displayValue"
       [inputFormControl]="form  | formGet:'currencyDecimalSeparator'"
-      [readonly]="(formConfig.mode  | inputReadonly)"
       [options]="decimalSeparators"
     ></app-select>
   </app-form-section>

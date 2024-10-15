@@ -97,6 +97,9 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     if (this.inputReadonlyPipe.transform(this.formConfig.mode)) {
       this.form.get("debugOcr")?.disable();
       this.form.get("enableLocalSignUp")?.disable();
+      this.form.get("currencyThousandthsSeparator")?.disable();
+      this.form.get("currencyDecimalSeparator")?.disable();
+      this.form.get("currencySymbolPosition")?.disable();
     }
 
     this.listenForReceiptProcessingSettingsChanges();
