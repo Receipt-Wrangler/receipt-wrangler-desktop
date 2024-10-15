@@ -1,34 +1,43 @@
 import { CurrencyPipe } from "@angular/common";
 import { Pipe, PipeTransform } from "@angular/core";
 import { Store } from "@ngxs/store";
-import { CurrencySymbolPosition } from "../open-api/index";
+import { CurrencySeparator, CurrencySymbolPosition } from "../open-api/index";
 import { SystemSettingsState } from "../store/system-settings.state";
 
 @Pipe({
   name: "customCurrency",
 })
 export class CustomCurrencyPipe implements PipeTransform {
-  // TODO: update preview, add unit tests for this
   constructor(private store: Store, private currencyPipe: CurrencyPipe) {}
 
-  public transform(value: string | number, currencyCode?: string, locale?: string, showCurrencySymbol?: boolean): string {
+  public transform(
+    value: string | number,
+    currencySymbol?: string,
+    currencyDecimalSeparator?: CurrencySeparator,
+    currencyThousandthsSeparator?: CurrencySeparator,
+    currencySymbolPosition?: CurrencySymbolPosition
+  ): string {
     const systemSettingsState = this.store.selectSnapshot(SystemSettingsState.state);
     let currencyValue = this.currencyPipe.transform(value, "USD", "symbol", undefined, "en-US") ?? "";
-    const currencyDecimalSeparator = systemSettingsState?.currencyDecimalSeparator ?? ".";
 
-    if (currencyDecimalSeparator) {
-      currencyValue = currencyValue.replace(".", currencyDecimalSeparator);
+    const currencySymbolToUse = currencySymbol || systemSettingsState.currencyDisplay;
+    const currencyDecimalSeparatorToUse = currencyDecimalSeparator || systemSettingsState?.currencyDecimalSeparator;
+    const currencyThousandthsSeparatorToUse = currencyThousandthsSeparator || systemSettingsState.currencyThousandthsSeparator;
+    const currencySymbolPositionToUse = currencySymbolPosition || systemSettingsState.currencySymbolPosition;
+
+    if (currencyDecimalSeparatorToUse) {
+      currencyValue = currencyValue.replace(".", currencyDecimalSeparatorToUse);
     }
 
-    if (systemSettingsState.currencyThousandthsSeparator) {
-      const decimalIndex = currencyValue.indexOf(currencyDecimalSeparator);
+    if (currencyThousandthsSeparatorToUse) {
+      const decimalIndex = currencyValue.indexOf(currencyDecimalSeparatorToUse);
       if (decimalIndex === -1) {
-        currencyValue = currencyValue.replace(",", systemSettingsState?.currencyThousandthsSeparator);
+        currencyValue = currencyValue.replace(",", currencyThousandthsSeparatorToUse);
       } else {
         const currencyValues = currencyValue.split("");
         for (let i = decimalIndex + 1; i < currencyValue.length; i++) {
           if (currencyValues[i] === ",") {
-            currencyValues[i] = systemSettingsState.currencyThousandthsSeparator;
+            currencyValues[i] = currencyThousandthsSeparatorToUse;
           }
         }
 
@@ -36,19 +45,17 @@ export class CustomCurrencyPipe implements PipeTransform {
       }
     }
 
-    if (systemSettingsState.currencyDisplay) {
-      const currencySymbol = systemSettingsState.currencyDisplay || "$";
-      const currencyPosition = systemSettingsState.currencySymbolPosition || "start";
+    if (currencySymbolToUse) {
       let currencyValues = currencyValue.split("");
       const index = currencyValues.findIndex((v => v === "$"));
       currencyValues.splice(index, 1);
 
-      if (currencyPosition === CurrencySymbolPosition.Start) {
-        currencyValues.unshift(currencySymbol);
+      if (currencySymbolPositionToUse === CurrencySymbolPosition.Start) {
+        currencyValues.unshift(currencySymbolToUse);
       }
 
-      if (currencyPosition === CurrencySymbolPosition.End) {
-        currencyValues.push(currencySymbol);
+      if (currencySymbolPositionToUse === CurrencySymbolPosition.End) {
+        currencyValues.push(currencySymbolToUse);
       }
 
       currencyValue = currencyValues.join("");

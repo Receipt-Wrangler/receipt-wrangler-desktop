@@ -62,10 +62,10 @@
   >
     <div class="d-flex flex-column mb-3">
       <strong>Previews</strong>
-      <span>{{ 123456789.12 | customCurrency :  (form | formGet: 'currencyCode').value :  (form | formGet: 'currencyLocale').value : (form | formGet: 'showCurrencySymbol').value }}</span>
-      <span>{{ 12.99 | customCurrency :  (form | formGet: 'currencyCode').value :  (form | formGet: 'currencyLocale').value  : (form  | formGet:'showCurrencySymbol').value }}</span>
-      <span>{{ 10000 | customCurrency :  (form | formGet: 'currencyCode').value :  (form | formGet: 'currencyLocale').value : (form  | formGet:'showCurrencySymbol').value }}</span>
-      <span>{{ -10000 | customCurrency :  (form | formGet: 'currencyCode').value :  (form | formGet: 'currencyLocale').value : (form | formGet: 'showCurrencySymbol').value }}</span>
+      <span>{{ 123456789.12 | customCurrency :  (form | formGet: 'currencyDisplay').value :  (form | formGet: 'currencyDecimalSeparator').value : (form | formGet: 'currencyThousandthsSeparator').value : ((form | formGet: 'currencySymbolPosition').value) }}</span>
+      <span>{{ 12.99 | customCurrency :  (form | formGet: 'currencyDisplay').value :  (form | formGet: 'currencyDecimalSeparator').value : (form | formGet: 'currencyThousandthsSeparator').value : ((form | formGet: 'currencySymbolPosition').value) }}</span>
+      <span>{{ 10000 | customCurrency :  (form | formGet: 'currencyDisplay').value :  (form | formGet: 'currencyDecimalSeparator').value : (form | formGet: 'currencyThousandthsSeparator').value : ((form | formGet: 'currencySymbolPosition').value) }}</span>
+      <span>{{ -10000 | customCurrency :  (form | formGet: 'currencyDisplay').value :  (form | formGet: 'currencyDecimalSeparator').value : (form | formGet: 'currencyThousandthsSeparator').value : ((form | formGet: 'currencySymbolPosition').value) }}</span>
     </div>
     <app-input
       label="Symbol Display"
