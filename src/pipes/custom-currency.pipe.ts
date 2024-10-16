@@ -27,13 +27,14 @@ export class CustomCurrencyPipe implements PipeTransform {
     const currencyDecimalSeparatorToUse = currencyDecimalSeparator || systemSettingsState?.currencyDecimalSeparator;
     const currencyThousandthsSeparatorToUse = currencyThousandthsSeparator || systemSettingsState.currencyThousandthsSeparator;
     const currencySymbolPositionToUse = currencySymbolPosition || systemSettingsState.currencySymbolPosition;
+    const currencyHideDecimalPlacesToUse = currencyHideDecimalPlaces || systemSettingsState.currencyHideDecimalPlaces;
 
-    if (currencyHideDecimalPlaces) {
+    if (currencyHideDecimalPlacesToUse) {
       const decimalIndex = result.indexOf(".");
       result.splice(decimalIndex, result.length - decimalIndex);
     }
 
-    if (currencyDecimalSeparatorToUse && !currencyHideDecimalPlaces) {
+    if (currencyDecimalSeparatorToUse && !currencyHideDecimalPlacesToUse) {
       for (let i = 0; i < result.length; i++) {
         if (result[i] === CurrencySeparator.Period) {
           result[i] = currencyDecimalSeparatorToUse;

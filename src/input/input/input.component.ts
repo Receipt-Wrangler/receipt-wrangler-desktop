@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, } from "@angular/core";
-import { Select } from "@ngxs/store";
+import { Select, Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { BaseInputComponent } from "../../base-input";
 import { SystemSettingsState } from "../../store/system-settings.state";
@@ -43,10 +43,20 @@ export class InputComponent
     undefined
   );
 
+  constructor(private store: Store) {
+    super();
+  }
+
+
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes["isCurrency"]?.currentValue) {
-      this.mask = "separator.2";
-      this.thousandSeparator = ",";
+
+      if (this.store.selectSnapshot(SystemSettingsState.currencyHideDecimalPlaces)) {
+        this.mask = "separator.0";
+      } else {
+        this.mask = "separator.2";
+      }
+
     }
 
     if (changes["showVisibilityEye"]?.firstChange && changes["showVisibilityEye"]?.currentValue) {

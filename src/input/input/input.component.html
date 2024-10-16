@@ -10,7 +10,7 @@
       [formControl]="inputFormControl"
       [prefix]="(isCurrency && ('prefix' | symbolPosition)) ? ((currencyDisplay | async) ?? '') :  maskPrefix"
       [suffix]="(isCurrency && ('suffix' | symbolPosition)) ? ((currencyDisplay | async) ?? '') :  maskSuffix"
-      [mask]="isCurrency ? 'separator.2' :  mask"
+      [mask]="mask"
       [decimalMarker]="isCurrency ? ((currencyDecimalSeparator | async) ?? '.') : '.'"
       [thousandSeparator]="isCurrency ? ((currencyThousandthsSeparator | async) ?? '.') : '.'"
       (blur)="inputBlur.emit($event)"

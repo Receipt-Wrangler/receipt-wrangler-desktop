@@ -44,6 +44,11 @@ export class SystemSettingsState {
   }
 
   @Selector()
+  static currencyHideDecimalPlaces(state: SystemSettingsStateInterface): boolean {
+    return state.currencyHideDecimalPlaces;
+  }
+
+  @Selector()
   static state(state: SystemSettingsStateInterface): SystemSettingsStateInterface {
     return state;
   }
