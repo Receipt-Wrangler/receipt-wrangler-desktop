@@ -87,9 +87,9 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       emailPollingInterval: [this.originalSystemSettings?.emailPollingInterval, [Validators.required, Validators.min(0)]],
       numWorkers: [this.originalSystemSettings?.numWorkers ?? 1, [Validators.required, Validators.min(1)]],
       currencyDisplay: [this.originalSystemSettings?.currencyDisplay],
-      currencyThousandthsSeparator: [this.originalSystemSettings.currencyThousandthsSeparator],
-      currencyDecimalSeparator: [this.originalSystemSettings.currencyDecimalSeparator],
-      currencySymbolPosition: [this.originalSystemSettings.currencySymbolPosition],
+      currencyThousandthsSeparator: [this.originalSystemSettings.currencyThousandthsSeparator, [Validators.required]],
+      currencyDecimalSeparator: [this.originalSystemSettings.currencyDecimalSeparator, [Validators.required]],
+      currencySymbolPosition: [this.originalSystemSettings.currencySymbolPosition, [Validators.required]],
       currencyHideDecimalPlaces: [this.originalSystemSettings.currencyHideDecimalPlaces],
       receiptProcessingSettingsId: [this.originalSystemSettings?.receiptProcessingSettingsId],
       fallbackReceiptProcessingSettingsId: [this.originalSystemSettings?.fallbackReceiptProcessingSettingsId]
