@@ -15,7 +15,8 @@ export class CustomCurrencyPipe implements PipeTransform {
     currencySymbol?: string,
     currencyDecimalSeparator?: CurrencySeparator,
     currencyThousandthsSeparator?: CurrencySeparator,
-    currencySymbolPosition?: CurrencySymbolPosition
+    currencySymbolPosition?: CurrencySymbolPosition,
+    currencyHideDecimalPlaces?: boolean
   ): string {
     const systemSettingsState = this.store.selectSnapshot(SystemSettingsState.state);
     let currencyValue = this.currencyPipe.transform(value, "USD", "symbol", undefined, "en-US") ?? "";
@@ -27,7 +28,12 @@ export class CustomCurrencyPipe implements PipeTransform {
     const currencyThousandthsSeparatorToUse = currencyThousandthsSeparator || systemSettingsState.currencyThousandthsSeparator;
     const currencySymbolPositionToUse = currencySymbolPosition || systemSettingsState.currencySymbolPosition;
 
-    if (currencyDecimalSeparatorToUse) {
+    if (currencyHideDecimalPlaces) {
+      const decimalIndex = result.indexOf(".");
+      result.splice(decimalIndex, result.length - decimalIndex);
+    }
+
+    if (currencyDecimalSeparatorToUse && !currencyHideDecimalPlaces) {
       for (let i = 0; i < result.length; i++) {
         if (result[i] === CurrencySeparator.Period) {
           result[i] = currencyDecimalSeparatorToUse;
@@ -43,6 +49,7 @@ export class CustomCurrencyPipe implements PipeTransform {
         }
       }
     }
+
 
     if (currencySymbolToUse) {
       const index = result.findIndex((v => v === "$"));
