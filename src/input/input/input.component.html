@@ -8,11 +8,11 @@
       [type]="type"
       [readonly]="readonly"
       [formControl]="inputFormControl"
-      [prefix]="(isCurrency && ('prefix' | symbolPosition)) ? ((currencyDisplay | async) ?? '') :  maskPrefix"
-      [suffix]="(isCurrency && ('suffix' | symbolPosition)) ? ((currencyDisplay | async) ?? '') :  maskSuffix"
+      [prefix]="maskPrefix"
+      [suffix]="maskSuffix"
       [mask]="mask"
-      [decimalMarker]="isCurrency ? ((currencyDecimalSeparator | async) ?? '.') : '.'"
-      [thousandSeparator]="isCurrency ? ((currencyThousandthsSeparator | async) ?? '.') : '.'"
+      [decimalMarker]="decimalMarker"
+      [thousandSeparator]="thousandSeparator"
       (blur)="inputBlur.emit($event)"
     />
     <button
