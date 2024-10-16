@@ -105,6 +105,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     }
 
     this.listenForReceiptProcessingSettingsChanges();
+    this.listenForHideDecimalPlacesChanges();
   }
 
   private listenForReceiptProcessingSettingsChanges(): void {
@@ -123,12 +124,28 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       .subscribe();
   }
 
+  private listenForHideDecimalPlacesChanges(): void {
+    this.form.get("currencyHideDecimalPlaces")?.valueChanges
+      .pipe(
+        startWith(this.form.get("currencyHideDecimalPlaces")?.value),
+        untilDestroyed(this),
+        tap((hide: boolean) => {
+          if (hide) {
+            this.form.get("currencyDecimalSeparator")?.disable();
+          } else {
+            this.form.get("currencyDecimalSeparator")?.enable();
+          }
+        })
+      )
+      .subscribe();
+  }
+
   public displayWith(id: number): string {
     return this.allReceiptProcessingSettings.find((rps) => rps.id === id)?.name ?? "";
   }
-  
+
   public submit(): void {
-    const formValue = this.form.value;
+    const formValue = this.form.getRawValue();
     formValue["emailPollingInterval"] = Number.parseInt(formValue["emailPollingInterval"]);
     formValue["numWorkers"] = Number.parseInt(formValue["numWorkers"]);
 
