@@ -56,6 +56,10 @@ export interface AppData {
     currencyDecimalSeparator?: CurrencySeparator;
     currencySymbolPosition?: CurrencySymbolPosition;
     /**
+     * Whether to hide decimal places
+     */
+    currencyHideDecimalPlaces?: boolean;
+    /**
      * Icons in the system
      */
     icons: Array<Icon>;

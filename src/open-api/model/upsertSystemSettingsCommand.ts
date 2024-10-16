@@ -24,6 +24,10 @@ export interface UpsertSystemSettingsCommand {
     currencyThousandthsSeparator?: CurrencySeparator;
     currencyDecimalSeparator?: CurrencySeparator;
     currencySymbolPosition?: CurrencySymbolPosition;
+    /**
+     * Whether to hide decimal places
+     */
+    currencyHideDecimalPlaces?: boolean;
     debugOcr?: boolean;
     /**
      * Number of workers to use

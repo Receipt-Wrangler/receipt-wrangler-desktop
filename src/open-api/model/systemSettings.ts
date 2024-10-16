@@ -33,6 +33,10 @@ export interface SystemSettings {
     currencyDecimalSeparator?: CurrencySeparator;
     currencySymbolPosition?: CurrencySymbolPosition;
     /**
+     * Whether to hide decimal places
+     */
+    currencyHideDecimalPlaces?: boolean;
+    /**
      * Debug OCR
      */
     debugOcr?: boolean;
