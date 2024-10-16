@@ -21,13 +21,13 @@ export interface UpsertSystemSettingsCommand {
      * Currency display
      */
     currencyDisplay?: string;
-    currencyThousandthsSeparator?: CurrencySeparator;
-    currencyDecimalSeparator?: CurrencySeparator;
-    currencySymbolPosition?: CurrencySymbolPosition;
+    currencyThousandthsSeparator: CurrencySeparator;
+    currencyDecimalSeparator: CurrencySeparator;
+    currencySymbolPosition: CurrencySymbolPosition;
     /**
      * Whether to hide decimal places
      */
-    currencyHideDecimalPlaces?: boolean;
+    currencyHideDecimalPlaces: boolean;
     debugOcr?: boolean;
     /**
      * Number of workers to use
