@@ -93,6 +93,10 @@
       [inputFormControl]="form  | formGet:'currencyDecimalSeparator'"
       [options]="decimalSeparators"
     ></app-select>
+    <app-checkbox
+      label="Hide Decimal Places"
+      [inputFormControl]="form | formGet:'currencyHideDecimalPlaces'"
+    ></app-checkbox>
   </app-form-section>
   <app-form-button-bar
     [mode]="formConfig.mode"

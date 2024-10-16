@@ -13,6 +13,7 @@ export class SetCurrencyData {
     public currencySymbolPosition: CurrencySymbolPosition,
     public currencyDecimalSeparator: CurrencySeparator,
     public currencyThousandthsSeparator: CurrencySeparator,
+    public currencyHideDecimalPlaces: boolean
   ) {}
 }
 

@@ -90,6 +90,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       currencyThousandthsSeparator: [this.originalSystemSettings.currencyThousandthsSeparator],
       currencyDecimalSeparator: [this.originalSystemSettings.currencyDecimalSeparator],
       currencySymbolPosition: [this.originalSystemSettings.currencySymbolPosition],
+      currencyHideDecimalPlaces: [this.originalSystemSettings.currencyHideDecimalPlaces],
       receiptProcessingSettingsId: [this.originalSystemSettings?.receiptProcessingSettingsId],
       fallbackReceiptProcessingSettingsId: [this.originalSystemSettings?.fallbackReceiptProcessingSettingsId]
     });
@@ -100,6 +101,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       this.form.get("currencyThousandthsSeparator")?.disable();
       this.form.get("currencyDecimalSeparator")?.disable();
       this.form.get("currencySymbolPosition")?.disable();
+      this.form.get("currencyHideDecimalPlaces")?.disable();
     }
 
     this.listenForReceiptProcessingSettingsChanges();
@@ -124,8 +126,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   public displayWith(id: number): string {
     return this.allReceiptProcessingSettings.find((rps) => rps.id === id)?.name ?? "";
   }
-
-  // TODO: Refactor to use a configurable separators instead of locales.
+  
   public submit(): void {
     const formValue = this.form.value;
     formValue["emailPollingInterval"] = Number.parseInt(formValue["emailPollingInterval"]);
@@ -145,6 +146,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
           new SetCurrencyData(formValue["currencySymbolPosition"],
             formValue["currencyDecimalSeparator"],
             formValue["currencyThousandthsSeparator"],
+            formValue["currencyHideDecimalPlaces"]
           )))
       )
       .subscribe();

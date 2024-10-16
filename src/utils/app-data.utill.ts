@@ -31,7 +31,8 @@ export function setAppData(store: Store, appData: AppData): Observable<any[]> {
     store.dispatch(new SetCurrencyData(
       appData.currencySymbolPosition ?? CurrencySymbolPosition.Start,
       appData.currencyDecimalSeparator ?? CurrencySeparator.Period,
-      appData.currencyThousandthsSeparator ?? CurrencySeparator.Comma
+      appData.currencyThousandthsSeparator ?? CurrencySeparator.Comma,
+      appData.currencyHideDecimalPlaces ?? false
     )),
     store.dispatch(new SetIcons(appData.icons)),
     selectedGroupIdObservable,

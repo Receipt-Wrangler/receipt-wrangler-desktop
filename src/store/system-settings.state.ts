@@ -8,6 +8,7 @@ export interface SystemSettingsStateInterface {
   currencySymbolPosition: CurrencySymbolPosition;
   currencyDecimalSeparator: CurrencySeparator;
   currencyThousandthsSeparator: CurrencySeparator;
+  currencyHideDecimalPlaces: boolean;
 }
 
 @State<SystemSettingsStateInterface>({
@@ -17,6 +18,7 @@ export interface SystemSettingsStateInterface {
     currencyDecimalSeparator: CurrencySeparator.Period,
     currencyThousandthsSeparator: CurrencySeparator.Comma,
     currencySymbolPosition: CurrencySymbolPosition.Start,
+    currencyHideDecimalPlaces: false
   },
 })
 @Injectable()
@@ -64,7 +66,8 @@ export class SystemSettingsState {
     patchState({
       currencySymbolPosition: payload.currencySymbolPosition,
       currencyThousandthsSeparator: payload.currencyThousandthsSeparator,
-      currencyDecimalSeparator: payload.currencyDecimalSeparator
+      currencyDecimalSeparator: payload.currencyDecimalSeparator,
+      currencyHideDecimalPlaces: payload.currencyHideDecimalPlaces
     });
   }
 }
