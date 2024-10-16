@@ -27,7 +27,7 @@ export class CustomCurrencyPipe implements PipeTransform {
     const currencyDecimalSeparatorToUse = currencyDecimalSeparator || systemSettingsState?.currencyDecimalSeparator;
     const currencyThousandthsSeparatorToUse = currencyThousandthsSeparator || systemSettingsState.currencyThousandthsSeparator;
     const currencySymbolPositionToUse = currencySymbolPosition || systemSettingsState.currencySymbolPosition;
-    const currencyHideDecimalPlacesToUse = currencyHideDecimalPlaces || systemSettingsState.currencyHideDecimalPlaces;
+    const currencyHideDecimalPlacesToUse = currencyHideDecimalPlaces === undefined ? systemSettingsState.currencyHideDecimalPlaces : currencyHideDecimalPlaces;
 
     if (currencyHideDecimalPlacesToUse) {
       const decimalIndex = result.indexOf(".");
