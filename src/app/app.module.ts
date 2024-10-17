@@ -10,7 +10,6 @@ import { AuthFormUtil } from "../auth";
 import { IconModule } from "../icon/icon.module";
 import { HttpInterceptorService } from "../interceptors/http-interceptor.service";
 import { LayoutModule } from "../layout/layout.module";
-import { LocaleModule } from "../locale/locale.module";
 import { ApiModule, Configuration } from "../open-api";
 import { PipesModule } from "../pipes";
 import { StoreModule } from "../store/store.module";
@@ -32,7 +31,6 @@ import { AppComponent } from "./app.component";
     HttpClientModule,
     IconModule,
     LayoutModule,
-    LocaleModule,
     MatSnackBarModule,
     MatTooltipModule,
     NgxMaskDirective,
