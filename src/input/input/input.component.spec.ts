@@ -1,16 +1,18 @@
-import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { InputComponent } from './input.component';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { CommonModule } from "@angular/common";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { NgxsModule } from "@ngxs/store";
+import { NgxMaskDirective, provideNgxMask } from "ngx-mask";
+import { SystemSettingsState } from "../../store/system-settings.state";
+import { InputComponent } from "./input.component";
 
-describe('InputComponent', () => {
+describe("InputComponent", () => {
   let component: InputComponent;
   let fixture: ComponentFixture<InputComponent>;
 
@@ -27,6 +29,7 @@ describe('InputComponent', () => {
         NoopAnimationsModule,
         ReactiveFormsModule,
         NgxMaskDirective,
+        NgxsModule.forRoot([SystemSettingsState]),
       ],
       providers: [provideNgxMask()],
     }).compileComponents();
@@ -36,7 +39,7 @@ describe('InputComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

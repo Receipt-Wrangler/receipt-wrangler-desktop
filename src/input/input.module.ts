@@ -8,10 +8,9 @@ import { MatInputModule } from "@angular/material/input";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { NgxMaskDirective, provideNgxMask } from "ngx-mask";
 import { InputComponent } from "./input/input.component";
-import { SymbolPositionPipe } from "./pipes/symbol-position.pipe";
 
 @NgModule({
-  declarations: [InputComponent, SymbolPositionPipe],
+  declarations: [InputComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -23,6 +22,6 @@ import { SymbolPositionPipe } from "./pipes/symbol-position.pipe";
     ReactiveFormsModule,
   ],
   exports: [InputComponent],
-  providers: [provideNgxMask(), SymbolPositionPipe],
+  providers: [provideNgxMask()],
 })
 export class InputModule {}
