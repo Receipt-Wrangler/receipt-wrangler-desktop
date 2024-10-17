@@ -8,8 +8,10 @@
       [type]="type"
       [readonly]="readonly"
       [formControl]="inputFormControl"
-      [prefix]="isCurrency ? ((currencyDisplay | async) ?? '') :  maskPrefix"
+      [prefix]="maskPrefix"
+      [suffix]="maskSuffix"
       [mask]="mask"
+      [decimalMarker]="decimalMarker"
       [thousandSeparator]="thousandSeparator"
       (blur)="inputBlur.emit($event)"
     />

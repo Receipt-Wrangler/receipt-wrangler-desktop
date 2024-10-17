@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, } from "@angular/core";
-import { Select } from "@ngxs/store";
+import { Select, Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { BaseInputComponent } from "../../base-input";
+import { CurrencySeparator, CurrencySymbolPosition } from "../../open-api/index";
 import { SystemSettingsState } from "../../store/system-settings.state";
 import { InputInterface } from "../input.interface";
 
@@ -17,6 +18,12 @@ export class InputComponent
 
   @Select(SystemSettingsState.currencyDisplay) public currencyDisplay!: Observable<string>;
 
+  @Select(SystemSettingsState.currencyDecimalSeparator) public currencyDecimalSeparator!: Observable<"." | ",">;
+
+  @Select(SystemSettingsState.currencyThousandthsSeparator) public currencyThousandthsSeparator!: Observable<"." | ",">;
+
+  @Select(SystemSettingsState.currencySymbolPosition) public currencySymbolPosition!: Observable<string>;
+
   @Input() public inputId: string = "";
 
   @Input() public type: string = "text";
@@ -29,20 +36,51 @@ export class InputComponent
 
   @Input() public maskPrefix: string = "";
 
+  @Input() public maskSuffix: string = "";
+
   @Input() public thousandSeparator: string = "";
+
+  @Input() public decimalMarker: CurrencySeparator = CurrencySeparator.Period;
 
   @Output() public inputBlur: EventEmitter<any> = new EventEmitter<any>(
     undefined
   );
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes["isCurrency"]?.currentValue) {
-      this.mask = "separator.2";
-      this.thousandSeparator = ",";
-    }
+  constructor(private store: Store) {
+    super();
+  }
 
+
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes["showVisibilityEye"]?.firstChange && changes["showVisibilityEye"]?.currentValue) {
       this.type = "password";
+    }
+
+    this.initCurrencyField();
+  }
+
+  private initCurrencyField(): void {
+    if (this.isCurrency) {
+      if (this.store.selectSnapshot(SystemSettingsState.currencyHideDecimalPlaces)) {
+        this.mask = "separator.0";
+      } else {
+        this.mask = "separator.2";
+      }
+
+      this.thousandSeparator = this.store.selectSnapshot(SystemSettingsState.currencyThousandthsSeparator);
+      this.decimalMarker = this.store.selectSnapshot(SystemSettingsState.currencyDecimalSeparator);
+      if (this.store.selectSnapshot(SystemSettingsState.currencySymbolPosition) === CurrencySymbolPosition.Start) {
+        this.maskPrefix = this.store.selectSnapshot(SystemSettingsState.currencyDisplay);
+      }
+      if (this.store.selectSnapshot(SystemSettingsState.currencySymbolPosition) === CurrencySymbolPosition.End) {
+        this.maskSuffix = this.store.selectSnapshot(SystemSettingsState.currencyDisplay);
+      }
+    } else {
+      this.mask = "";
+      this.maskPrefix = "";
+      this.maskSuffix = "";
+      this.thousandSeparator = "";
+      this.decimalMarker = CurrencySeparator.Period;
     }
   }
 

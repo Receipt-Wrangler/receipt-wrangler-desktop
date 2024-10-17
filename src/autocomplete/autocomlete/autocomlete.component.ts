@@ -124,9 +124,13 @@ export class AutocomleteComponent
           }
         });
     } else {
-      return this.options.filter((option) =>
-        option[this.optionFilterKey].toLowerCase().includes(filterValue)
-      );
+      if (this.optionFilterKey) {
+        return this.options.filter((option) =>
+          option[this.optionFilterKey].toLowerCase().includes(filterValue)
+        );
+      } else {
+        return this.options.filter((o) => o.toLowerCase().includes(filterValue));
+      }
     }
   }
 

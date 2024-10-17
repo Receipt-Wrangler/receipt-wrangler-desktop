@@ -8,6 +8,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CurrencySeparator } from './currencySeparator';
+import { CurrencySymbolPosition } from './currencySymbolPosition';
 
 
 export interface SystemSettings { 
@@ -27,6 +29,13 @@ export interface SystemSettings {
      * Currency display
      */
     currencyDisplay?: string;
+    currencyThousandthsSeparator?: CurrencySeparator;
+    currencyDecimalSeparator?: CurrencySeparator;
+    currencySymbolPosition?: CurrencySymbolPosition;
+    /**
+     * Whether to hide decimal places
+     */
+    currencyHideDecimalPlaces?: boolean;
     /**
      * Debug OCR
      */
@@ -48,4 +57,7 @@ export interface SystemSettings {
      */
     fallbackReceiptProcessingSettingsId?: number;
 }
+export namespace SystemSettings {
+}
+
 
