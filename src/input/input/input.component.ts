@@ -62,13 +62,14 @@ export class InputComponent
   private initCurrencyField(): void {
     if (this.isCurrency) {
       if (this.store.selectSnapshot(SystemSettingsState.currencyHideDecimalPlaces)) {
+        this.decimalMarker = CurrencySeparator.Period;
         this.mask = "separator.0";
       } else {
+        this.decimalMarker = this.store.selectSnapshot(SystemSettingsState.currencyDecimalSeparator);
         this.mask = "separator.2";
       }
 
       this.thousandSeparator = this.store.selectSnapshot(SystemSettingsState.currencyThousandthsSeparator);
-      this.decimalMarker = this.store.selectSnapshot(SystemSettingsState.currencyDecimalSeparator);
       if (this.store.selectSnapshot(SystemSettingsState.currencySymbolPosition) === CurrencySymbolPosition.Start) {
         this.maskPrefix = this.store.selectSnapshot(SystemSettingsState.currencyDisplay);
       }
