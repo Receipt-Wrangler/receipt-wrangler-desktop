@@ -53,7 +53,7 @@
       </mat-panel-title>
       <mat-panel-description>
         <div class="d-flex justify-content-between align-items-center w-100">
-          <span>Total amount owed: {{ userItemMap | userTotal : key }}</span>
+          <span>Total amount owed: {{ (userItemMap | userTotal : key) | customCurrency }}</span>
           <div *ngIf="originalReceipt?.groupId | groupRole : groupRole.Editor">
             <app-button
               matButtonType="iconButton"
