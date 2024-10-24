@@ -2,17 +2,17 @@ name: Release
 
 on:
   release:
-    types: [published]
+    types: [ published ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.2.2
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20.11.1
+          node-version: 23.0.0
       - name: Setup node env
         run: npm ci --verbose
         working-directory: ${{env.working-directory}}
@@ -59,7 +59,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:

@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   test:
@@ -11,11 +11,11 @@ jobs:
       working-directory: ./
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.2.2
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20.11.1
+          node-version: 23.0.0
       - name: Setup node env
         run: npm ci --verbose
         working-directory: ${{env.working-directory}}
@@ -37,7 +37,7 @@ jobs:
           output: both
           #thresholds: '60 80'
       - name: Upload Coverage Report to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4.6.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage/receipt-wrangler-desktop/cobertura-coverage.xml
@@ -63,7 +63,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
@@ -79,7 +79,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/receipt-wrangler-desktop:latest
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3.0.0
         with:
           token: ${{ secrets.PAT }}
           repository: Receipt-Wrangler/receipt-wrangler-monolith
