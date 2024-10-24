@@ -15,7 +15,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 23.0.0
+          node-version: 20.18.0
       - name: Setup node env
         run: npm ci --verbose
         working-directory: ${{env.working-directory}}
