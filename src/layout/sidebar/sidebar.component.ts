@@ -5,6 +5,7 @@ import { Select, Store } from "@ngxs/store";
 import { map, Observable, switchMap, take, tap } from "rxjs";
 import { LayoutState } from "src/store/layout.state";
 import { SetPage } from "src/store/receipt-table.actions";
+import { AboutComponent } from "../../about/about/about.component";
 import { DEFAULT_DIALOG_CONFIG } from "../../constants";
 import { ImportFormComponent } from "../../import/import-form/import-form.component";
 import { AuthService, Group, GroupStatus, User } from "../../open-api";
@@ -71,5 +72,9 @@ export class SidebarComponent implements OnInit {
 
   public openImportDialog(): void {
     this.matDialog.open(ImportFormComponent, DEFAULT_DIALOG_CONFIG);
+  }
+
+  public openAboutDialog(): void {
+    this.matDialog.open(AboutComponent, DEFAULT_DIALOG_CONFIG);
   }
 }
