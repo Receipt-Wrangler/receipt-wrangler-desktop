@@ -11,6 +11,7 @@ import {
   SetUserPreferences,
   SetUsers,
 } from "../store";
+import { SetAbout } from "../store/about.state.actions";
 import { SetCurrencyData, SetCurrencyDisplay } from "../store/system-settings.state.actions";
 
 export function setAppData(store: Store, appData: AppData): Observable<any[]> {
@@ -35,6 +36,7 @@ export function setAppData(store: Store, appData: AppData): Observable<any[]> {
       appData.currencyHideDecimalPlaces ?? false
     )),
     store.dispatch(new SetIcons(appData.icons)),
+    store.dispatch(new SetAbout(appData.about)),
     selectedGroupIdObservable,
   ]);
 }
