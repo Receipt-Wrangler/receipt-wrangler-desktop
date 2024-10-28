@@ -1,18 +1,19 @@
 <app-dialog
   headerText="About"
 >
-  <app-form-section
-    class="mb-2"
-    headerText="Project"
-  >
-    <div class="d-flex flex-column m-2">
-      @for (link of links; track link["url"]) {
-        <span>
+  <div class="mb-3">
+    <app-form-section
+      headerText="Project"
+    >
+      <div class="d-flex flex-column m-2">
+        @for (link of links; track link["url"]) {
+          <span>
           {{ link.label }}: <a [href]="link.url" target="_blank">{{ link.url }}</a>
         </span>
-      }
-    </div>
-  </app-form-section>
+        }
+      </div>
+    </app-form-section>
+  </div>
   <app-form-section
     headerText="Build"
   >
