@@ -25,6 +25,7 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/about.ts
 model/aiType.ts
 model/appData.ts
 model/associatedEntityType.ts

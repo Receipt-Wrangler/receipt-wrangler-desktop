@@ -18,9 +18,11 @@ import { UserView } from './userView';
 import { Icon } from './icon';
 import { Tag } from './tag';
 import { CurrencySymbolPosition } from './currencySymbolPosition';
+import { About } from './about';
 
 
 export interface AppData { 
+    about: About;
     claims: Claims;
     /**
      * Groups in the system

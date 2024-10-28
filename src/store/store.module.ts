@@ -4,6 +4,7 @@ import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { NgxsStoragePluginModule } from "@ngxs/storage-plugin";
 import { NgxsModule } from "@ngxs/store";
 import { environment } from "src/environments/environment.development";
+import { AboutState } from "./about.state";
 import { AuthState } from "./auth.state";
 import { CategoryTableState } from "./category-table.state";
 import { DashboardState } from "./dashboard.state";
@@ -26,6 +27,7 @@ import { UserState } from "./user.state";
   imports: [
     CommonModule,
     NgxsModule.forRoot([
+      AboutState,
       AuthState,
       CategoryTableState,
       DashboardState,
@@ -48,6 +50,7 @@ import { UserState } from "./user.state";
     }),
     NgxsStoragePluginModule.forRoot({
       key: [
+        "about",
         "auth",
         "categoryTable",
         "dashboards",

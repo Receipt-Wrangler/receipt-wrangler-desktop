@@ -1,3 +1,4 @@
+export * from './about';
 export * from './aiType';
 export * from './appData';
 export * from './associatedEntityType';

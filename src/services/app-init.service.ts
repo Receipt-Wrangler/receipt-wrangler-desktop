@@ -19,7 +19,7 @@ export class AppInitService {
   public initAppData(): Promise<boolean> {
 
     return new Promise((resolve) => {
-      const isLoggedIn = this.store.selectSnapshot((state) => AuthState.isLoggedIn(state));
+      const isLoggedIn = this.store.selectSnapshot(AuthState.isLoggedIn);
 
       if (!isLoggedIn) {
         this.featureConfigService.getFeatureConfig().pipe(
