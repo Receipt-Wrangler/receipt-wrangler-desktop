@@ -7,6 +7,11 @@ import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 import { AboutState } from "../../store/about.state";
 import { StoreModule } from "../../store/store.module";
 
+interface Link {
+  url: string;
+  label: string;
+}
+
 @Component({
   selector: "app-about",
   standalone: true,
@@ -20,5 +25,20 @@ import { StoreModule } from "../../store/store.module";
 })
 export class AboutComponent {
   @Select(AboutState.about) public about!: Observable<About>;
+
+  public links: Link[] = [
+    {
+      label: "Documentation",
+      url: "https://receiptwrangler.io"
+    },
+    {
+      label: "Source Code",
+      url: "https://github.com/Receipt-Wrangler"
+    },
+    {
+      label: "Reddit",
+      url: "https://reddit.com/r/receiptwrangler"
+    }
+  ];
 
 }
