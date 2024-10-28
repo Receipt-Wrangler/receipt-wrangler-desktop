@@ -5,8 +5,8 @@
     headerText="Build"
   >
     <div class="d-flex flex-column m-2">
-      <span>Version:</span>
-      <span>Build Date:</span>
+      <span>Version: {{ (about | async)?.version || 'latest' }}</span>
+      <span>Build Date: {{ (about | async)?.buildDate || 'unknown' }}</span>
     </div>
   </app-form-section>
 </app-dialog>
