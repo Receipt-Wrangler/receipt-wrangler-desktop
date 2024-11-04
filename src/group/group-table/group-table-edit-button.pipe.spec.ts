@@ -1,47 +1,103 @@
 import { TestBed } from "@angular/core/testing";
-import { NgxsModule, Store } from "@ngxs/store";
-import { Group } from "../../open-api";
-import { AuthState, GroupState } from "../../store";
+import { Group, GroupRole } from "../../open-api";
+import { GroupUtil } from "../../utils/index";
 import { GroupTableEditButtonPipe } from "./group-table-edit-button.pipe";
 
 describe("GroupTableEditButtonPipe", () => {
   let pipe: GroupTableEditButtonPipe;
-  let store: Store;
+  let groupUtilMock: jasmine.SpyObj<GroupUtil>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [GroupTableEditButtonPipe],
-      imports: [NgxsModule.forRoot([GroupState, AuthState])],
-      providers: [GroupTableEditButtonPipe],
-    }).compileComponents();
+  const mockGroup: Group = {
+    id: "123",
+    name: "Test Group",
+  } as any;
+
+  beforeEach(() => {
+    groupUtilMock = jasmine.createSpyObj("GroupUtil", ["hasGroupAccess"]);
+
+    TestBed.configureTestingModule({
+      providers: [
+        GroupTableEditButtonPipe,
+        { provide: GroupUtil, useValue: groupUtilMock }
+      ]
+    });
 
     pipe = TestBed.inject(GroupTableEditButtonPipe);
-    store = TestBed.inject(Store);
   });
 
-  it("create an instance", () => {
+  it("should create the pipe", () => {
     expect(pipe).toBeTruthy();
   });
 
-  it("should return details edit link and tab details when user is admin and in group", () => {
-    const group: Group = {
-      id: 1,
-      groupMembers: [{ userId: 1 } as any]
-    } as any;
-    spyOn(store, "selectSnapshot").and.returnValue("1");
-    const result = pipe.transform(group, true);
-    expect(result.routerLink).toEqual(["/groups/1/details/edit"]);
-    expect(result.queryParams).toEqual({ tab: "details" });
-  });
+  describe("transform", () => {
+    it("should return edit route when user is group owner", () => {
+      groupUtilMock.hasGroupAccess.and.returnValue(true);
+      const isAdmin = false;
 
-  it("should return settings edit link and tab settings when user is not admin or not in group", () => {
-    const group: Group = {
-      id: "1",
-      groupMembers: [{ userId: "2" }]
-    } as any;
-    spyOn(store, "selectSnapshot").and.returnValue("1");
-    const result = pipe.transform(group, false);
-    expect(result.routerLink).toEqual(["/groups/1/settings/edit"]);
-    expect(result.queryParams).toEqual({ tab: "settings" });
+      const result = pipe.transform(mockGroup, isAdmin);
+
+      expect(result).toEqual({
+        routerLink: [`/groups/${mockGroup.id}/details/edit`],
+        queryParams: { tab: "details" }
+      });
+      expect(groupUtilMock.hasGroupAccess).toHaveBeenCalledWith(
+        mockGroup.id,
+        GroupRole.Owner,
+        false,
+        false
+      );
+    });
+
+    it("should return settings route when user is admin but not owner", () => {
+      groupUtilMock.hasGroupAccess.and.returnValue(false);
+      const isAdmin = true;
+
+      const result = pipe.transform(mockGroup, isAdmin);
+
+      expect(result).toEqual({
+        routerLink: [`/groups/${mockGroup.id}/settings/edit`],
+        queryParams: { tab: "settings" }
+      });
+      expect(groupUtilMock.hasGroupAccess).toHaveBeenCalledWith(
+        mockGroup.id,
+        GroupRole.Owner,
+        false,
+        false
+      );
+    });
+
+    it("should return view route when user is neither owner nor admin", () => {
+      groupUtilMock.hasGroupAccess.and.returnValue(false);
+      const isAdmin = false;
+
+      const result = pipe.transform(mockGroup, isAdmin);
+
+      expect(result).toEqual({
+        routerLink: [`/groups/${mockGroup.id}/details/view`],
+        queryParams: { tab: "details" }
+      });
+      expect(groupUtilMock.hasGroupAccess).toHaveBeenCalledWith(
+        mockGroup.id,
+        GroupRole.Owner,
+        false,
+        false
+      );
+    });
+
+    it("should handle undefined group id gracefully", () => {
+      const undefinedGroup: Group = {
+        ...mockGroup,
+        id: undefined
+      } as any;
+      groupUtilMock.hasGroupAccess.and.returnValue(false);
+      const isAdmin = false;
+
+      const result = pipe.transform(undefinedGroup, isAdmin);
+      
+      expect(result).toEqual({
+        routerLink: ["/groups/undefined/details/view"],
+        queryParams: { tab: "details" }
+      });
+    });
   });
 });
