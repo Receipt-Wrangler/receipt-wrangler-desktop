@@ -1,33 +1,39 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { Store } from "@ngxs/store";
-import { Group } from "../../open-api";
-import { AuthState } from "../../store";
+import { Group, GroupRole } from "../../open-api";
+import { GroupUtil } from "../../utils/index";
 
 @Pipe({
   name: "groupTableEditButton"
 })
 export class GroupTableEditButtonPipe implements PipeTransform {
 
-  constructor(private store: Store) {}
+  constructor(private groupUtil: GroupUtil) {}
 
   public transform(group: Group, isAdmin: boolean): {
     routerLink: string[]
     queryParams: any
   } {
-    const loggedInUserId = this.store.selectSnapshot(AuthState.userId);
-    const isInGroup = group.groupMembers.find(
-      member => member.userId.toString()
-        === loggedInUserId.toString());
+    const isGroupOwner = this.groupUtil.hasGroupAccess(
+      group.id,
+      GroupRole.Owner,
+      false,
+      false
+    );
 
-    if (isAdmin && isInGroup) {
+    if (isGroupOwner) {
       return {
         routerLink: [`/groups/${group.id}/details/edit`],
         queryParams: { tab: "details" }
       };
-    } else {
+    } else if (isAdmin) {
       return {
         routerLink: [`/groups/${group.id}/settings/edit`],
         queryParams: { tab: "settings" }
+      };
+    } else {
+      return {
+        routerLink: [`/groups/${group.id}/details/view`],
+        queryParams: { tab: "details" }
       };
     }
   }
