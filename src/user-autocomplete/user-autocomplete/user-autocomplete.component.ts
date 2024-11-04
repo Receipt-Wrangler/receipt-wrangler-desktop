@@ -59,7 +59,7 @@ export class UserAutocompleteComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit(): void {
-    if (this.users.length === 0) {
+    if (this.users.length === 0 && this.usersToOmit.length === 0) {
       this.users = this.store.selectSnapshot(UserState.users);
     }
   }
