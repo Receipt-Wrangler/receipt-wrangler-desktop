@@ -93,6 +93,8 @@ model/updateProfileCommand.ts
 model/upsertCategoryCommand.ts
 model/upsertCommentCommand.ts
 model/upsertDashboardCommand.ts
+model/upsertGroupCommand.ts
+model/upsertGroupMemberCommand.ts
 model/upsertItemCommand.ts
 model/upsertPromptCommand.ts
 model/upsertReceiptCommand.ts

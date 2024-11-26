@@ -7,23 +7,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { GroupMember } from './groupMember';
+import { UpsertGroupMemberCommand } from './upsertGroupMemberCommand';
 import { GroupStatus } from './groupStatus';
-import { GroupSettings } from './groupSettings';
 
 
-/**
- * Group in the system
- */
-export interface Group { 
-    createdAt?: string;
-    createdBy?: number;
-    groupSettings?: GroupSettings;
+export interface UpsertGroupCommand { 
     /**
      * Members of the group
      */
-    groupMembers: Array<GroupMember>;
-    id: number;
+    groupMembers: Array<UpsertGroupMemberCommand>;
     /**
      * Is default group (not used yet)
      */
@@ -35,11 +27,10 @@ export interface Group {
     /**
      * Is all group for user
      */
-    isAllGroup: boolean;
+    isAllGroup?: boolean;
     status: GroupStatus;
-    updatedAt?: string;
 }
-export namespace Group {
+export namespace UpsertGroupCommand {
 }
 
 

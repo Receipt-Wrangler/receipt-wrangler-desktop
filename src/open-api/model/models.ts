@@ -65,6 +65,8 @@ export * from './updateProfileCommand';
 export * from './upsertCategoryCommand';
 export * from './upsertCommentCommand';
 export * from './upsertDashboardCommand';
+export * from './upsertGroupCommand';
+export * from './upsertGroupMemberCommand';
 export * from './upsertItemCommand';
 export * from './upsertPromptCommand';
 export * from './upsertReceiptCommand';
