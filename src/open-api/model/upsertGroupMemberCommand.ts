@@ -10,23 +10,18 @@
 import { GroupRole } from './groupRole';
 
 
-/**
- * Group member
- */
-export interface GroupMember { 
-    createdAt?: string;
+export interface UpsertGroupMemberCommand { 
     /**
      * Group compound primary key
      */
     groupId: number;
     groupRole: GroupRole;
-    updatedAt?: string;
     /**
      * User compound primary key
      */
     userId: number;
 }
-export namespace GroupMember {
+export namespace UpsertGroupMemberCommand {
 }
 
 
