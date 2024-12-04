@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { map, Observable, startWith } from "rxjs";
-import { BaseInputInterface } from "../base-input.interface";
-import { InputErrorMessage } from "./input-error-message";
+import {Component, Input, OnInit} from "@angular/core";
+import {FormControl} from "@angular/forms";
+import {map, Observable, startWith} from "rxjs";
+import {BaseInputInterface} from "../base-input.interface";
+import {InputErrorMessage} from "./input-error-message";
 
 @Component({
   selector: "app-base-input",
@@ -21,6 +21,8 @@ export class BaseInputComponent implements OnInit, BaseInputInterface {
   @Input() public placeholder?: string;
 
   @Input() public hint?: string;
+
+  @Input() public appearance: "fill" | "outline" = "fill"
 
   public formControlErrors!: Observable<InputErrorMessage[]>;
 

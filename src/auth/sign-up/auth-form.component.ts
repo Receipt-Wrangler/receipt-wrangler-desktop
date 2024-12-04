@@ -1,18 +1,19 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators, } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Store } from "@ngxs/store";
-import { BehaviorSubject, catchError, of, switchMap, tap, } from "rxjs";
-import { AppData, AuthService } from "src/open-api";
-import { SnackbarService } from "src/services";
-import { setAppData } from "src/utils";
-import { GroupState } from "../../store";
-import { UserValidators } from "../../validators";
+import {Component, EventEmitter, OnInit, Output, ViewEncapsulation} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators,} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Store} from "@ngxs/store";
+import {BehaviorSubject, catchError, of, switchMap, tap,} from "rxjs";
+import {AppData, AuthService} from "src/open-api";
+import {SnackbarService} from "src/services";
+import {setAppData} from "src/utils";
+import {GroupState} from "../../store";
+import {UserValidators} from "../../validators";
 
 @Component({
   selector: "app-auth-form",
   templateUrl: "./auth-form.component.html",
   styleUrls: ["./auth-form.component.scss"],
+  encapsulation: ViewEncapsulation.None,
   providers: [UserValidators],
 })
 export class AuthForm implements OnInit {
@@ -35,7 +36,8 @@ export class AuthForm implements OnInit {
     protected router: Router,
     protected store: Store,
     protected userValidators: UserValidators
-  ) {}
+  ) {
+  }
 
   public ngOnInit(): void {
     this.initForm();
