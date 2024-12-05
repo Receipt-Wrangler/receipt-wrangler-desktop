@@ -1,46 +1,50 @@
 <div class="h-100 w-100 d-flex align-items-center justify-content-center">
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <img src="assets/branding/logo-large.svg" class="w-100 h-100 mb-5">
-    <div class="d-flex flex-column mb-2">
-      <ng-container *ngIf="isSignUp | async">
+  @if (isLoading) {
+    <mat-spinner @fadeInOut></mat-spinner>
+  } @else {
+    <form @fadeInOut [formGroup]="form" (ngSubmit)="submit()">
+      <img src="assets/branding/logo-large.svg" class="w-100 h-100 mb-5">
+      <div class="d-flex flex-column mb-2">
+        <ng-container *ngIf="isSignUp | async">
+          <app-input
+            appearance="outline"
+            label="Displayname"
+            [inputFormControl]="form | formGet : 'displayname'"
+          >
+          </app-input>
+        </ng-container>
         <app-input
           appearance="outline"
-          label="Displayname"
-          [inputFormControl]="form | formGet : 'displayname'"
+          label="Username"
+          [inputFormControl]="form | formGet : 'username'"
         >
         </app-input>
-      </ng-container>
-      <app-input
-        appearance="outline"
-        label="Username"
-        [inputFormControl]="form | formGet : 'username'"
-      >
-      </app-input>
-      <app-input
-        appearance="outline"
-        label="Password"
-        type="password"
-        [showVisibilityEye]="true"
-        [inputFormControl]="form | formGet : 'password'"
-      >
-      </app-input>
-    </div>
-    <div class="w-100 d-flex flex-column">
-      <app-button
-        class="w-100 mb-1"
-        buttonClass="w-100 mb-2 auth-buttons"
-        type="submit"
-        [buttonText]="primaryButtonText"
-      ></app-button>
-      <app-button
-        *appFeature="'enableLocalSignUp'"
-        class="w-100"
-        buttonClass="w-100 auth-buttons"
-        type="button"
-        color="accent"
-        [buttonText]="secondaryButtonText"
-        [routerLink]="secondaryButtonRouterLink"
-      ></app-button>
-    </div>
-  </form>
+        <app-input
+          appearance="outline"
+          label="Password"
+          type="password"
+          [showVisibilityEye]="true"
+          [inputFormControl]="form | formGet : 'password'"
+        >
+        </app-input>
+      </div>
+      <div class="w-100 d-flex flex-column">
+        <app-button
+          class="w-100 mb-1"
+          buttonClass="w-100 mb-2 auth-buttons"
+          type="submit"
+          [buttonText]="primaryButtonText"
+        ></app-button>
+        <app-button
+          *appFeature="'enableLocalSignUp'"
+          class="w-100"
+          buttonClass="w-100 auth-buttons"
+          type="button"
+          color="accent"
+          [buttonText]="secondaryButtonText"
+          [routerLink]="secondaryButtonRouterLink"
+        ></app-button>
+      </div>
+    </form>
+  }
 </div>
