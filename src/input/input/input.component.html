@@ -21,18 +21,18 @@
         err.message
       }}
     </mat-error>
+    <div matSuffix *ngIf="showVisibilityEye">
+      <button
+        *ngIf="showVisibilityEye"
+        class="visibility-eye-button"
+        mat-icon-button
+        type="button"
+        [matTooltip]="type === 'password' ? 'Show ' + label : 'Hide ' + label"
+        (click)="toggleVisibility()"
+      >
+        <mat-icon *ngIf="type === 'password'">visibility</mat-icon>
+        <mat-icon *ngIf="type !== 'password'">visibility_off</mat-icon>
+      </button>
+    </div>
   </mat-form-field>
-  <div *ngIf="showVisibilityEye">
-    <button
-      *ngIf="showVisibilityEye"
-      class="visibility-eye-button"
-      mat-icon-button
-      type="button"
-      [matTooltip]="type === 'password' ? 'Show ' + label : 'Hide ' + label"
-      (click)="toggleVisibility()"
-    >
-      <mat-icon *ngIf="type === 'password'">visibility</mat-icon>
-      <mat-icon *ngIf="type !== 'password'">visibility_off</mat-icon>
-    </button>
-  </div>
 </div>
