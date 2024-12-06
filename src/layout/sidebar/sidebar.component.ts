@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
-import { map, Observable, switchMap, take, tap } from "rxjs";
+import { map, Observable, switchMap, take } from "rxjs";
 import { LayoutState } from "src/store/layout.state";
 import { SetPage } from "src/store/receipt-table.actions";
 import { AboutComponent } from "../../about/about/about.component";
@@ -65,7 +65,6 @@ export class SidebarComponent implements OnInit {
         take(1),
         switchMap(() => this.store.dispatch(new Logout())),
         switchMap(() => this.router.navigate(["/"])),
-        tap(() => this.snackbarService.success("Successfully logged out"))
       )
       .subscribe();
   }

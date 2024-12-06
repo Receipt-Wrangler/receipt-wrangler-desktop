@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
@@ -7,8 +6,7 @@ import { filter, Observable, switchMap, take, tap } from "rxjs";
 import { LayoutState } from "src/store/layout.state";
 import { ToggleIsSidebarOpen } from "src/store/layout.state.actions";
 import { AuthService, GroupRole, NotificationsService, User, UserPreferences } from "../../open-api";
-import { SnackbarService } from "../../services";
-import { AuthState, GroupState, Logout } from "../../store";
+import { AuthState, GroupState } from "../../store";
 
 @UntilDestroy()
 @Component({
@@ -44,10 +42,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private matDialog: MatDialog,
     private notificationsService: NotificationsService,
     private router: Router,
-    private snackbarService: SnackbarService,
     private store: Store
   ) {}
 
@@ -103,17 +99,5 @@ export class HeaderComponent implements OnInit {
 
   public toggleSidebar(): void {
     this.store.dispatch(new ToggleIsSidebarOpen());
-  }
-
-  public logout(): void {
-    this.authService
-      .logout()
-      .pipe(
-        take(1),
-        switchMap(() => this.store.dispatch(new Logout())),
-        switchMap(() => this.router.navigate(["/"])),
-        tap(() => this.snackbarService.success("Successfully logged out"))
-      )
-      .subscribe();
   }
 }

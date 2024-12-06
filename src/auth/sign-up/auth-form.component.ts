@@ -128,9 +128,6 @@ export class AuthForm implements OnInit {
     this.authSerivce
       .login(this.form.value)
       .pipe(
-        tap(() => {
-          this.snackbarService.success("Successfully logged in");
-        }),
         switchMap((appData: AppData) => setAppData(this.store, appData)),
         tap(() =>
           this.router.navigate([
