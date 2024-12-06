@@ -1,11 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators, } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
-import { BehaviorSubject, catchError, of, switchMap, tap, } from "rxjs";
+import { BehaviorSubject, catchError, finalize, of, switchMap, tap, } from "rxjs";
 import { AppData, AuthService } from "src/open-api";
 import { SnackbarService } from "src/services";
 import { setAppData } from "src/utils";
+import { fadeIn, fadeInOut } from "../../animations";
 import { GroupState } from "../../store";
 import { UserValidators } from "../../validators";
 
@@ -13,11 +14,11 @@ import { UserValidators } from "../../validators";
   selector: "app-auth-form",
   templateUrl: "./auth-form.component.html",
   styleUrls: ["./auth-form.component.scss"],
+  encapsulation: ViewEncapsulation.None,
   providers: [UserValidators],
+  animations: [fadeInOut, fadeIn]
 })
 export class AuthForm implements OnInit {
-  @Output() public submitted: EventEmitter<void> = new EventEmitter<void>();
-
   public form: FormGroup = new FormGroup({});
   public isSignUp: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
@@ -26,6 +27,7 @@ export class AuthForm implements OnInit {
   public primaryButtonText: string = "";
   public secondaryButtonText: string = "";
   public secondaryButtonRouterLink: string[] = [];
+  public isLoading = false;
 
   constructor(
     private authSerivce: AuthService,
@@ -35,7 +37,8 @@ export class AuthForm implements OnInit {
     protected router: Router,
     protected store: Store,
     protected userValidators: UserValidators
-  ) {}
+  ) {
+  }
 
   public ngOnInit(): void {
     this.initForm();
@@ -98,34 +101,41 @@ export class AuthForm implements OnInit {
     const isValid = this.form.valid;
 
     if (isValid && isSignUp) {
-      this.authSerivce
-        .signUp(this.form.value)
-        .pipe(
-          tap(() => {
-            this.snackbarService.success("User successfully signed up");
-          }),
-          catchError((err) =>
-            of(
-              this.snackbarService.error(err.error["username"] ?? err["errMsg"])
-            )
-          )
-        )
-        .subscribe();
+      this.signUp();
     } else if (isValid && !isSignUp) {
-      this.authSerivce
-        .login(this.form.value)
-        .pipe(
-          tap(() => {
-            this.snackbarService.success("Successfully logged in");
-          }),
-          switchMap((appData: AppData) => setAppData(this.store, appData)),
-          tap(() =>
-            this.router.navigate([
-              this.store.selectSnapshot(GroupState.dashboardLink),
-            ])
+      this.login();
+    }
+  }
+
+  private signUp(): void {
+    this.authSerivce
+      .signUp(this.form.value)
+      .pipe(
+        tap(() => {
+          this.login();
+        }),
+        catchError((err) =>
+          of(
+            this.snackbarService.error(err.error["username"] ?? err["errMsg"])
           )
         )
-        .subscribe();
-    }
+      )
+      .subscribe();
+  }
+
+  private login(): void {
+    this.isLoading = true;
+    this.authSerivce
+      .login(this.form.value)
+      .pipe(
+        switchMap((appData: AppData) => setAppData(this.store, appData)),
+        tap(() =>
+          this.router.navigate([
+            this.store.selectSnapshot(GroupState.dashboardLink),
+          ]),
+        ),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe();
   }
 }
