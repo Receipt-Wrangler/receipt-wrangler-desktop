@@ -1,6 +1,10 @@
 <div class="h-100 w-100 d-flex align-items-center justify-content-center">
   @if (isLoading) {
-    <mat-spinner @fadeInOut></mat-spinner>
+    <img
+      src="assets/branding/loading.gif"
+      class="h-25"
+      @fadeInOut
+    >
   } @else {
     <form @fadeInOut [formGroup]="form" (ngSubmit)="submit()">
       <img src="assets/branding/logo-large.svg" class="w-100 h-100 mb-5">
