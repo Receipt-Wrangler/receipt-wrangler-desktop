@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators, } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
-import { BehaviorSubject, catchError, of, switchMap, tap, } from "rxjs";
+import { BehaviorSubject, catchError, finalize, of, switchMap, tap, } from "rxjs";
 import { AppData, AuthService } from "src/open-api";
 import { SnackbarService } from "src/services";
 import { setAppData } from "src/utils";
@@ -112,7 +112,7 @@ export class AuthForm implements OnInit {
       .signUp(this.form.value)
       .pipe(
         tap(() => {
-          this.snackbarService.success("User successfully signed up");
+          this.login();
         }),
         catchError((err) =>
           of(
@@ -132,8 +132,9 @@ export class AuthForm implements OnInit {
         tap(() =>
           this.router.navigate([
             this.store.selectSnapshot(GroupState.dashboardLink),
-          ])
-        )
+          ]),
+        ),
+        finalize(() => this.isLoading = false)
       )
       .subscribe();
   }

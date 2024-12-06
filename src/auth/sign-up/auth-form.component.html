@@ -11,6 +11,7 @@
       <div class="d-flex flex-column mb-2">
         <ng-container *ngIf="isSignUp | async">
           <app-input
+            class="mb-1"
             appearance="outline"
             label="Displayname"
             [inputFormControl]="form | formGet : 'displayname'"
@@ -18,12 +19,14 @@
           </app-input>
         </ng-container>
         <app-input
+          class="mb-1"
           appearance="outline"
           label="Username"
           [inputFormControl]="form | formGet : 'username'"
         >
         </app-input>
         <app-input
+          class="mb-1"
           appearance="outline"
           label="Password"
           type="password"
