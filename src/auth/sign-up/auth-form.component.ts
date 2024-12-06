@@ -6,7 +6,7 @@ import { BehaviorSubject, catchError, of, switchMap, tap, } from "rxjs";
 import { AppData, AuthService } from "src/open-api";
 import { SnackbarService } from "src/services";
 import { setAppData } from "src/utils";
-import { fadeInOut } from "../../animations";
+import { fadeIn, fadeInOut } from "../../animations";
 import { GroupState } from "../../store";
 import { UserValidators } from "../../validators";
 
@@ -16,7 +16,7 @@ import { UserValidators } from "../../validators";
   styleUrls: ["./auth-form.component.scss"],
   encapsulation: ViewEncapsulation.None,
   providers: [UserValidators],
-  animations: [fadeInOut]
+  animations: [fadeInOut, fadeIn]
 })
 export class AuthForm implements OnInit {
   public form: FormGroup = new FormGroup({});

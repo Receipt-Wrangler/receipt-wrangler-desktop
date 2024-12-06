@@ -2,11 +2,11 @@
   @if (isLoading) {
     <img
       src="assets/branding/loading.gif"
-      class="h-25"
+      class="loading-gif"
       @fadeInOut
     >
   } @else {
-    <form @fadeInOut [formGroup]="form" (ngSubmit)="submit()">
+    <form @fadeIn [formGroup]="form" (ngSubmit)="submit()">
       <img src="assets/branding/logo-large.svg" class="w-100 h-100 mb-5">
       <div class="d-flex flex-column mb-2">
         <ng-container *ngIf="isSignUp | async">
