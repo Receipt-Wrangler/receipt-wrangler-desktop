@@ -1,4 +1,4 @@
-<mat-form-field class="w-100" appearance="fill">
+<mat-form-field class="w-100" appearance="fill" [hintLabel]="hint ?? ''">
   <mat-label>{{ label }}</mat-label>
   <ng-container *ngIf="multiple">
     <mat-chip-grid #chipGrid>
