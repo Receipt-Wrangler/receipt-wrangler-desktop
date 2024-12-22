@@ -49,19 +49,11 @@
               [categories]="categories"
               [readonly]="mode | inputReadonly"
             ></app-category-autocomplete>
-            <app-autocomlete
+            <app-tag-autocomplete
               class="w-100"
-              label="Tags"
-              optionFilterKey="name"
-              creatableValueKey="name"
               [inputFormControl]="form | formGet : 'tags'"
-              [options]="tags"
-              [optionTemplate]="tagOptionTemplate"
-              [optionChipTemplate]="tagOptionTemplate"
-              [multiple]="true"
-              [creatable]="true"
-              [readonly]="mode | inputReadonly"
-            ></app-autocomlete>
+              [tags]="tags"
+            ></app-tag-autocomplete>
             <app-datepicker
               label="Date"
               class="w-100"
@@ -194,11 +186,6 @@
     </div>
   </app-form-button-bar>
 </form>
-
-
-<ng-template #tagOptionTemplate let-option="option"
->{{ option.name }}
-</ng-template>
 
 <ng-template #groupOptionTemplate let-option="option"
 >{{ option.name }}

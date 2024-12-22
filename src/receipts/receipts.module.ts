@@ -25,6 +25,7 @@ import { CarouselModule as ReceiptWranglerCarousel } from "../carousel/carousel.
 import { CategoryAutocompleteComponent } from "../category-autocomplete/category-autocomplete.component";
 import { DirectivesModule } from "../directives";
 import { InputModule } from "../input";
+import { TagAutocompleteComponent } from "../tag-autocomplete/tag-autocomplete.component";
 import { BulkStatusUpdateComponent } from "./bulk-resolve-dialog/bulk-status-update-dialog.component";
 import { ItemListComponent } from "./item-list/item-list.component";
 import { QuickActionsDialogComponent } from "./quick-actions-dialog/quick-actions-dialog.component";
@@ -78,6 +79,7 @@ import { UserTotalPipe } from "./user-total.pipe";
     TextareaModule,
     UserAutocompleteModule,
     CategoryAutocompleteComponent,
+    TagAutocompleteComponent,
   ],
   exports: [
     UploadImageComponent
