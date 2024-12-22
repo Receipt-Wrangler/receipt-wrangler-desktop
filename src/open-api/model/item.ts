@@ -8,6 +8,8 @@
  * Do not edit the class manually.
  */
 import { ItemStatus } from './itemStatus';
+import { Category } from './category';
+import { Tag } from './tag';
 
 
 /**
@@ -38,6 +40,14 @@ export interface Item {
      */
     receiptId: number;
     status: ItemStatus;
+    /**
+     * Categories associated to the item
+     */
+    categories?: Array<Category>;
+    /**
+     * Tags associated to the item
+     */
+    tags?: Tag;
     updatedAt?: string;
 }
 export namespace Item {

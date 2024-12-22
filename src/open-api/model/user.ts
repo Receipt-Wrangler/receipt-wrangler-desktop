@@ -42,6 +42,7 @@ export interface User {
      * User\'s role
      */
     userRole: UserRole;
+    lastLoginDate?: string;
 }
 export namespace User {
 }
