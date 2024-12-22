@@ -14,6 +14,8 @@ export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
       itemTotalValidator(),
     ]),
     isTaxed: new FormControl(item?.IsTaxed ?? false),
+    categories: new FormArray(item?.categories?.map((c) => new FormControl(c)) ?? []),
+    tags: new FormArray(item?.tags?.map((t) => new FormControl(t)) ?? []),
     status: new FormControl(
       item?.status ?? ItemStatus.Open,
       Validators.required
