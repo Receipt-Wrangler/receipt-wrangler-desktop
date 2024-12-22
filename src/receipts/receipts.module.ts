@@ -22,6 +22,7 @@ import { TextareaModule } from "src/textarea/textarea.module";
 import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.module";
 import { ButtonModule } from "../button";
 import { CarouselModule as ReceiptWranglerCarousel } from "../carousel/carousel.module";
+import { CategoryAutocompleteComponent } from "../category-autocomplete/category-autocomplete.component";
 import { DirectivesModule } from "../directives";
 import { InputModule } from "../input";
 import { BulkStatusUpdateComponent } from "./bulk-resolve-dialog/bulk-status-update-dialog.component";
@@ -76,6 +77,7 @@ import { UserTotalPipe } from "./user-total.pipe";
     TableModule,
     TextareaModule,
     UserAutocompleteModule,
+    CategoryAutocompleteComponent,
   ],
   exports: [
     UploadImageComponent

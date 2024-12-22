@@ -43,19 +43,12 @@
               [inputFormControl]="form | formGet : 'amount'"
               [readonly]="mode | inputReadonly"
             ></app-input>
-            <app-autocomlete
+            <app-category-autocomplete
               class="w-100"
-              label="Categories"
-              optionFilterKey="name"
-              creatableValueKey="name"
               [inputFormControl]="form | formGet : 'categories'"
-              [options]="categories"
-              [optionTemplate]="categoryOptionTemplate"
-              [optionChipTemplate]="categoryOptionTemplate"
-              [multiple]="true"
-              [creatable]="true"
+              [categories]="categories"
               [readonly]="mode | inputReadonly"
-            ></app-autocomlete>
+            ></app-category-autocomplete>
             <app-autocomlete
               class="w-100"
               label="Tags"
@@ -202,9 +195,6 @@
   </app-form-button-bar>
 </form>
 
-<ng-template #categoryOptionTemplate let-option="option"
->{{ option.name }}
-</ng-template>
 
 <ng-template #tagOptionTemplate let-option="option"
 >{{ option.name }}
