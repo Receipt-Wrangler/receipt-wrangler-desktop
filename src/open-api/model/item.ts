@@ -47,7 +47,7 @@ export interface Item {
     /**
      * Tags associated to the item
      */
-    tags?: Tag;
+    tags?: Array<Tag>;
     updatedAt?: string;
 }
 export namespace Item {
