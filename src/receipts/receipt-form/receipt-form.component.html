@@ -131,7 +131,11 @@
         [indent]="false"
         [headerButtonsTemplate]="sharesSectionHeaderButtons"
       >
-        <app-item-list [form]="form"></app-item-list>
+        <app-item-list
+          [form]="form"
+          [categories]="categories"
+          [tags]="tags"
+        ></app-item-list>
       </app-form-section>
       <div class="mt-3">
         <app-form-section

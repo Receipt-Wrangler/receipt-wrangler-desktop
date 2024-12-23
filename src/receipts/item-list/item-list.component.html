@@ -25,6 +25,16 @@
             [readonly]="mode | inputReadonly"
           >
           </app-input>
+          <app-category-autocomplete
+            [categories]="categories"
+            [inputFormControl]="newItemFormGroup | formGet : 'categories'"
+            [readonly]="mode | inputReadonly"
+          ></app-category-autocomplete>
+          <app-tag-autocomplete
+            [tags]="tags"
+            [inputFormControl]="newItemFormGroup | formGet : 'tags'"
+            [readonly]="mode | inputReadonly"
+          ></app-tag-autocomplete>
           <app-submit-button
             tooltip="Done"
             type="button"
@@ -106,6 +116,16 @@
             [readonly]="mode | inputReadonly"
           >
           </app-input>
+          <app-category-autocomplete
+            [categories]="categories"
+            [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.categories'"
+            [readonly]="mode | inputReadonly"
+          ></app-category-autocomplete>
+          <app-tag-autocomplete
+            [tags]="tags"
+            [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.tags'"
+            [readonly]="mode | inputReadonly"
+          ></app-tag-autocomplete>
           <app-select
             class="col"
             label="Status"
