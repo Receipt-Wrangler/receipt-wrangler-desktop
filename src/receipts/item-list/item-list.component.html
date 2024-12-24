@@ -1,10 +1,12 @@
 <mat-accordion multi>
-  <ng-container *ngIf="isAdding">
-    <mat-card class="w-100 mt-2">
-      <mat-card-header>
-        <mat-card-title> Add Share</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
+  @if (isAdding) {
+    <app-card
+      cardStyle="w-100 mb-2"
+    >
+      <ng-container header>
+        Add Share
+      </ng-container>
+      <div content>
         <app-user-autocomplete
           label="Shared with"
           [inputFormControl]="newItemFormGroup | formGet : 'chargedToUserId'"
@@ -46,11 +48,13 @@
             (clicked)="exitAddMode()"
           ></app-cancel-button>
         </div>
-      </mat-card-content>
-    </mat-card>
-  </ng-container>
+      </div>
+    </app-card>
+  }
 
-  <div *ngIf="userItemMap.size === 0 && mode === formMode.view">No shares for this receipt</div>
+  @if (userItemMap.size === 0 && mode === formMode.view) {
+    <div>No shares for this receipt</div>
+  }
   <mat-expansion-panel
     #userExpansionPanel
     *ngFor="let key of userItemMap | mapKey; let i = index"
@@ -64,7 +68,7 @@
       <mat-panel-description>
         <div class="d-flex justify-content-between align-items-center w-100">
           <span>Total amount owed: {{ (userItemMap | userTotal : key) | customCurrency }}</span>
-          <div *ngIf="originalReceipt?.groupId | groupRole : groupRole.Editor">
+          @if (originalReceipt?.groupId | groupRole : groupRole.Editor) {
             <app-button
               matButtonType="iconButton"
               icon="check"
@@ -75,7 +79,7 @@
               }"
               (clicked)="resolveAllItemsClicked($event, key)"
             ></app-button>
-          </div>
+          }
         </div>
       </mat-panel-description>
     </mat-expansion-panel-header>
@@ -87,14 +91,15 @@
       >
         <div content class="d-flex flex-column item-form-container">
           <div class="d-flex justify-content-end">
-            <app-delete-button
-              *ngIf="!(mode | inputReadonly)"
-              tooltip="Remove Share"
-              [disabled]="
+            @if (!(mode | inputReadonly)) {
+              <app-delete-button
+                tooltip="Remove Share"
+                [disabled]="
               !(originalReceipt?.groupId | groupRole : groupRole.Editor)
             "
-              (clicked)="removeItem(itemData)"
-            ></app-delete-button>
+                (clicked)="removeItem(itemData)"
+              ></app-delete-button>
+            }
           </div>
           <div class="row g-0">
             <app-input
