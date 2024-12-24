@@ -13,14 +13,16 @@
           [groupId]="(form | formGet : 'groupId').value"
           [readonly]="mode | inputReadonly"
         ></app-user-autocomplete>
-        <div class="d-flex align-items-center mt-2">
+        <div class="row g-0 mt-2">
           <app-input
             label="Name"
+            class="col"
             [inputFormControl]="newItemFormGroup | formGet : 'name'"
           >
           </app-input>
           <app-input
             label="Amount"
+            class="col"
             type="text"
             [isCurrency]="true"
             [inputFormControl]="newItemFormGroup | formGet : 'amount'"
@@ -37,16 +39,11 @@
             [inputFormControl]="newItemFormGroup | formGet : 'tags'"
             [readonly]="mode | inputReadonly"
           ></app-tag-autocomplete>
-          <app-submit-button
-            tooltip="Done"
-            type="button"
-            (clicked)="submitNewItemFormGroup()"
-          ></app-submit-button>
-          <app-cancel-button
-            matButtonType="iconButton"
-            tooltip="Cancel"
-            (clicked)="exitAddMode()"
-          ></app-cancel-button>
+          <app-dialog-footer
+            submitButtonTooltip="Done"
+            (submitClicked)="submitNewItemFormGroup()"
+            (cancelClicked)="exitAddMode()"
+          ></app-dialog-footer>
         </div>
       </div>
     </app-card>
