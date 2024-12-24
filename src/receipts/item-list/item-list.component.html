@@ -82,65 +82,69 @@
     <ng-container
       *ngFor="let itemData of userItemMap | mapGet : key; let i = index"
     >
-      <div class="d-flex flex-column item-form-container">
-        <div class="d-flex justify-content-end">
-          <app-delete-button
-            *ngIf="!(mode | inputReadonly)"
-            tooltip="Remove Share"
-            [disabled]="
+      <app-card
+        cardStyle="mb-2"
+      >
+        <div content class="d-flex flex-column item-form-container">
+          <div class="d-flex justify-content-end">
+            <app-delete-button
+              *ngIf="!(mode | inputReadonly)"
+              tooltip="Remove Share"
+              [disabled]="
               !(originalReceipt?.groupId | groupRole : groupRole.Editor)
             "
-            (clicked)="removeItem(itemData)"
-          ></app-delete-button>
-        </div>
-        <div class="row g-0">
-          <app-input
-            class="col"
-            #nameField
-            label="Name"
-            [inputId]="'name-' + i"
-            [inputFormControl]="
+              (clicked)="removeItem(itemData)"
+            ></app-delete-button>
+          </div>
+          <div class="row g-0">
+            <app-input
+              class="col"
+              #nameField
+              label="Name"
+              [inputId]="'name-' + i"
+              [inputFormControl]="
               form | formGet : 'receiptItems.' + itemData.arrayIndex + '.name'
             "
-            [readonly]="mode | inputReadonly"
-            (inputBlur)="addInlineItemOnBlur(key, i)"
-          >
-          </app-input>
-          <app-input
-            class="col"
-            label="Amount"
-            [isCurrency]="true"
-            [inputFormControl]="
+              [readonly]="mode | inputReadonly"
+              (inputBlur)="addInlineItemOnBlur(key, i)"
+            >
+            </app-input>
+            <app-input
+              class="col"
+              label="Amount"
+              [isCurrency]="true"
+              [inputFormControl]="
               form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
             "
-            [readonly]="mode | inputReadonly"
-          >
-          </app-input>
-          <app-category-autocomplete
-            [categories]="categories"
-            [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.categories'"
-            [readonly]="mode | inputReadonly"
-          ></app-category-autocomplete>
-          <app-tag-autocomplete
-            [tags]="tags"
-            [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.tags'"
-            [readonly]="mode | inputReadonly"
-          ></app-tag-autocomplete>
-          <app-select
-            class="col"
-            label="Status"
-            optionValueKey="value"
-            optionDisplayKey="displayValue"
-            [inputFormControl]="
+              [readonly]="mode | inputReadonly"
+            >
+            </app-input>
+            <app-select
+              class="col"
+              label="Status"
+              optionValueKey="value"
+              optionDisplayKey="displayValue"
+              [inputFormControl]="
               form | formGet : 'receiptItems.' + itemData.arrayIndex + '.status'
             "
-            [readonly]="mode | inputReadonly"
-            [options]="itemStatusOptions"
-            (inputBlur)="addInlineItemOnBlur(key, i)"
-          >
-          </app-select>
+              [readonly]="mode | inputReadonly"
+              [options]="itemStatusOptions"
+              (inputBlur)="addInlineItemOnBlur(key, i)"
+            >
+            </app-select>
+            <app-category-autocomplete
+              [categories]="categories"
+              [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.categories'"
+              [readonly]="mode | inputReadonly"
+            ></app-category-autocomplete>
+            <app-tag-autocomplete
+              [tags]="tags"
+              [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.tags'"
+              [readonly]="mode | inputReadonly"
+            ></app-tag-autocomplete>
+          </div>
         </div>
-      </div>
+      </app-card>
     </ng-container>
   </mat-expansion-panel>
 </mat-accordion>

@@ -1,4 +1,6 @@
-<mat-card>
+<mat-card
+  [ngClass]="cardStyle"
+>
   <mat-card-header>
     <ng-content select="[header]"></ng-content>
   </mat-card-header>
