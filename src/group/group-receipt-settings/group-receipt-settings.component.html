@@ -11,4 +11,36 @@
 
 <ng-template
   #formTemplate
-></ng-template>
+>
+  <app-audit-detail-section
+    [data]="originalGroup"
+  ></app-audit-detail-section>
+  <app-form-section
+    headerText="Settings"
+  >
+    <app-checkbox
+      label="Hide Images"
+      [inputFormControl]="form | formGet: 'hideImages'"
+    ></app-checkbox>
+    <app-checkbox
+      label="Hide Receipt Categories"
+      [inputFormControl]="form | formGet: 'hideReceiptCategories'"
+    ></app-checkbox>
+    <app-checkbox
+      label="Hide Receipt Tags"
+      [inputFormControl]="form | formGet: 'hideReceiptTags'"
+    ></app-checkbox>
+    <app-checkbox
+      label="Hide Item Categories"
+      [inputFormControl]="form | formGet: 'hideItemCategories'"
+    ></app-checkbox>
+    <app-checkbox
+      label="Hide Item Tags"
+      [inputFormControl]="form | formGet: 'hideItemTags'"
+    ></app-checkbox>
+    <app-checkbox
+      label="Hide Comments"
+      [inputFormControl]="form | formGet: 'hideComments'"
+    ></app-checkbox>
+  </app-form-section>
+</ng-template>
