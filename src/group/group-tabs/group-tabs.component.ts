@@ -11,8 +11,6 @@ import { FeatureConfigState } from "../../store";
 export class GroupTabsComponent {
   public tabs: TabConfig[] = [];
 
-  public activeLInk: string = "";
-
   public ngOnInit(): void {
     this.initTabs();
   }
@@ -26,6 +24,11 @@ export class GroupTabsComponent {
         routerLink: "details/view",
         name: "details",
       },
+      {
+        label: "Group Receipt Settings",
+        routerLink: "receipt-settings/view",
+        name: "receipt-settings",
+      },
     ];
 
     const hasAiPoweredReceipts = this.store.selectSnapshot(
@@ -33,7 +36,7 @@ export class GroupTabsComponent {
     );
     if (hasAiPoweredReceipts) {
       this.tabs.push({
-        label: "Group Settings",
+        label: "Group AI Settings",
         routerLink: "settings/view",
         name: "settings",
       });

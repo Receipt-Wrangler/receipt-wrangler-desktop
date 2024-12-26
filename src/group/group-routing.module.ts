@@ -8,6 +8,7 @@ import { GroupRole, UserRole } from "../open-api";
 import { promptsResolver } from "../prompt/prompts.resolver";
 import { GroupDetailsComponent } from "./group-details/group-details.component";
 import { GroupFormComponent } from "./group-form/group-form.component";
+import { GroupReceiptSettingsComponent } from "./group-receipt-settings/group-receipt-settings.component";
 import { GroupSettingsComponent } from "./group-settings/group-settings.component";
 import { GroupTableComponent } from "./group-table/group-table.component";
 import { GroupTabsComponent } from "./group-tabs/group-tabs.component";
@@ -76,6 +77,42 @@ const routes: Routes = [
           entityType: "Details",
           setHeaderText: true,
           groupRole: GroupRole.Owner,
+          useRouteGroupId: true,
+        },
+        canActivate: [GroupRoleGuard],
+      },
+      {
+        path: "receipt-settings/view",
+        component: GroupReceiptSettingsComponent,
+        resolve: {
+          group: groupResolverFn,
+        },
+        data: {
+          formConfig: {
+            mode: FormMode.view,
+            headerText: "View Group Receipt Settings",
+          } as FormConfig,
+          groupRole: GroupRole.Viewer,
+          entityType: "Receipt Settings",
+          setHeaderText: true,
+          useRouteGroupId: true,
+        },
+        canActivate: [GroupRoleGuard],
+      },
+      {
+        path: "receipt-settings/edit",
+        component: GroupReceiptSettingsComponent,
+        resolve: {
+          group: groupResolverFn,
+        },
+        data: {
+          formConfig: {
+            mode: FormMode.edit,
+            headerText: "Edit Group Receipt Settings",
+          } as FormConfig,
+          groupRole: GroupRole.Owner,
+          entityType: "Receipt Settings",
+          setHeaderText: true,
           useRouteGroupId: true,
         },
         canActivate: [GroupRoleGuard],
