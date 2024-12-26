@@ -29,16 +29,22 @@
             [readonly]="mode | inputReadonly"
           >
           </app-input>
-          <app-category-autocomplete
-            [categories]="categories"
-            [inputFormControl]="newItemFormGroup | formGet : 'categories'"
-            [readonly]="mode | inputReadonly"
-          ></app-category-autocomplete>
-          <app-tag-autocomplete
-            [tags]="tags"
-            [inputFormControl]="newItemFormGroup | formGet : 'tags'"
-            [readonly]="mode | inputReadonly"
-          ></app-tag-autocomplete>
+
+          @if (!selectedGroup?.groupReceiptSettings?.hideItemCategories) {
+            <app-category-autocomplete
+              [categories]="categories"
+              [inputFormControl]="newItemFormGroup | formGet : 'categories'"
+              [readonly]="mode | inputReadonly"
+            ></app-category-autocomplete>
+          }
+
+          @if (!selectedGroup?.groupReceiptSettings?.hideReceiptTags) {
+            <app-tag-autocomplete
+              [tags]="tags"
+              [inputFormControl]="newItemFormGroup | formGet : 'tags'"
+              [readonly]="mode | inputReadonly"
+            ></app-tag-autocomplete>
+          }
           <app-dialog-footer
             submitButtonTooltip="Done"
             (submitClicked)="submitNewItemFormGroup()"
@@ -134,16 +140,21 @@
               (inputBlur)="addInlineItemOnBlur(key, i)"
             >
             </app-select>
-            <app-category-autocomplete
-              [categories]="categories"
-              [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.categories'"
-              [readonly]="mode | inputReadonly"
-            ></app-category-autocomplete>
-            <app-tag-autocomplete
-              [tags]="tags"
-              [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.tags'"
-              [readonly]="mode | inputReadonly"
-            ></app-tag-autocomplete>
+            @if (!selectedGroup?.groupReceiptSettings?.hideItemCategories) {
+              <app-category-autocomplete
+                [categories]="categories"
+                [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.categories'"
+                [readonly]="mode | inputReadonly"
+              ></app-category-autocomplete>
+            }
+
+            @if (!selectedGroup?.groupReceiptSettings?.hideReceiptTags) {
+              <app-tag-autocomplete
+                [tags]="tags"
+                [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.tags'"
+                [readonly]="mode | inputReadonly"
+              ></app-tag-autocomplete>
+            }
           </div>
         </div>
       </app-card>

@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
 import { RECEIPT_ITEM_STATUS_OPTIONS } from "src/constants/receipt-status-options";
 import { FormMode } from "src/enums/form-mode.enum";
 import { InputComponent } from "../../input";
-import { Category, GroupRole, Item, ItemStatus, Receipt, Tag, User } from "../../open-api";
+import { Category, Group, GroupRole, Item, ItemStatus, Receipt, Tag, User } from "../../open-api";
 import { UserState } from "../../store";
 import { buildItemForm } from "../utils/form.utils";
 
@@ -38,6 +38,8 @@ export class ItemListComponent implements OnInit {
   @Input() public categories: Category[] = [];
 
   @Input() public tags: Tag[] = [];
+
+  @Input() public selectedGroup: Group | undefined;
 
   public newItemFormGroup: FormGroup = new FormGroup({});
 
