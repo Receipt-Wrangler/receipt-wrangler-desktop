@@ -1,10 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { take, tap } from "rxjs";
+import { Store } from "@ngxs/store";
+import { switchMap, take, tap } from "rxjs";
+import { FormMode } from "../../enums/form-mode.enum";
 import { BaseFormComponent } from "../../form/index";
 import { Group, GroupRole, GroupsService } from "../../open-api/index";
 import { SnackbarService } from "../../services/index";
+import { UpdateGroup } from "../../store/index";
 import { GroupUtil } from "../../utils/index";
 
 @Component({
@@ -25,7 +28,8 @@ export class GroupReceiptSettingsComponent extends BaseFormComponent implements 
     private groupUtil: GroupUtil,
     private groupsService: GroupsService,
     private router: Router,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private store: Store,
   ) {
     super();
   }
@@ -47,6 +51,10 @@ export class GroupReceiptSettingsComponent extends BaseFormComponent implements 
       hideItemTags: [receiptSettings.hideItemTags ?? false],
       hideComments: [receiptSettings.hideComments ?? false],
     });
+
+    if (this.formConfig.mode != FormMode.edit) {
+      this.form.disable();
+    }
   }
 
   private setOriginalGroup(): void {
@@ -54,13 +62,17 @@ export class GroupReceiptSettingsComponent extends BaseFormComponent implements 
     this.editLink = `/groups/${this.originalGroup.id}/receipt-settings/edit`;
   }
 
-
   public submit(): void {
     if (this.form.valid) {
+
       this.groupsService.updateGroupReceiptSettings(this.originalGroup.id,
         this.form.value)
         .pipe(
           take(1),
+          switchMap((updatedGroupReceiptSettings) => {
+            this.originalGroup.groupReceiptSettings = updatedGroupReceiptSettings;
+            return this.store.dispatch(new UpdateGroup(this.originalGroup));
+          }),
           tap(() => {
             this.snackbarService.success("Receipt settings updated successfully");
             this.router.navigate(
