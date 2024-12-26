@@ -38,7 +38,7 @@
             ></app-category-autocomplete>
           }
 
-          @if (!selectedGroup?.groupReceiptSettings?.hideReceiptTags) {
+          @if (!selectedGroup?.groupReceiptSettings?.hideItemTags) {
             <app-tag-autocomplete
               [tags]="tags"
               [inputFormControl]="newItemFormGroup | formGet : 'tags'"
@@ -148,7 +148,7 @@
               ></app-category-autocomplete>
             }
 
-            @if (!selectedGroup?.groupReceiptSettings?.hideReceiptTags) {
+            @if (!selectedGroup?.groupReceiptSettings?.hideItemTags) {
               <app-tag-autocomplete
                 [tags]="tags"
                 [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.tags'"
