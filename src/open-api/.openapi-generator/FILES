@@ -51,6 +51,7 @@ model/getSystemTaskCommand.ts
 model/group.ts
 model/groupFilter.ts
 model/groupMember.ts
+model/groupReceiptSettings.ts
 model/groupRole.ts
 model/groupSettings.ts
 model/groupSettingsWhiteListEmail.ts
@@ -88,6 +89,7 @@ model/systemTaskType.ts
 model/tag.ts
 model/tagView.ts
 model/tokenPair.ts
+model/updateGroupReceiptSettingsCommand.ts
 model/updateGroupSettingsCommand.ts
 model/updateProfileCommand.ts
 model/upsertCategoryCommand.ts

@@ -42,6 +42,7 @@ import { UploadImageComponent } from "../upload-image/upload-image.component";
   host: DEFAULT_HOST_CLASS,
 })
 export class ReceiptFormComponent implements OnInit {
+  // TODO: make group receipt settings and add hide stuff there
   @ViewChild(ItemListComponent) public itemsListComponent!: ItemListComponent;
 
   @ViewChild(UploadImageComponent)
