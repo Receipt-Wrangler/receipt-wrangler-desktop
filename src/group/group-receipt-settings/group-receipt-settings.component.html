@@ -1,1 +1,14 @@
-<p>group-receipt-settings works!</p>
+<app-form
+  [formConfig]="formConfig"
+  [form]="form"
+  [formTemplate]="formTemplate"
+  [bottomSpacing]="true"
+  [canEdit]="canEdit"
+  [editButtonRouterLink]="[editLink]"
+  [editButtonQueryParams]="{tab: 'receipt-settings'}"
+  (submitted)="submit()"
+></app-form>
+
+<ng-template
+  #formTemplate
+></ng-template>
