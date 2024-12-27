@@ -43,32 +43,21 @@
               [inputFormControl]="form | formGet : 'amount'"
               [readonly]="mode | inputReadonly"
             ></app-input>
-            <app-autocomlete
-              class="w-100"
-              label="Categories"
-              optionFilterKey="name"
-              creatableValueKey="name"
-              [inputFormControl]="form | formGet : 'categories'"
-              [options]="categories"
-              [optionTemplate]="categoryOptionTemplate"
-              [optionChipTemplate]="categoryOptionTemplate"
-              [multiple]="true"
-              [creatable]="true"
-              [readonly]="mode | inputReadonly"
-            ></app-autocomlete>
-            <app-autocomlete
-              class="w-100"
-              label="Tags"
-              optionFilterKey="name"
-              creatableValueKey="name"
-              [inputFormControl]="form | formGet : 'tags'"
-              [options]="tags"
-              [optionTemplate]="tagOptionTemplate"
-              [optionChipTemplate]="tagOptionTemplate"
-              [multiple]="true"
-              [creatable]="true"
-              [readonly]="mode | inputReadonly"
-            ></app-autocomlete>
+            @if (!this.selectedGroup?.groupReceiptSettings?.hideReceiptCategories) {
+              <app-category-autocomplete
+                class="w-100"
+                [inputFormControl]="form | formGet : 'categories'"
+                [categories]="categories"
+                [readonly]="mode | inputReadonly"
+              ></app-category-autocomplete>
+            }
+            @if (!this.selectedGroup?.groupReceiptSettings?.hideReceiptTags) {
+              <app-tag-autocomplete
+                class="w-100"
+                [inputFormControl]="form | formGet : 'tags'"
+                [tags]="tags"
+              ></app-tag-autocomplete>
+            }
             <app-datepicker
               label="Date"
               class="w-100"
@@ -100,67 +89,76 @@
             ></app-select>
           </div>
         </app-form-section>
-        <app-form-section
-          class="col h-100"
-          headerText="Images"
-          [headerButtonsTemplate]="imagesSectionHeaderButtons"
-          [indent]="false"
-        >
-          <div class="w-100 h-100">
-            <app-upload-image
-              class="w-100 h-100"
-              [receiptId]="originalReceipt?.id?.toString()"
-              (fileLoaded)="imageFileLoaded($event)"
-            >
-            </app-upload-image>
-            <div
-              *ngIf="
+        @if (!selectedGroup?.groupReceiptSettings?.hideImages) {
+          <app-form-section
+            class="col h-100"
+            headerText="Images"
+            [headerButtonsTemplate]="imagesSectionHeaderButtons"
+            [indent]="false"
+          >
+            <div class="w-100 h-100">
+              <app-upload-image
+                class="w-100 h-100"
+                [receiptId]="originalReceipt?.id?.toString()"
+                (fileLoaded)="imageFileLoaded($event)"
+              >
+              </app-upload-image>
+              <div
+                *ngIf="
                 images &&
                 (images.length > 0 || filesToUpload.length > 0) &&
                 showImages
               "
-              [ngClass]="{
+                [ngClass]="{
               'col-3': !showLargeImagePreview
               }"
-            >
-              <ng-container *ngIf="imagesLoading">
-                <div class="d-flex justify-content-center align-items-center">
-                  <mat-spinner></mat-spinner>
-                </div>
-              </ng-container>
-              <app-carousel
-                [images]="images"
-                [imagePreviews]="filesToUpload"
-                [mode]="mode"
-                [hideButtonControls]="true"
-                [disabled]="
+              >
+                <ng-container *ngIf="imagesLoading">
+                  <div class="d-flex justify-content-center align-items-center">
+                    <mat-spinner></mat-spinner>
+                  </div>
+                </ng-container>
+                <app-carousel
+                  [images]="images"
+                  [imagePreviews]="filesToUpload"
+                  [mode]="mode"
+                  [hideButtonControls]="true"
+                  [disabled]="
                   mode !== formMode.edit || ((showProgressBar | async) ?? false)
                 "
-              ></app-carousel>
+                ></app-carousel>
+              </div>
             </div>
-          </div>
-        </app-form-section>
+          </app-form-section>
+        }
       </div>
       <app-form-section
         headerText="Shares"
         [indent]="false"
         [headerButtonsTemplate]="sharesSectionHeaderButtons"
       >
-        <app-item-list [form]="form"></app-item-list>
+        <app-item-list
+          [form]="form"
+          [categories]="categories"
+          [tags]="tags"
+          [selectedGroup]="selectedGroup"
+        ></app-item-list>
       </app-form-section>
-      <div class="mt-3">
-        <app-form-section
-          headerText="Comments"
-          [indent]="false"
-        >
-          <app-receipt-comments
-            [receiptId]="originalReceipt?.id"
-            [comments]="originalReceipt?.comments ?? []"
-            [mode]="mode"
-            (commentsUpdated)="updateComments($event)"
-          ></app-receipt-comments>
-        </app-form-section>
-      </div>
+      @if (!this.selectedGroup?.groupReceiptSettings?.hideComments) {
+        <div class="mt-3">
+          <app-form-section
+            headerText="Comments"
+            [indent]="false"
+          >
+            <app-receipt-comments
+              [receiptId]="originalReceipt?.id"
+              [comments]="originalReceipt?.comments ?? []"
+              [mode]="mode"
+              (commentsUpdated)="updateComments($event)"
+            ></app-receipt-comments>
+          </app-form-section>
+        </div>
+      }
     </div>
   </div>
 
@@ -201,14 +199,6 @@
     </div>
   </app-form-button-bar>
 </form>
-
-<ng-template #categoryOptionTemplate let-option="option"
->{{ option.name }}
-</ng-template>
-
-<ng-template #tagOptionTemplate let-option="option"
->{{ option.name }}
-</ng-template>
 
 <ng-template #groupOptionTemplate let-option="option"
 >{{ option.name }}

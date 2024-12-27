@@ -9,6 +9,9 @@
 ></app-form>
 
 <ng-template #formTemplate>
+  <app-audit-detail-section
+    [data]="group.groupSettings"
+  ></app-audit-detail-section>
   <app-form-section headerText="Email Settings">
     <app-group-settings-email
       [form]="form"

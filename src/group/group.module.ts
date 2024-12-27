@@ -17,14 +17,15 @@ import { InputModule } from "../input";
 import { GroupDetailsComponent } from "./group-details/group-details.component";
 import { GroupFormComponent } from "./group-form/group-form.component";
 import { GroupMemberFormComponent } from "./group-member-form/group-member-form.component";
+import { GroupReceiptSettingsComponent } from "./group-receipt-settings/group-receipt-settings.component";
 import { GroupRoutingModule } from "./group-routing.module";
+import { GroupSettingsAiComponent } from "./group-settings-ai/group-settings-ai.component";
 import { GroupSettingsEmailComponent } from "./group-settings-email/group-settings-email.component";
 import { GroupSettingsComponent } from "./group-settings/group-settings.component";
 import { GroupTableFilterComponent } from "./group-table-filter/group-table-filter.component";
 import { GroupTableEditButtonPipe } from "./group-table/group-table-edit-button.pipe";
 import { GroupTableComponent } from "./group-table/group-table.component";
 import { GroupTabsComponent } from "./group-tabs/group-tabs.component";
-import { GroupSettingsAiComponent } from './group-settings-ai/group-settings-ai.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { GroupSettingsAiComponent } from './group-settings-ai/group-settings-ai.
     GroupTableFilterComponent,
     GroupTableEditButtonPipe,
     GroupSettingsAiComponent,
+    GroupReceiptSettingsComponent,
   ],
   imports: [
     ButtonModule,

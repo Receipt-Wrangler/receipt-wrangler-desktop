@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { GroupMember } from './groupMember';
+import { GroupReceiptSettings } from './groupReceiptSettings';
 import { GroupStatus } from './groupStatus';
 import { GroupSettings } from './groupSettings';
 
@@ -19,6 +20,7 @@ export interface Group {
     createdAt?: string;
     createdBy?: number;
     groupSettings?: GroupSettings;
+    groupReceiptSettings: GroupReceiptSettings;
     /**
      * Members of the group
      */

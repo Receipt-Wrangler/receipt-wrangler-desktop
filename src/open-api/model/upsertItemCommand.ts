@@ -8,6 +8,8 @@
  * Do not edit the class manually.
  */
 import { ItemStatus } from './itemStatus';
+import { UpsertCategoryCommand } from './upsertCategoryCommand';
+import { UpsertTagCommand } from './upsertTagCommand';
 
 
 export interface UpsertItemCommand { 
@@ -28,6 +30,14 @@ export interface UpsertItemCommand {
      */
     receiptId: number;
     status: ItemStatus;
+    /**
+     * Categories associated to item
+     */
+    categories?: Array<UpsertCategoryCommand>;
+    /**
+     * Tags associated to item
+     */
+    tags?: Array<UpsertTagCommand>;
 }
 export namespace UpsertItemCommand {
 }
