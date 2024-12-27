@@ -33,6 +33,11 @@ describe("GroupTabsComponent", () => {
         routerLink: "details/view",
         name: "details"
       },
+      {
+        label: "Group Receipt Settings",
+        routerLink: "receipt-settings/view",
+        name: "receipt-settings",
+      },
     ]);
   });
 
@@ -53,7 +58,12 @@ describe("GroupTabsComponent", () => {
         name: "details"
       },
       {
-        label: "Group Settings",
+        label: "Group Receipt Settings",
+        routerLink: "receipt-settings/view",
+        name: "receipt-settings",
+      },
+      {
+        label: "Group AI Settings",
         routerLink: "settings/view",
         name: "settings",
       },

@@ -64,7 +64,6 @@ export class GroupReceiptSettingsComponent extends BaseFormComponent implements 
 
   public submit(): void {
     if (this.form.valid) {
-
       this.groupsService.updateGroupReceiptSettings(this.originalGroup.id,
         this.form.value)
         .pipe(
