@@ -4,80 +4,92 @@
 app-auth-form {
   display: block;
   height: 100vh;
-  background: white;
+  background: linear-gradient(125deg, 
+    rgba(map.get($primary-palette, 100), 0.4) 0%,
+    rgba(map.get($primary-palette, 200), 0.2) 50%,
+    rgba(map.get($primary-palette, 300), 0.4) 100%
+  );
   position: relative;
   overflow: hidden;
 
-  // Subtle decorative elements
+  // Foggy background elements
   &::before {
     content: '';
-    position: absolute;
-    top: -10%;
-    right: -10%;
-    width: 400px;
-    height: 400px;
-    background: linear-gradient(135deg, 
-      rgba(map.get($primary-palette, 50), 0.4) 0%, 
-      rgba(map.get($primary-palette, 100), 0.4) 100%
-    );
-    border-radius: 50%;
-    z-index: 0;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -10%;
-    left: -10%;
-    width: 300px;
-    height: 300px;
-    background: linear-gradient(135deg, 
-      rgba(map.get($primary-palette, 100), 0.3) 0%, 
-      rgba(map.get($primary-palette, 200), 0.3) 100%
-    );
-    border-radius: 50%;
-    z-index: 0;
+    position: fixed;
+    inset: 0;
+    background: url('/assets/noise.png'), // You'll need to add this noise texture
+                linear-gradient(125deg,
+                  rgba(255, 255, 255, 0.4) 0%,
+                  rgba(255, 255, 255, 0.1) 100%);
+    opacity: 0.7;
+    pointer-events: none;
   }
 
   .auth-container {
-    background: white;
-    border-radius: 20px;
-    padding: 2.5rem;
-    box-shadow: $global-shadow;
-    border: 1px solid rgba(map.get($primary-palette, 200), 0.3);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 24px;
+    padding: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
     width: 100%;
     max-width: 420px;
     margin: 0 1rem;
     position: relative;
     z-index: 1;
+    box-shadow: 
+      0 4px 24px -1px rgba(0, 0, 0, 0.1),
+      0 0 1px 0 rgba(0, 0, 0, 0.05);
+    
+    @media (max-width: 768px) {
+      margin: 1rem;
+      padding: 2rem;
+    }
   }
 
   .auth-logo {
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    opacity: 0.9;
     
     &:hover {
-      transform: scale(1);
+      opacity: 1;
+      filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.15));
     }
   }
 
   .auth-buttons {
     height: 50px;
     border-radius: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     
     &:hover {
       transform: translateY(-2px);
-      box-shadow: $global-shadow;
+      background: rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 8px 16px -4px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.5);
     }
 
     &.mat-primary {
-      background-color: map.get($primary-palette, 600);
+      background: rgba(map.get($primary-palette, 600), 0.9);
+      backdrop-filter: blur(10px);
+      
+      &:hover {
+        background: rgba(map.get($primary-palette, 600), 1);
+      }
     }
 
     &.mat-accent {
-      background-color: map.get($accent-palette, 500);
+      background: rgba(map.get($accent-palette, 500), 0.9);
+      backdrop-filter: blur(10px);
+      
+      &:hover {
+        background: rgba(map.get($accent-palette, 500), 1);
+      }
     }
   }
 
