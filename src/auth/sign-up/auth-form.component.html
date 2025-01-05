@@ -7,34 +7,36 @@
     >
   } @else {
     <form
-      class="container"
+      class="auth-container"
       @fadeIn
       [formGroup]="form"
       (ngSubmit)="submit()"
     >
-      <div
-        class="col-12 col-md-4 mx-auto"
-      >
-        <img src="assets/branding/logo-large.svg" class="w-100 h-100 mb-5">
-        <div class="d-flex flex-column mb-2">
+      <div class="d-flex flex-column align-items-center">
+        <img 
+          src="assets/branding/logo-large.svg" 
+          class="w-75 mb-4 auth-logo"
+          alt="Logo"
+        >
+        
+        <div class="d-flex flex-column w-100">
           <ng-container *ngIf="isSignUp | async">
             <app-input
-              class="mb-1"
               appearance="outline"
-              label="Displayname"
+              label="Display Name"
               [inputFormControl]="form | formGet : 'displayname'"
             >
             </app-input>
           </ng-container>
+          
           <app-input
-            class="mb-1"
             appearance="outline"
             label="Username"
             [inputFormControl]="form | formGet : 'username'"
           >
           </app-input>
+          
           <app-input
-            class="mb-1"
             appearance="outline"
             label="Password"
             type="password"
@@ -43,13 +45,15 @@
           >
           </app-input>
         </div>
-        <div class="w-100 d-flex flex-column">
+
+        <div class="w-100 d-flex flex-column mt-4">
           <app-button
-            class="w-100 mb-1"
-            buttonClass="w-100 mb-2 auth-buttons"
+            class="w-100 mb-3"
+            buttonClass="w-100 auth-buttons"
             type="submit"
             [buttonText]="primaryButtonText"
           ></app-button>
+          
           <app-button
             *appFeature="'enableLocalSignUp'"
             class="w-100"

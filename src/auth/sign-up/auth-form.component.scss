@@ -1,13 +1,89 @@
+@use "sass:map";
+@import "src/variables.scss";
+
 app-auth-form {
   display: block;
   height: 100vh;
+  background: white;
+  position: relative;
+  overflow: hidden;
+
+  // Subtle decorative elements
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(135deg, 
+      rgba(map.get($primary-palette, 50), 0.4) 0%, 
+      rgba(map.get($primary-palette, 100), 0.4) 100%
+    );
+    border-radius: 50%;
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10%;
+    left: -10%;
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, 
+      rgba(map.get($primary-palette, 100), 0.3) 0%, 
+      rgba(map.get($primary-palette, 200), 0.3) 100%
+    );
+    border-radius: 50%;
+    z-index: 0;
+  }
+
+  .auth-container {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: $global-shadow;
+    border: 1px solid rgba(map.get($primary-palette, 200), 0.3);
+    width: 100%;
+    max-width: 420px;
+    margin: 0 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .auth-logo {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1);
+    }
+  }
 
   .auth-buttons {
     height: 50px;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $global-shadow;
+    }
+
+    &.mat-primary {
+      background-color: map.get($primary-palette, 600);
+    }
+
+    &.mat-accent {
+      background-color: map.get($accent-palette, 500);
+    }
   }
 
   .loading-gif {
-    height: 10%;
+    height: 80px;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
   }
 }
 
