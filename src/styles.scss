@@ -89,11 +89,13 @@ ngb-popover-window {
 }
 
 .mat-mdc-card {
-  box-shadow: $global-shadow !important;
+  @extend .glass-container;
+  padding: 24px;
+  margin-bottom: 24px;
 }
 
 .mat-mdc-raised-button {
-  box-shadow: $global-shadow !important;
+  @extend .glass-button;
 }
 
 .mat-mdc-dialog-container .mdc-dialog__surface {
@@ -128,4 +130,53 @@ h1, h2, h3 {
   margin: 0 !important;
 }
 
+/* Add these new global styles */
+.glass-container {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 4px 24px -1px rgba(0, 0, 0, 0.1),
+    0 0 1px 0 rgba(0, 0, 0, 0.05);
+}
 
+.glass-button {
+  height: 50px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  
+  &:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 
+      0 8px 16px -4px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.5);
+  }
+}
+
+body {
+  background: linear-gradient(125deg, 
+    rgba(map.get($primary-palette, 100), 0.4) 0%,
+    rgba(map.get($primary-palette, 200), 0.2) 50%,
+    rgba(map.get($primary-palette, 300), 0.4) 100%
+  );
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('/assets/noise.png'),
+              linear-gradient(125deg,
+                rgba(255, 255, 255, 0.4) 0%,
+                rgba(255, 255, 255, 0.1) 100%);
+  opacity: 0.7;
+  pointer-events: none;
+}

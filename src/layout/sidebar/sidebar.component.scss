@@ -144,4 +144,10 @@ app-sidebar {
     animation-duration: 0.2s;
     animation-fill-mode: forwards;
   }
+
+  .mat-drawer {
+    @extend .glass-container;
+    border-radius: 0 24px 24px 0;
+    border-left: none;
+  }
 }
