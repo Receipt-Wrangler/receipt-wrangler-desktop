@@ -114,6 +114,7 @@ export interface PagedDataDataInner {
     ranByUserId?: number;
     resultDescription?: string;
     childSystemTasks?: Array<SystemTask>;
+    asynqTaskId?: string;
     aiType?: AiType;
     /**
      * URL for custom endpoints
