@@ -58,6 +58,16 @@
     ></app-autocomlete>
   </app-form-section>
   <app-form-section
+    headerText="Asynq Settings"
+  >
+    <app-input
+      label="Asynq Concurrency"
+      type="number"
+      hint="The max amount of tasks that can be run concurrently"
+      [inputFormControl]="form | formGet:'asynqConcurrency'"
+    ></app-input>
+  </app-form-section>
+  <app-form-section
     headerText="Currency Format"
   >
     <div class="d-flex flex-column mb-3">

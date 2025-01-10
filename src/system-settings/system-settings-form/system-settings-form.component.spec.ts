@@ -81,6 +81,7 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: null,
       currencySymbolPosition: null,
       currencyHideDecimalPlaces: null,
+      asynqConcurrency: null
     });
   });
 
@@ -98,6 +99,7 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: true,
+      asynqConcurrency: 12
     };
 
     component.ngOnInit();
@@ -114,6 +116,7 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: true,
+      asynqConcurrency: 12
     });
   });
 
@@ -138,6 +141,7 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: false,
+      asynqConcurrency: "12"
     });
 
     component.submit();
@@ -154,6 +158,7 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: false,
+      asynqConcurrency: 12
     });
 
     expect(snackbarServiceSpy).toHaveBeenCalled();

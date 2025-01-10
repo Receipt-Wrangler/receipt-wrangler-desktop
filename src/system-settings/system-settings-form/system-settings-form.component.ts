@@ -20,7 +20,6 @@ import { SnackbarService } from "../../services";
 import { SetFeatureConfig } from "../../store";
 import { SetCurrencyData, SetCurrencyDisplay } from "../../store/system-settings.state.actions";
 
-
 @UntilDestroy()
 @Component({
   selector: "app-system-settings-form",
@@ -92,7 +91,8 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       currencySymbolPosition: [this.originalSystemSettings.currencySymbolPosition, [Validators.required]],
       currencyHideDecimalPlaces: [this.originalSystemSettings.currencyHideDecimalPlaces],
       receiptProcessingSettingsId: [this.originalSystemSettings?.receiptProcessingSettingsId],
-      fallbackReceiptProcessingSettingsId: [this.originalSystemSettings?.fallbackReceiptProcessingSettingsId]
+      fallbackReceiptProcessingSettingsId: [this.originalSystemSettings?.fallbackReceiptProcessingSettingsId],
+      asynqConcurrency: [this.originalSystemSettings?.asynqConcurrency, [Validators.min(0), Validators.required]]
     });
 
     if (this.inputReadonlyPipe.transform(this.formConfig.mode)) {
@@ -148,6 +148,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     const formValue = this.form.getRawValue();
     formValue["emailPollingInterval"] = Number.parseInt(formValue["emailPollingInterval"]);
     formValue["numWorkers"] = Number.parseInt(formValue["numWorkers"]);
+    formValue["asynqConcurrency"] = Number.parseInt(formValue["asynqConcurrency"]);
 
     this.systemSettingsService.updateSystemSettings(formValue)
       .pipe(
@@ -164,7 +165,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
             formValue["currencyDecimalSeparator"],
             formValue["currencyThousandthsSeparator"],
             formValue["currencyHideDecimalPlaces"]
-          )))
+          ))),
       )
       .subscribe();
   }
