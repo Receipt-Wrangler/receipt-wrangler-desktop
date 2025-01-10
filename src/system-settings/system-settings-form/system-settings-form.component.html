@@ -23,18 +23,6 @@
       [inputFormControl]="form | formGet:'debugOcr'"
       [readonly]="formConfig.mode |  inputReadonly"
     ></app-checkbox>
-    <app-input
-      label="Number of Workers"
-      type="number"
-      [readonly]="formConfig.mode | inputReadonly"
-      [inputFormControl]="form | formGet: 'numWorkers'"
-    ></app-input>
-    <app-input
-      label="Email polling interval (in seconds)"
-      type="number"
-      [inputFormControl]="form | formGet:'emailPollingInterval'"
-      [readonly]="formConfig.mode |  inputReadonly"
-    ></app-input>
     <app-autocomlete
       optionFilterKey="name"
       optionDisplayKey="name"
@@ -63,8 +51,14 @@
     <app-input
       label="Asynq Concurrency"
       type="number"
-      hint="The max amount of tasks that can be run concurrently"
+      hint="The max amount of tasks that can be run concurrently. 0 or Negative means max cpu cores available to the process."
       [inputFormControl]="form | formGet:'asynqConcurrency'"
+    ></app-input>
+    <app-input
+      label="Email polling interval (in seconds)"
+      type="number"
+      [inputFormControl]="form | formGet:'emailPollingInterval'"
+      [readonly]="formConfig.mode |  inputReadonly"
     ></app-input>
   </app-form-section>
   <app-form-section

@@ -11,6 +11,7 @@ import {
   CurrencySeparator,
   CurrencySymbolPosition,
   FeatureConfigService,
+  QueueName,
   ReceiptProcessingSettings,
   SystemSettings,
   SystemSettingsService
@@ -36,6 +37,8 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   public allReceiptProcessingSettings: ReceiptProcessingSettings[] = [];
 
   public filteredReceiptProcessingSettings: ReceiptProcessingSettings[] = [];
+
+  public queueNames = [QueueName.EmailPolling, QueueName.EmailPolling, QueueName.EmailReceiptImageCleanup, QueueName.QuickScan];
 
   public readonly symbolPositions: FormOption[] = [
     {
@@ -84,7 +87,6 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       enableLocalSignUp: [this.originalSystemSettings?.enableLocalSignUp],
       debugOcr: [this.originalSystemSettings?.debugOcr],
       emailPollingInterval: [this.originalSystemSettings?.emailPollingInterval, [Validators.required, Validators.min(0)]],
-      numWorkers: [this.originalSystemSettings?.numWorkers ?? 1, [Validators.required, Validators.min(1)]],
       currencyDisplay: [this.originalSystemSettings?.currencyDisplay],
       currencyThousandthsSeparator: [this.originalSystemSettings.currencyThousandthsSeparator, [Validators.required]],
       currencyDecimalSeparator: [this.originalSystemSettings.currencyDecimalSeparator, [Validators.required]],
@@ -147,7 +149,6 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   public submit(): void {
     const formValue = this.form.getRawValue();
     formValue["emailPollingInterval"] = Number.parseInt(formValue["emailPollingInterval"]);
-    formValue["numWorkers"] = Number.parseInt(formValue["numWorkers"]);
     formValue["asynqConcurrency"] = Number.parseInt(formValue["asynqConcurrency"]);
 
     this.systemSettingsService.updateSystemSettings(formValue)
