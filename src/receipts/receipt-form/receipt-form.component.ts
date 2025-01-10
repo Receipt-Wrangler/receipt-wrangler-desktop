@@ -50,8 +50,8 @@ export class ReceiptFormComponent implements OnInit {
   @ViewChild("paidByAutocomplete")
   public paidByAutocomplete!: UserAutocompleteComponent;
 
-  @ViewChild("successDuplciateSnackbar")
-  public successDuplciateSnackbar!: TemplateRef<any>;
+  @ViewChild("successDuplicateSnackbar")
+  public successDuplicateSnackbar!: TemplateRef<any>;
 
   @ViewChild("quickActionsDialog")
   public quickActionsDialog!: TemplateRef<any>;
@@ -489,7 +489,7 @@ export class ReceiptFormComponent implements OnInit {
         tap((r: Receipt) => {
           this.duplicatedReceiptId = r.id.toString();
           this.duplicatedSnackbarRef = this.snackbarService.successFromTemplate(
-            this.successDuplciateSnackbar,
+            this.successDuplicateSnackbar,
             { duration: 8000 }
           );
         })
