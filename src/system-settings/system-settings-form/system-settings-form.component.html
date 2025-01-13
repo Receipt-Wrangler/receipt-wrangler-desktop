@@ -60,6 +60,14 @@
       [inputFormControl]="form | formGet:'emailPollingInterval'"
       [readonly]="formConfig.mode |  inputReadonly"
     ></app-input>
+    <ng-container *ngFor="let data of queueData">
+      <ng-template
+        [ngTemplateOutlet]="queueCard"
+        [ngTemplateOutletContext]="{
+        queueData: data,
+        }"
+      ></ng-template>
+    </ng-container>
   </app-form-section>
   <app-form-section
     headerText="Currency Format"
@@ -118,4 +126,28 @@
     color="accent"
     [buttonRouterLink]="['/system-settings/settings', 'edit']"
   ></app-edit-button>
+</ng-template>
+
+<ng-template
+  #queueCard
+  let-queueData="queueData"
+>
+  <div class="mb-2">
+    <app-card>
+      <ng-container header>
+        {{ queueData.displayValue }}
+      </ng-container>
+      <ng-container content>
+        <small>{{ queueData.description }}</small>
+        <div class="mt-2">
+          <app-input
+            label="Priority"
+            type="number"
+            [readonly]="formConfig.mode |  inputReadonly"
+            [inputFormControl]="form | asynqQueueFormControl:queueData.value: 'priority'"
+          ></app-input>
+        </div>
+      </ng-container>
+    </app-card>
+  </div>
 </ng-template>

@@ -60,7 +60,7 @@ export interface SystemSettings {
      * Concurrency for asynq worker
      */
     asynqConcurrency?: number;
-    asynqQueueConfigurations?: Array<AsynqQueueConfiguration>;
+    asynqQueueConfigurations: Array<AsynqQueueConfiguration>;
 }
 export namespace SystemSettings {
 }

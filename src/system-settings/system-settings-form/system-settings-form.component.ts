@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
@@ -21,6 +21,10 @@ import { SnackbarService } from "../../services";
 import { SetFeatureConfig } from "../../store";
 import { SetCurrencyData, SetCurrencyDisplay } from "../../store/system-settings.state.actions";
 
+interface QueueData extends FormOption {
+  description: string;
+}
+
 @UntilDestroy()
 @Component({
   selector: "app-system-settings-form",
@@ -38,7 +42,28 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
 
   public filteredReceiptProcessingSettings: ReceiptProcessingSettings[] = [];
 
-  public queueNames = [QueueName.EmailPolling, QueueName.EmailPolling, QueueName.EmailReceiptImageCleanup, QueueName.QuickScan];
+  public readonly queueData: QueueData[] = [
+    {
+      value: QueueName.EmailPolling,
+      displayValue: "Email Polling",
+      description: "Polls system emails for receipts to process"
+    },
+    {
+      value: QueueName.EmailReceiptProcessing,
+      displayValue: "Email Receipt Processing",
+      description: "Processing of captured emails"
+    },
+    {
+      value: QueueName.EmailReceiptImageCleanup,
+      displayValue: "Email Receipt Image Cleanup",
+      description: "Cleans up email receipt images after all processing is done"
+    },
+    {
+      value: QueueName.QuickScan,
+      displayValue: "Quick Scan",
+      description: "Processes quick scan receipts"
+    }
+  ];
 
   public readonly symbolPositions: FormOption[] = [
     {
@@ -94,7 +119,8 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       currencyHideDecimalPlaces: [this.originalSystemSettings.currencyHideDecimalPlaces],
       receiptProcessingSettingsId: [this.originalSystemSettings?.receiptProcessingSettingsId],
       fallbackReceiptProcessingSettingsId: [this.originalSystemSettings?.fallbackReceiptProcessingSettingsId],
-      asynqConcurrency: [this.originalSystemSettings?.asynqConcurrency, [Validators.min(0), Validators.required]]
+      asynqConcurrency: [this.originalSystemSettings?.asynqConcurrency, [Validators.min(0), Validators.required]],
+      asynqQueueConfigurations: this.formBuilder.array(this.buildAsynqQueueConfigurations())
     });
 
     if (this.inputReadonlyPipe.transform(this.formConfig.mode)) {
@@ -108,6 +134,16 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
 
     this.listenForReceiptProcessingSettingsChanges();
     this.listenForHideDecimalPlacesChanges();
+  }
+
+  // TODO: finish implementing UI for asynqQueueConfigurations
+  private buildAsynqQueueConfigurations(): FormGroup[] {
+    return this.originalSystemSettings.asynqQueueConfigurations.map(config => {
+      return this.formBuilder.group({
+        name: [config.name],
+        priority: [config.priority],
+      });
+    });
   }
 
   private listenForReceiptProcessingSettingsChanges(): void {
@@ -150,6 +186,9 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     const formValue = this.form.getRawValue();
     formValue["emailPollingInterval"] = Number.parseInt(formValue["emailPollingInterval"]);
     formValue["asynqConcurrency"] = Number.parseInt(formValue["asynqConcurrency"]);
+    (formValue["asynqQueueConfigurations"] as Array<any>).forEach(config => {
+      config.priority = Number.parseInt(config.priority);
+    });
 
     this.systemSettingsService.updateSystemSettings(formValue)
       .pipe(
@@ -170,4 +209,6 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       )
       .subscribe();
   }
+
+  protected readonly QueueName = QueueName;
 }
