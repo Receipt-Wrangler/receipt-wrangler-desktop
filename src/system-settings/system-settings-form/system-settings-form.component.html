@@ -60,14 +60,18 @@
       [inputFormControl]="form | formGet:'emailPollingInterval'"
       [readonly]="formConfig.mode |  inputReadonly"
     ></app-input>
-    <ng-container *ngFor="let data of queueData">
-      <ng-template
-        [ngTemplateOutlet]="queueCard"
-        [ngTemplateOutletContext]="{
+    <app-form-section
+      headerText="Asynq Queue Configuration"
+    >
+      <ng-container *ngFor="let data of queueData">
+        <ng-template
+          [ngTemplateOutlet]="queueCard"
+          [ngTemplateOutletContext]="{
         queueData: data,
         }"
-      ></ng-template>
-    </ng-container>
+        ></ng-template>
+      </ng-container>
+    </app-form-section>
   </app-form-section>
   <app-form-section
     headerText="Currency Format"
@@ -143,6 +147,7 @@
           <app-input
             label="Priority"
             type="number"
+            hint="Higher the value means higher the priority."
             [readonly]="formConfig.mode |  inputReadonly"
             [inputFormControl]="form | asynqQueueFormControl:queueData.value: 'priority'"
           ></app-input>
