@@ -111,7 +111,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     this.setFormConfigFromRoute(this.activatedRoute);
     this.allReceiptProcessingSettings = this.activatedRoute.snapshot.data?.["allReceiptProcessingSettings"];
     this.originalSystemSettings = this.activatedRoute.snapshot.data?.["systemSettings"];
-    this.showRestartTaskServerAlert = this.activatedRoute.snapshot.queryParams["restartTaskServer"] === "true";
+    this.showRestartTaskServerAlert = this.activatedRoute.snapshot?.queryParams?.["restartTaskServer"] === "true";
     this.initForm();
   }
 
@@ -156,7 +156,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
 
   // TODO: finish implementing UI for asynqQueueConfigurations
   private buildAsynqQueueConfigurations(): FormGroup[] {
-    return this.originalSystemSettings.asynqQueueConfigurations.map(config => {
+    return (this.originalSystemSettings?.asynqQueueConfigurations ?? []).map(config => {
       return this.formBuilder.group({
         name: [config.name],
         priority: [config.priority],
