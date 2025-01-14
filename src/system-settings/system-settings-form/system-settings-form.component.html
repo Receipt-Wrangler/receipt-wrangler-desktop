@@ -46,10 +46,11 @@
     ></app-autocomlete>
   </app-form-section>
   <app-form-section
-    headerText="Asynq Settings"
+    headerText="Task Server Settings"
+    [headerButtonsTemplate]="taskServerSettingsHeaderButtons"
   >
     <app-input
-      label="Asynq Concurrency"
+      label="Task Concurrency"
       type="number"
       hint="The max amount of tasks that can be run concurrently. 0 or Negative means max cpu cores available to the process."
       [inputFormControl]="form | formGet:'asynqConcurrency'"
@@ -155,4 +156,12 @@
       </ng-container>
     </app-card>
   </div>
+</ng-template>
+
+<ng-template #taskServerSettingsHeaderButtons>
+  <app-button
+    matButtonType="iconButton"
+    icon="restart_alt"
+    color="accent"
+  ></app-button>
 </ng-template>

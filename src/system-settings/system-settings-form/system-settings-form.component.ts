@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
@@ -182,6 +182,21 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     return this.allReceiptProcessingSettings.find((rps) => rps.id === id)?.name ?? "";
   }
 
+  private setRequiresRestart(): void {
+    let requiresRestart = this.originalSystemSettings.asynqConcurrency !== this.form.get("asynqConcurrency")?.value;
+    for (let i = 0; i < this.originalSystemSettings.asynqQueueConfigurations.length; i++) {
+      const originalConfig = this.originalSystemSettings.asynqQueueConfigurations[i];
+      const formConfig = (this.form.get("asynqQueueConfigurations") as FormArray).controls.find((control) => control.get("name")?.value === originalConfig.name);
+
+      if (originalConfig.priority !== formConfig?.get("priority")?.value) {
+        requiresRestart = true;
+        break;
+      }
+    }
+
+    console.warn(requiresRestart);
+  }
+
   public submit(): void {
     const formValue = this.form.getRawValue();
     formValue["emailPollingInterval"] = Number.parseInt(formValue["emailPollingInterval"]);
@@ -189,6 +204,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     (formValue["asynqQueueConfigurations"] as Array<any>).forEach(config => {
       config.priority = Number.parseInt(config.priority);
     });
+    this.setRequiresRestart();
 
     this.systemSettingsService.updateSystemSettings(formValue)
       .pipe(
