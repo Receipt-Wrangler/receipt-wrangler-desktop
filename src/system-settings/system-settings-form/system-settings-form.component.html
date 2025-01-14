@@ -2,6 +2,10 @@
   [headerText]="formConfig.headerText"
   [headerButtonsTemplate]="headerButtons"
 ></app-form-header>
+@if (showRestartTaskServerAlert) {
+  alert!
+}
+
 <app-audit-detail-section
   *ngIf="formConfig.mode != FormMode.add"
   [data]="originalSystemSettings"
@@ -163,5 +167,7 @@
     matButtonType="iconButton"
     icon="restart_alt"
     color="accent"
+    tooltip="Restart Task Server"
+    (clicked)="restartTaskServer()"
   ></app-button>
 </ng-template>

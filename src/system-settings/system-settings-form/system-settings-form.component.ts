@@ -42,6 +42,8 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
 
   public filteredReceiptProcessingSettings: ReceiptProcessingSettings[] = [];
 
+  public showRestartTaskServerAlert = false;
+
   public readonly queueData: QueueData[] = [
     {
       value: QueueName.EmailPolling,
@@ -104,6 +106,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     this.setFormConfigFromRoute(this.activatedRoute);
     this.allReceiptProcessingSettings = this.activatedRoute.snapshot.data?.["allReceiptProcessingSettings"];
     this.originalSystemSettings = this.activatedRoute.snapshot.data?.["systemSettings"];
+    this.showRestartTaskServerAlert = this.activatedRoute.snapshot.queryParams["restartTaskServer"] === "true";
     this.initForm();
   }
 
@@ -182,7 +185,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     return this.allReceiptProcessingSettings.find((rps) => rps.id === id)?.name ?? "";
   }
 
-  private setRequiresRestart(): void {
+  private doesTaskServerRequiresRestart(): boolean {
     let requiresRestart = this.originalSystemSettings.asynqConcurrency !== this.form.get("asynqConcurrency")?.value;
     for (let i = 0; i < this.originalSystemSettings.asynqQueueConfigurations.length; i++) {
       const originalConfig = this.originalSystemSettings.asynqQueueConfigurations[i];
@@ -194,7 +197,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       }
     }
 
-    console.warn(requiresRestart);
+    return requiresRestart;
   }
 
   public submit(): void {
@@ -204,14 +207,18 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     (formValue["asynqQueueConfigurations"] as Array<any>).forEach(config => {
       config.priority = Number.parseInt(config.priority);
     });
-    this.setRequiresRestart();
+    const restartTaskServer = this.doesTaskServerRequiresRestart();
 
     this.systemSettingsService.updateSystemSettings(formValue)
       .pipe(
         take(1),
         tap(() => {
           this.snackbarService.success("System settings updated successfully");
-          this.router.navigate(["/system-settings/settings/view"]);
+          this.router.navigate(["/system-settings/settings/view"], {
+            queryParams: {
+              restartTaskServer: restartTaskServer
+            }
+          });
         }),
         switchMap(() => this.featureConfigService.getFeatureConfig()),
         tap((featureConfig) => this.store.dispatch(new SetFeatureConfig(featureConfig))),
@@ -226,5 +233,10 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       .subscribe();
   }
 
-  protected readonly QueueName = QueueName;
+  public restartTaskServer(): void {
+    this.systemSettingsService.restartTaskServer().pipe(take(1), tap(() => {
+      this.snackbarService.success("Task server restarted successfully");
+    })).subscribe();
+  }
+
 }
