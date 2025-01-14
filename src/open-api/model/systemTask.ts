@@ -30,7 +30,6 @@ export interface SystemTask {
     ranByUserId?: number;
     resultDescription?: string;
     childSystemTasks?: Array<SystemTask>;
-    asynqTaskId?: string;
 }
 export namespace SystemTask {
 }

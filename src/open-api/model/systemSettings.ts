@@ -8,7 +8,7 @@
  * Do not edit the class manually.
  */
 import { CurrencySeparator } from './currencySeparator';
-import { AsynqQueueConfiguration } from './asynqQueueConfiguration';
+import { TaskQueueConfiguration } from './taskQueueConfiguration';
 import { CurrencySymbolPosition } from './currencySymbolPosition';
 
 
@@ -57,10 +57,10 @@ export interface SystemSettings {
      */
     fallbackReceiptProcessingSettingsId?: number;
     /**
-     * Concurrency for asynq worker
+     * Concurrency for task worker
      */
-    asynqConcurrency?: number;
-    asynqQueueConfigurations: Array<AsynqQueueConfiguration>;
+    taskConcurrency?: number;
+    taskQueueConfigurations: Array<TaskQueueConfiguration>;
 }
 export namespace SystemSettings {
 }

@@ -30,7 +30,6 @@ model/aiType.ts
 model/appData.ts
 model/associatedEntityType.ts
 model/associatedGroup.ts
-model/asynqQueueConfiguration.ts
 model/baseModel.ts
 model/bulkStatusUpdateCommand.ts
 model/category.ts
@@ -90,11 +89,11 @@ model/systemTaskStatus.ts
 model/systemTaskType.ts
 model/tag.ts
 model/tagView.ts
+model/taskQueueConfiguration.ts
 model/tokenPair.ts
 model/updateGroupReceiptSettingsCommand.ts
 model/updateGroupSettingsCommand.ts
 model/updateProfileCommand.ts
-model/upsertAsynqQueueConfiguration.ts
 model/upsertCategoryCommand.ts
 model/upsertCommentCommand.ts
 model/upsertDashboardCommand.ts
@@ -107,6 +106,7 @@ model/upsertReceiptProcessingSettingsCommand.ts
 model/upsertSystemEmailCommand.ts
 model/upsertSystemSettingsCommand.ts
 model/upsertTagCommand.ts
+model/upsertTaskQueueConfiguration.ts
 model/upsertWidgetCommand.ts
 model/user.ts
 model/userPreferences.ts

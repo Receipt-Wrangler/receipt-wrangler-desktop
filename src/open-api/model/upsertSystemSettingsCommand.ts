@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { UpsertAsynqQueueConfiguration } from './upsertAsynqQueueConfiguration';
+import { UpsertTaskQueueConfiguration } from './upsertTaskQueueConfiguration';
 import { CurrencySeparator } from './currencySeparator';
 import { CurrencySymbolPosition } from './currencySymbolPosition';
 
@@ -46,10 +46,10 @@ export interface UpsertSystemSettingsCommand {
      */
     fallbackReceiptProcessingSettingsId?: number;
     /**
-     * Concurrency for asynq worker
+     * Concurrency for task worker
      */
-    asynqConcurrency: number;
-    asynqQueueConfigurations?: Array<UpsertAsynqQueueConfiguration>;
+    taskConcurrency: number;
+    taskQueueConfigurations?: Array<UpsertTaskQueueConfiguration>;
 }
 export namespace UpsertSystemSettingsCommand {
 }

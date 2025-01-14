@@ -137,8 +137,8 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
       currencyHideDecimalPlaces: [this.originalSystemSettings.currencyHideDecimalPlaces],
       receiptProcessingSettingsId: [this.originalSystemSettings?.receiptProcessingSettingsId],
       fallbackReceiptProcessingSettingsId: [this.originalSystemSettings?.fallbackReceiptProcessingSettingsId],
-      asynqConcurrency: [this.originalSystemSettings?.asynqConcurrency, [Validators.min(0), Validators.required]],
-      asynqQueueConfigurations: this.formBuilder.array(this.buildAsynqQueueConfigurations())
+      taskConcurrency: [this.originalSystemSettings?.taskConcurrency, [Validators.min(0), Validators.required]],
+      taskQueueConfigurations: this.formBuilder.array(this.buildAsynqQueueConfigurations())
     });
 
     if (this.inputReadonlyPipe.transform(this.formConfig.mode)) {
@@ -154,9 +154,9 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     this.listenForHideDecimalPlacesChanges();
   }
 
-  // TODO: finish implementing UI for asynqQueueConfigurations
+  // TODO: finish implementing UI for taskQueueConfigurations
   private buildAsynqQueueConfigurations(): FormGroup[] {
-    return (this.originalSystemSettings?.asynqQueueConfigurations ?? []).map(config => {
+    return (this.originalSystemSettings?.taskQueueConfigurations ?? []).map(config => {
       return this.formBuilder.group({
         name: [config.name],
         priority: [config.priority],
@@ -201,10 +201,10 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   }
 
   private doesTaskServerRequiresRestart(): boolean {
-    let requiresRestart = this.originalSystemSettings.asynqConcurrency !== this.form.get("asynqConcurrency")?.value;
-    for (let i = 0; i < this.originalSystemSettings.asynqQueueConfigurations.length; i++) {
-      const originalConfig = this.originalSystemSettings.asynqQueueConfigurations[i];
-      const formConfig = (this.form.get("asynqQueueConfigurations") as FormArray).controls.find((control) => control.get("name")?.value === originalConfig.name);
+    let requiresRestart = this.originalSystemSettings.taskConcurrency !== this.form.get("taskConcurrency")?.value;
+    for (let i = 0; i < this.originalSystemSettings.taskQueueConfigurations.length; i++) {
+      const originalConfig = this.originalSystemSettings.taskQueueConfigurations[i];
+      const formConfig = (this.form.get("taskQueueConfigurations") as FormArray).controls.find((control) => control.get("name")?.value === originalConfig.name);
 
       if (originalConfig.priority !== formConfig?.get("priority")?.value) {
         requiresRestart = true;
@@ -218,8 +218,8 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   public submit(): void {
     const formValue = this.form.getRawValue();
     formValue["emailPollingInterval"] = Number.parseInt(formValue["emailPollingInterval"]);
-    formValue["asynqConcurrency"] = Number.parseInt(formValue["asynqConcurrency"]);
-    (formValue["asynqQueueConfigurations"] as Array<any>).forEach(config => {
+    formValue["taskConcurrency"] = Number.parseInt(formValue["taskConcurrency"]);
+    (formValue["taskQueueConfigurations"] as Array<any>).forEach(config => {
       config.priority = Number.parseInt(config.priority);
     });
     const restartTaskServer = this.doesTaskServerRequiresRestart();
@@ -257,5 +257,4 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
         },
       )).subscribe();
   }
-
 }
