@@ -1,5 +1,8 @@
 <div
-  class="d-flex"
+  class="d-flex flex-column alert-container p-3"
+  [ngClass]="{
+  'warning-background': type === 'warning',
+  }"
 >
   <ng-container [ngSwitch]="type">
     <ng-container *ngSwitchCase="'warning'" [ngTemplateOutlet]="warningHeader"></ng-container>
@@ -10,5 +13,8 @@
 <ng-template
   #warningHeader
 >
-  warning!
+  <div class="d-flex align-items-center warning-header mb-1">
+    <mat-icon>warning</mat-icon>
+    <strong>Warning</strong>
+  </div>
 </ng-template>

@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
 import { startWith, switchMap, take, tap } from "rxjs";
+import { fadeInOut } from "../../animations/index";
 import { AutocomleteComponent } from "../../autocomplete/autocomlete/autocomlete.component";
 import { BaseFormComponent } from "../../form";
 import { FormOption } from "../../interfaces/form-option.interface";
@@ -30,11 +31,15 @@ interface QueueData extends FormOption {
   selector: "app-system-settings-form",
   templateUrl: "./system-settings-form.component.html",
   styleUrl: "./system-settings-form.component.scss",
-  providers: [InputReadonlyPipe]
+  providers: [InputReadonlyPipe],
+  animations: [fadeInOut],
 })
-export class SystemSettingsFormComponent extends BaseFormComponent implements OnInit {
+export class SystemSettingsFormComponent extends BaseFormComponent implements OnInit, AfterViewInit {
   @ViewChild("fallbackReceiptProcessingSettings")
   public fallbackReceiptProcessingSettings!: AutocomleteComponent;
+
+  @ViewChild("alert", { static: false, read: ElementRef })
+  public alert!: ElementRef;
 
   public originalSystemSettings!: SystemSettings;
 
@@ -97,7 +102,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     private snackbarService: SnackbarService,
     private store: Store,
     private systemSettingsService: SystemSettingsService,
-    private inputReadonlyPipe: InputReadonlyPipe
+    private inputReadonlyPipe: InputReadonlyPipe,
   ) {
     super();
   }
@@ -108,6 +113,16 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
     this.originalSystemSettings = this.activatedRoute.snapshot.data?.["systemSettings"];
     this.showRestartTaskServerAlert = this.activatedRoute.snapshot.queryParams["restartTaskServer"] === "true";
     this.initForm();
+  }
+
+  public ngAfterViewInit(): void {
+    setTimeout(() => {
+
+      if (this.showRestartTaskServerAlert) {
+        this.alert.nativeElement.scrollIntoView({ behavior: "smooth" });
+      }
+
+    }, 0);
   }
 
   private initForm(): void {
@@ -234,9 +249,13 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
   }
 
   public restartTaskServer(): void {
-    this.systemSettingsService.restartTaskServer().pipe(take(1), tap(() => {
-      this.snackbarService.success("Task server restarted successfully");
-    })).subscribe();
+    this.systemSettingsService.restartTaskServer().pipe(
+      take(1),
+      tap(() => {
+          this.snackbarService.success("Task server restarted successfully");
+          this.showRestartTaskServerAlert = false;
+        },
+      )).subscribe();
   }
 
 }

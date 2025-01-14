@@ -2,10 +2,17 @@
   [headerText]="formConfig.headerText"
   [headerButtonsTemplate]="headerButtons"
 ></app-form-header>
+
 @if (showRestartTaskServerAlert) {
-  <app-alert
-    type="warning"
-  ></app-alert>
+  <div class="m-2">
+    <app-alert
+      #alert
+      class="scroll-snap"
+      @fadeInOut
+      type="warning"
+      message="Please restart the task server for the changes to take effect."
+    ></app-alert>
+  </div>
 }
 
 <app-audit-detail-section
