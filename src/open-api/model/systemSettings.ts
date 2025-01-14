@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { CurrencySeparator } from './currencySeparator';
+import { TaskQueueConfiguration } from './taskQueueConfiguration';
 import { CurrencySymbolPosition } from './currencySymbolPosition';
 
 
@@ -55,6 +56,11 @@ export interface SystemSettings {
      * Fallback receipt processing settings foreign key
      */
     fallbackReceiptProcessingSettingsId?: number;
+    /**
+     * Concurrency for task worker
+     */
+    taskConcurrency?: number;
+    taskQueueConfigurations: Array<TaskQueueConfiguration>;
 }
 export namespace SystemSettings {
 }

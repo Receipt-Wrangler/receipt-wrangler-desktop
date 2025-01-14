@@ -51,6 +51,7 @@ model/getSystemTaskCommand.ts
 model/group.ts
 model/groupFilter.ts
 model/groupMember.ts
+model/groupReceiptSettings.ts
 model/groupRole.ts
 model/groupSettings.ts
 model/groupSettingsWhiteListEmail.ts
@@ -70,6 +71,7 @@ model/pagedDataDataInner.ts
 model/pagedGroupRequestCommand.ts
 model/pagedRequestCommand.ts
 model/prompt.ts
+model/queueName.ts
 model/receipt.ts
 model/receiptPagedRequestCommand.ts
 model/receiptPagedRequestFilter.ts
@@ -87,7 +89,9 @@ model/systemTaskStatus.ts
 model/systemTaskType.ts
 model/tag.ts
 model/tagView.ts
+model/taskQueueConfiguration.ts
 model/tokenPair.ts
+model/updateGroupReceiptSettingsCommand.ts
 model/updateGroupSettingsCommand.ts
 model/updateProfileCommand.ts
 model/upsertCategoryCommand.ts
@@ -102,6 +106,7 @@ model/upsertReceiptProcessingSettingsCommand.ts
 model/upsertSystemEmailCommand.ts
 model/upsertSystemSettingsCommand.ts
 model/upsertTagCommand.ts
+model/upsertTaskQueueConfiguration.ts
 model/upsertWidgetCommand.ts
 model/user.ts
 model/userPreferences.ts
