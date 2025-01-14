@@ -3,7 +3,9 @@
   [headerButtonsTemplate]="headerButtons"
 ></app-form-header>
 @if (showRestartTaskServerAlert) {
-  alert!
+  <app-alert
+    type="warning"
+  ></app-alert>
 }
 
 <app-audit-detail-section

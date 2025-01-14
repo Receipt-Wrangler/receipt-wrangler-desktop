@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatButton } from "@angular/material/button";
 import { MatHint } from "@angular/material/form-field";
+import { AlertComponent } from "../alert/alert.component";
 import { AutocompleteModule } from "../autocomplete/autocomplete.module";
 import { ButtonModule } from "../button";
 import { CheckboxModule } from "../checkbox/checkbox.module";
@@ -47,6 +48,7 @@ import { SystemSettingsComponent } from "./system-settings/system-settings.compo
     MatButton,
     SelectModule,
     MatHint,
+    AlertComponent,
   ]
 })
 export class SystemSettingsModule {

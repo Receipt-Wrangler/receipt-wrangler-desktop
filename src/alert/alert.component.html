@@ -1,0 +1,14 @@
+<div
+  class="d-flex"
+>
+  <ng-container [ngSwitch]="type">
+    <ng-container *ngSwitchCase="'warning'" [ngTemplateOutlet]="warningHeader"></ng-container>
+  </ng-container>
+  {{ message }}
+</div>
+
+<ng-template
+  #warningHeader
+>
+  warning!
+</ng-template>
