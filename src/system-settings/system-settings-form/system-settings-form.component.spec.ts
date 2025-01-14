@@ -15,7 +15,7 @@ import { CustomCurrencyPipe } from "../../pipes/custom-currency.pipe";
 import { SnackbarService } from "../../services";
 import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 import { SystemSettingsState } from "../../store/system-settings.state";
-import { AsynqQueueFormControlPipe } from "../pipes/asynq-queue-form-control.pipe";
+import { TaskQueueFormControlPipe } from "../pipes/task-queue-form-control.pipe";
 
 import { SystemSettingsFormComponent } from "./system-settings-form.component";
 
@@ -26,7 +26,7 @@ describe("SystemSettingsFormComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SystemSettingsFormComponent, CustomCurrencyPipe, AsynqQueueFormControlPipe],
+      declarations: [SystemSettingsFormComponent, CustomCurrencyPipe, TaskQueueFormControlPipe],
       imports: [
         AutocompleteModule,
         CheckboxModule,
@@ -81,8 +81,8 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: null,
       currencySymbolPosition: null,
       currencyHideDecimalPlaces: null,
-      asynqConcurrency: null,
-      asynqQueueConfigurations: []
+      taskConcurrency: null,
+      taskQueueConfigurations: []
     });
   });
 
@@ -99,8 +99,8 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: true,
-      asynqConcurrency: 12,
-      asynqQueueConfigurations: [{
+      taskConcurrency: 12,
+      taskQueueConfigurations: [{
         name: QueueName.QuickScan,
         priority: 1,
       }]
@@ -119,8 +119,8 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: true,
-      asynqConcurrency: 12,
-      asynqQueueConfigurations: [{
+      taskConcurrency: 12,
+      taskQueueConfigurations: [{
         name: QueueName.QuickScan,
         priority: 1,
       }]
@@ -136,7 +136,7 @@ describe("SystemSettingsFormComponent", () => {
     const snackbarServiceSpy = spyOn(snackbarService, "success");
     const routerSpy = spyOn(router, "navigate");
 
-    component.originalSystemSettings.asynqQueueConfigurations = [{
+    component.originalSystemSettings.taskQueueConfigurations = [{
       name: QueueName.QuickScan,
       priority: "1",
     } as any];
@@ -152,11 +152,11 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: false,
-      asynqConcurrency: "12",
-      asynqQueueConfigurations: []
+      taskConcurrency: "12",
+      taskQueueConfigurations: []
     });
 
-    (component.form.get("asynqQueueConfigurations") as FormArray).push(
+    (component.form.get("taskQueueConfigurations") as FormArray).push(
       new FormGroup({
         name: new FormControl(QueueName.QuickScan),
         priority: new FormControl("1"),
@@ -176,8 +176,8 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: false,
-      asynqConcurrency: 12,
-      asynqQueueConfigurations: [
+      taskConcurrency: 12,
+      taskQueueConfigurations: [
         {
           name: QueueName.QuickScan,
           priority: 1,
