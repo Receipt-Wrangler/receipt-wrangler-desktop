@@ -13,6 +13,7 @@ import { GroupMember } from './groupMember';
 import { Category } from './category';
 import { Receipt } from './receipt';
 import { SystemTaskType } from './systemTaskType';
+import { Activity } from './activity';
 import { ReceiptProcessingSettings } from './receiptProcessingSettings';
 import { Item } from './item';
 import { GroupReceiptSettings } from './groupReceiptSettings';
@@ -106,14 +107,14 @@ export interface PagedDataDataInner {
      * Number of receipts associated with this tag
      */
     numberOfReceipts: number;
-    type?: SystemTaskType;
-    startedAt?: string;
-    endedAt?: string;
+    type: SystemTaskType;
+    startedAt: string;
+    endedAt: string;
     associatedEntityId?: number;
     associatedEntityType?: AssociatedEntityType;
-    ranByUserId?: number;
+    ranByUserId: number;
     resultDescription?: string;
-    childSystemTasks?: Array<SystemTask>;
+    childSystemTasks: Array<SystemTask>;
     aiType?: AiType;
     /**
      * URL for custom endpoints
@@ -152,6 +153,7 @@ export interface PagedDataDataInner {
      * IMAP password
      */
     password?: string;
+    canBeRestarted?: boolean;
 }
 export namespace PagedDataDataInner {
 }

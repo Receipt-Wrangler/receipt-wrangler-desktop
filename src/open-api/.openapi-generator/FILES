@@ -26,6 +26,7 @@ encoder.ts
 git_push.sh
 index.ts
 model/about.ts
+model/activity.ts
 model/aiType.ts
 model/appData.ts
 model/associatedEntityType.ts
@@ -66,6 +67,7 @@ model/magicFillCommand.ts
 model/models.ts
 model/notification.ts
 model/ocrEngine.ts
+model/pagedActivityRequestCommand.ts
 model/pagedData.ts
 model/pagedDataDataInner.ts
 model/pagedGroupRequestCommand.ts
