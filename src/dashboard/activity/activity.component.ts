@@ -41,7 +41,6 @@ export class ActivityComponent implements OnInit {
       .pipe(
         take(1),
         tap((data) => {
-          console.warn(data);
         })
       )
       .subscribe();
