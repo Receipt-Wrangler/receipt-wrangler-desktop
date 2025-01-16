@@ -1,0 +1,24 @@
+app-dashboard-list {
+  .default-size {
+    overflow-y: scroll;
+    max-height: 25vh !important;
+  }
+
+  .item-size {
+    height: 67px !important;
+  }
+
+  .scroll-container {
+    height: 100vh !important;
+  }
+
+  .content-container {
+    display: block;
+    height: 100%;
+  }
+
+  .item-link {
+    text-decoration: none;
+    color: black;
+  }
+}
