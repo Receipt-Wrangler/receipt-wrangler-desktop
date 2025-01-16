@@ -1,7 +1,6 @@
 import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation, } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
 import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../open-api";
@@ -9,7 +8,7 @@ import { GroupRolePipe } from "../../pipes/group-role.pipe";
 
 @UntilDestroy()
 @Component({
-  selector: "app-filtered-receipts",
+  selector: "/app-filtered-receipts",
   templateUrl: "./filtered-receipts.component.html",
   styleUrls: ["./filtered-receipts.component.scss"],
   providers: [GroupRolePipe],
@@ -32,7 +31,6 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private receiptFilterService: ReceiptFilterService,
-    private store: Store,
   ) {}
 
   public ngOnInit(): void {

@@ -13,6 +13,12 @@
           [groupId]="selectedDashboard?.groupId"
         ></app-filtered-receipts>
       </div>
+      <div *ngSwitchCase="widgetType.GroupActivity">
+        <app-activity
+          [widget]="widget"
+          [groupId]="selectedDashboard?.groupId"
+        ></app-activity>
+      </div>
     </div>
   </div>
 </div>
