@@ -8,6 +8,7 @@ import { MatListModule } from "@angular/material/list";
 import { CheckboxModule } from "src/checkbox/checkbox.module";
 import { PipesModule } from "src/pipes/pipes.module";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
+import { AvatarModule } from "../avatar/index";
 import { ButtonModule } from "../button/index";
 import { InputModule } from "../input";
 import { SelectModule } from "../select/select.module";
@@ -47,6 +48,7 @@ import { WidgetTypePipe } from "./widget-type.pipe";
     ButtonModule,
     SelectModule,
     SystemTaskTypePipe,
+    AvatarModule,
   ],
   exports: [
     WidgetTypePipe

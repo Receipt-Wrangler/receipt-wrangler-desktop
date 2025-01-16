@@ -6,6 +6,7 @@
     <app-dashboard-list
       noItemFoundText="No activity found"
       [items]="activities"
+      [itemAvatarTemplate]="itemAvatarTemplate"
       [itemHeaderTemplate]="itemHeaderTemplate"
       [itemLineTemplate]="itemLineTemplate"
       (endOfListReached)="endOfListReached()"
@@ -18,6 +19,12 @@
 </ng-template>
 <ng-template #itemLineTemplate let-item=item>
   {{ item.resultDescription }}
+</ng-template>
+
+<ng-template #itemAvatarTemplate let-item=item>
+  <app-avatar
+    [user]="item.ranByUserId | user"
+  ></app-avatar>
 </ng-template>
 
 
