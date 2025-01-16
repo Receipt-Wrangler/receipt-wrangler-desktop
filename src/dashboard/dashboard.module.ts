@@ -11,14 +11,15 @@ import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 import { ButtonModule } from "../button/index";
 import { InputModule } from "../input";
 import { SelectModule } from "../select/select.module";
+import { SystemTaskTypePipe } from "../shared-ui/task-table/system-task-type.pipe";
+import { ActivityComponent } from "./activity/activity.component";
 import { DashboardFormComponent } from "./dashboard-form/dashboard-form.component";
+import { DashboardListComponent } from "./dashboard-list/dashboard-list.component";
 import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { FilteredReceiptsComponent } from "./filtered-receipts/filtered-receipts.component";
 import { GroupDashboardsComponent } from "./group-dashboards/group-dashboards.component";
 import { WidgetTypePipe } from "./widget-type.pipe";
-import { ActivityComponent } from './activity/activity.component';
-import { DashboardListComponent } from './dashboard-list/dashboard-list.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { DashboardListComponent } from './dashboard-list/dashboard-list.componen
     SharedUiModule,
     ButtonModule,
     SelectModule,
+    SystemTaskTypePipe,
   ],
   exports: [
     WidgetTypePipe

@@ -14,7 +14,7 @@
 </app-card>
 
 <ng-template #itemHeaderTemplate let-item=item>
-  {{ item.id }}
+  {{ (item.ranByUserId | user)?.displayName }} performed {{ item.type | systemTaskType }}
 </ng-template>
 <ng-template #itemLineTemplate let-item=item>
   {{ item.resultDescription }}
