@@ -17,6 +17,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { FilteredReceiptsComponent } from "./filtered-receipts/filtered-receipts.component";
 import { GroupDashboardsComponent } from "./group-dashboards/group-dashboards.component";
 import { WidgetTypePipe } from "./widget-type.pipe";
+import { ActivityComponent } from './activity/activity.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { WidgetTypePipe } from "./widget-type.pipe";
     GroupDashboardsComponent,
     FilteredReceiptsComponent,
     WidgetTypePipe,
+    ActivityComponent,
   ],
   imports: [
     CheckboxModule,
