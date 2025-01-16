@@ -2,5 +2,22 @@
   <ng-container header>
     <h3> {{ widget.name }}</h3>
   </ng-container>
-  <div content></div>
+  <div content>
+    <app-dashboard-list
+      noItemFoundText="No activity found"
+      [items]="activities"
+      [itemHeaderTemplate]="itemHeaderTemplate"
+      [itemLineTemplate]="itemLineTemplate"
+    ></app-dashboard-list>
+  </div>
 </app-card>
+
+<ng-template #itemHeaderTemplate let-item=item>
+  {{ item.id }}
+</ng-template>
+<ng-template #itemLineTemplate let-item=item>
+  content
+</ng-template>
+
+
+

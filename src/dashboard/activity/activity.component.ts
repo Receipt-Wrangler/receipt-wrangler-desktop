@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { take, tap } from "rxjs";
-import { PagedActivityRequestCommand, SystemTaskService, Widget } from "../../open-api/index";
+import { Activity, PagedActivityRequestCommand, SystemTaskService, Widget } from "../../open-api/index";
 
 @Component({
   selector: "app-activity",
@@ -15,6 +15,8 @@ export class ActivityComponent implements OnInit {
   public page: number = 1;
 
   public pageSize: number = 25;
+
+  public activities: Activity[] = [];
 
   constructor(
     private systemTaskService: SystemTaskService
@@ -40,7 +42,8 @@ export class ActivityComponent implements OnInit {
     this.systemTaskService.getPagedActivities(command)
       .pipe(
         take(1),
-        tap((data) => {
+        tap((response) => {
+          this.activities = response.data;
         })
       )
       .subscribe();
