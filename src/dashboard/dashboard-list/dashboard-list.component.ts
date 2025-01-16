@@ -14,4 +14,6 @@ export class DashboardListComponent {
   @Input() public items: any[] = [];
 
   @Input() public noItemFoundText = "";
+
+  @Input() public buildRouterLinkString: (item: any) => string = (item: any) => "";
 }

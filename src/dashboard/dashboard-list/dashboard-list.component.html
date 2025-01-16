@@ -7,7 +7,7 @@
     *cdkVirtualFor="let item of items"
     role="link"
     class="cursor-pointer item-size item-link"
-    [routerLink]="['/receipts/' + item.id + '/view']"
+    [routerLink]="[buildRouterLinkString(item)]"
   >
     <div matListItemTitle>
       <ng-template

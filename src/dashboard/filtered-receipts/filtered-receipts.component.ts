@@ -28,6 +28,10 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
 
   public receipts: Receipt[] = [];
 
+  public buildItemRouterLink = (receipt: Receipt): string => {
+    return "/receipts/" + receipt.id + "/view";
+  };
+
   constructor(
     private cdr: ChangeDetectorRef,
     private receiptFilterService: ReceiptFilterService,
