@@ -1,4 +1,5 @@
-import { Component, Input, TemplateRef, ViewEncapsulation } from "@angular/core";
+import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
+import { Component, Input, TemplateRef, ViewChild, ViewEncapsulation } from "@angular/core";
 
 @Component({
   selector: "app-dashboard-list",
@@ -7,6 +8,8 @@ import { Component, Input, TemplateRef, ViewEncapsulation } from "@angular/core"
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardListComponent {
+  @ViewChild(CdkVirtualScrollViewport) public cdkVirtualScrollViewport!: CdkVirtualScrollViewport;
+
   @Input() public itemHeaderTemplate!: TemplateRef<any>;
 
   @Input() public itemLineTemplate!: TemplateRef<any>;

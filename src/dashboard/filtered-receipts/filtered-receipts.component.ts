@@ -1,10 +1,10 @@
-import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation, } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { take, tap } from "rxjs";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
 import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../open-api";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
+import { DashboardListComponent } from "../dashboard-list/dashboard-list.component";
 
 @UntilDestroy()
 @Component({
@@ -15,8 +15,8 @@ import { GroupRolePipe } from "../../pipes/group-role.pipe";
   encapsulation: ViewEncapsulation.None,
 })
 export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
-  @ViewChild(CdkVirtualScrollViewport)
-  public cdkVirtualScrollViewport!: CdkVirtualScrollViewport;
+  @ViewChild(DashboardListComponent)
+  public dashboardListComponent!: DashboardListComponent;
 
   @Input() public widget!: Widget;
 
@@ -46,7 +46,7 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
   }
 
   private listenForRenderedRange(): void {
-    this.cdkVirtualScrollViewport.renderedRangeStream
+    this.dashboardListComponent.cdkVirtualScrollViewport.renderedRangeStream
       .pipe(
         untilDestroyed(this),
         tap((range) => {
