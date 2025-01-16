@@ -1,10 +1,9 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation, } from "@angular/core";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation, } from "@angular/core";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { take, tap } from "rxjs";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
 import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../open-api";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
-import { DashboardListComponent } from "../dashboard-list/dashboard-list.component";
 
 @UntilDestroy()
 @Component({
@@ -14,10 +13,7 @@ import { DashboardListComponent } from "../dashboard-list/dashboard-list.compone
   providers: [GroupRolePipe],
   encapsulation: ViewEncapsulation.None,
 })
-export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
-  @ViewChild(DashboardListComponent)
-  public dashboardListComponent!: DashboardListComponent;
-
+export class FilteredReceiptsComponent implements OnInit {
   @Input() public widget!: Widget;
 
   @Input() public groupId?: number;
@@ -41,22 +37,10 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
     this.getData();
   }
 
-  public ngAfterViewInit(): void {
-    this.listenForRenderedRange();
-  }
 
-  private listenForRenderedRange(): void {
-    this.dashboardListComponent.cdkVirtualScrollViewport.renderedRangeStream
-      .pipe(
-        untilDestroyed(this),
-        tap((range) => {
-          if (range.end === this.receipts.length) {
-            this.page++;
-            this.getData();
-          }
-        })
-      )
-      .subscribe();
+  public endOfListReached(): void {
+    this.page++;
+    this.getData();
   }
 
   private getData(): void {

@@ -22,6 +22,7 @@
       [itemHeaderTemplate]="itemHeaderTemplate"
       [itemLineTemplate]="itemLineTemplate"
       [buildRouterLinkString]="buildItemRouterLink"
+      (endOfListReached)="endOfListReached()"
     ></app-dashboard-list>
   </ng-container>
 </app-card>

@@ -1,13 +1,16 @@
 import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
-import { Component, Input, TemplateRef, ViewChild, ViewEncapsulation } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild, ViewEncapsulation } from "@angular/core";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { tap } from "rxjs";
 
+@UntilDestroy()
 @Component({
   selector: "app-dashboard-list",
   templateUrl: "./dashboard-list.component.html",
   styleUrl: "./dashboard-list.component.scss",
   encapsulation: ViewEncapsulation.None,
 })
-export class DashboardListComponent {
+export class DashboardListComponent implements AfterViewInit {
   @ViewChild(CdkVirtualScrollViewport) public cdkVirtualScrollViewport!: CdkVirtualScrollViewport;
 
   @Input() public itemHeaderTemplate!: TemplateRef<any>;
@@ -19,4 +22,23 @@ export class DashboardListComponent {
   @Input() public noItemFoundText = "";
 
   @Input() public buildRouterLinkString: (item: any) => string = (item: any) => "";
+
+  @Output() public endOfListReached = new EventEmitter<void>();
+
+  public ngAfterViewInit(): void {
+    this.listenForEndOfList();
+  }
+
+  private listenForEndOfList(): void {
+    this.cdkVirtualScrollViewport.renderedRangeStream
+      .pipe(
+        untilDestroyed(this),
+        tap((range) => {
+          if (range.end === this.items.length) {
+            this.endOfListReached.emit();
+          }
+        })
+      )
+      .subscribe();
+  }
 }
