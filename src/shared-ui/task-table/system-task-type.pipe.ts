@@ -29,6 +29,8 @@ export class SystemTaskTypePipe implements PipeTransform {
         return "Receipt Uploaded";
       case "PROMPT_GENERATED":
         return "Prompt Generated";
+      case "RECEIPT_UPDATED":
+        return "Receipt Updated";
     }
     return "";
   }
