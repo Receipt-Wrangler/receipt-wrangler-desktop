@@ -6,7 +6,6 @@ import { take, tap } from "rxjs";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
 import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../open-api";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
-import { GroupState } from "../../store";
 
 @UntilDestroy()
 @Component({
@@ -21,6 +20,8 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
   public cdkVirtualScrollViewport!: CdkVirtualScrollViewport;
 
   @Input() public widget!: Widget;
+
+  @Input() public groupId?: number;
 
   public page: number = 1;
 
@@ -57,7 +58,11 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
   }
 
   private getData(): void {
-    const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
+    if (!this.groupId) {
+      return;
+    }
+
+    const groupId = this.groupId;
     const command: ReceiptPagedRequestCommand = {
       page: this.page,
       pageSize: this.pageSize,
@@ -67,7 +72,7 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
     };
     this.receiptFilterService
       .getPagedReceiptsForGroups(
-        groupId,
+        groupId?.toString() ?? "",
         undefined,
         undefined,
         undefined,
