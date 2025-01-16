@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
 import { take, tap } from "rxjs";
 import { Activity, PagedActivityRequestCommand, SystemTaskService, Widget } from "../../open-api/index";
 
@@ -19,11 +19,17 @@ export class ActivityComponent implements OnInit {
   public activities: Activity[] = [];
 
   constructor(
-    private systemTaskService: SystemTaskService
+    private systemTaskService: SystemTaskService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
 
   public ngOnInit(): void {
+    this.getData();
+  }
+
+  public endOfListReached(): void {
+    this.page++;
     this.getData();
   }
 
@@ -43,10 +49,10 @@ export class ActivityComponent implements OnInit {
       .pipe(
         take(1),
         tap((response) => {
-          this.activities = response.data;
+          this.activities = [...this.activities, ...response.data];
+          this.changeDetectorRef.detectChanges();
         })
       )
       .subscribe();
-
   }
 }
