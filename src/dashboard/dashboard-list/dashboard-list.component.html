@@ -5,7 +5,7 @@
 >
   <mat-list>
     @if (items?.length === 0) {
-      <mat-list-item *ngIf="items?.length === 0">
+      <mat-list-item class="item-size" *ngIf="items?.length === 0">
         {{ noItemFoundText }}
       </mat-list-item>
     } @else {
