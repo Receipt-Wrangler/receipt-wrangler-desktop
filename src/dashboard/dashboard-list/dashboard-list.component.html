@@ -12,7 +12,8 @@
       <mat-list-item
         *cdkVirtualFor="let item of items"
         role="link"
-        class="cursor-pointer item-size item-link"
+        class="cursor-pointer item-link"
+        [style.height.px]="itemSize"
         [routerLink]="[buildRouterLinkString(item)]"
       >
         <div matListItemTitle>
