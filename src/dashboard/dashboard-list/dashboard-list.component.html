@@ -10,9 +10,12 @@
       </mat-list-item>
     } @else {
       <mat-list-item
-        *cdkVirtualFor="let item of items"
+        *cdkVirtualFor="let item of items; let i = index"
         role="link"
         class="cursor-pointer item-link border-bottom border-gray-200"
+        [ngClass]="{
+        'border-top': i === 0,
+        }"
         [style.height.px]="itemSize"
         [routerLink]="[buildRouterLinkString(item)]"
       >
