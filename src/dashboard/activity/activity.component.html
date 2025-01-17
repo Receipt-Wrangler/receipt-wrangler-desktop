@@ -6,7 +6,6 @@
     <app-dashboard-list
       noItemFoundText="No activity found"
       [items]="activities"
-      [itemAvatarTemplate]="itemAvatarTemplate"
       [itemHeaderTemplate]="itemHeaderTemplate"
       [itemLineTemplate]="itemLineTemplate"
       (endOfListReached)="endOfListReached()"
@@ -15,10 +14,22 @@
 </app-card>
 
 <ng-template #itemHeaderTemplate let-item=item>
-  {{ (item.ranByUserId | user)?.displayName }} performed {{ item.type | systemTaskType }}
+  {{ item.type | systemTaskType }}
+  <small
+    [ngClass]="{
+    'succeeded': item.status === SystemTaskStatus.Succeeded,
+    'failed': item.status === SystemTaskStatus.Failed,
+  }"
+  >
+    {{ item.status  | titlecase }}
+  </small>
+
 </ng-template>
 <ng-template #itemLineTemplate let-item=item>
-  {{ item.resultDescription }}
+  <div matListItemLine class="d-flex flex-column">
+    Started at {{ item.startedAt | date: 'short' }}
+    Ran By
+  </div>
 </ng-template>
 
 <ng-template #itemAvatarTemplate let-item=item>
@@ -27,5 +38,12 @@
   ></app-avatar>
 </ng-template>
 
+<ng-template #statusPill let-item=item>
+  <div
+    [ngClass]="{
+    'succeeded': item.status === SystemTaskStatus.Succeeded,
+    'failed': item.status === SystemTaskStatus.Failed,
+  }">
 
-
+  </div>
+</ng-template>

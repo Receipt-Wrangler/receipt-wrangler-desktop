@@ -1,11 +1,12 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
 import { take, tap } from "rxjs";
-import { Activity, PagedActivityRequestCommand, SystemTaskService, Widget } from "../../open-api/index";
+import { Activity, PagedActivityRequestCommand, SystemTaskService, SystemTaskStatus, Widget } from "../../open-api/index";
 
 @Component({
   selector: "app-activity",
   templateUrl: "./activity.component.html",
-  styleUrl: "./activity.component.scss"
+  styleUrl: "./activity.component.scss",
+  encapsulation: ViewEncapsulation.None
 })
 export class ActivityComponent implements OnInit {
   @Input() public widget!: Widget;
@@ -55,4 +56,6 @@ export class ActivityComponent implements OnInit {
       )
       .subscribe();
   }
+
+  protected readonly SystemTaskStatus = SystemTaskStatus;
 }
