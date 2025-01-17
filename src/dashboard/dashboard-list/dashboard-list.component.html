@@ -28,6 +28,15 @@
           ></ng-template>
         </div>
 
+        @if (itemLineTemplate2) {
+          <div matListItemLine>
+            <ng-template
+              [ngTemplateOutlet]="itemLineTemplate2"
+              [ngTemplateOutletContext]="{ item: item }"
+            ></ng-template>
+          </div>
+        }
+
         @if (itemAvatarTemplate) {
           <div matListItemAvatar>
             <ng-template

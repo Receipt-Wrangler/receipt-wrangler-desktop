@@ -17,6 +17,8 @@ export class DashboardListComponent implements AfterViewInit {
 
   @Input() public itemLineTemplate!: TemplateRef<any>;
 
+  @Input() public itemLineTemplate2!: TemplateRef<any>;
+
   @Input() public itemAvatarTemplate!: TemplateRef<any>;
 
   @Input() public items: any[] = [];

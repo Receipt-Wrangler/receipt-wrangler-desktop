@@ -8,6 +8,7 @@
       [items]="activities"
       [itemHeaderTemplate]="itemHeaderTemplate"
       [itemLineTemplate]="itemLineTemplate"
+      [itemLineTemplate2]="itemLineTemplate2"
       (endOfListReached)="endOfListReached()"
     ></app-dashboard-list>
   </div>
@@ -26,10 +27,11 @@
 
 </ng-template>
 <ng-template #itemLineTemplate let-item=item>
-  <div matListItemLine class="d-flex flex-column">
-    Started at {{ item.startedAt | date: 'short' }}
-    Ran By
-  </div>
+  Started at {{ item.startedAt | date: 'short' }}
+</ng-template>
+
+<ng-template #itemLineTemplate2 let-item=item>
+  Ran by {{ (item.ranByUserId | user)?.displayName }}
 </ng-template>
 
 <ng-template #itemAvatarTemplate let-item=item>
