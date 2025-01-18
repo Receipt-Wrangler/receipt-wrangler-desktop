@@ -33,7 +33,7 @@
 </ng-template>
 
 <ng-template #itemLineTemplate2 let-item=item>
-  Ran by {{ (item.ranByUserId | user)?.displayName }}
+  Ended at {{ item.endedAt | date: 'short' }}
 </ng-template>
 
 <ng-template #itemAvatarTemplate let-item=item>

@@ -30,7 +30,7 @@ export class SystemTaskTypePipe implements PipeTransform {
       case "PROMPT_GENERATED":
         return "Prompt Generated";
       case "RECEIPT_UPDATED":
-        return "Receipt Updated";
+        return "Updated Receipt";
     }
     return "";
   }
