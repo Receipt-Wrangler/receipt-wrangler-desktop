@@ -114,7 +114,7 @@ export interface PagedDataDataInner {
     associatedEntityType?: AssociatedEntityType;
     ranByUserId: number;
     resultDescription?: string;
-    childSystemTasks: Array<SystemTask>;
+    childSystemTasks?: Array<SystemTask>;
     aiType?: AiType;
     /**
      * URL for custom endpoints

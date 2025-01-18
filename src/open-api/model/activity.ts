@@ -8,7 +8,6 @@
  * Do not edit the class manually.
  */
 import { SystemTaskStatus } from './systemTaskStatus';
-import { SystemTask } from './systemTask';
 import { SystemTaskType } from './systemTaskType';
 
 
@@ -19,9 +18,7 @@ export interface Activity {
     startedAt: string;
     endedAt: string;
     ranByUserId: number;
-    resultDescription?: string;
     canBeRestarted?: boolean;
-    childSystemTasks: Array<SystemTask>;
 }
 export namespace Activity {
 }
