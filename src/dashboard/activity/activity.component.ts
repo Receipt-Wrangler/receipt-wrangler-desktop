@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
 import { take, tap } from "rxjs";
 import { Activity, PagedActivityRequestCommand, SystemTaskService, SystemTaskStatus, Widget } from "../../open-api/index";
+import { SnackbarService } from "../../services/index";
 
 @Component({
   selector: "app-activity",
@@ -21,6 +22,7 @@ export class ActivityComponent implements OnInit {
 
   constructor(
     private systemTaskService: SystemTaskService,
+    private snackbarService: SnackbarService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
@@ -34,7 +36,16 @@ export class ActivityComponent implements OnInit {
     this.getData();
   }
 
-  public onRefreshButtonClick(): void {}
+  public onRefreshButtonClick(id: number): void {
+    this.systemTaskService
+      .rerunActivity(id)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.snackbarService.success("Activity has successfully been queued");
+        })
+      ).subscribe();
+  }
 
   private getData(): void {
     if (!this.groupId) {
