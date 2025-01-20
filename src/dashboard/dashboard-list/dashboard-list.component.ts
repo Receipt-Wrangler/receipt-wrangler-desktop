@@ -29,7 +29,7 @@ export class DashboardListComponent implements AfterViewInit {
 
   @Input() public itemSize = 67;
 
-  @Input() public buildRouterLinkString: (item: any) => string = (item: any) => "";
+  @Input() public buildRouterLinkString?: (item: any) => string;
 
   @Output() public endOfListReached = new EventEmitter<void>();
 
