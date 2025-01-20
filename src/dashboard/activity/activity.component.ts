@@ -20,6 +20,8 @@ export class ActivityComponent implements OnInit {
 
   public activities: Activity[] = [];
 
+  public ranActivities: { [key: number]: boolean } = {};
+
   constructor(
     private systemTaskService: SystemTaskService,
     private snackbarService: SnackbarService,
@@ -43,6 +45,8 @@ export class ActivityComponent implements OnInit {
         take(1),
         tap(() => {
           this.snackbarService.success("Activity has successfully been queued");
+          this.ranActivities[id] = true;
+          this.changeDetectorRef.detectChanges();
         })
       ).subscribe();
   }

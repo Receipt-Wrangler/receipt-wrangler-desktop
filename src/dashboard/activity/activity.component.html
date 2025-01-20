@@ -44,7 +44,7 @@
 </ng-template>
 
 <ng-template #itemMetaTemplate let-item=item>
-  @if (item.canBeRestarted) {
+  @if (item.canBeRestarted && !ranActivities[item.id]) {
     <app-button
       matButtonType="iconButton"
       icon="refresh"
