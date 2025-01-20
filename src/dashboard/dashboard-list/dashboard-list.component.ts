@@ -21,6 +21,8 @@ export class DashboardListComponent implements AfterViewInit {
 
   @Input() public itemAvatarTemplate!: TemplateRef<any>;
 
+  @Input() public itemMetaTemplate!: TemplateRef<any>;
+
   @Input() public items: any[] = [];
 
   @Input() public noItemFoundText = "";

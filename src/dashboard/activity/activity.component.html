@@ -11,6 +11,7 @@
       [itemAvatarTemplate]="itemAvatarTemplate"
       [itemLineTemplate]="itemLineTemplate"
       [itemLineTemplate2]="itemLineTemplate2"
+      [itemMetaTemplate]="itemMetaTemplate"
       (endOfListReached)="endOfListReached()"
     ></app-dashboard-list>
   </div>
@@ -40,6 +41,16 @@
   <app-avatar
     [user]="item.ranByUserId | user"
   ></app-avatar>
+</ng-template>
+
+<ng-template #itemMetaTemplate let-item=item>
+  @if (item.canBeRestarted) {
+    <app-button
+      matButtonType="iconButton"
+      icon="refresh"
+      (clicked)="onRefreshButtonClick()"
+    ></app-button>
+  }
 </ng-template>
 
 <ng-template #statusPill let-item=item>

@@ -34,6 +34,8 @@ export class ActivityComponent implements OnInit {
     this.getData();
   }
 
+  public onRefreshButtonClick(): void {}
+
   private getData(): void {
     if (!this.groupId) {
       return;
@@ -44,7 +46,7 @@ export class ActivityComponent implements OnInit {
       orderBy: "started_at",
       page: this.page,
       pageSize: this.pageSize,
-      sortDirection: "asc"
+      sortDirection: "desc"
     };
     this.systemTaskService.getPagedActivities(command)
       .pipe(

@@ -49,6 +49,16 @@
             ></ng-template>
           </div>
         }
+
+        @if (itemMetaTemplate) {
+          <div matListItemMeta>
+            <ng-template
+              [ngTemplateOutlet]="itemMetaTemplate"
+              [ngTemplateOutletContext]="{ item: item }"
+            ></ng-template>
+          </div>
+        }
+
       </mat-list-item>
     }
   </mat-list>
