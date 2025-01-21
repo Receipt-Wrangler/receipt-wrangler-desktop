@@ -46,6 +46,7 @@ describe("FilteredReceiptsComponent", () => {
         selectedGroupId: "1",
       },
     });
+    component.groupId = 1;
 
     component.ngOnInit();
 
@@ -76,13 +77,10 @@ describe("FilteredReceiptsComponent", () => {
         selectedGroupId: "1",
       },
     });
+    component.groupId = 1;
 
     component.receipts = [{} as any, {} as any, {} as any, {} as any];
-    component.ngAfterViewInit();
-    component.cdkVirtualScrollViewport.setRenderedRange({
-      start: 0,
-      end: 4,
-    });
+    component.endOfListReached();
 
     expect(serviceSpy).toHaveBeenCalledWith(
       "1",
@@ -120,11 +118,7 @@ describe("FilteredReceiptsComponent", () => {
     });
 
     component.receipts = [{} as any, {} as any, {} as any, {} as any];
-    component.ngAfterViewInit();
-    component.cdkVirtualScrollViewport.setRenderedRange({
-      start: 0,
-      end: 3,
-    });
+    component.endOfListReached();
 
     expect(serviceSpy).toHaveBeenCalledTimes(0);
     expect(component.receipts).toEqual([
