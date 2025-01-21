@@ -15,28 +15,23 @@
       }
     </div>
   </ng-container>
-  <div class="content-container" content>
-    <cdk-virtual-scroll-viewport
-      itemSize="67"
-      role="list"
-      class="default-size scroll-container"
-    >
-      <a
-        *cdkVirtualFor="let receipt of receipts"
-        role="link"
-        class="cursor-pointer item-size item-link"
-        [routerLink]="['/receipts/' + receipt.id + '/view']"
-      >
-        <div matListItemTitle>{{ receipt.name }}</div>
-        <div matListItemLine>
-          {{ receipt.date | date }} - {{ receipt.amount | customCurrency }}
-        </div>
-        <hr/>
-      </a>
-      <mat-list-item *ngIf="receipts?.length === 0"
-      >No receipts found
-      </mat-list-item
-      >
-    </cdk-virtual-scroll-viewport>
-  </div>
+  <ng-container content>
+    <app-dashboard-list
+      noItemFoundText="No receipts found"
+      [items]="receipts"
+      [itemHeaderTemplate]="itemHeaderTemplate"
+      [itemLineTemplate]="itemLineTemplate"
+      [buildRouterLinkString]="buildItemRouterLink"
+      (endOfListReached)="endOfListReached()"
+    ></app-dashboard-list>
+  </ng-container>
 </app-card>
+
+<ng-template #itemHeaderTemplate let-item=item>
+  {{ item.name }}
+</ng-template>
+<ng-template #itemLineTemplate let-item=item>
+  {{ item.date | date }} - {{ item.amount | customCurrency }}
+</ng-template>
+
+

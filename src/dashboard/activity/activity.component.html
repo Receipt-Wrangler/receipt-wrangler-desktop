@@ -1,0 +1,64 @@
+<app-card>
+  <ng-container header>
+    <h3> {{ widget.name }}</h3>
+  </ng-container>
+  <div content>
+    <app-dashboard-list
+      noItemFoundText="No activity found"
+      [items]="activities"
+      [itemSize]="100"
+      [itemHeaderTemplate]="itemHeaderTemplate"
+      [itemAvatarTemplate]="itemAvatarTemplate"
+      [itemLineTemplate]="itemLineTemplate"
+      [itemLineTemplate2]="itemLineTemplate2"
+      [itemMetaTemplate]="itemMetaTemplate"
+      (endOfListReached)="endOfListReached()"
+    ></app-dashboard-list>
+  </div>
+</app-card>
+
+<ng-template #itemHeaderTemplate let-item=item>
+  {{ item.type | systemTaskType }}
+  <small
+    [ngClass]="{
+    'succeeded': item.status === SystemTaskStatus.Succeeded,
+    'failed': item.status === SystemTaskStatus.Failed,
+  }"
+  >
+    {{ item.status  | titlecase }}
+  </small>
+
+</ng-template>
+<ng-template #itemLineTemplate let-item=item>
+  Started at {{ item.startedAt | date: 'short' }}
+</ng-template>
+
+<ng-template #itemLineTemplate2 let-item=item>
+  Ended at {{ item.endedAt | date: 'short' }}
+</ng-template>
+
+<ng-template #itemAvatarTemplate let-item=item>
+  <app-avatar
+    [user]="item.ranByUserId | user"
+  ></app-avatar>
+</ng-template>
+
+<ng-template #itemMetaTemplate let-item=item>
+  @if (item.canBeRestarted && !ranActivities[item.id]) {
+    <app-button
+      matButtonType="iconButton"
+      icon="refresh"
+      (clicked)="onRefreshButtonClick(item.id)"
+    ></app-button>
+  }
+</ng-template>
+
+<ng-template #statusPill let-item=item>
+  <div
+    [ngClass]="{
+    'succeeded': item.status === SystemTaskStatus.Succeeded,
+    'failed': item.status === SystemTaskStatus.Failed,
+  }">
+
+  </div>
+</ng-template>

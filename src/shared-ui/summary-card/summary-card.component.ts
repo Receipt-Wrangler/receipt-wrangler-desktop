@@ -29,6 +29,10 @@ export class SummaryCardComponent implements OnChanges {
   }
 
   private buildOweMap(): void {
+    if (!this.groupId) {
+      return;
+    }
+
     this.userService
       .getAmountOwedForUser(
         Number.parseInt(this.groupId as any) || (this.groupId as any),

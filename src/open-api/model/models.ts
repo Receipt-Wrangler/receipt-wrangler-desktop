@@ -1,4 +1,5 @@
 export * from './about';
+export * from './activity';
 export * from './aiType';
 export * from './appData';
 export * from './associatedEntityType';
@@ -38,6 +39,7 @@ export * from './logoutCommand';
 export * from './magicFillCommand';
 export * from './notification';
 export * from './ocrEngine';
+export * from './pagedActivityRequestCommand';
 export * from './pagedData';
 export * from './pagedDataDataInner';
 export * from './pagedGroupRequestCommand';

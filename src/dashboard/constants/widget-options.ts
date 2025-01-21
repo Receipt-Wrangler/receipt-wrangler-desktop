@@ -9,5 +9,9 @@ export const widgetTypeOptions: FormOption[] = [
   {
     value: WidgetType.GroupSummary,
     displayValue: "Group Summary",
+  },
+  {
+    value: WidgetType.GroupActivity,
+    displayValue: "Activity",
   }
 ];

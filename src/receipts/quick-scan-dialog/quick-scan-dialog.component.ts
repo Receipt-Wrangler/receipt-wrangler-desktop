@@ -2,9 +2,8 @@ import { Component, OnInit, ViewChild, ViewEncapsulation, } from "@angular/core"
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
-import { finalize, take, tap } from "rxjs";
-import { ToggleShowProgressBar } from "src/store/layout.state.actions";
-import { QuickScanCommand, ReceiptFileUploadCommand } from "../../interfaces";
+import { take, tap } from "rxjs";
+import { ReceiptFileUploadCommand } from "../../interfaces";
 import { ReceiptService, ReceiptStatus } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { AuthState } from "../../store";
@@ -84,8 +83,6 @@ export class QuickScanDialogComponent implements OnInit {
 
   public submitButtonClicked(): void {
     if (this.form.valid && this.images.length > 0) {
-      const command = this.buildQuickScanCommand();
-      this.store.dispatch(new ToggleShowProgressBar());
       this.receiptService
         .quickScanReceipt(
           this.images.map((i) => i.file),
@@ -95,11 +92,11 @@ export class QuickScanDialogComponent implements OnInit {
         )
         .pipe(
           take(1),
-          tap((receipts) => {
-            this.snackbarService.success(`${receipts.length} receipt(s) successfully scanned`);
+          tap(() => {
+            const imageWord = this.images.length === 1 ? "image" : "images";
+            this.snackbarService.success(`Successfully queued ${imageWord} for processing!`);
             this.dialogRef.close();
           }),
-          finalize(() => this.store.dispatch(new ToggleShowProgressBar()))
         )
         .subscribe();
     }
@@ -109,19 +106,6 @@ export class QuickScanDialogComponent implements OnInit {
     if (this.form.invalid) {
       this.snackbarService.error("Please fill in all required fields. Some images are missing required fields.");
     }
-  }
-
-
-  private buildQuickScanCommand(): QuickScanCommand {
-    const file = this.images[0];
-    const command: QuickScanCommand = {
-      file: file.file,
-      groupId: Number(this.form.get("groupId")?.value),
-      status: this.form.get("status")?.value,
-      paidByUserId: Number(this.form.get("paidByUserId")?.value),
-    };
-
-    return command;
   }
 
   public cancelButtonClicked(): void {
