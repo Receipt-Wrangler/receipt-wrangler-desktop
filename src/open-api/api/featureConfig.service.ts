@@ -18,6 +18,8 @@ import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
 import { FeatureConfig } from '../model/featureConfig';
+// @ts-ignore
+import { InternalErrorResponse } from '../model/internalErrorResponse';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';

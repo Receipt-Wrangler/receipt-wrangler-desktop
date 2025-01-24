@@ -32,6 +32,7 @@ export * from './groupSettingsWhiteListEmail';
 export * from './groupStatus';
 export * from './icon';
 export * from './importType';
+export * from './internalErrorResponse';
 export * from './item';
 export * from './itemStatus';
 export * from './loginCommand';

@@ -19,6 +19,8 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { Dashboard } from '../model/dashboard';
 // @ts-ignore
+import { InternalErrorResponse } from '../model/internalErrorResponse';
+// @ts-ignore
 import { UpsertDashboardCommand } from '../model/upsertDashboardCommand';
 
 // @ts-ignore
