@@ -44,7 +44,7 @@ export class ActivityComponent implements OnInit {
       .pipe(
         take(1),
         tap(() => {
-          this.snackbarService.success("Activity has successfully been queued.");
+          this.snackbarService.success("Activity has been successfully queued.");
           this.ranActivities[id] = true;
           this.changeDetectorRef.detectChanges();
         })
