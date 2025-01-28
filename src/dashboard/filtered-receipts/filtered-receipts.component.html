@@ -23,6 +23,7 @@
       [itemAvatarTemplate]="itemAvatarTemplate"
       [itemHeaderTemplate]="itemHeaderTemplate"
       [itemLineTemplate]="itemLineTemplate"
+      [itemMetaTemplate]="itemMetaTemplate"
       [buildRouterLinkString]="buildItemRouterLink"
       (endOfListReached)="endOfListReached()"
     ></app-dashboard-list>
@@ -37,6 +38,10 @@
 
 <ng-template #itemHeaderTemplate let-item=item>
   {{ item.name }}
+</ng-template>
+
+<ng-template #itemMetaTemplate let-item=item>
+  <app-status-chip [status]="item.status"></app-status-chip>
 </ng-template>
 
 
