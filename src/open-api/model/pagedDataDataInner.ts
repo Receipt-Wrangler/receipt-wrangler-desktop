@@ -49,9 +49,6 @@ export interface PagedDataDataInner {
      * Receipt date
      */
     date: string;
-    /**
-     * Group foreign key
-     */
     groupId: number;
     id: number;
     /**
@@ -112,7 +109,8 @@ export interface PagedDataDataInner {
     endedAt: string;
     associatedEntityId?: number;
     associatedEntityType?: AssociatedEntityType;
-    ranByUserId: number;
+    ranByUserId?: number;
+    receiptId?: number;
     resultDescription?: string;
     childSystemTasks?: Array<SystemTask>;
     aiType?: AiType;
