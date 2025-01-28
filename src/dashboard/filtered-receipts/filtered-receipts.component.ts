@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation, } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, OnInit, } from "@angular/core";
 import { UntilDestroy } from "@ngneat/until-destroy";
 import { take, tap } from "rxjs";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
@@ -11,7 +11,6 @@ import { GroupRolePipe } from "../../pipes/group-role.pipe";
   templateUrl: "./filtered-receipts.component.html",
   styleUrls: ["./filtered-receipts.component.scss"],
   providers: [GroupRolePipe],
-  encapsulation: ViewEncapsulation.None,
 })
 export class FilteredReceiptsComponent implements OnInit {
   @Input() public widget!: Widget;
