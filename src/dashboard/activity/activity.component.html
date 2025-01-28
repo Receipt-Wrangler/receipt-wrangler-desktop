@@ -17,16 +17,9 @@
 </app-card>
 
 <ng-template #itemHeaderTemplate let-item=item>
-  {{ item.type | systemTaskType }}
-  <small
-    [ngClass]="{
-    'succeeded': item.status === SystemTaskStatus.Succeeded,
-    'failed': item.status === SystemTaskStatus.Failed,
-  }"
-  >
-    {{ item.status  | titlecase }}
-  </small>
-
+  <strong>
+    {{ item.type | systemTaskType }}
+  </strong>
 </ng-template>
 
 <ng-template #itemLineTemplate let-item=item>
@@ -38,12 +31,23 @@
 </ng-template>
 
 <ng-template #itemMetaTemplate let-item=item>
-  @if (item.canBeRestarted && !ranActivities[item.id] && (groupId | groupRole: GroupRole.Editor)) {
-    <app-button
-      matButtonType="iconButton"
-      icon="refresh"
-      (clicked)="onRefreshButtonClick(item.id)"
-    ></app-button>
-  }
+  <div class="d-flex align-items-center">
+    <div
+      [ngClass]="{
+    'succeeded': item.status === SystemTaskStatus.Succeeded,
+    'failed': item.status === SystemTaskStatus.Failed,
+  }"
+    >
+      {{ item.status  | titlecase }}
+    </div>
+    @if (item.canBeRestarted && !ranActivities[item.id] && (groupId | groupRole: GroupRole.Editor)) {
+      <app-button
+        matButtonType="iconButton"
+        icon="refresh"
+        (clicked)="onRefreshButtonClick(item.id)"
+      ></app-button>
+    }
+  </div>
 </ng-template>
+
 
