@@ -34,18 +34,7 @@
 </ng-template>
 
 <ng-template #itemAvatarTemplate let-item=item>
-  <div class="d-flex">
-    <div
-      class="d-flex flex-column align-items-center justify-content-center"
-    >
-      <div>
-        {{ item.startedAt | date: 'MMM' }}
-      </div>
-      <div>
-        {{ item.startedAt | date: 'd' }}
-      </div>
-    </div>
-  </div>
+  <app-date-block [date]="item.startedAt"></app-date-block>
 </ng-template>
 
 <ng-template #itemMetaTemplate let-item=item>
