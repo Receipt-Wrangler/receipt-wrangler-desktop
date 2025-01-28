@@ -7,8 +7,8 @@
       noItemFoundText="No activity found"
       [items]="activities"
       [itemSize]="80"
-      [itemHeaderTemplate]="itemHeaderTemplate"
       [itemAvatarTemplate]="itemAvatarTemplate"
+      [itemHeaderTemplate]="itemHeaderTemplate"
       [itemLineTemplate]="itemLineTemplate"
       [itemMetaTemplate]="itemMetaTemplate"
       (endOfListReached)="endOfListReached()"
@@ -31,19 +31,19 @@
 </ng-template>
 
 <ng-template #itemMetaTemplate let-item=item>
-  <div class="d-flex align-items-center">
-    <app-status-chip
-      [customStatus]="item.status | titlecase"
-      [customStatusColor]="item.status === SystemTaskStatus.Succeeded ? 'green' : 'red'"
-    ></app-status-chip>
-    @if (item.canBeRestarted && !ranActivities[item.id] && (groupId | groupRole: GroupRole.Editor)) {
-      <app-button
-        matButtonType="iconButton"
-        icon="refresh"
-        (clicked)="onRefreshButtonClick(item.id)"
-      ></app-button>
-    }
-  </div>
+  <app-status-chip
+    class="aligned-content"
+    [customStatus]="item.status | titlecase"
+    [customStatusColor]="item.status === SystemTaskStatus.Succeeded ? 'green' : 'red'"
+  ></app-status-chip>
+  @if (item.canBeRestarted && !ranActivities[item.id] && (groupId | groupRole: GroupRole.Editor)) {
+    <app-button
+      class="aligned-content"
+      matButtonType="iconButton"
+      icon="refresh"
+      (clicked)="onRefreshButtonClick(item.id)"
+    ></app-button>
+  }
 </ng-template>
 
 

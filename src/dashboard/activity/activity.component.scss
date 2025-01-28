@@ -8,4 +8,9 @@ app-activity {
   .failed {
     color: map-get($warn-palette, 800);
   }
+
+  .aligned-content {
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
