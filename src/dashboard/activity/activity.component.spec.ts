@@ -2,6 +2,7 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatListModule } from "@angular/material/list";
+import { NgxsModule } from "@ngxs/store";
 import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 import { DashboardListComponent } from "../dashboard-list/dashboard-list.component";
 
@@ -14,7 +15,7 @@ describe("ActivityComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ActivityComponent, DashboardListComponent],
-      imports: [SharedUiModule, HttpClientTestingModule, ScrollingModule, MatListModule]
+      imports: [SharedUiModule, HttpClientTestingModule, ScrollingModule, MatListModule, NgxsModule.forRoot([])]
     })
       .compileComponents();
 
