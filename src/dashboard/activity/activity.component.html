@@ -32,14 +32,10 @@
 
 <ng-template #itemMetaTemplate let-item=item>
   <div class="d-flex align-items-center">
-    <div
-      [ngClass]="{
-    'succeeded': item.status === SystemTaskStatus.Succeeded,
-    'failed': item.status === SystemTaskStatus.Failed,
-  }"
-    >
-      {{ item.status  | titlecase }}
-    </div>
+    <app-status-chip
+      [customStatus]="item.status | titlecase"
+      [customStatusColor]="item.status === SystemTaskStatus.Succeeded ? 'green' : 'red'"
+    ></app-status-chip>
     @if (item.canBeRestarted && !ranActivities[item.id] && (groupId | groupRole: GroupRole.Editor)) {
       <app-button
         matButtonType="iconButton"
