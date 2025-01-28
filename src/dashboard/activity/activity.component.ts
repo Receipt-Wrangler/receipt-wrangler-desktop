@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
 import { take, tap } from "rxjs";
-import { Activity, PagedActivityRequestCommand, SystemTaskService, SystemTaskStatus, Widget } from "../../open-api/index";
+import { Activity, GroupRole, PagedActivityRequestCommand, SystemTaskService, SystemTaskStatus, Widget } from "../../open-api/index";
 import { SnackbarService } from "../../services/index";
 
 @Component({
@@ -21,6 +21,10 @@ export class ActivityComponent implements OnInit {
   public activities: Activity[] = [];
 
   public ranActivities: { [key: number]: boolean } = {};
+
+  protected readonly SystemTaskStatus = SystemTaskStatus;
+
+  protected readonly GroupRole = GroupRole;
 
   constructor(
     private systemTaskService: SystemTaskService,
@@ -73,6 +77,4 @@ export class ActivityComponent implements OnInit {
       )
       .subscribe();
   }
-
-  protected readonly SystemTaskStatus = SystemTaskStatus;
 }

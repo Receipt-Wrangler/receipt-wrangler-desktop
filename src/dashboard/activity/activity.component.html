@@ -44,7 +44,7 @@
 </ng-template>
 
 <ng-template #itemMetaTemplate let-item=item>
-  @if (item.canBeRestarted && !ranActivities[item.id]) {
+  @if (item.canBeRestarted && !ranActivities[item.id] && (groupId | groupRole: GroupRole.Editor)) {
     <app-button
       matButtonType="iconButton"
       icon="refresh"
