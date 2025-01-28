@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from "@angular/core";
 import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
-import { Activity, GroupRole, PagedActivityRequestCommand, SystemTaskService, SystemTaskStatus, Widget } from "../../open-api/index";
+import { Activity, Group, GroupRole, PagedActivityRequestCommand, SystemTaskService, SystemTaskStatus, Widget } from "../../open-api/index";
 import { SnackbarService } from "../../services/index";
 import { GroupState } from "../../store/index";
 
@@ -11,10 +11,12 @@ import { GroupState } from "../../store/index";
   styleUrl: "./activity.component.scss",
   encapsulation: ViewEncapsulation.None
 })
-export class ActivityComponent implements OnInit {
+export class ActivityComponent implements OnInit, OnChanges {
   @Input() public widget!: Widget;
 
   @Input() public groupId?: number;
+
+  public group?: Group;
 
   public page: number = 1;
 
@@ -34,6 +36,12 @@ export class ActivityComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private store: Store
   ) {}
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes["groupId"] && changes["groupId"].currentValue) {
+      this.group = this.store.selectSnapshot(GroupState.getGroupById(this.groupId?.toString() ?? ""));
+    }
+  }
 
 
   public ngOnInit(): void {
@@ -82,11 +90,17 @@ export class ActivityComponent implements OnInit {
   }
 
   private getGroupIds(): number[] {
-    const group = this.store.selectSnapshot(GroupState.getGroupById(this.groupId?.toString() ?? ""));
-    if (group?.isAllGroup) {
+    if (this.group?.isAllGroup) {
       return this.store.selectSnapshot(GroupState.groupsWithoutAll).map((group) => group.id);
     } else {
       return [this.groupId ?? 0];
     }
+  }
+
+  public buildItemRouterLinkString(item: Activity): string {
+    if (!item?.receiptId) {
+      return "";
+    }
+    return `/receipts/${item.receiptId}/view`;
   }
 }

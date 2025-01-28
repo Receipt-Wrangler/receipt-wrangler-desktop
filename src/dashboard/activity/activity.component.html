@@ -11,6 +11,7 @@
       [itemHeaderTemplate]="itemHeaderTemplate"
       [itemLineTemplate]="itemLineTemplate"
       [itemMetaTemplate]="itemMetaTemplate"
+      [buildRouterLinkString]="buildItemRouterLinkString"
       (endOfListReached)="endOfListReached()"
     ></app-dashboard-list>
   </div>
@@ -20,10 +21,13 @@
   <strong>
     {{ item.type | systemTaskType }}
   </strong>
+  @if (group?.isAllGroup) {
+    in {{ (item.groupId | group)?.name }}
+  }
 </ng-template>
 
 <ng-template #itemLineTemplate let-item=item>
-  Ran by {{ (item.ranByUserId | user)?.displayName ?? "System" }}
+  Done by {{ (item.ranByUserId | user)?.displayName ?? "System" }}
 </ng-template>
 
 <ng-template #itemAvatarTemplate let-item=item>
