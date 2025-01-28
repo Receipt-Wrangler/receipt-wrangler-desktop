@@ -10,7 +10,6 @@
       [itemHeaderTemplate]="itemHeaderTemplate"
       [itemAvatarTemplate]="itemAvatarTemplate"
       [itemLineTemplate]="itemLineTemplate"
-      [itemLineTemplate2]="itemLineTemplate2"
       [itemMetaTemplate]="itemMetaTemplate"
       (endOfListReached)="endOfListReached()"
     ></app-dashboard-list>
@@ -29,18 +28,24 @@
   </small>
 
 </ng-template>
-<ng-template #itemLineTemplate let-item=item>
-  Started at {{ item.startedAt | date: 'short' }}
-</ng-template>
 
-<ng-template #itemLineTemplate2 let-item=item>
-  Ended at {{ item.endedAt | date: 'short' }}
+<ng-template #itemLineTemplate let-item=item>
+  Ran by {{ (item.ranByUserId | user)?.displayName ?? "System" }}
 </ng-template>
 
 <ng-template #itemAvatarTemplate let-item=item>
-  <app-avatar
-    [user]="item.ranByUserId | user"
-  ></app-avatar>
+  <div class="d-flex">
+    <div
+      class="d-flex flex-column align-items-center justify-content-center"
+    >
+      <div>
+        {{ item.startedAt | date: 'MMM' }}
+      </div>
+      <div>
+        {{ item.startedAt | date: 'd' }}
+      </div>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #itemMetaTemplate let-item=item>
@@ -53,12 +58,3 @@
   }
 </ng-template>
 
-<ng-template #statusPill let-item=item>
-  <div
-    [ngClass]="{
-    'succeeded': item.status === SystemTaskStatus.Succeeded,
-    'failed': item.status === SystemTaskStatus.Failed,
-  }">
-
-  </div>
-</ng-template>
