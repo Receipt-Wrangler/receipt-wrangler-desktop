@@ -159,11 +159,10 @@ export class ItemListComponent implements OnInit {
     const userItems = this.userItemMap.get(userId);
     if (userItems && userItems.length - 1 === index) {
       const item = userItems.at(index) as ItemData;
-      const itemInput = this.receiptItems.at(item?.arrayIndex).value;
-      if (itemInput.name && itemInput.amount) {
+      const itemInput = this.receiptItems.at(item?.arrayIndex);
+      if (itemInput.valid) {
+        const activeElement = document.activeElement as HTMLElement;
         this.addInlineItem(userId);
-        this.cdr.detectChanges();
-        document.getElementById(`name-${index + 1}`)?.focus();
       }
     }
   }
