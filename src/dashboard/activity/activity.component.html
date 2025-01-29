@@ -40,6 +40,9 @@
     [customStatus]="item.status | titlecase"
     [customStatusColor]="item.status === SystemTaskStatus.Succeeded ? 'green' : 'red'"
   ></app-status-chip>
+  <div class="aligned-content ms-2">
+    {{ item.startedAt | duration }}
+  </div>
   @if (item.canBeRestarted && !ranActivities[item.id] && (groupId | groupRole: GroupRole.Editor)) {
     <app-button
       class="aligned-content"
