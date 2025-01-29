@@ -41,7 +41,7 @@ export class DurationPipe implements PipeTransform {
     if (!isDateToday && days) {
       return `${days} ${this.pluralize(days, "day")} ago`;
     }
-    
+
     if (!isDateToday && hours) {
       return `${hours} ${this.pluralize(hours, "hour")} ago`;
     }
