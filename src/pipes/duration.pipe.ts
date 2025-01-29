@@ -1,40 +1,48 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { intervalToDuration, isToday } from "date-fns";
+import { intervalToDuration, isToday, isValid } from "date-fns";
 
 @Pipe({
-  name: "duration"
+  name: "duration",
+  pure: true
 })
 export class DurationPipe implements PipeTransform {
+  public transform(date: string | Date | null | undefined): string {
+    if (!date || !isValid(new Date(date))) {
+      return "";
+    }
 
-  public transform(date: string | Date): string {
     const isDateToday = isToday(date);
     const duration = intervalToDuration({
-        start: date,
-        end: new Date()
-      }
-    );
+      start: date,
+      end: new Date()
+    });
 
-    const hours = (duration?.hours ?? 0);
-    const minutes = (duration?.minutes ?? 0);
-    const days = (duration?.days ?? 0);
+    const hours = duration?.hours ?? 0;
+    const minutes = duration?.minutes ?? 0;
+    const seconds = duration?.seconds ?? 0;
+    const days = duration?.days ?? 0;
 
-    if (isDateToday && duration?.hours) {
+    if (days < 0 || hours < 0 || minutes < 0) {
+      return "";
+    }
+
+    if (isDateToday && hours) {
       return `${hours} ${this.pluralize(hours, "hour")} ago`;
     }
 
-    if (isDateToday && duration?.minutes) {
+    if (isDateToday && minutes) {
       return `${minutes} ${this.pluralize(minutes, "minute")} ago`;
     }
 
-    if (isDateToday && duration.seconds) {
-      return `just now`;
+    if (isDateToday && seconds) {
+      return "just now";
     }
 
-    if (!isDateToday && duration?.days) {
+    if (!isDateToday && days) {
       return `${days} ${this.pluralize(days, "day")} ago`;
     }
-
-    if (!isDateToday && duration?.hours) {
+    
+    if (!isDateToday && hours) {
       return `${hours} ${this.pluralize(hours, "hour")} ago`;
     }
 
@@ -42,10 +50,6 @@ export class DurationPipe implements PipeTransform {
   }
 
   private pluralize(count: number, word: string): string {
-    if (count > 1) {
-      return word + "s";
-    }
-
-    return word;
+    return count === 1 ? word : word + "s";
   }
 }
