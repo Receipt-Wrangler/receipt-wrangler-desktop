@@ -33,7 +33,7 @@ describe("DashboardListComponent", () => {
     expect(component.items).toEqual([]);
     expect(component.noItemFoundText).toBe("");
     expect(component.itemSize).toBe(67);
-    expect(component.buildRouterLinkString).toBeUndefined();
+    expect(component.buildRouterLinkString({} as any)).toEqual("");
   });
 
   it("should emit endOfListReached when reaching end of list", () => {

@@ -125,6 +125,7 @@
               form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
             "
               [readonly]="mode | inputReadonly"
+              (inputBlur)="addInlineItemOnBlur(key, i)"
             >
             </app-input>
             <app-select

@@ -9,5 +9,9 @@ import { ReceiptStatus } from "../../open-api";
 export class StatusChipComponent {
   @Input() public status: string = "";
 
+  @Input() public customStatus: string = "";
+
+  @Input() public customStatusColor?: "red" | "green" | "gray" | "yellow";
+
   public receiptStatus = ReceiptStatus;
 }

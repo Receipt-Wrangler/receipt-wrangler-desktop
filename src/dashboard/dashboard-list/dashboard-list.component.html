@@ -14,11 +14,11 @@
         role="link"
         class="border-bottom border-gray-200"
         [ngClass]="{
-        'cursor-pointer item-link': buildRouterLinkString,
+        'cursor-pointer item-link': buildRouterLinkString(item),
         'border-top': i === 0,
         }"
         [style.height.px]="itemSize"
-        [routerLink]="buildRouterLinkString ? [buildRouterLinkString(item)] : null"
+        [routerLink]="buildRouterLinkString(item) ? [buildRouterLinkString(item)] : null"
       >
         <div matListItemTitle>
           <ng-template

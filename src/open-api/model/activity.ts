@@ -17,7 +17,9 @@ export interface Activity {
     status: SystemTaskStatus;
     startedAt: string;
     endedAt: string;
-    ranByUserId: number;
+    ranByUserId?: number;
+    receiptId?: number;
+    groupId?: number;
     canBeRestarted?: boolean;
 }
 export namespace Activity {

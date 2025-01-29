@@ -19,19 +19,36 @@
     <app-dashboard-list
       noItemFoundText="No receipts found"
       [items]="receipts"
+      [itemSize]="80"
+      [itemAvatarTemplate]="itemAvatarTemplate"
       [itemHeaderTemplate]="itemHeaderTemplate"
       [itemLineTemplate]="itemLineTemplate"
+      [itemMetaTemplate]="itemMetaTemplate"
       [buildRouterLinkString]="buildItemRouterLink"
       (endOfListReached)="endOfListReached()"
     ></app-dashboard-list>
   </ng-container>
 </app-card>
 
-<ng-template #itemHeaderTemplate let-item=item>
-  {{ item.name }}
+<ng-template #itemAvatarTemplate let-item=item>
+  <app-date-block
+    [date]="item.createdAt"
+  ></app-date-block>
 </ng-template>
+
+<ng-template #itemHeaderTemplate let-item=item>
+  <strong>
+    {{ item.name }}
+  </strong>
+</ng-template>
+
+<ng-template #itemMetaTemplate let-item=item>
+  <app-status-chip [status]="item.status"></app-status-chip>
+</ng-template>
+
+
 <ng-template #itemLineTemplate let-item=item>
-  {{ item.date | date }} - {{ item.amount | customCurrency }}
+  {{ item.amount | customCurrency }} paid by {{ (item.paidBy | user)?.displayName }} on {{ item.createdAt | date }}
 </ng-template>
 
 

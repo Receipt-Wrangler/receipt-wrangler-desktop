@@ -1,25 +1,14 @@
-import { Injectable } from '@angular/core';
-import {
-  Action,
-  createSelector,
-  Selector,
-  State,
-  StateContext,
-} from '@ngxs/store';
-import { User } from '../open-api/model/user';
-import {
-  AddUser,
-  RemoveUser,
-  SetUsers,
-  UpdateUser,
-} from './user.state.actions';
+import { Injectable } from "@angular/core";
+import { Action, createSelector, Selector, State, StateContext, } from "@ngxs/store";
+import { User } from "../open-api/model/user";
+import { AddUser, RemoveUser, SetUsers, UpdateUser, } from "./user.state.actions";
 
 export interface UserStateInterface {
   users: User[];
 }
 
 @State<UserStateInterface>({
-  name: 'users',
+  name: "users",
   defaults: {
     users: [],
   },
@@ -33,6 +22,10 @@ export class UserState {
 
   static getUserById(userId: string) {
     return createSelector([UserState], (state: UserStateInterface) => {
+      if (!userId) {
+        return undefined;
+      }
+
       return state.users.find((u) => u.id.toString() === userId.toString());
     });
   }

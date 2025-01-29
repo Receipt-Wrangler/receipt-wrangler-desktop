@@ -13,6 +13,7 @@ import { ButtonModule } from "../button/index";
 import { InputModule } from "../input";
 import { SelectModule } from "../select/select.module";
 import { SystemTaskTypePipe } from "../shared-ui/task-table/system-task-type.pipe";
+import { DateBlockComponent } from "../standalone/components/date-block/date-block.component";
 import { ActivityComponent } from "./activity/activity.component";
 import { DashboardFormComponent } from "./dashboard-form/dashboard-form.component";
 import { DashboardListComponent } from "./dashboard-list/dashboard-list.component";
@@ -49,6 +50,7 @@ import { WidgetTypePipe } from "./widget-type.pipe";
     SelectModule,
     SystemTaskTypePipe,
     AvatarModule,
+    DateBlockComponent,
   ],
   exports: [
     WidgetTypePipe

@@ -1,8 +1,16 @@
 <mat-chip
   [ngClass]="{
-    'needs-attention': status === receiptStatus.NeedsAttention,
-    open: status === receiptStatus.Open,
-    resolved: status === receiptStatus.Resolved
+    'needs-attention': status === receiptStatus.NeedsAttention || customStatusColor === 'red',
+    open: status === receiptStatus.Open || customStatusColor === 'yellow',
+    resolved: status === receiptStatus.Resolved || customStatusColor === 'green'
   }"
-  >{{ status | status }}</mat-chip
+>
+  @if (status) {
+    {{ status | status }}
+  }
+
+  @if (customStatus) {
+    {{ customStatus }}
+  }
+</mat-chip
 >

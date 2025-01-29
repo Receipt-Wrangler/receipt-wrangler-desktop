@@ -1,6 +1,10 @@
 <mat-form-field class="w-100">
   <mat-label>{{ label }}</mat-label>
-  <mat-select [formControl]="inputFormControl" readonly>
+  <mat-select
+    [formControl]="inputFormControl"
+    (blur)="inputBlur.emit($event)"
+    readonly
+  >
     <mat-option *ngIf="addEmptyOption" [value]="null"></mat-option>
     <mat-option
       *ngFor="let option of options; let i = index"

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, ViewChild, } from "@angular/core";
 import { Select, Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { BaseInputComponent } from "../../base-input";
@@ -41,10 +41,6 @@ export class InputComponent
   @Input() public thousandSeparator: string = "";
 
   @Input() public decimalMarker: CurrencySeparator = CurrencySeparator.Period;
-
-  @Output() public inputBlur: EventEmitter<any> = new EventEmitter<any>(
-    undefined
-  );
 
   constructor(private store: Store) {
     super();
