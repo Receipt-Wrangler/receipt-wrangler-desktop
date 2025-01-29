@@ -94,7 +94,7 @@ export class QuickScanDialogComponent implements OnInit {
           take(1),
           tap(() => {
             const imageWord = this.images.length === 1 ? "image" : "images";
-            this.snackbarService.success(`Successfully queued ${imageWord} for processing!`);
+            this.snackbarService.success(`Successfully queued ${imageWord} for processing`);
             this.dialogRef.close();
           }),
         )
