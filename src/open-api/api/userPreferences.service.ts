@@ -17,6 +17,8 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { InternalErrorResponse } from '../model/internalErrorResponse';
+// @ts-ignore
 import { UserPreferences } from '../model/userPreferences';
 
 // @ts-ignore

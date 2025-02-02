@@ -1,26 +1,21 @@
-import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation, } from "@angular/core";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { Store } from "@ngxs/store";
+import { ChangeDetectorRef, Component, Input, OnInit, } from "@angular/core";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { take, tap } from "rxjs";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
 import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../open-api";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
-import { GroupState } from "../../store";
 
 @UntilDestroy()
 @Component({
-  selector: "app-filtered-receipts",
+  selector: "/app-filtered-receipts",
   templateUrl: "./filtered-receipts.component.html",
   styleUrls: ["./filtered-receipts.component.scss"],
   providers: [GroupRolePipe],
-  encapsulation: ViewEncapsulation.None,
 })
-export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
-  @ViewChild(CdkVirtualScrollViewport)
-  public cdkVirtualScrollViewport!: CdkVirtualScrollViewport;
-
+export class FilteredReceiptsComponent implements OnInit {
   @Input() public widget!: Widget;
+
+  @Input() public groupId?: number;
 
   public page: number = 1;
 
@@ -28,36 +23,31 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
 
   public receipts: Receipt[] = [];
 
+  public buildItemRouterLink = (receipt: Receipt): string => {
+    return "/receipts/" + receipt.id + "/view";
+  };
+
   constructor(
     private cdr: ChangeDetectorRef,
     private receiptFilterService: ReceiptFilterService,
-    private store: Store,
   ) {}
 
   public ngOnInit(): void {
     this.getData();
   }
 
-  public ngAfterViewInit(): void {
-    this.listenForRenderedRange();
-  }
 
-  private listenForRenderedRange(): void {
-    this.cdkVirtualScrollViewport.renderedRangeStream
-      .pipe(
-        untilDestroyed(this),
-        tap((range) => {
-          if (range.end === this.receipts.length) {
-            this.page++;
-            this.getData();
-          }
-        })
-      )
-      .subscribe();
+  public endOfListReached(): void {
+    this.page++;
+    this.getData();
   }
 
   private getData(): void {
-    const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
+    if (!this.groupId) {
+      return;
+    }
+
+    const groupId = this.groupId;
     const command: ReceiptPagedRequestCommand = {
       page: this.page,
       pageSize: this.pageSize,
@@ -67,7 +57,7 @@ export class FilteredReceiptsComponent implements OnInit, AfterViewInit {
     };
     this.receiptFilterService
       .getPagedReceiptsForGroups(
-        groupId,
+        groupId?.toString() ?? "",
         undefined,
         undefined,
         undefined,

@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { UpsertTaskQueueConfiguration } from './upsertTaskQueueConfiguration';
 import { CurrencySeparator } from './currencySeparator';
 import { CurrencySymbolPosition } from './currencySymbolPosition';
 
@@ -44,6 +45,11 @@ export interface UpsertSystemSettingsCommand {
      * Fallback receipt processing settings foreign key
      */
     fallbackReceiptProcessingSettingsId?: number;
+    /**
+     * Concurrency for task worker
+     */
+    taskConcurrency: number;
+    taskQueueConfigurations?: Array<UpsertTaskQueueConfiguration>;
 }
 export namespace UpsertSystemSettingsCommand {
 }

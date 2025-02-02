@@ -4,11 +4,20 @@
       <div *ngSwitchCase="widgetType.GroupSummary">
         <app-summary-card
           [headerText]="widget.name ?? 'Receipt Summary'"
-          [groupId]="(selectedGroupId | async) ?? ''"
+          [groupId]="selectedDashboard?.groupId ?? ''"
         ></app-summary-card>
       </div>
       <div *ngSwitchCase="widgetType.FilteredReceipts">
-        <app-filtered-receipts [widget]="widget"></app-filtered-receipts>
+        <app-filtered-receipts
+          [widget]="widget"
+          [groupId]="selectedDashboard?.groupId"
+        ></app-filtered-receipts>
+      </div>
+      <div *ngSwitchCase="widgetType.GroupActivity">
+        <app-activity
+          [widget]="widget"
+          [groupId]="selectedDashboard?.groupId"
+        ></app-activity>
       </div>
     </div>
   </div>

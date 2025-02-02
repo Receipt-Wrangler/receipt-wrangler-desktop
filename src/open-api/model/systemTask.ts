@@ -28,6 +28,8 @@ export interface SystemTask {
     associatedEntityId?: number;
     associatedEntityType?: AssociatedEntityType;
     ranByUserId?: number;
+    receiptId?: number;
+    groupId?: number;
     resultDescription?: string;
     childSystemTasks?: Array<SystemTask>;
 }

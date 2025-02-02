@@ -1,0 +1,16 @@
+@import "../../variables";
+
+app-activity {
+  .succeeded {
+    color: map-get($success-palette, 800);
+  }
+
+  .failed {
+    color: map-get($warn-palette, 800);
+  }
+
+  .aligned-content {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

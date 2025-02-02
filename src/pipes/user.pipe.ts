@@ -8,7 +8,7 @@ import { UserState } from "../store";
 })
 export class UserPipe implements PipeTransform {
   constructor(private store: Store) {}
-  
+
   // TODO: fix delete receipt busted
   // TODO: implement e2e
   public transform(userId?: string): User | undefined {

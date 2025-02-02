@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgxsModule, Store } from "@ngxs/store";
@@ -9,12 +9,13 @@ import { of } from "rxjs";
 import { AutocompleteModule } from "../../autocomplete/autocomplete.module";
 import { CheckboxModule } from "../../checkbox/checkbox.module";
 import { InputModule } from "../../input/index";
-import { CurrencySeparator, CurrencySymbolPosition, SystemSettingsService } from "../../open-api";
+import { CurrencySeparator, CurrencySymbolPosition, QueueName, SystemSettingsService } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { CustomCurrencyPipe } from "../../pipes/custom-currency.pipe";
 import { SnackbarService } from "../../services";
 import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 import { SystemSettingsState } from "../../store/system-settings.state";
+import { TaskQueueFormControlPipe } from "../pipes/task-queue-form-control.pipe";
 
 import { SystemSettingsFormComponent } from "./system-settings-form.component";
 
@@ -25,7 +26,7 @@ describe("SystemSettingsFormComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SystemSettingsFormComponent, CustomCurrencyPipe],
+      declarations: [SystemSettingsFormComponent, CustomCurrencyPipe, TaskQueueFormControlPipe],
       imports: [
         AutocompleteModule,
         CheckboxModule,
@@ -73,7 +74,6 @@ describe("SystemSettingsFormComponent", () => {
       enableLocalSignUp: null,
       debugOcr: null,
       currencyDisplay: null,
-      numWorkers: 1,
       emailPollingInterval: null,
       receiptProcessingSettingsId: null,
       fallbackReceiptProcessingSettingsId: null,
@@ -81,6 +81,8 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: null,
       currencySymbolPosition: null,
       currencyHideDecimalPlaces: null,
+      taskConcurrency: null,
+      taskQueueConfigurations: []
     });
   });
 
@@ -90,7 +92,6 @@ describe("SystemSettingsFormComponent", () => {
       enableLocalSignUp: true,
       debugOcr: true,
       currencyDisplay: "USD",
-      numWorkers: 10,
       emailPollingInterval: 5,
       receiptProcessingSettingsId: 1,
       fallbackReceiptProcessingSettingsId: 2,
@@ -98,6 +99,11 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: true,
+      taskConcurrency: 12,
+      taskQueueConfigurations: [{
+        name: QueueName.QuickScan,
+        priority: 1,
+      }]
     };
 
     component.ngOnInit();
@@ -106,7 +112,6 @@ describe("SystemSettingsFormComponent", () => {
       enableLocalSignUp: true,
       debugOcr: true,
       currencyDisplay: "USD",
-      numWorkers: 10,
       emailPollingInterval: 5,
       receiptProcessingSettingsId: 1,
       fallbackReceiptProcessingSettingsId: 2,
@@ -114,6 +119,11 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: true,
+      taskConcurrency: 12,
+      taskQueueConfigurations: [{
+        name: QueueName.QuickScan,
+        priority: 1,
+      }]
     });
   });
 
@@ -126,11 +136,15 @@ describe("SystemSettingsFormComponent", () => {
     const snackbarServiceSpy = spyOn(snackbarService, "success");
     const routerSpy = spyOn(router, "navigate");
 
+    component.originalSystemSettings.taskQueueConfigurations = [{
+      name: QueueName.QuickScan,
+      priority: "1",
+    } as any];
+
     component.form.setValue({
       enableLocalSignUp: true,
       debugOcr: true,
       currencyDisplay: "USD",
-      numWorkers: 10,
       emailPollingInterval: "5",
       receiptProcessingSettingsId: 1,
       fallbackReceiptProcessingSettingsId: 2,
@@ -138,7 +152,16 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: false,
+      taskConcurrency: "12",
+      taskQueueConfigurations: []
     });
+
+    (component.form.get("taskQueueConfigurations") as FormArray).push(
+      new FormGroup({
+        name: new FormControl(QueueName.QuickScan),
+        priority: new FormControl("1"),
+      })
+    );
 
     component.submit();
 
@@ -146,7 +169,6 @@ describe("SystemSettingsFormComponent", () => {
       enableLocalSignUp: true,
       debugOcr: true,
       currencyDisplay: "USD",
-      numWorkers: 10,
       emailPollingInterval: 5,
       receiptProcessingSettingsId: 1,
       fallbackReceiptProcessingSettingsId: 2,
@@ -154,6 +176,13 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: false,
+      taskConcurrency: 12,
+      taskQueueConfigurations: [
+        {
+          name: QueueName.QuickScan,
+          priority: 1,
+        }
+      ]
     });
 
     expect(snackbarServiceSpy).toHaveBeenCalled();

@@ -19,6 +19,8 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { CheckReceiptProcessingSettingsConnectivityCommand } from '../model/checkReceiptProcessingSettingsConnectivityCommand';
 // @ts-ignore
+import { InternalErrorResponse } from '../model/internalErrorResponse';
+// @ts-ignore
 import { PagedData } from '../model/pagedData';
 // @ts-ignore
 import { PagedRequestCommand } from '../model/pagedRequestCommand';
@@ -270,10 +272,10 @@ export class ReceiptProcessingSettingsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteReceiptProcessingSettingsById(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public deleteReceiptProcessingSettingsById(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public deleteReceiptProcessingSettingsById(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public deleteReceiptProcessingSettingsById(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public deleteReceiptProcessingSettingsById(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteReceiptProcessingSettingsById(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteReceiptProcessingSettingsById(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteReceiptProcessingSettingsById(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling deleteReceiptProcessingSettingsById.');
         }
@@ -291,6 +293,7 @@ export class ReceiptProcessingSettingsService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }

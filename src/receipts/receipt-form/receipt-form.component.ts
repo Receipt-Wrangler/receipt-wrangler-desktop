@@ -290,7 +290,6 @@ export class ReceiptFormComponent implements OnInit {
             u.userId.toString()
           );
           this.selectedGroup = group;
-          console.warn(this.selectedGroup);
           this.usersToOmit = users
             .filter((u) => !groupMembers?.includes(u.id.toString()))
             .map((u) => u.id.toString());

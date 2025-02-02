@@ -9,20 +9,19 @@
  */
 
 
-export type SystemTaskType = 'META_ASSOCIATE_TASKS_TO_RECEIPT' | 'OCR_PROCESSING' | 'CHAT_COMPLETION' | 'MAGIC_FILL' | 'QUICK_SCAN' | 'EMAIL_READ' | 'META_COMBINE_QUICK_SCAN' | 'EMAIL_UPLOAD' | 'SYSTEM_EMAIL_CONNECTIVITY_CHECK' | 'RECEIPT_PROCESSING_SETTINGS_CONNECTIVITY_CHECK' | 'RECEIPT_UPLOADED' | 'PROMPT_GENERATED';
+export type SystemTaskType = 'OCR_PROCESSING' | 'CHAT_COMPLETION' | 'MAGIC_FILL' | 'QUICK_SCAN' | 'EMAIL_READ' | 'EMAIL_UPLOAD' | 'SYSTEM_EMAIL_CONNECTIVITY_CHECK' | 'RECEIPT_PROCESSING_SETTINGS_CONNECTIVITY_CHECK' | 'RECEIPT_UPLOADED' | 'RECEIPT_UPDATED' | 'PROMPT_GENERATED';
 
 export const SystemTaskType = {
-    MetaAssociateTasksToReceipt: 'META_ASSOCIATE_TASKS_TO_RECEIPT' as SystemTaskType,
     OcrProcessing: 'OCR_PROCESSING' as SystemTaskType,
     ChatCompletion: 'CHAT_COMPLETION' as SystemTaskType,
     MagicFill: 'MAGIC_FILL' as SystemTaskType,
     QuickScan: 'QUICK_SCAN' as SystemTaskType,
     EmailRead: 'EMAIL_READ' as SystemTaskType,
-    MetaCombineQuickScan: 'META_COMBINE_QUICK_SCAN' as SystemTaskType,
     EmailUpload: 'EMAIL_UPLOAD' as SystemTaskType,
     SystemEmailConnectivityCheck: 'SYSTEM_EMAIL_CONNECTIVITY_CHECK' as SystemTaskType,
     ReceiptProcessingSettingsConnectivityCheck: 'RECEIPT_PROCESSING_SETTINGS_CONNECTIVITY_CHECK' as SystemTaskType,
     ReceiptUploaded: 'RECEIPT_UPLOADED' as SystemTaskType,
+    ReceiptUpdated: 'RECEIPT_UPDATED' as SystemTaskType,
     PromptGenerated: 'PROMPT_GENERATED' as SystemTaskType
 };
 

@@ -6,11 +6,10 @@ import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
-import { finalize, map, Observable, take, tap } from "rxjs";
+import { map, Observable, take, tap } from "rxjs";
 import { fadeInOut } from "src/animations";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
-import { HideProgressBar, ShowProgressBar, } from "src/store/layout.state.actions";
 import { ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilterData, } from "src/store/receipt-table.actions";
 import { ReceiptTableState } from "src/store/receipt-table.state";
 import { TableColumn } from "src/table/table-column.interface";
@@ -470,15 +469,13 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   public pollEmail(): void {
     const groupId = this.store.selectSnapshot(GroupState.selectedGroupId);
 
-    this.store.dispatch(new ShowProgressBar());
     this.groupsService
       .pollGroupEmail(groupId as any)
       .pipe(
         take(1),
         tap(() => {
-          this.snackbarService.success("Email successfully polled");
+          this.snackbarService.success("Email successfully poll successfully queued");
         }),
-        finalize(() => this.store.dispatch(new HideProgressBar()))
       )
       .subscribe();
   }

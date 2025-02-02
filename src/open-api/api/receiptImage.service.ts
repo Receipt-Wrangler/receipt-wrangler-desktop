@@ -21,6 +21,8 @@ import { EncodedImage } from '../model/encodedImage';
 // @ts-ignore
 import { FileDataView } from '../model/fileDataView';
 // @ts-ignore
+import { InternalErrorResponse } from '../model/internalErrorResponse';
+// @ts-ignore
 import { Receipt } from '../model/receipt';
 
 // @ts-ignore
@@ -209,10 +211,10 @@ export class ReceiptImageService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteReceiptImageById(receiptImageId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public deleteReceiptImageById(receiptImageId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public deleteReceiptImageById(receiptImageId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public deleteReceiptImageById(receiptImageId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public deleteReceiptImageById(receiptImageId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteReceiptImageById(receiptImageId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteReceiptImageById(receiptImageId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteReceiptImageById(receiptImageId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (receiptImageId === null || receiptImageId === undefined) {
             throw new Error('Required parameter receiptImageId was null or undefined when calling deleteReceiptImageById.');
         }
@@ -230,6 +232,7 @@ export class ReceiptImageService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -280,10 +283,10 @@ export class ReceiptImageService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public downloadReceiptImageById(receiptImageId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<Blob>;
-    public downloadReceiptImageById(receiptImageId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Blob>>;
-    public downloadReceiptImageById(receiptImageId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Blob>>;
-    public downloadReceiptImageById(receiptImageId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public downloadReceiptImageById(receiptImageId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Blob>;
+    public downloadReceiptImageById(receiptImageId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Blob>>;
+    public downloadReceiptImageById(receiptImageId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Blob>>;
+    public downloadReceiptImageById(receiptImageId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/octet-stream' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (receiptImageId === null || receiptImageId === undefined) {
             throw new Error('Required parameter receiptImageId was null or undefined when calling downloadReceiptImageById.');
         }
@@ -301,7 +304,8 @@ export class ReceiptImageService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'application/octet-stream'
+                'application/octet-stream',
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }

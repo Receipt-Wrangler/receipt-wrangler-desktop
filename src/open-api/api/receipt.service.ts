@@ -19,6 +19,8 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { BulkStatusUpdateCommand } from '../model/bulkStatusUpdateCommand';
 // @ts-ignore
+import { InternalErrorResponse } from '../model/internalErrorResponse';
+// @ts-ignore
 import { PagedData } from '../model/pagedData';
 // @ts-ignore
 import { Receipt } from '../model/receipt';
@@ -284,10 +286,10 @@ export class ReceiptService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteReceiptById(receiptId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public deleteReceiptById(receiptId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public deleteReceiptById(receiptId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public deleteReceiptById(receiptId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public deleteReceiptById(receiptId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteReceiptById(receiptId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteReceiptById(receiptId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteReceiptById(receiptId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (receiptId === null || receiptId === undefined) {
             throw new Error('Required parameter receiptId was null or undefined when calling deleteReceiptById.');
         }
@@ -305,6 +307,7 @@ export class ReceiptService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -355,10 +358,10 @@ export class ReceiptService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public duplicateReceipt(receiptId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public duplicateReceipt(receiptId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public duplicateReceipt(receiptId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public duplicateReceipt(receiptId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public duplicateReceipt(receiptId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public duplicateReceipt(receiptId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public duplicateReceipt(receiptId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public duplicateReceipt(receiptId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (receiptId === null || receiptId === undefined) {
             throw new Error('Required parameter receiptId was null or undefined when calling duplicateReceipt.');
         }
@@ -376,6 +379,7 @@ export class ReceiptService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -585,10 +589,10 @@ export class ReceiptService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public hasAccessToReceipt(receiptId: number, groupRole?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public hasAccessToReceipt(receiptId: number, groupRole?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public hasAccessToReceipt(receiptId: number, groupRole?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public hasAccessToReceipt(receiptId: number, groupRole?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public hasAccessToReceipt(receiptId: number, groupRole?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public hasAccessToReceipt(receiptId: number, groupRole?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public hasAccessToReceipt(receiptId: number, groupRole?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public hasAccessToReceipt(receiptId: number, groupRole?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (receiptId === null || receiptId === undefined) {
             throw new Error('Required parameter receiptId was null or undefined when calling hasAccessToReceipt.');
         }
@@ -616,6 +620,7 @@ export class ReceiptService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -670,9 +675,9 @@ export class ReceiptService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public quickScanReceipt(files: Array<Blob>, groupIds: Array<number>, paidByUserIds: Array<number>, statuses: Array<ReceiptStatus>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<Receipt>>;
-    public quickScanReceipt(files: Array<Blob>, groupIds: Array<number>, paidByUserIds: Array<number>, statuses: Array<ReceiptStatus>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<Receipt>>>;
-    public quickScanReceipt(files: Array<Blob>, groupIds: Array<number>, paidByUserIds: Array<number>, statuses: Array<ReceiptStatus>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<Receipt>>>;
+    public quickScanReceipt(files: Array<Blob>, groupIds: Array<number>, paidByUserIds: Array<number>, statuses: Array<ReceiptStatus>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public quickScanReceipt(files: Array<Blob>, groupIds: Array<number>, paidByUserIds: Array<number>, statuses: Array<ReceiptStatus>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public quickScanReceipt(files: Array<Blob>, groupIds: Array<number>, paidByUserIds: Array<number>, statuses: Array<ReceiptStatus>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
     public quickScanReceipt(files: Array<Blob>, groupIds: Array<number>, paidByUserIds: Array<number>, statuses: Array<ReceiptStatus>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (files === null || files === undefined) {
             throw new Error('Required parameter files was null or undefined when calling quickScanReceipt.');
@@ -786,7 +791,7 @@ export class ReceiptService {
         }
 
         let localVarPath = `/receipt/quickScan`;
-        return this.httpClient.request<Array<Receipt>>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,

@@ -50,6 +50,7 @@ describe("SummaryCardComponent", () => {
       } as any)
     );
 
+    component.groupId = "1";
     component.ngOnChanges({
       groupId: {
         currentValue: "1",

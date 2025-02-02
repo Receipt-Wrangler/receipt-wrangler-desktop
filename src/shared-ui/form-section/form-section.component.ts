@@ -1,14 +1,16 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, Input, TemplateRef } from "@angular/core";
 
 @Component({
-  selector: 'app-form-section',
-  templateUrl: './form-section.component.html',
-  styleUrls: ['./form-section.component.scss'],
+  selector: "app-form-section",
+  templateUrl: "./form-section.component.html",
+  styleUrls: ["./form-section.component.scss"],
 })
 export class FormSectionComponent {
-  @Input() public headerText: string = '';
+  @Input() public headerText: string = "";
 
   @Input() public headerButtonsTemplate?: TemplateRef<any>;
 
   @Input() public indent: boolean = true;
+
+  @Input() public subtitle: string = "";
 }
