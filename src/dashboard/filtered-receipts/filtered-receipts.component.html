@@ -48,7 +48,8 @@
 
 
 <ng-template #itemLineTemplate let-item=item>
-  {{ item.amount | customCurrency }} paid by {{ (item.paidBy | user)?.displayName }} on {{ item.createdAt | date }}
+  {{ item.amount | customCurrency }} paid by {{ (item.paidByUserId | user)?.displayName ?? 'Unknown' }}
+  on {{ item.createdAt | date }}
 </ng-template>
 
 
