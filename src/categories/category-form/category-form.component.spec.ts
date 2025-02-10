@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -10,6 +10,7 @@ import { DuplicateValidator } from "src/validators/duplicate-validator";
 import { ApiModule, CategoryService, CategoryView } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { CategoryForm } from "./category-form.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("CategoryForm", () => {
   let component: CategoryForm;
@@ -17,27 +18,26 @@ describe("CategoryForm", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CategoryForm],
-      imports: [
-        ApiModule,
-        HttpClientTestingModule,
+    declarations: [CategoryForm],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ApiModule,
         MatDialogModule,
         MatSnackBarModule,
         PipesModule,
         ReactiveFormsModule,
-        NoopAnimationsModule,
-      ],
-      providers: [
+        NoopAnimationsModule],
+    providers: [
         DuplicateValidator,
         {
-          provide: MatDialogRef,
-          useValue: {
-            close: () => {},
-          },
+            provide: MatDialogRef,
+            useValue: {
+                close: () => { },
+            },
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
     fixture = TestBed.createComponent(CategoryForm);
     component = fixture.componentInstance;
     fixture.detectChanges();

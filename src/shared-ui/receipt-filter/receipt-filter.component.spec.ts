@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -16,6 +16,7 @@ import { applyFormCommand } from "../../utils/index";
 import { buildReceiptFilterForm } from "../../utils/receipt-filter";
 import { OperationsPipe } from "./operations.pipe";
 import { ReceiptFilterComponent } from "./receipt-filter.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 @UntilDestroy()
 @Component({
@@ -70,36 +71,35 @@ describe("ReceiptFilterComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ReceiptFilterComponent, OperationsPipe],
-      imports: [
-        PipesModule,
-        HttpClientTestingModule,
+    declarations: [ReceiptFilterComponent, OperationsPipe],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [PipesModule,
         InputModule,
         MatDialogModule,
         NgxsModule.forRoot([ReceiptTableState]),
         NoopAnimationsModule,
         PipesModule,
-        ReactiveFormsModule,
-      ],
-      providers: [
+        ReactiveFormsModule],
+    providers: [
         CategoryService,
         TagService,
         {
-          provide: MatDialogRef,
-          useValue: {
-            close: (value: any) => {},
-          },
+            provide: MatDialogRef,
+            useValue: {
+                close: (value: any) => { },
+            },
         },
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {
-            categories: [],
-            tags: [],
-          },
+            provide: MAT_DIALOG_DATA,
+            useValue: {
+                categories: [],
+                tags: [],
+            },
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
 
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(ReceiptFilterComponent);

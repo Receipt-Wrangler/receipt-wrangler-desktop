@@ -1,4 +1,4 @@
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatSidenavModule } from "@angular/material/sidenav";
@@ -16,17 +16,15 @@ describe("SidebarComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SidebarComponent],
-      imports: [
-        HttpClientModule,
-        NgxsModule.forRoot([AuthState, LayoutState, GroupState]),
+    declarations: [SidebarComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [NgxsModule.forRoot([AuthState, LayoutState, GroupState]),
         MatSnackBarModule,
         MatSidenavModule,
         SharedUiModule,
-        ApiModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+        ApiModule],
+    providers: [provideHttpClient(withInterceptorsFromDi())]
+}).compileComponents();
 
     fixture = TestBed.createComponent(SidebarComponent);
     component = fixture.componentInstance;

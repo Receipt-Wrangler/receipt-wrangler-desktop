@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormGroup, ReactiveFormsModule } from "@angular/forms";
@@ -18,6 +18,7 @@ import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 import { SystemEmailTaskTableState } from "../../store/system-email-task-table.state";
 
 import { SystemEmailFormComponent } from "./system-email-form.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("SystemEmailFormComponent", () => {
   let component: SystemEmailFormComponent;
@@ -25,36 +26,35 @@ describe("SystemEmailFormComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SystemEmailFormComponent],
-      imports: [
-        ApiModule,
-        HttpClientTestingModule,
+    declarations: [SystemEmailFormComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ApiModule,
         NgxsModule.forRoot([SystemEmailTaskTableState]),
         PipesModule,
         MatDialogModule,
         MatSnackBarModule,
         ReactiveFormsModule,
         SharedUiModule,
-        NoopAnimationsModule
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
+        NoopAnimationsModule],
+    providers: [
         {
-          provide: TABLE_SERVICE_INJECTION_TOKEN,
-          useClass: SystemEmailTaskTableService
+            provide: TABLE_SERVICE_INJECTION_TOKEN,
+            useClass: SystemEmailTaskTableService
         },
         {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              data: {
-                formConfig: {}
-              }
+            provide: ActivatedRoute,
+            useValue: {
+                snapshot: {
+                    data: {
+                        formConfig: {}
+                    }
+                }
             }
-          }
-        }
-      ]
-    })
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(SystemEmailFormComponent);

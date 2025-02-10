@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -7,6 +7,7 @@ import { of } from "rxjs";
 import { ApiModule, NotificationsService } from "../../open-api";
 import { GroupState } from "../../store";
 import { NotificationComponent } from "./notification.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("NotificationComponent", () => {
   let component: NotificationComponent;
@@ -16,15 +17,13 @@ describe("NotificationComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NotificationComponent],
-      imports: [
-        ApiModule,
-        HttpClientTestingModule,
+    declarations: [NotificationComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ApiModule,
         NgxsModule.forRoot([GroupState]),
-        RouterTestingModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+        RouterTestingModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     store = TestBed.inject(Store);
     service = TestBed.inject(NotificationsService);

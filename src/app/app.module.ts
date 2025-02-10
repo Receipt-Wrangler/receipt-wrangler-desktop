@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -16,43 +16,34 @@ import { StoreModule } from "../store/store.module";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
-@NgModule({
-  declarations: [AppComponent],
-  imports: [
-    ApiModule.forRoot(
-      () =>
-        new Configuration({
-          basePath: undefined,
-        })
-    ),
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    HttpClientModule,
-    IconModule,
-    LayoutModule,
-    MatSnackBarModule,
-    MatTooltipModule,
-    NgxMaskDirective,
-    NgxMaskPipe,
-    PipesModule,
-    StoreModule,
-  ],
-  providers: [
-    AuthFormUtil,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpInterceptorService,
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initAppData,
-      deps: [AppInitService],
-      multi: true,
-    },
-    provideNgxMask(),
-  ],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [AppComponent],
+    bootstrap: [AppComponent], imports: [ApiModule.forRoot(() => new Configuration({
+            basePath: undefined,
+        })),
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        IconModule,
+        LayoutModule,
+        MatSnackBarModule,
+        MatTooltipModule,
+        NgxMaskDirective,
+        NgxMaskPipe,
+        PipesModule,
+        StoreModule], providers: [
+        AuthFormUtil,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpInterceptorService,
+            multi: true,
+        },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initAppData,
+            deps: [AppInitService],
+            multi: true,
+        },
+        provideNgxMask(),
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {}

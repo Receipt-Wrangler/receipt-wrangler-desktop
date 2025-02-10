@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, Validators } from "@angular/forms";
@@ -11,6 +11,7 @@ import { PipesModule } from "../../pipes";
 import { SnackbarService } from "../../services";
 import { AddUser, AuthState, UpdateUser, UserState } from "../../store";
 import { UserFormComponent } from "./user-form.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("UserFormComponent", () => {
   let component: UserFormComponent;
@@ -19,28 +20,26 @@ describe("UserFormComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UserFormComponent],
-      imports: [
-        HttpClientTestingModule,
-        NgxsModule.forRoot([AuthState, UserState]),
+    declarations: [UserFormComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [NgxsModule.forRoot([AuthState, UserState]),
         ReactiveFormsModule,
         PipesModule,
         MatDialogModule,
         MatSnackBarModule,
-        ApiModule,
-      ],
-      providers: [
+        ApiModule],
+    providers: [
         {
-          provide: MatDialogRef,
-          useValue: {
-            close: () => {},
-          },
+            provide: MatDialogRef,
+            useValue: {
+                close: () => { },
+            },
         },
         SnackbarService,
-      ],
-
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+}).compileComponents();
 
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(UserFormComponent);

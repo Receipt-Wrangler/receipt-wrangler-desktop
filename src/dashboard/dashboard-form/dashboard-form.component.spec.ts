@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -12,6 +12,7 @@ import { SnackbarService } from "../../services";
 import { EditableListComponent } from "../../shared-ui/editable-list/editable-list.component";
 import { GroupState } from "../../store";
 import { DashboardFormComponent } from "./dashboard-form.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("DashboardFormComponent", () => {
   let component: DashboardFormComponent;
@@ -20,26 +21,25 @@ describe("DashboardFormComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DashboardFormComponent, EditableListComponent],
-      imports: [
-        HttpClientTestingModule,
-        MatSnackBarModule,
+    declarations: [DashboardFormComponent, EditableListComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [MatSnackBarModule,
         NgxsModule.forRoot([GroupState]),
         PipesModule,
-        ReactiveFormsModule,
-      ],
-      providers: [
+        ReactiveFormsModule],
+    providers: [
         DashboardService,
         MatDialog,
         {
-          provide: MatDialogRef<DashboardFormComponent>,
-          useValue: {
-            close: (...args: any) => {},
-          },
+            provide: MatDialogRef<DashboardFormComponent>,
+            useValue: {
+                close: (...args: any) => { },
+            },
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
 
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(DashboardFormComponent);

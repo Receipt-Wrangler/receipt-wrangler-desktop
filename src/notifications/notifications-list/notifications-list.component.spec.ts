@@ -1,9 +1,10 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { ApiModule, Notification, NotificationsService } from "../../open-api";
 import { NotificationsListComponent } from "./notifications-list.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("NotificationsListComponent", () => {
   let component: NotificationsListComponent;
@@ -12,10 +13,11 @@ describe("NotificationsListComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NotificationsListComponent],
-      imports: [ApiModule, HttpClientTestingModule],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+    declarations: [NotificationsListComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ApiModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     service = TestBed.inject(NotificationsService);
     fixture = TestBed.createComponent(NotificationsListComponent);

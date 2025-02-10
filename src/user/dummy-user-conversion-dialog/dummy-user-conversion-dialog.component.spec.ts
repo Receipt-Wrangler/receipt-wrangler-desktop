@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatDialogRef } from "@angular/material/dialog";
@@ -10,6 +10,7 @@ import { PipesModule } from "../../pipes";
 import { SnackbarService } from "../../services";
 import { UpdateUser, UserState } from "../../store";
 import { DummyUserConversionDialogComponent } from "./dummy-user-conversion-dialog.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("DummyUserConversionDialogComponent", () => {
   let component: DummyUserConversionDialogComponent;
@@ -17,25 +18,24 @@ describe("DummyUserConversionDialogComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DummyUserConversionDialogComponent],
-      imports: [
-        ApiModule,
-        HttpClientTestingModule,
+    declarations: [DummyUserConversionDialogComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ApiModule,
         MatSnackBarModule,
         NgxsModule.forRoot([UserState]),
-        PipesModule,
-      ],
-      providers: [
+        PipesModule],
+    providers: [
         SnackbarService,
         {
-          provide: MatDialogRef,
-          useValue: {
-            close: () => {},
-          },
+            provide: MatDialogRef,
+            useValue: {
+                close: () => { },
+            },
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
     fixture = TestBed.createComponent(DummyUserConversionDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

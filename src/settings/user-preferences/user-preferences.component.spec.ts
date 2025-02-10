@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -13,6 +13,7 @@ import { PipesModule } from "../../pipes";
 import { AuthState } from "../../store";
 
 import { UserPreferencesComponent } from "./user-preferences.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("UserPreferencesComponent", () => {
   let component: UserPreferencesComponent;
@@ -20,24 +21,23 @@ describe("UserPreferencesComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UserPreferencesComponent, InputReadonlyPipe],
-      imports: [
-        HttpClientTestingModule,
-        ReactiveFormsModule,
+    declarations: [UserPreferencesComponent, InputReadonlyPipe],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ReactiveFormsModule,
         NgxsModule.forRoot([AuthState]),
         MatSnackBarModule,
         PipesModule,
-        SharedUiModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
+        SharedUiModule],
+    providers: [
         UserPreferencesService,
         {
-          provide: ActivatedRoute,
-          useValue: { snapshot: { data: { formConfig: {} } } },
+            provide: ActivatedRoute,
+            useValue: { snapshot: { data: { formConfig: {} } } },
         },
-      ],
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
     fixture = TestBed.createComponent(UserPreferencesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

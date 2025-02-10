@@ -1,5 +1,5 @@
 import { ScrollingModule } from "@angular/cdk/scrolling";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgxsModule, Store } from "@ngxs/store";
@@ -8,6 +8,7 @@ import { ReceiptFilterService } from "src/services/receipt-filter.service";
 import { CustomCurrencyPipe } from "../../pipes/custom-currency.pipe";
 import { GroupState } from "../../store";
 import { FilteredReceiptsComponent } from "./filtered-receipts.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("FilteredReceiptsComponent", () => {
   let component: FilteredReceiptsComponent;
@@ -16,15 +17,12 @@ describe("FilteredReceiptsComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FilteredReceiptsComponent],
-      imports: [
-        NgxsModule.forRoot([GroupState]),
-        HttpClientTestingModule,
-        ScrollingModule,
-      ],
-      providers: [CustomCurrencyPipe],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+    declarations: [FilteredReceiptsComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [NgxsModule.forRoot([GroupState]),
+        ScrollingModule],
+    providers: [CustomCurrencyPipe, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(FilteredReceiptsComponent);
     component = fixture.componentInstance;

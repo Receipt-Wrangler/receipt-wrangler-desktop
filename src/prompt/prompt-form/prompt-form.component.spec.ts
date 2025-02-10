@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -11,6 +11,7 @@ import { SnackbarService } from "../../services";
 import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 
 import { PromptFormComponent } from "./prompt-form.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("PromptFormComponent", () => {
   let component: PromptFormComponent;
@@ -18,23 +19,25 @@ describe("PromptFormComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PromptFormComponent],
-      imports: [SharedUiModule, PipesModule, ReactiveFormsModule, HttpClientTestingModule, NgxsModule.forRoot([])],
-      providers: [
+    declarations: [PromptFormComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [SharedUiModule, PipesModule, ReactiveFormsModule, NgxsModule.forRoot([])],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              data: {
-                prompt: {},
-                formConfig: {}
-              }
+            provide: ActivatedRoute,
+            useValue: {
+                snapshot: {
+                    data: {
+                        prompt: {},
+                        formConfig: {}
+                    }
+                }
             }
-          }
-        }
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(PromptFormComponent);

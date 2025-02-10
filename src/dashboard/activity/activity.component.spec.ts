@@ -1,5 +1,5 @@
 import { ScrollingModule } from "@angular/cdk/scrolling";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatListModule } from "@angular/material/list";
 import { NgxsModule } from "@ngxs/store";
@@ -7,6 +7,7 @@ import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 import { DashboardListComponent } from "../dashboard-list/dashboard-list.component";
 
 import { ActivityComponent } from "./activity.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("ActivityComponent", () => {
   let component: ActivityComponent;
@@ -14,9 +15,10 @@ describe("ActivityComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ActivityComponent, DashboardListComponent],
-      imports: [SharedUiModule, HttpClientTestingModule, ScrollingModule, MatListModule, NgxsModule.forRoot([])]
-    })
+    declarations: [ActivityComponent, DashboardListComponent],
+    imports: [SharedUiModule, ScrollingModule, MatListModule, NgxsModule.forRoot([])],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(ActivityComponent);

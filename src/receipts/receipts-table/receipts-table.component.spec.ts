@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -12,6 +12,7 @@ import { PipesModule } from "src/pipes/pipes.module";
 import { ReceiptTableState } from "src/store/receipt-table.state";
 import { ApiModule, Receipt } from "../../open-api";
 import { ReceiptsTableComponent } from "./receipts-table.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("ReceiptsTableComponent", () => {
   let component: ReceiptsTableComponent;
@@ -19,32 +20,31 @@ describe("ReceiptsTableComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ReceiptsTableComponent],
-      imports: [
-        ApiModule,
-        HttpClientTestingModule,
+    declarations: [ReceiptsTableComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ApiModule,
         NgxsModule.forRoot([ReceiptTableState]),
         ReactiveFormsModule,
         MatSnackBarModule,
         MatTooltipModule,
         MatDialogModule,
-        PipesModule,
-      ],
-      providers: [
+        PipesModule],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              data: {
-                categories: [],
-                tags: [],
-              },
+            provide: ActivatedRoute,
+            useValue: {
+                snapshot: {
+                    data: {
+                        categories: [],
+                        tags: [],
+                    },
+                },
             },
-          },
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+}).compileComponents();
 
     fixture = TestBed.createComponent(ReceiptsTableComponent);
     component = fixture.componentInstance;

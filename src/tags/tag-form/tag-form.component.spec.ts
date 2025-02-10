@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -9,6 +9,7 @@ import { DuplicateValidator } from "src/validators/duplicate-validator";
 import { ApiModule, TagService, TagView } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { TagFormComponent } from "./tag-form.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("CategoryForm", () => {
   let component: TagFormComponent;
@@ -16,26 +17,25 @@ describe("CategoryForm", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TagFormComponent],
-      imports: [
-        ApiModule,
-        HttpClientTestingModule,
+    declarations: [TagFormComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ApiModule,
         MatDialogModule,
         MatSnackBarModule,
         PipesModule,
-        ReactiveFormsModule,
-      ],
-      providers: [
+        ReactiveFormsModule],
+    providers: [
         DuplicateValidator,
         {
-          provide: MatDialogRef,
-          useValue: {
-            close: () => {},
-          },
+            provide: MatDialogRef,
+            useValue: {
+                close: () => { },
+            },
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
     fixture = TestBed.createComponent(TagFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

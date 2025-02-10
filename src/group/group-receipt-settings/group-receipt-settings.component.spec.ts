@@ -1,4 +1,4 @@
-import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormBuilder } from "@angular/forms";
@@ -12,6 +12,7 @@ import { SnackbarService } from "../../services";
 import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 import { GroupUtil } from "../../utils";
 import { GroupReceiptSettingsComponent } from "./group-receipt-settings.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("GroupReceiptSettingsComponent", () => {
   let component: GroupReceiptSettingsComponent;
@@ -32,15 +33,12 @@ describe("GroupReceiptSettingsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GroupReceiptSettingsComponent],
-      imports: [
-        SharedUiModule,
+    declarations: [GroupReceiptSettingsComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [SharedUiModule,
         NgxsModule.forRoot([]),
-        HttpClientTestingModule,
-        PipesModule
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
+        PipesModule],
+    providers: [
         FormBuilder,
         GroupsService,
         Router,
@@ -48,18 +46,20 @@ describe("GroupReceiptSettingsComponent", () => {
         SnackbarService,
         GroupUtil,
         {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              data: {
-                formConfig: { mode: FormMode.edit },
-                group: testGroup
-              }
+            provide: ActivatedRoute,
+            useValue: {
+                snapshot: {
+                    data: {
+                        formConfig: { mode: FormMode.edit },
+                        group: testGroup
+                    }
+                }
             }
-          }
-        }
-      ]
-    }).compileComponents();
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+}).compileComponents();
 
     httpTestingController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(GroupReceiptSettingsComponent);
@@ -83,10 +83,10 @@ describe("GroupReceiptSettingsComponent", () => {
   it("should disable form in view mode", () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-      declarations: [GroupReceiptSettingsComponent],
-      imports: [SharedUiModule, NgxsModule.forRoot([]), HttpClientTestingModule, PipesModule],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
+    declarations: [GroupReceiptSettingsComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [SharedUiModule, NgxsModule.forRoot([]), PipesModule],
+    providers: [
         FormBuilder,
         GroupsService,
         Router,
@@ -94,18 +94,20 @@ describe("GroupReceiptSettingsComponent", () => {
         SnackbarService,
         GroupUtil,
         {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              data: {
-                formConfig: { mode: FormMode.view },
-                group: testGroup
-              }
+            provide: ActivatedRoute,
+            useValue: {
+                snapshot: {
+                    data: {
+                        formConfig: { mode: FormMode.view },
+                        group: testGroup
+                    }
+                }
             }
-          }
-        }
-      ]
-    }).compileComponents();
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+}).compileComponents();
 
     fixture = TestBed.createComponent(GroupReceiptSettingsComponent);
     component = fixture.componentInstance;

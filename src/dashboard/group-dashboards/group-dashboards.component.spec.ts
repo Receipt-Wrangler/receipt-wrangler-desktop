@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, } from "@angular/core/testing";
 import { MatDialogModule } from "@angular/material/dialog";
@@ -12,6 +12,7 @@ import { Dashboard, DashboardService } from "../../open-api";
 import { ButtonModule } from "../../button";
 import { GroupState, SetSelectedDashboardId } from "../../store";
 import { GroupDashboardsComponent } from "./group-dashboards.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("GroupDashboardsComponent", () => {
   let component: GroupDashboardsComponent;
@@ -20,32 +21,31 @@ describe("GroupDashboardsComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GroupDashboardsComponent],
-      imports: [
-        PipesModule,
+    declarations: [GroupDashboardsComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [PipesModule,
         MatDialogModule,
         NgxsModule.forRoot([GroupState, DashboardState]),
         PipesModule,
         ButtonModule,
-        HttpClientTestingModule,
-        MatSnackBarModule,
-      ],
-      providers: [
+        MatSnackBarModule],
+    providers: [
         DashboardService,
         {
-          provide: ActivatedRoute,
-          useValue: {
-            params: new BehaviorSubject<Params>({}),
-            snapshot: {
-              data: {
-                dashboards: [],
-              },
+            provide: ActivatedRoute,
+            useValue: {
+                params: new BehaviorSubject<Params>({}),
+                snapshot: {
+                    data: {
+                        dashboards: [],
+                    },
+                },
             },
-          },
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
     store = TestBed.inject(Store);
     store.reset({
       groups: {
