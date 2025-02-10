@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
-import { APP_INITIALIZER, NgModule } from "@angular/core";
+import { NgModule, inject, provideAppInitializer } from "@angular/core";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { BrowserModule } from "@angular/platform-browser";
@@ -37,12 +37,10 @@ import { AppComponent } from "./app.component";
             useClass: HttpInterceptorService,
             multi: true,
         },
-        {
-            provide: APP_INITIALIZER,
-            useFactory: initAppData,
-            deps: [AppInitService],
-            multi: true,
-        },
+        provideAppInitializer(() => {
+        const initializerFn = (initAppData)(inject(AppInitService));
+        return initializerFn();
+      }),
         provideNgxMask(),
         provideHttpClient(withInterceptorsFromDi()),
     ] })

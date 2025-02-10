@@ -6,9 +6,10 @@ import { QueueMode, ReceiptQueueService } from "../../services/receipt-queue.ser
 import { GroupState } from "../../store/index";
 
 @Component({
-  selector: "app-queue-start-menu",
-  templateUrl: "./queue-start-menu.component.html",
-  styleUrl: "./queue-start-menu.component.scss"
+    selector: "app-queue-start-menu",
+    templateUrl: "./queue-start-menu.component.html",
+    styleUrl: "./queue-start-menu.component.scss",
+    standalone: false
 })
 export class QueueStartMenuComponent implements OnInit {
   @Input() public buttonText: string = "";

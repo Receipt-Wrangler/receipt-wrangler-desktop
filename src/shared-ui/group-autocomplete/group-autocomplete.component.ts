@@ -6,9 +6,10 @@ import { Group } from "../../open-api";
 import { GroupState } from "../../store";
 
 @Component({
-  selector: "app-group-autocomplete",
-  templateUrl: "./group-autocomplete.component.html",
-  styleUrls: ["./group-autocomplete.component.scss"],
+    selector: "app-group-autocomplete",
+    templateUrl: "./group-autocomplete.component.html",
+    styleUrls: ["./group-autocomplete.component.scss"],
+    standalone: false
 })
 export class GroupAutocompleteComponent {
   @Input() public inputFormControl!: FormControl;

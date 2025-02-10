@@ -4,9 +4,10 @@ import { Group, GroupRole } from "../../open-api";
 import { GroupUtil } from "../../utils";
 
 @Component({
-  selector: "app-group-details",
-  templateUrl: "./group-details.component.html",
-  styleUrl: "./group-details.component.scss"
+    selector: "app-group-details",
+    templateUrl: "./group-details.component.html",
+    styleUrl: "./group-details.component.scss",
+    standalone: false
 })
 export class GroupDetailsComponent implements OnInit {
   public canEdit = false;

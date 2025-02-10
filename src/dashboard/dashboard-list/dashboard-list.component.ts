@@ -5,10 +5,11 @@ import { tap } from "rxjs";
 
 @UntilDestroy()
 @Component({
-  selector: "app-dashboard-list",
-  templateUrl: "./dashboard-list.component.html",
-  styleUrl: "./dashboard-list.component.scss",
-  encapsulation: ViewEncapsulation.None,
+    selector: "app-dashboard-list",
+    templateUrl: "./dashboard-list.component.html",
+    styleUrl: "./dashboard-list.component.scss",
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class DashboardListComponent implements AfterViewInit {
   @ViewChild(CdkVirtualScrollViewport) public cdkVirtualScrollViewport!: CdkVirtualScrollViewport;

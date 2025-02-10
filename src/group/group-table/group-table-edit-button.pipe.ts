@@ -3,7 +3,8 @@ import { Group, GroupRole } from "../../open-api";
 import { GroupUtil } from "../../utils/index";
 
 @Pipe({
-  name: "groupTableEditButton"
+    name: "groupTableEditButton",
+    standalone: false
 })
 export class GroupTableEditButtonPipe implements PipeTransform {
 

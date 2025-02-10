@@ -8,9 +8,10 @@ import { SetFilter } from "../../store/group-table.state.actions";
 import { associatedGroupOptions } from "./associated-group-options";
 
 @Component({
-  selector: "app-group-table-filter",
-  templateUrl: "./group-table-filter.component.html",
-  styleUrl: "./group-table-filter.component.scss"
+    selector: "app-group-table-filter",
+    templateUrl: "./group-table-filter.component.html",
+    styleUrl: "./group-table-filter.component.scss",
+    standalone: false
 })
 export class GroupTableFilterComponent extends BaseFormComponent implements OnInit {
   constructor(

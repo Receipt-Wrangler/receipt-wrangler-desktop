@@ -15,9 +15,10 @@ import { DashboardFormComponent } from "../dashboard-form/dashboard-form.compone
 
 @UntilDestroy()
 @Component({
-  selector: "app-group-dashboards",
-  templateUrl: "./group-dashboards.component.html",
-  styleUrls: ["./group-dashboards.component.scss"],
+    selector: "app-group-dashboards",
+    templateUrl: "./group-dashboards.component.html",
+    styleUrls: ["./group-dashboards.component.scss"],
+    standalone: false
 })
 export class GroupDashboardsComponent implements OnInit {
   constructor(

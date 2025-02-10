@@ -4,7 +4,8 @@ import { prettyPrintJson } from "pretty-print-json";
 import { DEFAULT_PRETTY_JSON_OPTIONS } from "../../receipt-processing-settings/constants/pretty-json";
 
 @Pipe({
-  name: "prettyJson"
+    name: "prettyJson",
+    standalone: false
 })
 export class PrettyJsonPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}

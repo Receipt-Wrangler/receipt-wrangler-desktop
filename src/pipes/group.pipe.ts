@@ -4,7 +4,8 @@ import { Group } from "../open-api";
 import { GroupState } from "../store";
 
 @Pipe({
-  name: "group",
+    name: "group",
+    standalone: false
 })
 export class GroupPipe implements PipeTransform {
   constructor(private store: Store) {}

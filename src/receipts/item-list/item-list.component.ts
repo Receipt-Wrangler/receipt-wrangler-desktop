@@ -17,10 +17,11 @@ export interface ItemData {
 }
 
 @Component({
-  selector: "app-item-list",
-  templateUrl: "./item-list.component.html",
-  styleUrls: ["./item-list.component.scss"],
-  encapsulation: ViewEncapsulation.None,
+    selector: "app-item-list",
+    templateUrl: "./item-list.component.html",
+    styleUrls: ["./item-list.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ItemListComponent implements OnInit {
   @ViewChildren("userExpansionPanel")

@@ -6,9 +6,10 @@ import { UserService } from "../../open-api";
 
 @UntilDestroy()
 @Component({
-  selector: "app-summary-card",
-  templateUrl: "./summary-card.component.html",
-  styleUrls: ["./summary-card.component.scss"],
+    selector: "app-summary-card",
+    templateUrl: "./summary-card.component.html",
+    styleUrls: ["./summary-card.component.scss"],
+    standalone: false
 })
 export class SummaryCardComponent implements OnChanges {
   constructor(private userService: UserService) {}

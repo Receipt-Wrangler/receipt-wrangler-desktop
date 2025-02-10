@@ -13,10 +13,11 @@ import { AddUser, AuthState, UpdateUser } from "../../store";
 
 @UntilDestroy()
 @Component({
-  selector: "app-user-form",
-  templateUrl: "./user-form.component.html",
-  styleUrls: ["./user-form.component.scss"],
-  providers: [UserValidators],
+    selector: "app-user-form",
+    templateUrl: "./user-form.component.html",
+    styleUrls: ["./user-form.component.scss"],
+    providers: [UserValidators],
+    standalone: false
 })
 export class UserFormComponent implements OnInit {
   @Input() public user?: User;

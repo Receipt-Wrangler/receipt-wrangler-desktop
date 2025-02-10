@@ -13,15 +13,14 @@ interface Link {
 }
 
 @Component({
-  selector: "app-about",
-  standalone: true,
-  imports: [
-    CommonModule,
-    SharedUiModule,
-    StoreModule
-  ],
-  templateUrl: "./about.component.html",
-  styleUrl: "./about.component.scss"
+    selector: "app-about",
+    imports: [
+        CommonModule,
+        SharedUiModule,
+        StoreModule
+    ],
+    templateUrl: "./about.component.html",
+    styleUrl: "./about.component.scss"
 })
 export class AboutComponent {
   @Select(AboutState.about) public about!: Observable<About>;

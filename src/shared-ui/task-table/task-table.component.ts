@@ -9,9 +9,10 @@ import { TABLE_SERVICE_INJECTION_TOKEN } from "../../services/injection-tokens/t
 import { TableColumn } from "../../table/table-column.interface";
 
 @Component({
-  selector: "app-task-table",
-  templateUrl: "./task-table.component.html",
-  styleUrl: "./task-table.component.scss"
+    selector: "app-task-table",
+    templateUrl: "./task-table.component.html",
+    styleUrl: "./task-table.component.scss",
+    standalone: false
 })
 export class TaskTableComponent implements OnInit, AfterViewInit {
   @ViewChild("typeCell") public typeCell!: TemplateRef<any>;

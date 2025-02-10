@@ -3,9 +3,10 @@ import { FormControl } from "@angular/forms";
 import { RECEIPT_STATUS_OPTIONS } from "src/constants";
 
 @Component({
-  selector: "app-status-select",
-  templateUrl: "./status-select.component.html",
-  styleUrls: ["./status-select.component.scss"],
+    selector: "app-status-select",
+    templateUrl: "./status-select.component.html",
+    styleUrls: ["./status-select.component.scss"],
+    standalone: false
 })
 export class StatusSelectComponent implements OnChanges {
   @Input() public inputFormControl!: FormControl;

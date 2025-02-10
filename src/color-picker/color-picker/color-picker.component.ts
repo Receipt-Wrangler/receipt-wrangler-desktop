@@ -3,9 +3,10 @@ import { FormControl } from "@angular/forms";
 import { BaseInputInterface } from "../../base-input";
 
 @Component({
-  selector: "app-color-picker",
-  templateUrl: "./color-picker.component.html",
-  styleUrls: ["./color-picker.component.scss"],
+    selector: "app-color-picker",
+    templateUrl: "./color-picker.component.html",
+    styleUrls: ["./color-picker.component.scss"],
+    standalone: false
 })
 export class ColorPickerComponent implements BaseInputInterface {
   @Input() public inputFormControl: FormControl<any> = new FormControl();

@@ -10,9 +10,10 @@ import { AuthState, GroupState } from "../../store";
 
 @UntilDestroy()
 @Component({
-  selector: "app-header",
-  templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.scss"],
+    selector: "app-header",
+    templateUrl: "./header.component.html",
+    styleUrls: ["./header.component.scss"],
+    standalone: false
 })
 export class HeaderComponent implements OnInit {
   @Select(AuthState.isLoggedIn) public isLoggedIn!: Observable<boolean>;

@@ -7,10 +7,11 @@ import { GroupRolePipe } from "../../pipes/group-role.pipe";
 
 @UntilDestroy()
 @Component({
-  selector: "/app-filtered-receipts",
-  templateUrl: "./filtered-receipts.component.html",
-  styleUrls: ["./filtered-receipts.component.scss"],
-  providers: [GroupRolePipe],
+    selector: "/app-filtered-receipts",
+    templateUrl: "./filtered-receipts.component.html",
+    styleUrls: ["./filtered-receipts.component.scss"],
+    providers: [GroupRolePipe],
+    standalone: false
 })
 export class FilteredReceiptsComponent implements OnInit {
   @Input() public widget!: Widget;

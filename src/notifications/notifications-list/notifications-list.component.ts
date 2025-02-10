@@ -3,9 +3,10 @@ import { take, tap } from "rxjs";
 import { Notification, NotificationsService } from "../../open-api";
 
 @Component({
-  selector: "app-notifications-list",
-  templateUrl: "./notifications-list.component.html",
-  styleUrls: ["./notifications-list.component.scss"],
+    selector: "app-notifications-list",
+    templateUrl: "./notifications-list.component.html",
+    styleUrls: ["./notifications-list.component.scss"],
+    standalone: false
 })
 export class NotificationsListComponent implements OnInit {
   public notifications: Notification[] = [];

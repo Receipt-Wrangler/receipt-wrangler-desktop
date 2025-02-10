@@ -10,9 +10,10 @@ import { SnackbarService } from "../../services";
 import { AuthState, UpdateGroup } from "../../store";
 
 @Component({
-  selector: "app-group-settings",
-  templateUrl: "./group-settings.component.html",
-  styleUrls: ["./group-settings.component.scss"],
+    selector: "app-group-settings",
+    templateUrl: "./group-settings.component.html",
+    styleUrls: ["./group-settings.component.scss"],
+    standalone: false
 })
 export class GroupSettingsComponent
   extends BaseFormComponent

@@ -4,9 +4,10 @@ import { TabConfig } from "src/shared-ui/tabs/tab-config.interface";
 import { FeatureConfigState } from "../../store";
 
 @Component({
-  selector: "app-group-tabs",
-  templateUrl: "./group-tabs.component.html",
-  styleUrls: ["./group-tabs.component.scss"],
+    selector: "app-group-tabs",
+    templateUrl: "./group-tabs.component.html",
+    styleUrls: ["./group-tabs.component.scss"],
+    standalone: false
 })
 export class GroupTabsComponent {
   public tabs: TabConfig[] = [];

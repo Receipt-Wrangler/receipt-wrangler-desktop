@@ -7,10 +7,11 @@ import { TagService, TagView, UpsertTagCommand } from "../../open-api";
 import { SnackbarService } from "../../services";
 
 @Component({
-  selector: "app-tag-form",
-  templateUrl: "./tag-form.component.html",
-  styleUrls: ["./tag-form.component.scss"],
-  providers: [DuplicateValidator],
+    selector: "app-tag-form",
+    templateUrl: "./tag-form.component.html",
+    styleUrls: ["./tag-form.component.scss"],
+    providers: [DuplicateValidator],
+    standalone: false
 })
 export class TagFormComponent implements OnInit {
   @Input() public headerText: string = "";

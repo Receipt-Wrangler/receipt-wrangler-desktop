@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, Output, TemplateRef } from "@angular/co
 import { BehaviorSubject } from "rxjs";
 
 @Component({
-  selector: "app-editable-list",
-  templateUrl: "./editable-list.component.html",
-  styleUrl: "./editable-list.component.scss"
+    selector: "app-editable-list",
+    templateUrl: "./editable-list.component.html",
+    styleUrl: "./editable-list.component.scss",
+    standalone: false
 })
 export class EditableListComponent {
   @Input() public listData: any[] = [];

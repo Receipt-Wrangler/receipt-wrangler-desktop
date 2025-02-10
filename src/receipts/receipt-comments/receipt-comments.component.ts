@@ -10,9 +10,10 @@ import { AuthState } from "../../store";
 
 @UntilDestroy()
 @Component({
-  selector: "app-receipt-comments",
-  templateUrl: "./receipt-comments.component.html",
-  styleUrls: ["./receipt-comments.component.scss"],
+    selector: "app-receipt-comments",
+    templateUrl: "./receipt-comments.component.html",
+    styleUrls: ["./receipt-comments.component.scss"],
+    standalone: false
 })
 export class ReceiptCommentsComponent implements OnInit {
   @Select(AuthState.userId) public loggedInUserId!: Observable<string>;

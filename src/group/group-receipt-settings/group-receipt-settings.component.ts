@@ -11,9 +11,10 @@ import { UpdateGroup } from "../../store/index";
 import { GroupUtil } from "../../utils/index";
 
 @Component({
-  selector: "app-group-receipt-settings",
-  templateUrl: "./group-receipt-settings.component.html",
-  styleUrl: "./group-receipt-settings.component.scss"
+    selector: "app-group-receipt-settings",
+    templateUrl: "./group-receipt-settings.component.html",
+    styleUrl: "./group-receipt-settings.component.scss",
+    standalone: false
 })
 export class GroupReceiptSettingsComponent extends BaseFormComponent implements OnInit {
   public originalGroup!: Group;

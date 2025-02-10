@@ -5,14 +5,13 @@ import { Tag } from "../open-api/index";
 import { PipesModule } from "../pipes/index";
 
 @Component({
-  selector: "app-tag-autocomplete",
-  standalone: true,
-  imports: [
-    AutocompleteModule,
-    PipesModule
-  ],
-  templateUrl: "./tag-autocomplete.component.html",
-  styleUrl: "./tag-autocomplete.component.scss"
+    selector: "app-tag-autocomplete",
+    imports: [
+        AutocompleteModule,
+        PipesModule
+    ],
+    templateUrl: "./tag-autocomplete.component.html",
+    styleUrl: "./tag-autocomplete.component.scss"
 })
 export class TagAutocompleteComponent {
   @Input() public tags: Tag[] = [];

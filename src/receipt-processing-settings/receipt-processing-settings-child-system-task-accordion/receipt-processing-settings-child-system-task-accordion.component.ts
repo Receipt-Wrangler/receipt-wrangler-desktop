@@ -4,9 +4,10 @@ import { Prompt, SystemTask, SystemTaskStatus, SystemTaskType } from "../../open
 import { AccordionPanel } from "../../shared-ui/accordion/accordion-panel.interface";
 
 @Component({
-  selector: "app-receipt-processing-settings-child-system-task-accordion",
-  templateUrl: "./receipt-processing-settings-child-system-task-accordion.component.html",
-  styleUrl: "./receipt-processing-settings-child-system-task-accordion.component.scss"
+    selector: "app-receipt-processing-settings-child-system-task-accordion",
+    templateUrl: "./receipt-processing-settings-child-system-task-accordion.component.html",
+    styleUrl: "./receipt-processing-settings-child-system-task-accordion.component.scss",
+    standalone: false
 })
 export class ReceiptProcessingSettingsChildSystemTaskAccordionComponent implements OnInit, AfterViewInit {
 

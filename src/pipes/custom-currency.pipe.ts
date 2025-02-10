@@ -5,7 +5,8 @@ import { CurrencySeparator, CurrencySymbolPosition } from "../open-api/index";
 import { SystemSettingsState } from "../store/system-settings.state";
 
 @Pipe({
-  name: "customCurrency",
+    name: "customCurrency",
+    standalone: false
 })
 export class CustomCurrencyPipe implements PipeTransform {
   constructor(private store: Store, private currencyPipe: CurrencyPipe) {}

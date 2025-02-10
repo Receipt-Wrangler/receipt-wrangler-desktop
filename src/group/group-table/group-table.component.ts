@@ -18,16 +18,17 @@ import { GroupTableService } from "./group-table.service";
 
 @UntilDestroy()
 @Component({
-  selector: "app-group-table",
-  templateUrl: "./group-table.component.html",
-  styleUrls: ["./group-table.component.scss"],
-  host: DEFAULT_HOST_CLASS,
-  providers: [
-    {
-      provide: BaseTableService,
-      useClass: GroupTableService
-    }
-  ]
+    selector: "app-group-table",
+    templateUrl: "./group-table.component.html",
+    styleUrls: ["./group-table.component.scss"],
+    host: DEFAULT_HOST_CLASS,
+    providers: [
+        {
+            provide: BaseTableService,
+            useClass: GroupTableService
+        }
+    ],
+    standalone: false
 })
 export class GroupTableComponent extends BaseTableComponent<Group> implements OnInit, AfterViewInit {
   @Select(GroupState.groups) public groups!: Observable<Group[]>;

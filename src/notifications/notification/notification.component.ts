@@ -4,9 +4,10 @@ import { ParameterizedDataParser } from "src/utils";
 import { Notification, NotificationsService } from "../../open-api";
 
 @Component({
-  selector: "app-notification",
-  templateUrl: "./notification.component.html",
-  styleUrls: ["./notification.component.scss"],
+    selector: "app-notification",
+    templateUrl: "./notification.component.html",
+    styleUrls: ["./notification.component.scss"],
+    standalone: false
 })
 export class NotificationComponent implements OnInit {
   @Input() public notification!: Notification;

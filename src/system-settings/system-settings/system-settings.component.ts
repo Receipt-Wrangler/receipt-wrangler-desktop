@@ -2,9 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { TabConfig } from "../../shared-ui/tabs/tab-config.interface";
 
 @Component({
-  selector: "app-system-settings",
-  templateUrl: "./system-settings.component.html",
-  styleUrl: "./system-settings.component.scss"
+    selector: "app-system-settings",
+    templateUrl: "./system-settings.component.html",
+    styleUrl: "./system-settings.component.scss",
+    standalone: false
 })
 export class SystemSettingsComponent implements OnInit {
   public tabs: TabConfig[] = [];

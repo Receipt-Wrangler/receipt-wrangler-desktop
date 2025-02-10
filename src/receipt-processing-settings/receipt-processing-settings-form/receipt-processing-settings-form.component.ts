@@ -28,13 +28,14 @@ import { ocrEngineOptions } from "../constants/ocr-engine-options";
 
 @UntilDestroy()
 @Component({
-  selector: "app-receipt-processing-settings-form",
-  templateUrl: "./receipt-processing-settings-form.component.html",
-  styleUrl: "./receipt-processing-settings-form.component.scss",
-  providers: [{
-    provide: TABLE_SERVICE_INJECTION_TOKEN,
-    useClass: ReceiptProcessingSettingsTaskTableService
-  }]
+    selector: "app-receipt-processing-settings-form",
+    templateUrl: "./receipt-processing-settings-form.component.html",
+    styleUrl: "./receipt-processing-settings-form.component.scss",
+    providers: [{
+            provide: TABLE_SERVICE_INJECTION_TOKEN,
+            useClass: ReceiptProcessingSettingsTaskTableService
+        }],
+    standalone: false
 })
 export class ReceiptProcessingSettingsFormComponent extends BaseFormComponent implements OnInit {
   @ViewChild(TaskTableComponent) public taskTableComponent!: TaskTableComponent;

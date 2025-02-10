@@ -36,10 +36,11 @@ import { UploadImageComponent } from "../upload-image/upload-image.component";
 
 @UntilDestroy()
 @Component({
-  selector: "app-receipt-form",
-  templateUrl: "./receipt-form.component.html",
-  styleUrls: ["./receipt-form.component.scss"],
-  host: DEFAULT_HOST_CLASS,
+    selector: "app-receipt-form",
+    templateUrl: "./receipt-form.component.html",
+    styleUrls: ["./receipt-form.component.scss"],
+    host: DEFAULT_HOST_CLASS,
+    standalone: false
 })
 export class ReceiptFormComponent implements OnInit {
   @ViewChild(ItemListComponent) public itemsListComponent!: ItemListComponent;

@@ -38,13 +38,14 @@ import { BulkStatusUpdateComponent } from "../bulk-resolve-dialog/bulk-status-up
 
 @UntilDestroy()
 @Component({
-  selector: "app-receipts-table",
-  templateUrl: "./receipts-table.component.html",
-  styleUrls: ["./receipts-table.component.scss"],
-  providers: [GroupRolePipe],
-  animations: [fadeInOut],
-  encapsulation: ViewEncapsulation.None,
-  host: DEFAULT_HOST_CLASS,
+    selector: "app-receipts-table",
+    templateUrl: "./receipts-table.component.html",
+    styleUrls: ["./receipts-table.component.scss"],
+    providers: [GroupRolePipe],
+    animations: [fadeInOut],
+    encapsulation: ViewEncapsulation.None,
+    host: DEFAULT_HOST_CLASS,
+    standalone: false
 })
 export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(

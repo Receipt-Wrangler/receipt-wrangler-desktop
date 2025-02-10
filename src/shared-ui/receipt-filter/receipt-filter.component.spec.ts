@@ -20,8 +20,9 @@ import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http"
 
 @UntilDestroy()
 @Component({
-  selector: "app-noop",
-  template: "",
+    selector: "app-noop",
+    template: "",
+    standalone: false
 })
 class NoopComponent {}
 

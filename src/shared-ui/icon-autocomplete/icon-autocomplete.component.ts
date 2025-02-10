@@ -6,9 +6,10 @@ import { Icon } from "../../open-api/index";
 import { AuthState } from "../../store/index";
 
 @Component({
-  selector: "app-icon-autocomplete",
-  templateUrl: "./icon-autocomplete.component.html",
-  styleUrl: "./icon-autocomplete.component.scss"
+    selector: "app-icon-autocomplete",
+    templateUrl: "./icon-autocomplete.component.html",
+    styleUrl: "./icon-autocomplete.component.scss",
+    standalone: false
 })
 export class IconAutocompleteComponent {
   @Input() public inputFormControl!: FormControl;

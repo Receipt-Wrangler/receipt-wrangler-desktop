@@ -17,9 +17,10 @@ import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/
 import { CategoryForm } from "../category-form/category-form.component";
 
 @Component({
-  selector: "app-category-table",
-  templateUrl: "./category-table.component.html",
-  styleUrls: ["./category-table.component.scss"],
+    selector: "app-category-table",
+    templateUrl: "./category-table.component.html",
+    styleUrls: ["./category-table.component.scss"],
+    standalone: false
 })
 export class CategoryTableComponent implements OnInit, AfterViewInit {
   @ViewChild("nameCell") public nameCell!: TemplateRef<any>;

@@ -17,9 +17,10 @@ import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/
 import { TagFormComponent } from "../tag-form/tag-form.component";
 
 @Component({
-  selector: "app-tags-list",
-  templateUrl: "./tag-table.component.html",
-  styleUrls: ["./tag-table.component.scss"],
+    selector: "app-tags-list",
+    templateUrl: "./tag-table.component.html",
+    styleUrls: ["./tag-table.component.scss"],
+    standalone: false
 })
 export class TagTableComponent implements OnInit, AfterViewInit {
   @ViewChild("nameCell") public nameCell!: TemplateRef<any>;

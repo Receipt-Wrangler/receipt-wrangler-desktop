@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 
 @Pipe({
-  name: "taskQueueFormControl",
+    name: "taskQueueFormControl",
+    standalone: false
 })
 export class TaskQueueFormControlPipe implements PipeTransform {
   public transform(form: FormGroup, queueName: string, formKey: string): FormControl {

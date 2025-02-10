@@ -6,10 +6,11 @@ import { FileDataView } from "../../open-api";
 
 @UntilDestroy()
 @Component({
-  selector: "app-carousel",
-  templateUrl: "./carousel.component.html",
-  styleUrls: ["./carousel.component.scss"],
-  encapsulation: ViewEncapsulation.None,
+    selector: "app-carousel",
+    templateUrl: "./carousel.component.html",
+    styleUrls: ["./carousel.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class CarouselComponent implements OnChanges {
   @Input() public images: FileDataView[] = [];

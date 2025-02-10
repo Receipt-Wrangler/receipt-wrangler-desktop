@@ -10,9 +10,10 @@ import {ClaimsService, SnackbarService} from "../../services";
 import {AuthState, UpdateUser} from "../../store";
 
 @Component({
-  selector: "app-user-profile",
-  templateUrl: "./user-profile.component.html",
-  styleUrls: ["./user-profile.component.scss"],
+    selector: "app-user-profile",
+    templateUrl: "./user-profile.component.html",
+    styleUrls: ["./user-profile.component.scss"],
+    standalone: false
 })
 export class UserProfileComponent implements OnInit {
   public form: FormGroup = new FormGroup({});

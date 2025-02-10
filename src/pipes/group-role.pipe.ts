@@ -3,7 +3,8 @@ import { GroupUtil } from "src/utils/group.utils";
 import { GroupRole } from "../open-api";
 
 @Pipe({
-  name: "groupRole",
+    name: "groupRole",
+    standalone: false
 })
 export class GroupRolePipe implements PipeTransform {
   constructor(private groupUtil: GroupUtil) {}

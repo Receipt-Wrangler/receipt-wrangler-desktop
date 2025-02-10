@@ -2,10 +2,11 @@ import {Component, EventEmitter, Input, Output, ViewEncapsulation,} from "@angul
 import {ThemePalette} from "@angular/material/core";
 
 @Component({
-  selector: "app-button",
-  templateUrl: "./button.component.html",
-  styleUrls: ["./button.component.scss"],
-  encapsulation: ViewEncapsulation.None,
+    selector: "app-button",
+    templateUrl: "./button.component.html",
+    styleUrls: ["./button.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ButtonComponent {
   @Input() public buttonClass: string = "";
