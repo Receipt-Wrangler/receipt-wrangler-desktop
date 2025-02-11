@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@use "../../variables.scss" as variables;
 
 app-sidebar {
   height: 100%;
@@ -14,8 +14,8 @@ app-sidebar {
   .add-button-rotated {
     transform: rotate(45deg) !important;
     border-radius: 10px !important;
-    background-color: map-get($primary-palette, 100) !important;
-    color: map-get($primary-palette, 400) !important;
+    background-color: map-get(variables.$primary-palette, 100) !important;
+    color: map-get(variables.$primary-palette, 400) !important;
 
     .mat-mdc-button-persistent-ripple {
       border-radius: 5px !important;
@@ -32,7 +32,7 @@ app-sidebar {
 
   @keyframes add-buttons-slide-open {
     from {
-      height: 0px;
+      height: 0;
       opacity: 0;
     }
     to {
@@ -49,7 +49,7 @@ app-sidebar {
     }
 
     to {
-      height: 0px;
+      height: 0;
       opacity: 0;
     }
   }
@@ -79,11 +79,11 @@ app-sidebar {
   }
 
   .add-sub-button {
-    color: $basic-gray;
+    color: variables.$basic-gray;
   }
 
   .active-sub-button {
-    color: map-get($primary-palette, 400) !important;
+    color: map-get(variables.$primary-palette, 400) !important;
   }
 
   @keyframes active-dot-active {
@@ -120,7 +120,7 @@ app-sidebar {
     height: 10px;
     background-color: #27b1ff;
     border-radius: 50px;
-    box-shadow: $global-shadow;
+    box-shadow: variables.$global-shadow;
   }
 
   .group-avatar-container {

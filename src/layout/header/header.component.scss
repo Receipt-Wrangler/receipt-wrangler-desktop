@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@use "../../variables.scss" as variables;
 
 .nav-button {
   width: 75px;
@@ -34,8 +34,8 @@
 }
 
 .active-link > * {
-  fill: map-get($primary-palette, 400) !important;
-  color: map-get($primary-palette, 400) !important;
+  fill: map-get(variables.$primary-palette, 400) !important;
+  color: map-get(variables.$primary-palette, 400) !important;
 }
 
 .receipt-searchbar {

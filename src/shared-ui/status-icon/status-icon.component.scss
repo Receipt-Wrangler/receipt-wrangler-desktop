@@ -1,9 +1,9 @@
-@import "../../variables.scss";
+@use "../../variables.scss" as variables;
 
 .success-icon {
-  color: map-get($success-palette, 500);
+  color: map-get(variables.$success-palette, 500);
 }
 
 .error-icon {
-  color: map-get($warn-palette, 500);
+  color: map-get(variables.$warn-palette, 500);
 }
