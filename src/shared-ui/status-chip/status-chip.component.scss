@@ -1,7 +1,8 @@
 @use "../../variables.scss" as variables;
+@use "sass:map";
 
 .needs-attention {
-  background-color: map-get(variables.$warn-palette, 100) !important;
+  background-color: map.get(variables.$warn-palette, 100) !important;
   color: white !important;
 }
 

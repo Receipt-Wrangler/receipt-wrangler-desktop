@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "../../variables.scss" as variables;
 
 app-sidebar {
@@ -14,8 +15,8 @@ app-sidebar {
   .add-button-rotated {
     transform: rotate(45deg) !important;
     border-radius: 10px !important;
-    background-color: map-get(variables.$primary-palette, 100) !important;
-    color: map-get(variables.$primary-palette, 400) !important;
+    background-color: map.get(variables.$primary-palette, 100) !important;
+    color: map.get(variables.$primary-palette, 400) !important;
 
     .mat-mdc-button-persistent-ripple {
       border-radius: 5px !important;
@@ -83,7 +84,7 @@ app-sidebar {
   }
 
   .active-sub-button {
-    color: map-get(variables.$primary-palette, 400) !important;
+    color: map.get(variables.$primary-palette, 400) !important;
   }
 
   @keyframes active-dot-active {
