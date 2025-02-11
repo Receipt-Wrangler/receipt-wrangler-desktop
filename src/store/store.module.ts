@@ -49,7 +49,7 @@ import { UserState } from "./user.state";
       disabled: environment.isProd,
     }),
     NgxsStoragePluginModule.forRoot({
-      key: [
+      keys: [
         "about",
         "auth",
         "categoryTable",
