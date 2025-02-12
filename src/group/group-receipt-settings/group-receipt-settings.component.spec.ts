@@ -1,3 +1,4 @@
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
@@ -12,7 +13,6 @@ import { SnackbarService } from "../../services";
 import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 import { GroupUtil } from "../../utils";
 import { GroupReceiptSettingsComponent } from "./group-receipt-settings.component";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("GroupReceiptSettingsComponent", () => {
   let component: GroupReceiptSettingsComponent;
@@ -33,12 +33,12 @@ describe("GroupReceiptSettingsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [GroupReceiptSettingsComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    imports: [SharedUiModule,
+      declarations: [GroupReceiptSettingsComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [SharedUiModule,
         NgxsModule.forRoot([]),
         PipesModule],
-    providers: [
+      providers: [
         FormBuilder,
         GroupsService,
         Router,
@@ -46,20 +46,20 @@ describe("GroupReceiptSettingsComponent", () => {
         SnackbarService,
         GroupUtil,
         {
-            provide: ActivatedRoute,
-            useValue: {
-                snapshot: {
-                    data: {
-                        formConfig: { mode: FormMode.edit },
-                        group: testGroup
-                    }
-                }
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              data: {
+                formConfig: { mode: FormMode.edit },
+                group: testGroup
+              }
             }
+          }
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-}).compileComponents();
+      ]
+    }).compileComponents();
 
     httpTestingController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(GroupReceiptSettingsComponent);
@@ -83,10 +83,10 @@ describe("GroupReceiptSettingsComponent", () => {
   it("should disable form in view mode", () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-    declarations: [GroupReceiptSettingsComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    imports: [SharedUiModule, NgxsModule.forRoot([]), PipesModule],
-    providers: [
+      declarations: [GroupReceiptSettingsComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [SharedUiModule, NgxsModule.forRoot([]), PipesModule],
+      providers: [
         FormBuilder,
         GroupsService,
         Router,
@@ -94,20 +94,20 @@ describe("GroupReceiptSettingsComponent", () => {
         SnackbarService,
         GroupUtil,
         {
-            provide: ActivatedRoute,
-            useValue: {
-                snapshot: {
-                    data: {
-                        formConfig: { mode: FormMode.view },
-                        group: testGroup
-                    }
-                }
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              data: {
+                formConfig: { mode: FormMode.view },
+                group: testGroup
+              }
             }
+          }
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-}).compileComponents();
+      ]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GroupReceiptSettingsComponent);
     component = fixture.componentInstance;
@@ -123,7 +123,7 @@ describe("GroupReceiptSettingsComponent", () => {
     const snackbarService = TestBed.inject(SnackbarService);
 
     spyOn(groupsService, "updateGroupReceiptSettings").and.returnValue(of(testGroup.groupReceiptSettings as any));
-    spyOn(store, "dispatch").and.returnValue(of({}));
+    spyOn(store, "dispatch").and.returnValue(of(undefined));
     spyOn(router, "navigate");
     spyOn(snackbarService, "success");
 
