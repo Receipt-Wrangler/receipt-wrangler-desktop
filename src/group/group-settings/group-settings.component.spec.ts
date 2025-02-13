@@ -1,10 +1,11 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
-import { NgxsModule } from "@ngxs/store";
 import { ApiModule, Group } from "../../open-api";
+import { StoreModule } from "../../store/store.module";
 import { GroupSettingsComponent } from "./group-settings.component";
 
 describe("GroupSettingsComponent", () => {
@@ -15,11 +16,10 @@ describe("GroupSettingsComponent", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [GroupSettingsComponent],
-      imports: [
-        ApiModule,
-        HttpClientTestingModule,
-        NgxsModule.forRoot([]),
-        MatSnackBarModule,
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ApiModule,
+        StoreModule,
+        MatSnackBarModule
       ],
       providers: [
         {
@@ -33,8 +33,9 @@ describe("GroupSettingsComponent", () => {
             },
           },
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ]
     });
     fixture = TestBed.createComponent(GroupSettingsComponent);
     component = fixture.componentInstance;

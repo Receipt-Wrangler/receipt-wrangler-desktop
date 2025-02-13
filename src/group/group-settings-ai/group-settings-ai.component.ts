@@ -6,9 +6,10 @@ import { FormConfig } from "../../interfaces";
 import { Group, Prompt } from "../../open-api";
 
 @Component({
-  selector: "app-group-settings-ai",
-  templateUrl: "./group-settings-ai.component.html",
-  styleUrl: "./group-settings-ai.component.scss"
+    selector: "app-group-settings-ai",
+    templateUrl: "./group-settings-ai.component.html",
+    styleUrl: "./group-settings-ai.component.scss",
+    standalone: false
 })
 export class GroupSettingsAiComponent extends BaseFormComponent implements OnInit {
   @Input() public override form: FormGroup = new FormGroup({});

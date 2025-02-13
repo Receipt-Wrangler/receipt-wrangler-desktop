@@ -18,10 +18,11 @@ import { UserFormComponent } from "../user-form/user-form.component";
 
 @UntilDestroy()
 @Component({
-  selector: "app-user-list",
-  templateUrl: "./user-list.component.html",
-  styleUrls: ["./user-list.component.scss"],
-  host: DEFAULT_HOST_CLASS,
+    selector: "app-user-list",
+    templateUrl: "./user-list.component.html",
+    styleUrls: ["./user-list.component.scss"],
+    host: DEFAULT_HOST_CLASS,
+    standalone: false
 })
 export class UserListComponent implements AfterViewInit {
   @Select(AuthState.userId) public userId!: Observable<string>;

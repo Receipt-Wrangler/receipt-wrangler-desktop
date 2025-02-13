@@ -7,9 +7,10 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-form-list',
-  templateUrl: './form-list.component.html',
-  styleUrls: ['./form-list.component.scss'],
+    selector: 'app-form-list',
+    templateUrl: './form-list.component.html',
+    styleUrls: ['./form-list.component.scss'],
+    standalone: false
 })
 export class FormListComponent {
   @Input() public array: any[] = [];

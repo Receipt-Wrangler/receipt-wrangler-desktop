@@ -6,10 +6,11 @@ import { SnackbarService } from "../../services/index";
 import { GroupState } from "../../store/index";
 
 @Component({
-  selector: "app-activity",
-  templateUrl: "./activity.component.html",
-  styleUrl: "./activity.component.scss",
-  encapsulation: ViewEncapsulation.None
+    selector: "app-activity",
+    templateUrl: "./activity.component.html",
+    styleUrl: "./activity.component.scss",
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ActivityComponent implements OnInit, OnChanges {
   @Input() public widget!: Widget;

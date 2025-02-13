@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { FileData } from "../open-api";
 
 @Pipe({
-  name: "image",
+    name: "image",
+    standalone: false
 })
 export class ImagePipe implements PipeTransform {
   public transform(image: FileData): string {

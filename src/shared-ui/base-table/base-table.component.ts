@@ -8,9 +8,10 @@ import { BaseTableService } from "../../services/base-table.service";
 import { TableColumn } from "../../table/table-column.interface";
 
 @Component({
-  selector: "app-base-table",
-  templateUrl: "./base-table.component.html",
-  styleUrl: "./base-table.component.scss"
+    selector: "app-base-table",
+    templateUrl: "./base-table.component.html",
+    styleUrl: "./base-table.component.scss",
+    standalone: false
 })
 export class BaseTableComponent<T> {
   public columns: TableColumn[] = [];

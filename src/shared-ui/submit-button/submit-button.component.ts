@@ -12,10 +12,11 @@ import { LayoutState } from 'src/store/layout.state';
 import { FormButtonComponent } from '../form-button/form-button.component';
 
 @Component({
-  selector: 'app-submit-button',
-  templateUrl: './submit-button.component.html',
-  styleUrls: ['./submit-button.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-submit-button',
+    templateUrl: './submit-button.component.html',
+    styleUrls: ['./submit-button.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class SubmitButtonComponent
   extends FormButtonComponent

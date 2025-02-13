@@ -8,9 +8,9 @@ import { Dashboard } from "../../open-api";
 export const dashboardResolverFn: ResolveFn<Observable<Dashboard[]>> = (
   route,
   state
-) => {
+): Observable<Dashboard[]> => {
   const store = inject(Store);
   const groupId = route.params["groupId"];
 
-  return store.dispatch(new SetDashboardsForGroup(groupId));
+  return store.dispatch(new SetDashboardsForGroup(groupId)) as any as Observable<Dashboard[]>;
 };

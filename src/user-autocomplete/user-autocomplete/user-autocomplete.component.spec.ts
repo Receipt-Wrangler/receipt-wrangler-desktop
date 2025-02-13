@@ -1,18 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { StoreModule } from "../../store/store.module";
 
-import { UserAutocompleteComponent } from './user-autocomplete.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NgxsModule } from '@ngxs/store';
+import { UserAutocompleteComponent } from "./user-autocomplete.component";
 
-describe('UserAutocompleteComponent', () => {
+describe("UserAutocompleteComponent", () => {
   let component: UserAutocompleteComponent;
   let fixture: ComponentFixture<UserAutocompleteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [UserAutocompleteComponent],
-      imports: [NgxsModule.forRoot([])],
+      imports: [StoreModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserAutocompleteComponent);
@@ -20,7 +26,7 @@ describe('UserAutocompleteComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

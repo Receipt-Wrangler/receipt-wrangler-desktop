@@ -1,9 +1,10 @@
 import { Component, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
 
 @Component({
-  selector: "app-image-viewer",
-  templateUrl: "./image-viewer.component.html",
-  styleUrl: "./image-viewer.component.scss"
+    selector: "app-image-viewer",
+    templateUrl: "./image-viewer.component.html",
+    styleUrl: "./image-viewer.component.scss",
+    standalone: false
 })
 export class ImageViewerComponent implements OnChanges {
   @HostListener("wheel", ["$event"])

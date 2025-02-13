@@ -4,7 +4,8 @@ import { User } from "../open-api";
 import { UserState } from "../store";
 
 @Pipe({
-  name: "user",
+    name: "user",
+    standalone: false
 })
 export class UserPipe implements PipeTransform {
   constructor(private store: Store) {}

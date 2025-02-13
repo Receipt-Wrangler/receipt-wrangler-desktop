@@ -7,10 +7,11 @@ import { SearchResult, SearchService } from "../../open-api";
 
 @UntilDestroy()
 @Component({
-  selector: "app-searchbar",
-  templateUrl: "./searchbar.component.html",
-  styleUrls: ["./searchbar.component.scss"],
-  encapsulation: ViewEncapsulation.None,
+    selector: "app-searchbar",
+    templateUrl: "./searchbar.component.html",
+    styleUrls: ["./searchbar.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class SearchbarComponent {
   public results: SearchResult[] = [];

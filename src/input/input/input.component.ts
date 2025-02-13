@@ -7,9 +7,10 @@ import { SystemSettingsState } from "../../store/system-settings.state";
 import { InputInterface } from "../input.interface";
 
 @Component({
-  selector: "app-input",
-  templateUrl: "./input.component.html",
-  styleUrls: ["./input.component.scss"],
+    selector: "app-input",
+    templateUrl: "./input.component.html",
+    styleUrls: ["./input.component.scss"],
+    standalone: false
 })
 export class InputComponent
   extends BaseInputComponent

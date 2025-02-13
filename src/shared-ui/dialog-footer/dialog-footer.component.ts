@@ -4,9 +4,10 @@ import { Observable } from "rxjs";
 import { LayoutState } from "src/store/layout.state";
 
 @Component({
-  selector: "app-dialog-footer",
-  templateUrl: "./dialog-footer.component.html",
-  styleUrls: ["./dialog-footer.component.scss"],
+    selector: "app-dialog-footer",
+    templateUrl: "./dialog-footer.component.html",
+    styleUrls: ["./dialog-footer.component.scss"],
+    standalone: false
 })
 export class DialogFooterComponent {
   @Input() public additionalButtonsTemplate?: TemplateRef<any>;

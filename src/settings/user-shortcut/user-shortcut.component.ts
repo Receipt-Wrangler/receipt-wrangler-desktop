@@ -6,9 +6,10 @@ import { UserShortcut } from "../../open-api/index";
 import { EditableListComponent } from "../../shared-ui/editable-list/editable-list.component";
 
 @Component({
-  selector: "app-user-shortcut",
-  templateUrl: "./user-shortcut.component.html",
-  styleUrl: "./user-shortcut.component.scss"
+    selector: "app-user-shortcut",
+    templateUrl: "./user-shortcut.component.html",
+    styleUrl: "./user-shortcut.component.scss",
+    standalone: false
 })
 export class UserShortcutComponent {
 

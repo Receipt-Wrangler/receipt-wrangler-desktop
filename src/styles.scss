@@ -1,12 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @use "sass:map";
 @use "@angular/material" as mat;
+@use "./variables.scss" as variables;
+@use "material-icons/iconfont/filled.css";
+@use "material-icons/iconfont/outlined.css";
+@use "@fontsource/raleway";
 
-@include mat.core();
-@import "material-icons/iconfont/filled.css";
-@import "material-icons/iconfont/outlined.css";
-@import "@fontsource/raleway";
-@import "./variables.scss";
+@include mat.elevation-classes();
+@include mat.app-background();
 
 .cursor-pointer {
   cursor: pointer !important;
@@ -14,15 +15,15 @@
 
 $font-family: Raleway, sans-serif;
 
-$my-primary: mat.define-palette($primary-palette);
-$my-accent: mat.define-palette($accent-palette);
-$my-warn: mat.define-palette($warn-palette);
+$my-primary: mat.m2-define-palette(variables.$primary-palette);
+$my-accent: mat.m2-define-palette(variables.$accent-palette);
+$my-warn: mat.m2-define-palette(variables.$warn-palette);
 
-$my-typography: mat.define-typography-config(
+$my-typography: mat.m2-define-typography-config(
   $font-family: $font-family,
 );
 
-$my-theme: mat.define-light-theme(
+$my-theme: mat.m2-define-light-theme(
     (
       color: (
         primary: $my-primary,
@@ -80,40 +81,40 @@ body {
 
 // Global Style Changes
 hr {
-  color: $mat-drawer-background-color;
+  color: variables.$mat-drawer-background-color;
   width: 100%;
 }
 
 ngb-popover-window {
-  box-shadow: $global-shadow;
+  box-shadow: variables.$global-shadow;
 }
 
 .mat-mdc-card {
-  box-shadow: $global-shadow !important;
+  box-shadow: variables.$global-shadow !important;
 }
 
 .mat-mdc-raised-button {
-  box-shadow: $global-shadow !important;
+  box-shadow: variables.$global-shadow !important;
 }
 
 .mat-mdc-dialog-container .mdc-dialog__surface {
-  box-shadow: $global-shadow !important;
+  box-shadow: variables.$global-shadow !important;
 }
 
 .mat-datepicker-content {
-  box-shadow: $global-shadow !important;
+  box-shadow: variables.$global-shadow !important;
 }
 
 .mdc-switch__shadow {
-  box-shadow: $global-shadow !important;
+  box-shadow: variables.$global-shadow !important;
 }
 
 .table-container {
-  box-shadow: $global-shadow;
+  box-shadow: variables.$global-shadow;
 }
 
 .mat-mdc-fab {
-  box-shadow: $global-shadow !important;
+  box-shadow: variables.$global-shadow !important;
 }
 
 .mat-mdc-raised-button.mat-primary {

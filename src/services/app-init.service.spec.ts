@@ -1,16 +1,18 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
 import { ApiModule } from '../open-api/api.module';
 import { AppInitService } from './app-init.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('AppInitService', () => {
   let service: AppInitService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, NgxsModule.forRoot([]), ApiModule],
-    });
+    imports: [NgxsModule.forRoot([]), ApiModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     service = TestBed.inject(AppInitService);
   });
 

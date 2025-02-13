@@ -7,9 +7,10 @@ import { Prompt, PromptService } from "../../open-api";
 import { SnackbarService } from "../../services";
 
 @Component({
-  selector: "app-prompt-form",
-  templateUrl: "./prompt-form.component.html",
-  styleUrl: "./prompt-form.component.scss"
+    selector: "app-prompt-form",
+    templateUrl: "./prompt-form.component.html",
+    styleUrl: "./prompt-form.component.scss",
+    standalone: false
 })
 export class PromptFormComponent extends BaseFormComponent implements OnInit {
   public originalPrompt?: Prompt;

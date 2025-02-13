@@ -1,10 +1,12 @@
 import { CommonModule } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { NgxsModule } from "@ngxs/store";
+import { AuthState, GroupState } from "../../store/index";
 
 import { GroupDetailsComponent } from "./group-details.component";
 
@@ -15,7 +17,8 @@ describe("GroupDetailsComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [GroupDetailsComponent],
-      imports: [ReactiveFormsModule, HttpClientTestingModule, CommonModule, NgxsModule.forRoot([])],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ReactiveFormsModule, CommonModule, NgxsModule.forRoot([GroupState, AuthState])],
       providers: [
         {
           provide: ActivatedRoute,
@@ -27,9 +30,9 @@ describe("GroupDetailsComponent", () => {
             },
           },
         },
-
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ]
     })
       .compileComponents();
 

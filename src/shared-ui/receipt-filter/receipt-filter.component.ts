@@ -10,9 +10,10 @@ import { FormCommand } from "../../form/index";
 import { Category, CategoryService, FilterOperation, Tag, TagService } from "../../open-api";
 
 @Component({
-  selector: "app-receipt-filter",
-  templateUrl: "./receipt-filter.component.html",
-  styleUrls: ["./receipt-filter.component.scss"],
+    selector: "app-receipt-filter",
+    templateUrl: "./receipt-filter.component.html",
+    styleUrls: ["./receipt-filter.component.scss"],
+    standalone: false
 })
 export class ReceiptFilterComponent implements OnInit {
   @Input() public headerText: string = "";

@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -10,6 +10,7 @@ import { ButtonModule } from "../../button";
 import { ApiModule } from "../../open-api";
 
 import { GroupTableComponent } from "./group-table.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("GroupTableComponent", () => {
   let component: GroupTableComponent;
@@ -17,19 +18,17 @@ describe("GroupTableComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GroupTableComponent],
-      imports: [
-        ApiModule,
+    declarations: [GroupTableComponent],
+    imports: [ApiModule,
         ButtonModule,
-        HttpClientTestingModule,
         MatDialogModule,
         MatSnackBarModule,
         NgxsModule.forRoot([]),
         RouterTestingModule,
         SharedUiModule,
-        TableModule,
-      ],
-    }).compileComponents();
+        TableModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
 
     fixture = TestBed.createComponent(GroupTableComponent);
     component = fixture.componentInstance;

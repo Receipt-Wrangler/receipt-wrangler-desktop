@@ -2,7 +2,10 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { AuthState } from '../store/auth.state';
 
-@Directive({ selector: '[appRole]' })
+@Directive({
+    selector: '[appRole]',
+    standalone: false
+})
 export class RoleDirective {
   private hasView = false;
 

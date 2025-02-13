@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -9,6 +9,7 @@ import { GroupTableState } from "../../store/group-table.state";
 import { SetFilter } from "../../store/group-table.state.actions";
 
 import { GroupTableFilterComponent } from "./group-table-filter.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("GroupTableFilterComponent", () => {
   let component: GroupTableFilterComponent;
@@ -18,13 +19,15 @@ describe("GroupTableFilterComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GroupTableFilterComponent],
-      imports: [ReactiveFormsModule, NgxsModule.forRoot([GroupTableState]), PipesModule, ReactiveFormsModule, HttpClientTestingModule],
-      providers: [
-        { provide: MatDialogRef, useValue: { close: jasmine.createSpy() } }
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
+    declarations: [GroupTableFilterComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ReactiveFormsModule, NgxsModule.forRoot([GroupTableState]), PipesModule, ReactiveFormsModule],
+    providers: [
+        { provide: MatDialogRef, useValue: { close: jasmine.createSpy() } },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(GroupTableFilterComponent);

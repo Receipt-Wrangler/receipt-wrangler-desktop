@@ -9,7 +9,8 @@ import {
 import { FilterOperation } from "src/open-api";
 
 @Pipe({
-  name: "operations",
+    name: "operations",
+    standalone: false
 })
 export class OperationsPipe implements PipeTransform {
   private displayValues: { [key: string]: string } = {

@@ -5,9 +5,10 @@ import { BaseInputInterface } from "../base-input.interface";
 import { InputErrorMessage } from "./input-error-message";
 
 @Component({
-  selector: "app-base-input",
-  templateUrl: "./base-input.component.html",
-  styleUrls: ["./base-input.component.scss"],
+    selector: "app-base-input",
+    templateUrl: "./base-input.component.html",
+    styleUrls: ["./base-input.component.scss"],
+    standalone: false
 })
 export class BaseInputComponent implements OnInit, BaseInputInterface {
   @Input() public inputFormControl: FormControl = new FormControl();

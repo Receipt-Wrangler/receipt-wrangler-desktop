@@ -20,15 +20,16 @@ import { TableColumn } from "../../table/table-column.interface";
 import { ReceiptProcessingSettingsTableService } from "./receipt-processing-settings-table.service";
 
 @Component({
-  selector: "app-receipt-processing-settings-table",
-  templateUrl: "./receipt-processing-settings-table.component.html",
-  styleUrl: "./receipt-processing-settings-table.component.scss",
-  providers: [
-    {
-      provide: BaseTableService,
-      useClass: ReceiptProcessingSettingsTableService
-    }
-  ]
+    selector: "app-receipt-processing-settings-table",
+    templateUrl: "./receipt-processing-settings-table.component.html",
+    styleUrl: "./receipt-processing-settings-table.component.scss",
+    providers: [
+        {
+            provide: BaseTableService,
+            useClass: ReceiptProcessingSettingsTableService
+        }
+    ],
+    standalone: false
 })
 export class ReceiptProcessingSettingsTableComponent extends BaseTableComponent<ReceiptProcessingSettings> implements OnInit, AfterViewInit {
   @ViewChild("nameCell") public nameCell!: TemplateRef<any>;

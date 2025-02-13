@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -6,7 +7,6 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { ActivatedRoute } from "@angular/router";
-import { NgxsModule } from "@ngxs/store";
 import { of } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
 import { PipesModule } from "src/pipes/pipes.module";
@@ -14,7 +14,7 @@ import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 import { ApiModule, ReceiptImageService, ReceiptStatus } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { QueueMode } from "../../services/receipt-queue.service";
-import { GroupState } from "../../store";
+import { StoreModule } from "../../store/store.module";
 import { ReceiptFormComponent } from "./receipt-form.component";
 
 describe("ReceiptFormComponent", () => {
@@ -24,25 +24,25 @@ describe("ReceiptFormComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ReceiptFormComponent],
-      imports: [
-        ApiModule,
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ApiModule,
         PipesModule,
-        HttpClientTestingModule,
         MatDialogModule,
         MatSnackBarModule,
-        NgxsModule.forRoot([GroupState]),
+        StoreModule,
         NoopAnimationsModule,
         PipesModule,
         ReactiveFormsModule,
-        SharedUiModule,
+        SharedUiModule
       ],
       providers: [
         {
           provide: ActivatedRoute,
           useValue: { snapshot: { data: {}, queryParams: {} }, params: of({}) },
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ReceiptFormComponent);

@@ -1,10 +1,11 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { ResolveFn } from "@angular/router";
 import { NgxsModule } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { ApiModule, Receipt, ReceiptService } from "../open-api";
 import { receiptResolverFn } from "./receipt.resolver";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("ReceiptResolverService", () => {
   const executeResolver: ResolveFn<Observable<Receipt>> = (
@@ -17,8 +18,9 @@ describe("ReceiptResolverService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ApiModule, HttpClientTestingModule, NgxsModule.forRoot([])],
-    });
+    imports: [ApiModule, NgxsModule.forRoot([])],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
   });
 
   it("should call receipt service", () => {

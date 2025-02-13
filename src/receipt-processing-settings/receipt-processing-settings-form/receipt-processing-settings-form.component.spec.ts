@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -13,6 +13,7 @@ import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 import { ReceiptProcessingSettingsTaskTableState } from "../../store/receipt-processing-settings-task-table.state";
 
 import { ReceiptProcessingSettingsFormComponent } from "./receipt-processing-settings-form.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("ReceiptProcessingSettingsFormComponent", () => {
   let component: ReceiptProcessingSettingsFormComponent;
@@ -20,36 +21,34 @@ describe("ReceiptProcessingSettingsFormComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ReceiptProcessingSettingsFormComponent],
-      imports: [
-        HttpClientTestingModule,
-        NgxsModule.forRoot([ReceiptProcessingSettingsTaskTableState]),
+    declarations: [ReceiptProcessingSettingsFormComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [NgxsModule.forRoot([ReceiptProcessingSettingsTaskTableState]),
         NoopAnimationsModule,
         PipesModule,
         ReactiveFormsModule,
-        SharedUiModule,
-      ],
-      providers: [
+        SharedUiModule],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              data: {
-                prompts: [],
-                receiptProcessingSettings: {},
-                formConfig: {},
-              }
+            provide: ActivatedRoute,
+            useValue: {
+                snapshot: {
+                    data: {
+                        prompts: [],
+                        receiptProcessingSettings: {},
+                        formConfig: {},
+                    }
+                }
             }
-          }
         },
         {
-          provide: TABLE_SERVICE_INJECTION_TOKEN,
-          useClass: ReceiptProcessingSettingsTaskTableService
-        }
-
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
+            provide: TABLE_SERVICE_INJECTION_TOKEN,
+            useClass: ReceiptProcessingSettingsTaskTableService
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(ReceiptProcessingSettingsFormComponent);

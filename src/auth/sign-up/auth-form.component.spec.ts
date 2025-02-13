@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -18,6 +18,7 @@ import { AuthState } from '../../store/auth.state';
 import { FeatureConfigState } from '../../store/feature-config.state';
 import { AuthFormUtil } from './auth-form.util';
 import { RouterTestingModule } from '@angular/router/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('AuthForm', () => {
   let component: AuthForm;
@@ -25,10 +26,8 @@ describe('AuthForm', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AuthForm, FeatureDirective],
-      imports: [
-        ButtonModule,
-        HttpClientTestingModule,
+    declarations: [AuthForm, FeatureDirective],
+    imports: [ButtonModule,
         InputModule,
         MatSnackBarModule,
         NgxsModule.forRoot([AuthState, FeatureConfigState]),
@@ -36,20 +35,21 @@ describe('AuthForm', () => {
         PipesModule,
         ReactiveFormsModule,
         ApiModule,
-        RouterTestingModule,
-      ],
-      providers: [
+        RouterTestingModule],
+    providers: [
         SnackbarService,
         AppInitService,
         AuthFormUtil,
         {
-          provide: ActivatedRoute,
-          useValue: {
-            data: of(undefined),
-          },
+            provide: ActivatedRoute,
+            useValue: {
+                data: of(undefined),
+            },
         },
-      ],
-    }).compileComponents();
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+}).compileComponents();
 
     fixture = TestBed.createComponent(AuthForm);
     component = fixture.componentInstance;

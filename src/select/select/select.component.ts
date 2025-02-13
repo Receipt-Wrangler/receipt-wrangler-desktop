@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from "@angular/core";
 import { BaseInputComponent } from "../../base-input";
 
 @Component({
-  selector: "app-select",
-  templateUrl: "./select.component.html",
-  styleUrls: ["./select.component.scss"],
+    selector: "app-select",
+    templateUrl: "./select.component.html",
+    styleUrls: ["./select.component.scss"],
+    standalone: false
 })
 export class SelectComponent extends BaseInputComponent implements OnInit {
   @Input() public options: any[] = [];

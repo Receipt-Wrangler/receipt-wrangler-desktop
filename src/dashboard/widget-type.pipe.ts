@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { WidgetType } from "../open-api/index";
 
 @Pipe({
-  name: "widgetType"
+    name: "widgetType",
+    standalone: false
 })
 export class WidgetTypePipe implements PipeTransform {
   transform(value: WidgetType): string {

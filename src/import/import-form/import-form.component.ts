@@ -16,10 +16,11 @@ import { SnackbarService } from "../../services";
 import { SetFeatureConfig } from "../../store";
 
 @Component({
-  selector: "app-import-form",
-  templateUrl: "./import-form.component.html",
-  styleUrl: "./import-form.component.scss",
-  animations: [fadeInOut],
+    selector: "app-import-form",
+    templateUrl: "./import-form.component.html",
+    styleUrl: "./import-form.component.scss",
+    animations: [fadeInOut],
+    standalone: false
 })
 export class ImportFormComponent extends BaseFormComponent implements OnInit {
   @ViewChild(UploadImageComponent)

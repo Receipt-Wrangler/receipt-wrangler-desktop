@@ -1,4 +1,4 @@
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {ComponentFixture, TestBed} from "@angular/core/testing";
 import {MatTableDataSource} from "@angular/material/table";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
@@ -11,6 +11,7 @@ import {SystemEmailTableState} from "../../store/system-email-table.state";
 import {TableModule} from "../../table/table.module";
 
 import {SystemEmailTableComponent} from "./system-email-table.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("SystemEmailsComponent", () => {
   let component: SystemEmailTableComponent;
@@ -18,17 +19,16 @@ describe("SystemEmailsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SystemEmailTableComponent],
-      imports: [SharedUiModule,
-        HttpClientTestingModule,
+    declarations: [SystemEmailTableComponent],
+    imports: [SharedUiModule,
         NgxsModule.forRoot([SystemEmailTableState]),
         TableModule,
         NoopAnimationsModule],
-      providers: [{
-        provide: ActivatedRoute,
-        useValue: {}
-      }]
-    })
+    providers: [{
+            provide: ActivatedRoute,
+            useValue: {}
+        }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(SystemEmailTableComponent);

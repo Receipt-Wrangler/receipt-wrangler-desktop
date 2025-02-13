@@ -4,7 +4,7 @@
   class="default-size scroll-container"
 >
   <mat-list>
-    @if (items?.length === 0) {
+    @if (items.length === 0) {
       <mat-list-item class="item-size" *ngIf="items?.length === 0">
         {{ noItemFoundText }}
       </mat-list-item>

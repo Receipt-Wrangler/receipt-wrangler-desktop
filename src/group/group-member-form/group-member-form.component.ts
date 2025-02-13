@@ -10,9 +10,10 @@ import { GROUP_ROLE_OPTIONS } from "../role-options";
 import { buildGroupMemberForm } from "../utils/group-member.utils";
 
 @Component({
-  selector: "app-group-member-form",
-  templateUrl: "./group-member-form.component.html",
-  styleUrls: ["./group-member-form.component.scss"],
+    selector: "app-group-member-form",
+    templateUrl: "./group-member-form.component.html",
+    styleUrls: ["./group-member-form.component.scss"],
+    standalone: false
 })
 export class GroupMemberFormComponent implements OnInit {
   @Select(AuthState.userId) public userId!: Observable<string>;

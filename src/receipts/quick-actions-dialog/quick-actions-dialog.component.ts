@@ -12,9 +12,10 @@ enum QuickActions {
 }
 
 @Component({
-  selector: "app-quick-actions-dialog",
-  templateUrl: "./quick-actions-dialog.component.html",
-  styleUrls: ["./quick-actions-dialog.component.scss"],
+    selector: "app-quick-actions-dialog",
+    templateUrl: "./quick-actions-dialog.component.html",
+    styleUrls: ["./quick-actions-dialog.component.scss"],
+    standalone: false
 })
 export class QuickActionsDialogComponent implements OnInit {
   @Input() public originalReceipt?: Receipt;

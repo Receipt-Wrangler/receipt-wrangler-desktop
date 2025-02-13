@@ -5,9 +5,10 @@ import { RECEIPT_STATUS_OPTIONS } from "src/constants/receipt-status-options";
 import { ReceiptStatus } from "../../open-api";
 
 @Component({
-  selector: "app-bulk-status-update-dialog",
-  templateUrl: "./bulk-status-update-dialog.component.html",
-  styleUrls: ["./bulk-status-update-dialog.component.scss"],
+    selector: "app-bulk-status-update-dialog",
+    templateUrl: "./bulk-status-update-dialog.component.html",
+    styleUrls: ["./bulk-status-update-dialog.component.scss"],
+    standalone: false
 })
 export class BulkStatusUpdateComponent implements OnInit {
   public form: FormGroup = new FormGroup({});

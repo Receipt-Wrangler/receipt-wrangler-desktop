@@ -2,8 +2,9 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { intervalToDuration, isToday, isValid } from "date-fns";
 
 @Pipe({
-  name: "duration",
-  pure: true
+    name: "duration",
+    pure: true,
+    standalone: false
 })
 export class DurationPipe implements PipeTransform {
   public transform(date: string | Date | null | undefined): string {

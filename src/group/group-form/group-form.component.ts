@@ -22,10 +22,11 @@ import {buildGroupMemberForm} from "../utils/group-member.utils";
 
 @UntilDestroy()
 @Component({
-  selector: "app-create-group-form",
-  templateUrl: "./group-form.component.html",
-  styleUrls: ["./group-form.component.scss"],
-  host: DEFAULT_HOST_CLASS,
+    selector: "app-create-group-form",
+    templateUrl: "./group-form.component.html",
+    styleUrls: ["./group-form.component.scss"],
+    host: DEFAULT_HOST_CLASS,
+    standalone: false
 })
 export class GroupFormComponent implements OnInit, AfterViewInit {
   @ViewChild("nameCell") public nameCell!: TemplateRef<any>;

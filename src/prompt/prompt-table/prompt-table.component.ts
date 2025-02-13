@@ -15,9 +15,10 @@ import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/
 import { TableColumn } from "../../table/table-column.interface";
 
 @Component({
-  selector: "app-prompt-table",
-  templateUrl: "./prompt-table.component.html",
-  styleUrl: "./prompt-table.component.scss"
+    selector: "app-prompt-table",
+    templateUrl: "./prompt-table.component.html",
+    styleUrl: "./prompt-table.component.scss",
+    standalone: false
 })
 export class PromptTableComponent implements OnInit, AfterViewInit {
   @Select(PromptTableState.state) public tableState!: Observable<PagedTableInterface>;

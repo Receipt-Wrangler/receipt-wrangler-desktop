@@ -5,7 +5,8 @@ import { SearchResult } from "../../open-api";
 import { GroupState } from "../../store";
 
 @Pipe({
-  name: "searchResult",
+    name: "searchResult",
+    standalone: false
 })
 export class SearchResultPipe implements PipeTransform {
   constructor(private datePipe: DatePipe, private store: Store) {}

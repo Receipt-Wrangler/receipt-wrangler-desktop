@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
@@ -18,6 +18,7 @@ import { SystemSettingsState } from "../../store/system-settings.state";
 import { TaskQueueFormControlPipe } from "../pipes/task-queue-form-control.pipe";
 
 import { SystemSettingsFormComponent } from "./system-settings-form.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("SystemSettingsFormComponent", () => {
   let component: SystemSettingsFormComponent;
@@ -26,35 +27,34 @@ describe("SystemSettingsFormComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SystemSettingsFormComponent, CustomCurrencyPipe, TaskQueueFormControlPipe],
-      imports: [
-        AutocompleteModule,
+    declarations: [SystemSettingsFormComponent, CustomCurrencyPipe, TaskQueueFormControlPipe],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [AutocompleteModule,
         CheckboxModule,
-        HttpClientTestingModule,
         InputModule,
         NgxsModule.forRoot([SystemSettingsState]),
         PipesModule,
         ReactiveFormsModule,
         SharedUiModule,
-        NoopAnimationsModule,
-      ],
-      providers: [
+        NoopAnimationsModule],
+    providers: [
         CustomCurrencyPipe,
         {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              data: {
-                allReceiptProcessingSettings: [],
-                systemSettings: {},
-                formConfig: {}
-              }
+            provide: ActivatedRoute,
+            useValue: {
+                snapshot: {
+                    data: {
+                        allReceiptProcessingSettings: [],
+                        systemSettings: {},
+                        formConfig: {}
+                    }
+                }
             }
-          }
-        }
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+})
       .compileComponents();
 
     store = TestBed.inject(Store);

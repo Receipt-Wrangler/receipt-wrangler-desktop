@@ -3,9 +3,10 @@ import { FormControl } from "@angular/forms";
 import { BaseInputInterface } from "../../base-input";
 
 @Component({
-  selector: "app-checkbox",
-  templateUrl: "./checkbox.component.html",
-  styleUrls: ["./checkbox.component.scss"],
+    selector: "app-checkbox",
+    templateUrl: "./checkbox.component.html",
+    styleUrls: ["./checkbox.component.scss"],
+    standalone: false
 })
 export class CheckboxComponent implements BaseInputInterface {
   @Input() public inputFormControl: FormControl<any> = new FormControl();

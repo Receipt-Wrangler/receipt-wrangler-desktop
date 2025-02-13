@@ -1,7 +1,7 @@
-@import "../../variables.scss";
+@use "../../variables.scss" as variables;
 
 .reply-button {
-  color: $basic-gray !important;
+  color: variables.$basic-gray !important;
 }
 
 .content-margin {

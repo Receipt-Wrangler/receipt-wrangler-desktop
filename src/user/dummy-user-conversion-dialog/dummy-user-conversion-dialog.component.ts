@@ -8,9 +8,10 @@ import { SnackbarService } from "../../services";
 import { UpdateUser } from "../../store";
 
 @Component({
-  selector: "app-dummy-user-conversion-dialog",
-  templateUrl: "./dummy-user-conversion-dialog.component.html",
-  styleUrls: ["./dummy-user-conversion-dialog.component.scss"],
+    selector: "app-dummy-user-conversion-dialog",
+    templateUrl: "./dummy-user-conversion-dialog.component.html",
+    styleUrls: ["./dummy-user-conversion-dialog.component.scss"],
+    standalone: false
 })
 export class DummyUserConversionDialogComponent implements OnInit {
   @Input() public user!: User;

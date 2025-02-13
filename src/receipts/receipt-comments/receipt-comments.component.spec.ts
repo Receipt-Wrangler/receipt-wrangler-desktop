@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormGroup, ReactiveFormsModule } from "@angular/forms";
@@ -10,6 +10,7 @@ import { PipesModule } from "src/pipes/pipes.module";
 import { ApiModule, Comment, CommentService } from "../../open-api";
 import { AuthState } from "../../store";
 import { ReceiptCommentsComponent } from "./receipt-comments.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("ReceiptCommentsComponent", () => {
   let component: ReceiptCommentsComponent;
@@ -38,17 +39,15 @@ describe("ReceiptCommentsComponent", () => {
     ];
 
     await TestBed.configureTestingModule({
-      declarations: [ReceiptCommentsComponent],
-      imports: [
-        ApiModule,
+    declarations: [ReceiptCommentsComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ApiModule,
         ReactiveFormsModule,
         NgxsModule.forRoot([AuthState]),
-        HttpClientTestingModule,
         MatSnackBarModule,
-        PipesModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+        PipesModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
 
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(ReceiptCommentsComponent);

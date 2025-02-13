@@ -11,12 +11,13 @@ import { GroupState } from "../../store";
 import { UserValidators } from "../../validators";
 
 @Component({
-  selector: "app-auth-form",
-  templateUrl: "./auth-form.component.html",
-  styleUrls: ["./auth-form.component.scss"],
-  encapsulation: ViewEncapsulation.None,
-  providers: [UserValidators],
-  animations: [fadeInOut, fadeIn]
+    selector: "app-auth-form",
+    templateUrl: "./auth-form.component.html",
+    styleUrls: ["./auth-form.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    providers: [UserValidators],
+    animations: [fadeInOut, fadeIn],
+    standalone: false
 })
 export class AuthForm implements OnInit {
   public form: FormGroup = new FormGroup({});

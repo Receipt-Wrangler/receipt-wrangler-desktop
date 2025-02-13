@@ -1,16 +1,17 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
-import { NgxsModule, Store } from "@ngxs/store";
+import { Store } from "@ngxs/store";
 import { of } from "rxjs";
 import { InputReadonlyPipe } from "src/pipes/input-readonly.pipe";
 import { SharedUiModule } from "src/shared-ui/shared-ui.module";
 import { UserPreferences, UserPreferencesService } from "../../open-api";
 import { PipesModule } from "../../pipes";
-import { AuthState } from "../../store";
+import { StoreModule } from "../../store/store.module";
 
 import { UserPreferencesComponent } from "./user-preferences.component";
 
@@ -21,22 +22,23 @@ describe("UserPreferencesComponent", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [UserPreferencesComponent, InputReadonlyPipe],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        HttpClientTestingModule,
         ReactiveFormsModule,
-        NgxsModule.forRoot([AuthState]),
+        StoreModule,
         MatSnackBarModule,
         PipesModule,
-        SharedUiModule,
+        SharedUiModule
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         UserPreferencesService,
         {
           provide: ActivatedRoute,
           useValue: { snapshot: { data: { formConfig: {} } } },
         },
-      ],
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ]
     });
     fixture = TestBed.createComponent(UserPreferencesComponent);
     component = fixture.componentInstance;

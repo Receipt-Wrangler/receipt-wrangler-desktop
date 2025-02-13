@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
@@ -23,6 +23,7 @@ import { AddGroup, UpdateGroup } from "../../store";
 import { GroupMemberFormComponent } from "../group-member-form/group-member-form.component";
 import { buildGroupMemberForm } from "../utils/group-member.utils";
 import { GroupFormComponent } from "./group-form.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("GroupFormComponent", () => {
   let component: GroupFormComponent;
@@ -30,12 +31,10 @@ describe("GroupFormComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GroupFormComponent, GroupMemberFormComponent],
-      imports: [
-        ApiModule,
+    declarations: [GroupFormComponent, GroupMemberFormComponent],
+    imports: [ApiModule,
         ButtonModule,
         PipesModule,
-        HttpClientTestingModule,
         InputModule,
         MatCardModule,
         MatDialogModule,
@@ -48,22 +47,23 @@ describe("GroupFormComponent", () => {
         SelectModule,
         SharedUiModule,
         TableModule,
-        UserAutocompleteModule,
-      ],
-      providers: [
+        UserAutocompleteModule],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              data: {
-                group: {},
-                formConfig: {},
-              },
+            provide: ActivatedRoute,
+            useValue: {
+                snapshot: {
+                    data: {
+                        group: {},
+                        formConfig: {},
+                    },
+                },
             },
-          },
         },
-      ],
-    }).compileComponents();
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+}).compileComponents();
 
     fixture = TestBed.createComponent(GroupFormComponent);
     component = fixture.componentInstance;

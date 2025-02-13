@@ -10,10 +10,11 @@ import { GroupState } from "../../store";
 
 @UntilDestroy()
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./dashboard.component.html",
-  styleUrls: ["./dashboard.component.scss"],
-  host: DEFAULT_HOST_CLASS,
+    selector: "app-dashboard",
+    templateUrl: "./dashboard.component.html",
+    styleUrls: ["./dashboard.component.scss"],
+    host: DEFAULT_HOST_CLASS,
+    standalone: false
 })
 export class DashboardComponent implements OnInit {
   @Select(GroupState.selectedGroupId)

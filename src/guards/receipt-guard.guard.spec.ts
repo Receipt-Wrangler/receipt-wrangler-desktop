@@ -1,10 +1,11 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { CanActivateFn } from "@angular/router";
 import { NgxsModule, Store } from "@ngxs/store";
 import { Observable, of, take, tap } from "rxjs";
 import { ApiModule, GroupRole, ReceiptService } from "../open-api";
 import { receiptGuardGuard } from "./receipt-guard.guard";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("receiptGuardGuard", () => {
   const executeGuard: CanActivateFn = (...guardParameters) =>
@@ -14,8 +15,9 @@ describe("receiptGuardGuard", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ApiModule, HttpClientTestingModule, NgxsModule.forRoot([])],
-    });
+    imports: [ApiModule, NgxsModule.forRoot([])],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     store = TestBed.inject(Store);
     receiptService = TestBed.inject(ReceiptService);

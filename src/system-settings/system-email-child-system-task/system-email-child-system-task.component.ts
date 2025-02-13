@@ -3,9 +3,10 @@ import {ReceiptProcessingSettings, SystemTask, SystemTaskType} from "../../open-
 import {AccordionPanel} from "../../shared-ui/accordion/accordion-panel.interface";
 
 @Component({
-  selector: 'app-system-email-child-system-task',
-  templateUrl: './system-email-child-system-task.component.html',
-  styleUrl: './system-email-child-system-task.component.scss'
+    selector: 'app-system-email-child-system-task',
+    templateUrl: './system-email-child-system-task.component.html',
+    styleUrl: './system-email-child-system-task.component.scss',
+    standalone: false
 })
 export class SystemEmailChildSystemTaskComponent implements AfterViewInit {
   @ViewChild('emailUploadDetails') public emailUploadDetails!: TemplateRef<any>;

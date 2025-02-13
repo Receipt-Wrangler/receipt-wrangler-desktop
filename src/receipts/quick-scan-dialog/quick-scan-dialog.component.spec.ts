@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -16,6 +16,7 @@ import { PipesModule } from "../../pipes";
 import { SnackbarService } from "../../services";
 import { AuthState, GroupState } from "../../store";
 import { QuickScanDialogComponent } from "./quick-scan-dialog.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("QuickScanDialogComponent", () => {
   let component: QuickScanDialogComponent;
@@ -24,37 +25,36 @@ describe("QuickScanDialogComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [QuickScanDialogComponent],
-      imports: [
-        ApiModule,
+    declarations: [QuickScanDialogComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ApiModule,
         CarouselModule,
-        HttpClientTestingModule,
         MatDialogModule,
         MatSnackBarModule,
         NgxsModule.forRoot([AuthState, GroupState, LayoutState]),
         NoopAnimationsModule,
         PipesModule,
         ReactiveFormsModule,
-        SharedUiModule,
-      ],
-      providers: [
+        SharedUiModule],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: {},
+            provide: ActivatedRoute,
+            useValue: {},
         },
         {
-          provide: MatDialog,
-          useValue: {}
+            provide: MatDialog,
+            useValue: {}
         },
         {
-          provide: MatDialogRef<QuickScanDialogComponent>,
-          useValue: {
-            close: () => {},
-          },
+            provide: MatDialogRef<QuickScanDialogComponent>,
+            useValue: {
+                close: () => { },
+            },
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
     fixture = TestBed.createComponent(QuickScanDialogComponent);
     store = TestBed.inject(Store);
     component = fixture.componentInstance;

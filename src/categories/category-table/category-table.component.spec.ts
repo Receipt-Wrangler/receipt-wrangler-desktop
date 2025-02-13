@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatDialog, MatDialogModule, } from "@angular/material/dialog";
@@ -11,6 +11,7 @@ import { CategoryTableState } from "src/store/category-table.state";
 import { ApiModule, CategoryService } from "../../open-api";
 import { CategoryForm } from "../category-form/category-form.component";
 import { CategoryTableComponent } from "./category-table.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("CategoriesListComponent", () => {
   let component: CategoryTableComponent;
@@ -19,16 +20,14 @@ describe("CategoriesListComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CategoryTableComponent],
-      imports: [
-        ApiModule,
-        HttpClientTestingModule,
+    declarations: [CategoryTableComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ApiModule,
         MatDialogModule,
         NgxsModule.forRoot([CategoryTableState]),
-        MatSnackBarModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+        MatSnackBarModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     fixture = TestBed.createComponent(CategoryTableComponent);
     store = TestBed.inject(Store);
     component = fixture.componentInstance;

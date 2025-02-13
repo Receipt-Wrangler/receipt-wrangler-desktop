@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, } from "@angular/core/testing";
 import { MatDialogModule } from "@angular/material/dialog";
@@ -8,8 +9,8 @@ import { NgxsModule, Store } from "@ngxs/store";
 import { BehaviorSubject } from "rxjs";
 import { PipesModule } from "src/pipes/pipes.module";
 import { DashboardState } from "src/store/dashboard.state";
-import { Dashboard, DashboardService } from "../../open-api";
 import { ButtonModule } from "../../button";
+import { Dashboard, DashboardService } from "../../open-api";
 import { GroupState, SetSelectedDashboardId } from "../../store";
 import { GroupDashboardsComponent } from "./group-dashboards.component";
 
@@ -21,15 +22,13 @@ describe("GroupDashboardsComponent", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [GroupDashboardsComponent],
-      imports: [
-        PipesModule,
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [PipesModule,
         MatDialogModule,
         NgxsModule.forRoot([GroupState, DashboardState]),
         PipesModule,
         ButtonModule,
-        HttpClientTestingModule,
-        MatSnackBarModule,
-      ],
+        MatSnackBarModule],
       providers: [
         DashboardService,
         {
@@ -43,13 +42,15 @@ describe("GroupDashboardsComponent", () => {
             },
           },
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ]
     });
     store = TestBed.inject(Store);
     store.reset({
       groups: {
         selectedGroupId: "1",
+        groups: [],
       },
     });
     fixture = TestBed.createComponent(GroupDashboardsComponent);

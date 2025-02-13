@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@use "../../variables.scss" as variables;
 
 app-item-list {
   .item-form-container:nth-child(even) {
@@ -11,7 +11,7 @@ app-item-list {
 
   .green-check {
     .mat-mdc-icon-button {
-      color: $success-green !important;
+      color: variables.$success-green !important;
     }
   }
 }

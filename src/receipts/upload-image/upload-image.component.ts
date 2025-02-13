@@ -5,9 +5,10 @@ import { ReceiptFileUploadCommand } from "../../interfaces";
 import { ReceiptImageService } from "../../open-api";
 
 @Component({
-  selector: "app-upload-image",
-  templateUrl: "./upload-image.component.html",
-  styleUrls: ["./upload-image.component.scss"],
+    selector: "app-upload-image",
+    templateUrl: "./upload-image.component.html",
+    styleUrls: ["./upload-image.component.scss"],
+    standalone: false
 })
 export class UploadImageComponent {
   @ViewChild("uploadInput") uploadInput!: any;

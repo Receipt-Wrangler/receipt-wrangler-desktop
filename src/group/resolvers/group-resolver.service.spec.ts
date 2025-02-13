@@ -1,13 +1,15 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { ApiModule } from "../../open-api";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("GroupResolverService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ApiModule, HttpClientTestingModule],
-    });
+    imports: [ApiModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
   });
 
   // TODO: write tests

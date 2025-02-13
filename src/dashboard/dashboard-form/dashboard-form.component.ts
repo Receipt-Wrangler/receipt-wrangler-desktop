@@ -15,10 +15,11 @@ import { widgetTypeOptions } from "../constants/widget-options";
 
 @UntilDestroy()
 @Component({
-  selector: "app-dashboard-form",
-  templateUrl: "./dashboard-form.component.html",
-  styleUrls: ["./dashboard-form.component.scss"],
-  encapsulation: ViewEncapsulation.None
+    selector: "app-dashboard-form",
+    templateUrl: "./dashboard-form.component.html",
+    styleUrls: ["./dashboard-form.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class DashboardFormComponent extends BaseFormComponent implements OnInit {
   @ViewChildren(ReceiptFilterComponent)

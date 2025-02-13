@@ -11,9 +11,10 @@ import { AuthState, SetUserPreferences } from "../../store";
 import { UserShortcutComponent } from "../user-shortcut/user-shortcut.component";
 
 @Component({
-  selector: "app-user-preferences",
-  templateUrl: "./user-preferences.component.html",
-  styleUrls: ["./user-preferences.component.scss"],
+    selector: "app-user-preferences",
+    templateUrl: "./user-preferences.component.html",
+    styleUrls: ["./user-preferences.component.scss"],
+    standalone: false
 })
 export class UserPreferencesComponent extends BaseFormComponent implements OnInit {
   @ViewChild(UserShortcutComponent) public userShortcutComponent!: UserShortcutComponent;

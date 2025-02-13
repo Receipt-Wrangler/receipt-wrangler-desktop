@@ -7,10 +7,11 @@ import { User } from "../../open-api";
 import { UserState } from "../../store";
 
 @Component({
-  selector: "app-user-autocomplete",
-  templateUrl: "./user-autocomplete.component.html",
-  styleUrls: ["./user-autocomplete.component.scss"],
-  providers: [GroupMemberUserService],
+    selector: "app-user-autocomplete",
+    templateUrl: "./user-autocomplete.component.html",
+    styleUrls: ["./user-autocomplete.component.scss"],
+    providers: [GroupMemberUserService],
+    standalone: false
 })
 export class UserAutocompleteComponent implements OnInit, OnChanges {
   constructor(

@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
@@ -11,6 +11,7 @@ import { TagTableState } from "src/store/tag-table.state";
 import { ApiModule, TagService } from "../../open-api";
 import { TagFormComponent } from "../tag-form/tag-form.component";
 import { TagTableComponent } from "./tag-table.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("TagsListComponent", () => {
   let component: TagTableComponent;
@@ -19,16 +20,14 @@ describe("TagsListComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TagTableComponent],
-      imports: [
-        ApiModule,
-        HttpClientTestingModule,
+    declarations: [TagTableComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ApiModule,
         MatDialogModule,
         NgxsModule.forRoot([TagTableState]),
-        MatSnackBarModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+        MatSnackBarModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     fixture = TestBed.createComponent(TagTableComponent);
     store = TestBed.inject(Store);
     component = fixture.componentInstance;

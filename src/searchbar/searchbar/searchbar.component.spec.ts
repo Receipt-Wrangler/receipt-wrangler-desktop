@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -11,6 +11,7 @@ import { of } from "rxjs";
 import { ApiModule, SearchResult, SearchService } from "../../open-api";
 
 import { SearchbarComponent } from "./searchbar.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("SearchbarComponent", () => {
   let component: SearchbarComponent;
@@ -18,18 +19,16 @@ describe("SearchbarComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SearchbarComponent],
-      imports: [
-        ApiModule,
-        HttpClientTestingModule,
+    declarations: [SearchbarComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [ApiModule,
         MatAutocompleteModule,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
-        NoopAnimationsModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+        NoopAnimationsModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
 
     fixture = TestBed.createComponent(SearchbarComponent);
     component = fixture.componentInstance;

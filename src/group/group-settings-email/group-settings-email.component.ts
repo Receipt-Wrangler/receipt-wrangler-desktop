@@ -9,9 +9,10 @@ import { FormConfig } from "../../interfaces";
 import { Group, GroupSettingsWhiteListEmail, SubjectLineRegex, SystemEmail } from "../../open-api";
 
 @Component({
-  selector: "app-group-settings-email",
-  templateUrl: "./group-settings-email.component.html",
-  styleUrls: ["./group-settings-email.component.scss"],
+    selector: "app-group-settings-email",
+    templateUrl: "./group-settings-email.component.html",
+    styleUrls: ["./group-settings-email.component.scss"],
+    standalone: false
 })
 export class GroupSettingsEmailComponent
   extends BaseFormComponent

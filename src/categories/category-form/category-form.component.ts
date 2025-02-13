@@ -7,9 +7,10 @@ import { Category, CategoryService, CategoryView } from "../../open-api";
 import { SnackbarService } from "../../services";
 
 @Component({
-  selector: "app-category-form",
-  templateUrl: "./category-form.component.html",
-  styleUrls: ["./category-form.component.scss"],
+    selector: "app-category-form",
+    templateUrl: "./category-form.component.html",
+    styleUrls: ["./category-form.component.scss"],
+    standalone: false
 })
 export class CategoryForm implements OnInit {
   @Input() public headerText: string = "";

@@ -1,11 +1,13 @@
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { NgxsModule } from "@ngxs/store";
 import { FormMode } from "src/enums/form-mode.enum";
 import { PipesModule } from "src/pipes/pipes.module";
 import { ButtonModule } from "../../button";
+import { StoreModule } from "../../store/store.module";
 import { SharedUiModule } from "../shared-ui.module";
 import { FormComponent } from "./form.component";
 
@@ -21,7 +23,7 @@ describe("FormComponent", () => {
         ReactiveFormsModule,
         ButtonModule,
         SharedUiModule,
-        NgxsModule.forRoot([]),
+        StoreModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
@@ -29,6 +31,8 @@ describe("FormComponent", () => {
           provide: ActivatedRoute,
           useValue: {},
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     fixture = TestBed.createComponent(FormComponent);

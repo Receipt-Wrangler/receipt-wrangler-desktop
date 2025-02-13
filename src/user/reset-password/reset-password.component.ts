@@ -6,9 +6,10 @@ import { User, UserService } from "../../open-api";
 import { SnackbarService } from "../../services";
 
 @Component({
-  selector: "app-reset-password",
-  templateUrl: "./reset-password.component.html",
-  styleUrls: ["./reset-password.component.scss"],
+    selector: "app-reset-password",
+    templateUrl: "./reset-password.component.html",
+    styleUrls: ["./reset-password.component.scss"],
+    standalone: false
 })
 export class ResetPasswordComponent implements OnInit {
   @Input() public user!: User;

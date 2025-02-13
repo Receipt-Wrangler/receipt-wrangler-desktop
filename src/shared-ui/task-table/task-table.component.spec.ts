@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgxsModule } from "@ngxs/store";
@@ -7,6 +7,7 @@ import { SystemEmailTaskTableService } from "../../services/system-email-task-ta
 import { SystemEmailTaskTableState } from "../../store/system-email-task-table.state";
 
 import { TaskTableComponent } from "./task-table.component";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("TaskTableComponent", () => {
   let component: TaskTableComponent;
@@ -14,18 +15,18 @@ describe("TaskTableComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TaskTableComponent],
-      imports: [
-        NgxsModule.forRoot([SystemEmailTaskTableState]),
-        HttpClientTestingModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
+    declarations: [TaskTableComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [NgxsModule.forRoot([SystemEmailTaskTableState])],
+    providers: [
         {
-          provide: TABLE_SERVICE_INJECTION_TOKEN,
-          useClass: SystemEmailTaskTableService
-        },]
-    })
+            provide: TABLE_SERVICE_INJECTION_TOKEN,
+            useClass: SystemEmailTaskTableService
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(TaskTableComponent);

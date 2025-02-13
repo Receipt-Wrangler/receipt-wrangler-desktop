@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { ResolveFn } from "@angular/router";
 import { NgxsModule, Store } from "@ngxs/store";
@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { SetDashboardsForGroup } from "src/store/dashboard.state.actions";
 import { Dashboard, DashboardService } from "../../open-api";
 import { dashboardResolverFn } from "./dashboard.resolver";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("dashboardResolver", () => {
   const executeResolver: ResolveFn<Observable<Dashboard[]>> = (
@@ -17,9 +18,9 @@ describe("dashboardResolver", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, NgxsModule.forRoot([])],
-      providers: [DashboardService],
-    });
+    imports: [NgxsModule.forRoot([])],
+    providers: [DashboardService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
   });
 
   it("should be created", () => {

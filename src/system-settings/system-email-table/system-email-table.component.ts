@@ -15,9 +15,10 @@ import {SetOrderBy, SetPage, SetPageSize, SetSortDirection} from "../../store/sy
 import {TableColumn} from "../../table/table-column.interface";
 
 @Component({
-  selector: "app-system-email-table",
-  templateUrl: "./system-email-table.component.html",
-  styleUrl: "./system-email-table.component.scss"
+    selector: "app-system-email-table",
+    templateUrl: "./system-email-table.component.html",
+    styleUrl: "./system-email-table.component.scss",
+    standalone: false
 })
 export class SystemEmailTableComponent implements OnInit, AfterViewInit {
   @ViewChild("usernameCell") public usernameCell!: TemplateRef<any>;

@@ -5,9 +5,10 @@ import { map, Observable, of, startWith } from "rxjs";
 import { BaseInputComponent } from "../../base-input";
 
 @Component({
-  selector: "app-autocomlete",
-  templateUrl: "./autocomlete.component.html",
-  styleUrls: ["./autocomlete.component.scss"],
+    selector: "app-autocomlete",
+    templateUrl: "./autocomlete.component.html",
+    styleUrls: ["./autocomlete.component.scss"],
+    standalone: false
 })
 export class AutocomleteComponent
   extends BaseInputComponent

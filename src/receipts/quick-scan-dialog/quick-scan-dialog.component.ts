@@ -10,10 +10,11 @@ import { AuthState } from "../../store";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 
 @Component({
-  selector: "app-quick-scan-dialog",
-  templateUrl: "./quick-scan-dialog.component.html",
-  styleUrls: ["./quick-scan-dialog.component.scss"],
-  encapsulation: ViewEncapsulation.None
+    selector: "app-quick-scan-dialog",
+    templateUrl: "./quick-scan-dialog.component.html",
+    styleUrls: ["./quick-scan-dialog.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class QuickScanDialogComponent implements OnInit {
   @ViewChild(UploadImageComponent)
