@@ -1,3 +1,4 @@
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
@@ -5,24 +6,24 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, } from "@angular/material/dialog";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { UntilDestroy } from "@ngneat/until-destroy";
-import { NgxsModule, Store } from "@ngxs/store";
+import { Store } from "@ngxs/store";
 import { of, tap } from "rxjs";
 import { PipesModule } from "src/pipes/pipes.module";
 import { SetReceiptFilter } from "src/store/receipt-table.actions";
-import { defaultReceiptFilter, ReceiptTableState, } from "src/store/receipt-table.state";
+import { defaultReceiptFilter, } from "src/store/receipt-table.state";
 import { InputModule } from "../../input";
 import { CategoryService, FilterOperation, ReceiptStatus, TagService } from "../../open-api";
+import { StoreModule } from "../../store/store.module";
 import { applyFormCommand } from "../../utils/index";
 import { buildReceiptFilterForm } from "../../utils/receipt-filter";
 import { OperationsPipe } from "./operations.pipe";
 import { ReceiptFilterComponent } from "./receipt-filter.component";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 @UntilDestroy()
 @Component({
-    selector: "app-noop",
-    template: "",
-    standalone: false
+  selector: "app-noop",
+  template: "",
+  standalone: false
 })
 class NoopComponent {}
 
@@ -72,35 +73,35 @@ describe("ReceiptFilterComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [ReceiptFilterComponent, OperationsPipe],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    imports: [PipesModule,
+      declarations: [ReceiptFilterComponent, OperationsPipe],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [PipesModule,
         InputModule,
         MatDialogModule,
-        NgxsModule.forRoot([ReceiptTableState]),
+        StoreModule,
         NoopAnimationsModule,
         PipesModule,
         ReactiveFormsModule],
-    providers: [
+      providers: [
         CategoryService,
         TagService,
         {
-            provide: MatDialogRef,
-            useValue: {
-                close: (value: any) => { },
-            },
+          provide: MatDialogRef,
+          useValue: {
+            close: (value: any) => { },
+          },
         },
         {
-            provide: MAT_DIALOG_DATA,
-            useValue: {
-                categories: [],
-                tags: [],
-            },
+          provide: MAT_DIALOG_DATA,
+          useValue: {
+            categories: [],
+            tags: [],
+          },
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-    ]
-});
+      ]
+    });
 
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(ReceiptFilterComponent);

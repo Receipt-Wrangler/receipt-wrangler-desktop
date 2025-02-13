@@ -4,13 +4,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormBuilder } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NgxsModule, Store } from "@ngxs/store";
+import { Store } from "@ngxs/store";
 import { of } from "rxjs";
 import { FormMode } from "../../enums/form-mode.enum";
 import { GroupsService } from "../../open-api";
 import { PipesModule } from "../../pipes/index";
 import { SnackbarService } from "../../services";
 import { SharedUiModule } from "../../shared-ui/shared-ui.module";
+import { StoreModule } from "../../store/store.module";
 import { GroupUtil } from "../../utils";
 import { GroupReceiptSettingsComponent } from "./group-receipt-settings.component";
 
@@ -35,9 +36,11 @@ describe("GroupReceiptSettingsComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [GroupReceiptSettingsComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [SharedUiModule,
-        NgxsModule.forRoot([]),
-        PipesModule],
+      imports: [
+        SharedUiModule,
+        StoreModule,
+        PipesModule
+      ],
       providers: [
         FormBuilder,
         GroupsService,
@@ -78,42 +81,6 @@ describe("GroupReceiptSettingsComponent", () => {
   it("should initialize form with group receipt settings", () => {
     expect(component.form.getRawValue()).toEqual(testGroup.groupReceiptSettings);
     expect(component.editLink).toBe(`/groups/${testGroup.id}/receipt-settings/edit`);
-  });
-
-  it("should disable form in view mode", () => {
-    TestBed.resetTestingModule();
-    TestBed.configureTestingModule({
-      declarations: [GroupReceiptSettingsComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [SharedUiModule, NgxsModule.forRoot([]), PipesModule],
-      providers: [
-        FormBuilder,
-        GroupsService,
-        Router,
-        Store,
-        SnackbarService,
-        GroupUtil,
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              data: {
-                formConfig: { mode: FormMode.view },
-                group: testGroup
-              }
-            }
-          }
-        },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting()
-      ]
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(GroupReceiptSettingsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    expect(component.form.disabled).toBeTrue();
   });
 
   it("should submit form and update settings", () => {

@@ -1,16 +1,17 @@
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { NgxsModule, Store } from "@ngxs/store";
+import { Store } from "@ngxs/store";
 import { of } from "rxjs";
 import { ApiModule, UserService } from "../../open-api";
 import { PipesModule } from "../../pipes";
 import { SnackbarService } from "../../services";
-import { UpdateUser, UserState } from "../../store";
+import { UpdateUser } from "../../store";
+import { StoreModule } from "../../store/store.module";
 import { DummyUserConversionDialogComponent } from "./dummy-user-conversion-dialog.component";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("DummyUserConversionDialogComponent", () => {
   let component: DummyUserConversionDialogComponent;
@@ -18,26 +19,29 @@ describe("DummyUserConversionDialogComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [DummyUserConversionDialogComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    imports: [ApiModule,
+      declarations: [DummyUserConversionDialogComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        ApiModule,
         MatSnackBarModule,
-        NgxsModule.forRoot([UserState]),
-        PipesModule],
-    providers: [
+        StoreModule,
+        PipesModule,
+      ],
+      providers: [
         SnackbarService,
         {
-            provide: MatDialogRef,
-            useValue: {
-                close: () => { },
-            },
+          provide: MatDialogRef,
+          useValue: {
+            close: () => { },
+          },
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-    ]
-});
+      ]
+    });
     fixture = TestBed.createComponent(DummyUserConversionDialogComponent);
     component = fixture.componentInstance;
+    component.user = {} as any;
     fixture.detectChanges();
   });
 
