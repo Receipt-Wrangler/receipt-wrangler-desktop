@@ -48,8 +48,11 @@
       [options]="aiTypeOptions"
     ></app-select>
     <div class="d-flex flex-column">
-      <ng-container *ngIf="(form | formGet: 'aiType')?.value === AiType.OpenAi ||
-       (form | formGet: 'aiType')?.value === AiType.Gemini"
+      <ng-container *ngIf="
+      (form | formGet: 'aiType')?.value === AiType.OpenAi ||
+       (form | formGet: 'aiType')?.value === AiType.Gemini ||
+       (form | formGet: 'aiType')?.value === AiType.OpenAiCustom
+"
       >
         <app-input
           *ngIf="formConfig.mode != FormMode.view"
@@ -63,7 +66,7 @@
       @if ((form | formGet: 'aiType')?.value === AiType.OpenAiCustom ||
       (form | formGet: 'aiType')?.value === AiType.Ollama) {
         <app-input
-          label="Url"
+          [label]="(form | formGet: 'aiType')?.value | urlLabel"
           [readonly]="formConfig.mode | inputReadonly"
           [inputFormControl]="form | formGet: 'url'"
         ></app-input>
@@ -80,7 +83,8 @@
       }
 
       @if ((form | formGet: 'aiType')?.value === AiType.Ollama ||
-      (form | formGet: 'aiType')?.value === AiType.OpenAi) {
+      (form | formGet: 'aiType')?.value === AiType.OpenAi ||
+      (form | formGet: 'aiType')?.value === AiType.OpenAiCustom) {
         <app-checkbox
           class="ms-4 mb-2 is-vision-model"
           label="Use Vision?"
