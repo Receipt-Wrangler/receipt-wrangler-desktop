@@ -30,12 +30,13 @@ describe("ReceiptQueueService", () => {
     service.initQueueAndNavigate(receiptIds, mode, indexToStartAt);
 
     expect(navigateSpy).toHaveBeenCalledWith(
-      ["/receipts/id2/view"],
+      ["receipts", "id2", mode],
       {
         queryParams: {
           ids: receiptIds,
           queueMode: mode,
-        }
+        },
+        onSameUrlNavigation: "reload"
       }
     );
   });
@@ -48,12 +49,13 @@ describe("ReceiptQueueService", () => {
     service.queueNext(currentIndex, receiptIds, mode);
 
     expect(navigateSpy).toHaveBeenCalledWith(
-      ["/receipts/id3/edit"],
+      ["receipts", "id3", mode],
       {
         queryParams: {
           ids: receiptIds,
           queueMode: mode,
-        }
+        },
+        onSameUrlNavigation: "reload"
       }
     );
   });
@@ -66,12 +68,13 @@ describe("ReceiptQueueService", () => {
     service.queuePrevious(currentIndex, receiptIds, mode);
 
     expect(navigateSpy).toHaveBeenCalledWith(
-      ["/receipts/id1/view"],
+      ["receipts", "id1", mode],
       {
         queryParams: {
           ids: receiptIds,
           queueMode: mode,
-        }
+        },
+        onSameUrlNavigation: "reload"
       }
     );
   });

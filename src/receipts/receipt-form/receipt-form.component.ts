@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
 import { addHours } from "date-fns";
-import { distinctUntilChanged, finalize, forkJoin, iif, map, Observable, of, skip, startWith, switchMap, take, tap } from "rxjs";
+import { finalize, forkJoin, iif, map, Observable, of, startWith, switchMap, take, tap } from "rxjs";
 import { CarouselComponent } from "src/carousel/carousel/carousel.component";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
 import { RECEIPT_STATUS_OPTIONS } from "src/constants/receipt-status-options";
@@ -36,11 +36,11 @@ import { UploadImageComponent } from "../upload-image/upload-image.component";
 
 @UntilDestroy()
 @Component({
-    selector: "app-receipt-form",
-    templateUrl: "./receipt-form.component.html",
-    styleUrls: ["./receipt-form.component.scss"],
-    host: DEFAULT_HOST_CLASS,
-    standalone: false
+  selector: "app-receipt-form",
+  templateUrl: "./receipt-form.component.html",
+  styleUrls: ["./receipt-form.component.scss"],
+  host: DEFAULT_HOST_CLASS,
+  standalone: false
 })
 export class ReceiptFormComponent implements OnInit {
   @ViewChild(ItemListComponent) public itemsListComponent!: ItemListComponent;
@@ -165,7 +165,6 @@ export class ReceiptFormComponent implements OnInit {
     this.getImageFiles();
     this.setHeaderText();
     this.setShowLargeImagePreview();
-    this.listenForParamChanges();
     this.setQueueData();
     document.scrollingElement?.scrollTo(0, 0);
   }
@@ -210,18 +209,6 @@ export class ReceiptFormComponent implements OnInit {
         return `${action} ${name} Receipt`;
       })
     );
-  }
-
-  private listenForParamChanges(): void {
-    this.activatedRoute.params
-      .pipe(
-        distinctUntilChanged(),
-        skip(1),
-        tap(() => {
-          location.reload();
-        })
-      )
-      .subscribe();
   }
 
   private setCancelLink(): void {

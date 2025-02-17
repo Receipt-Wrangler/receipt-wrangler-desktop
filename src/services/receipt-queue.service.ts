@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, RouteReuseStrategy } from "@angular/router";
 
 export enum QueueMode {
   VIEW = "view",
@@ -12,15 +12,20 @@ export enum QueueMode {
 export class ReceiptQueueService {
   constructor(
     private router: Router,
+    private routeReuseStrategy: RouteReuseStrategy
   ) { }
 
-  // TODO: support full dashboard
   public initQueueAndNavigate(receiptIds: string[], mode: QueueMode, indexToStartAt: number = 0): void {
-    this.router.navigate([`/receipts/${receiptIds[indexToStartAt]}/${mode}`], {
+    this.routeReuseStrategy.shouldReuseRoute = () => false;
+
+    const commands = ["receipts", receiptIds[indexToStartAt], mode];
+
+    this.router.navigate(commands, {
       queryParams: {
         ids: receiptIds,
         queueMode: mode,
-      }
+      },
+      onSameUrlNavigation: "reload"
     });
   }
 
