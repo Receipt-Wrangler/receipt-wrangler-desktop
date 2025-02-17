@@ -96,6 +96,7 @@ const routes: Routes = [
           entityType: "Receipt Settings",
           setHeaderText: true,
           useRouteGroupId: true,
+          allowAdminOverride: true,
         },
         canActivate: [GroupRoleGuard],
       },
