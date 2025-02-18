@@ -1,24 +1,28 @@
-<div class="row">
-  <div class="col" *ngFor="let widget of selectedDashboard?.widgets">
-    <div [ngSwitch]="widget.widgetType">
-      <div *ngSwitchCase="widgetType.GroupSummary">
-        <app-summary-card
-          [headerText]="widget.name ?? 'Receipt Summary'"
-          [groupId]="selectedDashboard?.groupId ?? ''"
-        ></app-summary-card>
-      </div>
-      <div *ngSwitchCase="widgetType.FilteredReceipts">
-        <app-filtered-receipts
-          [widget]="widget"
-          [groupId]="selectedDashboard?.groupId"
-        ></app-filtered-receipts>
-      </div>
-      <div *ngSwitchCase="widgetType.GroupActivity">
-        <app-activity
-          [widget]="widget"
-          [groupId]="selectedDashboard?.groupId"
-        ></app-activity>
-      </div>
+<div
+  class="container-fluid"
+>
+  <div class="row">
+    <div class="col-1 col-sm-2 col-md-4 col-lg-6 col-xl-8" *ngFor="let widget of selectedDashboard?.widgets">
+      <ng-container [ngSwitch]="widget.widgetType">
+        <ng-container *ngSwitchCase="widgetType.GroupSummary">
+          <app-summary-card
+            [headerText]="widget.name ?? 'Receipt Summary'"
+            [groupId]="selectedDashboard?.groupId ?? ''"
+          ></app-summary-card>
+        </ng-container>
+        <ng-container *ngSwitchCase="widgetType.FilteredReceipts">
+          <app-filtered-receipts
+            [widget]="widget"
+            [groupId]="selectedDashboard?.groupId"
+          ></app-filtered-receipts>
+        </ng-container>
+        <ng-container *ngSwitchCase="widgetType.GroupActivity">
+          <app-activity
+            [widget]="widget"
+            [groupId]="selectedDashboard?.groupId"
+          ></app-activity>
+        </ng-container>
+      </ng-container>
     </div>
   </div>
 </div>
