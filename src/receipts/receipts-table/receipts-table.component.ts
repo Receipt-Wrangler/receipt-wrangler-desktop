@@ -417,7 +417,10 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   public exportReceipts(): void {
     const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
     const groupIdInt = Number.parseInt(this.groupId);
-    this.exportService.exportReceiptsForGroup(ExportFormat.Csv, groupIdInt, filter)
+    this.exportService.exportReceiptsForGroup(
+      ExportFormat.Csv,
+      groupIdInt, { ...filter, page: 1, pageSize: -1 }
+    )
       .pipe(
         take(1),
         tap((blob) => {
