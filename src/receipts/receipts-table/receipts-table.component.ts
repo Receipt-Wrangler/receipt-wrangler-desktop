@@ -18,6 +18,8 @@ import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
 import {
   BulkStatusUpdateCommand,
   Category,
+  ExportFormat,
+  ExportService,
   Group,
   GroupRole,
   GroupsService,
@@ -29,7 +31,6 @@ import {
 } from "../../open-api";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
 import { SnackbarService } from "../../services";
-import { ReceiptQueueService } from "../../services/receipt-queue.service";
 import { ReceiptFilterComponent } from "../../shared-ui/receipt-filter/receipt-filter.component";
 import { GroupState } from "../../store";
 import { applyFormCommand } from "../../utils/index";
@@ -38,14 +39,14 @@ import { BulkStatusUpdateComponent } from "../bulk-resolve-dialog/bulk-status-up
 
 @UntilDestroy()
 @Component({
-    selector: "app-receipts-table",
-    templateUrl: "./receipts-table.component.html",
-    styleUrls: ["./receipts-table.component.scss"],
-    providers: [GroupRolePipe],
-    animations: [fadeInOut],
-    encapsulation: ViewEncapsulation.None,
-    host: DEFAULT_HOST_CLASS,
-    standalone: false
+  selector: "app-receipts-table",
+  templateUrl: "./receipts-table.component.html",
+  styleUrls: ["./receipts-table.component.scss"],
+  providers: [GroupRolePipe],
+  animations: [fadeInOut],
+  encapsulation: ViewEncapsulation.None,
+  host: DEFAULT_HOST_CLASS,
+  standalone: false
 })
 export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(
@@ -54,7 +55,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     private groupsService: GroupsService,
     private matDialog: MatDialog,
     private receiptFilterService: ReceiptFilterService,
-    private receiptQueueService: ReceiptQueueService,
+    private exportService: ExportService,
     private receiptService: ReceiptService,
     private router: Router,
     private snackbarService: SnackbarService,
@@ -410,6 +411,16 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new SetPageSize(pageEvent.pageSize));
 
     this.getFilteredReceipts();
+  }
+
+  public exportReceipts(): void {
+    const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
+    const groupIdInt = Number.parseInt(this.groupId);
+    this.exportService.exportReceiptsForGroup(ExportFormat.Csv, groupIdInt, filter)
+      .pipe(
+        take(1),
+        tap(() => {})
+      ).subscribe();
   }
 
   public showStatusUpdateDialog(): void {

@@ -34,6 +34,16 @@
       color="accent"
       (clicked)="resetFilterButtonClicked()"
     ></app-button>
+    @if (dataSource.data.length > 0) {
+      <app-button
+        class="me-2"
+        icon="export_notes"
+        matButtonType="iconButton"
+        tooltip="Export receipts"
+        color="accent"
+        (clicked)="exportReceipts()"
+      ></app-button>
+    }
     <ng-container *ngIf="canEdit && group?.groupSettings?.emailIntegrationEnabled">
       <app-button
         *appFeature="'aiPoweredReceipts'"
