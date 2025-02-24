@@ -16,6 +16,7 @@ export * from './currencySeparator';
 export * from './currencySymbolPosition';
 export * from './dashboard';
 export * from './encodedImage';
+export * from './exportFormat';
 export * from './featureConfig';
 export * from './fileData';
 export * from './fileDataView';
