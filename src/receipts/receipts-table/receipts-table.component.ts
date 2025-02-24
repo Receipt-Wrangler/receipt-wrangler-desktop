@@ -33,6 +33,7 @@ import { GroupRolePipe } from "../../pipes/group-role.pipe";
 import { SnackbarService } from "../../services";
 import { ReceiptFilterComponent } from "../../shared-ui/receipt-filter/receipt-filter.component";
 import { GroupState } from "../../store";
+import { downloadFile } from "../../utils/file";
 import { applyFormCommand } from "../../utils/index";
 import { buildReceiptFilterForm } from "../../utils/receipt-filter";
 import { BulkStatusUpdateComponent } from "../bulk-resolve-dialog/bulk-status-update-dialog.component";
@@ -419,7 +420,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     this.exportService.exportReceiptsForGroup(ExportFormat.Csv, groupIdInt, filter)
       .pipe(
         take(1),
-        tap(() => {})
+        tap((blob) => {
+          downloadFile(blob, "receipts.csv");
+        })
       ).subscribe();
   }
 
