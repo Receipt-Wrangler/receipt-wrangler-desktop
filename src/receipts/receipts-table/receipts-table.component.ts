@@ -18,8 +18,6 @@ import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
 import {
   BulkStatusUpdateCommand,
   Category,
-  ExportFormat,
-  ExportService,
   Group,
   GroupRole,
   GroupsService,
@@ -31,9 +29,9 @@ import {
 } from "../../open-api";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
 import { SnackbarService } from "../../services";
+import { ReceiptExportService } from "../../services/receipt-export.service";
 import { ReceiptFilterComponent } from "../../shared-ui/receipt-filter/receipt-filter.component";
 import { GroupState } from "../../store";
-import { downloadFile } from "../../utils/file";
 import { applyFormCommand } from "../../utils/index";
 import { buildReceiptFilterForm } from "../../utils/receipt-filter";
 import { BulkStatusUpdateComponent } from "../bulk-resolve-dialog/bulk-status-update-dialog.component";
@@ -55,8 +53,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     private groupPipe: GroupRolePipe,
     private groupsService: GroupsService,
     private matDialog: MatDialog,
+    private receiptExportService: ReceiptExportService,
     private receiptFilterService: ReceiptFilterService,
-    private exportService: ExportService,
     private receiptService: ReceiptService,
     private router: Router,
     private snackbarService: SnackbarService,
@@ -416,17 +414,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public exportReceipts(): void {
     const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
-    const groupIdInt = Number.parseInt(this.groupId);
-    this.exportService.exportReceiptsForGroup(
-      ExportFormat.Csv,
-      groupIdInt, { ...filter, page: 1, pageSize: -1 }
-    )
-      .pipe(
-        take(1),
-        tap((blob) => {
-          downloadFile(blob, "receipts.csv");
-        })
-      ).subscribe();
+    this.receiptExportService.exportReceiptsFromFilter(this.groupId, filter);
   }
 
   public showStatusUpdateDialog(): void {

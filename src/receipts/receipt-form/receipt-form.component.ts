@@ -538,6 +538,7 @@ export class ReceiptFormComponent implements OnInit {
     });
   }
 
+  // TODO: Add functionality to dashboard
   public downloadImage(): void {
     const currentImage = this.images[this.carouselComponent.currentlyShownImageIndex];
     this.receiptImageService.downloadReceiptImageById(currentImage.id)
