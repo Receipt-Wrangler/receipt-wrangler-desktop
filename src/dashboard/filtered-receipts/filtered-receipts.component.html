@@ -12,6 +12,10 @@
           color="accent"
         >
         </app-queue-start-menu>
+        <app-export-button
+          [groupId]="groupId?.toString()"
+          [filter]="$any(widget.configuration)"
+        ></app-export-button>
       }
     </div>
   </ng-container>

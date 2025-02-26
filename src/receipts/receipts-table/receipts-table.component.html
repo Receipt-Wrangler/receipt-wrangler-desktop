@@ -19,14 +19,6 @@
         [groupId]="groupId"
         [filter]="(filter | async) ?? undefined"
       ></app-export-button>
-      <app-button
-        class="me-2"
-        icon="download"
-        matButtonType="iconButton"
-        tooltip="Export receipts"
-        color="accent"
-        (clicked)="exportReceipts()"
-      ></app-button>
     }
     <app-button
       class="me-2 filter-button"
