@@ -1,10 +1,8 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>
-      <h3>{{ headerText }}</h3></mat-card-title
-    >
-  </mat-card-header>
-  <mat-card-content>
+<app-card>
+  <ng-container header>
+    <h3>{{ headerText }}</h3>
+  </ng-container>
+  <ng-container content>
     <ng-template
       [ngTemplateOutlet]="owedTemplate"
       [ngTemplateOutletContext]="{
@@ -21,8 +19,8 @@
         emptyText: 'Phew, I don\'t owe anything!'
       }"
     ></ng-template>
-  </mat-card-content>
-</mat-card>
+  </ng-container>
+</app-card>
 
 <ng-template
   let-map="map"
