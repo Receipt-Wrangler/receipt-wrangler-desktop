@@ -1,3 +1,4 @@
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatCardModule } from "@angular/material/card";
@@ -6,8 +7,8 @@ import { ActivatedRoute } from "@angular/router";
 import { NgxsModule } from "@ngxs/store";
 import { of } from "rxjs";
 import { ApiModule, UserService } from "../../open-api";
+import { CardComponent } from "../card/card.component";
 import { SummaryCardComponent } from "./summary-card.component";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("SummaryCardComponent", () => {
   let component: SummaryCardComponent;
@@ -15,22 +16,22 @@ describe("SummaryCardComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [SummaryCardComponent],
-    imports: [ApiModule,
+      declarations: [SummaryCardComponent, CardComponent],
+      imports: [ApiModule,
         MatCardModule,
         MatListModule,
         NgxsModule.forRoot([])],
-    providers: [
+      providers: [
         {
-            provide: ActivatedRoute,
-            useValue: {
-                params: of({}),
-            },
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({}),
+          },
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-    ]
-}).compileComponents();
+      ]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SummaryCardComponent);
     component = fixture.componentInstance;
