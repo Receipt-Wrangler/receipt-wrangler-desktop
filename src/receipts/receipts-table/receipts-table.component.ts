@@ -23,13 +23,13 @@ import {
   GroupsService,
   PagedDataDataInner,
   Receipt,
+  ReceiptPagedRequestCommand,
   ReceiptService,
   ReceiptStatus,
   Tag,
 } from "../../open-api";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
 import { SnackbarService } from "../../services";
-import { ReceiptQueueService } from "../../services/receipt-queue.service";
 import { ReceiptFilterComponent } from "../../shared-ui/receipt-filter/receipt-filter.component";
 import { GroupState } from "../../store";
 import { applyFormCommand } from "../../utils/index";
@@ -38,14 +38,14 @@ import { BulkStatusUpdateComponent } from "../bulk-resolve-dialog/bulk-status-up
 
 @UntilDestroy()
 @Component({
-    selector: "app-receipts-table",
-    templateUrl: "./receipts-table.component.html",
-    styleUrls: ["./receipts-table.component.scss"],
-    providers: [GroupRolePipe],
-    animations: [fadeInOut],
-    encapsulation: ViewEncapsulation.None,
-    host: DEFAULT_HOST_CLASS,
-    standalone: false
+  selector: "app-receipts-table",
+  templateUrl: "./receipts-table.component.html",
+  styleUrls: ["./receipts-table.component.scss"],
+  providers: [GroupRolePipe],
+  animations: [fadeInOut],
+  encapsulation: ViewEncapsulation.None,
+  host: DEFAULT_HOST_CLASS,
+  standalone: false
 })
 export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   constructor(
@@ -54,7 +54,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     private groupsService: GroupsService,
     private matDialog: MatDialog,
     private receiptFilterService: ReceiptFilterService,
-    private receiptQueueService: ReceiptQueueService,
     private receiptService: ReceiptService,
     private router: Router,
     private snackbarService: SnackbarService,
@@ -86,6 +85,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   @Select(ReceiptTableState.page) public page!: Observable<number>;
 
   @Select(ReceiptTableState.pageSize) public pageSize!: Observable<number>;
+
+  @Select(ReceiptTableState.filterData) public filter!: Observable<ReceiptPagedRequestCommand>;
 
   @Select(GroupState.selectedGroupId)
   public selectedGroupId!: Observable<string>;

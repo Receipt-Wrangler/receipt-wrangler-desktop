@@ -20,6 +20,27 @@ export class ReceiptFilterService {
     sortDirection?: SortDirection,
     pagedRequestCommand?: ReceiptPagedRequestCommand
   ): Observable<PagedData> {
+    const filterData = this.buildPagedRequestCommand(
+      page,
+      pageSize,
+      orderBy,
+      sortDirection,
+      pagedRequestCommand,
+    );
+
+    return this.httpClient.post<PagedData>(
+      `/api/receipt/group/${groupId}`,
+      filterData
+    );
+  }
+
+  public buildPagedRequestCommand(
+    page?: number,
+    pageSize?: number,
+    orderBy?: string,
+    sortDirection?: SortDirection,
+    pagedRequestCommand?: ReceiptPagedRequestCommand
+  ): ReceiptPagedRequestCommand {
     let filterData: ReceiptPagedRequestCommand;
 
     if (pagedRequestCommand) {
@@ -50,9 +71,6 @@ export class ReceiptFilterService {
       (filterData.filter as any).amount.value = 0;
     }
 
-    return this.httpClient.post<PagedData>(
-      `/api/receipt/group/${groupId}`,
-      filterData
-    );
+    return filterData;
   }
 }

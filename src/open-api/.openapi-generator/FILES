@@ -6,6 +6,7 @@ api/auth.service.ts
 api/category.service.ts
 api/comment.service.ts
 api/dashboard.service.ts
+api/export.service.ts
 api/featureConfig.service.ts
 api/groups.service.ts
 api/import.service.ts
@@ -43,6 +44,7 @@ model/currencySeparator.ts
 model/currencySymbolPosition.ts
 model/dashboard.ts
 model/encodedImage.ts
+model/exportFormat.ts
 model/featureConfig.ts
 model/fileData.ts
 model/fileDataView.ts

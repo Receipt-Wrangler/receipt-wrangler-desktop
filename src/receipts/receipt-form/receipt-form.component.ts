@@ -31,6 +31,7 @@ import {
 import { SnackbarService } from "../../services";
 import { QueueMode, ReceiptQueueService } from "../../services/receipt-queue.service";
 import { AuthState, FeatureConfigState, GroupState, UserState } from "../../store";
+import { downloadFile } from "../../utils/file";
 import { ItemListComponent } from "../item-list/item-list.component";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 
@@ -537,19 +538,14 @@ export class ReceiptFormComponent implements OnInit {
     });
   }
 
+  // TODO: Add functionality to dashboard
   public downloadImage(): void {
     const currentImage = this.images[this.carouselComponent.currentlyShownImageIndex];
     this.receiptImageService.downloadReceiptImageById(currentImage.id)
       .pipe(
         take(1),
         tap((blob) => {
-          const url = window.URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", currentImage.name); // or any other extension
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+          downloadFile(blob, currentImage.name);
         })
       )
       .subscribe();
