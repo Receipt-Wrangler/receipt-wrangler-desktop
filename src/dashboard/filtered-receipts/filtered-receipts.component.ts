@@ -4,14 +4,15 @@ import { take, tap } from "rxjs";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
 import { Receipt, ReceiptPagedRequestCommand, Widget } from "../../open-api";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
+import { ReceiptExportService } from "../../services/receipt-export.service";
 
 @UntilDestroy()
 @Component({
-    selector: "/app-filtered-receipts",
-    templateUrl: "./filtered-receipts.component.html",
-    styleUrls: ["./filtered-receipts.component.scss"],
-    providers: [GroupRolePipe],
-    standalone: false
+  selector: "/app-filtered-receipts",
+  templateUrl: "./filtered-receipts.component.html",
+  styleUrls: ["./filtered-receipts.component.scss"],
+  providers: [GroupRolePipe],
+  standalone: false
 })
 export class FilteredReceiptsComponent implements OnInit {
   @Input() public widget!: Widget;
@@ -31,12 +32,21 @@ export class FilteredReceiptsComponent implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private receiptFilterService: ReceiptFilterService,
+    private receiptExportService: ReceiptExportService,
   ) {}
 
   public ngOnInit(): void {
     this.getData();
   }
 
+  public exportData(): void {
+    if (!this.widget || !this.groupId) {
+      return;
+    }
+
+    this.receiptExportService
+      .exportReceiptsFromFilter(this.groupId.toString(), this.widget.configuration as ReceiptPagedRequestCommand);
+  }
 
   public endOfListReached(): void {
     this.page++;

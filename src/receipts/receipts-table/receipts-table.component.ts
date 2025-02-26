@@ -23,13 +23,13 @@ import {
   GroupsService,
   PagedDataDataInner,
   Receipt,
+  ReceiptPagedRequestCommand,
   ReceiptService,
   ReceiptStatus,
   Tag,
 } from "../../open-api";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
 import { SnackbarService } from "../../services";
-import { ReceiptExportService } from "../../services/receipt-export.service";
 import { ReceiptFilterComponent } from "../../shared-ui/receipt-filter/receipt-filter.component";
 import { GroupState } from "../../store";
 import { applyFormCommand } from "../../utils/index";
@@ -53,7 +53,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     private groupPipe: GroupRolePipe,
     private groupsService: GroupsService,
     private matDialog: MatDialog,
-    private receiptExportService: ReceiptExportService,
     private receiptFilterService: ReceiptFilterService,
     private receiptService: ReceiptService,
     private router: Router,
@@ -86,6 +85,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   @Select(ReceiptTableState.page) public page!: Observable<number>;
 
   @Select(ReceiptTableState.pageSize) public pageSize!: Observable<number>;
+
+  @Select(ReceiptTableState.filterData) public filter!: Observable<ReceiptPagedRequestCommand>;
 
   @Select(GroupState.selectedGroupId)
   public selectedGroupId!: Observable<string>;
@@ -410,11 +411,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new SetPageSize(pageEvent.pageSize));
 
     this.getFilteredReceipts();
-  }
-
-  public exportReceipts(): void {
-    const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
-    this.receiptExportService.exportReceiptsFromFilter(this.groupId, filter);
   }
 
   public showStatusUpdateDialog(): void {

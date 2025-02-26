@@ -15,6 +15,10 @@
     >
     </app-quick-scan-button>
     @if (dataSource.data.length > 0) {
+      <app-export-button
+        [groupId]="groupId"
+        [filter]="(filter | async) ?? undefined"
+      ></app-export-button>
       <app-button
         class="me-2"
         icon="download"
