@@ -6,6 +6,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatIconModule } from "@angular/material/icon";
+import { MatMenuModule } from "@angular/material/menu";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTableModule } from "@angular/material/table";
 import { CarouselModule } from "ngx-bootstrap/carousel";
@@ -56,15 +57,18 @@ import { UserTotalPipe } from "./user-total.pipe";
     ButtonModule,
     CarouselModule,
     CarouselModule,
+    CategoryAutocompleteComponent,
     CommonModule,
     DatepickerModule,
     DirectivesModule,
     DragDropModule,
+    ExportButtonComponent,
     InputModule,
     MatCardModule,
     MatDialogModule,
     MatExpansionModule,
     MatIconModule,
+    MatMenuModule,
     MatProgressSpinnerModule,
     MatTableModule,
     PipesModule,
@@ -77,11 +81,9 @@ import { UserTotalPipe } from "./user-total.pipe";
     SharedUiModule,
     SlideToggleModule,
     TableModule,
+    TagAutocompleteComponent,
     TextareaModule,
     UserAutocompleteModule,
-    CategoryAutocompleteComponent,
-    TagAutocompleteComponent,
-    ExportButtonComponent,
   ],
   exports: [
     UploadImageComponent

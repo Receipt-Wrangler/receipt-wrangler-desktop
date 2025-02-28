@@ -26,4 +26,15 @@ export class ReceiptExportService {
       )
       .subscribe();
   }
+
+  public exportReceiptsById(receiptIds: number[]): void {
+    this.exportService.exportReceiptsById(ExportFormat.Csv, receiptIds)
+      .pipe(
+        take(1),
+        tap((blob) => {
+          downloadFile(blob, "data.zip");
+        })
+      )
+      .subscribe();
+  }
 }
