@@ -53,22 +53,29 @@
       ></app-button>
     </ng-container>
 
-    @if (selectedReceiptIds.length > 0 && canEdit) {
-      <app-button
-        @fadeInOut
-        class="me-2"
-        buttonText="Bulk Status Update"
-        color="accent"
-        (click)="showStatusUpdateDialog()"
-      ></app-button>
-    }
-
     @if (selectedReceiptIds.length > 1) {
       <app-queue-start-menu
         buttonText="Start Queue"
         color="accent"
         [receiptIds]="selectedReceiptIds"
       ></app-queue-start-menu>
+    }
+
+    @if (selectedReceiptIds.length > 0) {
+      <app-button
+        matButtonType="iconButton"
+        icon="more_vert"
+        color="accent"
+        [matMenuTriggerFor]="menu"
+      ></app-button>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="exportSelectedReceipts()">Export Selected Receipts</button>
+
+        @if (canEdit) {
+          <button mat-menu-item (click)="showStatusUpdateDialog()">Bulk Status Update</button>
+        }
+      </mat-menu>
     }
   </div>
 </app-table-header>

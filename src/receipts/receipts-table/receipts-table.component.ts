@@ -30,6 +30,7 @@ import {
 } from "../../open-api";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
 import { SnackbarService } from "../../services";
+import { ReceiptExportService } from "../../services/receipt-export.service";
 import { ReceiptFilterComponent } from "../../shared-ui/receipt-filter/receipt-filter.component";
 import { GroupState } from "../../store";
 import { applyFormCommand } from "../../utils/index";
@@ -53,6 +54,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     private groupPipe: GroupRolePipe,
     private groupsService: GroupsService,
     private matDialog: MatDialog,
+    private receiptExportService: ReceiptExportService,
     private receiptFilterService: ReceiptFilterService,
     private receiptService: ReceiptService,
     private router: Router,
@@ -480,5 +482,10 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         }),
       )
       .subscribe();
+  }
+
+  public exportSelectedReceipts(): void {
+    const receiptIds = this.dataSource.data.map(data => data.id);
+    this.receiptExportService.exportReceiptsById(receiptIds);
   }
 }
