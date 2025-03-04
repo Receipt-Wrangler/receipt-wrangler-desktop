@@ -41,6 +41,12 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: "custom-fields",
+        loadChildren: () =>
+          import("../custom-fields/custom-fields.module").then((m) => m.CustomFieldsModule),
+        canActivate: [AuthGuard],
+      },
+      {
         path: "groups",
         loadChildren: () =>
           import("../group/group.module").then((m) => m.GroupsModule),
