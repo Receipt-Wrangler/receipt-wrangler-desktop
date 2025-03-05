@@ -72,15 +72,11 @@
         ></app-input>
       }
 
-      @if ((form | formGet: 'aiType')?.value === AiType.OpenAiCustom ||
-      (form | formGet: 'aiType')?.value === AiType.Ollama ||
-      (form | formGet: 'aiType')?.value === AiType.OpenAi) {
-        <app-input
-          label="Model"
-          [readonly]="formConfig.mode | inputReadonly"
-          [inputFormControl]="form | formGet: 'model'"
-        ></app-input>
-      }
+      <app-input
+        label="Model"
+        [readonly]="formConfig.mode | inputReadonly"
+        [inputFormControl]="form | formGet: 'model'"
+      ></app-input>
 
       @if ((form | formGet: 'aiType')?.value === AiType.Ollama ||
       (form | formGet: 'aiType')?.value === AiType.OpenAi ||
