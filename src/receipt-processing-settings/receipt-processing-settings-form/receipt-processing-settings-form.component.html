@@ -77,17 +77,12 @@
         [readonly]="formConfig.mode | inputReadonly"
         [inputFormControl]="form | formGet: 'model'"
       ></app-input>
-
-      @if ((form | formGet: 'aiType')?.value === AiType.Ollama ||
-      (form | formGet: 'aiType')?.value === AiType.OpenAi ||
-      (form | formGet: 'aiType')?.value === AiType.OpenAiCustom) {
-        <app-checkbox
-          class="ms-4 mb-2 is-vision-model"
-          label="Use Vision?"
-          [readonly]="formConfig.mode | inputReadonly"
-          [inputFormControl]="form | formGet: 'isVisionModel'"
-        ></app-checkbox>
-      }
+      <app-checkbox
+        class="ms-4 mb-2 is-vision-model"
+        label="Use Vision?"
+        [readonly]="formConfig.mode | inputReadonly"
+        [inputFormControl]="form | formGet: 'isVisionModel'"
+      ></app-checkbox>
     </div>
   </app-form-section>
   <app-form-section
