@@ -6,10 +6,11 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Select, Store } from "@ngxs/store";
 import { Observable, take, tap } from "rxjs";
 import { PagedTableInterface } from "src/interfaces/paged-table.interface";
-import { PagedDataDataInner, PagedRequestCommand } from "src/open-api";
+import { CustomFieldService, PagedDataDataInner, PagedRequestCommand } from "src/open-api";
 import { CategoryTableState } from "src/store/category-table.state";
 import { TableComponent } from "src/table/table/table.component";
 import { SnackbarService } from "../../services/index";
+import { CustomFieldTableState } from "../../store/custom-field-table.state";
 import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/custom-field-table.state.actions";
 import { TableColumn } from "../../table/table-column.interface";
 
@@ -44,12 +45,11 @@ export class CustomFieldTableComponent {
 
   public totalCount: number = 0;
 
-  public headerText: string = "Categories";
-
   constructor(
-    private store: Store,
+    private customFieldService: CustomFieldService,
     private matDialog: MatDialog,
     private snackbarService: SnackbarService,
+    private store: Store,
   ) {}
 
   public ngOnInit(): void {
@@ -61,16 +61,16 @@ export class CustomFieldTableComponent {
   }
 
   private initTableData(): void {
-    this.getCategories();
+    this.getCustomFields();
   }
 
-  private getCategories(): void {
+  private getCustomFields(): void {
     const command: PagedRequestCommand = this.store.selectSnapshot(
-      CategoryTableState.state
+      CustomFieldTableState.state
     );
 
-    this.categoryService
-      .getPagedCategories(command)
+    this.customFieldService
+      .getPagedCustomFields(command)
       .pipe(
         take(1),
         tap((pagedData) => {
@@ -89,14 +89,14 @@ export class CustomFieldTableComponent {
     this.store.dispatch(new SetPage(newPage));
     this.store.dispatch(new SetPageSize(pageEvent.pageSize));
 
-    this.getCategories();
+    this.getCustomFields();
   }
 
   public sorted({ sortState }: { sortState: Sort }): void {
     this.store.dispatch(new SetOrderBy(sortState.active));
     this.store.dispatch(new SetSortDirection(sortState.direction));
 
-    this.getCategories();
+    this.getCustomFields();
   }
 
   private initTable(): void {
@@ -111,27 +111,9 @@ export class CustomFieldTableComponent {
         template: this.nameCell,
         sortable: true,
       },
-      {
-        columnHeader: "Number of Receipts with Category",
-        matColumnDef: "numberOfReceipts",
-        template: this.numberOfReceiptsCell,
-        sortable: true,
-      },
-      {
-        columnHeader: "Description",
-        matColumnDef: "description",
-        template: this.descriptionCell,
-        sortable: true,
-      },
-      {
-        columnHeader: "Actions",
-        matColumnDef: "actions",
-        template: this.actionsCell,
-        sortable: false,
-      },
     ] as TableColumn[];
 
-    const tableState = this.store.selectSnapshot(CategoryTableState.state);
+    const tableState = this.store.selectSnapshot(CustomFieldTableState.state);
     if (tableState.orderBy) {
       const column = columns.find(c => c.matColumnDef === tableState.orderBy);
       if (column) {
@@ -142,9 +124,6 @@ export class CustomFieldTableComponent {
     this.columns = columns;
     this.displayedColumns = [
       "name",
-      "description",
-      "numberOfReceipts",
-      "actions",
     ];
   }
 

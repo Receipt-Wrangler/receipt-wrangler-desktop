@@ -1,6 +1,4 @@
-<app-table-header [headerText]="headerText">
-  <app-add-button tooltip="Add category" (clicked)="openAddDialog()">
-  </app-add-button>
+<app-table-header headerText="Custom Fields">
 </app-table-header>
 <div class="table-container">
   <app-table
@@ -17,14 +15,6 @@
 </div>
 
 <ng-template #nameCell let-element="element">{{ element.name }}</ng-template>
-
-<ng-template #descriptionCell let-element="element"
->{{ element.description }}
-</ng-template>
-
-<ng-template #numberOfReceiptsCell let-element="element"
->{{ element.numberOfReceipts }}
-</ng-template>
 
 <ng-template #actionsCell let-element="element" let-index="index">
 </ng-template>
