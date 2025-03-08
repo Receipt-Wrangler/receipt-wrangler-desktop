@@ -28,12 +28,12 @@ interface QueueData extends FormOption {
 
 @UntilDestroy()
 @Component({
-    selector: "app-system-settings-form",
-    templateUrl: "./system-settings-form.component.html",
-    styleUrl: "./system-settings-form.component.scss",
-    providers: [InputReadonlyPipe],
-    animations: [fadeInOut],
-    standalone: false
+  selector: "app-system-settings-form",
+  templateUrl: "./system-settings-form.component.html",
+  styleUrl: "./system-settings-form.component.scss",
+  providers: [InputReadonlyPipe],
+  animations: [fadeInOut],
+  standalone: false
 })
 export class SystemSettingsFormComponent extends BaseFormComponent implements OnInit, AfterViewInit {
   @ViewChild("fallbackReceiptProcessingSettings")
@@ -174,7 +174,7 @@ export class SystemSettingsFormComponent extends BaseFormComponent implements On
           this.filteredReceiptProcessingSettings = this.allReceiptProcessingSettings.filter((rps) => rps.id !== value);
 
           if (!value) {
-            this.fallbackReceiptProcessingSettings.clearFilter();
+            this.fallbackReceiptProcessingSettings?.clearFilter();
           }
         })
       )
