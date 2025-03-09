@@ -25,6 +25,10 @@ export interface CustomField {
      */
     name: string;
     type: CustomFieldType;
+    /**
+     * Custom Field description
+     */
+    description?: string;
     options?: Array<CustomFieldOption>;
 }
 export namespace CustomField {

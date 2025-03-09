@@ -20,5 +20,9 @@
   {{ element.type | customFieldType }}
 </ng-template>
 
+<ng-template #descriptionCell let-element="element">
+  {{ element.description }}
+</ng-template>
+
 <ng-template #actionsCell let-element="element" let-index="index">
 </ng-template>

@@ -84,7 +84,7 @@ export interface PagedDataDataInner {
      */
     createdByString?: string;
     /**
-     * Description of the settings
+     * Custom Field description
      */
     description?: string;
     prompt: Prompt;

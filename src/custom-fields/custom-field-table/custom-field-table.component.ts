@@ -25,6 +25,8 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild("typeCell") public typeCell!: TemplateRef<any>;
 
+  @ViewChild("descriptionCell") public descriptionCell!: TemplateRef<any>;
+
   @ViewChild("actionsCell")
   public actionsCell!: TemplateRef<any>;
 
@@ -113,6 +115,12 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
         template: this.typeCell,
         sortable: true,
       },
+      {
+        columnHeader: "Description",
+        matColumnDef: "description",
+        template: this.descriptionCell,
+        sortable: true,
+      }
     ] as TableColumn[];
 
     const tableState = this.store.selectSnapshot(CustomFieldTableState.state);
@@ -127,6 +135,7 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
     this.displayedColumns = [
       "name",
       "type",
+      "description"
     ];
   }
 
