@@ -1,8 +1,5 @@
-import { AsyncPipe } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { SharedUiModule } from "../shared-ui/shared-ui.module";
-import { TableModule } from "../table/table.module";
 import { CustomFieldTableComponent } from "./custom-field-table/custom-field-table.component";
 
 const routes: Routes = [
@@ -18,8 +15,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CustomFieldTableComponent],
-  imports: [RouterModule.forChild(routes), SharedUiModule, TableModule, AsyncPipe],
+  declarations: [],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class CustomFieldsRoutingModule {}

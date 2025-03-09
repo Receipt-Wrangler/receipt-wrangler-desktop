@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
@@ -20,14 +20,10 @@ import { TableColumn } from "../../table/table-column.interface";
   styleUrl: "./custom-field-table.component.scss",
   standalone: false
 })
-export class CustomFieldTableComponent {
+export class CustomFieldTableComponent implements OnInit, AfterViewInit {
   @ViewChild("nameCell") public nameCell!: TemplateRef<any>;
 
-  @ViewChild("descriptionCell")
-  public descriptionCell!: TemplateRef<any>;
-
-  @ViewChild("numberOfReceiptsCell")
-  public numberOfReceiptsCell!: TemplateRef<any>;
+  @ViewChild("typeCell") public typeCell!: TemplateRef<any>;
 
   @ViewChild("actionsCell")
   public actionsCell!: TemplateRef<any>;
@@ -111,6 +107,12 @@ export class CustomFieldTableComponent {
         template: this.nameCell,
         sortable: true,
       },
+      {
+        columnHeader: "Type",
+        matColumnDef: "type",
+        template: this.typeCell,
+        sortable: true,
+      },
     ] as TableColumn[];
 
     const tableState = this.store.selectSnapshot(CustomFieldTableState.state);
@@ -124,6 +126,7 @@ export class CustomFieldTableComponent {
     this.columns = columns;
     this.displayedColumns = [
       "name",
+      "type",
     ];
   }
 

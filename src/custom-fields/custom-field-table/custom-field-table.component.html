@@ -16,5 +16,9 @@
 
 <ng-template #nameCell let-element="element">{{ element.name }}</ng-template>
 
+<ng-template #typeCell let-element="element">
+  {{ element.type | customFieldType }}
+</ng-template>
+
 <ng-template #actionsCell let-element="element" let-index="index">
 </ng-template>
