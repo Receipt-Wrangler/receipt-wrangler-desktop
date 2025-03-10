@@ -6,12 +6,14 @@ import { CustomFieldTableComponent } from "./custom-field-table/custom-field-tab
 
 import { CustomFieldsRoutingModule } from "./custom-fields-routing.module";
 import { CustomFieldTypePipe } from "./pipes/custom-field-type.pipe";
+import { CustomFieldFormComponent } from './custom-field-form/custom-field-form.component';
 
 
 @NgModule({
   declarations: [
     CustomFieldTypePipe,
-    CustomFieldTableComponent
+    CustomFieldTableComponent,
+    CustomFieldFormComponent
   ],
   imports: [
     CommonModule,

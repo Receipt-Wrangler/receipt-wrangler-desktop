@@ -9,10 +9,12 @@ import { PagedTableInterface } from "src/interfaces/paged-table.interface";
 import { CustomFieldService, PagedDataDataInner, PagedRequestCommand } from "src/open-api";
 import { CategoryTableState } from "src/store/category-table.state";
 import { TableComponent } from "src/table/table/table.component";
+import { DEFAULT_DIALOG_CONFIG } from "../../constants/index";
 import { SnackbarService } from "../../services/index";
 import { CustomFieldTableState } from "../../store/custom-field-table.state";
 import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/custom-field-table.state.actions";
 import { TableColumn } from "../../table/table-column.interface";
+import { CustomFieldFormComponent } from "../custom-field-form/custom-field-form.component";
 
 @Component({
   selector: "app-custom-field-table",
@@ -137,6 +139,25 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
       "type",
       "description"
     ];
+  }
+
+
+  public openAddDialog(): void {
+    const dialogRef = this.matDialog.open(CustomFieldFormComponent, DEFAULT_DIALOG_CONFIG);
+
+    //dialogRef.componentInstance.headerText = `Add Custom Field`;
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((refreshData) => {
+          if (refreshData) {
+            // this.getCategories();
+          }
+        })
+      )
+      .subscribe();
   }
 
   /*  public openEditDialog(categoryView: CategoryView): void {
