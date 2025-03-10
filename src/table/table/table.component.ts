@@ -8,17 +8,17 @@ import { MatTableDataSource } from "@angular/material/table";
 import { TableColumn } from "../table-column.interface";
 
 @Component({
-    selector: "app-table",
-    templateUrl: "./table.component.html",
-    styleUrls: ["./table.component.scss"],
-    animations: [
-        trigger("detailExpand", [
-            state("collapsed,void", style({ height: "0px", minHeight: "0" })),
-            state("expanded", style({ height: "*" })),
-            transition("expanded <=> collapsed", animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")),
-        ]),
-    ],
-    standalone: false
+  selector: "app-table",
+  templateUrl: "./table.component.html",
+  styleUrls: ["./table.component.scss"],
+  animations: [
+    trigger("detailExpand", [
+      state("collapsed,void", style({ height: "0px", minHeight: "0" })),
+      state("expanded", style({ height: "*" })),
+      transition("expanded <=> collapsed", animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")),
+    ]),
+  ],
+  standalone: false
 })
 export class TableComponent implements OnChanges {
   @ViewChild(MatSort) public sort!: MatSort;
