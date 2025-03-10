@@ -1,16 +1,25 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from "@angular/core";
 import { Store } from "@ngxs/store";
 import { take, tap } from "rxjs";
-import { Activity, Group, GroupRole, PagedActivityRequestCommand, SystemTaskService, SystemTaskStatus, Widget } from "../../open-api/index";
+import {
+  Activity,
+  Group,
+  GroupRole,
+  PagedActivityRequestCommand,
+  PagedDataDataInner,
+  SystemTaskService,
+  SystemTaskStatus,
+  Widget
+} from "../../open-api/index";
 import { SnackbarService } from "../../services/index";
 import { GroupState } from "../../store/index";
 
 @Component({
-    selector: "app-activity",
-    templateUrl: "./activity.component.html",
-    styleUrl: "./activity.component.scss",
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: "app-activity",
+  templateUrl: "./activity.component.html",
+  styleUrl: "./activity.component.scss",
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class ActivityComponent implements OnInit, OnChanges {
   @Input() public widget!: Widget;
@@ -23,7 +32,7 @@ export class ActivityComponent implements OnInit, OnChanges {
 
   public pageSize: number = 25;
 
-  public activities: Activity[] = [];
+  public activities: PagedDataDataInner[] = [];
 
   public ranActivities: { [key: number]: boolean } = {};
 

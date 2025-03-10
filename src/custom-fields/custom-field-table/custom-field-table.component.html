@@ -1,0 +1,28 @@
+<app-table-header headerText="Custom Fields">
+</app-table-header>
+<div class="table-container">
+  <app-table
+    [columns]="columns"
+    [displayedColumns]="displayedColumns"
+    [dataSource]="dataSource"
+    [pagination]="true"
+    [length]="totalCount"
+    [pageSize]="(state | async)?.pageSize ?? 1"
+    [page]="((state | async)?.page ?? 1) - 1"
+    (sorted)="sorted({sortState : $event})"
+    (pageChange)="updatePageData($event)"
+  ></app-table>
+</div>
+
+<ng-template #nameCell let-element="element">{{ element.name }}</ng-template>
+
+<ng-template #typeCell let-element="element">
+  {{ element.type | customFieldType }}
+</ng-template>
+
+<ng-template #descriptionCell let-element="element">
+  {{ element.description }}
+</ng-template>
+
+<ng-template #actionsCell let-element="element" let-index="index">
+</ng-template>
