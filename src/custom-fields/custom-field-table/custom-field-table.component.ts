@@ -145,7 +145,7 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
   public openAddDialog(): void {
     const dialogRef = this.matDialog.open(CustomFieldFormComponent, DEFAULT_DIALOG_CONFIG);
 
-    //dialogRef.componentInstance.headerText = `Add Custom Field`;
+    dialogRef.componentInstance.headerText = `Add Custom Field`;
 
     dialogRef
       .afterClosed()
