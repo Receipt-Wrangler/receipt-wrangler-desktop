@@ -2,25 +2,48 @@
   <form [formGroup]="form">
     <div class="d-flex flex-column">
       <app-input
-        label="Name"
         [inputFormControl]="form | formGet : 'name'"
+        label="Name"
       ></app-input>
       <app-input
-        label="Description"
         [inputFormControl]="form | formGet : 'description'"
+        label="Description"
       ></app-input>
       <app-select
-        label="Type"
-        optionValueKey="value"
-        optionDisplayKey="displayValue"
-        [options]="typeOptions"
         [inputFormControl]="form | formGet:'type'"
+        [options]="typeOptions"
+        label="Type"
+        optionDisplayKey="displayValue"
+        optionValueKey="value"
       ></app-select>
+      @if (form.get("type")?.value === CustomFieldType.Select) {
+        <app-form-section
+          headerText="Options"
+          [headerButtonsTemplate]="optionsButtonTemplate"
+          [indent]="false"
+        >
+          @for (option of options; track index; let index = $index) {
+            <app-input
+              label="Value"
+              [inputFormControl]="form | formGet: 'options.' + index + '.value'"
+            ></app-input>
+          }
+        </app-form-section>
+      }
     </div>
 
     <app-dialog-footer
-      (submitClicked)="submit()"
       (cancelClicked)="closeDialog()"
+      (submitClicked)="submit()"
     ></app-dialog-footer>
   </form>
 </app-dialog>
+
+<ng-template
+  #optionsButtonTemplate
+>
+  <app-add-button
+    (clicked)="addOption()"
+    tooltip="Add option"
+  ></app-add-button>
+</ng-template>

@@ -1,12 +1,14 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { take, tap } from "rxjs";
 import { CategoryForm } from "../../categories/category-form/category-form.component";
 import { FormOption } from "../../interfaces/form-option.interface";
 import { CustomField, CustomFieldService, CustomFieldType } from "../../open-api/index";
 import { SnackbarService } from "../../services/index";
 
+@UntilDestroy()
 @Component({
   selector: "app-custom-field-form",
   standalone: false,
@@ -26,6 +28,7 @@ export class CustomFieldFormComponent implements OnInit {
   });
 
   public form!: FormGroup;
+  protected readonly CustomFieldType = CustomFieldType;
 
   constructor(
     private customFieldService: CustomFieldService,
@@ -34,8 +37,13 @@ export class CustomFieldFormComponent implements OnInit {
     private snackbarService: SnackbarService,
   ) {}
 
+  public get options(): FormOption[] {
+    return (this.form.get("options") as FormArray).value;
+  }
+
   public ngOnInit(): void {
     this.initForm();
+    this.listenForTypeChanges();
   }
 
   public submit(): void {
@@ -56,11 +64,37 @@ export class CustomFieldFormComponent implements OnInit {
     this.matDialogRef.close(false);
   }
 
+  public addOption(): void {
+    (this.form.get("options") as FormArray).push(this.buildOption());
+  }
+
   private initForm(): void {
     this.form = this.formBuilder.group({
       name: [this.customField?.name, [Validators.required]],
       type: [this.customField?.type, [Validators.required]],
       description: [this.customField?.description],
+      options: this.formBuilder.array([], Validators.required),
+    });
+  }
+
+  private listenForTypeChanges(): void {
+    this.form.get("type")?.valueChanges.pipe(
+      untilDestroyed(this),
+      tap((type) => {
+        if (type === CustomFieldType.Select) {
+          (this.form.get("options") as FormArray).push(this.buildOption());
+        } else {
+          (this.form.get("options") as FormArray).clear();
+        }
+      })
+    )
+      .subscribe();
+  }
+
+  private buildOption(): FormGroup {
+    return this.formBuilder.group({
+      value: "",
+      customFieldId: 0,
     });
   }
 }
