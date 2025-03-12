@@ -11,7 +11,7 @@ import { TableModule } from "../../table/table.module";
 
 import { CustomFieldTableComponent } from "./custom-field-table.component";
 
-fdescribe("CustomFieldTableComponent", () => {
+describe("CustomFieldTableComponent", () => {
   let component: CustomFieldTableComponent;
   let fixture: ComponentFixture<CustomFieldTableComponent>;
 
