@@ -77,7 +77,7 @@ export class CustomFieldFormComponent implements OnInit {
       name: [this.customField?.name, [Validators.required]],
       type: [this.customField?.type, [Validators.required]],
       description: [this.customField?.description],
-      options: this.formBuilder.array([], Validators.required),
+      options: this.formBuilder.array([]),
     });
   }
 
@@ -87,8 +87,11 @@ export class CustomFieldFormComponent implements OnInit {
       tap((type) => {
         if (type === CustomFieldType.Select) {
           (this.form.get("options") as FormArray).push(this.buildOption());
+          this.form.get("options")?.addValidators(Validators.required);
         } else {
           (this.form.get("options") as FormArray).clear();
+          this.form.get("options")?.removeValidators(Validators.required);
+          this.form.setErrors(null);
         }
       })
     )

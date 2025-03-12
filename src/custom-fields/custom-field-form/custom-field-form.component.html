@@ -29,9 +29,12 @@
                 label="Value"
                 [inputFormControl]="form | formGet: 'options.' + index + '.value'"
               ></app-input>
-              <app-delete-button
-                (clicked)="deleteOption(index)"
-              ></app-delete-button>
+
+              @if (options.length > 1) {
+                <app-delete-button
+                  (clicked)="deleteOption(index)"
+                ></app-delete-button>
+              }
             </div>
           }
         </app-form-section>

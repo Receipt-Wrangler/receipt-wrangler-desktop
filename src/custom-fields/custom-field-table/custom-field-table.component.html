@@ -1,18 +1,18 @@
 <app-table-header headerText="Custom Fields">
-  <app-add-button tooltip="Add category" (clicked)="openAddDialog()">
+  <app-add-button (clicked)="openAddDialog()" tooltip="Add custom field">
   </app-add-button>
 </app-table-header>
 <div class="table-container">
   <app-table
+    (pageChange)="updatePageData($event)"
+    (sorted)="sorted({sortState : $event})"
     [columns]="columns"
-    [displayedColumns]="displayedColumns"
     [dataSource]="dataSource"
-    [pagination]="true"
+    [displayedColumns]="displayedColumns"
     [length]="totalCount"
     [pageSize]="(state | async)?.pageSize ?? 1"
     [page]="((state | async)?.page ?? 1) - 1"
-    (sorted)="sorted({sortState : $event})"
-    (pageChange)="updatePageData($event)"
+    [pagination]="true"
   ></app-table>
 </div>
 
