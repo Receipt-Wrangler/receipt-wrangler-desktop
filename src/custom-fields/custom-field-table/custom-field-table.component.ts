@@ -60,6 +60,40 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
     this.initTable();
   }
 
+  public updatePageData(pageEvent: PageEvent) {
+    const newPage = pageEvent.pageIndex + 1;
+
+    this.store.dispatch(new SetPage(newPage));
+    this.store.dispatch(new SetPageSize(pageEvent.pageSize));
+
+    this.getCustomFields();
+  }
+
+  public sorted({ sortState }: { sortState: Sort }): void {
+    this.store.dispatch(new SetOrderBy(sortState.active));
+    this.store.dispatch(new SetSortDirection(sortState.direction));
+
+    this.getCustomFields();
+  }
+
+  public openAddDialog(): void {
+    const dialogRef = this.matDialog.open(CustomFieldFormComponent, DEFAULT_DIALOG_CONFIG);
+
+    dialogRef.componentInstance.headerText = `Add Custom Field`;
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((refreshData) => {
+          if (refreshData) {
+            this.getCustomFields();
+          }
+        })
+      )
+      .subscribe();
+  }
+
   private initTableData(): void {
     this.getCustomFields();
   }
@@ -81,22 +115,6 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe();
-  }
-
-  public updatePageData(pageEvent: PageEvent) {
-    const newPage = pageEvent.pageIndex + 1;
-
-    this.store.dispatch(new SetPage(newPage));
-    this.store.dispatch(new SetPageSize(pageEvent.pageSize));
-
-    this.getCustomFields();
-  }
-
-  public sorted({ sortState }: { sortState: Sort }): void {
-    this.store.dispatch(new SetOrderBy(sortState.active));
-    this.store.dispatch(new SetSortDirection(sortState.direction));
-
-    this.getCustomFields();
   }
 
   private initTable(): void {
@@ -139,25 +157,6 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
       "type",
       "description"
     ];
-  }
-
-
-  public openAddDialog(): void {
-    const dialogRef = this.matDialog.open(CustomFieldFormComponent, DEFAULT_DIALOG_CONFIG);
-
-    dialogRef.componentInstance.headerText = `Add Custom Field`;
-
-    dialogRef
-      .afterClosed()
-      .pipe(
-        take(1),
-        tap((refreshData) => {
-          if (refreshData) {
-            // this.getCategories();
-          }
-        })
-      )
-      .subscribe();
   }
 
   /*  public openEditDialog(categoryView: CategoryView): void {
