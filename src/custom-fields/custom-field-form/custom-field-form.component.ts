@@ -5,7 +5,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { take, tap } from "rxjs";
 import { CategoryForm } from "../../categories/category-form/category-form.component";
 import { FormOption } from "../../interfaces/form-option.interface";
-import { CustomField, CustomFieldService, CustomFieldType } from "../../open-api/index";
+import { CustomField, CustomFieldOption, CustomFieldService, CustomFieldType } from "../../open-api/index";
 import { SnackbarService } from "../../services/index";
 
 @UntilDestroy()
@@ -37,7 +37,7 @@ export class CustomFieldFormComponent implements OnInit {
     private snackbarService: SnackbarService,
   ) {}
 
-  public get options(): FormOption[] {
+  public get options(): CustomFieldOption[] {
     return (this.form.get("options") as FormArray).value;
   }
 
@@ -68,6 +68,10 @@ export class CustomFieldFormComponent implements OnInit {
     (this.form.get("options") as FormArray).push(this.buildOption());
   }
 
+  public deleteOption(index: number): void {
+    (this.form.get("options") as FormArray).removeAt(index);
+  }
+
   private initForm(): void {
     this.form = this.formBuilder.group({
       name: [this.customField?.name, [Validators.required]],
@@ -93,6 +97,7 @@ export class CustomFieldFormComponent implements OnInit {
 
   private buildOption(): FormGroup {
     return this.formBuilder.group({
+      id: Math.random(),
       value: "",
       customFieldId: 0,
     });
