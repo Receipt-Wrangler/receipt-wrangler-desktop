@@ -9,6 +9,13 @@
         label="Description"
         [inputFormControl]="form | formGet : 'description'"
       ></app-input>
+      <app-select
+        label="Type"
+        optionValueKey="value"
+        optionDisplayKey="displayValue"
+        [options]="typeOptions"
+        [inputFormControl]="form | formGet:'type'"
+      ></app-select>
     </div>
 
     <app-dialog-footer

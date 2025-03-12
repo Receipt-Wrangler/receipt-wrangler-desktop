@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { CategoryForm } from "../../categories/category-form/category-form.component";
-import { CustomField } from "../../open-api/index";
+import { FormOption } from "../../interfaces/form-option.interface";
+import { CustomField, CustomFieldType } from "../../open-api/index";
 
 @Component({
   selector: "app-custom-field-form",
@@ -14,6 +15,13 @@ export class CustomFieldFormComponent implements OnInit {
   @Input() public headerText: string = "";
 
   @Input() public customField?: CustomField;
+
+  public typeOptions: FormOption[] = Object.keys(CustomFieldType).map((key) => {
+    return {
+      value: (CustomFieldType as any)[key],
+      displayValue: key,
+    };
+  });
 
   public form!: FormGroup;
 
