@@ -77,7 +77,7 @@ export class CustomFieldFormComponent implements OnInit {
       name: [this.customField?.name, [Validators.required]],
       type: [this.customField?.type, [Validators.required]],
       description: [this.customField?.description],
-      options: this.formBuilder.array([]),
+      options: this.formBuilder.array(this.customField?.options?.map(option => this.buildOption(option)) ?? []),
     });
   }
 
@@ -98,11 +98,11 @@ export class CustomFieldFormComponent implements OnInit {
       .subscribe();
   }
 
-  private buildOption(): FormGroup {
+  private buildOption(option?: CustomFieldOption): FormGroup {
     return this.formBuilder.group({
       id: Math.random(),
-      value: "",
-      customFieldId: 0,
+      value: option?.value,
+      customFieldId: option?.customFieldId ?? 0,
     });
   }
 }
