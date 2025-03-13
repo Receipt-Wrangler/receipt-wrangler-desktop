@@ -14,7 +14,7 @@ import { SnackbarService } from "../../services";
 
 import { CustomFieldFormComponent } from "./custom-field-form.component";
 
-fdescribe("CustomFieldFormComponent", () => {
+describe("CustomFieldFormComponent", () => {
   let component: CustomFieldFormComponent;
   let fixture: ComponentFixture<CustomFieldFormComponent>;
   let customFieldService: CustomFieldService;
