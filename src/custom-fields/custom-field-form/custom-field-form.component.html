@@ -1,21 +1,29 @@
 <app-dialog [headerText]="headerText">
   <form [formGroup]="form">
     <div class="d-flex flex-column">
-      <app-input
-        [inputFormControl]="form | formGet : 'name'"
-        label="Name"
-      ></app-input>
-      <app-input
-        [inputFormControl]="form | formGet : 'description'"
-        label="Description"
-      ></app-input>
-      <app-select
-        [inputFormControl]="form | formGet:'type'"
-        [options]="typeOptions"
-        label="Type"
-        optionDisplayKey="displayValue"
-        optionValueKey="value"
-      ></app-select>
+      <app-form-section
+        headerText="Details"
+        [indent]="false"
+      >
+        <app-input
+          label="Name"
+          [readonly]="readonly"
+          [inputFormControl]="form | formGet : 'name'"
+        ></app-input>
+        <app-input
+          label="Description"
+          [readonly]="readonly"
+          [inputFormControl]="form | formGet : 'description'"
+        ></app-input>
+        <app-select
+          label="Type"
+          optionDisplayKey="displayValue"
+          optionValueKey="value"
+          [readonly]="readonly"
+          [options]="typeOptions"
+          [inputFormControl]="form | formGet:'type'"
+        ></app-select>
+      </app-form-section>
       @if (form.get("type")?.value === CustomFieldType.Select) {
         <app-form-section
           headerText="Options"
@@ -29,8 +37,7 @@
                 label="Value"
                 [inputFormControl]="form | formGet: 'options.' + index + '.value'"
               ></app-input>
-
-              @if (options.length > 1) {
+              @if (options.length > 1 && !readonly) {
                 <app-delete-button
                   (clicked)="deleteOption(index)"
                 ></app-delete-button>
@@ -51,8 +58,10 @@
 <ng-template
   #optionsButtonTemplate
 >
-  <app-add-button
-    (clicked)="addOption()"
-    tooltip="Add option"
-  ></app-add-button>
+  @if (!readonly) {
+    <app-add-button
+      tooltip="Add option"
+      (clicked)="addOption()"
+    ></app-add-button>
+  }
 </ng-template>

@@ -6,7 +6,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Select, Store } from "@ngxs/store";
 import { Observable, take, tap } from "rxjs";
 import { PagedTableInterface } from "src/interfaces/paged-table.interface";
-import { CustomFieldService, PagedDataDataInner, PagedRequestCommand } from "src/open-api";
+import { CustomField, CustomFieldService, PagedDataDataInner, PagedRequestCommand } from "src/open-api";
 import { CategoryTableState } from "src/store/category-table.state";
 import { TableComponent } from "src/table/table/table.component";
 import { DEFAULT_DIALOG_CONFIG } from "../../constants/index";
@@ -76,10 +76,11 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
     this.getCustomFields();
   }
 
-  public openAddDialog(): void {
+  public openCustomFieldDialog(customField?: CustomField): void {
     const dialogRef = this.matDialog.open(CustomFieldFormComponent, DEFAULT_DIALOG_CONFIG);
 
-    dialogRef.componentInstance.headerText = `Add Custom Field`;
+    dialogRef.componentInstance.headerText = customField ? "View Custom Field" : "Add Custom Field";
+    dialogRef.componentInstance.customField = customField;
 
     dialogRef
       .afterClosed()
