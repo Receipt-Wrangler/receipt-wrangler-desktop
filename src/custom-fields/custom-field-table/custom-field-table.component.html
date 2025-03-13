@@ -1,11 +1,9 @@
 <app-table-header headerText="Custom Fields">
-  <app-add-button (clicked)="openAddDialog()" tooltip="Add custom field">
+  <app-add-button (clicked)="openCustomFieldDialog()" tooltip="Add custom field">
   </app-add-button>
 </app-table-header>
 <div class="table-container">
   <app-table
-    (pageChange)="updatePageData($event)"
-    (sorted)="sorted({sortState : $event})"
     [columns]="columns"
     [dataSource]="dataSource"
     [displayedColumns]="displayedColumns"
@@ -13,10 +11,14 @@
     [pageSize]="(state | async)?.pageSize ?? 1"
     [page]="((state | async)?.page ?? 1) - 1"
     [pagination]="true"
+    (pageChange)="updatePageData($event)"
+    (sorted)="sorted({sortState : $event})"
   ></app-table>
 </div>
 
-<ng-template #nameCell let-element="element">{{ element.name }}</ng-template>
+<ng-template #nameCell let-element="element">
+  <a (click)="openCustomFieldDialog(element)">{{ element.name }}</a>
+</ng-template>
 
 <ng-template #typeCell let-element="element">
   {{ element.type | customFieldType }}

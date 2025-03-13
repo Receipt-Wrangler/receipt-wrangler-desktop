@@ -28,6 +28,9 @@ export class CustomFieldFormComponent implements OnInit {
   });
 
   public form!: FormGroup;
+
+  public readonly = false;
+
   protected readonly CustomFieldType = CustomFieldType;
 
   constructor(
@@ -44,6 +47,7 @@ export class CustomFieldFormComponent implements OnInit {
   public ngOnInit(): void {
     this.initForm();
     this.listenForTypeChanges();
+    this.readonly = !!this.customField;
   }
 
   public submit(): void {
