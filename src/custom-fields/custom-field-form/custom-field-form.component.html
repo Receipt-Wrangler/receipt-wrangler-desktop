@@ -1,25 +1,29 @@
 <app-dialog [headerText]="headerText">
   <form [formGroup]="form">
     <div class="d-flex flex-column">
-
-      <app-input
-        label="Name"
-        [readonly]="readonly"
-        [inputFormControl]="form | formGet : 'name'"
-      ></app-input>
-      <app-input
-        label="Description"
-        [readonly]="readonly"
-        [inputFormControl]="form | formGet : 'description'"
-      ></app-input>
-      <app-select
-        label="Type"
-        optionDisplayKey="displayValue"
-        optionValueKey="value"
-        [readonly]="readonly"
-        [options]="typeOptions"
-        [inputFormControl]="form | formGet:'type'"
-      ></app-select>
+      <app-form-section
+        headerText="Details"
+        [indent]="false"
+      >
+        <app-input
+          label="Name"
+          [readonly]="readonly"
+          [inputFormControl]="form | formGet : 'name'"
+        ></app-input>
+        <app-input
+          label="Description"
+          [readonly]="readonly"
+          [inputFormControl]="form | formGet : 'description'"
+        ></app-input>
+        <app-select
+          label="Type"
+          optionDisplayKey="displayValue"
+          optionValueKey="value"
+          [readonly]="readonly"
+          [options]="typeOptions"
+          [inputFormControl]="form | formGet:'type'"
+        ></app-select>
+      </app-form-section>
       @if (form.get("type")?.value === CustomFieldType.Select) {
         <app-form-section
           headerText="Options"
