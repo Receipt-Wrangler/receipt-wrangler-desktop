@@ -4,7 +4,7 @@
     <input
       matInput
       [readonly]="true"
-      [value]="inputFormControl.value"
+      [value]="inputFormControl.value | readonlyValue : options : optionDisplayKey : optionValueKey : optionsDisplayArray"
     />
   } @else {
     <mat-select
@@ -17,17 +17,12 @@
         *ngFor="let option of options; let i = index"
         [value]="optionValueKey ? option[optionValueKey] : option"
       >
-        @if (optionsDisplayArray.length > 0) {
-          {{ optionsDisplayArray[i] }}
-        } @else {
-          {{ optionDisplayKey ? option[optionDisplayKey] : option }}
-        }
-
+        {{ i | optionDisplay : option : optionDisplayKey : optionsDisplayArray }}
       </mat-option>
     </mat-select>
-    <mat-error *ngFor="let err of formControlErrors | async">{{
-        err.message
-      }}
-    </mat-error>
   }
+  <mat-error *ngFor="let err of formControlErrors | async">{{
+      err.message
+    }}
+  </mat-error>
 </mat-form-field>
