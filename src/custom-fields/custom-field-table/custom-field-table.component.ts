@@ -9,10 +9,12 @@ import { PagedTableInterface } from "src/interfaces/paged-table.interface";
 import { CustomFieldService, PagedDataDataInner, PagedRequestCommand } from "src/open-api";
 import { CategoryTableState } from "src/store/category-table.state";
 import { TableComponent } from "src/table/table/table.component";
+import { DEFAULT_DIALOG_CONFIG } from "../../constants/index";
 import { SnackbarService } from "../../services/index";
 import { CustomFieldTableState } from "../../store/custom-field-table.state";
 import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/custom-field-table.state.actions";
 import { TableColumn } from "../../table/table-column.interface";
+import { CustomFieldFormComponent } from "../custom-field-form/custom-field-form.component";
 
 @Component({
   selector: "app-custom-field-table",
@@ -58,6 +60,40 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
     this.initTable();
   }
 
+  public updatePageData(pageEvent: PageEvent) {
+    const newPage = pageEvent.pageIndex + 1;
+
+    this.store.dispatch(new SetPage(newPage));
+    this.store.dispatch(new SetPageSize(pageEvent.pageSize));
+
+    this.getCustomFields();
+  }
+
+  public sorted({ sortState }: { sortState: Sort }): void {
+    this.store.dispatch(new SetOrderBy(sortState.active));
+    this.store.dispatch(new SetSortDirection(sortState.direction));
+
+    this.getCustomFields();
+  }
+
+  public openAddDialog(): void {
+    const dialogRef = this.matDialog.open(CustomFieldFormComponent, DEFAULT_DIALOG_CONFIG);
+
+    dialogRef.componentInstance.headerText = `Add Custom Field`;
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((refreshData) => {
+          if (refreshData) {
+            this.getCustomFields();
+          }
+        })
+      )
+      .subscribe();
+  }
+
   private initTableData(): void {
     this.getCustomFields();
   }
@@ -79,22 +115,6 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe();
-  }
-
-  public updatePageData(pageEvent: PageEvent) {
-    const newPage = pageEvent.pageIndex + 1;
-
-    this.store.dispatch(new SetPage(newPage));
-    this.store.dispatch(new SetPageSize(pageEvent.pageSize));
-
-    this.getCustomFields();
-  }
-
-  public sorted({ sortState }: { sortState: Sort }): void {
-    this.store.dispatch(new SetOrderBy(sortState.active));
-    this.store.dispatch(new SetSortDirection(sortState.direction));
-
-    this.getCustomFields();
   }
 
   private initTable(): void {

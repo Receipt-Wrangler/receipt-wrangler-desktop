@@ -3,6 +3,7 @@ import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { provideNoopAnimations } from "@angular/platform-browser/animations";
+import { ActivatedRoute } from "@angular/router";
 import { NgxsModule } from "@ngxs/store";
 import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 import { CustomFieldTableState } from "../../store/custom-field-table.state";
@@ -21,7 +22,11 @@ describe("CustomFieldTableComponent", () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        provideNoopAnimations()
+        provideNoopAnimations(),
+        {
+          provide: ActivatedRoute,
+          useValue: {}
+        }
       ]
     })
       .compileComponents();

@@ -1,0 +1,58 @@
+<app-dialog [headerText]="headerText">
+  <form [formGroup]="form">
+    <div class="d-flex flex-column">
+      <app-input
+        [inputFormControl]="form | formGet : 'name'"
+        label="Name"
+      ></app-input>
+      <app-input
+        [inputFormControl]="form | formGet : 'description'"
+        label="Description"
+      ></app-input>
+      <app-select
+        [inputFormControl]="form | formGet:'type'"
+        [options]="typeOptions"
+        label="Type"
+        optionDisplayKey="displayValue"
+        optionValueKey="value"
+      ></app-select>
+      @if (form.get("type")?.value === CustomFieldType.Select) {
+        <app-form-section
+          headerText="Options"
+          [headerButtonsTemplate]="optionsButtonTemplate"
+          [indent]="false"
+        >
+          @for (option of options; track option.id; let index = $index) {
+            <div class="d-flex align-items-center">
+              <app-input
+                class="w-100"
+                label="Value"
+                [inputFormControl]="form | formGet: 'options.' + index + '.value'"
+              ></app-input>
+
+              @if (options.length > 1) {
+                <app-delete-button
+                  (clicked)="deleteOption(index)"
+                ></app-delete-button>
+              }
+            </div>
+          }
+        </app-form-section>
+      }
+    </div>
+
+    <app-dialog-footer
+      (cancelClicked)="closeDialog()"
+      (submitClicked)="submit()"
+    ></app-dialog-footer>
+  </form>
+</app-dialog>
+
+<ng-template
+  #optionsButtonTemplate
+>
+  <app-add-button
+    (clicked)="addOption()"
+    tooltip="Add option"
+  ></app-add-button>
+</ng-template>

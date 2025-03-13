@@ -76,6 +76,8 @@ export * from './updateGroupSettingsCommand';
 export * from './updateProfileCommand';
 export * from './upsertCategoryCommand';
 export * from './upsertCommentCommand';
+export * from './upsertCustomFieldCommand';
+export * from './upsertCustomFieldOptionCommand';
 export * from './upsertDashboardCommand';
 export * from './upsertGroupCommand';
 export * from './upsertGroupMemberCommand';

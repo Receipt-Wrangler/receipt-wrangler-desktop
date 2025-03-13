@@ -9,15 +9,7 @@
  */
 
 
-export interface CustomFieldOption { 
-    id: number;
-    createdAt: string;
-    createdBy?: number;
-    /**
-     * Created by entity\'s name
-     */
-    createdByString?: string;
-    updatedAt?: string;
+export interface UpsertCustomFieldOptionCommand { 
     /**
      * Custom Field Option value
      */

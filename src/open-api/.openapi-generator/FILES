@@ -106,6 +106,8 @@ model/updateGroupSettingsCommand.ts
 model/updateProfileCommand.ts
 model/upsertCategoryCommand.ts
 model/upsertCommentCommand.ts
+model/upsertCustomFieldCommand.ts
+model/upsertCustomFieldOptionCommand.ts
 model/upsertDashboardCommand.ts
 model/upsertGroupCommand.ts
 model/upsertGroupMemberCommand.ts
