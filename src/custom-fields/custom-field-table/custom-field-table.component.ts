@@ -4,9 +4,10 @@ import { PageEvent } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Select, Store } from "@ngxs/store";
-import { Observable, take, tap } from "rxjs";
+import { Observable, of, switchMap, take, tap } from "rxjs";
 import { PagedTableInterface } from "src/interfaces/paged-table.interface";
 import { CustomField, CustomFieldService, PagedDataDataInner, PagedRequestCommand } from "src/open-api";
+import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { CategoryTableState } from "src/store/category-table.state";
 import { TableComponent } from "src/table/table/table.component";
 import { DEFAULT_DIALOG_CONFIG } from "../../constants/index";
@@ -141,6 +142,12 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
         matColumnDef: "description",
         template: this.descriptionCell,
         sortable: true,
+      },
+      {
+        columnHeader: "Actions",
+        matColumnDef: "actions",
+        template: this.actionsCell,
+        sortable: false,
       }
     ] as TableColumn[];
 
@@ -156,7 +163,8 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
     this.displayedColumns = [
       "name",
       "type",
-      "description"
+      "description",
+      "actions"
     ];
   }
 
@@ -197,32 +205,32 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
         .subscribe();
     }*/
 
-  /*  public openDeleteConfirmationDialog(categoryView: CategoryView) {
-      const dialogRef = this.matDialog.open(
-        ConfirmationDialogComponent,
-        DEFAULT_DIALOG_CONFIG
-      );
+  public openDeleteConfirmationDialog(customField: CustomField) {
+    const dialogRef = this.matDialog.open(
+      ConfirmationDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
 
-      dialogRef.componentInstance.headerText = `Delete ${categoryView.name}`;
-      dialogRef.componentInstance.dialogContent = `Are you sure you want to delete ${categoryView.name}? This action is irreversiable and will remove this category from the receipts it is associated with.`;
+    dialogRef.componentInstance.headerText = `Delete ${customField.name}`;
+    dialogRef.componentInstance.dialogContent = `Are you sure you want to delete ${customField.name}? This action is irreversible and will remove this custom field from the receipts it is associated with.`;
 
-      dialogRef
-        .afterClosed()
-        .pipe(
-          take(1),
-          switchMap((confirmed) => {
-            if (confirmed) {
-              return this.categoryService.deleteCategory(categoryView.id).pipe(
-                tap(() => {
-                  this.snackbarService.success("Category successfully deleted");
-                  this.getCategories();
-                })
-              );
-            } else {
-              return of(undefined);
-            }
-          })
-        )
-        .subscribe();
-    }*/
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        switchMap((confirmed) => {
+          if (confirmed) {
+            return this.customFieldService.deleteCustomField(customField.id).pipe(
+              tap(() => {
+                this.snackbarService.success("Custom field successfully deleted");
+                this.getCustomFields();
+              })
+            );
+          } else {
+            return of(undefined);
+          }
+        })
+      )
+      .subscribe();
+  }
 }
