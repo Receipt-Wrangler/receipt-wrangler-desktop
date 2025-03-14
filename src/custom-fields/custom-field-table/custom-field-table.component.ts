@@ -6,7 +6,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Select, Store } from "@ngxs/store";
 import { Observable, of, switchMap, take, tap } from "rxjs";
 import { PagedTableInterface } from "src/interfaces/paged-table.interface";
-import { CustomField, CustomFieldService, PagedDataDataInner, PagedRequestCommand } from "src/open-api";
+import { CustomField, CustomFieldService, PagedDataDataInner, PagedRequestCommand, UserRole } from "src/open-api";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { CategoryTableState } from "src/store/category-table.state";
 import { TableComponent } from "src/table/table/table.component";
@@ -14,6 +14,7 @@ import { DEFAULT_DIALOG_CONFIG } from "../../constants/index";
 import { SnackbarService } from "../../services/index";
 import { CustomFieldTableState } from "../../store/custom-field-table.state";
 import { SetOrderBy, SetPage, SetPageSize, SetSortDirection } from "../../store/custom-field-table.state.actions";
+import { AuthState } from "../../store/index";
 import { TableColumn } from "../../table/table-column.interface";
 import { CustomFieldFormComponent } from "../custom-field-form/custom-field-form.component";
 
@@ -159,51 +160,18 @@ export class CustomFieldTableComponent implements OnInit, AfterViewInit {
       }
     }
 
+
     this.columns = columns;
     this.displayedColumns = [
       "name",
       "type",
       "description",
-      "actions"
     ];
-  }
 
-  /*  public openEditDialog(categoryView: CategoryView): void {
-      const dialogRef = this.matDialog.open(CategoryForm, DEFAULT_DIALOG_CONFIG);
-
-      dialogRef.componentInstance.category = categoryView;
-      dialogRef.componentInstance.headerText = `Edit ${categoryView.name}`;
-
-      dialogRef
-        .afterClosed()
-        .pipe(
-          take(1),
-          tap((refreshData) => {
-            if (refreshData) {
-              this.getCategories();
-            }
-          })
-        )
-        .subscribe();
+    if (this.store.selectSnapshot(AuthState.hasRole(UserRole.Admin))) {
+      this.displayedColumns.push("actions");
     }
-
-    public openAddDialog(): void {
-      const dialogRef = this.matDialog.open(CategoryForm, DEFAULT_DIALOG_CONFIG);
-
-      dialogRef.componentInstance.headerText = `Add category`;
-
-      dialogRef
-        .afterClosed()
-        .pipe(
-          take(1),
-          tap((refreshData) => {
-            if (refreshData) {
-              this.getCategories();
-            }
-          })
-        )
-        .subscribe();
-    }*/
+  }
 
   public openDeleteConfirmationDialog(customField: CustomField) {
     const dialogRef = this.matDialog.open(
