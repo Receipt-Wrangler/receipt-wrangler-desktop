@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { ButtonModule } from "../button/index";
+import { DirectivesModule } from "../directives/directives.module";
 import { InputModule } from "../input/index";
 import { PipesModule } from "../pipes/index";
 import { SelectModule } from "../select/select.module";
@@ -23,7 +24,14 @@ import { CustomFieldTypePipe } from "./pipes/custom-field-type.pipe";
   imports: [
     CommonModule,
     CustomFieldsRoutingModule,
-    SharedUiModule, TableModule, ReactiveFormsModule, InputModule, PipesModule, SelectModule, ButtonModule
+    DirectivesModule,
+    SharedUiModule, 
+    TableModule, 
+    ReactiveFormsModule, 
+    InputModule, 
+    PipesModule, 
+    SelectModule, 
+    ButtonModule
   ]
 })
 export class CustomFieldsModule {}

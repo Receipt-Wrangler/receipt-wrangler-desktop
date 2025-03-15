@@ -35,6 +35,7 @@
               <app-input
                 class="w-100"
                 label="Value"
+                [readonly]="readonly"
                 [inputFormControl]="form | formGet: 'options.' + index + '.value'"
               ></app-input>
               @if (options.length > 1 && !readonly) {
@@ -48,10 +49,12 @@
       }
     </div>
 
-    <app-dialog-footer
-      (cancelClicked)="closeDialog()"
-      (submitClicked)="submit()"
-    ></app-dialog-footer>
+    @if (!readonly) {
+      <app-dialog-footer
+        (cancelClicked)="closeDialog()"
+        (submitClicked)="submit()"
+      ></app-dialog-footer>
+    }
   </form>
 </app-dialog>
 

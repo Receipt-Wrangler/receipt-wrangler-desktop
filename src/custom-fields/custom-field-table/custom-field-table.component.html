@@ -29,4 +29,10 @@
 </ng-template>
 
 <ng-template #actionsCell let-element="element" let-index="index">
+  <app-delete-button
+    *appRole="'ADMIN'"
+    tooltip="Delete custom field"
+    (clicked)="openDeleteConfirmationDialog(element)"
+  >
+  </app-delete-button>
 </ng-template>
