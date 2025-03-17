@@ -6,6 +6,7 @@ import { GroupGuard } from "src/guards/group.guard";
 import { receiptGuardGuard } from "src/guards/receipt-guard.guard";
 import { GroupRole } from "../open-api";
 import { categoryResolverFn } from "../resolvers/categories.resolver";
+import { customFieldResolverFn } from "../resolvers/custom-field.resolver";
 import { receiptResolverFn } from "../resolvers/receipt.resolver";
 import { tagResolverFn } from "../resolvers/tags.resolver";
 import { ReceiptFormComponent } from "./receipt-form/receipt-form.component";
@@ -30,6 +31,7 @@ const routes: Routes = [
     resolve: {
       tags: tagResolverFn,
       categories: categoryResolverFn,
+      customFields: customFieldResolverFn,
     },
     data: {
       mode: FormMode.add,
@@ -44,6 +46,7 @@ const routes: Routes = [
       tags: tagResolverFn,
       categories: categoryResolverFn,
       receipt: receiptResolverFn,
+      customFields: customFieldResolverFn,
     },
     data: {
       mode: FormMode.view,
@@ -58,6 +61,7 @@ const routes: Routes = [
       tags: tagResolverFn,
       categories: categoryResolverFn,
       receipt: receiptResolverFn,
+      customFields: customFieldResolverFn,
     },
     data: {
       mode: FormMode.edit,

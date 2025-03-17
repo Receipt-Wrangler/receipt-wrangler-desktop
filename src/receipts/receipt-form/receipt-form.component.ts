@@ -18,6 +18,7 @@ import { UserAutocompleteComponent } from "src/user-autocomplete/user-autocomple
 import { ReceiptFileUploadCommand } from "../../interfaces";
 import {
   Category,
+  CustomField,
   FileDataView,
   Group,
   GroupRole,
@@ -89,6 +90,8 @@ export class ReceiptFormComponent implements OnInit {
 
   public tags: Tag[] = [];
 
+  public customFields: CustomField[] = [];
+
   public originalReceipt?: Receipt;
 
   public images: FileDataView[] = [];
@@ -159,6 +162,7 @@ export class ReceiptFormComponent implements OnInit {
   public ngOnInit(): void {
     this.categories = this.activatedRoute.snapshot.data["categories"];
     this.tags = this.activatedRoute.snapshot.data["tags"];
+    this.customFields = this.activatedRoute.snapshot.data["customFields"];
     this.originalReceipt = this.activatedRoute.snapshot.data["receipt"];
     this.editLink = `/receipts/${this.originalReceipt?.id}/edit`;
     this.mode = this.activatedRoute.snapshot.data["mode"];
