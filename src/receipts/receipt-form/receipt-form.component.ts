@@ -31,6 +31,7 @@ import {
 } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { QueueMode, ReceiptQueueService } from "../../services/receipt-queue.service";
+import { StatefulMenuItem } from "../../standalone/components/filtered-stateful-menu/stateful-menu-item";
 import { AuthState, FeatureConfigState, GroupState, UserState } from "../../store";
 import { downloadFile } from "../../utils/file";
 import { ItemListComponent } from "../item-list/item-list.component";
@@ -91,6 +92,8 @@ export class ReceiptFormComponent implements OnInit {
   public tags: Tag[] = [];
 
   public customFields: CustomField[] = [];
+
+  public customFieldsStatefulMenuItems: StatefulMenuItem[] = [];
 
   public originalReceipt?: Receipt;
 
@@ -166,6 +169,13 @@ export class ReceiptFormComponent implements OnInit {
     this.originalReceipt = this.activatedRoute.snapshot.data["receipt"];
     this.editLink = `/receipts/${this.originalReceipt?.id}/edit`;
     this.mode = this.activatedRoute.snapshot.data["mode"];
+    this.customFieldsStatefulMenuItems = this.customFields.map(c => {
+      return {
+        value: c.id.toString(),
+        displayValue: c.name,
+        selected: false
+      };
+    });
     this.setCancelLink();
     this.initForm();
     this.getImageFiles();

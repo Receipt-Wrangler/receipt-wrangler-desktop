@@ -252,6 +252,9 @@
     [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
     (clicked)="duplicateReceipt()"
   ></app-button>
+  <app-filtered-stateful-menu
+    [items]="customFieldsStatefulMenuItems"
+  ></app-filtered-stateful-menu>
 </ng-template>
 
 <ng-template #sharesSectionHeaderButtons>
