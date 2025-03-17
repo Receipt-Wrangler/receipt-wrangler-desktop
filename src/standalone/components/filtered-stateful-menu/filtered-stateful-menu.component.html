@@ -1,0 +1,16 @@
+<button [cdkMenuTriggerFor]="menu">Click me!</button>
+
+<ng-template #menu>
+  <div cdkMenu>
+    <div cdkMenuGroup>
+      @for (item of items; track item.value) {
+        <button
+          cdkMenuItemRadio
+          [cdkMenuItemChecked]="item.selected"
+          (cdkMenuItemTriggered)="onItemSelected(item)">
+          {{ item.displayValue }}
+        </button>
+      }
+    </div>
+  </div>
+</ng-template>

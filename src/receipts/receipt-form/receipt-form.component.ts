@@ -35,6 +35,7 @@ import { downloadFile } from "../../utils/file";
 import { ItemListComponent } from "../item-list/item-list.component";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 
+// TODO: Create filter menu to launch from button press, and the users can select multiple that way
 @UntilDestroy()
 @Component({
   selector: "app-receipt-form",
