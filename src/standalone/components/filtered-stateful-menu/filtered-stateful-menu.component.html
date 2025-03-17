@@ -1,8 +1,21 @@
-<button [cdkMenuTriggerFor]="menu">Click me!</button>
+<app-button
+  [buttonClass]="buttonClass"
+  [color]="color"
+  [buttonText]="buttonText"
+  [type]="type"
+  [matButtonType]="matButtonType"
+  [icon]="icon"
+  [customIcon]="customIcon"
+  [disabled]="disabled"
+  [tooltip]="tooltip"
+  [matBadgeContent]="matBadgeContent"
+  [matBadgeColor]="matBadgeColor"
+  [cdkMenuTriggerFor]="menu">
+</app-button>
 
 <ng-template #menu>
   <div cdkMenu>
-    <div cdkMenuGroup>
+    <div class="d-flex flex-column" cdkMenuGroup>
       @for (item of items; track item.value) {
         <button
           cdkMenuItemRadio
@@ -14,3 +27,4 @@
     </div>
   </div>
 </ng-template>
+
