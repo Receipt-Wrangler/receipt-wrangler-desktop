@@ -43,7 +43,7 @@ export class FilteredStatefulMenuComponent extends BaseButtonComponent implement
       untilDestroyed(this),
       tap((filter) => {
         if (filter) {
-          this.filteredItems = this.filteredItems.filter(item => this.filterFunc(item, filter));
+          this.filteredItems = this.filterItems(this.items, filter);
         } else {
           this.filteredItems = Array.from(this.items);
         }
@@ -53,8 +53,8 @@ export class FilteredStatefulMenuComponent extends BaseButtonComponent implement
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes["items"].currentValue) {
-      this.filteredItems = changes["items"].currentValue;
+    if (changes["items"].currentValue !== changes["items"].previousValue) {
+      this.filteredItems = this.filterItems(changes["items"].currentValue, this.filterFormControl.value);
     }
   }
 
@@ -68,5 +68,9 @@ export class FilteredStatefulMenuComponent extends BaseButtonComponent implement
 
   public resetFilter(): void {
     this.filterFormControl.setValue("");
+  }
+
+  public filterItems(items: StatefulMenuItem[], filterString: string): StatefulMenuItem[] {
+    return items.filter(item => this.filterFunc(item, filterString));
   }
 }
