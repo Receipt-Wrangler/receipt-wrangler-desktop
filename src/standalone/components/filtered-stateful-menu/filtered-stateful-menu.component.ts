@@ -16,7 +16,7 @@ import { StatefulMenuItem } from "./stateful-menu-item";
     ButtonModule, InputModule, MatMenuItem, MatCheckbox,
   ],
   templateUrl: "./filtered-stateful-menu.component.html",
-  styleUrl: "./filtered-stateful-menu.component.scss"
+  styleUrl: "./filtered-stateful-menu.component.scss",
 })
 export class FilteredStatefulMenuComponent extends BaseButtonComponent {
   @Input() public items: StatefulMenuItem[] = [];

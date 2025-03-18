@@ -14,7 +14,7 @@
 </app-button>
 
 <ng-template #menu>
-  <div cdkMenu>
+  <div class="mat-mdc-menu-panel" cdkMenu>
     <app-input
       label="Filter options"
       [inputFormControl]="filterFormControl"
@@ -24,6 +24,7 @@
       @for (item of items; track item.value) {
         <button
           mat-menu-item
+          class="w-100"
           (click)="onItemSelected(item, $event)"
         >
           <div class="d-flex align-items-center">
