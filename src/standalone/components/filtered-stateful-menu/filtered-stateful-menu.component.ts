@@ -26,6 +26,8 @@ export class FilteredStatefulMenuComponent extends BaseButtonComponent implement
 
   @Input() public filterFunc = (item: StatefulMenuItem, filter: string) => item.displayValue.toLowerCase().includes(filter.toLowerCase());
 
+  @Input() public filterLabel = "Filter options";
+
   @Output() public itemSelected = new EventEmitter<StatefulMenuItem>();
 
   public filterFormControl = new FormControl();
@@ -62,5 +64,9 @@ export class FilteredStatefulMenuComponent extends BaseButtonComponent implement
     event.preventDefault();
 
     this.itemSelected.emit(item);
+  }
+
+  public resetFilter(): void {
+    this.filterFormControl.setValue("");
   }
 }

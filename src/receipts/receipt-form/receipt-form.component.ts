@@ -583,8 +583,6 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public customFieldChanged(item: StatefulMenuItem): void {
-    console.warn("hit", item);
-    ;
     const newCustomFields = Array.from(this.customFieldsStatefulMenuItems);
     const selectedItemIndex = this.customFieldsStatefulMenuItems.findIndex(customField => customField.value === item.value);
 

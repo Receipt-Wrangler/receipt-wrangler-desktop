@@ -10,13 +10,15 @@
   [tooltip]="tooltip"
   [matBadgeContent]="matBadgeContent"
   [matBadgeColor]="matBadgeColor"
-  [cdkMenuTriggerFor]="menu">
+  [cdkMenuTriggerFor]="menu"
+  (cdkMenuOpened)="resetFilter()"
+>
 </app-button>
 
 <ng-template #menu>
   <div class="mat-mdc-menu-panel" cdkMenu>
     <app-input
-      label="Filter options"
+      [label]="filterLabel"
       [inputFormControl]="filterFormControl"
       (click)="$event.stopImmediatePropagation(); $event.stopPropagation();"
     ></app-input>
