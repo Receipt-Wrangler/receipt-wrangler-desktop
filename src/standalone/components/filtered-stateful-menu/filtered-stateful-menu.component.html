@@ -15,13 +15,26 @@
 
 <ng-template #menu>
   <div cdkMenu>
-    <div class="d-flex flex-column" cdkMenuGroup>
+    <app-input
+      label="Filter options"
+      [inputFormControl]="filterFormControl"
+      (click)="$event.stopImmediatePropagation(); $event.stopPropagation();"
+    ></app-input>
+    <div class="d-flex flex-column">
       @for (item of items; track item.value) {
         <button
-          cdkMenuItemRadio
-          [cdkMenuItemChecked]="item.selected"
-          (cdkMenuItemTriggered)="onItemSelected(item)">
-          {{ item.displayValue }}
+          mat-menu-item
+          (click)="onItemSelected(item, $event)"
+        >
+          <div class="d-flex align-items-center">
+            <mat-checkbox
+              class="checkbox"
+              [checked]="item.selected"
+            ></mat-checkbox>
+            <span>
+              {{ item.displayValue }}
+            </span>
+          </div>
         </button>
       }
     </div>

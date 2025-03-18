@@ -582,6 +582,20 @@ export class ReceiptFormComponent implements OnInit {
     }
   }
 
+  public customFieldChanged(item: StatefulMenuItem): void {
+    console.warn("hit", item);
+    ;
+    const newCustomFields = Array.from(this.customFieldsStatefulMenuItems);
+    const selectedItemIndex = this.customFieldsStatefulMenuItems.findIndex(customField => customField.value === item.value);
+
+    newCustomFields[selectedItemIndex] = {
+      ...item,
+      selected: !item.selected
+    };
+
+    this.customFieldsStatefulMenuItems = newCustomFields;
+  }
+
   public submit(): void {
     if (this.itemsListComponent.userExpansionPanels.length > 0) {
       this.itemsListComponent.userExpansionPanels.forEach(

@@ -248,6 +248,7 @@
     tooltip="Manage custom fields"
     color="accent"
     [items]="customFieldsStatefulMenuItems"
+    (itemSelected)="customFieldChanged($event)"
   ></app-filtered-stateful-menu>
   <app-button
     *ngIf="mode | inputReadonly"
