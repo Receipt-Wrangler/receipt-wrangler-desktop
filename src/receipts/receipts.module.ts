@@ -39,6 +39,7 @@ import { ReceiptsRoutingModule } from "./receipts-routing.module";
 import { ReceiptsTableComponent } from "./receipts-table/receipts-table.component";
 import { UploadImageComponent } from "./upload-image/upload-image.component";
 import { UserTotalPipe } from "./user-total.pipe";
+import { CustomFieldComponent } from './custom-field/custom-field.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { UserTotalPipe } from "./user-total.pipe";
     UploadImageComponent,
     UserTotalPipe,
     QuickScanDialogComponent,
+    CustomFieldComponent,
   ],
   imports: [
     AutocompleteModule,

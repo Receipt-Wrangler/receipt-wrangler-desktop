@@ -133,7 +133,7 @@
         }
       </div>
       @for (customField of customFieldsFormArray.controls; track customField.value["customFieldId"]) {
-        
+        <app-custom-field></app-custom-field>
       }
       <app-form-section
         headerText="Shares"
