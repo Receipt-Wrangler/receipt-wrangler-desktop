@@ -132,6 +132,9 @@
           </app-form-section>
         }
       </div>
+      @for (customField of customFieldsFormArray.controls; track customField.value["customFieldId"]) {
+        
+      }
       <app-form-section
         headerText="Shares"
         [indent]="false"

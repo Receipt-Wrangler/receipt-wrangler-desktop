@@ -138,6 +138,10 @@ export class ReceiptFormComponent implements OnInit {
 
   public queueMode: QueueMode | undefined;
 
+  public get customFieldsFormArray(): FormArray {
+    return this.form.get("customFields") as FormArray;
+  }
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -159,7 +163,6 @@ export class ReceiptFormComponent implements OnInit {
       this.queuePrevious();
     }
   }
-
 
   public form: FormGroup = new FormGroup({});
 
