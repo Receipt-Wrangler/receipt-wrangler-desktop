@@ -40,11 +40,15 @@ export interface PagedDataDataInner {
     /**
      * Categories associated to receipt
      */
-    categories?: Array<Category>;
+    categories: Array<Category>;
     /**
      * Comments associated to receipt
      */
-    comments?: Array<Comment>;
+    comments: Array<Comment>;
+    /**
+     * Custom fields associated to receipt
+     */
+    customFields: Array<CustomField>;
     createdAt: string;
     createdBy?: number;
     /**
@@ -68,7 +72,7 @@ export interface PagedDataDataInner {
     /**
      * Items associated to receipt
      */
-    receiptItems?: Array<Item>;
+    receiptItems: Array<Item>;
     /**
      * Date resolved
      */
@@ -77,7 +81,7 @@ export interface PagedDataDataInner {
     /**
      * Tags associated to receipt
      */
-    tags?: Array<Tag>;
+    tags: Array<Tag>;
     updatedAt?: string;
     /**
      * Created by entity\'s name
