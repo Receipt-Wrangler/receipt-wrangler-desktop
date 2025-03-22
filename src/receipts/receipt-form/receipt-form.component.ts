@@ -19,6 +19,7 @@ import { ReceiptFileUploadCommand } from "../../interfaces";
 import {
   Category,
   CustomField,
+  CustomFieldValue,
   FileDataView,
   Group,
   GroupRole,
@@ -265,6 +266,7 @@ export class ReceiptFormComponent implements OnInit {
         Validators.required,
       ],
       status: this.originalReceipt?.status ?? ReceiptStatus.Open,
+      customFields: this.formBuilder.array(this.originalReceipt?.customFields?.map((customField) => this.buildCustomOptionFormGroup(customField)) ?? [])
     });
 
     if (this.mode === FormMode.view) {
@@ -272,6 +274,14 @@ export class ReceiptFormComponent implements OnInit {
     }
 
     this.listenForGroupChanges();
+  }
+
+  private buildCustomOptionFormGroup(value: CustomFieldValue): FormGroup {
+    return this.formBuilder.group({
+      receiptId: this.originalReceipt?.id ?? 0,
+      customFieldId: value.id,
+      value: value?.value ?? null,
+    });
   }
 
   private listenForGroupChanges(): void {

@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CustomFieldValue } from './customFieldValue';
 import { Comment } from './comment';
 import { Group } from './group';
 import { GroupMember } from './groupMember';
@@ -48,7 +49,7 @@ export interface PagedDataDataInner {
     /**
      * Custom fields associated to receipt
      */
-    customFields: Array<CustomField>;
+    customFields: Array<CustomFieldValue>;
     createdAt: string;
     createdBy?: number;
     /**

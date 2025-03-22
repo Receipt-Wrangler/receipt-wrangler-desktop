@@ -7,10 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CustomFieldValue } from './customFieldValue';
 import { Comment } from './comment';
 import { Item } from './item';
 import { Category } from './category';
-import { CustomField } from './customField';
 import { ReceiptStatus } from './receiptStatus';
 import { Tag } from './tag';
 import { FileData } from './fileData';
@@ -35,7 +35,7 @@ export interface Receipt {
     /**
      * Custom fields associated to receipt
      */
-    customFields: Array<CustomField>;
+    customFields: Array<CustomFieldValue>;
     createdAt?: string;
     createdBy?: number;
     /**
