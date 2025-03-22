@@ -1,1 +1,9 @@
-<p>custom-field works!</p>
+<ng-container
+  [ngSwitch]="((formGroup.value.customFieldId ?? 0)| customField: customFields)?.type ?? ''"
+>
+  <ng-container *ngSwitchCase="CustomFieldType.Currency" [ngTemplateOutlet]="currency">
+</ng-container>
+
+<ng-template #currency>
+  Currency
+</ng-template>

@@ -40,6 +40,7 @@ import { ReceiptsTableComponent } from "./receipts-table/receipts-table.componen
 import { UploadImageComponent } from "./upload-image/upload-image.component";
 import { UserTotalPipe } from "./user-total.pipe";
 import { CustomFieldComponent } from './custom-field/custom-field.component';
+import { CustomFieldPipe } from './pipes/custom-field.pipe';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { CustomFieldComponent } from './custom-field/custom-field.component';
     UserTotalPipe,
     QuickScanDialogComponent,
     CustomFieldComponent,
+    CustomFieldPipe,
   ],
   imports: [
     AutocompleteModule,

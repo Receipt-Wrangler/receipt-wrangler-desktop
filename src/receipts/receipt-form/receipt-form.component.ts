@@ -282,7 +282,7 @@ export class ReceiptFormComponent implements OnInit {
   private buildCustomOptionFormGroup(value: CustomFieldValue): FormGroup {
     return this.formBuilder.group({
       receiptId: this.originalReceipt?.id ?? 0,
-      customFieldId: value.id,
+      customFieldId: value.customFieldId,
       value: value?.value ?? null,
     });
   }
@@ -605,6 +605,31 @@ export class ReceiptFormComponent implements OnInit {
     };
 
     this.customFieldsStatefulMenuItems = newCustomFields;
+
+    // Custom field was just selected
+    if (this.customFieldsStatefulMenuItems[selectedItemIndex].selected) {
+      const customField = this.customFields.find(customField => customField.id === Number(item.value));
+      if (customField) {
+        const customFieldValue = {
+          customFieldId: customField.id,
+          receiptId: this.originalReceipt?.id ?? 0,
+          value: null
+        } as any as CustomFieldValue;
+        this.customFieldsFormArray.push(this.buildCustomOptionFormGroup(customFieldValue));
+      }
+    } else {
+      // Custom field was just removed
+      const formArrayIndex = this.customFieldsFormArray.controls.findIndex(control => control.value?.["customFieldId"]?.toString() === item.value);
+      this.customFieldsFormArray.removeAt(formArrayIndex);
+    }
+  }
+
+  private updateCustomFields(): void {
+    const formArray = this.customFieldsFormArray;
+
+    this.customFieldsStatefulMenuItems.forEach((item) => {
+
+    });
   }
 
   public submit(): void {
