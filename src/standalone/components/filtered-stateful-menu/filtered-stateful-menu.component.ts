@@ -28,6 +28,8 @@ export class FilteredStatefulMenuComponent extends BaseButtonComponent implement
 
   @Input() public filterLabel = "Filter options";
 
+  @Input() public headerText = "";
+
   @Output() public itemSelected = new EventEmitter<StatefulMenuItem>();
 
   public filterFormControl = new FormControl();
