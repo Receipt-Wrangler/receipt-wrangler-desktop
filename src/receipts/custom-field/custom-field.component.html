@@ -1,9 +1,18 @@
+@let customField=(formGroup.value.customFieldId ?? 0)| customField: customFields;
+
 <ng-container
-  [ngSwitch]="((formGroup.value.customFieldId ?? 0)| customField: customFields)?.type ?? ''"
+  [ngSwitch]="customField?.type ?? ''"
 >
   <ng-container *ngSwitchCase="CustomFieldType.Currency" [ngTemplateOutlet]="currency">
 </ng-container>
 
 <ng-template #currency>
-  Currency
+  <app-input
+    class="w-100"
+    type="text"
+    [label]="customField?.name ?? ''"
+    [isCurrency]="true"
+    [inputFormControl]="formGroup.controls.value"
+    [readonly]="readonly"
+  ></app-input>
 </ng-template>

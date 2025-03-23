@@ -16,5 +16,8 @@ export class CustomFieldComponent {
   }>;
 
   @Input() public customFields: CustomField[] = [];
+
+  @Input() public readonly: boolean = false;
+
   protected readonly CustomFieldType = CustomFieldType;
 }
