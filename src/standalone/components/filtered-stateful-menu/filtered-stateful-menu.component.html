@@ -6,7 +6,7 @@
   [matButtonType]="matButtonType"
   [icon]="icon"
   [customIcon]="customIcon"
-  [disabled]="disabled"
+  [disabled]="disabled || readonly"
   [tooltip]="tooltip"
   [matBadgeContent]="matBadgeContent"
   [matBadgeColor]="matBadgeColor"
@@ -40,12 +40,14 @@
         <button
           mat-menu-item
           class="w-100"
+          [disabled]="readonly"
           (click)="onItemSelected(item, $event)"
         >
           <div class="d-flex align-items-center">
             <mat-checkbox
               class="checkbox"
               [checked]="item.selected"
+              [disabled]="readonly"
             ></mat-checkbox>
             <span>
               {{ item.displayValue }}

@@ -30,6 +30,8 @@ export class FilteredStatefulMenuComponent extends BaseButtonComponent implement
 
   @Input() public headerText = "";
 
+  @Input() public readonly = false;
+
   @Output() public itemSelected = new EventEmitter<StatefulMenuItem>();
 
   public filterFormControl = new FormControl();
@@ -64,8 +66,10 @@ export class FilteredStatefulMenuComponent extends BaseButtonComponent implement
     event.stopPropagation();
     event.stopImmediatePropagation();
     event.preventDefault();
-
-    this.itemSelected.emit(item);
+    
+    if (!this.readonly) {
+      this.itemSelected.emit(item);
+    }
   }
 
   public resetFilter(): void {

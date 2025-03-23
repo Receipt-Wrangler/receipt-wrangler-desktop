@@ -256,6 +256,7 @@
     icon="list_alt"
     tooltip="Manage custom fields"
     color="accent"
+    [readonly]="mode | inputReadonly"
     [items]="customFieldsStatefulMenuItems"
     [headerText]="(mode | inputReadonly) ? 'View Custom Fields' : 'Edit Custom Fields'"
     (itemSelected)="customFieldChanged($event)"
