@@ -7,6 +7,7 @@
   <ng-container *ngSwitchCase="CustomFieldType.Currency" [ngTemplateOutlet]="currency"></ng-container>
   <ng-container *ngSwitchCase="CustomFieldType.Date" [ngTemplateOutlet]="date"></ng-container>
   <ng-container *ngSwitchCase="CustomFieldType.Text" [ngTemplateOutlet]="text"></ng-container>
+  <ng-container *ngSwitchCase="CustomFieldType.Select" [ngTemplateOutlet]="select"></ng-container>
 </ng-container>
 
 <ng-template #currency>
@@ -36,4 +37,17 @@
     [inputFormControl]="formGroup.controls.value"
     [readonly]="readonly"
   ></app-input>
+</ng-template>
+
+<ng-template #select
+>
+  <app-select
+    class="w-100"
+    optionDisplayKey="value"
+    optionValueKey="id"
+    [label]="label"
+    [inputFormControl]="formGroup.controls.value"
+    [options]="customField?.options ?? []"
+    [readonly]="readonly"
+  ></app-select>
 </ng-template>
