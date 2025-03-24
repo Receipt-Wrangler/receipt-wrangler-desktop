@@ -167,9 +167,9 @@ export class ReceiptFormComponent implements OnInit {
   public form: FormGroup = new FormGroup({});
 
   public ngOnInit(): void {
-    this.categories = this.activatedRoute.snapshot.data["categories"];
-    this.tags = this.activatedRoute.snapshot.data["tags"];
-    this.customFields = this.activatedRoute.snapshot.data["customFields"];
+    this.categories = this.activatedRoute.snapshot.data["categories"] ?? [];
+    this.tags = this.activatedRoute.snapshot.data["tags"] ?? [];
+    this.customFields = this.activatedRoute.snapshot.data["customFields"] ?? [];
     this.originalReceipt = this.activatedRoute.snapshot.data["receipt"];
     this.editLink = `/receipts/${this.originalReceipt?.id}/edit`;
     this.mode = this.activatedRoute.snapshot.data["mode"];
