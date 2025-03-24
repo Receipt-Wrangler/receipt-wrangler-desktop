@@ -174,10 +174,13 @@ export class ReceiptFormComponent implements OnInit {
     this.editLink = `/receipts/${this.originalReceipt?.id}/edit`;
     this.mode = this.activatedRoute.snapshot.data["mode"];
     this.customFieldsStatefulMenuItems = this.customFields.map(c => {
+      const selected = this.originalReceipt?.customFields.some(customField => customField.customFieldId === c.id) ?? false;
+
+
       return {
         value: c.id.toString(),
         displayValue: c.name,
-        selected: false
+        selected: selected
       };
     });
     this.setCancelLink();
