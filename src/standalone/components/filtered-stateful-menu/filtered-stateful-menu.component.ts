@@ -24,7 +24,7 @@ import { StatefulMenuItem } from "./stateful-menu-item";
 export class FilteredStatefulMenuComponent extends BaseButtonComponent implements OnInit, OnChanges {
   @Input() public items: StatefulMenuItem[] = [];
 
-  @Input() public filterFunc = (item: StatefulMenuItem, filter: string) => item.displayValue.toLowerCase().includes(filter.toLowerCase());
+  @Input() public filterFunc = (item: StatefulMenuItem, filter: string) => item.displayValue.toLowerCase().includes(filter?.toLowerCase() ?? "");
 
   @Input() public filterLabel = "Filter options";
 
@@ -66,7 +66,7 @@ export class FilteredStatefulMenuComponent extends BaseButtonComponent implement
     event.stopPropagation();
     event.stopImmediatePropagation();
     event.preventDefault();
-    
+
     if (!this.readonly) {
       this.itemSelected.emit(item);
     }
