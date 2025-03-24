@@ -12,7 +12,10 @@ export class CustomFieldComponent {
   @Input() public formGroup!: FormGroup<{
     receiptId: FormControl<number>;
     customFieldId: FormControl<number>;
-    value: FormControl<any>;
+    stringValue: FormControl<string>;
+    dateValue: FormControl<string>;
+    selectValue: FormControl<number>;
+    currencyValue: FormControl<number>;
   }>;
 
   @Input() public customFields: CustomField[] = [];

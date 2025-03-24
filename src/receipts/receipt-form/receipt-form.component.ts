@@ -283,7 +283,10 @@ export class ReceiptFormComponent implements OnInit {
     return this.formBuilder.group({
       receiptId: this.originalReceipt?.id ?? 0,
       customFieldId: value.customFieldId,
-      value: value?.value ?? null,
+      stringValue: value?.stringValue ?? null,
+      dateValue: value?.dateValue ?? null,
+      selectValue: value?.selectValue ?? null,
+      currencyValue: value?.currencyValue ?? null,
     });
   }
 

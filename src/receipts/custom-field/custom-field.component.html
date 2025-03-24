@@ -16,7 +16,7 @@
     type="text"
     [label]="label"
     [isCurrency]="true"
-    [inputFormControl]="formGroup.controls.value"
+    [inputFormControl]="formGroup.controls.currencyValue"
     [readonly]="readonly"
   ></app-input>
 </ng-template>
@@ -25,7 +25,7 @@
   <app-datepicker
     class="w-100"
     [label]="label"
-    [inputFormControl]="formGroup.controls.value"
+    [inputFormControl]="formGroup.controls.dateValue"
     [readonly]="readonly"
   ></app-datepicker>
 </ng-template>
@@ -34,7 +34,7 @@
   <app-input
     class="w-100"
     [label]="label"
-    [inputFormControl]="formGroup.controls.value"
+    [inputFormControl]="formGroup.controls.stringValue"
     [readonly]="readonly"
   ></app-input>
 </ng-template>
@@ -46,7 +46,7 @@
     optionDisplayKey="value"
     optionValueKey="id"
     [label]="label"
-    [inputFormControl]="formGroup.controls.value"
+    [inputFormControl]="formGroup.controls.selectValue"
     [options]="customField?.options ?? []"
     [readonly]="readonly"
   ></app-select>
