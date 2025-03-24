@@ -9,15 +9,7 @@
  */
 
 
-export interface CustomFieldValue { 
-    id: number;
-    createdAt: string;
-    createdBy?: number;
-    /**
-     * Created by entity\'s name
-     */
-    createdByString?: string;
-    updatedAt?: string;
+export interface UpsertCustomFieldValueCommand { 
     /**
      * Receipt Id
      */
