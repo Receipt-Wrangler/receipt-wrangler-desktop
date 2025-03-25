@@ -16,6 +16,7 @@ export class CustomFieldComponent {
     dateValue: FormControl<string>;
     selectValue: FormControl<number>;
     currencyValue: FormControl<number>;
+    booleanValue: FormControl<boolean>;
   }>;
 
   @Input() public customFields: CustomField[] = [];

@@ -34,5 +34,9 @@ export interface UpsertCustomFieldValueCommand {
      * Custom Field Currency Value
      */
     currencyValue?: string;
+    /**
+     * Custom Field Boolean Value
+     */
+    booleanValue?: boolean;
 }
 

@@ -290,6 +290,7 @@ export class ReceiptFormComponent implements OnInit {
       dateValue: value?.dateValue ?? null,
       selectValue: value?.selectValue ?? null,
       currencyValue: value?.currencyValue ?? null,
+      booleanValue: value?.booleanValue ?? false,
     });
   }
 

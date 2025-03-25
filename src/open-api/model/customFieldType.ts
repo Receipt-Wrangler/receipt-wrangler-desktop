@@ -9,12 +9,13 @@
  */
 
 
-export type CustomFieldType = 'TEXT' | 'DATE' | 'SELECT' | 'CURRENCY';
+export type CustomFieldType = 'TEXT' | 'DATE' | 'SELECT' | 'CURRENCY' | 'BOOLEAN';
 
 export const CustomFieldType = {
     Text: 'TEXT' as CustomFieldType,
     Date: 'DATE' as CustomFieldType,
     Select: 'SELECT' as CustomFieldType,
-    Currency: 'CURRENCY' as CustomFieldType
+    Currency: 'CURRENCY' as CustomFieldType,
+    Boolean: 'BOOLEAN' as CustomFieldType
 };
 
