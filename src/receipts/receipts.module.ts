@@ -27,6 +27,7 @@ import { CategoryAutocompleteComponent } from "../category-autocomplete/category
 import { DirectivesModule } from "../directives";
 import { InputModule } from "../input";
 import { ExportButtonComponent } from "../standalone/components/export-button/export-button.component";
+import { FilteredStatefulMenuComponent } from "../standalone/components/filtered-stateful-menu/filtered-stateful-menu.component";
 import { TagAutocompleteComponent } from "../tag-autocomplete/tag-autocomplete.component";
 import { BulkStatusUpdateComponent } from "./bulk-resolve-dialog/bulk-status-update-dialog.component";
 import { ItemListComponent } from "./item-list/item-list.component";
@@ -38,6 +39,8 @@ import { ReceiptsRoutingModule } from "./receipts-routing.module";
 import { ReceiptsTableComponent } from "./receipts-table/receipts-table.component";
 import { UploadImageComponent } from "./upload-image/upload-image.component";
 import { UserTotalPipe } from "./user-total.pipe";
+import { CustomFieldComponent } from './custom-field/custom-field.component';
+import { CustomFieldPipe } from './pipes/custom-field.pipe';
 
 @NgModule({
   declarations: [
@@ -50,6 +53,8 @@ import { UserTotalPipe } from "./user-total.pipe";
     UploadImageComponent,
     UserTotalPipe,
     QuickScanDialogComponent,
+    CustomFieldComponent,
+    CustomFieldPipe,
   ],
   imports: [
     AutocompleteModule,
@@ -84,6 +89,7 @@ import { UserTotalPipe } from "./user-total.pipe";
     TagAutocompleteComponent,
     TextareaModule,
     UserAutocompleteModule,
+    FilteredStatefulMenuComponent,
   ],
   exports: [
     UploadImageComponent

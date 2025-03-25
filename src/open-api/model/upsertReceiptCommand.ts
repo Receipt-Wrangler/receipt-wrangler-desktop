@@ -12,6 +12,7 @@ import { UpsertItemCommand } from './upsertItemCommand';
 import { UpsertCommentCommand } from './upsertCommentCommand';
 import { ReceiptStatus } from './receiptStatus';
 import { UpsertTagCommand } from './upsertTagCommand';
+import { UpsertCustomFieldCommand } from './upsertCustomFieldCommand';
 
 
 export interface UpsertReceiptCommand { 
@@ -52,6 +53,10 @@ export interface UpsertReceiptCommand {
      * Comments associated to receipt
      */
     comments?: Array<UpsertCommentCommand>;
+    /**
+     * Custom fields associated to receipt
+     */
+    customFields?: Array<UpsertCustomFieldCommand>;
 }
 export namespace UpsertReceiptCommand {
 }

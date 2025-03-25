@@ -78,6 +78,7 @@ export * from './upsertCategoryCommand';
 export * from './upsertCommentCommand';
 export * from './upsertCustomFieldCommand';
 export * from './upsertCustomFieldOptionCommand';
+export * from './upsertCustomFieldValueCommand';
 export * from './upsertDashboardCommand';
 export * from './upsertGroupCommand';
 export * from './upsertGroupMemberCommand';

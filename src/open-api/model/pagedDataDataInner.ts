@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CustomFieldValue } from './customFieldValue';
 import { Comment } from './comment';
 import { Group } from './group';
 import { GroupMember } from './groupMember';
@@ -40,11 +41,15 @@ export interface PagedDataDataInner {
     /**
      * Categories associated to receipt
      */
-    categories?: Array<Category>;
+    categories: Array<Category>;
     /**
      * Comments associated to receipt
      */
-    comments?: Array<Comment>;
+    comments: Array<Comment>;
+    /**
+     * Custom fields associated to receipt
+     */
+    customFields: Array<CustomFieldValue>;
     createdAt: string;
     createdBy?: number;
     /**
@@ -68,7 +73,7 @@ export interface PagedDataDataInner {
     /**
      * Items associated to receipt
      */
-    receiptItems?: Array<Item>;
+    receiptItems: Array<Item>;
     /**
      * Date resolved
      */
@@ -77,7 +82,7 @@ export interface PagedDataDataInner {
     /**
      * Tags associated to receipt
      */
-    tags?: Array<Tag>;
+    tags: Array<Tag>;
     updatedAt?: string;
     /**
      * Created by entity\'s name

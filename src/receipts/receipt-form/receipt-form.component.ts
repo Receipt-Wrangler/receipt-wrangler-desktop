@@ -18,6 +18,8 @@ import { UserAutocompleteComponent } from "src/user-autocomplete/user-autocomple
 import { ReceiptFileUploadCommand } from "../../interfaces";
 import {
   Category,
+  CustomField,
+  CustomFieldValue,
   FileDataView,
   Group,
   GroupRole,
@@ -30,11 +32,13 @@ import {
 } from "../../open-api";
 import { SnackbarService } from "../../services";
 import { QueueMode, ReceiptQueueService } from "../../services/receipt-queue.service";
+import { StatefulMenuItem } from "../../standalone/components/filtered-stateful-menu/stateful-menu-item";
 import { AuthState, FeatureConfigState, GroupState, UserState } from "../../store";
 import { downloadFile } from "../../utils/file";
 import { ItemListComponent } from "../item-list/item-list.component";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 
+// TODO: Create filter menu to launch from button press, and the users can select multiple that way
 @UntilDestroy()
 @Component({
   selector: "app-receipt-form",
@@ -88,6 +92,10 @@ export class ReceiptFormComponent implements OnInit {
 
   public tags: Tag[] = [];
 
+  public customFields: CustomField[] = [];
+
+  public customFieldsStatefulMenuItems: StatefulMenuItem[] = [];
+
   public originalReceipt?: Receipt;
 
   public images: FileDataView[] = [];
@@ -130,6 +138,10 @@ export class ReceiptFormComponent implements OnInit {
 
   public queueMode: QueueMode | undefined;
 
+  public get customFieldsFormArray(): FormArray {
+    return this.form.get("customFields") as FormArray;
+  }
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -152,15 +164,25 @@ export class ReceiptFormComponent implements OnInit {
     }
   }
 
-
   public form: FormGroup = new FormGroup({});
 
   public ngOnInit(): void {
-    this.categories = this.activatedRoute.snapshot.data["categories"];
-    this.tags = this.activatedRoute.snapshot.data["tags"];
+    this.categories = this.activatedRoute.snapshot.data["categories"] ?? [];
+    this.tags = this.activatedRoute.snapshot.data["tags"] ?? [];
+    this.customFields = this.activatedRoute.snapshot.data["customFields"] ?? [];
     this.originalReceipt = this.activatedRoute.snapshot.data["receipt"];
     this.editLink = `/receipts/${this.originalReceipt?.id}/edit`;
     this.mode = this.activatedRoute.snapshot.data["mode"];
+    this.customFieldsStatefulMenuItems = this.customFields.map(c => {
+      const selected = this.originalReceipt?.customFields.some(customField => customField.customFieldId === c.id) ?? false;
+
+
+      return {
+        value: c.id.toString(),
+        displayValue: c.name,
+        selected: selected
+      };
+    });
     this.setCancelLink();
     this.initForm();
     this.getImageFiles();
@@ -250,6 +272,7 @@ export class ReceiptFormComponent implements OnInit {
         Validators.required,
       ],
       status: this.originalReceipt?.status ?? ReceiptStatus.Open,
+      customFields: this.formBuilder.array(this.originalReceipt?.customFields?.map((customField) => this.buildCustomOptionFormGroup(customField)) ?? [])
     });
 
     if (this.mode === FormMode.view) {
@@ -257,6 +280,17 @@ export class ReceiptFormComponent implements OnInit {
     }
 
     this.listenForGroupChanges();
+  }
+
+  private buildCustomOptionFormGroup(value: CustomFieldValue): FormGroup {
+    return this.formBuilder.group({
+      receiptId: this.originalReceipt?.id ?? 0,
+      customFieldId: value.customFieldId,
+      stringValue: value?.stringValue ?? null,
+      dateValue: value?.dateValue ?? null,
+      selectValue: value?.selectValue ?? null,
+      currencyValue: value?.currencyValue ?? null,
+    });
   }
 
   private listenForGroupChanges(): void {
@@ -565,6 +599,43 @@ export class ReceiptFormComponent implements OnInit {
     if (this.queueIndex > 0) {
       this.receiptQueueService.queuePrevious(this.queueIndex, this.queueIds, this.queueMode ?? QueueMode.VIEW,);
     }
+  }
+
+  public customFieldChanged(item: StatefulMenuItem): void {
+    const newCustomFields = Array.from(this.customFieldsStatefulMenuItems);
+    const selectedItemIndex = this.customFieldsStatefulMenuItems.findIndex(customField => customField.value === item.value);
+
+    newCustomFields[selectedItemIndex] = {
+      ...item,
+      selected: !item.selected
+    };
+
+    this.customFieldsStatefulMenuItems = newCustomFields;
+
+    // Custom field was just selected
+    if (this.customFieldsStatefulMenuItems[selectedItemIndex].selected) {
+      const customField = this.customFields.find(customField => customField.id === Number(item.value));
+      if (customField) {
+        const customFieldValue = {
+          customFieldId: customField.id,
+          receiptId: this.originalReceipt?.id ?? 0,
+          value: null
+        } as any as CustomFieldValue;
+        this.customFieldsFormArray.push(this.buildCustomOptionFormGroup(customFieldValue));
+      }
+    } else {
+      // Custom field was just removed
+      const formArrayIndex = this.customFieldsFormArray.controls.findIndex(control => control.value?.["customFieldId"]?.toString() === item.value);
+      this.customFieldsFormArray.removeAt(formArrayIndex);
+    }
+  }
+
+  private updateCustomFields(): void {
+    const formArray = this.customFieldsFormArray;
+
+    this.customFieldsStatefulMenuItems.forEach((item) => {
+
+    });
   }
 
   public submit(): void {
