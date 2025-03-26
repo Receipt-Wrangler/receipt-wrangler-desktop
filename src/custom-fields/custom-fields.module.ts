@@ -12,12 +12,10 @@ import { CustomFieldFormComponent } from "./custom-field-form/custom-field-form.
 import { CustomFieldTableComponent } from "./custom-field-table/custom-field-table.component";
 
 import { CustomFieldsRoutingModule } from "./custom-fields-routing.module";
-import { CustomFieldTypePipe } from "./pipes/custom-field-type.pipe";
 
 
 @NgModule({
   declarations: [
-    CustomFieldTypePipe,
     CustomFieldTableComponent,
     CustomFieldFormComponent
   ],
@@ -25,12 +23,12 @@ import { CustomFieldTypePipe } from "./pipes/custom-field-type.pipe";
     CommonModule,
     CustomFieldsRoutingModule,
     DirectivesModule,
-    SharedUiModule, 
-    TableModule, 
-    ReactiveFormsModule, 
-    InputModule, 
-    PipesModule, 
-    SelectModule, 
+    SharedUiModule,
+    TableModule,
+    ReactiveFormsModule,
+    InputModule,
+    PipesModule,
+    SelectModule,
     ButtonModule
   ]
 })

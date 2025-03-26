@@ -17,7 +17,7 @@
 <ng-template #menu>
   <div class="mat-mdc-menu-panel" cdkMenu>
     @if (headerText) {
-      <h5 class="justify-content-center text-center m-3">
+      <h5 class="justify-content-center m-3">
         {{ headerText }}
       </h5>
     }
@@ -38,7 +38,7 @@
       @for (item of filteredItems; track item.value) {
         <button
           mat-menu-item
-          class="w-100"
+          class="w-100 p-2"
           [disabled]="readonly"
           (click)="onItemSelected(item, $event)"
         >
@@ -48,9 +48,14 @@
               [checked]="item.selected"
               [disabled]="readonly"
             ></mat-checkbox>
-            <span>
-              {{ item.displayValue }}
-            </span>
+            <div class="d-flex flex-column">
+              <strong>
+                {{ item.displayValue }}
+              </strong>
+              @if (item.subtitle) {
+                <small> {{ item.subtitle }}</small>
+              }
+            </div>
           </div>
         </button>
       }
