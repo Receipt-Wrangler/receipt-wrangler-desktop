@@ -30,6 +30,7 @@ import {
   Tag,
   UserPreferences
 } from "../../open-api";
+import { CustomFieldTypePipe } from "../../pipes/custom-field-type.pipe";
 import { SnackbarService } from "../../services";
 import { QueueMode, ReceiptQueueService } from "../../services/receipt-queue.service";
 import { StatefulMenuItem } from "../../standalone/components/filtered-stateful-menu/stateful-menu-item";
@@ -38,12 +39,12 @@ import { downloadFile } from "../../utils/file";
 import { ItemListComponent } from "../item-list/item-list.component";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 
-// TODO: Create filter menu to launch from button press, and the users can select multiple that way
 @UntilDestroy()
 @Component({
   selector: "app-receipt-form",
   templateUrl: "./receipt-form.component.html",
   styleUrls: ["./receipt-form.component.scss"],
+  providers: [CustomFieldTypePipe],
   host: DEFAULT_HOST_CLASS,
   standalone: false
 })
@@ -144,6 +145,7 @@ export class ReceiptFormComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private customFieldTypePipe: CustomFieldTypePipe,
     private formBuilder: FormBuilder,
     private matDialog: MatDialog,
     private receiptImageService: ReceiptImageService,
@@ -176,9 +178,9 @@ export class ReceiptFormComponent implements OnInit {
     this.customFieldsStatefulMenuItems = this.customFields.map(c => {
       const selected = this.originalReceipt?.customFields.some(customField => customField.customFieldId === c.id) ?? false;
 
-
       return {
         value: c.id.toString(),
+        subtitle: this.customFieldTypePipe.transform(c.type),
         displayValue: c.name,
         selected: selected
       };
@@ -699,7 +701,6 @@ export class ReceiptFormComponent implements OnInit {
           if (this.queueIndex === -1) {
             this.router.navigate([`/receipts/${this.originalReceipt?.id}/view`]);
           } else if (this.queueIndex >= 0 && this.queueIndex !== this.queueIds.length - 1) {
-            console.warn("hit on update");
             this.queueNext();
           } else if (this.queueIndex === this.queueIds.length - 1) {
             this.snackbarService.success("Successfully updated receipt. Congratulations! You have reached the end of the queue.");

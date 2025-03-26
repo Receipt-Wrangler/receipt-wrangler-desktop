@@ -78,7 +78,6 @@ import { UserTotalPipe } from "./user-total.pipe";
     MatProgressSpinnerModule,
     MatTableModule,
     PipesModule,
-    PipesModule,
     RadioGroupModule,
     ReactiveFormsModule,
     ReceiptWranglerCarousel,

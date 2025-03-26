@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { CustomFieldType } from "../../open-api/index";
+import { CustomFieldType } from "../open-api/index";
+
 
 @Pipe({
   name: "customFieldType",
@@ -17,6 +18,8 @@ export class CustomFieldTypePipe implements PipeTransform {
         return "Text";
       case CustomFieldType.Currency:
         return "Currency";
+      case CustomFieldType.Boolean:
+        return "Boolean";
       default:
         return "";
     }
