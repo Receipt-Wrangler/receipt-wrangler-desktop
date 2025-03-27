@@ -17,7 +17,7 @@
 </div>
 
 <ng-template #nameCell let-element="element">
-  <a (click)="openCustomFieldDialog(element)">{{ element.name }}</a>
+  <a class="cursor-pointer" (click)="openCustomFieldDialog(element)">{{ element.name }}</a>
 </ng-template>
 
 <ng-template #typeCell let-element="element">
