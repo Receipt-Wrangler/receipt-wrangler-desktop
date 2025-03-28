@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { inject, NgModule, provideAppInitializer } from "@angular/core";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { AppInitService, initAppData } from "src/services";
 import { IconModule } from "../icon/icon.module";
+import { httpInterceptor } from "../interceptors/http-interceptor";
 import { LayoutModule } from "../layout/layout.module";
 import { ApiModule, Configuration } from "../open-api";
 import { PipesModule } from "../pipes";
@@ -39,7 +40,7 @@ import { AppComponent } from "./app.component";
       return initializerFn();
     }),
     provideNgxMask(),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptors([httpInterceptor])),
   ]
 })
 export class AppModule {
