@@ -38,6 +38,7 @@ import { ReceiptsTableComponent } from "./receipts-table/receipts-table.componen
 import { ShareListComponent } from "./share-list/share-list.component";
 import { UploadImageComponent } from "./upload-image/upload-image.component";
 import { UserTotalPipe } from "./user-total.pipe";
+import { ItemListComponent } from './item-list/item-list.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { UserTotalPipe } from "./user-total.pipe";
     UploadImageComponent,
     UserTotalPipe,
     QuickScanDialogComponent,
+    ItemListComponent,
   ],
   imports: [
     AutocompleteModule,

@@ -133,6 +133,11 @@
         }
       </div>
       <app-form-section
+        headerText="Items"
+        [indent]="false"
+        [headerButtonsTemplate]="itemsSectionHeaderButtons"
+      ></app-form-section>
+      <app-form-section
         headerText="Shares"
         [indent]="false"
         [headerButtonsTemplate]="sharesSectionHeaderButtons"
@@ -253,6 +258,10 @@
     (clicked)="duplicateReceipt()"
   ></app-button>
 </ng-template>
+
+<ng-template #itemsSectionHeaderButtons>
+</ng-template>
+
 
 <ng-template #sharesSectionHeaderButtons>
   <app-button
