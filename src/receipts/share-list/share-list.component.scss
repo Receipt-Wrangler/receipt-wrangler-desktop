@@ -1,6 +1,6 @@
-@use "../../variables.scss" as variables;
+@use "../../variables" as variables;
 
-app-item-list {
+app-share-list {
   .item-form-container:nth-child(even) {
     background-color: #efefef;
   }

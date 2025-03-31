@@ -6,9 +6,9 @@ import { Select } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { RECEIPT_ITEM_STATUS_OPTIONS } from "src/constants/receipt-status-options";
 import { FormMode } from "src/enums/form-mode.enum";
-import { InputComponent } from "../../input";
-import { Category, Group, GroupRole, Item, ItemStatus, Receipt, Tag, User } from "../../open-api";
-import { UserState } from "../../store";
+import { InputComponent } from "../../input/index";
+import { Category, Group, GroupRole, Item, ItemStatus, Receipt, Tag, User } from "../../open-api/index";
+import { UserState } from "../../store/index";
 import { buildItemForm } from "../utils/form.utils";
 
 export interface ItemData {
@@ -17,13 +17,13 @@ export interface ItemData {
 }
 
 @Component({
-    selector: "app-item-list",
-    templateUrl: "./item-list.component.html",
-    styleUrls: ["./item-list.component.scss"],
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: "app-share-list",
+  templateUrl: "./share-list.component.html",
+  styleUrls: ["./share-list.component.scss"],
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
-export class ItemListComponent implements OnInit {
+export class ShareListComponent implements OnInit {
   @ViewChildren("userExpansionPanel")
   public userExpansionPanels!: QueryList<MatExpansionPanel>;
 

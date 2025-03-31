@@ -1,10 +1,10 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { ItemData } from './item-list/item-list.component';
+import { Pipe, PipeTransform } from "@angular/core";
+import { ItemData } from "./share-list/share-list.component";
 
 @Pipe({
-    name: 'userTotal',
-    pure: false,
-    standalone: false
+  name: "userTotal",
+  pure: false,
+  standalone: false
 })
 export class UserTotalPipe implements PipeTransform {
   public transform(
