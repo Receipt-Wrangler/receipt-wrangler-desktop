@@ -69,23 +69,9 @@ export class ShareListComponent implements OnInit {
   public ngOnInit(): void {
     this.originalReceipt = this.activatedRoute.snapshot.data["receipt"];
     this.mode = this.activatedRoute.snapshot.data["mode"];
-    this.initForm();
     this.setUserItemMap();
   }
-
-  private initForm(): void {
-    this.form.addControl(
-      "receiptItems",
-      this.formBuilder.array(
-        this.originalReceipt?.receiptItems
-          ? this.originalReceipt.receiptItems.map((item) =>
-            buildItemForm(item, this.originalReceipt?.id?.toString())
-          )
-          : []
-      )
-    );
-  }
-
+  
   public setUserItemMap(): void {
     const receiptItems = this.form.get("receiptItems");
     if (receiptItems) {

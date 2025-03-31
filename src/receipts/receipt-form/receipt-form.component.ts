@@ -34,6 +34,7 @@ import { AuthState, FeatureConfigState, GroupState, UserState } from "../../stor
 import { downloadFile } from "../../utils/file";
 import { ShareListComponent } from "../share-list/share-list.component";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
+import { buildItemForm } from "../utils/form.utils";
 
 @UntilDestroy()
 @Component({
@@ -250,6 +251,13 @@ export class ReceiptFormComponent implements OnInit {
         Validators.required,
       ],
       status: this.originalReceipt?.status ?? ReceiptStatus.Open,
+      receiptItems: this.formBuilder.array(
+        this.originalReceipt?.receiptItems
+          ? this.originalReceipt.receiptItems.map((item) =>
+            buildItemForm(item, this.originalReceipt?.id?.toString())
+          )
+          : []
+      )
     });
 
     if (this.mode === FormMode.view) {
