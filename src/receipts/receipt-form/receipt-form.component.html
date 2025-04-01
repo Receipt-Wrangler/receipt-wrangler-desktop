@@ -87,6 +87,14 @@
               [readonly]="mode | inputReadonly"
               [options]="receiptStatusOptions"
             ></app-select>
+            @for (customField of customFieldsFormArray.controls; track customField.value["customFieldId"]) {
+              <app-custom-field
+                class="w-100"
+                [formGroup]="$any(customField)"
+                [customFields]="customFields"
+                [readonly]="mode | inputReadonly"
+              ></app-custom-field>
+            }
           </div>
         </app-form-section>
         @if (!selectedGroup?.groupReceiptSettings?.hideImages) {
@@ -242,6 +250,17 @@
     [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
     [buttonRouterLink]="[editLink]"
   ></app-button>
+  <app-filtered-stateful-menu
+    filterLabel="Filter custom fields"
+    matButtonType="iconButton"
+    icon="list_alt"
+    tooltip="Manage custom fields"
+    color="accent"
+    [readonly]="mode | inputReadonly"
+    [items]="customFieldsStatefulMenuItems"
+    [headerText]="(mode | inputReadonly) ? 'View Custom Fields' : 'Edit Custom Fields'"
+    (itemSelected)="customFieldChanged($event)"
+  ></app-filtered-stateful-menu>
   <app-button
     *ngIf="mode | inputReadonly"
     class="ms-1"

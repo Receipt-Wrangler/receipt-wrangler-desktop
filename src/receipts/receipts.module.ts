@@ -24,12 +24,16 @@ import { UserAutocompleteModule } from "src/user-autocomplete/user-autocomplete.
 import { ButtonModule } from "../button";
 import { CarouselModule as ReceiptWranglerCarousel } from "../carousel/carousel.module";
 import { CategoryAutocompleteComponent } from "../category-autocomplete/category-autocomplete.component";
+import { CheckboxModule } from "../checkbox/checkbox.module";
 import { DirectivesModule } from "../directives";
 import { InputModule } from "../input";
 import { ExportButtonComponent } from "../standalone/components/export-button/export-button.component";
+import { FilteredStatefulMenuComponent } from "../standalone/components/filtered-stateful-menu/filtered-stateful-menu.component";
 import { TagAutocompleteComponent } from "../tag-autocomplete/tag-autocomplete.component";
 import { BulkStatusUpdateComponent } from "./bulk-resolve-dialog/bulk-status-update-dialog.component";
+import { CustomFieldComponent } from "./custom-field/custom-field.component";
 import { ItemListComponent } from "./item-list/item-list.component";
+import { CustomFieldPipe } from "./pipes/custom-field.pipe";
 import { QuickActionsDialogComponent } from "./quick-actions-dialog/quick-actions-dialog.component";
 import { QuickScanDialogComponent } from "./quick-scan-dialog/quick-scan-dialog.component";
 import { ReceiptCommentsComponent } from "./receipt-comments/receipt-comments.component";
@@ -50,6 +54,8 @@ import { UserTotalPipe } from "./user-total.pipe";
     UploadImageComponent,
     UserTotalPipe,
     QuickScanDialogComponent,
+    CustomFieldComponent,
+    CustomFieldPipe,
   ],
   imports: [
     AutocompleteModule,
@@ -72,7 +78,6 @@ import { UserTotalPipe } from "./user-total.pipe";
     MatProgressSpinnerModule,
     MatTableModule,
     PipesModule,
-    PipesModule,
     RadioGroupModule,
     ReactiveFormsModule,
     ReceiptWranglerCarousel,
@@ -84,6 +89,8 @@ import { UserTotalPipe } from "./user-total.pipe";
     TagAutocompleteComponent,
     TextareaModule,
     UserAutocompleteModule,
+    FilteredStatefulMenuComponent,
+    CheckboxModule,
   ],
   exports: [
     UploadImageComponent

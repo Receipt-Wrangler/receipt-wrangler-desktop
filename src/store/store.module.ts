@@ -7,6 +7,7 @@ import { environment } from "src/environments/environment.development";
 import { AboutState } from "./about.state";
 import { AuthState } from "./auth.state";
 import { CategoryTableState } from "./category-table.state";
+import { CustomFieldTableState } from "./custom-field-table.state";
 import { DashboardState } from "./dashboard.state";
 import { FeatureConfigState } from "./feature-config.state";
 import { GroupTableState } from "./group-table.state";
@@ -30,6 +31,7 @@ import { UserState } from "./user.state";
       AboutState,
       AuthState,
       CategoryTableState,
+      CustomFieldTableState,
       DashboardState,
       FeatureConfigState,
       GroupState,
@@ -53,6 +55,7 @@ import { UserState } from "./user.state";
         "about",
         "auth",
         "categoryTable",
+        "customFieldTable",
         "dashboards",
         "groupTable",
         "groups",

@@ -38,7 +38,11 @@ describe("ReceiptFormComponent", () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { data: {}, queryParams: {} }, params: of({}) },
+          useValue: {
+            snapshot: {
+              data: {}, queryParams: {}
+            }, params: of({})
+          },
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
@@ -69,6 +73,7 @@ describe("ReceiptFormComponent", () => {
       paidByUserId: "",
       groupId: 0,
       status: ReceiptStatus.Open,
+      customFields: [],
     });
   });
 

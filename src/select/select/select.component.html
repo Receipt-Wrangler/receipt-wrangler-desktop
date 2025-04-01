@@ -1,23 +1,26 @@
 <mat-form-field class="w-100">
   <mat-label>{{ label }}</mat-label>
-  <mat-select
-    [formControl]="inputFormControl"
-    (blur)="inputBlur.emit($event)"
-    readonly
-  >
-    <mat-option *ngIf="addEmptyOption" [value]="null"></mat-option>
-    <mat-option
-      *ngFor="let option of options; let i = index"
-      [value]="optionValueKey ? option[optionValueKey] : option"
+  @if (readonly) {
+    <input
+      matInput
+      [readonly]="true"
+      [value]="inputFormControl.value | readonlyValue : options : optionDisplayKey : optionValueKey : optionsDisplayArray"
+    />
+  } @else {
+    <mat-select
+      [formControl]="inputFormControl"
+      (blur)="inputBlur.emit($event)"
+      readonly
     >
-      @if (optionsDisplayArray.length > 0) {
-        {{ optionsDisplayArray[i] }}
-      } @else {
-        {{ optionDisplayKey ? option[optionDisplayKey] : option }}
-      }
-
-    </mat-option>
-  </mat-select>
+      <mat-option *ngIf="addEmptyOption" [value]="null"></mat-option>
+      <mat-option
+        *ngFor="let option of options; let i = index"
+        [value]="optionValueKey ? option[optionValueKey] : option"
+      >
+        {{ i | optionDisplay : option : optionDisplayKey : optionsDisplayArray }}
+      </mat-option>
+    </mat-select>
+  }
   <mat-error *ngFor="let err of formControlErrors | async">{{
       err.message
     }}

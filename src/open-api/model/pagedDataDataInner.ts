@@ -7,20 +7,23 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CustomFieldValue } from './customFieldValue';
 import { Comment } from './comment';
 import { Group } from './group';
 import { GroupMember } from './groupMember';
 import { Category } from './category';
 import { Receipt } from './receipt';
-import { SystemTaskType } from './systemTaskType';
 import { Activity } from './activity';
 import { ReceiptProcessingSettings } from './receiptProcessingSettings';
+import { CustomFieldType } from './customFieldType';
 import { Item } from './item';
 import { GroupReceiptSettings } from './groupReceiptSettings';
 import { SystemTaskStatus } from './systemTaskStatus';
 import { OcrEngine } from './ocrEngine';
+import { CustomFieldOption } from './customFieldOption';
 import { SystemTask } from './systemTask';
 import { AiType } from './aiType';
+import { CustomField } from './customField';
 import { GroupSettings } from './groupSettings';
 import { AssociatedEntityType } from './associatedEntityType';
 import { Prompt } from './prompt';
@@ -38,11 +41,15 @@ export interface PagedDataDataInner {
     /**
      * Categories associated to receipt
      */
-    categories?: Array<Category>;
+    categories: Array<Category>;
     /**
      * Comments associated to receipt
      */
-    comments?: Array<Comment>;
+    comments: Array<Comment>;
+    /**
+     * Custom fields associated to receipt
+     */
+    customFields: Array<CustomFieldValue>;
     createdAt: string;
     createdBy?: number;
     /**
@@ -56,7 +63,7 @@ export interface PagedDataDataInner {
      */
     imageFiles?: Array<FileData>;
     /**
-     * Name of the settings
+     * Custom Field name
      */
     name: string;
     /**
@@ -66,7 +73,7 @@ export interface PagedDataDataInner {
     /**
      * Items associated to receipt
      */
-    receiptItems?: Array<Item>;
+    receiptItems: Array<Item>;
     /**
      * Date resolved
      */
@@ -75,14 +82,14 @@ export interface PagedDataDataInner {
     /**
      * Tags associated to receipt
      */
-    tags?: Array<Tag>;
+    tags: Array<Tag>;
     updatedAt?: string;
     /**
      * Created by entity\'s name
      */
     createdByString?: string;
     /**
-     * Description of the settings
+     * Custom Field description
      */
     description?: string;
     prompt: Prompt;
@@ -104,7 +111,7 @@ export interface PagedDataDataInner {
      * Number of receipts associated with this tag
      */
     numberOfReceipts: number;
-    type: SystemTaskType;
+    type: CustomFieldType;
     startedAt: string;
     endedAt: string;
     associatedEntityId?: number;
@@ -152,6 +159,7 @@ export interface PagedDataDataInner {
      */
     password?: string;
     canBeRestarted?: boolean;
+    options?: Array<CustomFieldOption>;
 }
 export namespace PagedDataDataInner {
 }
