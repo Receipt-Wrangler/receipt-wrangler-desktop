@@ -81,6 +81,10 @@ export class ShareListComponent implements OnInit {
       if (items?.length > 0) {
         items.forEach((item, index) => {
           const chargedToUserId = item.chargedToUserId.toString();
+          if (chargedToUserId === null) {
+            return;
+          }
+
           const itemData: ItemData = {
             item: item,
             arrayIndex: index,
