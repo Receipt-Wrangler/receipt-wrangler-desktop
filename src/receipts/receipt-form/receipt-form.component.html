@@ -264,6 +264,16 @@
 </ng-template>
 
 <ng-template #itemsSectionHeaderButtons>
+  <app-button
+    *ngIf="!(mode | inputReadonly)"
+    type="button"
+    matButtonType="iconButton"
+    icon="add"
+    tooltip="Add item"
+    color="accent"
+    (clicked)="addItem()"
+    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
+  ></app-button>
 </ng-template>
 
 

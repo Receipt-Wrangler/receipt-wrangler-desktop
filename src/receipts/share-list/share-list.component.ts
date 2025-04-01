@@ -9,7 +9,7 @@ import { FormMode } from "src/enums/form-mode.enum";
 import { InputComponent } from "../../input/index";
 import { Category, Group, GroupRole, Item, ItemStatus, Receipt, Tag, User } from "../../open-api/index";
 import { UserState } from "../../store/index";
-import { buildItemForm } from "../utils/form.utils";
+import { buildShareForm } from "../utils/form.utils";
 
 export interface ItemData {
   item: Item;
@@ -71,7 +71,7 @@ export class ShareListComponent implements OnInit {
     this.mode = this.activatedRoute.snapshot.data["mode"];
     this.setUserItemMap();
   }
-  
+
   public setUserItemMap(): void {
     const receiptItems = this.form.get("receiptItems");
     if (receiptItems) {
@@ -101,7 +101,7 @@ export class ShareListComponent implements OnInit {
 
   public initAddMode(): void {
     this.isAdding = true;
-    this.newItemFormGroup = buildItemForm(
+    this.newItemFormGroup = buildShareForm(
       undefined,
       this.originalReceipt?.id?.toString()
     );
@@ -130,7 +130,7 @@ export class ShareListComponent implements OnInit {
   public addInlineItem(userId: string): void {
     if (this.mode !== FormMode.view) {
       this.receiptItems.push(
-        buildItemForm(
+        buildShareForm(
           {
             name: "",
             chargedToUserId: Number(userId),

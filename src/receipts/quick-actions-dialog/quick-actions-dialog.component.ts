@@ -4,7 +4,7 @@ import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RadioButtonData } from "src/radio-group/models";
 import { Item, Receipt, User } from "../../open-api";
-import { buildItemForm } from "../utils/form.utils";
+import { buildShareForm } from "../utils/form.utils";
 
 enum QuickActions {
   "SplitEvenly" = "Split Evenly",
@@ -12,10 +12,10 @@ enum QuickActions {
 }
 
 @Component({
-    selector: "app-quick-actions-dialog",
-    templateUrl: "./quick-actions-dialog.component.html",
-    styleUrls: ["./quick-actions-dialog.component.scss"],
-    standalone: false
+  selector: "app-quick-actions-dialog",
+  templateUrl: "./quick-actions-dialog.component.html",
+  styleUrls: ["./quick-actions-dialog.component.scss"],
+  standalone: false
 })
 export class QuickActionsDialogComponent implements OnInit {
   @Input() public originalReceipt?: Receipt;
@@ -108,7 +108,7 @@ export class QuickActionsDialogComponent implements OnInit {
         Number.parseFloat((receiptAmount / users.length).toFixed(2))
       );
 
-      const formGroup = buildItemForm(
+      const formGroup = buildShareForm(
         item,
         this.originalReceipt?.id?.toString()
       );
@@ -132,7 +132,7 @@ export class QuickActionsDialogComponent implements OnInit {
           `${u.displayName}'s Portion`,
           this.localForm.get(u.id.toString())?.value
         );
-        const formGroup = buildItemForm(
+        const formGroup = buildShareForm(
           item,
           this.originalReceipt?.id?.toString()
         );

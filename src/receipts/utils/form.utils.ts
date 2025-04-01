@@ -1,12 +1,32 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Item, ItemStatus } from "../../open-api";
 
-export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
+export function buildShareForm(item?: Item, receiptId?: string): FormGroup {
   return new FormGroup({
     name: new FormControl(item?.name ?? "", Validators.required),
     chargedToUserId: new FormControl(item?.chargedToUserId ?? "", [
       Validators.required,
     ]),
+    receiptId: new FormControl(Number(item?.receiptId ?? receiptId)),
+    amount: new FormControl(item?.amount ?? undefined, [
+      Validators.required,
+      Validators.min(0),
+      itemTotalValidator(),
+    ]),
+    isTaxed: new FormControl(item?.IsTaxed ?? false),
+    categories: new FormArray(item?.categories?.map((c) => new FormControl(c)) ?? []),
+    tags: new FormArray(item?.tags?.map((t) => new FormControl(t)) ?? []),
+    status: new FormControl(
+      item?.status ?? ItemStatus.Open,
+      Validators.required
+    ),
+  });
+}
+
+export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
+  return new FormGroup({
+    name: new FormControl(item?.name ?? "", Validators.required),
+    chargedToUserId: new FormControl(null),
     receiptId: new FormControl(Number(item?.receiptId ?? receiptId)),
     amount: new FormControl(item?.amount ?? undefined, [
       Validators.required,
