@@ -1,1 +1,5 @@
-<p>item-list works!</p>
+@for (control of itemsFormArray?.controls; track $index) {
+  @if (control.value["chargedToUserId"] == null) {
+    item
+  }
+}

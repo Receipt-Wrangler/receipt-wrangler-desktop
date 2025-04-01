@@ -136,7 +136,11 @@
         headerText="Items"
         [indent]="false"
         [headerButtonsTemplate]="itemsSectionHeaderButtons"
-      ></app-form-section>
+      >
+        <app-item-list
+          [form]="form"
+        ></app-item-list>
+      </app-form-section>
       <app-form-section
         headerText="Shares"
         [indent]="false"
