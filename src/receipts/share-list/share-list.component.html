@@ -57,6 +57,22 @@
   @if (userItemMap.size === 0 && mode === formMode.view) {
     <div>No shares for this receipt</div>
   }
+  @for (key of userItemMap | mapKey; track key) {
+    <app-item-accordion
+      [form]="form"
+      [key]="key"
+      [itemData]="userItemMap.get(key) ?? []"
+      [originalReceipt]="originalReceipt"
+      [selectedGroup]="selectedGroup"
+      [categories]="categories"
+      [tags]="tags"
+      [mode]="mode"
+    >
+      <ng-container header-description>
+        <span>Total amount owed: {{ (userItemMap | userTotal : key) | customCurrency }}</span>
+      </ng-container>
+    </app-item-accordion>
+  }
   <mat-expansion-panel
     #userExpansionPanel
     *ngFor="let key of userItemMap | mapKey; let i = index"

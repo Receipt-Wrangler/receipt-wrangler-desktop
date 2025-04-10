@@ -9,7 +9,7 @@
     </mat-panel-title>
     <mat-panel-description>
       <div class="d-flex justify-content-between align-items-center w-100">
-        <ng-content select="header-description"></ng-content>
+        <ng-content select="[header-description]"></ng-content>
         @if (originalReceipt?.groupId | groupRole : groupRole.Editor) {
           <app-button
             matButtonType="iconButton"
