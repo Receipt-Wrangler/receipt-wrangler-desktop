@@ -39,6 +39,8 @@ import { ShareListComponent } from "./share-list/share-list.component";
 import { UploadImageComponent } from "./upload-image/upload-image.component";
 import { UserTotalPipe } from "./user-total.pipe";
 import { ItemListComponent } from './item-list/item-list.component';
+import { ItemFormComponent } from './item-form/item-form.component';
+import { ItemAccordionComponent } from './item-accordion/item-accordion.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import { ItemListComponent } from './item-list/item-list.component';
     UserTotalPipe,
     QuickScanDialogComponent,
     ItemListComponent,
+    ItemFormComponent,
+    ItemAccordionComponent,
   ],
   imports: [
     AutocompleteModule,

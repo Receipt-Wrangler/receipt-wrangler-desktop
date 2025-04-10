@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChildren, ViewEncapsulation, } from "@angular/core";
-import { AbstractControl, FormArray, FormBuilder, FormGroup, } from "@angular/forms";
+import { Component, Input, OnInit, QueryList, ViewChildren, ViewEncapsulation, } from "@angular/core";
+import { AbstractControl, FormArray, FormGroup, } from "@angular/forms";
 import { MatExpansionPanel } from "@angular/material/expansion";
 import { ActivatedRoute } from "@angular/router";
 import { Select } from "@ngxs/store";
@@ -62,8 +62,6 @@ export class ShareListComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -75,27 +73,26 @@ export class ShareListComponent implements OnInit {
   public setUserItemMap(): void {
     const receiptItems = this.form.get("receiptItems");
     if (receiptItems) {
-      const items = this.form.get("receiptItems")?.value as Item[];
+      const items = (this.form.get("receiptItems")?.value as Item[]);
       const map = new Map<string, ItemData[]>();
 
       if (items?.length > 0) {
         items.forEach((item, index) => {
-          const chargedToUserId = item.chargedToUserId.toString();
-          if (chargedToUserId === null) {
-            return;
-          }
+          if (item.chargedToUserId !== null) {
+            const chargedToUserId = item.chargedToUserId.toString();
 
-          const itemData: ItemData = {
-            item: item,
-            arrayIndex: index,
-          };
+            const itemData: ItemData = {
+              item: item,
+              arrayIndex: index,
+            };
 
-          if (map.has(chargedToUserId)) {
-            const newItems = Array.from(map.get(chargedToUserId) as ItemData[]);
-            newItems.push(itemData);
-            map.set(chargedToUserId, newItems);
-          } else {
-            map.set(chargedToUserId, [itemData]);
+            if (map.has(chargedToUserId)) {
+              const newItems = Array.from(map.get(chargedToUserId) as ItemData[]);
+              newItems.push(itemData);
+              map.set(chargedToUserId, newItems);
+            } else {
+              map.set(chargedToUserId, [itemData]);
+            }
           }
         });
       }

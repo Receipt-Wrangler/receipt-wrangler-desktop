@@ -1,60 +1,59 @@
-<mat-accordion multi>
-  @if (isAdding) {
-    <app-card
-      cardStyle="w-100 mb-2"
-    >
-      <ng-container header>
-        Add Share
-      </ng-container>
-      <div content>
-        <app-user-autocomplete
-          label="Shared with"
-          [inputFormControl]="newItemFormGroup | formGet : 'chargedToUserId'"
-          [groupId]="(form | formGet : 'groupId').value"
+@if (isAdding) {
+  <app-card
+    cardStyle="w-100 mb-2"
+  >
+    <ng-container header>
+      Add Share
+    </ng-container>
+    <div content>
+      <app-user-autocomplete
+        label="Shared with"
+        [inputFormControl]="newItemFormGroup | formGet : 'chargedToUserId'"
+        [groupId]="(form | formGet : 'groupId').value"
+        [readonly]="mode | inputReadonly"
+      ></app-user-autocomplete>
+      <div class="row g-0 mt-2">
+        <app-input
+          label="Name"
+          class="col"
+          [inputFormControl]="newItemFormGroup | formGet : 'name'"
+        >
+        </app-input>
+        <app-input
+          label="Amount"
+          class="col"
+          type="text"
+          [isCurrency]="true"
+          [inputFormControl]="newItemFormGroup | formGet : 'amount'"
           [readonly]="mode | inputReadonly"
-        ></app-user-autocomplete>
-        <div class="row g-0 mt-2">
-          <app-input
-            label="Name"
-            class="col"
-            [inputFormControl]="newItemFormGroup | formGet : 'name'"
-          >
-          </app-input>
-          <app-input
-            label="Amount"
-            class="col"
-            type="text"
-            [isCurrency]="true"
-            [inputFormControl]="newItemFormGroup | formGet : 'amount'"
+        >
+        </app-input>
+
+        @if (!selectedGroup?.groupReceiptSettings?.hideItemCategories) {
+          <app-category-autocomplete
+            [categories]="categories"
+            [inputFormControl]="newItemFormGroup | formGet : 'categories'"
             [readonly]="mode | inputReadonly"
-          >
-          </app-input>
+          ></app-category-autocomplete>
+        }
 
-          @if (!selectedGroup?.groupReceiptSettings?.hideItemCategories) {
-            <app-category-autocomplete
-              [categories]="categories"
-              [inputFormControl]="newItemFormGroup | formGet : 'categories'"
-              [readonly]="mode | inputReadonly"
-            ></app-category-autocomplete>
-          }
-
-          @if (!selectedGroup?.groupReceiptSettings?.hideItemTags) {
-            <app-tag-autocomplete
-              [tags]="tags"
-              [inputFormControl]="newItemFormGroup | formGet : 'tags'"
-              [readonly]="mode | inputReadonly"
-            ></app-tag-autocomplete>
-          }
-          <app-dialog-footer
-            submitButtonTooltip="Done"
-            (submitClicked)="submitNewItemFormGroup()"
-            (cancelClicked)="exitAddMode()"
-          ></app-dialog-footer>
-        </div>
+        @if (!selectedGroup?.groupReceiptSettings?.hideItemTags) {
+          <app-tag-autocomplete
+            [tags]="tags"
+            [inputFormControl]="newItemFormGroup | formGet : 'tags'"
+            [readonly]="mode | inputReadonly"
+          ></app-tag-autocomplete>
+        }
+        <app-dialog-footer
+          submitButtonTooltip="Done"
+          (submitClicked)="submitNewItemFormGroup()"
+          (cancelClicked)="exitAddMode()"
+        ></app-dialog-footer>
       </div>
-    </app-card>
-  }
-
+    </div>
+  </app-card>
+}
+<mat-accordion multi>
   @if (userItemMap.size === 0 && mode === formMode.view) {
     <div>No shares for this receipt</div>
   }

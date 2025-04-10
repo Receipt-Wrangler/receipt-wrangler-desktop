@@ -1,0 +1,100 @@
+<mat-expansion-panel
+  #userExpansionPanel
+  (opened)="onOpened()"
+  (closed)="onClosed()"
+>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ (key | user)?.displayName }}
+    </mat-panel-title>
+    <mat-panel-description>
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <ng-content select="header-description"></ng-content>
+        @if (originalReceipt?.groupId | groupRole : groupRole.Editor) {
+          <app-button
+            matButtonType="iconButton"
+            icon="check"
+            tooltip="Resolve all user's items"
+            [disabled]="mode === formMode.view"
+            [ngClass]="{
+                'green-check': allUserItemsResolved(key)
+              }"
+            (clicked)="allItemsResolvedHandler($event, key)"
+          ></app-button>
+        }
+      </div>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  @for (data of itemData; track data.arrayIndex; let i = $index; ) {
+    <app-card
+      cardStyle="mb-2"
+    >
+      <div content class="d-flex flex-column item-form-container">
+        <div class="d-flex justify-content-end">
+          @if (!(mode | inputReadonly)) {
+            <app-delete-button
+              tooltip="Remove Share"
+              [disabled]="
+              !(originalReceipt?.groupId | groupRole : groupRole.Editor)
+            "
+              (clicked)="onRemoved(data)"
+            ></app-delete-button>
+          }
+        </div>
+        <div class="row g-0">
+          <app-input
+            class="col"
+            #nameField
+            label="Name"
+            [inputId]="'name-' + i"
+            [inputFormControl]="
+              form | formGet : 'receiptItems.' + data.arrayIndex + '.name'
+            "
+            [readonly]="mode | inputReadonly"
+            (inputBlur)="onFieldBlur(key, i)"
+          >
+          </app-input>
+          <app-input
+            class="col"
+            label="Amount"
+            [isCurrency]="true"
+            [inputFormControl]="
+              form | formGet : 'receiptItems.' + data.arrayIndex + '.amount'
+            "
+            [readonly]="mode | inputReadonly"
+            (inputBlur)="onFieldBlur(key, i)"
+          >
+          </app-input>
+          <app-select
+            class="col"
+            label="Status"
+            optionValueKey="value"
+            optionDisplayKey="displayValue"
+            [inputFormControl]="
+              form | formGet : 'receiptItems.' + data.arrayIndex + '.status'
+            "
+            [readonly]="mode | inputReadonly"
+            [options]="itemStatusOptions"
+            (inputBlur)="onFieldBlur(key, i)"
+          >
+          </app-select>
+          @if (!selectedGroup?.groupReceiptSettings?.hideItemCategories) {
+            <app-category-autocomplete
+              [categories]="categories"
+              [inputFormControl]="form | formGet : 'receiptItems.' + data.arrayIndex + '.categories'"
+              [readonly]="mode | inputReadonly"
+            ></app-category-autocomplete>
+          }
+
+          @if (!selectedGroup?.groupReceiptSettings?.hideItemTags) {
+            <app-tag-autocomplete
+              [tags]="tags"
+              [inputFormControl]="form | formGet : 'receiptItems.' + data.arrayIndex + '.tags'"
+              [readonly]="mode | inputReadonly"
+            ></app-tag-autocomplete>
+          }
+        </div>
+      </div>
+    </app-card>
+  }
+</mat-expansion-panel>
