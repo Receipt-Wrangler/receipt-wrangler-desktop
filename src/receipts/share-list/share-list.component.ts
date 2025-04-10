@@ -1,14 +1,13 @@
 import { Component, Input, OnInit, QueryList, ViewChildren, ViewEncapsulation, } from "@angular/core";
 import { AbstractControl, FormArray, FormGroup, } from "@angular/forms";
-import { MatExpansionPanel } from "@angular/material/expansion";
 import { ActivatedRoute } from "@angular/router";
 import { Select } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { RECEIPT_ITEM_STATUS_OPTIONS } from "src/constants/receipt-status-options";
 import { FormMode } from "src/enums/form-mode.enum";
-import { InputComponent } from "../../input/index";
 import { Category, Group, GroupRole, Item, ItemStatus, Receipt, Tag, User } from "../../open-api/index";
 import { UserState } from "../../store/index";
+import { ItemAccordionComponent } from "../item-accordion/item-accordion.component";
 import { buildShareForm } from "../utils/form.utils";
 
 export interface ItemData {
@@ -24,11 +23,8 @@ export interface ItemData {
   standalone: false
 })
 export class ShareListComponent implements OnInit {
-  @ViewChildren("userExpansionPanel")
-  public userExpansionPanels!: QueryList<MatExpansionPanel>;
-
-  @ViewChildren("nameField")
-  public nameFields!: QueryList<InputComponent>;
+  @ViewChildren(ItemAccordionComponent)
+  public itemAccordionComponents!: QueryList<ItemAccordionComponent>;
 
   @Select(UserState.users) public users!: Observable<User[]>;
 

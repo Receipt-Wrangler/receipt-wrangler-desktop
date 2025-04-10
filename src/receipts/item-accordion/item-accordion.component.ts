@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { FormGroup } from "@angular/forms";
+import { MatExpansionPanel } from "@angular/material/expansion";
 import { RECEIPT_ITEM_STATUS_OPTIONS } from "src/constants/receipt-status-options";
 import { FormMode } from "../../enums/form-mode.enum";
 import { Category, Group, GroupRole, Receipt, Tag } from "../../open-api/index";
@@ -12,6 +13,9 @@ import { ItemData } from "../share-list/share-list.component";
   styleUrl: "./item-accordion.component.scss"
 })
 export class ItemAccordionComponent {
+  @ViewChild(MatExpansionPanel)
+  public expansionPanel!: MatExpansionPanel;
+
   @Input() itemData: ItemData[] = [];
 
   @Input() public mode!: FormMode;

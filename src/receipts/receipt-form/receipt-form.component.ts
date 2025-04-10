@@ -1,7 +1,6 @@
 import { Component, EmbeddedViewRef, HostListener, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { MatExpansionPanel } from "@angular/material/expansion";
 import { MatSnackBarRef } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
@@ -32,6 +31,7 @@ import { SnackbarService } from "../../services";
 import { QueueMode, ReceiptQueueService } from "../../services/receipt-queue.service";
 import { AuthState, FeatureConfigState, GroupState, UserState } from "../../store";
 import { downloadFile } from "../../utils/file";
+import { ItemAccordionComponent } from "../item-accordion/item-accordion.component";
 import { ShareListComponent } from "../share-list/share-list.component";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 import { buildItemForm, buildShareForm } from "../utils/form.utils";
@@ -582,9 +582,9 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public submit(): void {
-    if (this.itemsListComponent.userExpansionPanels.length > 0) {
-      this.itemsListComponent.userExpansionPanels.forEach(
-        (p: MatExpansionPanel) => p.close()
+    if (this.itemsListComponent.itemAccordionComponents.length > 0) {
+      this.itemsListComponent.itemAccordionComponents.forEach(
+        (panel: ItemAccordionComponent) => panel?.expansionPanel?.close()
       );
     }
     if (this.form.invalid) {
