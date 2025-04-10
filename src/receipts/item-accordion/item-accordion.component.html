@@ -16,7 +16,7 @@
             tooltip="Resolve all user's items"
             [disabled]="mode === formMode.view"
             [ngClass]="{
-                'green-check': allUserItemsResolved(key)
+                'green-check': itemData | allItemsResolved
               }"
             (clicked)="allItemsResolvedHandler($event, key)"
           ></app-button>

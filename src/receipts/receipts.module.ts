@@ -41,6 +41,7 @@ import { UserTotalPipe } from "./user-total.pipe";
 import { ItemListComponent } from './item-list/item-list.component';
 import { ItemFormComponent } from './item-form/item-form.component';
 import { ItemAccordionComponent } from './item-accordion/item-accordion.component';
+import { AllItemsResolvedPipe } from './pipes/all-items-resolved.pipe';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { ItemAccordionComponent } from './item-accordion/item-accordion.componen
     ItemListComponent,
     ItemFormComponent,
     ItemAccordionComponent,
+    AllItemsResolvedPipe,
   ],
   imports: [
     AutocompleteModule,
