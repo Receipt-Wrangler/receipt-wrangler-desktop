@@ -2,9 +2,9 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { intervalToDuration, isToday, isValid } from "date-fns";
 
 @Pipe({
-    name: "duration",
-    pure: true,
-    standalone: false
+  name: "duration",
+  pure: true,
+  standalone: false
 })
 export class DurationPipe implements PipeTransform {
   public transform(date: string | Date | null | undefined): string {
@@ -21,6 +21,7 @@ export class DurationPipe implements PipeTransform {
     const hours = duration?.hours ?? 0;
     const minutes = duration?.minutes ?? 0;
     const seconds = duration?.seconds ?? 0;
+    const months = duration?.months ?? 0;
     const days = duration?.days ?? 0;
 
     if (days < 0 || hours < 0 || minutes < 0) {
@@ -37,6 +38,10 @@ export class DurationPipe implements PipeTransform {
 
     if (isDateToday && seconds) {
       return "just now";
+    }
+
+    if (!isDateToday && months) {
+      return `${months} ${this.pluralize(months, "month")} ago`;
     }
 
     if (!isDateToday && days) {
