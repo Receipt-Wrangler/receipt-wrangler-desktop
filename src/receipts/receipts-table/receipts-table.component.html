@@ -84,6 +84,7 @@
   @fadeInOut
   headerText="Selected Receipt summary"
   [receiptIds]="selectedReceiptIds"
+  [groupId]="(selectedGroupId | async) ?? ''"
 ></app-summary-card>
 <div class="table-container">
   <app-table
