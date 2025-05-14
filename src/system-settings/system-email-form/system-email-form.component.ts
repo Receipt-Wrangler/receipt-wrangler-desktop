@@ -67,6 +67,7 @@ export class SystemEmailFormComponent implements OnInit {
       port: [this.originalSystemEmail?.port, [Validators.required]],
       username: [this.originalSystemEmail?.username, [Validators.required]],
       password: [null, this.formConfig.mode === FormMode.add ? [Validators.required] : []],
+      useStartTLS: [this.originalSystemEmail?.useStartTLS],
     });
   }
 
