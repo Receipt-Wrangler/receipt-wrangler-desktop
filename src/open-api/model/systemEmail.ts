@@ -34,5 +34,9 @@ export interface SystemEmail {
      * IMAP password
      */
     password?: string;
+    /**
+     * Whether to use STARTTLS
+     */
+    useStartTLS?: boolean;
 }
 

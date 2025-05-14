@@ -1,3 +1,4 @@
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
@@ -18,7 +19,6 @@ import { SharedUiModule } from "../../shared-ui/shared-ui.module";
 import { SystemEmailTaskTableState } from "../../store/system-email-task-table.state";
 
 import { SystemEmailFormComponent } from "./system-email-form.component";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 describe("SystemEmailFormComponent", () => {
   let component: SystemEmailFormComponent;
@@ -26,9 +26,9 @@ describe("SystemEmailFormComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [SystemEmailFormComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    imports: [ApiModule,
+      declarations: [SystemEmailFormComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ApiModule,
         NgxsModule.forRoot([SystemEmailTaskTableState]),
         PipesModule,
         MatDialogModule,
@@ -36,25 +36,25 @@ describe("SystemEmailFormComponent", () => {
         ReactiveFormsModule,
         SharedUiModule,
         NoopAnimationsModule],
-    providers: [
+      providers: [
         {
-            provide: TABLE_SERVICE_INJECTION_TOKEN,
-            useClass: SystemEmailTaskTableService
+          provide: TABLE_SERVICE_INJECTION_TOKEN,
+          useClass: SystemEmailTaskTableService
         },
         {
-            provide: ActivatedRoute,
-            useValue: {
-                snapshot: {
-                    data: {
-                        formConfig: {}
-                    }
-                }
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              data: {
+                formConfig: {}
+              }
             }
+          }
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-})
+      ]
+    })
       .compileComponents();
 
     fixture = TestBed.createComponent(SystemEmailFormComponent);
@@ -73,7 +73,8 @@ describe("SystemEmailFormComponent", () => {
       host: null,
       port: null,
       username: null,
-      password: null
+      password: null,
+      useStartTLS: null,
     });
   });
 
@@ -83,7 +84,8 @@ describe("SystemEmailFormComponent", () => {
       host: "host",
       port: "123",
       username: "username",
-      password: "password"
+      password: "password",
+      useStartTLS: true
     } as SystemEmail;
     component.ngOnInit();
 
@@ -92,7 +94,8 @@ describe("SystemEmailFormComponent", () => {
       host: "host",
       port: "123",
       username: "username",
-      password: null
+      password: null,
+      useStartTLS: true
     });
   });
 

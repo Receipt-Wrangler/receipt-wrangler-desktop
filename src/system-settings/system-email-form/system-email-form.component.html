@@ -31,6 +31,11 @@
       [showVisibilityEye]="true"
       [readonly]="formConfig.mode | inputReadonly"
     ></app-input>
+    <app-checkbox
+      label="Use STARTTLS"
+      [inputFormControl]="form | formGet: 'useStartTLS'"
+      [readonly]="formConfig.mode | inputReadonly"
+    ></app-checkbox>
   </app-form-section>
   <app-form-section
     *ngIf="formConfig.mode != FormMode.add"

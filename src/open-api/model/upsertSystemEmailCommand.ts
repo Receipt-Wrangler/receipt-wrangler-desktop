@@ -26,5 +26,9 @@ export interface UpsertSystemEmailCommand {
      * IMAP password
      */
     password: string;
+    /**
+     * Whether to use STARTTLS
+     */
+    useStartTLS?: boolean;
 }
 
