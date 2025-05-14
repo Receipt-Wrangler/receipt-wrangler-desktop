@@ -20,14 +20,14 @@ import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog
 import { TaskTableComponent } from "../../shared-ui/task-table/task-table.component";
 
 @Component({
-    selector: "app-system-email-form",
-    templateUrl: "./system-email-form.component.html",
-    styleUrl: "./system-email-form.component.scss",
-    providers: [{
-            provide: TABLE_SERVICE_INJECTION_TOKEN,
-            useClass: SystemEmailTaskTableService
-        }],
-    standalone: false
+  selector: "app-system-email-form",
+  templateUrl: "./system-email-form.component.html",
+  styleUrl: "./system-email-form.component.scss",
+  providers: [{
+    provide: TABLE_SERVICE_INJECTION_TOKEN,
+    useClass: SystemEmailTaskTableService
+  }],
+  standalone: false
 })
 export class SystemEmailFormComponent implements OnInit {
   @ViewChild(TaskTableComponent) public taskTableComponent!: TaskTableComponent;

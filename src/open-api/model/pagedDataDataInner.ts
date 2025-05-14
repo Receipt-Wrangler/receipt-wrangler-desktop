@@ -158,6 +158,10 @@ export interface PagedDataDataInner {
      * IMAP password
      */
     password?: string;
+    /**
+     * Whether to use STARTTLS
+     */
+    useStartTLS?: boolean;
     canBeRestarted?: boolean;
     options?: Array<CustomFieldOption>;
 }
