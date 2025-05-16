@@ -34,9 +34,14 @@ export class SummaryCardComponent implements OnChanges {
       return;
     }
 
+    let id: any = Number.parseInt(this.groupId as any) || (this.groupId as any);
+    if (this.receiptIds.length > 0) {
+      id = undefined;
+    }
+    
     this.userService
       .getAmountOwedForUser(
-        Number.parseInt(this.groupId as any) || (this.groupId as any),
+        id,
         this.receiptIds
       )
       .pipe(
