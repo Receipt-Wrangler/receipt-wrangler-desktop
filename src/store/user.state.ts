@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Action, createSelector, Selector, State, StateContext, } from "@ngxs/store";
 import { User } from "../open-api/model/user";
-import { AddUser, RemoveUser, SetUsers, UpdateUser, } from "./user.state.actions";
+import { AddUser, RemoveUser, RemoveUsers, SetUsers, UpdateUser, } from "./user.state.actions";
 
 export interface UserStateInterface {
   users: User[];
@@ -85,6 +85,17 @@ export class UserState {
     const users = Array.from(getState().users);
     patchState({
       users: users.filter((u) => u.id.toString() !== payload.userId.toString()),
+    });
+  }
+
+  @Action(RemoveUsers)
+  removeUsers(
+    { getState, patchState }: StateContext<UserStateInterface>,
+    payload: RemoveUsers
+  ) {
+    const users = Array.from(getState().users);
+    patchState({
+      users: users.filter((u) => !payload.userIds.includes(u.id.toString())),
     });
   }
 }

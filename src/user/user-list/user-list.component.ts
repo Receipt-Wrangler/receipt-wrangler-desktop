@@ -9,9 +9,9 @@ import { DEFAULT_DIALOG_CONFIG } from "src/constants/dialog.constant";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
-import { User, UserService } from "../../open-api";
+import { BulkUserDeleteCommand, User, UserService } from "../../open-api";
 import { SnackbarService } from "../../services";
-import { AuthState, RemoveUser, UserState } from "../../store";
+import { AuthState, RemoveUser, RemoveUsers, UserState } from "../../store";
 import { DummyUserConversionDialogComponent } from "../dummy-user-conversion-dialog/dummy-user-conversion-dialog.component";
 import { ResetPasswordComponent } from "../reset-password/reset-password.component";
 import { UserFormComponent } from "../user-form/user-form.component";
@@ -49,6 +49,8 @@ export class UserListComponent implements AfterViewInit {
     []
   );
 
+  public hasSelectedUsers: boolean = false;
+
   constructor(
     private matDialog: MatDialog,
     private snackbarService: SnackbarService,
@@ -58,6 +60,7 @@ export class UserListComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.initTable();
+    this.setupSelectionListener();
   }
 
   private initTable(): void {
@@ -107,6 +110,7 @@ export class UserListComponent implements AfterViewInit {
     ];
 
     this.displayedColumns = [
+      "select",
       "username",
       "displayName",
       "userRole",
@@ -129,6 +133,18 @@ export class UserListComponent implements AfterViewInit {
         })
       )
       .subscribe();
+  }
+
+  private setupSelectionListener(): void {
+    this.table.selection.changed
+      .pipe(untilDestroyed(this))
+      .subscribe(() => {
+        this.updateSelectionState();
+      });
+  }
+
+  private updateSelectionState(): void {
+    this.hasSelectedUsers = this.table.selection.selected.length > 0;
   }
 
   public openUserFormDialog(user?: User): void {
@@ -196,5 +212,47 @@ export class UserListComponent implements AfterViewInit {
         }
       });
     }
+  }
+
+  public bulkDeleteUsers(): void {
+    const selectedUsers = this.table.selection.selected;
+    const currentUserId = this.store.selectSnapshot(AuthState.userId);
+    
+    const usersToDelete = selectedUsers.filter(user => user.id.toString() !== currentUserId);
+    
+    if (usersToDelete.length === 0) {
+      this.snackbarService.error("Cannot delete current user or no valid users selected");
+      return;
+    }
+
+    const dialogRef = this.matDialog.open(
+      ConfirmationDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+
+    const usernames = usersToDelete.map(user => user.username).join(", ");
+    dialogRef.componentInstance.headerText = "Delete Users";
+    dialogRef.componentInstance.dialogContent = `Are you sure you would like to delete ${usersToDelete.length} user(s): ${usernames}? This will remove these users from groups, their receipt items, groups where they are the only member, and receipts where they paid. This action is irreversible.`;
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        const bulkDeleteCommand: BulkUserDeleteCommand = {
+          userIds: usersToDelete.map(user => user.id.toString())
+        };
+
+        this.userService
+          .bulkDeleteUsers(bulkDeleteCommand)
+          .pipe(
+            take(1),
+            tap(() => {
+              this.snackbarService.success(`${usersToDelete.length} user(s) successfully deleted`);
+              this.store.dispatch(new RemoveUsers(bulkDeleteCommand.userIds));
+              this.table.selection.clear();
+              this.dataSource.data = this.store.selectSnapshot(UserState.users);
+            })
+          )
+          .subscribe();
+      }
+    });
   }
 }
