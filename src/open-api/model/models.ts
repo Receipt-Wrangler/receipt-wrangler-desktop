@@ -6,6 +6,7 @@ export * from './associatedEntityType';
 export * from './associatedGroup';
 export * from './baseModel';
 export * from './bulkStatusUpdateCommand';
+export * from './bulkUserDeleteCommand';
 export * from './category';
 export * from './categoryView';
 export * from './checkEmailConnectivityCommand';

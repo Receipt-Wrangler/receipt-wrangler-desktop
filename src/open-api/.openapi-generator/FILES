@@ -35,6 +35,7 @@ model/associatedEntityType.ts
 model/associatedGroup.ts
 model/baseModel.ts
 model/bulkStatusUpdateCommand.ts
+model/bulkUserDeleteCommand.ts
 model/category.ts
 model/categoryView.ts
 model/checkEmailConnectivityCommand.ts

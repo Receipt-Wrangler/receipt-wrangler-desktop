@@ -183,15 +183,22 @@ export class AuthService {
      * Login
      * This will log a user into the system
      * @param loginCommand Login data
+     * @param tokensInBody When true, tokens are returned in the response body only without setting cookies
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public login(loginCommand: LoginCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AppData>;
-    public login(loginCommand: LoginCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AppData>>;
-    public login(loginCommand: LoginCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AppData>>;
-    public login(loginCommand: LoginCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public login(loginCommand: LoginCommand, tokensInBody?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AppData>;
+    public login(loginCommand: LoginCommand, tokensInBody?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AppData>>;
+    public login(loginCommand: LoginCommand, tokensInBody?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AppData>>;
+    public login(loginCommand: LoginCommand, tokensInBody?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (loginCommand === null || loginCommand === undefined) {
             throw new Error('Required parameter loginCommand was null or undefined when calling login.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (tokensInBody !== undefined && tokensInBody !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>tokensInBody, 'tokensInBody');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -251,6 +258,7 @@ export class AuthService {
             {
                 context: localVarHttpContext,
                 body: loginCommand,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
