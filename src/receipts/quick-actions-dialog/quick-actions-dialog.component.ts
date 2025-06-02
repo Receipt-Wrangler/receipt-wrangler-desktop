@@ -93,8 +93,7 @@ export class QuickActionsDialogComponent implements OnInit {
         if (!this.localForm.get(`${userId}_percentage`)) {
           const percentageControl = new FormControl(0, [
             Validators.min(0),
-            Validators.max(100),
-            Validators.pattern(/^(0|[1-9]\d*)(\.\d{1,2})?$/)
+            Validators.max(100)
           ]);
           percentageControl.disable();
           this.localForm.addControl(`${userId}_percentage`, percentageControl);
@@ -105,14 +104,24 @@ export class QuickActionsDialogComponent implements OnInit {
           this.localForm.addControl(`${userId}_customPercentage`, customPercentageControl);
 
           // Subscribe to custom percentage toggle changes
-          customPercentageControl.valueChanges.subscribe((isCustom: any) => {
+          customPercentageControl.valueChanges.subscribe((isCustom) => {
             const percentageControl = this.localForm.get(`${userId}_percentage`);
             if (isCustom) {
               percentageControl?.enable();
+              percentageControl?.setValidators([
+                Validators.required,
+                Validators.min(0),
+                Validators.max(100)
+              ]);
             } else {
               percentageControl?.disable();
               percentageControl?.setValue(0);
+              percentageControl?.setValidators([
+                Validators.min(0),
+                Validators.max(100)
+              ]);
             }
+            percentageControl?.updateValueAndValidity();
           });
         }
       });
@@ -120,7 +129,7 @@ export class QuickActionsDialogComponent implements OnInit {
   }
 
   private listenForQuickActionChanges(): void {
-    this.localForm.get('quickAction')?.valueChanges.subscribe((selectedAction: string) => {
+    this.localForm.get("quickAction")?.valueChanges.subscribe((selectedAction: string) => {
       // Clear errors on percentage fields when switching away from percentage mode
       if (selectedAction !== this.radioValues[2].value) {
         this.clearPercentageErrors();
@@ -130,7 +139,7 @@ export class QuickActionsDialogComponent implements OnInit {
 
   private clearPercentageErrors(): void {
     Object.keys(this.localForm.controls).forEach(key => {
-      if (key.endsWith('_percentage')) {
+      if (key.endsWith("_percentage")) {
         const control = this.localForm.get(key);
         if (control) {
           control.markAsUntouched();
@@ -238,7 +247,15 @@ export class QuickActionsDialogComponent implements OnInit {
 
     for (const user of users) {
       const percentageControl = this.localForm.get(`${user.id.toString()}_percentage`);
+      const customControl = this.localForm.get(`${user.id.toString()}_customPercentage`);
+      const isCustom = customControl?.value;
       const percentage = Number.parseFloat(percentageControl?.value ?? 0);
+
+      // Check if custom percentage is enabled but field is empty
+      if (isCustom && percentageControl?.enabled && !percentageControl?.value) {
+        this.matSnackbar.open(`Please enter a percentage for ${user.displayName}!`);
+        return false;
+      }
 
       // Only validate enabled controls or controls with values > 0
       if (percentageControl?.enabled || percentage > 0) {
@@ -297,6 +314,11 @@ export class QuickActionsDialogComponent implements OnInit {
     customControl?.setValue(false);
     percentageControl?.enable();
     percentageControl?.setValue(percentage);
+    percentageControl?.setValidators([
+      Validators.min(0),
+      Validators.max(100)
+    ]);
+    percentageControl?.updateValueAndValidity();
     percentageControl?.disable();
   }
 

@@ -43,10 +43,6 @@ export class InputComponent
 
   @Input() public decimalMarker: CurrencySeparator = CurrencySeparator.Period;
 
-  @Input() public numberMin?: number = undefined;
-
-  @Input() public numberMax?: number = undefined;
-
   constructor(private store: Store) {
     super();
   }
@@ -77,8 +73,8 @@ export class InputComponent
       if (this.store.selectSnapshot(SystemSettingsState.currencySymbolPosition) === CurrencySymbolPosition.End) {
         this.maskSuffix = this.store.selectSnapshot(SystemSettingsState.currencyDisplay);
       }
-    } else {
-      this.mask = "";
+    } else if (!this.mask && !this.maskPrefix && !this.maskSuffix) {
+      // Only clear mask if it wasn't manually set
       this.maskPrefix = "";
       this.maskSuffix = "";
       this.thousandSeparator = "";

@@ -45,11 +45,11 @@
             ></app-checkbox>
             <app-input
               label="Custom Percentage"
-              type="number"
-              [numberMin]="0"
-              [numberMax]="100"
-              [inputFormControl]="localForm | formGet : user.id.toString() + '_percentage'"
+              type="text"
+              mask="percent.2"
+              maskSuffix="%"
               class="flex-grow-1"
+              [inputFormControl]="localForm | formGet : user.id.toString() + '_percentage'"
             ></app-input>
           </div>
         </div>
