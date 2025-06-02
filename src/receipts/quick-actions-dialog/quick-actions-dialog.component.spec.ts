@@ -5,7 +5,9 @@ import { MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { NgxsModule } from "@ngxs/store";
+import { User } from "../../open-api";
 import { PipesModule } from "../../pipes";
+import { SnackbarService } from "../../services/snackbar.service";
 import { QuickActionsDialogComponent } from "./quick-actions-dialog.component";
 
 describe("QuickActionsDialogComponent", () => {
@@ -20,6 +22,12 @@ describe("QuickActionsDialogComponent", () => {
     open: jasmine.createSpy("open"),
   };
 
+  const mockSnackbarService = {
+    error: jasmine.createSpy("error"),
+    info: jasmine.createSpy("info"),
+    success: jasmine.createSpy("success"),
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [QuickActionsDialogComponent],
@@ -28,6 +36,7 @@ describe("QuickActionsDialogComponent", () => {
       providers: [
         { provide: MatDialogRef, useValue: mockDialogRef },
         { provide: MatSnackBar, useValue: mockSnackBar },
+        { provide: SnackbarService, useValue: mockSnackbarService },
         { provide: ActivatedRoute, useValue: {} },
       ],
     }).compileComponents();
@@ -36,9 +45,37 @@ describe("QuickActionsDialogComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuickActionsDialogComponent);
     component = fixture.componentInstance;
-    component.parentForm = new FormGroup({});
+    component.parentForm = new FormGroup({
+      amount: new FormControl("100"),
+      receiptItems: new FormArray([]),
+    });
+    component.originalReceipt = { id: 1 } as any;
     fixture.detectChanges();
+
+    // Reset mocks
+    mockDialogRef.close.calls.reset();
+    mockSnackbarService.error.calls.reset();
+    mockSnackbarService.info.calls.reset();
+    mockSnackbarService.success.calls.reset();
   });
+
+  // Helper function to create test users
+  const createTestUsers = (): User[] => [
+    { id: 1, displayName: "John Doe" } as User,
+    { id: 2, displayName: "Jane Smith" } as User,
+    { id: 3, displayName: "Bob Johnson" } as User,
+  ];
+
+  // Helper function to setup users in the form
+  const setupUsersInForm = (users: User[]): void => {
+    const formArray = component.localForm.get("usersToSplit") as FormArray;
+    users.forEach((user) => {
+      formArray.push(new FormControl(user));
+    });
+    // Trigger the subscription manually
+    formArray.updateValueAndValidity();
+    formArray.setValue(users);
+  };
 
   it("should create", () => {
     expect(component).toBeTruthy();
@@ -119,5 +156,396 @@ describe("QuickActionsDialogComponent", () => {
     // expect(receiptItems.at(1).get('amount')?.value).toBe(20);
     // expect(receiptItems.at(2).get('amount')?.value).toBe(35);
     // expect(receiptItems.at(3).get('amount')?.value).toBe(35);
+  });
+
+  describe("Split by Percentage", () => {
+    beforeEach(() => {
+      component.ngOnInit();
+    });
+
+    it("should include Split by Percentage in radio options", () => {
+      expect(component.radioValues).toContain(
+        jasmine.objectContaining({
+          displayValue: "Split by Percentage",
+          value: "SplitByPercentage",
+        })
+      );
+    });
+
+    it("should create percentage controls when users are added", () => {
+      const users = createTestUsers();
+      setupUsersInForm(users);
+
+      users.forEach((user) => {
+        expect(component.localForm.get(`${user.id}_percentage`)).toBeDefined();
+        expect(component.localForm.get(`${user.id}_customPercentage`)).toBeDefined();
+      });
+    });
+
+    it("should initialize percentage controls as disabled", () => {
+      const users = createTestUsers();
+      setupUsersInForm(users);
+
+      users.forEach((user) => {
+        const percentageControl = component.localForm.get(`${user.id}_percentage`);
+        expect(percentageControl?.disabled).toBe(true);
+      });
+    });
+
+    it("should enable percentage control when custom checkbox is checked", () => {
+      const users = createTestUsers();
+      setupUsersInForm(users);
+
+      const user = users[0];
+      const customControl = component.localForm.get(`${user.id}_customPercentage`);
+      const percentageControl = component.localForm.get(`${user.id}_percentage`);
+
+      customControl?.setValue(true);
+
+      expect(percentageControl?.enabled).toBe(true);
+    });
+
+    it("should disable percentage control and reset value when custom checkbox is unchecked", () => {
+      const users = createTestUsers();
+      setupUsersInForm(users);
+
+      const user = users[0];
+      const customControl = component.localForm.get(`${user.id}_customPercentage`);
+      const percentageControl = component.localForm.get(`${user.id}_percentage`);
+
+      // Enable and set value
+      customControl?.setValue(true);
+      percentageControl?.setValue(50);
+
+      // Disable
+      customControl?.setValue(false);
+
+      expect(percentageControl?.disabled).toBe(true);
+      expect(percentageControl?.value).toBe(0);
+    });
+
+    it("should set predefined percentage when button is clicked", () => {
+      const users = createTestUsers();
+      setupUsersInForm(users);
+
+      const user = users[0];
+      component.setPercentage(user.id.toString(), 75);
+
+      const percentageControl = component.localForm.get(`${user.id}_percentage`);
+      const customControl = component.localForm.get(`${user.id}_customPercentage`);
+
+      expect(percentageControl?.value).toBe(75);
+      expect(customControl?.value).toBe(false);
+      expect(percentageControl?.disabled).toBe(true);
+    });
+
+    describe("Validation", () => {
+      it("should validate total percentage not exceeding 100%", () => {
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        // Set percentages that exceed 100%
+        component.setPercentage(users[0].id.toString(), 60);
+        component.setPercentage(users[1].id.toString(), 50);
+
+        component.addSplits();
+
+        expect(mockSnackbarService.error).toHaveBeenCalledWith(
+          "Total percentage cannot exceed 100!"
+        );
+      });
+
+      it("should validate total percentage is greater than 0%", () => {
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        // All percentages remain at 0
+        component.addSplits();
+
+        expect(mockSnackbarService.error).toHaveBeenCalledWith(
+          "Total percentage must be greater than 0!"
+        );
+      });
+
+      it("should validate individual percentage is between 0 and 100", () => {
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        // Set invalid percentage
+        const percentageControl = component.localForm.get(`${users[0].id}_percentage`);
+        percentageControl?.enable();
+        percentageControl?.setValue(150);
+
+        component.addSplits();
+
+        expect(mockSnackbarService.error).toHaveBeenCalledWith(
+          `Percentage for ${users[0].displayName} must be between 0 and 100!`
+        );
+      });
+
+      it("should validate custom percentage field is not empty when custom is enabled", () => {
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        // Enable custom but leave empty
+        const customControl = component.localForm.get(`${users[0].id}_customPercentage`);
+        const percentageControl = component.localForm.get(`${users[0].id}_percentage`);
+
+        customControl?.setValue(true);
+        percentageControl?.setValue("");
+
+        component.addSplits();
+
+        expect(mockSnackbarService.error).toHaveBeenCalledWith(
+          `Please enter a percentage for ${users[0].displayName}!`
+        );
+      });
+
+      it("should pass validation with valid percentages", () => {
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        // Set valid percentages
+        component.setPercentage(users[0].id.toString(), 40);
+        component.setPercentage(users[1].id.toString(), 35);
+        component.setPercentage(users[2].id.toString(), 25);
+
+        component.addSplits();
+
+        expect(mockDialogRef.close).toHaveBeenCalledWith(true);
+      });
+    });
+
+    describe("Split Calculation", () => {
+      it("should create items with correct amounts based on percentages", () => {
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        // Set percentages: 40%, 35%, 25%
+        component.setPercentage(users[0].id.toString(), 40);
+        component.setPercentage(users[1].id.toString(), 35);
+        component.setPercentage(users[2].id.toString(), 25);
+
+        component.addSplits();
+
+        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
+
+        expect(receiptItems.length).toBe(3);
+        expect(receiptItems.at(0).get("amount")?.value).toBe(40); // 100 * 40% = 40
+        expect(receiptItems.at(1).get("amount")?.value).toBe(35); // 100 * 35% = 35
+        expect(receiptItems.at(2).get("amount")?.value).toBe(25); // 100 * 25% = 25
+      });
+
+      it("should create items with correct names including percentage", () => {
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        component.setPercentage(users[0].id.toString(), 50);
+
+        component.addSplits();
+
+        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
+
+        expect(receiptItems.at(0).get("name")?.value).toBe("John Doe's 50% Portion");
+      });
+
+      it("should only create items for users with percentage > 0", () => {
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        // Only set percentage for first user
+        component.setPercentage(users[0].id.toString(), 100);
+        // Other users remain at 0%
+
+        component.addSplits();
+
+        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
+
+        expect(receiptItems.length).toBe(1);
+        expect(receiptItems.at(0).get("chargedToUserId")?.value).toBe(users[0].id);
+      });
+
+      it("should handle decimal percentages correctly", () => {
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        // Set decimal percentage
+        const percentageControl = component.localForm.get(`${users[0].id}_percentage`);
+        percentageControl?.enable();
+        percentageControl?.setValue(33.33);
+
+        component.addSplits();
+
+        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
+
+        expect(receiptItems.at(0).get("amount")?.value).toBe(33.33);
+      });
+    });
+
+    describe("Form State Management", () => {
+      it("should clear percentage errors when switching away from percentage mode", () => {
+        component.ngOnInit();
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        // Set percentage mode and create some errors
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const percentageControl = component.localForm.get(`${users[0].id}_percentage`);
+        percentageControl?.markAsTouched();
+        percentageControl?.setErrors({ invalid: true });
+
+        // Switch to even split
+        component.localForm.patchValue({
+          quickAction: component.radioValues[0].value,
+        });
+
+        expect(percentageControl?.errors).toBe(null);
+        expect(percentageControl?.touched).toBe(false);
+      });
+
+      it("should update validators when custom percentage is enabled", () => {
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        const user = users[0];
+        const customControl = component.localForm.get(`${user.id}_customPercentage`);
+        const percentageControl = component.localForm.get(`${user.id}_percentage`);
+
+        // Enable custom percentage
+        customControl?.setValue(true);
+
+        // Check if required validator is added
+        percentageControl?.setValue("");
+        percentageControl?.updateValueAndValidity();
+
+        expect(percentageControl?.hasError("required")).toBe(true);
+      });
+
+      it("should remove controls when users are removed", () => {
+        let users = createTestUsers();
+        setupUsersInForm(users);
+
+        // Verify controls exist for all users
+        users.forEach(user => {
+          expect(component.localForm.get(`${user.id}_percentage`)).toBeDefined();
+          expect(component.localForm.get(`${user.id}_customPercentage`)).toBeDefined();
+        });
+
+        // Remove a user by properly updating the FormArray
+        users = users.slice(1); // Remove first user
+        const formArray = component.localForm.get("usersToSplit") as FormArray;
+        
+        // Clear the FormArray and rebuild it with remaining users
+        formArray.clear();
+        users.forEach((user) => {
+          formArray.push(new FormControl(user));
+        });
+        
+        // Trigger the valueChanges subscription manually
+        formArray.updateValueAndValidity();
+
+        // Verify control for removed user is gone
+        expect(component.localForm.get(`1_percentage`)).toBe(null);
+        expect(component.localForm.get(`1_customPercentage`)).toBe(null);
+        
+        // Verify controls for remaining users still exist
+        users.forEach(user => {
+          expect(component.localForm.get(`${user.id}_percentage`)).toBeDefined();
+          expect(component.localForm.get(`${user.id}_customPercentage`)).toBeDefined();
+        });
+      });
+    });
+
+    describe("Edge Cases", () => {
+      it("should handle receipt amount of 0", () => {
+        component.parentForm.get("amount")?.setValue("0");
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        component.addSplits();
+
+        expect(mockSnackbarService.error).toHaveBeenCalledWith(
+          "Receipt amount does not exist or is invalid!"
+        );
+      });
+
+      it("should handle invalid receipt amount", () => {
+        component.parentForm.get("amount")?.setValue("invalid");
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        component.addSplits();
+
+        expect(mockSnackbarService.error).toHaveBeenCalledWith(
+          "Receipt amount does not exist or is invalid!"
+        );
+      });
+
+      it("should handle percentage values with more than 2 decimal places", () => {
+        component.localForm.patchValue({
+          quickAction: component.radioValues[2].value,
+        });
+
+        const users = createTestUsers();
+        setupUsersInForm(users);
+
+        const percentageControl = component.localForm.get(`${users[0].id}_percentage`);
+        percentageControl?.enable();
+        percentageControl?.setValue(33.333);
+
+        component.addSplits();
+
+        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
+        // Should round to 2 decimal places
+        expect(receiptItems.at(0).get("amount")?.value).toBe(33.33);
+      });
+    });
   });
 });

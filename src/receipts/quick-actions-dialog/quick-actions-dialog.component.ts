@@ -1,21 +1,22 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators, } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { RadioButtonData } from "src/radio-group/models";
 import { Item, Receipt, User } from "../../open-api";
+import { SnackbarService } from "../../services/index";
 import { buildItemForm } from "../utils/form.utils";
 
 enum QuickActions {
   "SplitEvenly" = "Split Evenly",
   "SplitEvenlyWithOptionalParts" = "Split Evenly With Portions",
+  "SplitByPercentage" = "Split by Percentage",
 }
 
 @Component({
-    selector: "app-quick-actions-dialog",
-    templateUrl: "./quick-actions-dialog.component.html",
-    styleUrls: ["./quick-actions-dialog.component.scss"],
-    standalone: false
+  selector: "app-quick-actions-dialog",
+  templateUrl: "./quick-actions-dialog.component.html",
+  styleUrls: ["./quick-actions-dialog.component.scss"],
+  standalone: false
 })
 export class QuickActionsDialogComponent implements OnInit {
   @Input() public originalReceipt?: Receipt;
@@ -37,6 +38,8 @@ export class QuickActionsDialogComponent implements OnInit {
 
   public quickActionsEnum = QuickActions;
 
+  public percentageOptions = [25, 50, 75, 100];
+
   private get usersFormArray(): FormArray {
     return this.localForm.get("usersToSplit") as FormArray;
   }
@@ -47,13 +50,14 @@ export class QuickActionsDialogComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private matSnackbar: MatSnackBar,
-    private dialogRef: MatDialogRef<QuickActionsDialogComponent>
+    private dialogRef: MatDialogRef<QuickActionsDialogComponent>,
+    private snackbarService: SnackbarService
   ) {}
 
   public ngOnInit(): void {
     this.initForm();
     this.listenForUserChanges();
+    this.listenForQuickActionChanges();
   }
 
   private initForm(): void {
@@ -67,11 +71,82 @@ export class QuickActionsDialogComponent implements OnInit {
     this.localForm
       .get("usersToSplit")
       ?.valueChanges.subscribe((users: User[]) => {
-      users.forEach((u) => {
-        if (!this.localForm.get(u.id.toString())) {
-          this.localForm.addControl(u.id.toString(), new FormControl(1));
+      // Remove controls for users that are no longer selected
+      const currentUserIds = users.map(u => u.id.toString());
+      Object.keys(this.localForm.controls).forEach(key => {
+        if (key !== "quickAction" && key !== "usersToSplit") {
+          const userId = key.replace("_percentage", "").replace("_customPercentage", "");
+          if (!currentUserIds.includes(userId)) {
+            this.localForm.removeControl(key);
+          }
         }
       });
+
+      // Add controls for new users
+      users.forEach((u) => {
+        const userId = u.id.toString();
+
+        if (!this.localForm.get(userId)) {
+          this.localForm.addControl(userId, new FormControl(1));
+        }
+
+        if (!this.localForm.get(`${userId}_percentage`)) {
+          const percentageControl = new FormControl(0, [
+            Validators.min(0),
+            Validators.max(100)
+          ]);
+          percentageControl.disable();
+          this.localForm.addControl(`${userId}_percentage`, percentageControl);
+        }
+
+        if (!this.localForm.get(`${userId}_customPercentage`)) {
+          const customPercentageControl = new FormControl(false);
+          this.localForm.addControl(`${userId}_customPercentage`, customPercentageControl);
+
+          // Subscribe to custom percentage toggle changes
+          customPercentageControl.valueChanges.subscribe((isCustom) => {
+            const percentageControl = this.localForm.get(`${userId}_percentage`);
+            if (isCustom) {
+              percentageControl?.enable();
+              percentageControl?.setValidators([
+                Validators.required,
+                Validators.min(0),
+                Validators.max(100)
+              ]);
+            } else {
+              percentageControl?.disable();
+              percentageControl?.setValue(0);
+              percentageControl?.setValidators([
+                Validators.min(0),
+                Validators.max(100)
+              ]);
+            }
+            percentageControl?.updateValueAndValidity();
+          });
+        }
+      });
+    });
+  }
+
+  private listenForQuickActionChanges(): void {
+    this.localForm.get("quickAction")?.valueChanges.subscribe((selectedAction: string) => {
+      // Clear errors on percentage fields when switching away from percentage mode
+      if (selectedAction !== this.radioValues[2].value) {
+        this.clearPercentageErrors();
+      }
+    });
+  }
+
+  private clearPercentageErrors(): void {
+    Object.keys(this.localForm.controls).forEach(key => {
+      if (key.endsWith("_percentage")) {
+        const control = this.localForm.get(key);
+        if (control) {
+          control.markAsUntouched();
+          control.markAsPristine();
+          control.setErrors(null);
+        }
+      }
     });
   }
 
@@ -80,8 +155,14 @@ export class QuickActionsDialogComponent implements OnInit {
       this.parentForm.get("amount")?.value
     );
     if (receiptAmount < 0 || !receiptAmount) {
-      this.matSnackbar.open("Receipt amount does not exist or is invalid!");
+      this.snackbarService.error("Receipt amount does not exist or is invalid!");
       return;
+    }
+
+    if (this.localForm.get("quickAction")?.value === this.radioValues[2].value) {
+      if (!this.validatePercentages()) {
+        return;
+      }
     }
 
     if (this.localForm.valid) {
@@ -89,8 +170,14 @@ export class QuickActionsDialogComponent implements OnInit {
         this.localForm.get("quickAction")?.value === this.radioValues[0].value
       ) {
         this.addEvenSplitItems();
-      } else {
+      } else if (
+        this.localForm.get("quickAction")?.value === this.radioValues[1].value
+      ) {
         this.splitEvenlyWithOptionalParts();
+      } else if (
+        this.localForm.get("quickAction")?.value === this.radioValues[2].value
+      ) {
+        this.splitByPercentage();
       }
       this.dialogRef.close(true);
     }
@@ -153,6 +240,88 @@ export class QuickActionsDialogComponent implements OnInit {
       amount: amount,
     } as any as Item;
   }
+
+  private validatePercentages(): boolean {
+    const users: User[] = this.usersFormArray.value;
+    let totalPercentage = 0;
+
+    for (const user of users) {
+      const percentageControl = this.localForm.get(`${user.id.toString()}_percentage`);
+      const customControl = this.localForm.get(`${user.id.toString()}_customPercentage`);
+      const isCustom = customControl?.value;
+      const percentage = Number.parseFloat(percentageControl?.value ?? 0);
+
+      // Check if custom percentage is enabled but field is empty
+      if (isCustom && percentageControl?.enabled && !percentageControl?.value) {
+        this.snackbarService.error(`Please enter a percentage for ${user.displayName}!`);
+        return false;
+      }
+
+      // Only validate enabled controls or controls with values > 0
+      if (percentageControl?.enabled || percentage > 0) {
+        if (percentage < 0 || percentage > 100) {
+          this.snackbarService.error(`Percentage for ${user.displayName} must be between 0 and 100!`);
+          return false;
+        }
+      }
+
+      totalPercentage += percentage;
+    }
+
+    if (totalPercentage <= 0) {
+      this.snackbarService.error("Total percentage must be greater than 0!");
+      return false;
+    }
+
+    if (totalPercentage > 100) {
+      this.snackbarService.error("Total percentage cannot exceed 100!");
+      return false;
+    }
+
+    return true;
+  }
+
+  private splitByPercentage(): void {
+    const users: User[] = this.usersFormArray.value;
+    const receiptAmount = Number.parseFloat(this.parentForm.get("amount")?.value);
+
+    users.forEach((user) => {
+      const percentage = Number.parseFloat(
+        this.localForm.get(`${user.id.toString()}_percentage`)?.value ?? 0
+      );
+
+      if (percentage > 0) {
+        const amount = Number.parseFloat(((receiptAmount * percentage) / 100).toFixed(2));
+        const item = this.buildSplitItem(
+          user,
+          `${user.displayName}'s ${percentage}% Portion`,
+          amount
+        );
+
+        const formGroup = buildItemForm(
+          item,
+          this.originalReceipt?.id?.toString()
+        );
+        this.receiptItems.push(formGroup);
+      }
+    });
+  }
+
+  public setPercentage(userId: string, percentage: number): void {
+    const percentageControl = this.localForm.get(`${userId}_percentage`);
+    const customControl = this.localForm.get(`${userId}_customPercentage`);
+
+    customControl?.setValue(false);
+    percentageControl?.enable();
+    percentageControl?.setValue(percentage);
+    percentageControl?.setValidators([
+      Validators.min(0),
+      Validators.max(100)
+    ]);
+    percentageControl?.updateValueAndValidity();
+    percentageControl?.disable();
+  }
+
 
   public closeDialog(): void {
     this.dialogRef.close(false);

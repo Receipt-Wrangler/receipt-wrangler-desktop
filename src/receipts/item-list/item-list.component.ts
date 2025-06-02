@@ -17,11 +17,11 @@ export interface ItemData {
 }
 
 @Component({
-    selector: "app-item-list",
-    templateUrl: "./item-list.component.html",
-    styleUrls: ["./item-list.component.scss"],
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: "app-item-list",
+  templateUrl: "./item-list.component.html",
+  styleUrls: ["./item-list.component.scss"],
+  encapsulation: ViewEncapsulation.None,
+  standalone: false
 })
 export class ItemListComponent implements OnInit {
   @ViewChildren("userExpansionPanel")
@@ -141,7 +141,11 @@ export class ItemListComponent implements OnInit {
     this.setUserItemMap();
   }
 
-  public addInlineItem(userId: string): void {
+  public addInlineItem(userId: string, event?: MouseEvent): void {
+    if (event) {
+      event?.stopImmediatePropagation();
+    }
+
     if (this.mode !== FormMode.view) {
       this.receiptItems.push(
         buildItemForm(

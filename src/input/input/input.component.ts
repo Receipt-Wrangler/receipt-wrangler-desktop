@@ -7,10 +7,10 @@ import { SystemSettingsState } from "../../store/system-settings.state";
 import { InputInterface } from "../input.interface";
 
 @Component({
-    selector: "app-input",
-    templateUrl: "./input.component.html",
-    styleUrls: ["./input.component.scss"],
-    standalone: false
+  selector: "app-input",
+  templateUrl: "./input.component.html",
+  styleUrls: ["./input.component.scss"],
+  standalone: false
 })
 export class InputComponent
   extends BaseInputComponent
@@ -73,8 +73,8 @@ export class InputComponent
       if (this.store.selectSnapshot(SystemSettingsState.currencySymbolPosition) === CurrencySymbolPosition.End) {
         this.maskSuffix = this.store.selectSnapshot(SystemSettingsState.currencyDisplay);
       }
-    } else {
-      this.mask = "";
+    } else if (!this.mask && !this.maskPrefix && !this.maskSuffix) {
+      // Only clear mask if it wasn't manually set
       this.maskPrefix = "";
       this.maskSuffix = "";
       this.thousandSeparator = "";
