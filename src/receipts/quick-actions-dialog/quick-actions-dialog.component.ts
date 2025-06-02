@@ -57,6 +57,7 @@ export class QuickActionsDialogComponent implements OnInit {
   public ngOnInit(): void {
     this.initForm();
     this.listenForUserChanges();
+    this.listenForQuickActionChanges();
   }
 
   private initForm(): void {
@@ -70,27 +71,42 @@ export class QuickActionsDialogComponent implements OnInit {
     this.localForm
       .get("usersToSplit")
       ?.valueChanges.subscribe((users: User[]) => {
-      users.forEach((u) => {
-        if (!this.localForm.get(u.id.toString())) {
-          this.localForm.addControl(u.id.toString(), new FormControl(1));
+      // Remove controls for users that are no longer selected
+      const currentUserIds = users.map(u => u.id.toString());
+      Object.keys(this.localForm.controls).forEach(key => {
+        if (key !== "quickAction" && key !== "usersToSplit") {
+          const userId = key.replace("_percentage", "").replace("_customPercentage", "");
+          if (!currentUserIds.includes(userId)) {
+            this.localForm.removeControl(key);
+          }
         }
-        if (!this.localForm.get(`${u.id.toString()}_percentage`)) {
+      });
+
+      // Add controls for new users
+      users.forEach((u) => {
+        const userId = u.id.toString();
+
+        if (!this.localForm.get(userId)) {
+          this.localForm.addControl(userId, new FormControl(1));
+        }
+
+        if (!this.localForm.get(`${userId}_percentage`)) {
           const percentageControl = new FormControl(0, [
-            Validators.required,
             Validators.min(0),
             Validators.max(100),
-            Validators.pattern(/^\d+(\.\d{1,2})?$/)
+            Validators.pattern(/^(0|[1-9]\d*)(\.\d{1,2})?$/)
           ]);
           percentageControl.disable();
-          this.localForm.addControl(`${u.id.toString()}_percentage`, percentageControl);
+          this.localForm.addControl(`${userId}_percentage`, percentageControl);
         }
-        if (!this.localForm.get(`${u.id.toString()}_customPercentage`)) {
+
+        if (!this.localForm.get(`${userId}_customPercentage`)) {
           const customPercentageControl = new FormControl(false);
-          this.localForm.addControl(`${u.id.toString()}_customPercentage`, customPercentageControl);
+          this.localForm.addControl(`${userId}_customPercentage`, customPercentageControl);
 
           // Subscribe to custom percentage toggle changes
           customPercentageControl.valueChanges.subscribe((isCustom: any) => {
-            const percentageControl = this.localForm.get(`${u.id.toString()}_percentage`);
+            const percentageControl = this.localForm.get(`${userId}_percentage`);
             if (isCustom) {
               percentageControl?.enable();
             } else {
@@ -100,6 +116,28 @@ export class QuickActionsDialogComponent implements OnInit {
           });
         }
       });
+    });
+  }
+
+  private listenForQuickActionChanges(): void {
+    this.localForm.get('quickAction')?.valueChanges.subscribe((selectedAction: string) => {
+      // Clear errors on percentage fields when switching away from percentage mode
+      if (selectedAction !== this.radioValues[2].value) {
+        this.clearPercentageErrors();
+      }
+    });
+  }
+
+  private clearPercentageErrors(): void {
+    Object.keys(this.localForm.controls).forEach(key => {
+      if (key.endsWith('_percentage')) {
+        const control = this.localForm.get(key);
+        if (control) {
+          control.markAsUntouched();
+          control.markAsPristine();
+          control.setErrors(null);
+        }
+      }
     });
   }
 
@@ -199,13 +237,15 @@ export class QuickActionsDialogComponent implements OnInit {
     let totalPercentage = 0;
 
     for (const user of users) {
-      const percentage = Number.parseFloat(
-        this.localForm.get(`${user.id.toString()}_percentage`)?.value ?? 0
-      );
+      const percentageControl = this.localForm.get(`${user.id.toString()}_percentage`);
+      const percentage = Number.parseFloat(percentageControl?.value ?? 0);
 
-      if (percentage < 0 || percentage > 100) {
-        this.matSnackbar.open(`Percentage for ${user.displayName} must be between 0 and 100!`);
-        return false;
+      // Only validate enabled controls or controls with values > 0
+      if (percentageControl?.enabled || percentage > 0) {
+        if (percentage < 0 || percentage > 100) {
+          this.matSnackbar.open(`Percentage for ${user.displayName} must be between 0 and 100!`);
+          return false;
+        }
       }
 
       totalPercentage += percentage;

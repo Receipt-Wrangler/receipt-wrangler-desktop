@@ -46,10 +46,9 @@
             <app-input
               label="Custom Percentage"
               type="number"
-              [numberMin]="1"
+              [numberMin]="0"
               [numberMax]="100"
               [inputFormControl]="localForm | formGet : user.id.toString() + '_percentage'"
-              [additionalErrorMessages]=""
               class="flex-grow-1"
             ></app-input>
           </div>
