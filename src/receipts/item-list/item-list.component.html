@@ -74,6 +74,7 @@
           @if (originalReceipt?.groupId | groupRole : groupRole.Editor) {
             <div>
               <app-add-button
+                tooltip="Add Share"
                 [disabled]="mode === formMode.view"
                 (clicked)="addInlineItem(user?.id?.toString() ?? '', $event)"
               ></app-add-button>
