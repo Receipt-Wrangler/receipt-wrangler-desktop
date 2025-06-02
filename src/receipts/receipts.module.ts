@@ -41,7 +41,7 @@ import { ReceiptFormComponent } from "./receipt-form/receipt-form.component";
 import { ReceiptsRoutingModule } from "./receipts-routing.module";
 import { ReceiptsTableComponent } from "./receipts-table/receipts-table.component";
 import { UploadImageComponent } from "./upload-image/upload-image.component";
-import { UserTotalPipe } from "./user-total.pipe";
+import { UserTotalWithPercentagePipe } from "./user-total-with-percentage.pipe";
 
 @NgModule({
   declarations: [
@@ -52,7 +52,7 @@ import { UserTotalPipe } from "./user-total.pipe";
     ReceiptFormComponent,
     ReceiptsTableComponent,
     UploadImageComponent,
-    UserTotalPipe,
+    UserTotalWithPercentagePipe,
     QuickScanDialogComponent,
     CustomFieldComponent,
     CustomFieldPipe,

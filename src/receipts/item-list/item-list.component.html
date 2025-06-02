@@ -70,7 +70,11 @@
       </mat-panel-title>
       <mat-panel-description>
         <div class="d-flex justify-content-between align-items-center w-100">
-          <span>Total amount owed: {{ (userItemMap | userTotal : key) | customCurrency }}</span>
+          @let userTotalData = userItemMap | userTotalWithPercentage : key : form;
+          <span>
+            Total amount owed: {{ userTotalData.total | customCurrency }} 
+            ({{ userTotalData.percentage }}% of total)
+          </span>
           @if (originalReceipt?.groupId | groupRole : groupRole.Editor) {
             <div>
               <app-add-button
