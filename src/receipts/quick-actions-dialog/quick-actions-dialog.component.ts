@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators, } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { RadioButtonData } from "src/radio-group/models";
 import { Item, Receipt, User } from "../../open-api";
+import { SnackbarService } from "../../services/index";
 import { buildItemForm } from "../utils/form.utils";
 
 enum QuickActions {
@@ -50,8 +50,8 @@ export class QuickActionsDialogComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private matSnackbar: MatSnackBar,
-    private dialogRef: MatDialogRef<QuickActionsDialogComponent>
+    private dialogRef: MatDialogRef<QuickActionsDialogComponent>,
+    private snackbarService: SnackbarService
   ) {}
 
   public ngOnInit(): void {
@@ -155,7 +155,7 @@ export class QuickActionsDialogComponent implements OnInit {
       this.parentForm.get("amount")?.value
     );
     if (receiptAmount < 0 || !receiptAmount) {
-      this.matSnackbar.open("Receipt amount does not exist or is invalid!");
+      this.snackbarService.error("Receipt amount does not exist or is invalid!");
       return;
     }
 
@@ -253,14 +253,14 @@ export class QuickActionsDialogComponent implements OnInit {
 
       // Check if custom percentage is enabled but field is empty
       if (isCustom && percentageControl?.enabled && !percentageControl?.value) {
-        this.matSnackbar.open(`Please enter a percentage for ${user.displayName}!`);
+        this.snackbarService.error(`Please enter a percentage for ${user.displayName}!`);
         return false;
       }
 
       // Only validate enabled controls or controls with values > 0
       if (percentageControl?.enabled || percentage > 0) {
         if (percentage < 0 || percentage > 100) {
-          this.matSnackbar.open(`Percentage for ${user.displayName} must be between 0 and 100!`);
+          this.snackbarService.error(`Percentage for ${user.displayName} must be between 0 and 100!`);
           return false;
         }
       }
@@ -269,12 +269,12 @@ export class QuickActionsDialogComponent implements OnInit {
     }
 
     if (totalPercentage <= 0) {
-      this.matSnackbar.open("Total percentage must be greater than 0!");
+      this.snackbarService.error("Total percentage must be greater than 0!");
       return false;
     }
 
     if (totalPercentage > 100) {
-      this.matSnackbar.open("Total percentage cannot exceed 100!");
+      this.snackbarService.error("Total percentage cannot exceed 100!");
       return false;
     }
 
