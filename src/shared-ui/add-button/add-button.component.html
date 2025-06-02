@@ -5,5 +5,5 @@
   [tooltip]="tooltip ?? ''"
   [disabled]="disabled"
   [routerLink]="buttonRouterLink"
-  (clicked)="clicked.emit()"
+  (clicked)="clicked.emit($event)"
 ></app-button>

@@ -61,27 +61,33 @@
   <mat-expansion-panel
     #userExpansionPanel
     *ngFor="let key of userItemMap | mapKey; let i = index"
-    (opened)="addInlineItem(key)"
     (closed)="checkLastInlineItem(key)"
   >
+    @let user = key | user;
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{ (key | user)?.displayName }}
+        {{ user?.displayName }}
       </mat-panel-title>
       <mat-panel-description>
         <div class="d-flex justify-content-between align-items-center w-100">
           <span>Total amount owed: {{ (userItemMap | userTotal : key) | customCurrency }}</span>
           @if (originalReceipt?.groupId | groupRole : groupRole.Editor) {
-            <app-button
-              matButtonType="iconButton"
-              icon="check"
-              tooltip="Resolve all user's items"
-              [disabled]="mode === formMode.view"
-              [ngClass]="{
+            <div>
+              <app-add-button
+                [disabled]="mode === formMode.view"
+                (clicked)="addInlineItem(user?.id?.toString() ?? '', $event)"
+              ></app-add-button>
+              <app-button
+                matButtonType="iconButton"
+                icon="check"
+                tooltip="Resolve all user's items"
+                [disabled]="mode === formMode.view"
+                [ngClass]="{
                 'green-check': allUserItemsResolved(key)
               }"
-              (clicked)="resolveAllItemsClicked($event, key)"
-            ></app-button>
+                (clicked)="resolveAllItemsClicked($event, key)"
+              ></app-button>
+            </div>
           }
         </div>
       </mat-panel-description>

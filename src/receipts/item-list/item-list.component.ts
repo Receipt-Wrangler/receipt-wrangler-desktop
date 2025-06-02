@@ -141,7 +141,11 @@ export class ItemListComponent implements OnInit {
     this.setUserItemMap();
   }
 
-  public addInlineItem(userId: string): void {
+  public addInlineItem(userId: string, event?: MouseEvent): void {
+    if (event) {
+      event?.stopImmediatePropagation();
+    }
+
     if (this.mode !== FormMode.view) {
       this.receiptItems.push(
         buildItemForm(
@@ -153,7 +157,6 @@ export class ItemListComponent implements OnInit {
         )
       );
       this.setUserItemMap();
-      console.warn(this.userItemMap);
     }
   }
 

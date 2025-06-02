@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormMode } from "src/enums/form-mode.enum";
 
 @Component({
-    selector: "app-form-button",
-    templateUrl: "./form-button.component.html",
-    styleUrls: ["./form-button.component.scss"],
-    standalone: false
+  selector: "app-form-button",
+  templateUrl: "./form-button.component.html",
+  styleUrls: ["./form-button.component.scss"],
+  standalone: false
 })
 export class FormButtonComponent {
   @Input() public mode!: FormMode;
@@ -24,5 +24,5 @@ export class FormButtonComponent {
 
   @Input() public type: "button" | "submit" = "button";
 
-  @Output() public clicked: EventEmitter<void> = new EventEmitter<void>();
+  @Output() public clicked: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 }
