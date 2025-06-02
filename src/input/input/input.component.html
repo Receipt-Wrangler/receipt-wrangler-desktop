@@ -14,6 +14,8 @@
         [mask]="mask"
         [decimalMarker]="decimalMarker"
         [thousandSeparator]="thousandSeparator"
+        [max]="numberMax"
+        [min]="numberMin"
         (blur)="inputBlur.emit($event)"
       />
     </div>
@@ -34,10 +36,10 @@
         <mat-icon *ngIf="type !== 'password'">visibility_off</mat-icon>
       </button>
     </div>
-    @if(hint) {
-    <mat-hint>
-      {{hint}}
-    </mat-hint>
+    @if (hint) {
+      <mat-hint>
+        {{ hint }}
+      </mat-hint>
     }
   </mat-form-field>
 </div>

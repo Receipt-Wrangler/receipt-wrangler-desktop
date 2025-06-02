@@ -7,10 +7,10 @@ import { SystemSettingsState } from "../../store/system-settings.state";
 import { InputInterface } from "../input.interface";
 
 @Component({
-    selector: "app-input",
-    templateUrl: "./input.component.html",
-    styleUrls: ["./input.component.scss"],
-    standalone: false
+  selector: "app-input",
+  templateUrl: "./input.component.html",
+  styleUrls: ["./input.component.scss"],
+  standalone: false
 })
 export class InputComponent
   extends BaseInputComponent
@@ -42,6 +42,10 @@ export class InputComponent
   @Input() public thousandSeparator: string = "";
 
   @Input() public decimalMarker: CurrencySeparator = CurrencySeparator.Period;
+
+  @Input() public numberMin?: number = undefined;
+
+  @Input() public numberMax?: number = undefined;
 
   constructor(private store: Store) {
     super();
