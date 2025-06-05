@@ -30,24 +30,22 @@ app-base-table {
     
     .mat-mdc-row {
       transition: all 0.2s ease-in-out;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+      border-bottom: none !important;
       
       &:hover {
         background-color: rgba(59, 130, 246, 0.02);
         transform: scale(1.001);
       }
       
-      &:last-child {
-        border-bottom: none;
-      }
-      
       .mat-mdc-cell {
         padding: variables.$spacing-lg variables.$spacing-md;
-        border-bottom: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
         color: #475569;
         font-size: 0.875rem;
       }
     }
+    
+    // Keep border on last row cells for consistent appearance
   }
   
   .mat-mdc-paginator {
