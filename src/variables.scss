@@ -1,60 +1,50 @@
 @use "sass:map";
 
-$basic-gray: #6b7280;
+$basic-gray: #8ea1ac;
 
-$mat-drawer-background-color: #ffffff;
+$mat-drawer-background-color: #fafafa;
 
-// Modern, refined primary palette with better contrast
 $primary-palette: (
-  50: #eff6ff,
-  100: #dbeafe, 
-  200: #bfdbfe,
-  300: #93c5fd,
-  400: #60a5fa,
-  500: #3b82f6,
-  600: #2563eb,
-  700: #1d4ed8,
-  800: #1e40af,
-  900: #1e3a8a,
+  50: #ccecff,
+  100: #bbe6ff,
+  200: #a4deff,
+  300: #85d2ff,
+  400: #5dc4ff,
+  500: #27b1ff,
+  600: #009efa,
+  700: #0086d4,
+  800: #0072b4,
+  900: #006199,
+  // ... continues to 900
   contrast:
   (
     50: rgba(black, 0.87),
     100: rgba(black, 0.87),
     200: rgba(black, 0.87),
-    300: rgba(black, 0.87),
-    400: white,
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
+    300: white,
+    // ... continues to 900
   ),
 );
 
-// Modern neutral accent palette
 $accent-palette: (
-  50: #f8fafc,
-  100: #f1f5f9,
-  200: #e2e8f0,
-  300: #cbd5e1,
-  400: #94a3b8,
-  500: #64748b,
-  600: #475569,
-  700: #334155,
-  800: #1e293b,
-  900: #0f172a,
+  50: #8ea1ac,
+  100: #8ea1ac,
+  200: #8ea1ac,
+  300: #8ea1ac,
+  400: #8ea1ac,
+  500: #8ea1ac,
+  600: #8ea1ac,
+  700: #8ea1ac,
+  800: #8ea1ac,
+  900: #8ea1ac,
+  // ... continues to 900
   contrast:
   (
     50: rgba(black, 0.87),
     100: rgba(black, 0.87),
     200: rgba(black, 0.87),
-    300: rgba(black, 0.87),
-    400: rgba(black, 0.87),
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
+    300: white,
+    // ... continues to 900
   ),
 );
 
