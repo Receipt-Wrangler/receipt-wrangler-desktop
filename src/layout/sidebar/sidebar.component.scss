@@ -117,47 +117,66 @@ app-sidebar {
 
   @keyframes active-dot-active {
     from {
-      height: 25px;
+      opacity: 0;
+      transform: scaleY(0);
     }
     to {
-      height: 35px;
+      opacity: 1;
+      transform: scaleY(1);
     }
   }
 
   @keyframes active-dot-spread {
     from {
-      height: 10px;
+      opacity: 0.3;
+      transform: scaleY(0.5);
     }
     to {
-      height: 25px;
+      opacity: 0.7;
+      transform: scaleY(0.8);
     }
   }
 
   @keyframes active-dot-revert {
     from {
-      height: 25px;
+      opacity: 0.7;
+      transform: scaleY(0.8);
     }
     to {
-      height: 10px;
+      opacity: 0;
+      transform: scaleY(0);
     }
   }
 
   .active-dot {
     position: absolute;
-    left: -8px;
-    width: 6px;
-    height: 6px;
+    left: -12px;
+    width: 4px;
+    height: 20px;
     background: linear-gradient(135deg, map.get(variables.$primary-palette, 500) 0%, map.get(variables.$primary-palette, 600) 100%);
-    border-radius: 50px;
-    box-shadow: variables.$shadow-md;
+    border-radius: 0 4px 4px 0;
+    box-shadow: variables.$shadow-lg;
     transition: all 0.3s ease-in-out;
+    opacity: 0;
+    transform: scaleY(0);
   }
 
   .group-avatar-container {
+    position: relative;
+    padding: variables.$spacing-xs;
+    border-radius: variables.$border-radius-xl;
+    transition: all 0.2s ease-in-out;
+    
     .active-dot {
       animation-name: active-dot-revert;
       animation-duration: 0.5s;
       animation-fill-mode: forwards;
+    }
+
+    // Selected group gets subtle background
+    &:has(.active-group) {
+      background-color: rgba(map.get(variables.$primary-palette, 500), 0.08);
+      box-shadow: variables.$shadow-sm;
     }
   }
 
@@ -170,8 +189,10 @@ app-sidebar {
   }
 
   .active-group {
+    opacity: 1 !important;
+    transform: scaleY(1) !important;
     animation-name: active-dot-active !important;
-    animation-duration: 0.2s;
+    animation-duration: 0.3s;
     animation-fill-mode: forwards;
   }
 }
