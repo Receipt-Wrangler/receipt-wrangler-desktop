@@ -40,6 +40,7 @@
   -webkit-backdrop-filter: blur(12px);
   pointer-events: auto;
   transition: all 0.3s ease-in-out;
+  min-height: 72px; // Consistent height
   
   &:hover {
     transform: translateY(-2px);
@@ -50,10 +51,16 @@
 // Enhanced button styling within the bar
 :host ::ng-deep {
   .form-bar-content {
+    // Override any margin classes on child elements
+    > * {
+      margin-bottom: 0 !important;
+      margin-top: 0 !important;
+    }
+    
     .mat-mdc-button,
     .mat-mdc-raised-button,
     .mat-mdc-icon-button {
-      margin: 0 variables.$spacing-xs;
+      margin: 0 variables.$spacing-xs !important;
       transition: all 0.2s ease-in-out;
       
       &:hover {
