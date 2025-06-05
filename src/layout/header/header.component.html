@@ -21,7 +21,7 @@
         routerLinkActive="active-link"
         [routerLink]="dashboardHeaderLink"
       >
-        <app-dashboard-icon></app-dashboard-icon>
+        <mat-icon>dashboard</mat-icon>
       </button>
       <button
         mat-icon-button
@@ -31,7 +31,7 @@
         routerLinkActive="active-link"
         [routerLink]="receiptHeaderLink"
       >
-        <app-receipt-list-icon></app-receipt-list-icon>
+        <mat-icon>receipt_long</mat-icon>
       </button>
       @for (shortcut of (userPreferences | async)?.userShortcuts ?? []; track shortcut["id"]) {
         <a [href]="shortcut.url">

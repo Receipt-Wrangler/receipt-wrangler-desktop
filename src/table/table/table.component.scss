@@ -1,3 +1,14 @@
+@use "../../variables.scss" as variables;
+
+:host {
+  display: block;
+  border-radius: variables.$border-radius-xl;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  overflow: hidden;
+  box-shadow: variables.$shadow-md;
+}
+
 tr.example-detail-row {
   height: 0;
 }

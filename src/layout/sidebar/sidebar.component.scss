@@ -6,6 +6,13 @@ app-sidebar {
 
   .drawer-content {
     max-width: 100%;
+    background-color: #f8fafc;
+  }
+
+  .drawer-container {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: variables.$shadow-sm;
   }
 
   .cursor-pointer {
@@ -14,21 +21,30 @@ app-sidebar {
 
   .add-button-rotated {
     transform: rotate(45deg) !important;
-    border-radius: 10px !important;
-    background-color: map.get(variables.$primary-palette, 100) !important;
-    color: map.get(variables.$primary-palette, 400) !important;
+    border-radius: variables.$border-radius-xl !important;
+    background-color: map.get(variables.$primary-palette, 500) !important;
+    color: white !important;
+    box-shadow: variables.$shadow-lg !important;
 
     .mat-mdc-button-persistent-ripple {
-      border-radius: 5px !important;
+      border-radius: variables.$border-radius-lg !important;
     }
   }
 
   .add-button {
-    background-color: white;
-    color: gray;
-    height: 50px;
-    width: 50px;
+    background: linear-gradient(135deg, map.get(variables.$primary-palette, 500) 0%, map.get(variables.$primary-palette, 600) 100%);
+    color: white;
+    height: 56px;
+    width: 56px;
     z-index: 1;
+    border-radius: variables.$border-radius-xl !important;
+    box-shadow: variables.$shadow-lg !important;
+    transition: all 0.3s ease-in-out;
+    
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: variables.$shadow-xl !important;
+    }
   }
 
   @keyframes add-buttons-slide-open {
@@ -61,9 +77,12 @@ app-sidebar {
     animation-name: add-buttons-slide-open;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
-    background-color: whitesmoke;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-bottom-left-radius: variables.$border-radius-xl;
+    border-bottom-right-radius: variables.$border-radius-xl;
+    box-shadow: variables.$shadow-md;
+    padding: variables.$spacing-sm 0;
   }
 
   .add-button-close {
@@ -81,10 +100,19 @@ app-sidebar {
 
   .add-sub-button {
     color: variables.$basic-gray;
+    border-radius: variables.$border-radius-lg !important;
+    transition: all 0.2s ease-in-out;
+    margin: variables.$spacing-xs;
+    
+    &:hover {
+      background-color: map.get(variables.$primary-palette, 50);
+      color: map.get(variables.$primary-palette, 600);
+    }
   }
 
   .active-sub-button {
-    color: map.get(variables.$primary-palette, 400) !important;
+    color: map.get(variables.$primary-palette, 600) !important;
+    background-color: map.get(variables.$primary-palette, 100) !important;
   }
 
   @keyframes active-dot-active {
@@ -116,12 +144,13 @@ app-sidebar {
 
   .active-dot {
     position: absolute;
-    left: -5px;
-    width: 10px;
-    height: 10px;
-    background-color: #27b1ff;
+    left: -8px;
+    width: 6px;
+    height: 6px;
+    background: linear-gradient(135deg, map.get(variables.$primary-palette, 500) 0%, map.get(variables.$primary-palette, 600) 100%);
     border-radius: 50px;
-    box-shadow: variables.$global-shadow;
+    box-shadow: variables.$shadow-md;
+    transition: all 0.3s ease-in-out;
   }
 
   .group-avatar-container {
