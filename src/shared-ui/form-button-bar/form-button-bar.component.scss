@@ -14,10 +14,10 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 120px;
+  height: 80px;
   background: linear-gradient(to top, rgba(248, 250, 252, 0.95) 0%, rgba(248, 250, 252, 0.8) 50%, transparent 100%);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .form-bar-container {
@@ -36,8 +36,8 @@
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: variables.$border-radius-2xl;
   box-shadow: variables.$shadow-xl;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   pointer-events: auto;
   transition: all 0.3s ease-in-out;
   min-height: 72px; // Consistent height
