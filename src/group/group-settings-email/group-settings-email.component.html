@@ -28,8 +28,8 @@
   <app-status-select
     aria-label="Default Status"
     [inputFormControl]="form | formGet : 'emailDefaultReceiptStatus'"
-    [readonly]="true"
     [addBlankOption]="true"
+    [readonly]="formConfig.mode | inputReadonly"
   ></app-status-select>
 </div>
 
