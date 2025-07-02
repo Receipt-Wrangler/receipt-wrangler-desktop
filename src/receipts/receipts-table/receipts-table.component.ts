@@ -15,6 +15,7 @@ import { ReceiptTableState } from "src/store/receipt-table.state";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
+import { ReceiptTableColumnConfig } from "../../interfaces";
 import {
   BulkStatusUpdateCommand,
   Category,
@@ -28,11 +29,9 @@ import {
   ReceiptStatus,
   Tag,
 } from "../../open-api";
-import { DEFAULT_RECEIPT_TABLE_COLUMNS, ReceiptTableColumnConfig } from "../../interfaces";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
 import { SnackbarService } from "../../services";
 import { ReceiptExportService } from "../../services/receipt-export.service";
-import { ReceiptTableColumnConfigService } from "../../services/receipt-table-column-config.service";
 import { ReceiptFilterComponent } from "../../shared-ui/receipt-filter/receipt-filter.component";
 import { GroupState } from "../../store";
 import { applyFormCommand } from "../../utils/index";
@@ -60,7 +59,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     private receiptExportService: ReceiptExportService,
     private receiptFilterService: ReceiptFilterService,
     private receiptService: ReceiptService,
-    private receiptTableColumnConfigService: ReceiptTableColumnConfigService,
     private router: Router,
     private snackbarService: SnackbarService,
     private store: Store,
@@ -147,10 +145,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
           }
         })
       );
-    
-    // Load column configuration
-    this.receiptTableColumnConfigService.loadColumnConfiguration();
-    
+
     const data = this.activatedRoute.snapshot.data;
     this.categories = data["categories"];
     this.tags = data["tags"];
@@ -207,8 +202,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   private setColumns(): void {
-    const currentColumnConfig = this.store.selectSnapshot(ReceiptTableState.columnConfig) || DEFAULT_RECEIPT_TABLE_COLUMNS;
-    
+    const currentColumnConfig = this.store.selectSnapshot(ReceiptTableState.columnConfig);
+
     const allColumns = [
       {
         columnHeader: "Added At",
@@ -364,7 +359,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
   public configureColumnsButtonClicked(): void {
     const currentColumnConfig = this.store.selectSnapshot(ReceiptTableState.columnConfig);
-    
+
     const dialogRef = this.matDialog.open(ColumnConfigurationDialogComponent, {
       ...DEFAULT_DIALOG_CONFIG,
       data: { currentColumns: currentColumnConfig }
@@ -377,7 +372,6 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         tap((result: ReceiptTableColumnConfig[] | null) => {
           if (result) {
             this.store.dispatch(new SetColumnConfig(result));
-            this.receiptTableColumnConfigService.saveColumnConfiguration(result);
             this.setColumns();
           }
         })
