@@ -10,7 +10,7 @@ import { map, Observable, take, tap } from "rxjs";
 import { fadeInOut } from "src/animations";
 import { ReceiptFilterService } from "src/services/receipt-filter.service";
 import { ConfirmationDialogComponent } from "src/shared-ui/confirmation-dialog/confirmation-dialog.component";
-import { ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilterData, } from "src/store/receipt-table.actions";
+import { ResetReceiptFilter, SetColumnConfig, SetPage, SetPageSize, SetReceiptFilterData, } from "src/store/receipt-table.actions";
 import { ReceiptTableState } from "src/store/receipt-table.state";
 import { TableColumn } from "src/table/table-column.interface";
 import { TableComponent } from "src/table/table/table.component";
@@ -28,14 +28,17 @@ import {
   ReceiptStatus,
   Tag,
 } from "../../open-api";
+import { DEFAULT_RECEIPT_TABLE_COLUMNS, ReceiptTableColumnConfig } from "../../interfaces";
 import { GroupRolePipe } from "../../pipes/group-role.pipe";
 import { SnackbarService } from "../../services";
 import { ReceiptExportService } from "../../services/receipt-export.service";
+import { ReceiptTableColumnConfigService } from "../../services/receipt-table-column-config.service";
 import { ReceiptFilterComponent } from "../../shared-ui/receipt-filter/receipt-filter.component";
 import { GroupState } from "../../store";
 import { applyFormCommand } from "../../utils/index";
 import { buildReceiptFilterForm } from "../../utils/receipt-filter";
 import { BulkStatusUpdateComponent } from "../bulk-resolve-dialog/bulk-status-update-dialog.component";
+import { ColumnConfigurationDialogComponent } from "../column-configuration-dialog/column-configuration-dialog.component";
 
 @UntilDestroy()
 @Component({
@@ -57,6 +60,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
     private receiptExportService: ReceiptExportService,
     private receiptFilterService: ReceiptFilterService,
     private receiptService: ReceiptService,
+    private receiptTableColumnConfigService: ReceiptTableColumnConfigService,
     private router: Router,
     private snackbarService: SnackbarService,
     private store: Store,
@@ -89,6 +93,8 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   @Select(ReceiptTableState.pageSize) public pageSize!: Observable<number>;
 
   @Select(ReceiptTableState.filterData) public filter!: Observable<ReceiptPagedRequestCommand>;
+
+  @Select(ReceiptTableState.columnConfig) public columnConfig!: Observable<ReceiptTableColumnConfig[]>;
 
   @Select(GroupState.selectedGroupId)
   public selectedGroupId!: Observable<string>;
@@ -141,6 +147,10 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
           }
         })
       );
+    
+    // Load column configuration
+    this.receiptTableColumnConfigService.loadColumnConfiguration();
+    
     const data = this.activatedRoute.snapshot.data;
     this.categories = data["categories"];
     this.tags = data["tags"];
@@ -197,7 +207,9 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   }
 
   private setColumns(): void {
-    const columns = [
+    const currentColumnConfig = this.store.selectSnapshot(ReceiptTableState.columnConfig) || DEFAULT_RECEIPT_TABLE_COLUMNS;
+    
+    const allColumns = [
       {
         columnHeader: "Added At",
         matColumnDef: "created_at",
@@ -253,30 +265,28 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
         sortable: true,
       },
     ] as TableColumn[];
-    const displayColumns = [
-      "select",
-      "created_at",
-      "date",
-      "name",
-      "paid_by_user_id",
-      "amount",
-      "categories",
-      "tags",
-      "status",
-      "resolved_date",
-    ];
+
+    // Filter and order columns based on configuration
+    const visibleColumnConfigs = currentColumnConfig
+      .filter(config => config.visible)
+      .sort((a, b) => a.order - b.order);
+
+    const columns = visibleColumnConfigs
+      .map(config => allColumns.find(col => col.matColumnDef === config.matColumnDef))
+      .filter(col => col !== undefined) as TableColumn[];
+
+    const displayColumns = ["select", ...visibleColumnConfigs.map(config => config.matColumnDef)];
 
     if (this.canEdit) {
-      columns.push(
-        {
-          columnHeader: "Actions",
-          matColumnDef: "actions",
-          template: this.actionsCell,
-          sortable: false,
-        },
-      );
+      columns.push({
+        columnHeader: "Actions",
+        matColumnDef: "actions",
+        template: this.actionsCell,
+        sortable: false,
+      });
       displayColumns.push("actions");
     }
+
     const filter = this.store.selectSnapshot(ReceiptTableState.filterData);
     const orderByIndex = columns.findIndex(
       (c) => c.matColumnDef === filter.orderBy
@@ -284,7 +294,7 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
 
     if (orderByIndex >= 0) {
       columns[orderByIndex].defaultSortDirection = filter.sortDirection;
-    } else {
+    } else if (columns.length > 0) {
       columns[0].defaultSortDirection = "desc";
     }
 
@@ -350,6 +360,29 @@ export class ReceiptsTableComponent implements OnInit, AfterViewInit {
   public resetFilterButtonClicked(): void {
     this.store.dispatch(new ResetReceiptFilter());
     this.getFilteredReceipts();
+  }
+
+  public configureColumnsButtonClicked(): void {
+    const currentColumnConfig = this.store.selectSnapshot(ReceiptTableState.columnConfig);
+    
+    const dialogRef = this.matDialog.open(ColumnConfigurationDialogComponent, {
+      ...DEFAULT_DIALOG_CONFIG,
+      data: { currentColumns: currentColumnConfig }
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((result: ReceiptTableColumnConfig[] | null) => {
+          if (result) {
+            this.store.dispatch(new SetColumnConfig(result));
+            this.receiptTableColumnConfigService.saveColumnConfiguration(result);
+            this.setColumns();
+          }
+        })
+      )
+      .subscribe();
   }
 
   public getFilteredReceipts(): void {

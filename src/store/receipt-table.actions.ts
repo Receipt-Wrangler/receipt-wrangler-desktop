@@ -1,5 +1,6 @@
 import { ReceiptPagedRequestFilter } from "../open-api";
 import { ReceiptTableInterface } from "../interfaces";
+import { ReceiptTableColumnConfig } from "../interfaces/receipt-table-column-config.interface";
 
 export class SetPage {
   static readonly type = "[ReceiptTable] Set Page";
@@ -29,4 +30,10 @@ export class ResetReceiptFilter {
   static readonly type = "[ReceiptTable] Reset Filter";
 
   constructor() {}
+}
+
+export class SetColumnConfig {
+  static readonly type = "[ReceiptTable] Set Column Config";
+
+  constructor(public columnConfig: ReceiptTableColumnConfig[]) {}
 }
