@@ -301,23 +301,24 @@ h3 {
 }
 
 // Form button bar spacing - prevent fixed button bar from covering content
-.drawer-content:has(app-form-button-bar) {
+// Target content containers when they contain an active form button bar
+.drawer-content:has(app-form-button-bar.form-button-bar-active) {
   padding-bottom: 160px; // Account for backdrop (80px) + content (72px) + margins
 }
 
-// Fallback for browsers that don't support :has()
-.drawer-content.has-form-button-bar {
-  padding-bottom: 160px !important;
+// Alternative approach using descendant selector for broader browser support
+.drawer-content:has(.form-button-bar-active) {
+  padding-bottom: 160px;
 }
 
 // Responsive spacing for mobile
 @media (max-width: 768px) {
-  .drawer-content:has(app-form-button-bar) {
+  .drawer-content:has(app-form-button-bar.form-button-bar-active) {
     padding-bottom: 180px; // More space on mobile
   }
   
-  .drawer-content.has-form-button-bar {
-    padding-bottom: 180px !important;
+  .drawer-content:has(.form-button-bar-active) {
+    padding-bottom: 180px;
   }
 }
 

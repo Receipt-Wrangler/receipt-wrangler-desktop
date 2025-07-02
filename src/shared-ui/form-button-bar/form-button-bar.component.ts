@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from "@angular/core";
+import { Component, Input, HostBinding } from "@angular/core";
 import { FormMode } from "src/enums/form-mode.enum";
 
 @Component({
@@ -7,26 +7,16 @@ import { FormMode } from "src/enums/form-mode.enum";
     styleUrls: ["./form-button-bar.component.scss"],
     standalone: false
 })
-export class FormButtonBarComponent implements OnInit, OnDestroy {
+export class FormButtonBarComponent {
   @Input() public mode?: FormMode;
 
   @Input() public justifyContentEnd = true;
 
   public formMode = FormMode;
 
-  ngOnInit(): void {
-    // Add class to drawer content to provide spacing for fixed button bar
-    const drawerContent = document.querySelector('.drawer-content');
-    if (drawerContent) {
-      drawerContent.classList.add('has-form-button-bar');
-    }
-  }
-
-  ngOnDestroy(): void {
-    // Remove class when component is destroyed
-    const drawerContent = document.querySelector('.drawer-content');
-    if (drawerContent) {
-      drawerContent.classList.remove('has-form-button-bar');
-    }
+  // Automatically add class to component host for CSS targeting
+  @HostBinding('class.form-button-bar-active') 
+  get isActive(): boolean {
+    return this.mode === FormMode.edit || this.mode === FormMode.add;
   }
 }
