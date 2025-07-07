@@ -39,7 +39,8 @@ app-sidebar {
     z-index: 1;
     border-radius: variables.$border-radius-xl !important;
     box-shadow: variables.$shadow-lg !important;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, box-shadow;
     
     &:hover {
       transform: scale(1.05);
@@ -49,24 +50,22 @@ app-sidebar {
 
   @keyframes add-buttons-slide-open {
     from {
-      height: 0;
+      transform: scaleY(0) translateY(-10px);
       opacity: 0;
     }
     to {
-      height: fit-content;
+      transform: scaleY(1) translateY(0);
       opacity: 1;
     }
   }
 
   @keyframes add-buttons-slide-closed {
     from {
-      display: flex !important;
-      height: fit-content;
+      transform: scaleY(1) translateY(0);
       opacity: 1;
     }
-
     to {
-      height: 0;
+      transform: scaleY(0) translateY(-10px);
       opacity: 0;
     }
   }
@@ -75,7 +74,8 @@ app-sidebar {
     display: flex !important;
     flex-direction: column;
     animation-name: add-buttons-slide-open;
-    animation-duration: 0.5s;
+    animation-duration: 0.4s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     animation-fill-mode: forwards;
     background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
     border: 1px solid rgba(0, 0, 0, 0.08);
@@ -83,12 +83,43 @@ app-sidebar {
     border-bottom-right-radius: variables.$border-radius-xl;
     box-shadow: variables.$shadow-md;
     padding: variables.$spacing-sm 0;
+    transform-origin: top center;
+    will-change: transform, opacity;
   }
 
   .add-button-close {
     animation-name: add-buttons-slide-closed;
-    animation-duration: 0.5s;
+    animation-duration: 0.3s;
+    animation-delay: 0.15s; // Wait for sub-buttons to start closing
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     animation-fill-mode: forwards;
+    transform-origin: top center;
+    will-change: transform, opacity;
+
+    // Staggered closing animations for sub-buttons (reverse order)
+    .add-sub-button-1, .add-sub-button-2, .add-sub-button-3 {
+      opacity: 1;
+      transform: translateY(0);
+      animation-name: sub-button-disappear;
+      animation-duration: 0.25s;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      animation-fill-mode: forwards;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+    }
+
+    // Reverse stagger: close from bottom to top
+    .add-sub-button-3 {
+      animation-delay: 0s; // Close first (bottom button)
+    }
+    
+    .add-sub-button-2 {
+      animation-delay: 0.05s; // Close second (middle button)
+    }
+    
+    .add-sub-button-1 {
+      animation-delay: 0.1s; // Close last (top button)
+    }
   }
 
   .add-buttons-container {
@@ -96,17 +127,70 @@ app-sidebar {
     position: relative;
     top: -20px;
     z-index: 0;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
   }
 
   .add-sub-button {
     color: variables.$basic-gray;
     border-radius: variables.$border-radius-lg !important;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     margin: variables.$spacing-xs;
+    will-change: transform, background-color, color;
+    backface-visibility: hidden;
     
     &:hover {
       background-color: map.get(variables.$primary-palette, 50);
       color: map.get(variables.$primary-palette, 600);
+      transform: translateY(-1px);
+    }
+  }
+
+  // Staggered animation for sub-buttons
+  .add-button-container-expanded {
+    .add-sub-button-1, .add-sub-button-2, .add-sub-button-3 {
+      opacity: 0;
+      transform: translateY(10px);
+      animation-name: sub-button-appear;
+      animation-duration: 0.3s;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      animation-fill-mode: forwards;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+    }
+    
+    .add-sub-button-1 {
+      animation-delay: 0.1s;
+    }
+    
+    .add-sub-button-2 {
+      animation-delay: 0.15s;
+    }
+    
+    .add-sub-button-3 {
+      animation-delay: 0.2s;
+    }
+  }
+
+  @keyframes sub-button-appear {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes sub-button-disappear {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(10px);
     }
   }
 
