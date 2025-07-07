@@ -29,6 +29,7 @@
       [itemAvatarTemplate]="itemAvatarTemplate"
       [itemHeaderTemplate]="itemHeaderTemplate"
       [itemLineTemplate]="itemLineTemplate"
+      [itemLineTemplate2]="itemLineTemplate2"
       [itemMetaTemplate]="itemMetaTemplate"
       [buildRouterLinkString]="buildItemRouterLink"
       (endOfListReached)="endOfListReached()"
@@ -54,8 +55,13 @@
 
 
 <ng-template #itemLineTemplate let-item=item>
-  {{ item.amount | customCurrency }} paid by {{ (item.paidByUserId | user)?.displayName ?? 'Unknown' }}
-  on {{ item.createdAt | date }}
+  <span class="amount-info">{{ item.amount | customCurrency }}</span>
+  <span class="paid-by-info"> paid by <span
+    class="user-name">{{ (item.paidByUserId | user)?.displayName ?? 'Unknown' }}</span></span>
+</ng-template>
+
+<ng-template #itemLineTemplate2 let-item=item>
+  {{ item.createdAt | date }}
 </ng-template>
 
 
