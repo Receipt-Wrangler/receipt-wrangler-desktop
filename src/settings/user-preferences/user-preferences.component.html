@@ -4,7 +4,7 @@
   [formTemplate]="formTemplate"
   [editButtonRouterLink]="['/settings/user-preferences/edit']"
   [editButtonQueryParams]="{tab: 'user-preferences'}"
-  [submitButtonDisabled]="(userShortcutComponent.editableListComponent.getCurrentRowOpen() ?? -1) >= 0"
+  [submitButtonDisabled]="(userShortcutComponent?.editableListComponent?.getCurrentRowOpen() ?? -1) >= 0"
   (submitted)="submit()"
 ></app-form>
 
