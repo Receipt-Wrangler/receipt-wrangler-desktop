@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatIconModule } from "@angular/material/icon";
@@ -31,6 +32,7 @@ import { ExportButtonComponent } from "../standalone/components/export-button/ex
 import { FilteredStatefulMenuComponent } from "../standalone/components/filtered-stateful-menu/filtered-stateful-menu.component";
 import { TagAutocompleteComponent } from "../tag-autocomplete/tag-autocomplete.component";
 import { BulkStatusUpdateComponent } from "./bulk-resolve-dialog/bulk-status-update-dialog.component";
+import { ColumnConfigurationDialogComponent } from "./column-configuration-dialog/column-configuration-dialog.component";
 import { CustomFieldComponent } from "./custom-field/custom-field.component";
 import { ItemListComponent } from "./item-list/item-list.component";
 import { CustomFieldPipe } from "./pipes/custom-field.pipe";
@@ -46,6 +48,7 @@ import { UserTotalWithPercentagePipe } from "./user-total-with-percentage.pipe";
 @NgModule({
   declarations: [
     BulkStatusUpdateComponent,
+    ColumnConfigurationDialogComponent,
     ItemListComponent,
     QuickActionsDialogComponent,
     ReceiptCommentsComponent,
@@ -71,6 +74,7 @@ import { UserTotalWithPercentagePipe } from "./user-total-with-percentage.pipe";
     ExportButtonComponent,
     InputModule,
     MatCardModule,
+    MatCheckboxModule,
     MatDialogModule,
     MatExpansionModule,
     MatIconModule,

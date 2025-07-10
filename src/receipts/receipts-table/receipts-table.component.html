@@ -31,6 +31,14 @@
       (clicked)="filterButtonClicked()"
     ></app-button>
     <app-button
+      class="me-2"
+      icon="view_column"
+      matButtonType="iconButton"
+      tooltip="Configure Columns"
+      color="accent"
+      (clicked)="configureColumnsButtonClicked()"
+    ></app-button>
+    <app-button
       *ngIf="(numFiltersApplied | async) ?? 0 > 0"
       @fadeInOut
       class="me-2"

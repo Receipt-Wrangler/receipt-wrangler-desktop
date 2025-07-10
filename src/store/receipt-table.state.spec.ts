@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { NgxsModule, Store } from "@ngxs/store";
-import { ReceiptTableInterface } from "src/interfaces";
+import { DEFAULT_RECEIPT_TABLE_COLUMNS, ReceiptTableInterface } from "src/interfaces";
 import { GroupRolePipe } from "src/pipes/group-role.pipe";
 import { FilterOperation, ReceiptPagedRequestFilter, ReceiptStatus } from "../open-api";
 import { ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData, } from "./receipt-table.actions";
@@ -75,6 +75,7 @@ describe("ReceiptTableState", () => {
       orderBy: "created_at",
       sortDirection: "desc",
       filter: defaultReceiptFilter,
+      columnConfig: DEFAULT_RECEIPT_TABLE_COLUMNS,
     });
   });
 
@@ -134,7 +135,7 @@ describe("ReceiptTableState", () => {
     store.dispatch(new SetReceiptFilterData(filterData));
 
     const result = store.selectSnapshot(ReceiptTableState.filterData);
-    expect(result).toEqual(filterData);
+    expect(result).toEqual({ ...filterData, columnConfig: DEFAULT_RECEIPT_TABLE_COLUMNS });
   });
 
   it("should set filter receipt filter", () => {

@@ -175,10 +175,13 @@ export class ItemListComponent implements OnInit {
   public checkLastInlineItem(userId: string): void {
     if (this.mode !== FormMode.view) {
       const items = this.userItemMap.get(userId);
-      if (items) {
+      if (items && items.length > 1) {
         const lastItem = items[items.length - 1];
         const formGroup = this.receiptItems.at(lastItem.arrayIndex);
-        if (formGroup.pristine) {
+        const nameValue = formGroup.get('name')?.value;
+        const amountValue = formGroup.get('amount')?.value;
+        
+        if (formGroup.pristine && (!nameValue || nameValue.trim() === '') && (!amountValue || amountValue === 0)) {
           this.receiptItems.removeAt(lastItem.arrayIndex);
           this.setUserItemMap();
         }

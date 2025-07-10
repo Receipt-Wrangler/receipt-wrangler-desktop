@@ -100,7 +100,7 @@
 <ng-template #widgetHeaderButtons>
   <app-add-button
     tooltip="Add Widget"
-    [disabled]="((widgetList?.rowOpenObservable | async) ?? -1) >= 0"
+    [disabled]="((widgetList.rowOpenObservable | async) ?? -1) >= 0"
     (clicked)="addWidget()"
   ></app-add-button>
 </ng-template>

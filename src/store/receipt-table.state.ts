@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { ReceiptTableInterface } from "../interfaces";
+import { DEFAULT_RECEIPT_TABLE_COLUMNS, ReceiptTableColumnConfig } from "../interfaces/receipt-table-column-config.interface";
 import { FilterOperation, ReceiptPagedRequestFilter } from "../open-api";
-import { ResetReceiptFilter, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData } from "./receipt-table.actions";
+import { ResetReceiptFilter, SetColumnConfig, SetPage, SetPageSize, SetReceiptFilter, SetReceiptFilterData } from "./receipt-table.actions";
 
 export const defaultReceiptFilter = {
   date: {
@@ -52,6 +53,7 @@ export const defaultReceiptFilter = {
     orderBy: "created_at",
     sortDirection: "desc",
     filter: defaultReceiptFilter,
+    columnConfig: DEFAULT_RECEIPT_TABLE_COLUMNS,
   },
 })
 @Injectable()
@@ -87,6 +89,11 @@ export class ReceiptTableState {
     });
 
     return filtersApplied;
+  }
+
+  @Selector()
+  static columnConfig(state: ReceiptTableInterface): ReceiptTableColumnConfig[] {
+    return state.columnConfig || DEFAULT_RECEIPT_TABLE_COLUMNS;
   }
 
   @Action(SetPage)
@@ -131,6 +138,16 @@ export class ReceiptTableState {
   resetFilter({ patchState }: StateContext<ReceiptTableInterface>) {
     patchState({
       filter: defaultReceiptFilter,
+    });
+  }
+
+  @Action(SetColumnConfig)
+  setColumnConfig(
+    { patchState }: StateContext<ReceiptTableInterface>,
+    payload: SetColumnConfig
+  ) {
+    patchState({
+      columnConfig: payload.columnConfig,
     });
   }
 }
