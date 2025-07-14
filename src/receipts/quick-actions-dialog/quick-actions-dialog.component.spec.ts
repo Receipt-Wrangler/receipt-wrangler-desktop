@@ -47,7 +47,7 @@ describe("QuickActionsDialogComponent", () => {
     component = fixture.componentInstance;
     component.parentForm = new FormGroup({
       amount: new FormControl("100"),
-      receiptItems: new FormArray([]),
+      receiptShares: new FormArray([]),
     });
     component.originalReceipt = { id: 1 } as any;
     fixture.detectChanges();
@@ -86,10 +86,10 @@ describe("QuickActionsDialogComponent", () => {
     expect(component.localForm).toBeDefined();
   });
 
-  it("should add even split items", () => {
+  it("should add even split shares", () => {
     component.parentForm = new FormGroup({
       amount: new FormControl("100"),
-      receiptItems: new FormArray([]),
+      receiptShares: new FormArray([]),
     });
     component.ngOnInit();
 
@@ -113,17 +113,17 @@ describe("QuickActionsDialogComponent", () => {
     });
     component.addSplits();
 
-    const receiptItems = component.parentForm.get("receiptItems") as FormArray;
+    const receiptShares = component.parentForm.get("receiptShares") as FormArray;
 
-    expect(receiptItems.length).toBe(2);
-    expect(receiptItems.at(0).get("amount")?.value).toBe(50);
-    expect(receiptItems.at(1).get("amount")?.value).toBe(50);
+    expect(receiptShares.length).toBe(2);
+    expect(receiptShares.at(0).get("amount")?.value).toBe(50);
+    expect(receiptShares.at(1).get("amount")?.value).toBe(50);
   });
 
   it("should split evenly with optional parts", () => {
     component.parentForm = new FormGroup({
       amount: new FormControl("100"),
-      receiptItems: new FormArray([]),
+      receiptShares: new FormArray([]),
     });
     component.ngOnInit();
 
@@ -148,14 +148,14 @@ describe("QuickActionsDialogComponent", () => {
 
     component.addSplits();
 
-    const receiptItems = component.parentForm.get("receiptItems") as FormArray;
+    const receiptShares = component.parentForm.get("receiptShares") as FormArray;
 
     // TODO: Fix
-    expect(receiptItems.length).toBe(4);
-    // expect(receiptItems.at(0).get('amount')?.value).toBe(10);
-    // expect(receiptItems.at(1).get('amount')?.value).toBe(20);
-    // expect(receiptItems.at(2).get('amount')?.value).toBe(35);
-    // expect(receiptItems.at(3).get('amount')?.value).toBe(35);
+    expect(receiptShares.length).toBe(4);
+    // expect(receiptShares.at(0).get('amount')?.value).toBe(10);
+    // expect(receiptShares.at(1).get('amount')?.value).toBe(20);
+    // expect(receiptShares.at(2).get('amount')?.value).toBe(35);
+    // expect(receiptShares.at(3).get('amount')?.value).toBe(35);
   });
 
   describe("Split by Percentage", () => {
@@ -337,7 +337,7 @@ describe("QuickActionsDialogComponent", () => {
     });
 
     describe("Split Calculation", () => {
-      it("should create items with correct amounts based on percentages", () => {
+      it("should create shares with correct amounts based on percentages", () => {
         component.localForm.patchValue({
           quickAction: component.radioValues[2].value,
         });
@@ -352,15 +352,15 @@ describe("QuickActionsDialogComponent", () => {
 
         component.addSplits();
 
-        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
+        const receiptShares = component.parentForm.get("receiptShares") as FormArray;
 
-        expect(receiptItems.length).toBe(3);
-        expect(receiptItems.at(0).get("amount")?.value).toBe(40); // 100 * 40% = 40
-        expect(receiptItems.at(1).get("amount")?.value).toBe(35); // 100 * 35% = 35
-        expect(receiptItems.at(2).get("amount")?.value).toBe(25); // 100 * 25% = 25
+        expect(receiptShares.length).toBe(3);
+        expect(receiptShares.at(0).get("amount")?.value).toBe(40); // 100 * 40% = 40
+        expect(receiptShares.at(1).get("amount")?.value).toBe(35); // 100 * 35% = 35
+        expect(receiptShares.at(2).get("amount")?.value).toBe(25); // 100 * 25% = 25
       });
 
-      it("should create items with correct names including percentage", () => {
+      it("should create shares with correct names including percentage", () => {
         component.localForm.patchValue({
           quickAction: component.radioValues[2].value,
         });
@@ -372,12 +372,12 @@ describe("QuickActionsDialogComponent", () => {
 
         component.addSplits();
 
-        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
+        const receiptShares = component.parentForm.get("receiptShares") as FormArray;
 
-        expect(receiptItems.at(0).get("name")?.value).toBe("John Doe's 50% Portion");
+        expect(receiptShares.at(0).get("name")?.value).toBe("John Doe's 50% Portion");
       });
 
-      it("should only create items for users with percentage > 0", () => {
+      it("should only create shares for users with percentage > 0", () => {
         component.localForm.patchValue({
           quickAction: component.radioValues[2].value,
         });
@@ -391,10 +391,10 @@ describe("QuickActionsDialogComponent", () => {
 
         component.addSplits();
 
-        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
+        const receiptShares = component.parentForm.get("receiptShares") as FormArray;
 
-        expect(receiptItems.length).toBe(1);
-        expect(receiptItems.at(0).get("chargedToUserId")?.value).toBe(users[0].id);
+        expect(receiptShares.length).toBe(1);
+        expect(receiptShares.at(0).get("chargedToUserId")?.value).toBe(users[0].id);
       });
 
       it("should handle decimal percentages correctly", () => {
@@ -412,9 +412,9 @@ describe("QuickActionsDialogComponent", () => {
 
         component.addSplits();
 
-        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
+        const receiptShares = component.parentForm.get("receiptShares") as FormArray;
 
-        expect(receiptItems.at(0).get("amount")?.value).toBe(33.33);
+        expect(receiptShares.at(0).get("amount")?.value).toBe(33.33);
       });
     });
 
@@ -542,9 +542,9 @@ describe("QuickActionsDialogComponent", () => {
 
         component.addSplits();
 
-        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
+        const receiptShares = component.parentForm.get("receiptShares") as FormArray;
         // Should round to 2 decimal places
-        expect(receiptItems.at(0).get("amount")?.value).toBe(33.33);
+        expect(receiptShares.at(0).get("amount")?.value).toBe(33.33);
       });
     });
   });

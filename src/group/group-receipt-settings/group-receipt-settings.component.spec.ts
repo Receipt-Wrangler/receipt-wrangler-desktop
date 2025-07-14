@@ -26,8 +26,8 @@ describe("GroupReceiptSettingsComponent", () => {
       hideImages: true,
       hideReceiptCategories: false,
       hideReceiptTags: true,
-      hideItemCategories: false,
-      hideItemTags: true,
+      hideShareCategories: false,
+      hideShareTags: true,
       hideComments: false
     }
   };
