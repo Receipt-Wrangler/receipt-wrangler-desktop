@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ItemData } from './item-list/item-list.component';
+import { ShareData } from './item-list/item-list.component';
 
 @Pipe({
     name: 'userTotalWithPercentage',
@@ -9,13 +9,13 @@ import { ItemData } from './item-list/item-list.component';
 })
 export class UserTotalWithPercentagePipe implements PipeTransform {
   public transform(
-    userItemMap: Map<string, ItemData[]>,
+    userShareMap: Map<string, ShareData[]>,
     userId: string,
     form: FormGroup
   ): { total: number; percentage: number } {
-    const items = userItemMap.get(userId) as ItemData[];
-    const userTotal = items?.length > 0 && items 
-      ? items.map((item) => Number(item.item.amount)).reduce((a, b) => a + b)
+    const shares = userShareMap.get(userId) as ShareData[];
+    const userTotal = shares?.length > 0 && shares 
+      ? shares.map((share) => Number(share.share.amount)).reduce((a, b) => a + b)
       : 0;
 
     const receiptTotal = Number(form.get('amount')?.value || 0);

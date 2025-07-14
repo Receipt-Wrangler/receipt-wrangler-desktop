@@ -48,8 +48,8 @@ export class GroupReceiptSettingsComponent extends BaseFormComponent implements 
       hideImages: [receiptSettings.hideImages ?? false],
       hideReceiptCategories: [receiptSettings.hideReceiptCategories ?? false],
       hideReceiptTags: [receiptSettings.hideReceiptTags ?? false],
-      hideItemCategories: [receiptSettings.hideItemCategories ?? false],
-      hideItemTags: [receiptSettings.hideItemTags ?? false],
+      hideShareCategories: [receiptSettings.hideShareCategories ?? false],
+      hideShareTags: [receiptSettings.hideShareTags ?? false],
       hideComments: [receiptSettings.hideComments ?? false],
     });
 

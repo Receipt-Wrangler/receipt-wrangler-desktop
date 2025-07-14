@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators, } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { RadioButtonData } from "src/radio-group/models";
-import { Item, Receipt, User } from "../../open-api";
+import { Share, Receipt, User } from "../../open-api";
 import { SnackbarService } from "../../services/index";
 import { buildItemForm } from "../utils/form.utils";
 
@@ -44,8 +44,8 @@ export class QuickActionsDialogComponent implements OnInit {
     return this.localForm.get("usersToSplit") as FormArray;
   }
 
-  private get receiptItems(): FormArray {
-    return this.parentForm.get("receiptItems") as FormArray;
+  private get receiptShares(): FormArray {
+    return this.parentForm.get("receiptShares") as FormArray;
   }
 
   constructor(
@@ -189,17 +189,17 @@ export class QuickActionsDialogComponent implements OnInit {
       amount ?? Number.parseFloat(this.parentForm.get("amount")?.value ?? 1);
 
     users.forEach((u) => {
-      const item = this.buildSplitItem(
+      const share = this.buildSplitShare(
         u,
         `${u.displayName}'s Even Portion`,
         Number.parseFloat((receiptAmount / users.length).toFixed(2))
       );
 
       const formGroup = buildItemForm(
-        item,
+        share,
         this.originalReceipt?.id?.toString()
       );
-      this.receiptItems.push(formGroup);
+      this.receiptShares.push(formGroup);
     });
   }
 
@@ -214,17 +214,17 @@ export class QuickActionsDialogComponent implements OnInit {
       );
       if (!Number.isNaN(userOptionalPart) && Number(userOptionalPart) > 0) {
         amount -= userOptionalPart;
-        const item = this.buildSplitItem(
+        const share = this.buildSplitShare(
           u,
           `${u.displayName}'s Portion`,
           this.localForm.get(u.id.toString())?.value
         );
         const formGroup = buildItemForm(
-          item,
+          share,
           this.originalReceipt?.id?.toString()
         );
 
-        this.receiptItems.push(formGroup);
+        this.receiptShares.push(formGroup);
       }
     });
 
@@ -232,13 +232,13 @@ export class QuickActionsDialogComponent implements OnInit {
     this.addEvenSplitItems(amount);
   }
 
-  private buildSplitItem(u: User, name: string, amount: number): Item {
+  private buildSplitShare(u: User, name: string, amount: number): Share {
     return {
       name: name,
       chargedToUserId: u.id,
       receiptId: this.originalReceipt?.id,
       amount: amount,
-    } as any as Item;
+    } as any as Share;
   }
 
   private validatePercentages(): boolean {
@@ -292,17 +292,17 @@ export class QuickActionsDialogComponent implements OnInit {
 
       if (percentage > 0) {
         const amount = Number.parseFloat(((receiptAmount * percentage) / 100).toFixed(2));
-        const item = this.buildSplitItem(
+        const share = this.buildSplitShare(
           user,
           `${user.displayName}'s ${percentage}% Portion`,
           amount
         );
 
         const formGroup = buildItemForm(
-          item,
+          share,
           this.originalReceipt?.id?.toString()
         );
-        this.receiptItems.push(formGroup);
+        this.receiptShares.push(formGroup);
       }
     });
   }

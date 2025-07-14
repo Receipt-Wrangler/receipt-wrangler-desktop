@@ -356,7 +356,7 @@ export class ReceiptFormComponent implements OnInit {
       .pipe(take(1))
       .subscribe((result: boolean) => {
         if (result) {
-          this.itemsListComponent.setUserItemMap();
+          this.itemsListComponent.setUserShareMap();
         }
       });
   }

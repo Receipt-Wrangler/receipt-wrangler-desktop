@@ -7,12 +7,12 @@ import { Observable } from "rxjs";
 import { RECEIPT_ITEM_STATUS_OPTIONS } from "src/constants/receipt-status-options";
 import { FormMode } from "src/enums/form-mode.enum";
 import { InputComponent } from "../../input";
-import { Category, Group, GroupRole, Item, ItemStatus, Receipt, Tag, User } from "../../open-api";
+import { Category, Group, GroupRole, Share, ShareStatus, Receipt, Tag, User } from "../../open-api";
 import { UserState } from "../../store";
 import { buildItemForm } from "../utils/form.utils";
 
-export interface ItemData {
-  item: Item;
+export interface ShareData {
+  share: Share;
   arrayIndex: number;
 }
 
@@ -44,7 +44,7 @@ export class ItemListComponent implements OnInit {
 
   public newItemFormGroup: FormGroup = new FormGroup({});
 
-  public userItemMap: Map<string, ItemData[]> = new Map<string, ItemData[]>();
+  public userShareMap: Map<string, ShareData[]> = new Map<string, ShareData[]>();
 
   public isAdding: boolean = false;
 
@@ -56,8 +56,8 @@ export class ItemListComponent implements OnInit {
 
   public itemStatusOptions = RECEIPT_ITEM_STATUS_OPTIONS;
 
-  public get receiptItems(): FormArray {
-    return this.form.get("receiptItems") as FormArray;
+  public get receiptShares(): FormArray {
+    return this.form.get("receiptShares") as FormArray;
   }
 
   constructor(
@@ -70,46 +70,46 @@ export class ItemListComponent implements OnInit {
     this.originalReceipt = this.activatedRoute.snapshot.data["receipt"];
     this.mode = this.activatedRoute.snapshot.data["mode"];
     this.initForm();
-    this.setUserItemMap();
+    this.setUserShareMap();
   }
 
   private initForm(): void {
     this.form.addControl(
-      "receiptItems",
+      "receiptShares",
       this.formBuilder.array(
-        this.originalReceipt?.receiptItems
-          ? this.originalReceipt.receiptItems.map((item) =>
-            buildItemForm(item, this.originalReceipt?.id?.toString())
+        this.originalReceipt?.receiptShares
+          ? this.originalReceipt.receiptShares.map((share) =>
+            buildItemForm(share, this.originalReceipt?.id?.toString())
           )
           : []
       )
     );
   }
 
-  public setUserItemMap(): void {
-    const receiptItems = this.form.get("receiptItems");
-    if (receiptItems) {
-      const items = this.form.get("receiptItems")?.value as Item[];
-      const map = new Map<string, ItemData[]>();
+  public setUserShareMap(): void {
+    const receiptShares = this.form.get("receiptShares");
+    if (receiptShares) {
+      const shares = this.form.get("receiptShares")?.value as Share[];
+      const map = new Map<string, ShareData[]>();
 
-      if (items?.length > 0) {
-        items.forEach((item, index) => {
-          const chargedToUserId = item.chargedToUserId.toString();
-          const itemData: ItemData = {
-            item: item,
+      if (shares?.length > 0) {
+        shares.forEach((share, index) => {
+          const chargedToUserId = share.chargedToUserId.toString();
+          const shareData: ShareData = {
+            share: share,
             arrayIndex: index,
           };
 
           if (map.has(chargedToUserId)) {
-            const newItems = Array.from(map.get(chargedToUserId) as ItemData[]);
-            newItems.push(itemData);
-            map.set(chargedToUserId, newItems);
+            const newShares = Array.from(map.get(chargedToUserId) as ShareData[]);
+            newShares.push(shareData);
+            map.set(chargedToUserId, newShares);
           } else {
-            map.set(chargedToUserId, [itemData]);
+            map.set(chargedToUserId, [shareData]);
           }
         });
       }
-      this.userItemMap = map;
+      this.userShareMap = map;
     }
   }
 
@@ -128,87 +128,87 @@ export class ItemListComponent implements OnInit {
 
   public submitNewItemFormGroup(): void {
     if (this.newItemFormGroup.valid) {
-      const formArray = this.form.get("receiptItems") as FormArray;
+      const formArray = this.form.get("receiptShares") as FormArray;
       formArray.push(this.newItemFormGroup);
       this.exitAddMode();
-      this.setUserItemMap();
+      this.setUserShareMap();
     }
   }
 
-  public removeItem(itemData: ItemData): void {
-    const formArray = this.form.get("receiptItems") as FormArray;
-    formArray.removeAt(itemData.arrayIndex);
-    this.setUserItemMap();
+  public removeShare(shareData: ShareData): void {
+    const formArray = this.form.get("receiptShares") as FormArray;
+    formArray.removeAt(shareData.arrayIndex);
+    this.setUserShareMap();
   }
 
-  public addInlineItem(userId: string, event?: MouseEvent): void {
+  public addInlineShare(userId: string, event?: MouseEvent): void {
     if (event) {
       event?.stopImmediatePropagation();
     }
 
     if (this.mode !== FormMode.view) {
-      this.receiptItems.push(
+      this.receiptShares.push(
         buildItemForm(
           {
             name: "",
             chargedToUserId: Number(userId),
-          } as Item,
+          } as Share,
           this.originalReceipt?.id?.toString()
         )
       );
-      this.setUserItemMap();
+      this.setUserShareMap();
     }
   }
 
-  public addInlineItemOnBlur(userId: string, index: number): void {
-    const userItems = this.userItemMap.get(userId);
-    if (userItems && userItems.length - 1 === index) {
-      const item = userItems.at(index) as ItemData;
-      const itemInput = this.receiptItems.at(item?.arrayIndex);
-      if (itemInput.valid) {
+  public addInlineShareOnBlur(userId: string, index: number): void {
+    const userShares = this.userShareMap.get(userId);
+    if (userShares && userShares.length - 1 === index) {
+      const share = userShares.at(index) as ShareData;
+      const shareInput = this.receiptShares.at(share?.arrayIndex);
+      if (shareInput.valid) {
         const activeElement = document.activeElement as HTMLElement;
-        this.addInlineItem(userId);
+        this.addInlineShare(userId);
       }
     }
   }
 
-  public checkLastInlineItem(userId: string): void {
+  public checkLastInlineShare(userId: string): void {
     if (this.mode !== FormMode.view) {
-      const items = this.userItemMap.get(userId);
-      if (items && items.length > 1) {
-        const lastItem = items[items.length - 1];
-        const formGroup = this.receiptItems.at(lastItem.arrayIndex);
+      const shares = this.userShareMap.get(userId);
+      if (shares && shares.length > 1) {
+        const lastShare = shares[shares.length - 1];
+        const formGroup = this.receiptShares.at(lastShare.arrayIndex);
         const nameValue = formGroup.get('name')?.value;
         const amountValue = formGroup.get('amount')?.value;
         
         if (formGroup.pristine && (!nameValue || nameValue.trim() === '') && (!amountValue || amountValue === 0)) {
-          this.receiptItems.removeAt(lastItem.arrayIndex);
-          this.setUserItemMap();
+          this.receiptShares.removeAt(lastShare.arrayIndex);
+          this.setUserShareMap();
         }
       }
     }
   }
 
-  public resolveAllItemsClicked(event: MouseEvent, userId: string): void {
+  public resolveAllSharesClicked(event: MouseEvent, userId: string): void {
     event.stopImmediatePropagation();
-    const filtered = this.getItemsForUser(userId);
+    const filtered = this.getSharesForUser(userId);
 
     filtered.forEach((i) =>
       i.patchValue({
-        status: ItemStatus.Resolved,
+        status: ShareStatus.Resolved,
       })
     );
   }
 
-  public allUserItemsResolved(userId: string): boolean {
-    const userItems = this.getItemsForUser(userId);
-    return userItems.every(
-      (i) => i.get("status")?.value === ItemStatus.Resolved
+  public allUserSharesResolved(userId: string): boolean {
+    const userShares = this.getSharesForUser(userId);
+    return userShares.every(
+      (i) => i.get("status")?.value === ShareStatus.Resolved
     );
   }
 
-  private getItemsForUser(userId: string): AbstractControl[] {
-    return this.receiptItems.controls.filter(
+  private getSharesForUser(userId: string): AbstractControl[] {
+    return this.receiptShares.controls.filter(
       (i) => i.get("chargedToUserId")?.value?.toString() === userId
     );
   }

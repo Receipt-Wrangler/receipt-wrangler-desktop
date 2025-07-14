@@ -1,32 +1,36 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { Item, ItemStatus } from "../../open-api";
+import { Share, ShareStatus } from "../../open-api";
 
-export function buildItemForm(item?: Item, receiptId?: string): FormGroup {
+export function buildItemForm(item?: Share, receiptId?: string): FormGroup {
+  return buildShareForm(item, receiptId);
+}
+
+export function buildShareForm(share?: Share, receiptId?: string): FormGroup {
   return new FormGroup({
-    name: new FormControl(item?.name ?? "", Validators.required),
-    chargedToUserId: new FormControl(item?.chargedToUserId ?? "", [
+    name: new FormControl(share?.name ?? "", Validators.required),
+    chargedToUserId: new FormControl(share?.chargedToUserId ?? "", [
       Validators.required,
     ]),
-    receiptId: new FormControl(Number(item?.receiptId ?? receiptId)),
-    amount: new FormControl(item?.amount ?? undefined, [
+    receiptId: new FormControl(Number(share?.receiptId ?? receiptId)),
+    amount: new FormControl(share?.amount ?? undefined, [
       Validators.required,
       Validators.min(0),
-      itemTotalValidator(),
+      shareTotalValidator(),
     ]),
-    isTaxed: new FormControl(item?.IsTaxed ?? false),
-    categories: new FormArray(item?.categories?.map((c) => new FormControl(c)) ?? []),
-    tags: new FormArray(item?.tags?.map((t) => new FormControl(t)) ?? []),
+    isTaxed: new FormControl(share?.IsTaxed ?? false),
+    categories: new FormArray(share?.categories?.map((c) => new FormControl(c)) ?? []),
+    tags: new FormArray(share?.tags?.map((t) => new FormControl(t)) ?? []),
     status: new FormControl(
-      item?.status ?? ItemStatus.Open,
+      share?.status ?? ShareStatus.Open,
       Validators.required
     ),
   });
 }
 
-function itemTotalValidator(): ValidatorFn {
+function shareTotalValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const epsilon = 0.01;
-    const errKey = "itemLargerThanTotal";
+    const errKey = "shareLargerThanTotal";
 
     const formArray = control.parent?.parent as FormArray;
     const amountControl = control?.parent?.parent?.parent;
@@ -42,23 +46,23 @@ function itemTotalValidator(): ValidatorFn {
       return null;
     }
 
-    const itemControls = formArray.controls;
-    const itemsAmounts: number[] = itemControls
+    const shareControls = formArray.controls;
+    const shareAmounts: number[] = shareControls
       .map((c) => c.get("amount")?.value ?? 0)
       .map((amount: any) => Number.parseFloat(amount) ?? 1);
-    const itemsTotal = itemsAmounts.reduce((a, b) => a + b);
+    const sharesTotal = shareAmounts.reduce((a, b) => a + b);
 
-    if (itemsTotal > receiptTotal + epsilon) {
-      itemControls.forEach((c) => {
+    if (sharesTotal > receiptTotal + epsilon) {
+      shareControls.forEach((c) => {
         if (c !== control) {
           c.get("amount")?.setErrors({
-            [errKey]: "Item sum cannot be larger than receipt total",
+            [errKey]: "Share sum cannot be larger than receipt total",
           });
         }
       });
-      return { [errKey]: "Item sum cannot be larger than receipt total" };
+      return { [errKey]: "Share sum cannot be larger than receipt total" };
     } else {
-      itemControls.forEach((c) => {
+      shareControls.forEach((c) => {
         if (c.get("amount")?.errors && c.get("amount")?.hasError(errKey)) {
           let newErrors = c.get("amount")?.errors ?? {};
           delete newErrors[errKey];
