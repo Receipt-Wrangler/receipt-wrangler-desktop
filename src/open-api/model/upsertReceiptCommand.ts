@@ -8,11 +8,11 @@
  * Do not edit the class manually.
  */
 import { UpsertCategoryCommand } from './upsertCategoryCommand';
-import { UpsertItemCommand } from './upsertItemCommand';
+import { UpsertCustomFieldValueCommand } from './upsertCustomFieldValueCommand';
+import { UpsertShareCommand } from './upsertShareCommand';
 import { UpsertCommentCommand } from './upsertCommentCommand';
 import { ReceiptStatus } from './receiptStatus';
 import { UpsertTagCommand } from './upsertTagCommand';
-import { UpsertCustomFieldCommand } from './upsertCustomFieldCommand';
 
 
 export interface UpsertReceiptCommand { 
@@ -46,9 +46,9 @@ export interface UpsertReceiptCommand {
      */
     tags?: Array<UpsertTagCommand>;
     /**
-     * Items associated to receipt
+     * Shares associated to receipt
      */
-    receiptItems?: Array<UpsertItemCommand>;
+    receiptShares?: Array<UpsertShareCommand>;
     /**
      * Comments associated to receipt
      */
@@ -56,7 +56,7 @@ export interface UpsertReceiptCommand {
     /**
      * Custom fields associated to receipt
      */
-    customFields?: Array<UpsertCustomFieldCommand>;
+    customFields?: Array<UpsertCustomFieldValueCommand>;
 }
 export namespace UpsertReceiptCommand {
 }

@@ -9,11 +9,11 @@
  */
 import { CustomFieldValue } from './customFieldValue';
 import { Comment } from './comment';
-import { Item } from './item';
 import { Category } from './category';
 import { ReceiptStatus } from './receiptStatus';
 import { Tag } from './tag';
 import { FileData } from './fileData';
+import { Share } from './share';
 
 
 /**
@@ -60,9 +60,9 @@ export interface Receipt {
      */
     paidByUserId: number;
     /**
-     * Items associated to receipt
+     * Shares associated to receipt
      */
-    receiptItems: Array<Item>;
+    receiptShares: Array<Share>;
     /**
      * Date resolved
      */

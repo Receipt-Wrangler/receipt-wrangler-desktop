@@ -68,8 +68,6 @@ model/groupStatus.ts
 model/icon.ts
 model/importType.ts
 model/internalErrorResponse.ts
-model/item.ts
-model/itemStatus.ts
 model/loginCommand.ts
 model/logoutCommand.ts
 model/magicFillCommand.ts
@@ -90,6 +88,8 @@ model/receiptProcessingSettings.ts
 model/receiptStatus.ts
 model/resetPasswordCommand.ts
 model/searchResult.ts
+model/share.ts
+model/shareStatus.ts
 model/signUpCommand.ts
 model/sortDirection.ts
 model/subjectLineRegex.ts
@@ -113,10 +113,10 @@ model/upsertCustomFieldValueCommand.ts
 model/upsertDashboardCommand.ts
 model/upsertGroupCommand.ts
 model/upsertGroupMemberCommand.ts
-model/upsertItemCommand.ts
 model/upsertPromptCommand.ts
 model/upsertReceiptCommand.ts
 model/upsertReceiptProcessingSettingsCommand.ts
+model/upsertShareCommand.ts
 model/upsertSystemEmailCommand.ts
 model/upsertSystemSettingsCommand.ts
 model/upsertTagCommand.ts

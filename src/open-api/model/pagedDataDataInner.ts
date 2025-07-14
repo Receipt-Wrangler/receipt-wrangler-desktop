@@ -16,7 +16,6 @@ import { Receipt } from './receipt';
 import { Activity } from './activity';
 import { ReceiptProcessingSettings } from './receiptProcessingSettings';
 import { CustomFieldType } from './customFieldType';
-import { Item } from './item';
 import { GroupReceiptSettings } from './groupReceiptSettings';
 import { SystemTaskStatus } from './systemTaskStatus';
 import { OcrEngine } from './ocrEngine';
@@ -31,6 +30,7 @@ import { SystemEmail } from './systemEmail';
 import { TagView } from './tagView';
 import { Tag } from './tag';
 import { FileData } from './fileData';
+import { Share } from './share';
 
 
 export interface PagedDataDataInner { 
@@ -71,9 +71,9 @@ export interface PagedDataDataInner {
      */
     paidByUserId: number;
     /**
-     * Items associated to receipt
+     * Shares associated to receipt
      */
-    receiptItems: Array<Item>;
+    receiptShares: Array<Share>;
     /**
      * Date resolved
      */
