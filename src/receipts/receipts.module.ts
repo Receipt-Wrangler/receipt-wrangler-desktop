@@ -34,7 +34,6 @@ import { TagAutocompleteComponent } from "../tag-autocomplete/tag-autocomplete.c
 import { BulkStatusUpdateComponent } from "./bulk-resolve-dialog/bulk-status-update-dialog.component";
 import { ColumnConfigurationDialogComponent } from "./column-configuration-dialog/column-configuration-dialog.component";
 import { CustomFieldComponent } from "./custom-field/custom-field.component";
-import { ItemListComponent } from "./item-list/item-list.component";
 import { CustomFieldPipe } from "./pipes/custom-field.pipe";
 import { QuickActionsDialogComponent } from "./quick-actions-dialog/quick-actions-dialog.component";
 import { QuickScanDialogComponent } from "./quick-scan-dialog/quick-scan-dialog.component";
@@ -42,6 +41,7 @@ import { ReceiptCommentsComponent } from "./receipt-comments/receipt-comments.co
 import { ReceiptFormComponent } from "./receipt-form/receipt-form.component";
 import { ReceiptsRoutingModule } from "./receipts-routing.module";
 import { ReceiptsTableComponent } from "./receipts-table/receipts-table.component";
+import { ShareListComponent } from "./share-list/share-list.component";
 import { UploadImageComponent } from "./upload-image/upload-image.component";
 import { UserTotalWithPercentagePipe } from "./user-total-with-percentage.pipe";
 
@@ -49,7 +49,7 @@ import { UserTotalWithPercentagePipe } from "./user-total-with-percentage.pipe";
   declarations: [
     BulkStatusUpdateComponent,
     ColumnConfigurationDialogComponent,
-    ItemListComponent,
+    ShareListComponent,
     QuickActionsDialogComponent,
     ReceiptCommentsComponent,
     ReceiptFormComponent,

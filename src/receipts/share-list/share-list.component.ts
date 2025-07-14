@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
 import { RECEIPT_ITEM_STATUS_OPTIONS } from "src/constants/receipt-status-options";
 import { FormMode } from "src/enums/form-mode.enum";
 import { InputComponent } from "../../input";
-import { Category, Group, GroupRole, Share, ShareStatus, Receipt, Tag, User } from "../../open-api";
+import { Category, Group, GroupRole, Receipt, Share, ShareStatus, Tag, User } from "../../open-api";
 import { UserState } from "../../store";
 import { buildItemForm } from "../utils/form.utils";
 
@@ -17,13 +17,13 @@ export interface ShareData {
 }
 
 @Component({
-  selector: "app-item-list",
-  templateUrl: "./item-list.component.html",
-  styleUrls: ["./item-list.component.scss"],
+  selector: "app-share-list",
+  templateUrl: "./share-list.component.html",
+  styleUrls: ["./share-list.component.scss"],
   encapsulation: ViewEncapsulation.None,
   standalone: false
 })
-export class ItemListComponent implements OnInit {
+export class ShareListComponent implements OnInit {
   @ViewChildren("userExpansionPanel")
   public userExpansionPanels!: QueryList<MatExpansionPanel>;
 
@@ -178,10 +178,10 @@ export class ItemListComponent implements OnInit {
       if (shares && shares.length > 1) {
         const lastShare = shares[shares.length - 1];
         const formGroup = this.receiptShares.at(lastShare.arrayIndex);
-        const nameValue = formGroup.get('name')?.value;
-        const amountValue = formGroup.get('amount')?.value;
-        
-        if (formGroup.pristine && (!nameValue || nameValue.trim() === '') && (!amountValue || amountValue === 0)) {
+        const nameValue = formGroup.get("name")?.value;
+        const amountValue = formGroup.get("amount")?.value;
+
+        if (formGroup.pristine && (!nameValue || nameValue.trim() === "") && (!amountValue || amountValue === 0)) {
           this.receiptShares.removeAt(lastShare.arrayIndex);
           this.setUserShareMap();
         }
