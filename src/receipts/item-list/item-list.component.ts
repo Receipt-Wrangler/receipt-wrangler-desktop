@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChildren, ViewEncapsulation, } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, QueryList, SimpleChanges, ViewChildren, ViewEncapsulation, } from "@angular/core";
 import { AbstractControl, FormArray, FormBuilder, FormGroup, } from "@angular/forms";
 import { MatExpansionPanel } from "@angular/material/expansion";
 import { ActivatedRoute } from "@angular/router";
@@ -23,7 +23,7 @@ export interface ItemData {
   encapsulation: ViewEncapsulation.None,
   standalone: false
 })
-export class ItemListComponent implements OnInit {
+export class ItemListComponent implements OnInit, OnChanges {
   @ViewChildren("userExpansionPanel")
   public userExpansionPanels!: QueryList<MatExpansionPanel>;
 
@@ -41,6 +41,14 @@ export class ItemListComponent implements OnInit {
   @Input() public tags: Tag[] = [];
 
   @Input() public selectedGroup: Group | undefined;
+
+  @Input() public triggerAddMode: boolean = false;
+
+  @Output() public itemAdded = new EventEmitter<Item>();
+
+  @Output() public itemRemoved = new EventEmitter<{ item: Item; arrayIndex: number }>();
+
+  @Output() public allItemsResolved = new EventEmitter<string>();
 
   public newItemFormGroup: FormGroup = new FormGroup({});
 
@@ -69,22 +77,15 @@ export class ItemListComponent implements OnInit {
   public ngOnInit(): void {
     this.originalReceipt = this.activatedRoute.snapshot.data["receipt"];
     this.mode = this.activatedRoute.snapshot.data["mode"];
-    this.initForm();
     this.setUserItemMap();
   }
 
-  private initForm(): void {
-    this.form.addControl(
-      "receiptItems",
-      this.formBuilder.array(
-        this.originalReceipt?.receiptItems
-          ? this.originalReceipt.receiptItems.map((item) =>
-            buildItemForm(item, this.originalReceipt?.id?.toString())
-          )
-          : []
-      )
-    );
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes["triggerAddMode"] && changes["triggerAddMode"].currentValue) {
+      this.initAddMode();
+    }
   }
+
 
   public setUserItemMap(): void {
     const receiptItems = this.form.get("receiptItems");
@@ -132,17 +133,14 @@ export class ItemListComponent implements OnInit {
 
   public submitNewItemFormGroup(): void {
     if (this.newItemFormGroup.valid) {
-      const formArray = this.form.get("receiptItems") as FormArray;
-      formArray.push(this.newItemFormGroup);
+      const newItem = this.newItemFormGroup.value as Item;
+      this.itemAdded.emit(newItem);
       this.exitAddMode();
-      this.setUserItemMap();
     }
   }
 
   public removeItem(itemData: ItemData): void {
-    const formArray = this.form.get("receiptItems") as FormArray;
-    formArray.removeAt(itemData.arrayIndex);
-    this.setUserItemMap();
+    this.itemRemoved.emit({ item: itemData.item, arrayIndex: itemData.arrayIndex });
   }
 
   public addInlineItem(userId: string, event?: MouseEvent): void {
@@ -151,16 +149,11 @@ export class ItemListComponent implements OnInit {
     }
 
     if (this.mode !== FormMode.view) {
-      this.receiptItems.push(
-        buildItemForm(
-          {
-            name: "",
-            chargedToUserId: Number(userId),
-          } as Item,
-          this.originalReceipt?.id?.toString()
-        )
-      );
-      this.setUserItemMap();
+      const newItem = {
+        name: "",
+        chargedToUserId: Number(userId),
+      } as Item;
+      this.itemAdded.emit(newItem);
     }
   }
 
@@ -186,8 +179,7 @@ export class ItemListComponent implements OnInit {
         const amountValue = formGroup.get("amount")?.value;
 
         if (formGroup.pristine && (!nameValue || nameValue.trim() === "") && (!amountValue || amountValue === 0)) {
-          this.receiptItems.removeAt(lastItem.arrayIndex);
-          this.setUserItemMap();
+          this.itemRemoved.emit({ item: lastItem.item, arrayIndex: lastItem.arrayIndex });
         }
       }
     }
@@ -202,6 +194,7 @@ export class ItemListComponent implements OnInit {
         status: ItemStatus.Resolved,
       })
     );
+    this.allItemsResolved.emit(userId);
   }
 
   public allUserItemsResolved(userId: string): boolean {

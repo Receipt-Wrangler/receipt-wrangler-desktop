@@ -23,6 +23,7 @@ import {
   FileDataView,
   Group,
   GroupRole,
+  Item,
   Receipt,
   ReceiptImageService,
   ReceiptService,
@@ -38,6 +39,7 @@ import { AuthState, FeatureConfigState, GroupState, UserState } from "../../stor
 import { downloadFile } from "../../utils/file";
 import { ItemListComponent } from "../item-list/item-list.component";
 import { UploadImageComponent } from "../upload-image/upload-image.component";
+import { buildItemForm } from "../utils/form.utils";
 
 @UntilDestroy()
 @Component({
@@ -139,8 +141,14 @@ export class ReceiptFormComponent implements OnInit {
 
   public queueMode: QueueMode | undefined;
 
+  public triggerItemListAddMode: boolean = false;
+
   public get customFieldsFormArray(): FormArray {
     return this.form.get("customFields") as FormArray;
+  }
+
+  public get receiptItemsFormArray(): FormArray {
+    return this.form.get("receiptItems") as FormArray;
   }
 
   constructor(
@@ -274,7 +282,14 @@ export class ReceiptFormComponent implements OnInit {
         Validators.required,
       ],
       status: this.originalReceipt?.status ?? ReceiptStatus.Open,
-      customFields: this.formBuilder.array(this.originalReceipt?.customFields?.map((customField) => this.buildCustomOptionFormGroup(customField)) ?? [])
+      customFields: this.formBuilder.array(this.originalReceipt?.customFields?.map((customField) => this.buildCustomOptionFormGroup(customField)) ?? []),
+      receiptItems: this.formBuilder.array(
+        this.originalReceipt?.receiptItems
+          ? this.originalReceipt.receiptItems.map((item) =>
+            buildItemForm(item, this.originalReceipt?.id?.toString())
+          )
+          : []
+      )
     });
 
     if (this.mode === FormMode.view) {
@@ -589,7 +604,25 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public initItemListAddMode(): void {
-    this.itemListComponent.initAddMode();
+    this.triggerItemListAddMode = true;
+    // Reset the trigger after a short delay to allow for re-triggering
+    setTimeout(() => this.triggerItemListAddMode = false, 100);
+  }
+
+  public onItemAdded(item: Item): void {
+    const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString());
+    this.receiptItemsFormArray.push(newFormGroup);
+    this.itemListComponent.setUserItemMap();
+  }
+
+  public onItemRemoved(data: { item: Item; arrayIndex: number }): void {
+    this.receiptItemsFormArray.removeAt(data.arrayIndex);
+    this.itemListComponent.setUserItemMap();
+  }
+
+  public onAllItemsResolved(userId: string): void {
+    // The actual item status updates are handled by the child component
+    // We don't need to do anything here as the form will reflect the changes
   }
 
   public queueNext(): void {

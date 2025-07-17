@@ -150,6 +150,10 @@
           [categories]="categories"
           [tags]="tags"
           [selectedGroup]="selectedGroup"
+          [triggerAddMode]="triggerItemListAddMode"
+          (itemAdded)="onItemAdded($event)"
+          (itemRemoved)="onItemRemoved($event)"
+          (allItemsResolved)="onAllItemsResolved($event)"
         ></app-item-list>
       </app-form-section>
       @if (!this.selectedGroup?.groupReceiptSettings?.hideComments) {
