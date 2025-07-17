@@ -94,7 +94,11 @@ export class ItemListComponent implements OnInit {
 
       if (items?.length > 0) {
         items.forEach((item, index) => {
-          const chargedToUserId = item.chargedToUserId.toString();
+          const chargedToUserId = item?.chargedToUserId?.toString();
+          if (!chargedToUserId) {
+            return;
+          }
+
           const itemData: ItemData = {
             item: item,
             arrayIndex: index,
@@ -178,10 +182,10 @@ export class ItemListComponent implements OnInit {
       if (items && items.length > 1) {
         const lastItem = items[items.length - 1];
         const formGroup = this.receiptItems.at(lastItem.arrayIndex);
-        const nameValue = formGroup.get('name')?.value;
-        const amountValue = formGroup.get('amount')?.value;
-        
-        if (formGroup.pristine && (!nameValue || nameValue.trim() === '') && (!amountValue || amountValue === 0)) {
+        const nameValue = formGroup.get("name")?.value;
+        const amountValue = formGroup.get("amount")?.value;
+
+        if (formGroup.pristine && (!nameValue || nameValue.trim() === "") && (!amountValue || amountValue === 0)) {
           this.receiptItems.removeAt(lastItem.arrayIndex);
           this.setUserItemMap();
         }
