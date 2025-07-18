@@ -178,6 +178,12 @@ export class ReceiptFormComponent implements OnInit {
     } else if (event.key === "ArrowLeft" && isBodyActive && this.queueIds.length > 0) {
       this.queuePrevious();
     }
+    
+    // Global Ctrl+I shortcut for adding items
+    if (event.ctrlKey && event.key === 'i' && !this.isAnyInputFocused()) {
+      event.preventDefault();
+      this.initItemListAddMode();
+    }
   }
 
   public form: FormGroup = new FormGroup({});
@@ -613,6 +619,14 @@ export class ReceiptFormComponent implements OnInit {
     this.triggerItemListAddMode = true;
     // Reset the trigger after a short delay to allow for re-triggering
     setTimeout(() => this.triggerItemListAddMode = false, 100);
+  }
+
+  private isAnyInputFocused(): boolean {
+    const activeElement = document.activeElement;
+    return (activeElement?.tagName === 'INPUT') || 
+           (activeElement?.tagName === 'TEXTAREA') || 
+           (activeElement?.tagName === 'SELECT') ||
+           (activeElement?.hasAttribute('contenteditable') || false);
   }
 
   public initShareListAddMode(): void {

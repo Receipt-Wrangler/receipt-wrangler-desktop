@@ -1,8 +1,11 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   QueryList,
@@ -31,12 +34,27 @@ export interface ItemData {
   encapsulation: ViewEncapsulation.None,
   standalone: false
 })
-export class ItemListComponent implements OnInit, OnChanges {
+export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild("itemsExpansionPanel")
   public itemsExpansionPanel!: MatExpansionPanel;
 
   @ViewChildren("nameField")
   public nameFields!: QueryList<InputComponent>;
+
+  @ViewChild("addForm")
+  public addForm!: ElementRef;
+
+  @ViewChild("nameInput")
+  public nameInput!: InputComponent;
+
+  @ViewChild("amountInput")
+  public amountInput!: InputComponent;
+
+  @ViewChild("categoryInput")
+  public categoryInput!: ElementRef;
+
+  @ViewChild("tagInput")
+  public tagInput!: ElementRef;
 
   @Input() public form!: FormGroup;
 
@@ -66,6 +84,12 @@ export class ItemListComponent implements OnInit, OnChanges {
 
   public groupRole = GroupRole;
 
+  public rapidAddMode: boolean = false;
+
+  public showKeyboardHint: boolean = false;
+
+  private keyboardHintTimeout: any;
+
   public get receiptItems(): FormArray {
     return this.form.get("receiptItems") as FormArray;
   }
@@ -82,10 +106,28 @@ export class ItemListComponent implements OnInit, OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes["triggerAddMode"] && changes["triggerAddMode"].currentValue) {
-      this.initAddMode();
+      this.startAddMode();
     }
     if (changes["form"]) {
       this.setItems();
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  public handleKeyboardShortcut(event: KeyboardEvent): void {
+    // Ctrl+I to add item
+    if (event.ctrlKey && event.key === 'i' && !this.isAdding) {
+      event.preventDefault();
+      this.startAddMode();
+    }
+    
+    // Show keyboard hint briefly
+    if (event.ctrlKey && event.key === 'i') {
+      this.showKeyboardHint = true;
+      clearTimeout(this.keyboardHintTimeout);
+      this.keyboardHintTimeout = setTimeout(() => {
+        this.showKeyboardHint = false;
+      }, 2000);
     }
   }
 
@@ -110,21 +152,78 @@ export class ItemListComponent implements OnInit, OnChanges {
     }
   }
 
-  public initAddMode(): void {
+  public startAddMode(): void {
     this.isAdding = true;
+    this.rapidAddMode = false;
     this.newItemFormGroup = buildItemForm(
       undefined,
       this.originalReceipt?.id?.toString(),
       false
     );
+    
+    // Auto-expand accordion if collapsed
+    if (this.itemsExpansionPanel && !this.itemsExpansionPanel.expanded) {
+      this.itemsExpansionPanel.open();
+    }
+    
+    // Auto-focus name field after view update
+    setTimeout(() => {
+      this.focusNameField();
+      this.scrollToAddForm();
+    }, 50);
+  }
+
+  public initAddMode(): void {
+    // Legacy method for backward compatibility
+    this.startAddMode();
   }
 
   public exitAddMode(): void {
     this.isAdding = false;
+    this.rapidAddMode = false;
     this.newItemFormGroup = new FormGroup({});
   }
 
+  public cancelAddMode(): void {
+    this.exitAddMode();
+  }
+
   public submitNewItemFormGroup(): void {
+    if (this.newItemFormGroup.valid) {
+      const newItem = this.newItemFormGroup.value as Item;
+      newItem.chargedToUserId = undefined;
+      this.itemAdded.emit(newItem);
+      this.exitAddMode();
+    }
+  }
+
+  public submitAndContinue(): void {
+    if (this.newItemFormGroup.valid) {
+      const newItem = this.newItemFormGroup.value as Item;
+      newItem.chargedToUserId = undefined;
+      this.itemAdded.emit(newItem);
+      
+      // Reset form but stay in add mode
+      this.rapidAddMode = true;
+      this.newItemFormGroup = buildItemForm(
+        undefined,
+        this.originalReceipt?.id?.toString(),
+        false
+      );
+      
+      // Ensure accordion stays expanded during rapid add mode
+      if (this.itemsExpansionPanel && !this.itemsExpansionPanel.expanded) {
+        this.itemsExpansionPanel.open();
+      }
+      
+      // Re-focus name field
+      setTimeout(() => {
+        this.focusNameField();
+      }, 50);
+    }
+  }
+
+  public submitAndFinish(): void {
     if (this.newItemFormGroup.valid) {
       const newItem = this.newItemFormGroup.value as Item;
       newItem.chargedToUserId = undefined;
@@ -185,5 +284,84 @@ export class ItemListComponent implements OnInit, OnChanges {
       const amount = parseFloat(itemData.item.amount) || 0;
       return total + amount;
     }, 0);
+  }
+
+  // Keyboard event handlers
+  public onNameEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent;
+    keyboardEvent.preventDefault();
+    this.focusAmountField();
+  }
+
+  public onAmountEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent;
+    keyboardEvent.preventDefault();
+    if (this.selectedGroup?.groupReceiptSettings?.hideItemCategories) {
+      if (this.selectedGroup?.groupReceiptSettings?.hideItemTags) {
+        this.submitAndContinue();
+      } else {
+        this.focusTagField();
+      }
+    } else {
+      this.focusCategoryField();
+    }
+  }
+
+  public onCategoryEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent;
+    keyboardEvent.preventDefault();
+    if (this.selectedGroup?.groupReceiptSettings?.hideItemTags) {
+      this.submitAndContinue();
+    } else {
+      this.focusTagField();
+    }
+  }
+
+  public onTagEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent;
+    keyboardEvent.preventDefault();
+    this.submitAndContinue();
+  }
+
+  // Focus management
+  private focusNameField(): void {
+    if (this.nameInput?.nativeInput?.nativeElement) {
+      (this.nameInput.nativeInput.nativeElement as HTMLInputElement).focus();
+    }
+  }
+
+  private focusAmountField(): void {
+    if (this.amountInput?.nativeInput?.nativeElement) {
+      (this.amountInput.nativeInput.nativeElement as HTMLInputElement).focus();
+    }
+  }
+
+  private focusCategoryField(): void {
+    if (this.categoryInput?.nativeElement) {
+      const input = this.categoryInput.nativeElement.querySelector('input');
+      if (input) input.focus();
+    }
+  }
+
+  private focusTagField(): void {
+    if (this.tagInput?.nativeElement) {
+      const input = this.tagInput.nativeElement.querySelector('input');
+      if (input) input.focus();
+    }
+  }
+
+  private scrollToAddForm(): void {
+    if (this.addForm?.nativeElement) {
+      this.addForm.nativeElement.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.keyboardHintTimeout) {
+      clearTimeout(this.keyboardHintTimeout);
+    }
   }
 }
