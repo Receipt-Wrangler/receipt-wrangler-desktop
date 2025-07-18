@@ -180,7 +180,7 @@ export class ItemListComponent implements OnInit, OnChanges {
     if (!this.items || this.items.length === 0) {
       return 0;
     }
-    
+
     return this.items.reduce((total, itemData) => {
       const amount = parseFloat(itemData.item.amount) || 0;
       return total + amount;

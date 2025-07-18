@@ -631,7 +631,7 @@ export class ReceiptFormComponent implements OnInit {
   public onItemRemoved(data: { item: Item; arrayIndex: number }): void {
     this.receiptItemsFormArray.removeAt(data.arrayIndex);
     this.shareListComponent.setUserItemMap();
-    this.itemListComponent.removeItem(data);
+    this.itemListComponent.setItems();
   }
 
   public onAllItemsResolved(userId: string): void {
