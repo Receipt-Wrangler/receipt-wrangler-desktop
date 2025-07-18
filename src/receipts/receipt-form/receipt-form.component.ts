@@ -37,7 +37,9 @@ import { QueueMode, ReceiptQueueService } from "../../services/receipt-queue.ser
 import { StatefulMenuItem } from "../../standalone/components/filtered-stateful-menu/stateful-menu-item";
 import { AuthState, FeatureConfigState, GroupState, UserState } from "../../store";
 import { downloadFile } from "../../utils/file";
+import { ItemListComponent } from "../item-list/item-list.component";
 import { ShareListComponent } from "../share-list/share-list.component";
+
 
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 import { buildItemForm } from "../utils/form.utils";
@@ -54,6 +56,9 @@ import { buildItemForm } from "../utils/form.utils";
 export class ReceiptFormComponent implements OnInit {
   @ViewChild(ShareListComponent)
   public shareListComponent!: ShareListComponent;
+
+  @ViewChild(ItemListComponent)
+  public itemListComponent!: ItemListComponent;
 
   @ViewChild(UploadImageComponent)
   public uploadImageComponent!: UploadImageComponent;
@@ -141,6 +146,8 @@ export class ReceiptFormComponent implements OnInit {
   public queueMode: QueueMode | undefined;
 
   public triggerItemListAddMode: boolean = false;
+
+  public triggerShareListAddMode: boolean = false;
 
   public get customFieldsFormArray(): FormArray {
     return this.form.get("customFields") as FormArray;
@@ -606,6 +613,12 @@ export class ReceiptFormComponent implements OnInit {
     this.triggerItemListAddMode = true;
     // Reset the trigger after a short delay to allow for re-triggering
     setTimeout(() => this.triggerItemListAddMode = false, 100);
+  }
+
+  public initShareListAddMode(): void {
+    this.triggerShareListAddMode = true;
+    // Reset the trigger after a short delay to allow for re-triggering
+    setTimeout(() => this.triggerShareListAddMode = false, 100);
   }
 
   public onItemAdded(item: Item): void {

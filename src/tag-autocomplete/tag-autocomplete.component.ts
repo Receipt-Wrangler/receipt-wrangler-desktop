@@ -6,6 +6,7 @@ import { PipesModule } from "../pipes/index";
 
 @Component({
     selector: "app-tag-autocomplete",
+    standalone: true,
     imports: [
         AutocompleteModule,
         PipesModule

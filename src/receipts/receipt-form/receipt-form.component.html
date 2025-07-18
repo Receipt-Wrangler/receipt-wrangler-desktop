@@ -141,6 +141,21 @@
         }
       </div>
       <app-form-section
+        headerText="Items"
+        [indent]="false"
+        [headerButtonsTemplate]="itemsSectionHeaderButtons"
+      >
+        <app-item-list
+          [form]="form"
+          [categories]="categories"
+          [tags]="tags"
+          [selectedGroup]="selectedGroup"
+          [triggerAddMode]="triggerItemListAddMode"
+          (itemAdded)="onItemAdded($event)"
+          (itemRemoved)="onItemRemoved($event)"
+        ></app-item-list>
+      </app-form-section>
+      <app-form-section
         headerText="Shares"
         [indent]="false"
         [headerButtonsTemplate]="sharesSectionHeaderButtons"
@@ -150,7 +165,7 @@
           [categories]="categories"
           [tags]="tags"
           [selectedGroup]="selectedGroup"
-          [triggerAddMode]="triggerItemListAddMode"
+          [triggerAddMode]="triggerShareListAddMode"
           (itemAdded)="onItemAdded($event)"
           (itemRemoved)="onItemRemoved($event)"
           (allItemsResolved)="onAllItemsResolved($event)"
@@ -277,6 +292,19 @@
   ></app-button>
 </ng-template>
 
+<ng-template #itemsSectionHeaderButtons>
+  <app-button
+    *ngIf="!(mode | inputReadonly)"
+    type="button"
+    matButtonType="iconButton"
+    icon="add"
+    tooltip="Add item"
+    color="accent"
+    (clicked)="initItemListAddMode()"
+    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
+  ></app-button>
+</ng-template>
+
 <ng-template #sharesSectionHeaderButtons>
   <app-button
     *ngIf="!(mode | inputReadonly)"
@@ -285,7 +313,7 @@
     icon="add"
     tooltip="Add share"
     color="accent"
-    (clicked)="initItemListAddMode()"
+    (clicked)="initShareListAddMode()"
     [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
   ></app-button>
   <app-button

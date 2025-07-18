@@ -1,0 +1,141 @@
+<mat-accordion multi>
+  @if (isAdding) {
+    <app-card
+      cardStyle="w-100 mb-2"
+    >
+      <ng-container header>
+        Add Item
+      </ng-container>
+      <div content>
+        <div class="row g-0 mt-2">
+          <app-input
+            label="Name"
+            class="col"
+            [inputFormControl]="newItemFormGroup | formGet : 'name'"
+          >
+          </app-input>
+          <app-input
+            label="Amount"
+            class="col"
+            type="text"
+            [isCurrency]="true"
+            [inputFormControl]="newItemFormGroup | formGet : 'amount'"
+            [readonly]="mode | inputReadonly"
+          >
+          </app-input>
+
+          @if (!selectedGroup?.groupReceiptSettings?.hideItemCategories) {
+            <app-category-autocomplete
+              [categories]="categories"
+              [inputFormControl]="newItemFormGroup | formGet : 'categories'"
+              [readonly]="mode | inputReadonly"
+            ></app-category-autocomplete>
+          }
+
+          @if (!selectedGroup?.groupReceiptSettings?.hideItemTags) {
+            <app-tag-autocomplete
+              [tags]="tags"
+              [inputFormControl]="newItemFormGroup | formGet : 'tags'"
+              [readonly]="mode | inputReadonly"
+            ></app-tag-autocomplete>
+          }
+          <app-dialog-footer
+            submitButtonTooltip="Done"
+            (submitClicked)="submitNewItemFormGroup()"
+            (cancelClicked)="exitAddMode()"
+          ></app-dialog-footer>
+        </div>
+      </div>
+    </app-card>
+  }
+
+  @if (items.length === 0 && mode === formMode.view) {
+    <div>No items for this receipt</div>
+  }
+  
+  <mat-expansion-panel
+    #itemExpansionPanel
+    *ngFor="let itemData of items; let i = index"
+    (closed)="checkLastInlineItem()"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ itemData.item.name || 'Unnamed Item' }}
+      </mat-panel-title>
+      <mat-panel-description>
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <span>
+            Amount: {{ itemData.item.amount | customCurrency }}
+          </span>
+          @if (originalReceipt?.groupId | groupRole : groupRole.Editor) {
+            <div>
+              <app-add-button
+                tooltip="Add Item"
+                [disabled]="mode === formMode.view"
+                (clicked)="addInlineItem($event)"
+              ></app-add-button>
+            </div>
+          }
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    
+    <app-card
+      cardStyle="mb-2"
+    >
+      <div content class="d-flex flex-column item-form-container">
+        <div class="d-flex justify-content-end">
+          @if (!(mode | inputReadonly)) {
+            <app-delete-button
+              tooltip="Remove Item"
+              [disabled]="
+                !(originalReceipt?.groupId | groupRole : groupRole.Editor)
+              "
+              (clicked)="removeItem(itemData)"
+            ></app-delete-button>
+          }
+        </div>
+        <div class="row g-0">
+          <app-input
+            class="col"
+            #nameField
+            label="Name"
+            [inputId]="'name-' + i"
+            [inputFormControl]="
+              form | formGet : 'receiptItems.' + itemData.arrayIndex + '.name'
+            "
+            [readonly]="mode | inputReadonly"
+            (inputBlur)="addInlineItemOnBlur(i)"
+          >
+          </app-input>
+          <app-input
+            class="col"
+            label="Amount"
+            [isCurrency]="true"
+            [inputFormControl]="
+              form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
+            "
+            [readonly]="mode | inputReadonly"
+            (inputBlur)="addInlineItemOnBlur(i)"
+          >
+          </app-input>
+          @if (!selectedGroup?.groupReceiptSettings?.hideItemCategories) {
+            <app-category-autocomplete
+              [categories]="categories"
+              [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.categories'"
+              [readonly]="mode | inputReadonly"
+            ></app-category-autocomplete>
+          }
+
+          @if (!selectedGroup?.groupReceiptSettings?.hideItemTags) {
+            <app-tag-autocomplete
+              [tags]="tags"
+              [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.tags'"
+              [readonly]="mode | inputReadonly"
+            ></app-tag-autocomplete>
+          }
+        </div>
+      </div>
+    </app-card>
+  </mat-expansion-panel>
+</mat-accordion>
