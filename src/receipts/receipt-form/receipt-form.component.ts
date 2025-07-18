@@ -625,11 +625,13 @@ export class ReceiptFormComponent implements OnInit {
     const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString());
     this.receiptItemsFormArray.push(newFormGroup);
     this.shareListComponent.setUserItemMap();
+    this.itemListComponent.setItems();
   }
 
   public onItemRemoved(data: { item: Item; arrayIndex: number }): void {
     this.receiptItemsFormArray.removeAt(data.arrayIndex);
     this.shareListComponent.setUserItemMap();
+    this.itemListComponent.removeItem(data);
   }
 
   public onAllItemsResolved(userId: string): void {
