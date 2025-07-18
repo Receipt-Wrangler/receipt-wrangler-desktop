@@ -35,14 +35,29 @@
               [inputFormControl]="form | formGet : 'name'"
               [readonly]="mode | inputReadonly"
             ></app-input>
-            <app-input
-              class="w-100"
-              label="Amount"
-              type="text"
-              [isCurrency]="true"
-              [inputFormControl]="form | formGet : 'amount'"
-              [readonly]="mode | inputReadonly"
-            ></app-input>
+            <div class="w-100">
+              <app-input
+                class="w-100"
+                label="Amount"
+                type="text"
+                [isCurrency]="true"
+                [inputFormControl]="form | formGet : 'amount'"
+                [readonly]="(mode | inputReadonly) || syncAmountWithItems"
+              ></app-input>
+              <div class="form-check mt-1">
+                <input 
+                  class="form-check-input" 
+                  type="checkbox" 
+                  id="syncAmountCheckbox"
+                  [checked]="syncAmountWithItems"
+                  (change)="toggleAmountSync($event)"
+                  [disabled]="mode | inputReadonly"
+                >
+                <label class="form-check-label" for="syncAmountCheckbox">
+                  Sync with items total
+                </label>
+              </div>
+            </div>
             @if (!this.selectedGroup?.groupReceiptSettings?.hideReceiptCategories) {
               <app-category-autocomplete
                 class="w-100"

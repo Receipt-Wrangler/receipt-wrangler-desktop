@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
 import { addHours } from "date-fns";
-import { finalize, forkJoin, iif, map, Observable, of, startWith, switchMap, take, tap } from "rxjs";
+import { debounceTime, finalize, forkJoin, iif, map, Observable, of, startWith, switchMap, take, tap } from "rxjs";
 import { CarouselComponent } from "src/carousel/carousel/carousel.component";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
 import { RECEIPT_STATUS_OPTIONS } from "src/constants/receipt-status-options";
@@ -149,6 +149,8 @@ export class ReceiptFormComponent implements OnInit {
 
   public triggerShareListAddMode: boolean = false;
 
+  public syncAmountWithItems: boolean = false;
+
   public get customFieldsFormArray(): FormArray {
     return this.form.get("customFields") as FormArray;
   }
@@ -225,6 +227,43 @@ export class ReceiptFormComponent implements OnInit {
     }
 
     this.queueMode = this.activatedRoute.snapshot.queryParams["queueMode"];
+  }
+
+  public toggleAmountSync(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    this.syncAmountWithItems = checkbox.checked;
+    
+    if (this.syncAmountWithItems) {
+      this.updateAmountFromItems();
+    }
+  }
+
+  private updateAmountFromItems(): void {
+    const total = this.calculateItemsTotal();
+    this.form.get('amount')?.setValue(total.toFixed(2), { emitEvent: false });
+  }
+
+  private calculateItemsTotal(): number {
+    const items = this.form.get('receiptItems')?.value || [];
+    return items.reduce((sum: number, item: any) => {
+      // Only include items where chargedToUserId is undefined (general items, not shares)
+      if (!item?.chargedToUserId) {
+        return sum + (parseFloat(item.amount) || 0);
+      }
+      return sum;
+    }, 0);
+  }
+
+  private setupAmountSyncListener(): void {
+    // Listen to receiptItems changes
+    this.form.get('receiptItems')?.valueChanges.pipe(
+      untilDestroyed(this),
+      debounceTime(100)
+    ).subscribe(() => {
+      if (this.syncAmountWithItems) {
+        this.updateAmountFromItems();
+      }
+    });
   }
 
   private setShowLargeImagePreview(): void {
@@ -308,6 +347,14 @@ export class ReceiptFormComponent implements OnInit {
       this.form.get("status")?.disable();
     }
 
+    // Check if existing receipt has amount that matches items total
+    if (this.originalReceipt) {
+      const itemsTotal = this.calculateItemsTotal();
+      const receiptAmount = parseFloat(this.originalReceipt.amount) || 0;
+      this.syncAmountWithItems = Math.abs(itemsTotal - receiptAmount) < 0.01;
+    }
+
+    this.setupAmountSyncListener();
     this.listenForGroupChanges();
   }
 
@@ -640,12 +687,22 @@ export class ReceiptFormComponent implements OnInit {
     this.receiptItemsFormArray.push(newFormGroup);
     this.shareListComponent.setUserItemMap();
     this.itemListComponent.setItems();
+    
+    // Auto-sync amount if enabled
+    if (this.syncAmountWithItems) {
+      this.updateAmountFromItems();
+    }
   }
 
   public onItemRemoved(data: { item: Item; arrayIndex: number }): void {
     this.receiptItemsFormArray.removeAt(data.arrayIndex);
     this.shareListComponent.setUserItemMap();
     this.itemListComponent.setItems();
+    
+    // Auto-sync amount if enabled
+    if (this.syncAmountWithItems) {
+      this.updateAmountFromItems();
+    }
   }
 
   public onAllItemsResolved(userId: string): void {
