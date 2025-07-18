@@ -7,6 +7,7 @@ import {
   Output,
   QueryList,
   SimpleChanges,
+  ViewChild,
   ViewChildren,
   ViewEncapsulation,
 } from "@angular/core";
@@ -31,8 +32,8 @@ export interface ItemData {
   standalone: false
 })
 export class ItemListComponent implements OnInit, OnChanges {
-  @ViewChildren("itemExpansionPanel")
-  public itemExpansionPanels!: QueryList<MatExpansionPanel>;
+  @ViewChild("itemsExpansionPanel")
+  public itemsExpansionPanel!: MatExpansionPanel;
 
   @ViewChildren("nameField")
   public nameFields!: QueryList<InputComponent>;
@@ -173,5 +174,16 @@ export class ItemListComponent implements OnInit, OnChanges {
         }
       }
     }
+  }
+
+  public getTotalAmount(): number {
+    if (!this.items || this.items.length === 0) {
+      return 0;
+    }
+    
+    return this.items.reduce((total, itemData) => {
+      const amount = parseFloat(itemData.item.amount) || 0;
+      return total + amount;
+    }, 0);
   }
 }

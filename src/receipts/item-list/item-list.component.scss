@@ -8,4 +8,23 @@ app-item-list {
   .item-form-container:nth-child(odd) {
     background-color: #f6f6f6;
   }
+
+  .item-row {
+    &:not(:last-child) {
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 8px;
+    }
+    
+    &:not(:first-child) {
+      padding-top: 8px;
+    }
+  }
+
+  .mat-expansion-panel-body {
+    padding: 16px;
+  }
+
+  .item-row .item-form-container {
+    margin-bottom: 0 !important;
+  }
 }
