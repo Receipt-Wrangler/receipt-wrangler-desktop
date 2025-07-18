@@ -71,14 +71,27 @@
               (clicked)="cancelAddMode()"
             ></app-button>
           </div>
-          
-          <!-- Keyboard Shortcuts Hint -->
-          <div class="keyboard-shortcuts-hint">
-            <small>
-              <kbd>Ctrl+Enter</kbd> Add Item • 
-              <kbd>Ctrl+Shift+Enter</kbd> Add & Done • 
-              <kbd>Escape</kbd> Cancel
-            </small>
+
+          <!-- Keyboard Shortcuts Legend -->
+          <div class="keyboard-shortcuts-legend">
+            <div class="legend-title">
+              <span class="legend-icon">⌨️</span>
+              <span>Keyboard Shortcuts</span>
+            </div>
+            <div class="shortcuts-grid">
+              <div class="shortcut-item">
+                <kbd>Ctrl+Enter</kbd>
+                <span class="shortcut-action">Add Item</span>
+              </div>
+              <div class="shortcut-item">
+                <kbd>Ctrl+Shift+Enter</kbd>
+                <span class="shortcut-action">Add & Done</span>
+              </div>
+              <div class="shortcut-item">
+                <kbd>Escape</kbd>
+                <span class="shortcut-action">Cancel</span>
+              </div>
+            </div>
           </div>
         </div>
       </app-card>
@@ -89,7 +102,7 @@
   @if (items.length === 0 && mode === formMode.view && !isAdding) {
     <div class="no-items-message">No items for this receipt</div>
   }
-  
+
   <!-- Items List -->
   @if (items.length > 0 || isAdding) {
     <mat-accordion multi>
@@ -113,7 +126,7 @@
             </div>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        
+
         <div *ngFor="let itemData of items; let i = index" class="item-row">
           <app-card cardStyle="mb-2">
             <div content class="d-flex flex-column item-form-container">
