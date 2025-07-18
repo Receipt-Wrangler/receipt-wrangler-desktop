@@ -113,39 +113,39 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  @HostListener('document:keydown', ['$event'])
+  @HostListener("document:keydown", ["$event"])
   public handleKeyboardShortcut(event: KeyboardEvent): void {
     // Form submission shortcuts - only when adding items
     if (this.isAdding) {
       // Ctrl+Enter: Add Item (submit and continue)
-      if (event.ctrlKey && event.key === 'Enter' && !event.shiftKey) {
+      if (event.ctrlKey && event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
         if (this.newItemFormGroup.valid) {
           this.submitAndContinue();
         }
         return;
       }
-      
+
       // Ctrl+Shift+Enter: Add & Done (submit and finish)
-      if (event.ctrlKey && event.shiftKey && event.key === 'Enter') {
+      if (event.ctrlKey && event.shiftKey && event.key === "Enter") {
         event.preventDefault();
         if (this.newItemFormGroup.valid) {
           this.submitAndFinish();
         }
         return;
       }
-      
+
       // Ctrl+S: Add Item (alternative shortcut)
-      if (event.ctrlKey && event.key === 's') {
+      if (event.ctrlKey && event.key === "s") {
         event.preventDefault();
         if (this.newItemFormGroup.valid) {
           this.submitAndContinue();
         }
         return;
       }
-      
+
       // Ctrl+D: Add & Done (alternative shortcut)
-      if (event.ctrlKey && event.key === 'd') {
+      if (event.ctrlKey && event.key === "d") {
         event.preventDefault();
         if (this.newItemFormGroup.valid) {
           this.submitAndFinish();
@@ -153,15 +153,15 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
         return;
       }
     }
-    
+
     // Ctrl+I to add item (global shortcut)
-    if (event.ctrlKey && event.key === 'i' && !this.isAdding) {
+    if (event.ctrlKey && event.key === "i" && !this.isAdding) {
       event.preventDefault();
       this.startAddMode();
     }
-    
+
     // Show keyboard hint briefly
-    if (event.ctrlKey && (event.key === 'i' || (this.isAdding && (event.key === 'Enter' || event.key === 's' || event.key === 'd')))) {
+    if (event.ctrlKey && (event.key === "i" || (this.isAdding && (event.key === "Enter" || event.key === "s" || event.key === "d")))) {
       this.showKeyboardHint = true;
       clearTimeout(this.keyboardHintTimeout);
       this.keyboardHintTimeout = setTimeout(() => {
@@ -199,12 +199,12 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
       this.originalReceipt?.id?.toString(),
       false
     );
-    
+
     // Auto-expand accordion if collapsed
     if (this.itemsExpansionPanel && !this.itemsExpansionPanel.expanded) {
       this.itemsExpansionPanel.open();
     }
-    
+
     // Auto-focus name field after view update
     setTimeout(() => {
       this.focusNameField();
@@ -241,7 +241,7 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
       const newItem = this.newItemFormGroup.value as Item;
       newItem.chargedToUserId = undefined;
       this.itemAdded.emit(newItem);
-      
+
       // Reset form but stay in add mode
       this.rapidAddMode = true;
       this.newItemFormGroup = buildItemForm(
@@ -249,12 +249,12 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
         this.originalReceipt?.id?.toString(),
         false
       );
-      
+
       // Ensure accordion stays expanded during rapid add mode
       if (this.itemsExpansionPanel && !this.itemsExpansionPanel.expanded) {
         this.itemsExpansionPanel.open();
       }
-      
+
       // Re-focus name field
       setTimeout(() => {
         this.focusNameField();
@@ -377,23 +377,27 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
 
   private focusCategoryField(): void {
     if (this.categoryInput?.nativeElement) {
-      const input = this.categoryInput.nativeElement.querySelector('input');
-      if (input) input.focus();
+      const input = this.categoryInput.nativeElement.querySelector("input");
+      if (input) {
+        input.focus();
+      }
     }
   }
 
   private focusTagField(): void {
     if (this.tagInput?.nativeElement) {
-      const input = this.tagInput.nativeElement.querySelector('input');
-      if (input) input.focus();
+      const input = this.tagInput.nativeElement.querySelector("input");
+      if (input) {
+        input.focus();
+      }
     }
   }
 
   private scrollToAddForm(): void {
     if (this.addForm?.nativeElement) {
-      this.addForm.nativeElement.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
+      this.addForm.nativeElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
       });
     }
   }
