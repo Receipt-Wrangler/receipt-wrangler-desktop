@@ -5,19 +5,21 @@ import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { NgxsModule } from "@ngxs/store";
+import { NgxsModule, Store } from "@ngxs/store";
 import { FormMode } from "src/enums/form-mode.enum";
 import { PipesModule } from "src/pipes/pipes.module";
 import { Category, Group, GroupRole, Item, ItemStatus, Tag, User } from "../../open-api";
 import { UserState } from "../../store/index";
 import { SystemSettingsState } from "../../store/system-settings.state";
 import { UserTotalWithPercentagePipe } from "../user-total-with-percentage.pipe";
+import { buildItemForm } from "../utils/form.utils";
 
 import { ShareListComponent } from "./share-list.component";
 
 fdescribe("ShareListComponent", () => {
   let component: ShareListComponent;
   let fixture: ComponentFixture<ShareListComponent>;
+  let store: Store;
 
   const mockUsers: User[] = [
     { id: 1, username: "user1", displayName: "User One" } as User,
@@ -66,17 +68,7 @@ fdescribe("ShareListComponent", () => {
 
   function createFormWithItems(items: Item[]): FormGroup {
     const receiptItems = new FormArray(
-      items.map(item => new FormGroup({
-        id: new FormControl(item.id),
-        name: new FormControl(item.name),
-        amount: new FormControl(item.amount),
-        chargedToUserId: new FormControl(item.chargedToUserId),
-        status: new FormControl(item.status),
-        receiptId: new FormControl(item.receiptId),
-        isTaxed: new FormControl(item.IsTaxed ?? false),
-        categories: new FormArray([]),
-        tags: new FormArray([]),
-      }))
+      items.map(item => buildItemForm(item, mockReceipt.id?.toString()))
     );
 
     return new FormGroup({
@@ -103,6 +95,16 @@ fdescribe("ShareListComponent", () => {
 
     fixture = TestBed.createComponent(ShareListComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+
+    // Reset store with proper user data structure
+    store.reset({
+      users: {
+        users: mockUsers
+      },
+      systemSettings: {}
+    });
+
     component.form = createFormWithItems(mockItems);
     component.categories = mockCategories;
     component.tags = mockTags;
@@ -543,12 +545,16 @@ fdescribe("ShareListComponent", () => {
           data: {}
         }
       };
-      TestBed.overrideProvider(ActivatedRoute, { useValue: undefinedRouteData });
+      // Create a new component with different route data
+      const newFixture = TestBed.overrideProvider(ActivatedRoute, { useValue: undefinedRouteData })
+        .createComponent(ShareListComponent);
+      const newComponent = newFixture.componentInstance;
+      newComponent.form = createFormWithItems(mockItems);
 
-      component.ngOnInit();
+      newComponent.ngOnInit();
 
-      expect(component.originalReceipt).toBeUndefined();
-      expect(component.mode).toBeUndefined();
+      expect(newComponent.originalReceipt).toBeUndefined();
+      expect(newComponent.mode).toBeUndefined();
     });
 
     it("should handle form with null receiptItems", () => {
