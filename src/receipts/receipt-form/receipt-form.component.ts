@@ -37,7 +37,8 @@ import { QueueMode, ReceiptQueueService } from "../../services/receipt-queue.ser
 import { StatefulMenuItem } from "../../standalone/components/filtered-stateful-menu/stateful-menu-item";
 import { AuthState, FeatureConfigState, GroupState, UserState } from "../../store";
 import { downloadFile } from "../../utils/file";
-import { ItemListComponent } from "../item-list/item-list.component";
+import { ShareListComponent } from "../share-list/share-list.component";
+
 import { UploadImageComponent } from "../upload-image/upload-image.component";
 import { buildItemForm } from "../utils/form.utils";
 
@@ -51,7 +52,8 @@ import { buildItemForm } from "../utils/form.utils";
   standalone: false
 })
 export class ReceiptFormComponent implements OnInit {
-  @ViewChild(ItemListComponent) public itemsListComponent!: ItemListComponent;
+  @ViewChild(ShareListComponent)
+  public shareListComponent!: ShareListComponent;
 
   @ViewChild(UploadImageComponent)
   public uploadImageComponent!: UploadImageComponent;
@@ -67,9 +69,6 @@ export class ReceiptFormComponent implements OnInit {
 
   @ViewChild("expandedImageTemplate")
   public expandedImageTemplate!: TemplateRef<any>;
-
-  @ViewChild(ItemListComponent)
-  public itemListComponent!: ItemListComponent;
 
   @ViewChild(CarouselComponent)
   public carouselComponent!: CarouselComponent;
@@ -371,7 +370,7 @@ export class ReceiptFormComponent implements OnInit {
       .pipe(take(1))
       .subscribe((result: boolean) => {
         if (result) {
-          this.itemsListComponent.setUserItemMap();
+          this.shareListComponent.setUserItemMap();
         }
       });
   }
@@ -612,12 +611,12 @@ export class ReceiptFormComponent implements OnInit {
   public onItemAdded(item: Item): void {
     const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString());
     this.receiptItemsFormArray.push(newFormGroup);
-    this.itemListComponent.setUserItemMap();
+    this.shareListComponent.setUserItemMap();
   }
 
   public onItemRemoved(data: { item: Item; arrayIndex: number }): void {
     this.receiptItemsFormArray.removeAt(data.arrayIndex);
-    this.itemListComponent.setUserItemMap();
+    this.shareListComponent.setUserItemMap();
   }
 
   public onAllItemsResolved(userId: string): void {
@@ -675,8 +674,8 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public submit(): void {
-    if (this.itemsListComponent.userExpansionPanels.length > 0) {
-      this.itemsListComponent.userExpansionPanels.forEach(
+    if (this.shareListComponent.userExpansionPanels.length > 0) {
+      this.shareListComponent.userExpansionPanels.forEach(
         (p: MatExpansionPanel) => p.close()
       );
     }

@@ -74,6 +74,7 @@ describe("ReceiptFormComponent", () => {
       groupId: 0,
       status: ReceiptStatus.Open,
       customFields: [],
+      receiptItems: [],
     });
   });
 

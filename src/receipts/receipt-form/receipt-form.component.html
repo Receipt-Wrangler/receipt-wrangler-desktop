@@ -145,7 +145,7 @@
         [indent]="false"
         [headerButtonsTemplate]="sharesSectionHeaderButtons"
       >
-        <app-item-list
+        <app-share-list
           [form]="form"
           [categories]="categories"
           [tags]="tags"
@@ -154,7 +154,7 @@
           (itemAdded)="onItemAdded($event)"
           (itemRemoved)="onItemRemoved($event)"
           (allItemsResolved)="onAllItemsResolved($event)"
-        ></app-item-list>
+        ></app-share-list>
       </app-form-section>
       @if (!this.selectedGroup?.groupReceiptSettings?.hideComments) {
         <div class="mt-3">

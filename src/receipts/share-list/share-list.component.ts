@@ -1,5 +1,16 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, QueryList, SimpleChanges, ViewChildren, ViewEncapsulation, } from "@angular/core";
-import { AbstractControl, FormArray, FormBuilder, FormGroup, } from "@angular/forms";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChildren,
+  ViewEncapsulation,
+} from "@angular/core";
+import { AbstractControl, FormArray, FormGroup, } from "@angular/forms";
 import { MatExpansionPanel } from "@angular/material/expansion";
 import { ActivatedRoute } from "@angular/router";
 import { Select } from "@ngxs/store";
@@ -17,13 +28,13 @@ export interface ItemData {
 }
 
 @Component({
-  selector: "app-item-list",
-  templateUrl: "./item-list.component.html",
-  styleUrls: ["./item-list.component.scss"],
+  selector: "app-share-list",
+  templateUrl: "./share-list.component.html",
+  styleUrls: ["./share-list.component.scss"],
   encapsulation: ViewEncapsulation.None,
   standalone: false
 })
-export class ItemListComponent implements OnInit, OnChanges {
+export class ShareListComponent implements OnInit, OnChanges {
   @ViewChildren("userExpansionPanel")
   public userExpansionPanels!: QueryList<MatExpansionPanel>;
 
@@ -69,9 +80,7 @@ export class ItemListComponent implements OnInit, OnChanges {
   }
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private activatedRoute: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
