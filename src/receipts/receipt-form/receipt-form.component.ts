@@ -149,7 +149,9 @@ export class ReceiptFormComponent implements OnInit {
 
   public triggerShareListAddMode: boolean = false;
 
-  public syncAmountWithItems: boolean = false;
+  public get syncAmountWithItems(): boolean {
+    return this.form.get("syncAmountWithItems")?.value ?? false;
+  };
 
   public get customFieldsFormArray(): FormArray {
     return this.form.get("customFields") as FormArray;
@@ -180,9 +182,9 @@ export class ReceiptFormComponent implements OnInit {
     } else if (event.key === "ArrowLeft" && isBodyActive && this.queueIds.length > 0) {
       this.queuePrevious();
     }
-    
+
     // Global Ctrl+I shortcut for adding items
-    if (event.ctrlKey && event.key === 'i' && !this.isAnyInputFocused()) {
+    if (event.ctrlKey && event.key === "i" && !this.isAnyInputFocused()) {
       event.preventDefault();
       this.initItemListAddMode();
     }
@@ -229,22 +231,19 @@ export class ReceiptFormComponent implements OnInit {
     this.queueMode = this.activatedRoute.snapshot.queryParams["queueMode"];
   }
 
-  public toggleAmountSync(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-    this.syncAmountWithItems = checkbox.checked;
-    
-    if (this.syncAmountWithItems) {
+  public toggleAmountSync(sync: boolean): void {
+    if (sync) {
       this.updateAmountFromItems();
     }
   }
 
   private updateAmountFromItems(): void {
     const total = this.calculateItemsTotal();
-    this.form.get('amount')?.setValue(total.toFixed(2), { emitEvent: false });
+    this.form.get("amount")?.setValue(total.toFixed(2), { emitEvent: false });
   }
 
   private calculateItemsTotal(): number {
-    const items = this.form.get('receiptItems')?.value || [];
+    const items = this.form.get("receiptItems")?.value || [];
     return items.reduce((sum: number, item: any) => {
       // Only include items where chargedToUserId is undefined (general items, not shares)
       if (!item?.chargedToUserId) {
@@ -256,7 +255,7 @@ export class ReceiptFormComponent implements OnInit {
 
   private setupAmountSyncListener(): void {
     // Listen to receiptItems changes
-    this.form.get('receiptItems')?.valueChanges.pipe(
+    this.form.get("receiptItems")?.valueChanges.pipe(
       untilDestroyed(this),
       debounceTime(100)
     ).subscribe(() => {
@@ -319,6 +318,7 @@ export class ReceiptFormComponent implements OnInit {
         this.originalReceipt?.amount ?? "",
         [Validators.required, Validators.min(1)],
       ],
+      syncAmountWithItems: false,
       categories: this.formBuilder.array(
         this.originalReceipt?.categories ?? []
       ),
@@ -347,15 +347,14 @@ export class ReceiptFormComponent implements OnInit {
       this.form.get("status")?.disable();
     }
 
-    // Check if existing receipt has amount that matches items total
-    if (this.originalReceipt) {
-      const itemsTotal = this.calculateItemsTotal();
-      const receiptAmount = parseFloat(this.originalReceipt.amount) || 0;
-      this.syncAmountWithItems = Math.abs(itemsTotal - receiptAmount) < 0.01;
-    }
-
     this.setupAmountSyncListener();
     this.listenForGroupChanges();
+    this.listenForSyncWithItemsChanges();
+  }
+
+  private listenForSyncWithItemsChanges(): void {
+    this.form
+      .get("syncAmountWithItems")?.valueChanges.pipe(untilDestroyed(this), tap((sync) => this.toggleAmountSync(sync))).subscribe();
   }
 
   private buildCustomOptionFormGroup(value: CustomFieldValue): FormGroup {
@@ -670,10 +669,10 @@ export class ReceiptFormComponent implements OnInit {
 
   private isAnyInputFocused(): boolean {
     const activeElement = document.activeElement;
-    return (activeElement?.tagName === 'INPUT') || 
-           (activeElement?.tagName === 'TEXTAREA') || 
-           (activeElement?.tagName === 'SELECT') ||
-           (activeElement?.hasAttribute('contenteditable') || false);
+    return (activeElement?.tagName === "INPUT") ||
+      (activeElement?.tagName === "TEXTAREA") ||
+      (activeElement?.tagName === "SELECT") ||
+      (activeElement?.hasAttribute("contenteditable") || false);
   }
 
   public initShareListAddMode(): void {
@@ -687,7 +686,7 @@ export class ReceiptFormComponent implements OnInit {
     this.receiptItemsFormArray.push(newFormGroup);
     this.shareListComponent.setUserItemMap();
     this.itemListComponent.setItems();
-    
+
     // Auto-sync amount if enabled
     if (this.syncAmountWithItems) {
       this.updateAmountFromItems();
@@ -698,7 +697,7 @@ export class ReceiptFormComponent implements OnInit {
     this.receiptItemsFormArray.removeAt(data.arrayIndex);
     this.shareListComponent.setUserItemMap();
     this.itemListComponent.setItems();
-    
+
     // Auto-sync amount if enabled
     if (this.syncAmountWithItems) {
       this.updateAmountFromItems();
