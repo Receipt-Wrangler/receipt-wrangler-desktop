@@ -35,7 +35,7 @@
               [inputFormControl]="form | formGet : 'name'"
               [readonly]="mode | inputReadonly"
             ></app-input>
-            <div class="w-100">
+            <div class="d-flex align-items-center w-100">
               <app-input
                 class="w-100"
                 label="Amount"
@@ -44,10 +44,12 @@
                 [inputFormControl]="form | formGet : 'amount'"
                 [readonly]="(mode | inputReadonly) || syncAmountWithItems"
               ></app-input>
-              <app-checkbox
-                label="Sync with items total"
-                [inputFormControl]="form | formGet : 'syncAmountWithItems'"
-              ></app-checkbox>
+              @if (!(mode | inputReadonly)) {
+                <app-checkbox
+                  label="Sync with items"
+                  [inputFormControl]="form | formGet : 'syncAmountWithItems'"
+                ></app-checkbox>
+              }
             </div>
             @if (!this.selectedGroup?.groupReceiptSettings?.hideReceiptCategories) {
               <app-category-autocomplete
