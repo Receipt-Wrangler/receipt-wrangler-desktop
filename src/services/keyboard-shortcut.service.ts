@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ITEM_MANAGEMENT_SHORTCUTS } from '../constants/keyboard-shortcuts.constant';
 
 export interface KeyboardShortcut {
   key: string;
@@ -33,33 +34,9 @@ export class KeyboardShortcutService {
   }
 
   private initializeDefaultShortcuts(): void {
-    // Item list shortcuts
-    this.registerShortcut({
-      key: 'i',
-      ctrlKey: true,
-      action: 'ADD_ITEM',
-      description: 'Add new item'
-    });
-
-    this.registerShortcut({
-      key: 'Enter',
-      ctrlKey: true,
-      action: 'SUBMIT_AND_CONTINUE',
-      description: 'Add item and continue'
-    });
-
-    this.registerShortcut({
-      key: 'Enter',
-      ctrlKey: true,
-      shiftKey: true,
-      action: 'SUBMIT_AND_FINISH',
-      description: 'Add item and finish'
-    });
-
-    this.registerShortcut({
-      key: 'Escape',
-      action: 'CANCEL',
-      description: 'Cancel current action'
+    // Register item management shortcuts from constants
+    ITEM_MANAGEMENT_SHORTCUTS.forEach(shortcut => {
+      this.registerShortcut(shortcut);
     });
   }
 

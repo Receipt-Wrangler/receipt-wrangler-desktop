@@ -17,6 +17,7 @@ import { InputComponent } from "../../input";
 import { Category, Group, Item, Tag } from "../../open-api";
 import { KeyboardShortcutService } from "../../services/keyboard-shortcut.service";
 import { buildItemForm } from "../utils/form.utils";
+import { KEYBOARD_SHORTCUT_ACTIONS, DISPLAY_SHORTCUTS } from "../../constants/keyboard-shortcuts.constant";
 
 @Component({
   selector: "app-item-add-form",
@@ -55,6 +56,7 @@ export class ItemAddFormComponent implements OnInit, OnDestroy {
   public formMode = FormMode;
   public newItemFormGroup!: FormGroup;
   public rapidAddMode: boolean = false;
+  public displayShortcuts = DISPLAY_SHORTCUTS;
 
   private destroy$ = new Subject<void>();
 
@@ -105,17 +107,17 @@ export class ItemAddFormComponent implements OnInit, OnDestroy {
 
   private handleShortcutAction(action: string): void {
     switch (action) {
-      case 'SUBMIT_AND_CONTINUE':
+      case KEYBOARD_SHORTCUT_ACTIONS.SUBMIT_AND_CONTINUE:
         if (this.newItemFormGroup.valid) {
           this.onSubmitAndContinue();
         }
         break;
-      case 'SUBMIT_AND_FINISH':
+      case KEYBOARD_SHORTCUT_ACTIONS.SUBMIT_AND_FINISH:
         if (this.newItemFormGroup.valid) {
           this.onSubmitAndFinish();
         }
         break;
-      case 'CANCEL':
+      case KEYBOARD_SHORTCUT_ACTIONS.CANCEL:
         this.onCancel();
         break;
     }

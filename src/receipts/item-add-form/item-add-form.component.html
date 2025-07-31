@@ -75,22 +75,12 @@
           <span>Keyboard Shortcuts</span>
         </div>
         <div class="shortcuts-grid">
-          <div class="shortcut-item">
-            <kbd>Ctrl+Enter</kbd>
-            <span class="shortcut-action">Add Item</span>
-          </div>
-          <div class="shortcut-item">
-            <kbd>Ctrl+Shift+Enter</kbd>
-            <span class="shortcut-action">Add & Done</span>
-          </div>
-          <div class="shortcut-item">
-            <kbd>Escape</kbd>
-            <span class="shortcut-action">Cancel</span>
-          </div>
-          <div class="shortcut-item">
-            <kbd>Tab</kbd>
-            <span class="shortcut-action">Next Field</span>
-          </div>
+          @for (shortcut of displayShortcuts; track shortcut.keys) {
+            <div class="shortcut-item">
+              <kbd>{{ shortcut.keys }}</kbd>
+              <span class="shortcut-action" [title]="shortcut.description">{{ shortcut.action }}</span>
+            </div>
+          }
         </div>
       </div>
     </div>

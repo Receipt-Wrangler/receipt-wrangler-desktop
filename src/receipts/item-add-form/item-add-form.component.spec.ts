@@ -5,6 +5,7 @@ import { ItemAddFormComponent } from './item-add-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Category, Group, Tag } from '../../open-api';
+import { KEYBOARD_SHORTCUT_ACTIONS } from '../../constants/keyboard-shortcuts.constant';
 
 describe('ItemAddFormComponent', () => {
   let component: ItemAddFormComponent;
@@ -54,7 +55,7 @@ describe('ItemAddFormComponent', () => {
     component.ngOnInit();
     
     // Emit a shortcut event
-    shortcutTriggered$.next({ action: 'SUBMIT_AND_CONTINUE', event: new KeyboardEvent('keydown') });
+    shortcutTriggered$.next({ action: KEYBOARD_SHORTCUT_ACTIONS.SUBMIT_AND_CONTINUE, event: new KeyboardEvent('keydown') });
     
     // Should have subscribed to the service
     expect(component.showKeyboardHint).toBeFalse();
@@ -81,19 +82,19 @@ describe('ItemAddFormComponent', () => {
     });
 
     it('should handle SUBMIT_AND_CONTINUE action', () => {
-      shortcutTriggered$.next({ action: 'SUBMIT_AND_CONTINUE', event: new KeyboardEvent('keydown') });
+      shortcutTriggered$.next({ action: KEYBOARD_SHORTCUT_ACTIONS.SUBMIT_AND_CONTINUE, event: new KeyboardEvent('keydown') });
       
       expect(component.onSubmitAndContinue).toHaveBeenCalled();
     });
 
     it('should handle SUBMIT_AND_FINISH action', () => {
-      shortcutTriggered$.next({ action: 'SUBMIT_AND_FINISH', event: new KeyboardEvent('keydown') });
+      shortcutTriggered$.next({ action: KEYBOARD_SHORTCUT_ACTIONS.SUBMIT_AND_FINISH, event: new KeyboardEvent('keydown') });
       
       expect(component.onSubmitAndFinish).toHaveBeenCalled();
     });
 
     it('should handle CANCEL action', () => {
-      shortcutTriggered$.next({ action: 'CANCEL', event: new KeyboardEvent('keydown') });
+      shortcutTriggered$.next({ action: KEYBOARD_SHORTCUT_ACTIONS.CANCEL, event: new KeyboardEvent('keydown') });
       
       expect(component.onCancel).toHaveBeenCalled();
     });

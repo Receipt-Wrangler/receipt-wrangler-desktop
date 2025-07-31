@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { KeyboardShortcutService, KeyboardShortcutEvent } from './keyboard-shortcut.service';
+import { KEYBOARD_SHORTCUT_ACTIONS } from '../constants/keyboard-shortcuts.constant';
 
 describe('KeyboardShortcutService', () => {
   let service: KeyboardShortcutService;
@@ -59,7 +60,7 @@ describe('KeyboardShortcutService', () => {
       });
 
       service.shortcutTriggered.subscribe((shortcutEvent: KeyboardShortcutEvent) => {
-        expect(shortcutEvent.action).toBe('ADD_ITEM');
+        expect(shortcutEvent.action).toBe(KEYBOARD_SHORTCUT_ACTIONS.ADD_ITEM);
         expect(shortcutEvent.event).toBe(event);
         done();
       });
@@ -98,12 +99,12 @@ describe('KeyboardShortcutService', () => {
 
   describe('getShortcutsByAction', () => {
     it('should return shortcuts for specific action', () => {
-      const shortcuts = service.getShortcutsByAction('ADD_ITEM');
+      const shortcuts = service.getShortcutsByAction(KEYBOARD_SHORTCUT_ACTIONS.ADD_ITEM);
       expect(shortcuts.length).toBe(1);
       expect(shortcuts[0]).toEqual(jasmine.objectContaining({
         key: 'i',
         ctrlKey: true,
-        action: 'ADD_ITEM'
+        action: KEYBOARD_SHORTCUT_ACTIONS.ADD_ITEM
       }));
     });
   });
@@ -174,7 +175,7 @@ describe('KeyboardShortcutService', () => {
       expect(shortcuts).toContain(jasmine.objectContaining({
         key: 'i',
         ctrlKey: true,
-        action: 'ADD_ITEM'
+        action: KEYBOARD_SHORTCUT_ACTIONS.ADD_ITEM
       }));
       
       expect(shortcuts).toContain(jasmine.objectContaining({

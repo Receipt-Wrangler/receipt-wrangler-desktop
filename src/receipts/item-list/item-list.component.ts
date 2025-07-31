@@ -22,6 +22,7 @@ import { InputComponent } from "../../input";
 import { Category, Group, GroupRole, Item, Receipt, Tag } from "../../open-api";
 import { KeyboardShortcutService } from "../../services/keyboard-shortcut.service";
 import { Subject, takeUntil } from "rxjs";
+import { KEYBOARD_SHORTCUT_ACTIONS } from "../../constants/keyboard-shortcuts.constant";
 
 export interface ItemData {
   item: Item;
@@ -120,7 +121,7 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
 
   private handleShortcutAction(action: string): void {
     switch (action) {
-      case 'ADD_ITEM':
+      case KEYBOARD_SHORTCUT_ACTIONS.ADD_ITEM:
         if (!this.isAdding) {
           this.startAddMode();
         }
