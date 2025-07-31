@@ -1,101 +1,17 @@
 <div class="item-list-container">
 
-  <!-- Instant Inline Add Form -->
+  <!-- Item Add Form -->
   @if (isAdding) {
-    <div class="inline-add-form" #addForm>
-      <app-card cardStyle="w-100 mb-2 add-form-card">
-        <div content>
-          <div class="row g-0 add-form-fields">
-            <app-input
-              #nameInput
-              label="Name"
-              class="col"
-              [inputFormControl]="newItemFormGroup | formGet : 'name'"
-              (keydown.enter)="onNameEnter($event)"
-              (keydown.escape)="cancelAddMode()"
-            >
-            </app-input>
-            <app-input
-              #amountInput
-              label="Amount"
-              class="col"
-              type="text"
-              [isCurrency]="true"
-              [inputFormControl]="newItemFormGroup | formGet : 'amount'"
-              [readonly]="mode | inputReadonly"
-              (keydown.enter)="onAmountEnter($event)"
-              (keydown.escape)="cancelAddMode()"
-            >
-            </app-input>
-
-            @if (!selectedGroup?.groupReceiptSettings?.hideItemCategories) {
-              <app-category-autocomplete
-                #categoryInput
-                [categories]="categories"
-                [inputFormControl]="newItemFormGroup | formGet : 'categories'"
-                [readonly]="mode | inputReadonly"
-                (keydown.enter)="onCategoryEnter($event)"
-                (keydown.escape)="cancelAddMode()"
-              ></app-category-autocomplete>
-            }
-
-            @if (!selectedGroup?.groupReceiptSettings?.hideItemTags) {
-              <app-tag-autocomplete
-                #tagInput
-                [tags]="tags"
-                [inputFormControl]="newItemFormGroup | formGet : 'tags'"
-                [readonly]="mode | inputReadonly"
-                (keydown.enter)="onTagEnter($event)"
-                (keydown.escape)="cancelAddMode()"
-              ></app-tag-autocomplete>
-            }
-          </div>
-          <div class="add-form-actions">
-            <app-button
-              matButtonType="basic"
-              [buttonText]="'Add Item'"
-              color="primary"
-              (clicked)="submitAndContinue()"
-              [disabled]="!newItemFormGroup.valid"
-            ></app-button>
-            <app-button
-              matButtonType="basic"
-              [buttonText]="'Add & Done'"
-              color="accent"
-              (clicked)="submitAndFinish()"
-              [disabled]="!newItemFormGroup.valid"
-            ></app-button>
-            <app-button
-              matButtonType="basic"
-              [buttonText]="'Cancel'"
-              (clicked)="cancelAddMode()"
-            ></app-button>
-          </div>
-
-          <!-- Keyboard Shortcuts Legend -->
-          <div class="keyboard-shortcuts-legend">
-            <div class="legend-title">
-              <span class="legend-icon">⌨️</span>
-              <span>Keyboard Shortcuts</span>
-            </div>
-            <div class="shortcuts-grid">
-              <div class="shortcut-item">
-                <kbd>Ctrl+Enter</kbd>
-                <span class="shortcut-action">Add Item</span>
-              </div>
-              <div class="shortcut-item">
-                <kbd>Ctrl+Shift+Enter</kbd>
-                <span class="shortcut-action">Add & Done</span>
-              </div>
-              <div class="shortcut-item">
-                <kbd>Escape</kbd>
-                <span class="shortcut-action">Cancel</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </app-card>
-    </div>
+    <app-item-add-form
+      [categories]="categories"
+      [tags]="tags"
+      [selectedGroup]="selectedGroup"
+      [mode]="mode"
+      [receiptId]="originalReceipt?.id?.toString()"
+      (submitAndContinue)="onItemSubmitAndContinue($event)"
+      (submitAndFinish)="onItemSubmitAndFinish($event)"
+      (cancelled)="onItemCancelled()"
+    ></app-item-add-form>
   }
 
   <!-- No Items Message -->

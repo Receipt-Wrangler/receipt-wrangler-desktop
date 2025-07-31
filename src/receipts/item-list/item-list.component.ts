@@ -14,13 +14,12 @@ import {
   ViewChildren,
   ViewEncapsulation,
 } from "@angular/core";
-import { FormArray, FormGroup, } from "@angular/forms";
+import { FormArray, FormGroup } from "@angular/forms";
 import { MatExpansionPanel } from "@angular/material/expansion";
 import { ActivatedRoute } from "@angular/router";
 import { FormMode } from "src/enums/form-mode.enum";
 import { InputComponent } from "../../input";
 import { Category, Group, GroupRole, Item, Receipt, Tag } from "../../open-api";
-import { buildItemForm } from "../utils/form.utils";
 import { KeyboardShortcutService } from "../../services/keyboard-shortcut.service";
 import { Subject, takeUntil } from "rxjs";
 
@@ -43,20 +42,6 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChildren("nameField")
   public nameFields!: QueryList<InputComponent>;
 
-  @ViewChild("addForm")
-  public addForm!: ElementRef;
-
-  @ViewChild("nameInput")
-  public nameInput!: InputComponent;
-
-  @ViewChild("amountInput")
-  public amountInput!: InputComponent;
-
-  @ViewChild("categoryInput")
-  public categoryInput!: ElementRef;
-
-  @ViewChild("tagInput")
-  public tagInput!: ElementRef;
 
   @Input() public form!: FormGroup;
 
@@ -74,7 +59,6 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() public itemRemoved = new EventEmitter<{ item: Item; arrayIndex: number }>();
 
-  public newItemFormGroup: FormGroup = new FormGroup({});
 
   public items: ItemData[] = [];
 
@@ -86,9 +70,6 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
 
   public groupRole = GroupRole;
 
-  public rapidAddMode: boolean = false;
-
-  public showKeyboardHint: boolean = false;
 
   private destroy$ = new Subject<void>();
 
@@ -135,13 +116,6 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe(shortcutEvent => {
         this.handleShortcutAction(shortcutEvent.action);
       });
-
-    // Subscribe to hint visibility
-    this.keyboardShortcutService.showHint
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(show => {
-        this.showKeyboardHint = show;
-      });
   }
 
   private handleShortcutAction(action: string): void {
@@ -149,21 +123,6 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
       case 'ADD_ITEM':
         if (!this.isAdding) {
           this.startAddMode();
-        }
-        break;
-      case 'SUBMIT_AND_CONTINUE':
-        if (this.isAdding && this.newItemFormGroup.valid) {
-          this.submitAndContinue();
-        }
-        break;
-      case 'SUBMIT_AND_FINISH':
-        if (this.isAdding && this.newItemFormGroup.valid) {
-          this.submitAndFinish();
-        }
-        break;
-      case 'CANCEL':
-        if (this.isAdding) {
-          this.cancelAddMode();
         }
         break;
     }
@@ -192,23 +151,11 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
 
   public startAddMode(): void {
     this.isAdding = true;
-    this.rapidAddMode = false;
-    this.newItemFormGroup = buildItemForm(
-      undefined,
-      this.originalReceipt?.id?.toString(),
-      false
-    );
 
     // Auto-expand accordion if collapsed
     if (this.itemsExpansionPanel && !this.itemsExpansionPanel.expanded) {
       this.itemsExpansionPanel.open();
     }
-
-    // Auto-focus name field after view update
-    setTimeout(() => {
-      this.focusNameField();
-      this.scrollToAddForm();
-    }, 50);
   }
 
   public initAddMode(): void {
@@ -216,58 +163,19 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
     this.startAddMode();
   }
 
-  public exitAddMode(): void {
+  // Event handlers for the item-add-form component
+  public onItemSubmitAndContinue(item: Item): void {
+    this.itemAdded.emit(item);
+    // Form component handles its own reset for rapid mode
+  }
+
+  public onItemSubmitAndFinish(item: Item): void {
+    this.itemAdded.emit(item);
     this.isAdding = false;
-    this.rapidAddMode = false;
-    this.newItemFormGroup = new FormGroup({});
   }
 
-  public cancelAddMode(): void {
-    this.exitAddMode();
-  }
-
-  public submitNewItemFormGroup(): void {
-    if (this.newItemFormGroup.valid) {
-      const newItem = this.newItemFormGroup.value as Item;
-      newItem.chargedToUserId = undefined;
-      this.itemAdded.emit(newItem);
-      this.exitAddMode();
-    }
-  }
-
-  public submitAndContinue(): void {
-    if (this.newItemFormGroup.valid) {
-      const newItem = this.newItemFormGroup.value as Item;
-      newItem.chargedToUserId = undefined;
-      this.itemAdded.emit(newItem);
-
-      // Reset form but stay in add mode
-      this.rapidAddMode = true;
-      this.newItemFormGroup = buildItemForm(
-        undefined,
-        this.originalReceipt?.id?.toString(),
-        false
-      );
-
-      // Ensure accordion stays expanded during rapid add mode
-      if (this.itemsExpansionPanel && !this.itemsExpansionPanel.expanded) {
-        this.itemsExpansionPanel.open();
-      }
-
-      // Re-focus name field
-      setTimeout(() => {
-        this.focusNameField();
-      }, 50);
-    }
-  }
-
-  public submitAndFinish(): void {
-    if (this.newItemFormGroup.valid) {
-      const newItem = this.newItemFormGroup.value as Item;
-      newItem.chargedToUserId = undefined;
-      this.itemAdded.emit(newItem);
-      this.exitAddMode();
-    }
+  public onItemCancelled(): void {
+    this.isAdding = false;
   }
 
   public removeItem(itemData: ItemData): void {
@@ -325,81 +233,6 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   // Keyboard event handlers
-  public onNameEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent;
-    keyboardEvent.preventDefault();
-    this.focusAmountField();
-  }
-
-  public onAmountEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent;
-    keyboardEvent.preventDefault();
-    if (this.selectedGroup?.groupReceiptSettings?.hideItemCategories) {
-      if (this.selectedGroup?.groupReceiptSettings?.hideItemTags) {
-        this.submitAndContinue();
-      } else {
-        this.focusTagField();
-      }
-    } else {
-      this.focusCategoryField();
-    }
-  }
-
-  public onCategoryEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent;
-    keyboardEvent.preventDefault();
-    if (this.selectedGroup?.groupReceiptSettings?.hideItemTags) {
-      this.submitAndContinue();
-    } else {
-      this.focusTagField();
-    }
-  }
-
-  public onTagEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent;
-    keyboardEvent.preventDefault();
-    this.submitAndContinue();
-  }
-
-  // Focus management
-  private focusNameField(): void {
-    if (this.nameInput?.nativeInput?.nativeElement) {
-      (this.nameInput.nativeInput.nativeElement as HTMLInputElement).focus();
-    }
-  }
-
-  private focusAmountField(): void {
-    if (this.amountInput?.nativeInput?.nativeElement) {
-      (this.amountInput.nativeInput.nativeElement as HTMLInputElement).focus();
-    }
-  }
-
-  private focusCategoryField(): void {
-    if (this.categoryInput?.nativeElement) {
-      const input = this.categoryInput.nativeElement.querySelector("input");
-      if (input) {
-        input.focus();
-      }
-    }
-  }
-
-  private focusTagField(): void {
-    if (this.tagInput?.nativeElement) {
-      const input = this.tagInput.nativeElement.querySelector("input");
-      if (input) {
-        input.focus();
-      }
-    }
-  }
-
-  private scrollToAddForm(): void {
-    if (this.addForm?.nativeElement) {
-      this.addForm.nativeElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
-  }
 
   ngOnDestroy(): void {
     this.destroy$.next();
