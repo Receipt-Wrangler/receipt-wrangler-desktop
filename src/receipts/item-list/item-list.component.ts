@@ -21,6 +21,8 @@ import { FormMode } from "src/enums/form-mode.enum";
 import { InputComponent } from "../../input";
 import { Category, Group, GroupRole, Item, Receipt, Tag } from "../../open-api";
 import { buildItemForm } from "../utils/form.utils";
+import { KeyboardShortcutService } from "../../services/keyboard-shortcut.service";
+import { Subject, takeUntil } from "rxjs";
 
 export interface ItemData {
   item: Item;
@@ -88,20 +90,22 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
 
   public showKeyboardHint: boolean = false;
 
-  private keyboardHintTimeout: any;
+  private destroy$ = new Subject<void>();
 
   public get receiptItems(): FormArray {
     return this.form.get("receiptItems") as FormArray;
   }
 
   constructor(
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private keyboardShortcutService: KeyboardShortcutService
   ) {}
 
   public ngOnInit(): void {
     this.originalReceipt = this.activatedRoute.snapshot.data["receipt"];
     this.mode = this.activatedRoute.snapshot.data["mode"];
     this.setItems();
+    this.setupKeyboardShortcuts();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -115,58 +119,53 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
 
   @HostListener("document:keydown", ["$event"])
   public handleKeyboardShortcut(event: KeyboardEvent): void {
-    // Form submission shortcuts - only when adding items
-    if (this.isAdding) {
-      // Ctrl+Enter: Add Item (submit and continue)
-      if (event.ctrlKey && event.key === "Enter" && !event.shiftKey) {
-        event.preventDefault();
-        if (this.newItemFormGroup.valid) {
-          this.submitAndContinue();
-        }
-        return;
-      }
-
-      // Ctrl+Shift+Enter: Add & Done (submit and finish)
-      if (event.ctrlKey && event.shiftKey && event.key === "Enter") {
-        event.preventDefault();
-        if (this.newItemFormGroup.valid) {
-          this.submitAndFinish();
-        }
-        return;
-      }
-
-      // Ctrl+S: Add Item (alternative shortcut)
-      if (event.ctrlKey && event.key === "s") {
-        event.preventDefault();
-        if (this.newItemFormGroup.valid) {
-          this.submitAndContinue();
-        }
-        return;
-      }
-
-      // Ctrl+D: Add & Done (alternative shortcut)
-      if (event.ctrlKey && event.key === "d") {
-        event.preventDefault();
-        if (this.newItemFormGroup.valid) {
-          this.submitAndFinish();
-        }
-        return;
-      }
+    // Only handle shortcuts when in edit mode or when specifically allowed
+    if (this.mode === FormMode.view && !this.isAdding) {
+      return;
     }
 
-    // Ctrl+I to add item (global shortcut)
-    if (event.ctrlKey && event.key === "i" && !this.isAdding) {
-      event.preventDefault();
-      this.startAddMode();
-    }
+    // Let the service handle the keyboard event
+    this.keyboardShortcutService.handleKeyboardEvent(event);
+  }
 
-    // Show keyboard hint briefly
-    if (event.ctrlKey && (event.key === "i" || (this.isAdding && (event.key === "Enter" || event.key === "s" || event.key === "d")))) {
-      this.showKeyboardHint = true;
-      clearTimeout(this.keyboardHintTimeout);
-      this.keyboardHintTimeout = setTimeout(() => {
-        this.showKeyboardHint = false;
-      }, 2000);
+  private setupKeyboardShortcuts(): void {
+    // Subscribe to keyboard shortcut events
+    this.keyboardShortcutService.shortcutTriggered
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(shortcutEvent => {
+        this.handleShortcutAction(shortcutEvent.action);
+      });
+
+    // Subscribe to hint visibility
+    this.keyboardShortcutService.showHint
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(show => {
+        this.showKeyboardHint = show;
+      });
+  }
+
+  private handleShortcutAction(action: string): void {
+    switch (action) {
+      case 'ADD_ITEM':
+        if (!this.isAdding) {
+          this.startAddMode();
+        }
+        break;
+      case 'SUBMIT_AND_CONTINUE':
+        if (this.isAdding && this.newItemFormGroup.valid) {
+          this.submitAndContinue();
+        }
+        break;
+      case 'SUBMIT_AND_FINISH':
+        if (this.isAdding && this.newItemFormGroup.valid) {
+          this.submitAndFinish();
+        }
+        break;
+      case 'CANCEL':
+        if (this.isAdding) {
+          this.cancelAddMode();
+        }
+        break;
     }
   }
 
@@ -403,8 +402,8 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.keyboardHintTimeout) {
-      clearTimeout(this.keyboardHintTimeout);
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.keyboardShortcutService.clearHintTimeout();
   }
 }
