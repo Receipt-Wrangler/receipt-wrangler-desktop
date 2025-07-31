@@ -4,7 +4,7 @@ import { Item, ItemStatus } from "../../open-api";
 export function buildItemForm(item?: Item, receiptId?: string, isShare: boolean = true): FormGroup {
   const formGroup = new FormGroup({
     name: new FormControl(item?.name ?? "", Validators.required),
-    chargedToUserId: new FormControl(item?.chargedToUserId ?? "", []),
+    chargedToUserId: new FormControl(item?.chargedToUserId ?? undefined, []),
     receiptId: new FormControl(Number(item?.receiptId ?? receiptId)),
     amount: new FormControl(item?.amount ?? undefined, [
       Validators.required,
