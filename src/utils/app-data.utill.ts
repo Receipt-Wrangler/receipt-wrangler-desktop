@@ -1,5 +1,6 @@
 import { Store } from "@ngxs/store";
 import { forkJoin, Observable, of } from "rxjs";
+import { concatMap, delay, tap } from "rxjs/operators";
 import { AppData, CurrencySeparator, CurrencySymbolPosition } from "../open-api";
 import {
   GroupState,
@@ -38,6 +39,16 @@ export function setAppData(store: Store, appData: AppData): Observable<any[]> {
     store.dispatch(new SetIcons(appData.icons)),
     store.dispatch(new SetAbout(appData.about)),
     selectedGroupIdObservable,
-  ]);
+  ]).pipe(
+    // Add small delay to ensure all state updates have propagated
+    delay(50),
+    tap(() => {
+      // Additional verification that auth state is properly set
+      const isLoggedIn = store.selectSnapshot((state: any) => state.auth?.userId);
+      if (!isLoggedIn) {
+        console.warn('Auth state may not be fully initialized');
+      }
+    })
+  );
 }
 

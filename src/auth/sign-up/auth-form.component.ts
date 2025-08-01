@@ -2,11 +2,12 @@ import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators, } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
-import { BehaviorSubject, catchError, finalize, of, switchMap, tap, } from "rxjs";
+import { BehaviorSubject, catchError, finalize, of, switchMap, tap, delay } from "rxjs";
 import { AppData, AuthService } from "src/open-api";
 import { SnackbarService } from "src/services";
+import { HideAuthLoading, ShowAuthLoading } from "src/store/layout.state.actions";
 import { setAppData } from "src/utils";
-import { fadeIn, fadeInOut } from "../../animations";
+import { fadeIn, fadeInOut, slideInFromRight } from "../../animations";
 import { GroupState } from "../../store";
 import { UserValidators } from "../../validators";
 
@@ -16,7 +17,7 @@ import { UserValidators } from "../../validators";
     styleUrls: ["./auth-form.component.scss"],
     encapsulation: ViewEncapsulation.None,
     providers: [UserValidators],
-    animations: [fadeInOut, fadeIn],
+    animations: [fadeInOut, fadeIn, slideInFromRight],
     standalone: false
 })
 export class AuthForm implements OnInit {
@@ -126,16 +127,25 @@ export class AuthForm implements OnInit {
 
   private login(): void {
     this.isLoading = true;
+    this.store.dispatch(new ShowAuthLoading());
+    
     this.authSerivce
       .login(this.form.value)
       .pipe(
         switchMap((appData: AppData) => setAppData(this.store, appData)),
+        delay(100), // Small delay to ensure all state updates complete
         tap(() =>
           this.router.navigate([
             this.store.selectSnapshot(GroupState.dashboardLink),
           ]),
         ),
-        finalize(() => this.isLoading = false)
+        finalize(() => {
+          this.isLoading = false;
+          // Delay hiding the auth loading to prevent flash
+          setTimeout(() => {
+            this.store.dispatch(new HideAuthLoading());
+          }, 200);
+        })
       )
       .subscribe();
   }

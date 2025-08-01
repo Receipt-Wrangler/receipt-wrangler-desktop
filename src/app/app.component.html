@@ -1,3 +1,13 @@
-<div class="d-flex h-100 flex-column">
-  <router-outlet></router-outlet>
+<div class="d-flex h-100 flex-column" [@routeAnimations]="prepareRoute(outlet)">
+  <router-outlet #outlet="outlet"></router-outlet>
+  
+  <!-- Global Auth Loading Overlay -->
+  @if (showAuthLoading$ | async) {
+    <div class="auth-loading-overlay" @fadeInOut>
+      <div class="auth-loading-content">
+        <img src="assets/branding/loading.gif" class="loading-gif">
+        <div class="loading-text">Logging you in...</div>
+      </div>
+    </div>
+  }
 </div>

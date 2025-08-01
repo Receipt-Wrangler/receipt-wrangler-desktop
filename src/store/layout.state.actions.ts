@@ -17,3 +17,13 @@ export class ShowProgressBar {
   static readonly type = '[Layout] Show progressBar';
   constructor() {}
 }
+
+export class ShowAuthLoading {
+  static readonly type = '[Layout] Show auth loading';
+  constructor() {}
+}
+
+export class HideAuthLoading {
+  static readonly type = '[Layout] Hide auth loading';
+  constructor() {}
+}

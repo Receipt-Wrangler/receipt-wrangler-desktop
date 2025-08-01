@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import {
+  HideAuthLoading,
   HideProgressBar,
+  ShowAuthLoading,
   ShowProgressBar,
   ToggleIsSidebarOpen,
   ToggleShowProgressBar,
@@ -10,6 +12,7 @@ import {
 export interface LayoutStateInterface {
   isSidebarOpen: boolean;
   showProgressBar: boolean;
+  showAuthLoading: boolean;
 }
 
 @State<LayoutStateInterface>({
@@ -17,6 +20,7 @@ export interface LayoutStateInterface {
   defaults: {
     isSidebarOpen: false,
     showProgressBar: false,
+    showAuthLoading: false,
   },
 })
 @Injectable()
@@ -29,6 +33,11 @@ export class LayoutState {
   @Selector()
   static showProgressBar(state: LayoutStateInterface): boolean {
     return state.showProgressBar;
+  }
+
+  @Selector()
+  static showAuthLoading(state: LayoutStateInterface): boolean {
+    return state.showAuthLoading;
   }
 
   @Action(ToggleIsSidebarOpen)
@@ -62,6 +71,20 @@ export class LayoutState {
   showProgressBar({ patchState }: StateContext<LayoutStateInterface>) {
     patchState({
       showProgressBar: true,
+    });
+  }
+
+  @Action(ShowAuthLoading)
+  showAuthLoading({ patchState }: StateContext<LayoutStateInterface>) {
+    patchState({
+      showAuthLoading: true,
+    });
+  }
+
+  @Action(HideAuthLoading)
+  hideAuthLoading({ patchState }: StateContext<LayoutStateInterface>) {
+    patchState({
+      showAuthLoading: false,
     });
   }
 }

@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree, } from "@angular/router";
 import { Store } from "@ngxs/store";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
+import { map, take, delay } from "rxjs/operators";
 import { AuthState, GroupState } from "../store";
 
 @Injectable({
@@ -13,28 +14,27 @@ export class AuthGuard {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
-    const isLoggedIn = this.store.selectSnapshot(AuthState.isLoggedIn);
+  ): Observable<boolean | UrlTree> {
     const navigatingToAuth = route.url.toString().includes("auth");
 
-    // if user tries to go to login screens while already logged in
-    if (navigatingToAuth && isLoggedIn) {
-      this.router.navigate([
-        this.store.selectSnapshot(GroupState.dashboardLink),
-      ]);
-      return false;
-    } else if (navigatingToAuth && !isLoggedIn) {
-      return true;
-    }
+    return this.store.select(AuthState.isLoggedIn).pipe(
+      take(1),
+      delay(10), // Small delay to ensure state consistency
+      map((isLoggedIn) => {
+        // if user tries to go to login screens while already logged in
+        if (navigatingToAuth && isLoggedIn) {
+          const dashboardLink = this.store.selectSnapshot(GroupState.dashboardLink);
+          return this.router.createUrlTree([dashboardLink]);
+        } else if (navigatingToAuth && !isLoggedIn) {
+          return true;
+        }
 
-    if (!isLoggedIn) {
-      this.router.navigate(["/auth/login"]);
-    }
+        if (!isLoggedIn) {
+          return this.router.createUrlTree(["/auth/login"]);
+        }
 
-    return isLoggedIn;
+        return true;
+      })
+    );
   }
 }

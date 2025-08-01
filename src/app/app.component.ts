@@ -1,20 +1,24 @@
 import { Component, OnInit } from "@angular/core";
-import { EventType, Router } from "@angular/router";
+import { EventType, Router, RouterOutlet } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { Store } from "@ngxs/store";
-import { interval, take, tap } from "rxjs";
+import { Select, Store } from "@ngxs/store";
+import { interval, take, tap, Observable } from "rxjs";
 import { HideProgressBar } from "src/store/layout.state.actions";
+import { fadeInOut, routeTransition } from "../animations";
 import { AuthService, Claims } from "../open-api";
 import { AuthState, SetAuthState } from "../store";
+import { LayoutState } from "../store/layout.state";
 
 @UntilDestroy()
 @Component({
     selector: "app-root",
     templateUrl: "./app.component.html",
     styleUrls: ["./app.component.scss"],
+    animations: [fadeInOut, routeTransition],
     standalone: false
 })
 export class AppComponent implements OnInit {
+  @Select(LayoutState.showAuthLoading) showAuthLoading$!: Observable<boolean>;
 
   constructor(
     private authService: AuthService,
@@ -26,6 +30,10 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new HideProgressBar());
     this.listenForNavigationStart();
     this.refreshTokens();
+  }
+
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
 
   private refreshTokens(): void {
