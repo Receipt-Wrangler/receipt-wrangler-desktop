@@ -1,7 +1,9 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { Subject } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
+import { PipesModule } from "src/pipes/pipes.module";
 import { KEYBOARD_SHORTCUT_ACTIONS } from "../../constants/keyboard-shortcuts.constant";
 import { Group } from "../../open-api";
 import { KeyboardShortcutService } from "../../services/keyboard-shortcut.service";
@@ -27,7 +29,8 @@ describe("ItemAddFormComponent", () => {
 
     await TestBed.configureTestingModule({
       declarations: [ItemAddFormComponent],
-      imports: [ReactiveFormsModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ReactiveFormsModule, PipesModule],
       providers: [
         { provide: KeyboardShortcutService, useValue: keyboardSpy }
       ]
@@ -75,7 +78,9 @@ describe("ItemAddFormComponent", () => {
     beforeEach(() => {
       component.ngOnInit();
       // Mock form as valid
-      // spyOn(component.newItemFormGroup, 'valid').and.returnValue(true);
+      Object.defineProperty(component.newItemFormGroup, 'valid', {
+        get: () => true
+      });
       spyOn(component, "onSubmitAndContinue");
       spyOn(component, "onSubmitAndFinish");
       spyOn(component, "onCancel");

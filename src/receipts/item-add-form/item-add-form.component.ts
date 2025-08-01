@@ -57,6 +57,7 @@ export class ItemAddFormComponent implements OnInit, OnDestroy {
   public newItemFormGroup!: FormGroup;
   public rapidAddMode: boolean = false;
   public displayShortcuts = DISPLAY_SHORTCUTS;
+  public showKeyboardHint: boolean = false;
 
   private destroy$ = new Subject<void>();
 
@@ -102,6 +103,13 @@ export class ItemAddFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(shortcutEvent => {
         this.handleShortcutAction(shortcutEvent.action);
+      });
+
+    // Subscribe to show hint observable
+    this.keyboardShortcutService.showHint
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(showHint => {
+        this.showKeyboardHint = showHint;
       });
   }
 

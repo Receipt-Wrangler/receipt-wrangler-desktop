@@ -75,6 +75,7 @@ describe("ReceiptFormComponent", () => {
       status: ReceiptStatus.Open,
       customFields: [],
       receiptItems: [],
+      syncAmountWithItems: false,
     });
   });
 
