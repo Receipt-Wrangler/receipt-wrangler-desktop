@@ -16,7 +16,7 @@ import { buildItemForm } from "../utils/form.utils";
 
 import { ShareListComponent } from "./share-list.component";
 
-fdescribe("ShareListComponent", () => {
+describe("ShareListComponent", () => {
   let component: ShareListComponent;
   let fixture: ComponentFixture<ShareListComponent>;
   let store: Store;
