@@ -20,7 +20,7 @@ export interface UpsertItemCommand {
     /**
      * User foreign key
      */
-    chargedToUserId: number;
+    chargedToUserId?: number;
     /**
      * Item name
      */

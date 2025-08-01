@@ -45,7 +45,14 @@ describe("SystemSettingsFormComponent", () => {
                 snapshot: {
                     data: {
                         allReceiptProcessingSettings: [],
-                        systemSettings: {},
+                        systemSettings: {
+                            taskQueueConfigurations: [
+                                { name: "email_polling", priority: 1 },
+                                { name: "email_receipt_processing", priority: 1 },
+                                { name: "email_receipt_image_cleanup", priority: 1 },
+                                { name: "quick_scan", priority: 1 }
+                            ]
+                        },
                         formConfig: {}
                     }
                 }
@@ -82,7 +89,12 @@ describe("SystemSettingsFormComponent", () => {
       currencySymbolPosition: null,
       currencyHideDecimalPlaces: null,
       taskConcurrency: null,
-      taskQueueConfigurations: []
+      taskQueueConfigurations: [
+        { name: "email_polling", priority: 1 },
+        { name: "email_receipt_processing", priority: 1 },
+        { name: "email_receipt_image_cleanup", priority: 1 },
+        { name: "quick_scan", priority: 1 }
+      ]
     });
   });
 
@@ -141,7 +153,7 @@ describe("SystemSettingsFormComponent", () => {
       priority: "1",
     } as any];
 
-    component.form.setValue({
+    component.form.patchValue({
       enableLocalSignUp: true,
       debugOcr: true,
       currencyDisplay: "USD",
@@ -152,16 +164,17 @@ describe("SystemSettingsFormComponent", () => {
       currencyDecimalSeparator: CurrencySeparator.Period,
       currencySymbolPosition: CurrencySymbolPosition.Start,
       currencyHideDecimalPlaces: false,
-      taskConcurrency: "12",
-      taskQueueConfigurations: []
+      taskConcurrency: "12"
     });
 
-    (component.form.get("taskQueueConfigurations") as FormArray).push(
-      new FormGroup({
-        name: new FormControl(QueueName.QuickScan),
-        priority: new FormControl("1"),
-      })
+    // Update the quick_scan queue priority specifically
+    const queueArray = component.form.get("taskQueueConfigurations") as FormArray;
+    const quickScanIndex = queueArray.controls.findIndex(control => 
+      control.get('name')?.value === 'quick_scan'
     );
+    if (quickScanIndex >= 0) {
+      queueArray.at(quickScanIndex).get('priority')?.setValue("1");
+    }
 
     component.submit();
 
@@ -178,10 +191,10 @@ describe("SystemSettingsFormComponent", () => {
       currencyHideDecimalPlaces: false,
       taskConcurrency: 12,
       taskQueueConfigurations: [
-        {
-          name: QueueName.QuickScan,
-          priority: 1,
-        }
+        { name: 'email_polling', priority: 1 },
+        { name: 'email_receipt_processing', priority: 1 },
+        { name: 'email_receipt_image_cleanup', priority: 1 },
+        { name: 'quick_scan', priority: 1 }
       ]
     });
 

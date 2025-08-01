@@ -27,7 +27,7 @@ export interface Item {
     /**
      * User foreign key
      */
-    chargedToUserId: number;
+    chargedToUserId?: number;
     createdAt?: string;
     createdBy?: number;
     id?: number;

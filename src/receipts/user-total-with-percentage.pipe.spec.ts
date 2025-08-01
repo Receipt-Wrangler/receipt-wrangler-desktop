@@ -1,5 +1,5 @@
 import { FormControl, FormGroup } from "@angular/forms";
-import { ItemData } from "./item-list/item-list.component";
+import { ItemData } from "./share-list/share-list.component";
 import { UserTotalWithPercentagePipe } from "./user-total-with-percentage.pipe";
 
 describe("UserTotalWithPercentagePipe", () => {

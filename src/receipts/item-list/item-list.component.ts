@@ -1,15 +1,28 @@
-import { ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChildren, ViewEncapsulation, } from "@angular/core";
-import { AbstractControl, FormArray, FormBuilder, FormGroup, } from "@angular/forms";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChild,
+  ViewChildren,
+  ViewEncapsulation,
+} from "@angular/core";
+import { FormArray, FormGroup } from "@angular/forms";
 import { MatExpansionPanel } from "@angular/material/expansion";
 import { ActivatedRoute } from "@angular/router";
-import { Select } from "@ngxs/store";
-import { Observable } from "rxjs";
-import { RECEIPT_ITEM_STATUS_OPTIONS } from "src/constants/receipt-status-options";
 import { FormMode } from "src/enums/form-mode.enum";
 import { InputComponent } from "../../input";
-import { Category, Group, GroupRole, Item, ItemStatus, Receipt, Tag, User } from "../../open-api";
-import { UserState } from "../../store";
-import { buildItemForm } from "../utils/form.utils";
+import { Category, Group, GroupRole, Item, Receipt, Tag } from "../../open-api";
+import { KeyboardShortcutService } from "../../services/keyboard-shortcut.service";
+import { Subject, takeUntil } from "rxjs";
+import { KEYBOARD_SHORTCUT_ACTIONS } from "../../constants/keyboard-shortcuts.constant";
 
 export interface ItemData {
   item: Item;
@@ -23,14 +36,13 @@ export interface ItemData {
   encapsulation: ViewEncapsulation.None,
   standalone: false
 })
-export class ItemListComponent implements OnInit {
-  @ViewChildren("userExpansionPanel")
-  public userExpansionPanels!: QueryList<MatExpansionPanel>;
+export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
+  @ViewChild("itemsExpansionPanel")
+  public itemsExpansionPanel!: MatExpansionPanel;
 
   @ViewChildren("nameField")
   public nameFields!: QueryList<InputComponent>;
 
-  @Select(UserState.users) public users!: Observable<User[]>;
 
   @Input() public form!: FormGroup;
 
@@ -42,9 +54,14 @@ export class ItemListComponent implements OnInit {
 
   @Input() public selectedGroup: Group | undefined;
 
-  public newItemFormGroup: FormGroup = new FormGroup({});
+  @Input() public triggerAddMode: boolean = false;
 
-  public userItemMap: Map<string, ItemData[]> = new Map<string, ItemData[]>();
+  @Output() public itemAdded = new EventEmitter<Item>();
+
+  @Output() public itemRemoved = new EventEmitter<{ item: Item; arrayIndex: number }>();
+
+
+  public items: ItemData[] = [];
 
   public isAdding: boolean = false;
 
@@ -54,7 +71,8 @@ export class ItemListComponent implements OnInit {
 
   public groupRole = GroupRole;
 
-  public itemStatusOptions = RECEIPT_ITEM_STATUS_OPTIONS;
+
+  private destroy$ = new Subject<void>();
 
   public get receiptItems(): FormArray {
     return this.form.get("receiptItems") as FormArray;
@@ -62,154 +80,164 @@ export class ItemListComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private keyboardShortcutService: KeyboardShortcutService
   ) {}
 
   public ngOnInit(): void {
     this.originalReceipt = this.activatedRoute.snapshot.data["receipt"];
     this.mode = this.activatedRoute.snapshot.data["mode"];
-    this.initForm();
-    this.setUserItemMap();
+    this.setItems();
+    this.setupKeyboardShortcuts();
   }
 
-  private initForm(): void {
-    this.form.addControl(
-      "receiptItems",
-      this.formBuilder.array(
-        this.originalReceipt?.receiptItems
-          ? this.originalReceipt.receiptItems.map((item) =>
-            buildItemForm(item, this.originalReceipt?.id?.toString())
-          )
-          : []
-      )
-    );
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes["triggerAddMode"] && changes["triggerAddMode"].currentValue) {
+      this.startAddMode();
+    }
+    if (changes["form"]) {
+      this.setItems();
+    }
   }
 
-  public setUserItemMap(): void {
+  @HostListener("document:keydown", ["$event"])
+  public handleKeyboardShortcut(event: KeyboardEvent): void {
+    // Only handle shortcuts when in edit mode or when specifically allowed
+    if (this.mode === FormMode.view && !this.isAdding) {
+      return;
+    }
+
+    // Let the service handle the keyboard event
+    this.keyboardShortcutService.handleKeyboardEvent(event);
+  }
+
+  private setupKeyboardShortcuts(): void {
+    // Subscribe to keyboard shortcut events
+    this.keyboardShortcutService.shortcutTriggered
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(shortcutEvent => {
+        this.handleShortcutAction(shortcutEvent.action);
+      });
+  }
+
+  private handleShortcutAction(action: string): void {
+    switch (action) {
+      case KEYBOARD_SHORTCUT_ACTIONS.ADD_ITEM:
+        if (!this.isAdding) {
+          this.startAddMode();
+        }
+        break;
+    }
+  }
+
+  public setItems(): void {
     const receiptItems = this.form.get("receiptItems");
     if (receiptItems) {
       const items = this.form.get("receiptItems")?.value as Item[];
-      const map = new Map<string, ItemData[]>();
+      const itemDataArray: ItemData[] = [];
 
       if (items?.length > 0) {
         items.forEach((item, index) => {
-          const chargedToUserId = item.chargedToUserId.toString();
-          const itemData: ItemData = {
-            item: item,
-            arrayIndex: index,
-          };
-
-          if (map.has(chargedToUserId)) {
-            const newItems = Array.from(map.get(chargedToUserId) as ItemData[]);
-            newItems.push(itemData);
-            map.set(chargedToUserId, newItems);
-          } else {
-            map.set(chargedToUserId, [itemData]);
+          if (!item?.chargedToUserId) {
+            const itemData: ItemData = {
+              item: item,
+              arrayIndex: index,
+            };
+            itemDataArray.push(itemData);
           }
         });
       }
-      this.userItemMap = map;
+      this.items = itemDataArray;
+    }
+  }
+
+  public startAddMode(): void {
+    this.isAdding = true;
+
+    // Auto-expand accordion if collapsed
+    if (this.itemsExpansionPanel && !this.itemsExpansionPanel.expanded) {
+      this.itemsExpansionPanel.open();
     }
   }
 
   public initAddMode(): void {
-    this.isAdding = true;
-    this.newItemFormGroup = buildItemForm(
-      undefined,
-      this.originalReceipt?.id?.toString()
-    );
+    // Legacy method for backward compatibility
+    this.startAddMode();
   }
 
-  public exitAddMode(): void {
+  // Event handlers for the item-add-form component
+  public onItemSubmitAndContinue(item: Item): void {
+    this.itemAdded.emit(item);
+    // Form component handles its own reset for rapid mode
+  }
+
+  public onItemSubmitAndFinish(item: Item): void {
+    this.itemAdded.emit(item);
     this.isAdding = false;
-    this.newItemFormGroup = new FormGroup({});
   }
 
-  public submitNewItemFormGroup(): void {
-    if (this.newItemFormGroup.valid) {
-      const formArray = this.form.get("receiptItems") as FormArray;
-      formArray.push(this.newItemFormGroup);
-      this.exitAddMode();
-      this.setUserItemMap();
-    }
+  public onItemCancelled(): void {
+    this.isAdding = false;
   }
 
   public removeItem(itemData: ItemData): void {
-    const formArray = this.form.get("receiptItems") as FormArray;
-    formArray.removeAt(itemData.arrayIndex);
-    this.setUserItemMap();
+    this.itemRemoved.emit({ item: itemData.item, arrayIndex: itemData.arrayIndex });
   }
 
-  public addInlineItem(userId: string, event?: MouseEvent): void {
+  public addInlineItem(event?: MouseEvent): void {
     if (event) {
       event?.stopImmediatePropagation();
     }
 
     if (this.mode !== FormMode.view) {
-      this.receiptItems.push(
-        buildItemForm(
-          {
-            name: "",
-            chargedToUserId: Number(userId),
-          } as Item,
-          this.originalReceipt?.id?.toString()
-        )
-      );
-      this.setUserItemMap();
+      const newItem = {
+        name: "",
+        chargedToUserId: undefined,
+      } as Item;
+      this.itemAdded.emit(newItem);
     }
   }
 
-  public addInlineItemOnBlur(userId: string, index: number): void {
-    const userItems = this.userItemMap.get(userId);
-    if (userItems && userItems.length - 1 === index) {
-      const item = userItems.at(index) as ItemData;
+  public addInlineItemOnBlur(index: number): void {
+    if (this.items && this.items.length - 1 === index) {
+      const item = this.items.at(index) as ItemData;
       const itemInput = this.receiptItems.at(item?.arrayIndex);
       if (itemInput.valid) {
-        const activeElement = document.activeElement as HTMLElement;
-        this.addInlineItem(userId);
+        this.addInlineItem();
       }
     }
   }
 
-  public checkLastInlineItem(userId: string): void {
+  public checkLastInlineItem(): void {
     if (this.mode !== FormMode.view) {
-      const items = this.userItemMap.get(userId);
-      if (items && items.length > 1) {
-        const lastItem = items[items.length - 1];
+      if (this.items && this.items.length > 1) {
+        const lastItem = this.items[this.items.length - 1];
         const formGroup = this.receiptItems.at(lastItem.arrayIndex);
-        const nameValue = formGroup.get('name')?.value;
-        const amountValue = formGroup.get('amount')?.value;
-        
-        if (formGroup.pristine && (!nameValue || nameValue.trim() === '') && (!amountValue || amountValue === 0)) {
-          this.receiptItems.removeAt(lastItem.arrayIndex);
-          this.setUserItemMap();
+        const nameValue = formGroup.get("name")?.value;
+        const amountValue = formGroup.get("amount")?.value;
+
+        if (formGroup.pristine && (!nameValue || nameValue.trim() === "") && (!amountValue || amountValue === 0)) {
+          this.itemRemoved.emit({ item: lastItem.item, arrayIndex: lastItem.arrayIndex });
         }
       }
     }
   }
 
-  public resolveAllItemsClicked(event: MouseEvent, userId: string): void {
-    event.stopImmediatePropagation();
-    const filtered = this.getItemsForUser(userId);
+  public getTotalAmount(): number {
+    if (!this.items || this.items.length === 0) {
+      return 0;
+    }
 
-    filtered.forEach((i) =>
-      i.patchValue({
-        status: ItemStatus.Resolved,
-      })
-    );
+    return this.items.reduce((total, itemData) => {
+      const amount = parseFloat(itemData.item.amount) || 0;
+      return total + amount;
+    }, 0);
   }
 
-  public allUserItemsResolved(userId: string): boolean {
-    const userItems = this.getItemsForUser(userId);
-    return userItems.every(
-      (i) => i.get("status")?.value === ItemStatus.Resolved
-    );
-  }
+  // Keyboard event handlers
 
-  private getItemsForUser(userId: string): AbstractControl[] {
-    return this.receiptItems.controls.filter(
-      (i) => i.get("chargedToUserId")?.value?.toString() === userId
-    );
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.keyboardShortcutService.clearHintTimeout();
   }
 }
