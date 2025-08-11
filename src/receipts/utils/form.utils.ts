@@ -9,7 +9,7 @@ export function buildItemForm(item?: Item, receiptId?: string, isShare: boolean 
     amount: new FormControl(item?.amount ?? undefined, [
       Validators.required,
       Validators.min(0),
-      itemTotalValidator(),
+      itemTotalValidator(isShare),
     ]),
     isTaxed: new FormControl(item?.IsTaxed ?? false),
     categories: new FormArray(item?.categories?.map((c) => new FormControl(c)) ?? []),
@@ -27,10 +27,11 @@ export function buildItemForm(item?: Item, receiptId?: string, isShare: boolean 
   return formGroup;
 }
 
-function itemTotalValidator(): ValidatorFn {
+function itemTotalValidator(isShare: boolean): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const epsilon = 0.01;
     const errKey = "itemLargerThanTotal";
+    const objectName = isShare ? "Share" : "Item";
 
     const formArray = control.parent?.parent as FormArray;
     const amountControl = control?.parent?.parent?.parent;
@@ -56,11 +57,11 @@ function itemTotalValidator(): ValidatorFn {
       itemControls.forEach((c) => {
         if (c !== control) {
           c.get("amount")?.setErrors({
-            [errKey]: "Item sum cannot be larger than receipt total",
+            [errKey]: `${objectName} sum cannot be larger than receipt total`,
           });
         }
       });
-      return { [errKey]: "Item sum cannot be larger than receipt total" };
+      return { [errKey]: `${objectName} sum cannot be larger than receipt total` };
     } else {
       itemControls.forEach((c) => {
         if (c.get("amount")?.errors && c.get("amount")?.hasError(errKey)) {
