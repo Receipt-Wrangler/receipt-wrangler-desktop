@@ -33,7 +33,7 @@ function itemTotalValidator(isShare: boolean): ValidatorFn {
     const errKey = "itemLargerThanTotal";
     const objectName = isShare ? "Share" : "Item";
 
-    const formArray = control.parent?.parent as FormArray;
+    const formArray = control.parent?.parent as FormArray<FormControl<Item>>;
     const amountControl = control?.parent?.parent?.parent;
     let receiptTotal: number = 1;
     if (amountControl) {
@@ -47,7 +47,13 @@ function itemTotalValidator(isShare: boolean): ValidatorFn {
       return null;
     }
 
-    const itemControls = formArray.controls;
+    let itemControls = formArray.controls;
+    if (isShare) {
+      itemControls = itemControls.filter(c => c.value.chargedToUserId !== null && c.value.chargedToUserId !== undefined);
+    } else {
+      itemControls = itemControls.filter(c => c.value.chargedToUserId === null || c.value.chargedToUserId === undefined);
+    }
+
     const itemsAmounts: number[] = itemControls
       .map((c) => c.get("amount")?.value ?? 0)
       .map((amount: any) => Number.parseFloat(amount) ?? 1);
