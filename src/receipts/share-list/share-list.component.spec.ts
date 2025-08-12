@@ -70,7 +70,7 @@ describe("ShareListComponent", () => {
 
   function createFormWithItems(items: Item[]): FormGroup {
     const receiptItems = new FormArray(
-      items.map(item => buildItemForm(item, mockReceipt.id?.toString()))
+      items.map(item => buildItemForm(item, mockReceipt.id?.toString(), true))
     );
 
     return new FormGroup({
@@ -905,7 +905,8 @@ describe("ShareListComponent", () => {
       // Add new item to form
       const newItem = buildItemForm(
         { id: 5, name: "New Item", amount: "20.00", chargedToUserId: 4, status: ItemStatus.Open, receiptId: 1 } as Item,
-        "1"
+        "1",
+        true
       );
       (component.receiptItems as FormArray).push(newItem);
 
