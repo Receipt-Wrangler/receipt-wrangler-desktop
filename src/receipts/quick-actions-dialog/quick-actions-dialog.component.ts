@@ -197,7 +197,8 @@ export class QuickActionsDialogComponent implements OnInit {
 
       const formGroup = buildItemForm(
         item,
-        this.originalReceipt?.id?.toString()
+        this.originalReceipt?.id?.toString(),
+        true
       );
       this.receiptItems.push(formGroup);
     });
@@ -221,7 +222,8 @@ export class QuickActionsDialogComponent implements OnInit {
         );
         const formGroup = buildItemForm(
           item,
-          this.originalReceipt?.id?.toString()
+          this.originalReceipt?.id?.toString(),
+          true
         );
 
         this.receiptItems.push(formGroup);
@@ -300,7 +302,8 @@ export class QuickActionsDialogComponent implements OnInit {
 
         const formGroup = buildItemForm(
           item,
-          this.originalReceipt?.id?.toString()
+          this.originalReceipt?.id?.toString(),
+          true
         );
         this.receiptItems.push(formGroup);
       }
