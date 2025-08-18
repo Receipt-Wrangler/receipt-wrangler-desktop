@@ -233,8 +233,32 @@ export class ReceiptFormComponent implements OnInit {
 
   public toggleAmountSync(sync: boolean): void {
     if (sync) {
+      // Clear any existing itemLargerThanTotal errors first
+      this.clearItemValidationErrors();
+      // Then update the amount
       this.updateAmountFromItems();
+      // Trigger revalidation
+      this.revalidateItems();
     }
+  }
+
+  private clearItemValidationErrors(): void {
+    this.receiptItemsFormArray.controls.forEach((itemControl) => {
+      const amountControl = itemControl.get("amount");
+      if (amountControl?.errors && amountControl.hasError("itemLargerThanTotal")) {
+        const newErrors = { ...amountControl.errors };
+        delete newErrors["itemLargerThanTotal"];
+        const hasOtherErrors = Object.keys(newErrors).length > 0;
+        amountControl.setErrors(hasOtherErrors ? newErrors : null);
+      }
+    });
+  }
+
+  private revalidateItems(): void {
+    this.receiptItemsFormArray.controls.forEach((itemControl) => {
+      const amountControl = itemControl.get("amount");
+      amountControl?.updateValueAndValidity();
+    });
   }
 
   private updateAmountFromItems(): void {
@@ -711,7 +735,7 @@ export class ReceiptFormComponent implements OnInit {
       // Adding items as linkedItems to an existing item
       const targetItemFormGroup = this.receiptItemsFormArray.at(itemIndex) as FormGroup;
       let linkedItemsArray = targetItemFormGroup.get("linkedItems") as FormArray;
-      
+
       if (!linkedItemsArray) {
         // Create linkedItems FormArray if it doesn't exist
         linkedItemsArray = this.formBuilder.array([]);

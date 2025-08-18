@@ -29,8 +29,12 @@ export function buildItemForm(item?: Item, receiptId?: string, isShare: boolean 
 
 function itemTotalValidator(isShare: boolean, syncAmountWithItems: boolean = false): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    // Skip validation if sync with items is enabled - the receipt total will adjust automatically
-    if (syncAmountWithItems) {
+    // Check current sync state dynamically from the parent form
+    const parentForm = control?.parent?.parent?.parent;
+    const currentSyncState = parentForm?.get('syncAmountWithItems')?.value ?? syncAmountWithItems;
+    
+    // Skip validation if sync with items is currently enabled - the receipt total will adjust automatically
+    if (currentSyncState) {
       return null;
     }
 
