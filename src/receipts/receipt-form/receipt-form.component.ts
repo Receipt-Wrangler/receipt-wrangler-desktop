@@ -337,7 +337,7 @@ export class ReceiptFormComponent implements OnInit {
       receiptItems: this.formBuilder.array(
         this.originalReceipt?.receiptItems
           ? this.originalReceipt.receiptItems.map((item) =>
-            buildItemForm(item, this.originalReceipt?.id?.toString())
+            buildItemForm(item, this.originalReceipt?.id?.toString(), !!item.chargedToUserId)
           )
           : []
       )
@@ -682,7 +682,7 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public onItemAdded(item: Item): void {
-    const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString());
+    const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), !!item.chargedToUserId);
     this.receiptItemsFormArray.push(newFormGroup);
     this.shareListComponent.setUserItemMap();
     this.itemListComponent.setItems();

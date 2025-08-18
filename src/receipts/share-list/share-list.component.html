@@ -30,7 +30,7 @@
           >
           </app-input>
 
-          @if (!selectedGroup?.groupReceiptSettings?.hideItemCategories) {
+          @if (!selectedGroup?.groupReceiptSettings?.hideShareCategories) {
             <app-category-autocomplete
               [categories]="categories"
               [inputFormControl]="newItemFormGroup | formGet : 'categories'"
@@ -38,7 +38,7 @@
             ></app-category-autocomplete>
           }
 
-          @if (!selectedGroup?.groupReceiptSettings?.hideItemTags) {
+          @if (!selectedGroup?.groupReceiptSettings?.hideShareTags) {
             <app-tag-autocomplete
               [tags]="tags"
               [inputFormControl]="newItemFormGroup | formGet : 'tags'"
@@ -152,7 +152,7 @@
               (inputBlur)="addInlineItemOnBlur(key, i)"
             >
             </app-select>
-            @if (!selectedGroup?.groupReceiptSettings?.hideItemCategories) {
+            @if (!selectedGroup?.groupReceiptSettings?.hideShareCategories) {
               <app-category-autocomplete
                 [categories]="categories"
                 [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.categories'"
@@ -160,7 +160,7 @@
               ></app-category-autocomplete>
             }
 
-            @if (!selectedGroup?.groupReceiptSettings?.hideItemTags) {
+            @if (!selectedGroup?.groupReceiptSettings?.hideShareTags) {
               <app-tag-autocomplete
                 [tags]="tags"
                 [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.tags'"

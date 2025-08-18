@@ -131,7 +131,8 @@ export class ShareListComponent implements OnInit, OnChanges {
     this.isAdding = true;
     this.newItemFormGroup = buildItemForm(
       undefined,
-      this.originalReceipt?.id?.toString()
+      this.originalReceipt?.id?.toString(),
+      true
     );
   }
 
