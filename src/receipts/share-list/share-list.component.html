@@ -104,6 +104,15 @@
         cardStyle="mb-2"
       >
         <div content class="d-flex flex-column item-form-container">
+          @if (itemData.isLinkedItem && itemData.parentItem) {
+            <div class="d-flex align-items-center mb-2 p-2 bg-light border-start border-primary">
+              <mat-icon class="me-2 text-primary">link</mat-icon>
+              <small class="text-muted">
+                Split from: <strong>{{ itemData.parentItem.name }}</strong> 
+                ({{ itemData.parentItem.amount | customCurrency }})
+              </small>
+            </div>
+          }
           <div class="d-flex justify-content-end">
             @if (!(mode | inputReadonly)) {
               <app-delete-button
@@ -121,9 +130,7 @@
               #nameField
               label="Name"
               [inputId]="'name-' + i"
-              [inputFormControl]="
-              form | formGet : 'receiptItems.' + itemData.arrayIndex + '.name'
-            "
+              [inputFormControl]="form | formGet : getFormControlPath(itemData, 'name')"
               [readonly]="mode | inputReadonly"
               (inputBlur)="addInlineItemOnBlur(key, i)"
             >
@@ -132,9 +139,7 @@
               class="col"
               label="Amount"
               [isCurrency]="true"
-              [inputFormControl]="
-              form | formGet : 'receiptItems.' + itemData.arrayIndex + '.amount'
-            "
+              [inputFormControl]="form | formGet : getFormControlPath(itemData, 'amount')"
               [readonly]="mode | inputReadonly"
               (inputBlur)="addInlineItemOnBlur(key, i)"
             >
@@ -144,9 +149,7 @@
               label="Status"
               optionValueKey="value"
               optionDisplayKey="displayValue"
-              [inputFormControl]="
-              form | formGet : 'receiptItems.' + itemData.arrayIndex + '.status'
-            "
+              [inputFormControl]="form | formGet : getFormControlPath(itemData, 'status')"
               [readonly]="mode | inputReadonly"
               [options]="itemStatusOptions"
               (inputBlur)="addInlineItemOnBlur(key, i)"
@@ -155,7 +158,7 @@
             @if (!selectedGroup?.groupReceiptSettings?.hideShareCategories) {
               <app-category-autocomplete
                 [categories]="categories"
-                [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.categories'"
+                [inputFormControl]="form | formGet : getFormControlPath(itemData, 'categories')"
                 [readonly]="mode | inputReadonly"
               ></app-category-autocomplete>
             }
@@ -163,7 +166,7 @@
             @if (!selectedGroup?.groupReceiptSettings?.hideShareTags) {
               <app-tag-autocomplete
                 [tags]="tags"
-                [inputFormControl]="form | formGet : 'receiptItems.' + itemData.arrayIndex + '.tags'"
+                [inputFormControl]="form | formGet : getFormControlPath(itemData, 'tags')"
                 [readonly]="mode | inputReadonly"
               ></app-tag-autocomplete>
             }

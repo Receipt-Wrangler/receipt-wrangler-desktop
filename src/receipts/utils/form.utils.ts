@@ -18,6 +18,12 @@ export function buildItemForm(item?: Item, receiptId?: string, isShare: boolean 
       item?.status ?? ItemStatus.Open,
       Validators.required
     ),
+    // Always include linkedItems FormArray, even if empty
+    linkedItems: new FormArray(
+      item?.linkedItems?.map(linkedItem => 
+        buildItemForm(linkedItem, receiptId, true, syncAmountWithItems)
+      ) ?? []
+    ),
   });
 
   if (isShare) {

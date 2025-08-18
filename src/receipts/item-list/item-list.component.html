@@ -48,6 +48,15 @@
             <div content class="d-flex flex-column item-form-container">
               <div class="d-flex justify-content-end">
                 @if (!(mode | inputReadonly)) {
+                  <app-button
+                    matButtonType="iconButton"
+                    icon="call_split"
+                    tooltip="Split Item"
+                    [disabled]="
+                      !(originalReceipt?.groupId | groupRole : groupRole.Editor)
+                    "
+                    (clicked)="splitItem(itemData)"
+                  ></app-button>
                   <app-delete-button
                     tooltip="Remove Item"
                     [disabled]="

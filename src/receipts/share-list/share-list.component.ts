@@ -25,6 +25,9 @@ import { buildItemForm } from "../utils/form.utils";
 export interface ItemData {
   item: Item;
   arrayIndex: number;
+  parentItem?: Item;
+  isLinkedItem?: boolean;
+  linkedItemIndex?: number;
 }
 
 @Component({
@@ -104,22 +107,45 @@ export class ShareListComponent implements OnInit, OnChanges {
 
       if (items?.length > 0) {
         items.forEach((item, index) => {
+          // Add regular share items (those with chargedToUserId)
           const chargedToUserId = item?.chargedToUserId?.toString();
-          if (!chargedToUserId) {
-            return;
+          if (chargedToUserId) {
+            const itemData: ItemData = {
+              item: item,
+              arrayIndex: index,
+            };
+
+            if (map.has(chargedToUserId)) {
+              const newItems = Array.from(map.get(chargedToUserId) as ItemData[]);
+              newItems.push(itemData);
+              map.set(chargedToUserId, newItems);
+            } else {
+              map.set(chargedToUserId, [itemData]);
+            }
           }
 
-          const itemData: ItemData = {
-            item: item,
-            arrayIndex: index,
-          };
+          // Add linkedItems (split items)
+          if (item?.linkedItems && item.linkedItems.length > 0) {
+            item.linkedItems.forEach((linkedItem, linkedIndex) => {
+              const linkedChargedToUserId = linkedItem?.chargedToUserId?.toString();
+              if (linkedChargedToUserId) {
+                const linkedItemData: ItemData = {
+                  item: linkedItem,
+                  arrayIndex: index, // Keep reference to parent's index
+                  parentItem: item,
+                  isLinkedItem: true,
+                  linkedItemIndex: linkedIndex, // Track position within linkedItems array
+                };
 
-          if (map.has(chargedToUserId)) {
-            const newItems = Array.from(map.get(chargedToUserId) as ItemData[]);
-            newItems.push(itemData);
-            map.set(chargedToUserId, newItems);
-          } else {
-            map.set(chargedToUserId, [itemData]);
+                if (map.has(linkedChargedToUserId)) {
+                  const newItems = Array.from(map.get(linkedChargedToUserId) as ItemData[]);
+                  newItems.push(linkedItemData);
+                  map.set(linkedChargedToUserId, newItems);
+                } else {
+                  map.set(linkedChargedToUserId, [linkedItemData]);
+                }
+              }
+            });
           }
         });
       }
@@ -219,5 +245,15 @@ export class ShareListComponent implements OnInit, OnChanges {
     return this.receiptItems.controls.filter(
       (i) => i.get("chargedToUserId")?.value?.toString() === userId
     );
+  }
+
+  public getFormControlPath(itemData: ItemData, fieldName: string): string {
+    if (itemData.isLinkedItem && itemData.linkedItemIndex !== undefined) {
+      // For linkedItems: receiptItems.parentIndex.linkedItems.linkedIndex.fieldName
+      return `receiptItems.${itemData.arrayIndex}.linkedItems.${itemData.linkedItemIndex}.${fieldName}`;
+    } else {
+      // For regular items: receiptItems.arrayIndex.fieldName
+      return `receiptItems.${itemData.arrayIndex}.${fieldName}`;
+    }
   }
 }
