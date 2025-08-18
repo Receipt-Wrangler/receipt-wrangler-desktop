@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators, } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { RadioButtonData } from "src/radio-group/models";
 import { Item, Receipt, User } from "../../open-api";
@@ -25,6 +25,10 @@ export class QuickActionsDialogComponent implements OnInit {
 
   @Input() public parentForm!: FormGroup;
 
+  @Input() public amountToSplit!: number;
+
+  @Input() public itemIndex?: number;
+
   public localForm: FormGroup = new FormGroup({});
 
   public radioValues: RadioButtonData[] = Object.entries(QuickActions).map(
@@ -46,6 +50,23 @@ export class QuickActionsDialogComponent implements OnInit {
 
   private get receiptItems(): FormArray {
     return this.parentForm.get("receiptItems") as FormArray;
+  }
+
+  private get targetItemsArray(): FormArray {
+    if (this.itemIndex !== undefined) {
+      // We're splitting an item, so add to its linkedItems
+      const itemFormGroup = this.receiptItems.at(this.itemIndex) as FormGroup;
+      let linkedItems = itemFormGroup.get("linkedItems") as FormArray;
+      if (!linkedItems) {
+        // Create linkedItems FormArray if it doesn't exist
+        linkedItems = this.formBuilder.array([]);
+        itemFormGroup.addControl("linkedItems", linkedItems);
+      }
+      return linkedItems;
+    } else {
+      // We're splitting a receipt, so add to receiptItems
+      return this.receiptItems;
+    }
   }
 
   constructor(
@@ -151,11 +172,8 @@ export class QuickActionsDialogComponent implements OnInit {
   }
 
   public addSplits(): void {
-    const receiptAmount = Number.parseFloat(
-      this.parentForm.get("amount")?.value
-    );
-    if (receiptAmount < 0 || !receiptAmount) {
-      this.snackbarService.error("Receipt amount does not exist or is invalid!");
+    if (this.amountToSplit < 0 || !this.amountToSplit) {
+      this.snackbarService.error("Amount to split does not exist or is invalid!");
       return;
     }
 
@@ -183,16 +201,14 @@ export class QuickActionsDialogComponent implements OnInit {
     }
   }
 
-  private addEvenSplitItems(amount?: number): void {
+  private addEvenSplitItems(): void {
     const users: User[] = this.usersFormArray.controls.map((c) => c.value);
-    const receiptAmount =
-      amount ?? Number.parseFloat(this.parentForm.get("amount")?.value ?? 1);
 
     users.forEach((u) => {
       const item = this.buildSplitItem(
         u,
         `${u.displayName}'s Even Portion`,
-        Number.parseFloat((receiptAmount / users.length).toFixed(2))
+        Number.parseFloat((this.amountToSplit / users.length).toFixed(2))
       );
 
       const formGroup = buildItemForm(
@@ -200,12 +216,12 @@ export class QuickActionsDialogComponent implements OnInit {
         this.originalReceipt?.id?.toString(),
         true
       );
-      this.receiptItems.push(formGroup);
+      this.targetItemsArray.push(formGroup);
     });
   }
 
   private splitEvenlyWithOptionalParts(): void {
-    let amount = Number.parseFloat(this.parentForm.get("amount")?.value);
+    let amount = this.amountToSplit;
     const users: User[] = this.usersFormArray.value;
 
     // Build optional parts first
@@ -231,7 +247,21 @@ export class QuickActionsDialogComponent implements OnInit {
     });
 
     // Build even split items
-    this.addEvenSplitItems(amount);
+    const users2: User[] = this.usersFormArray.controls.map((c) => c.value);
+    users2.forEach((u) => {
+      const item = this.buildSplitItem(
+        u,
+        `${u.displayName}'s Even Portion`,
+        Number.parseFloat((amount / users2.length).toFixed(2))
+      );
+
+      const formGroup = buildItemForm(
+        item,
+        this.originalReceipt?.id?.toString(),
+        true
+      );
+      this.targetItemsArray.push(formGroup);
+    });
   }
 
   private buildSplitItem(u: User, name: string, amount: number): Item {
@@ -285,7 +315,7 @@ export class QuickActionsDialogComponent implements OnInit {
 
   private splitByPercentage(): void {
     const users: User[] = this.usersFormArray.value;
-    const receiptAmount = Number.parseFloat(this.parentForm.get("amount")?.value);
+    const receiptAmount = this.amountToSplit;
 
     users.forEach((user) => {
       const percentage = Number.parseFloat(

@@ -50,6 +50,7 @@ describe("QuickActionsDialogComponent", () => {
       receiptItems: new FormArray([]),
     });
     component.originalReceipt = { id: 1 } as any;
+    component.amountToSplit = 100; // Set the amount to split
     fixture.detectChanges();
 
     // Reset mocks
@@ -91,6 +92,7 @@ describe("QuickActionsDialogComponent", () => {
       amount: new FormControl("100"),
       receiptItems: new FormArray([]),
     });
+    component.amountToSplit = 100;
     component.ngOnInit();
 
     const users = [
@@ -125,6 +127,7 @@ describe("QuickActionsDialogComponent", () => {
       amount: new FormControl("100"),
       receiptItems: new FormArray([]),
     });
+    component.amountToSplit = 100;
     component.ngOnInit();
 
     const formArray = component.localForm.get("usersToSplit") as FormArray;
@@ -498,6 +501,7 @@ describe("QuickActionsDialogComponent", () => {
     describe("Edge Cases", () => {
       it("should handle receipt amount of 0", () => {
         component.parentForm.get("amount")?.setValue("0");
+        component.amountToSplit = 0;
         component.localForm.patchValue({
           quickAction: component.radioValues[2].value,
         });
@@ -508,12 +512,13 @@ describe("QuickActionsDialogComponent", () => {
         component.addSplits();
 
         expect(mockSnackbarService.error).toHaveBeenCalledWith(
-          "Receipt amount does not exist or is invalid!"
+          "Amount to split does not exist or is invalid!"
         );
       });
 
       it("should handle invalid receipt amount", () => {
         component.parentForm.get("amount")?.setValue("invalid");
+        component.amountToSplit = NaN;
         component.localForm.patchValue({
           quickAction: component.radioValues[2].value,
         });
@@ -524,7 +529,7 @@ describe("QuickActionsDialogComponent", () => {
         component.addSplits();
 
         expect(mockSnackbarService.error).toHaveBeenCalledWith(
-          "Receipt amount does not exist or is invalid!"
+          "Amount to split does not exist or is invalid!"
         );
       });
 

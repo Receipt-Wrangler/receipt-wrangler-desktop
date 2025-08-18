@@ -263,6 +263,7 @@
     [parentForm]="form"
     [originalReceipt]="originalReceipt"
     [usersToOmit]="usersToOmit"
+    [amountToSplit]="form.get('amount')?.value || 0"
   ></app-quick-actions-dialog>
 </ng-template>
 
