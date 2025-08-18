@@ -45,10 +45,6 @@ describe("QuickActionsDialogComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuickActionsDialogComponent);
     component = fixture.componentInstance;
-    component.parentForm = new FormGroup({
-      amount: new FormControl("100"),
-      receiptItems: new FormArray([]),
-    });
     component.originalReceipt = { id: 1 } as any;
     component.amountToSplit = 100; // Set the amount to split
     fixture.detectChanges();
@@ -88,10 +84,6 @@ describe("QuickActionsDialogComponent", () => {
   });
 
   it("should add even split items", () => {
-    component.parentForm = new FormGroup({
-      amount: new FormControl("100"),
-      receiptItems: new FormArray([]),
-    });
     component.amountToSplit = 100;
     component.ngOnInit();
 
@@ -101,32 +93,28 @@ describe("QuickActionsDialogComponent", () => {
     ];
 
     const formArray = component.localForm.get("usersToSplit") as FormArray;
-    users.forEach((u) => {
-      formArray.push(
-        new FormGroup({
-          id: new FormControl(u.id.toString()),
-          displayName: new FormControl(u.displayName),
-        })
-      );
+    users.forEach((user) => {
+      formArray.push(new FormControl(user));
     });
-
+    formArray.setValue(users);
     component.localForm.patchValue({
       quickAction: component.radioValues[0].value,
     });
+
+    spyOn(component.itemsToAdd, "emit");
+
     component.addSplits();
 
-    const receiptItems = component.parentForm.get("receiptItems") as FormArray;
-
-    expect(receiptItems.length).toBe(2);
-    expect(receiptItems.at(0).get("amount")?.value).toBe(50);
-    expect(receiptItems.at(1).get("amount")?.value).toBe(50);
+    expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
+      items: jasmine.arrayContaining([
+        jasmine.objectContaining({ amount: 50, chargedToUserId: 1 }),
+        jasmine.objectContaining({ amount: 50, chargedToUserId: 2 }),
+      ]),
+      itemIndex: undefined
+    });
   });
 
   it("should split evenly with optional parts", () => {
-    component.parentForm = new FormGroup({
-      amount: new FormControl("100"),
-      receiptItems: new FormArray([]),
-    });
     component.amountToSplit = 100;
     component.ngOnInit();
 
@@ -135,30 +123,29 @@ describe("QuickActionsDialogComponent", () => {
       { id: 1, displayName: "User 1" },
       { id: 2, displayName: "User 2" },
     ];
-    users.forEach((u) => {
-      formArray.push(
-        new FormGroup({
-          id: new FormControl(u.id.toString()),
-          displayName: new FormControl(u.displayName),
-        })
-      );
+    users.forEach((user) => {
+      formArray.push(new FormControl(user));
     });
+    formArray.setValue(users);
     component.localForm.patchValue({
       quickAction: component.radioValues[1].value,
     });
     component.localForm.addControl("1", new FormControl("10"));
     component.localForm.addControl("2", new FormControl("20"));
 
+    spyOn(component.itemsToAdd, "emit");
+
     component.addSplits();
 
-    const receiptItems = component.parentForm.get("receiptItems") as FormArray;
-
-    // TODO: Fix
-    expect(receiptItems.length).toBe(4);
-    // expect(receiptItems.at(0).get('amount')?.value).toBe(10);
-    // expect(receiptItems.at(1).get('amount')?.value).toBe(20);
-    // expect(receiptItems.at(2).get('amount')?.value).toBe(35);
-    // expect(receiptItems.at(3).get('amount')?.value).toBe(35);
+    expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
+      items: jasmine.arrayContaining([
+        jasmine.objectContaining({ amount: 1, chargedToUserId: 1, name: "User 1's Portion" }),
+        jasmine.objectContaining({ amount: 1, chargedToUserId: 2, name: "User 2's Portion" }),
+        jasmine.objectContaining({ amount: 49, chargedToUserId: 1, name: "User 1's Even Portion" }),
+        jasmine.objectContaining({ amount: 49, chargedToUserId: 2, name: "User 2's Even Portion" }),
+      ]),
+      itemIndex: undefined
+    });
   });
 
   describe("Split by Percentage", () => {
@@ -353,14 +340,18 @@ describe("QuickActionsDialogComponent", () => {
         component.setPercentage(users[1].id.toString(), 35);
         component.setPercentage(users[2].id.toString(), 25);
 
+        spyOn(component.itemsToAdd, "emit");
+
         component.addSplits();
 
-        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
-
-        expect(receiptItems.length).toBe(3);
-        expect(receiptItems.at(0).get("amount")?.value).toBe(40); // 100 * 40% = 40
-        expect(receiptItems.at(1).get("amount")?.value).toBe(35); // 100 * 35% = 35
-        expect(receiptItems.at(2).get("amount")?.value).toBe(25); // 100 * 25% = 25
+        expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
+          items: jasmine.arrayContaining([
+            jasmine.objectContaining({ amount: 40 }), // 100 * 40% = 40
+            jasmine.objectContaining({ amount: 35 }), // 100 * 35% = 35
+            jasmine.objectContaining({ amount: 25 }), // 100 * 25% = 25
+          ]),
+          itemIndex: undefined
+        });
       });
 
       it("should create items with correct names including percentage", () => {
@@ -373,11 +364,16 @@ describe("QuickActionsDialogComponent", () => {
 
         component.setPercentage(users[0].id.toString(), 50);
 
+        spyOn(component.itemsToAdd, "emit");
+
         component.addSplits();
 
-        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
-
-        expect(receiptItems.at(0).get("name")?.value).toBe("John Doe's 50% Portion");
+        expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
+          items: jasmine.arrayContaining([
+            jasmine.objectContaining({ name: "John Doe's 50% Portion" }),
+          ]),
+          itemIndex: undefined
+        });
       });
 
       it("should only create items for users with percentage > 0", () => {
@@ -392,12 +388,16 @@ describe("QuickActionsDialogComponent", () => {
         component.setPercentage(users[0].id.toString(), 100);
         // Other users remain at 0%
 
+        spyOn(component.itemsToAdd, "emit");
+
         component.addSplits();
 
-        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
-
-        expect(receiptItems.length).toBe(1);
-        expect(receiptItems.at(0).get("chargedToUserId")?.value).toBe(users[0].id);
+        expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
+          items: [
+            jasmine.objectContaining({ chargedToUserId: users[0].id }),
+          ],
+          itemIndex: undefined
+        });
       });
 
       it("should handle decimal percentages correctly", () => {
@@ -413,11 +413,16 @@ describe("QuickActionsDialogComponent", () => {
         percentageControl?.enable();
         percentageControl?.setValue(33.33);
 
+        spyOn(component.itemsToAdd, "emit");
+
         component.addSplits();
 
-        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
-
-        expect(receiptItems.at(0).get("amount")?.value).toBe(33.33);
+        expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
+          items: [
+            jasmine.objectContaining({ amount: 33.33 }),
+          ],
+          itemIndex: undefined
+        });
       });
     });
 
@@ -500,7 +505,6 @@ describe("QuickActionsDialogComponent", () => {
 
     describe("Edge Cases", () => {
       it("should handle receipt amount of 0", () => {
-        component.parentForm.get("amount")?.setValue("0");
         component.amountToSplit = 0;
         component.localForm.patchValue({
           quickAction: component.radioValues[2].value,
@@ -517,7 +521,6 @@ describe("QuickActionsDialogComponent", () => {
       });
 
       it("should handle invalid receipt amount", () => {
-        component.parentForm.get("amount")?.setValue("invalid");
         component.amountToSplit = NaN;
         component.localForm.patchValue({
           quickAction: component.radioValues[2].value,
@@ -545,11 +548,17 @@ describe("QuickActionsDialogComponent", () => {
         percentageControl?.enable();
         percentageControl?.setValue(33.333);
 
+        spyOn(component.itemsToAdd, "emit");
+
         component.addSplits();
 
-        const receiptItems = component.parentForm.get("receiptItems") as FormArray;
         // Should round to 2 decimal places
-        expect(receiptItems.at(0).get("amount")?.value).toBe(33.33);
+        expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
+          items: [
+            jasmine.objectContaining({ amount: 33.33 }),
+          ],
+          itemIndex: undefined
+        });
       });
     });
   });

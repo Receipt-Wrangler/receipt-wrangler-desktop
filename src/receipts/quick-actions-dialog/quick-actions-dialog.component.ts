@@ -1,10 +1,9 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { RadioButtonData } from "src/radio-group/models";
 import { Item, Receipt, User } from "../../open-api";
 import { SnackbarService } from "../../services/index";
-import { buildItemForm } from "../utils/form.utils";
 
 enum QuickActions {
   "SplitEvenly" = "Split Evenly",
@@ -23,11 +22,11 @@ export class QuickActionsDialogComponent implements OnInit {
 
   @Input() public usersToOmit: string[] = [];
 
-  @Input() public parentForm!: FormGroup;
-
   @Input() public amountToSplit!: number;
 
   @Input() public itemIndex?: number;
+
+  @Output() public itemsToAdd = new EventEmitter<{ items: Item[], itemIndex?: number }>();
 
   public localForm: FormGroup = new FormGroup({});
 
@@ -46,27 +45,6 @@ export class QuickActionsDialogComponent implements OnInit {
 
   private get usersFormArray(): FormArray {
     return this.localForm.get("usersToSplit") as FormArray;
-  }
-
-  private get receiptItems(): FormArray {
-    return this.parentForm.get("receiptItems") as FormArray;
-  }
-
-  private get targetItemsArray(): FormArray {
-    if (this.itemIndex !== undefined) {
-      // We're splitting an item, so add to its linkedItems
-      const itemFormGroup = this.receiptItems.at(this.itemIndex) as FormGroup;
-      let linkedItems = itemFormGroup.get("linkedItems") as FormArray;
-      if (!linkedItems) {
-        // Create linkedItems FormArray if it doesn't exist
-        linkedItems = this.formBuilder.array([]);
-        itemFormGroup.addControl("linkedItems", linkedItems);
-      }
-      return linkedItems;
-    } else {
-      // We're splitting a receipt, so add to receiptItems
-      return this.receiptItems;
-    }
   }
 
   constructor(
@@ -184,25 +162,31 @@ export class QuickActionsDialogComponent implements OnInit {
     }
 
     if (this.localForm.valid) {
+      let items: Item[] = [];
+
       if (
         this.localForm.get("quickAction")?.value === this.radioValues[0].value
       ) {
-        this.addEvenSplitItems();
+        items = this.addEvenSplitItems();
       } else if (
         this.localForm.get("quickAction")?.value === this.radioValues[1].value
       ) {
-        this.splitEvenlyWithOptionalParts();
+        items = this.splitEvenlyWithOptionalParts();
       } else if (
         this.localForm.get("quickAction")?.value === this.radioValues[2].value
       ) {
-        this.splitByPercentage();
+        items = this.splitByPercentage();
       }
+
+      // Emit the items to be added
+      this.itemsToAdd.emit({ items, itemIndex: this.itemIndex });
       this.dialogRef.close(true);
     }
   }
 
-  private addEvenSplitItems(): void {
+  private addEvenSplitItems(): Item[] {
     const users: User[] = this.usersFormArray.controls.map((c) => c.value);
+    const items: Item[] = [];
 
     users.forEach((u) => {
       const item = this.buildSplitItem(
@@ -210,19 +194,16 @@ export class QuickActionsDialogComponent implements OnInit {
         `${u.displayName}'s Even Portion`,
         Number.parseFloat((this.amountToSplit / users.length).toFixed(2))
       );
-
-      const formGroup = buildItemForm(
-        item,
-        this.originalReceipt?.id?.toString(),
-        true
-      );
-      this.targetItemsArray.push(formGroup);
+      items.push(item);
     });
+
+    return items;
   }
 
-  private splitEvenlyWithOptionalParts(): void {
+  private splitEvenlyWithOptionalParts(): Item[] {
     let amount = this.amountToSplit;
     const users: User[] = this.usersFormArray.value;
+    const items: Item[] = [];
 
     // Build optional parts first
     users.forEach((u) => {
@@ -236,13 +217,7 @@ export class QuickActionsDialogComponent implements OnInit {
           `${u.displayName}'s Portion`,
           this.localForm.get(u.id.toString())?.value
         );
-        const formGroup = buildItemForm(
-          item,
-          this.originalReceipt?.id?.toString(),
-          true
-        );
-
-        this.receiptItems.push(formGroup);
+        items.push(item);
       }
     });
 
@@ -254,14 +229,10 @@ export class QuickActionsDialogComponent implements OnInit {
         `${u.displayName}'s Even Portion`,
         Number.parseFloat((amount / users2.length).toFixed(2))
       );
-
-      const formGroup = buildItemForm(
-        item,
-        this.originalReceipt?.id?.toString(),
-        true
-      );
-      this.targetItemsArray.push(formGroup);
+      items.push(item);
     });
+
+    return items;
   }
 
   private buildSplitItem(u: User, name: string, amount: number): Item {
@@ -313,9 +284,10 @@ export class QuickActionsDialogComponent implements OnInit {
     return true;
   }
 
-  private splitByPercentage(): void {
+  private splitByPercentage(): Item[] {
     const users: User[] = this.usersFormArray.value;
     const receiptAmount = this.amountToSplit;
+    const items: Item[] = [];
 
     users.forEach((user) => {
       const percentage = Number.parseFloat(
@@ -329,15 +301,11 @@ export class QuickActionsDialogComponent implements OnInit {
           `${user.displayName}'s ${percentage}% Portion`,
           amount
         );
-
-        const formGroup = buildItemForm(
-          item,
-          this.originalReceipt?.id?.toString(),
-          true
-        );
-        this.receiptItems.push(formGroup);
+        items.push(item);
       }
     });
+
+    return items;
   }
 
   public setPercentage(userId: string, percentage: number): void {

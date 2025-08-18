@@ -704,6 +704,43 @@ export class ReceiptFormComponent implements OnInit {
     }
   }
 
+  public onQuickActionItemsAdded(data: { items: Item[], itemIndex?: number }): void {
+    const { items, itemIndex } = data;
+
+    if (itemIndex !== undefined) {
+      // Adding items as linkedItems to an existing item
+      const targetItemFormGroup = this.receiptItemsFormArray.at(itemIndex) as FormGroup;
+      let linkedItemsArray = targetItemFormGroup.get("linkedItems") as FormArray;
+      
+      if (!linkedItemsArray) {
+        // Create linkedItems FormArray if it doesn't exist
+        linkedItemsArray = this.formBuilder.array([]);
+        targetItemFormGroup.addControl("linkedItems", linkedItemsArray);
+      }
+
+      // Add each item to the linkedItems array
+      items.forEach(item => {
+        const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), true);
+        linkedItemsArray.push(newFormGroup);
+      });
+    } else {
+      // Adding items as regular receipt items
+      items.forEach(item => {
+        const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), true);
+        this.receiptItemsFormArray.push(newFormGroup);
+      });
+    }
+
+    // Refresh component views
+    this.shareListComponent?.setUserItemMap();
+    this.itemListComponent?.setItems();
+
+    // Auto-sync amount if enabled
+    if (this.syncAmountWithItems) {
+      this.updateAmountFromItems();
+    }
+  }
+
   public onAllItemsResolved(userId: string): void {
     // The actual item status updates are handled by the child component
     // We don't need to do anything here as the form will reflect the changes
