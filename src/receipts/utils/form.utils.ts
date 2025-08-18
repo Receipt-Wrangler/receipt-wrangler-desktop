@@ -1,7 +1,7 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Item, ItemStatus } from "../../open-api";
 
-export function buildItemForm(item?: Item, receiptId?: string, isShare: boolean = true): FormGroup {
+export function buildItemForm(item?: Item, receiptId?: string, isShare: boolean = true, syncAmountWithItems: boolean = false): FormGroup {
   const formGroup = new FormGroup({
     name: new FormControl(item?.name ?? "", Validators.required),
     chargedToUserId: new FormControl(item?.chargedToUserId ?? undefined, []),
@@ -9,7 +9,7 @@ export function buildItemForm(item?: Item, receiptId?: string, isShare: boolean 
     amount: new FormControl(item?.amount ?? undefined, [
       Validators.required,
       Validators.min(0),
-      itemTotalValidator(isShare),
+      itemTotalValidator(isShare, syncAmountWithItems),
     ]),
     isTaxed: new FormControl(item?.IsTaxed ?? false),
     categories: new FormArray(item?.categories?.map((c) => new FormControl(c)) ?? []),
@@ -27,8 +27,13 @@ export function buildItemForm(item?: Item, receiptId?: string, isShare: boolean 
   return formGroup;
 }
 
-function itemTotalValidator(isShare: boolean): ValidatorFn {
+function itemTotalValidator(isShare: boolean, syncAmountWithItems: boolean = false): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
+    // Skip validation if sync with items is enabled - the receipt total will adjust automatically
+    if (syncAmountWithItems) {
+      return null;
+    }
+
     const epsilon = 0.01;
     const errKey = "itemLargerThanTotal";
     const objectName = isShare ? "Share" : "Item";

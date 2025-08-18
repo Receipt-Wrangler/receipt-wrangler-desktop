@@ -337,7 +337,7 @@ export class ReceiptFormComponent implements OnInit {
       receiptItems: this.formBuilder.array(
         this.originalReceipt?.receiptItems
           ? this.originalReceipt.receiptItems.map((item) =>
-            buildItemForm(item, this.originalReceipt?.id?.toString(), !!item.chargedToUserId)
+            buildItemForm(item, this.originalReceipt?.id?.toString(), !!item.chargedToUserId, false)
           )
           : []
       )
@@ -682,7 +682,7 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public onItemAdded(item: Item): void {
-    const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), !!item.chargedToUserId);
+    const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), !!item.chargedToUserId, this.syncAmountWithItems);
     this.receiptItemsFormArray.push(newFormGroup);
     this.shareListComponent.setUserItemMap();
     this.itemListComponent.setItems();
@@ -720,13 +720,13 @@ export class ReceiptFormComponent implements OnInit {
 
       // Add each item to the linkedItems array
       items.forEach(item => {
-        const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), true);
+        const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), true, this.syncAmountWithItems);
         linkedItemsArray.push(newFormGroup);
       });
     } else {
       // Adding items as regular receipt items
       items.forEach(item => {
-        const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), true);
+        const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), true, this.syncAmountWithItems);
         this.receiptItemsFormArray.push(newFormGroup);
       });
     }
