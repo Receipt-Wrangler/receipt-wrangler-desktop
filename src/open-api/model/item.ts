@@ -41,6 +41,10 @@ export interface Item {
     receiptId: number;
     status: ItemStatus;
     /**
+     * Foreign key to link this item to another item (for sharing)
+     */
+    linkedItemId?: number;
+    /**
      * Categories associated to the item
      */
     categories?: Array<Category>;

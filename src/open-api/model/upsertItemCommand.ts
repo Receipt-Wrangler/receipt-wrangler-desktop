@@ -31,6 +31,10 @@ export interface UpsertItemCommand {
     receiptId: number;
     status: ItemStatus;
     /**
+     * Foreign key to link this item to another item (for sharing)
+     */
+    linkedItemId?: number;
+    /**
      * Categories associated to item
      */
     categories?: Array<UpsertCategoryCommand>;
