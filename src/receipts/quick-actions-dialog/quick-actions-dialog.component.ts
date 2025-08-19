@@ -241,6 +241,8 @@ export class QuickActionsDialogComponent implements OnInit {
       chargedToUserId: u.id,
       receiptId: this.originalReceipt?.id,
       amount: amount,
+      categories: [],
+      tags: []
     } as any as Item;
   }
 
