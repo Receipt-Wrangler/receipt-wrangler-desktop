@@ -717,8 +717,19 @@ export class ReceiptFormComponent implements OnInit {
     }
   }
 
-  public onItemRemoved(data: { item: Item; arrayIndex: number }): void {
-    this.receiptItemsFormArray.removeAt(data.arrayIndex);
+  public onItemRemoved(data: { item: Item; arrayIndex: number; isLinkedItem?: boolean; linkedItemIndex?: number }): void {
+    if (data.isLinkedItem && data.linkedItemIndex !== undefined) {
+      // Remove linked item from parent's linkedItems array
+      const parentItemFormGroup = this.receiptItemsFormArray.at(data.arrayIndex) as FormGroup;
+      const linkedItemsArray = parentItemFormGroup.get("linkedItems") as FormArray;
+      if (linkedItemsArray && data.linkedItemIndex < linkedItemsArray.length) {
+        linkedItemsArray.removeAt(data.linkedItemIndex);
+      }
+    } else {
+      // Remove regular item from main receiptItems array
+      this.receiptItemsFormArray.removeAt(data.arrayIndex);
+    }
+    
     this.shareListComponent.setUserItemMap();
     this.itemListComponent.setItems();
 

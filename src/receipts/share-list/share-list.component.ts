@@ -60,7 +60,7 @@ export class ShareListComponent implements OnInit, OnChanges {
 
   @Output() public itemAdded = new EventEmitter<Item>();
 
-  @Output() public itemRemoved = new EventEmitter<{ item: Item; arrayIndex: number }>();
+  @Output() public itemRemoved = new EventEmitter<{ item: Item; arrayIndex: number; isLinkedItem?: boolean; linkedItemIndex?: number }>();
 
   @Output() public allItemsResolved = new EventEmitter<string>();
 
@@ -177,7 +177,12 @@ export class ShareListComponent implements OnInit, OnChanges {
   }
 
   public removeItem(itemData: ItemData): void {
-    this.itemRemoved.emit({ item: itemData.item, arrayIndex: itemData.arrayIndex });
+    this.itemRemoved.emit({ 
+      item: itemData.item, 
+      arrayIndex: itemData.arrayIndex,
+      isLinkedItem: itemData.isLinkedItem,
+      linkedItemIndex: itemData.linkedItemIndex
+    });
   }
 
   public addInlineItem(userId: string, event?: MouseEvent): void {
@@ -216,7 +221,12 @@ export class ShareListComponent implements OnInit, OnChanges {
         const amountValue = formGroup.get("amount")?.value;
 
         if (formGroup.pristine && (!nameValue || nameValue.trim() === "") && (!amountValue || amountValue === 0)) {
-          this.itemRemoved.emit({ item: lastItem.item, arrayIndex: lastItem.arrayIndex });
+          this.itemRemoved.emit({ 
+            item: lastItem.item, 
+            arrayIndex: lastItem.arrayIndex,
+            isLinkedItem: lastItem.isLinkedItem,
+            linkedItemIndex: lastItem.linkedItemIndex
+          });
         }
       }
     }

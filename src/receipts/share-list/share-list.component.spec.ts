@@ -480,7 +480,9 @@ describe("ShareListComponent", () => {
 
       expect(component.itemRemoved.emit).toHaveBeenCalledWith({
         item: mockItems[0],
-        arrayIndex: 0
+        arrayIndex: 0,
+        isLinkedItem: undefined,
+        linkedItemIndex: undefined
       });
     });
 
@@ -620,7 +622,9 @@ describe("ShareListComponent", () => {
           chargedToUserId: 1,
           status: ItemStatus.Open
         }),
-        arrayIndex: 1
+        arrayIndex: 1,
+        isLinkedItem: undefined,
+        linkedItemIndex: undefined
       });
     });
 
@@ -649,7 +653,9 @@ describe("ShareListComponent", () => {
           chargedToUserId: 1,
           status: ItemStatus.Open
         }),
-        arrayIndex: 1
+        arrayIndex: 1,
+        isLinkedItem: undefined,
+        linkedItemIndex: undefined
       });
     });
 
