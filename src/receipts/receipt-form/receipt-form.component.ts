@@ -233,8 +233,32 @@ export class ReceiptFormComponent implements OnInit {
 
   public toggleAmountSync(sync: boolean): void {
     if (sync) {
+      // Clear any existing itemLargerThanTotal errors first
+      this.clearItemValidationErrors();
+      // Then update the amount
       this.updateAmountFromItems();
+      // Trigger revalidation
+      this.revalidateItems();
     }
+  }
+
+  private clearItemValidationErrors(): void {
+    this.receiptItemsFormArray.controls.forEach((itemControl) => {
+      const amountControl = itemControl.get("amount");
+      if (amountControl?.errors && amountControl.hasError("itemLargerThanTotal")) {
+        const newErrors = { ...amountControl.errors };
+        delete newErrors["itemLargerThanTotal"];
+        const hasOtherErrors = Object.keys(newErrors).length > 0;
+        amountControl.setErrors(hasOtherErrors ? newErrors : null);
+      }
+    });
+  }
+
+  private revalidateItems(): void {
+    this.receiptItemsFormArray.controls.forEach((itemControl) => {
+      const amountControl = itemControl.get("amount");
+      amountControl?.updateValueAndValidity();
+    });
   }
 
   private updateAmountFromItems(): void {
@@ -337,7 +361,7 @@ export class ReceiptFormComponent implements OnInit {
       receiptItems: this.formBuilder.array(
         this.originalReceipt?.receiptItems
           ? this.originalReceipt.receiptItems.map((item) =>
-            buildItemForm(item, this.originalReceipt?.id?.toString(), !!item.chargedToUserId)
+            buildItemForm(item, this.originalReceipt?.id?.toString(), !!item.chargedToUserId, false)
           )
           : []
       )
@@ -682,7 +706,7 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public onItemAdded(item: Item): void {
-    const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), !!item.chargedToUserId);
+    const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), !!item.chargedToUserId, this.syncAmountWithItems);
     this.receiptItemsFormArray.push(newFormGroup);
     this.shareListComponent.setUserItemMap();
     this.itemListComponent.setItems();
@@ -693,10 +717,72 @@ export class ReceiptFormComponent implements OnInit {
     }
   }
 
-  public onItemRemoved(data: { item: Item; arrayIndex: number }): void {
-    this.receiptItemsFormArray.removeAt(data.arrayIndex);
+  public onItemRemoved(data: { item: Item; arrayIndex: number; isLinkedItem?: boolean; linkedItemIndex?: number }): void {
+    if (data.isLinkedItem && data.linkedItemIndex !== undefined) {
+      // Remove linked item from parent's linkedItems array
+      const parentItemFormGroup = this.receiptItemsFormArray.at(data.arrayIndex) as FormGroup;
+      const linkedItemsArray = parentItemFormGroup.get("linkedItems") as FormArray;
+      if (linkedItemsArray && data.linkedItemIndex < linkedItemsArray.length) {
+        linkedItemsArray.removeAt(data.linkedItemIndex);
+      }
+    } else {
+      // Remove regular item from main receiptItems array
+      this.receiptItemsFormArray.removeAt(data.arrayIndex);
+    }
+    
     this.shareListComponent.setUserItemMap();
     this.itemListComponent.setItems();
+
+    // Auto-sync amount if enabled
+    if (this.syncAmountWithItems) {
+      this.updateAmountFromItems();
+    }
+  }
+
+  public onQuickActionItemsAdded(data: { items: Item[], itemIndex?: number }): void {
+    const { items, itemIndex } = data;
+
+    if (itemIndex !== undefined) {
+      this.addLinkedItems(items, itemIndex);
+    } else {
+      // Adding items as regular receipt items
+      items.forEach(item => {
+        const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), true, this.syncAmountWithItems);
+        this.receiptItemsFormArray.push(newFormGroup);
+      });
+    }
+
+    this.refreshComponentsAndSync();
+  }
+
+  public onItemSplit(data: { items: Item[], itemIndex: number }): void {
+    const { items, itemIndex } = data;
+    this.addLinkedItems(items, itemIndex);
+    this.refreshComponentsAndSync();
+  }
+
+  private addLinkedItems(items: Item[], itemIndex: number): void {
+    // Adding items as linkedItems to an existing item
+    const targetItemFormGroup = this.receiptItemsFormArray.at(itemIndex) as FormGroup;
+    let linkedItemsArray = targetItemFormGroup.get("linkedItems") as FormArray;
+
+    if (!linkedItemsArray) {
+      // Create linkedItems FormArray if it doesn't exist
+      linkedItemsArray = this.formBuilder.array([]);
+      targetItemFormGroup.addControl("linkedItems", linkedItemsArray);
+    }
+
+    // Add each item to the linkedItems array
+    items.forEach(item => {
+      const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), true, this.syncAmountWithItems);
+      linkedItemsArray.push(newFormGroup);
+    });
+  }
+
+  private refreshComponentsAndSync(): void {
+    // Refresh component views
+    this.shareListComponent?.setUserItemMap();
+    this.itemListComponent?.setItems();
 
     // Auto-sync amount if enabled
     if (this.syncAmountWithItems) {

@@ -161,6 +161,7 @@
           [triggerAddMode]="triggerItemListAddMode"
           (itemAdded)="onItemAdded($event)"
           (itemRemoved)="onItemRemoved($event)"
+          (itemSplit)="onItemSplit($event)"
         ></app-item-list>
       </app-form-section>
       <app-form-section
@@ -260,9 +261,10 @@
     cdkDrag
     cdkDragHandle
     cdkDragRootElement=".cdk-overlay-pane"
-    [parentForm]="form"
     [originalReceipt]="originalReceipt"
     [usersToOmit]="usersToOmit"
+    [amountToSplit]="form.get('amount')?.value || 0"
+    (itemsToAdd)="onQuickActionItemsAdded($event)"
   ></app-quick-actions-dialog>
 </ng-template>
 

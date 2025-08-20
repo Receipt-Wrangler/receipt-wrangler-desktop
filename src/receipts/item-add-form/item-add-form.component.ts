@@ -93,6 +93,7 @@ export class ItemAddFormComponent implements OnInit, OnDestroy {
     this.newItemFormGroup = buildItemForm(
       undefined,
       this.receiptId,
+      false,
       false
     );
   }

@@ -15,6 +15,7 @@ import {
   ViewEncapsulation,
 } from "@angular/core";
 import { FormArray, FormGroup } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
 import { MatExpansionPanel } from "@angular/material/expansion";
 import { ActivatedRoute } from "@angular/router";
 import { FormMode } from "src/enums/form-mode.enum";
@@ -23,6 +24,8 @@ import { Category, Group, GroupRole, Item, Receipt, Tag } from "../../open-api";
 import { KeyboardShortcutService } from "../../services/keyboard-shortcut.service";
 import { Subject, takeUntil } from "rxjs";
 import { KEYBOARD_SHORTCUT_ACTIONS } from "../../constants/keyboard-shortcuts.constant";
+import { QuickActionsDialogComponent } from "../quick-actions-dialog/quick-actions-dialog.component";
+import { DEFAULT_DIALOG_CONFIG } from "src/constants";
 
 export interface ItemData {
   item: Item;
@@ -60,6 +63,8 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() public itemRemoved = new EventEmitter<{ item: Item; arrayIndex: number }>();
 
+  @Output() public itemSplit = new EventEmitter<{ items: Item[], itemIndex: number }>();
+
 
   public items: ItemData[] = [];
 
@@ -80,7 +85,8 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private keyboardShortcutService: KeyboardShortcutService
+    private keyboardShortcutService: KeyboardShortcutService,
+    private matDialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
@@ -181,6 +187,35 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
 
   public removeItem(itemData: ItemData): void {
     this.itemRemoved.emit({ item: itemData.item, arrayIndex: itemData.arrayIndex });
+  }
+
+  public splitItem(itemData: ItemData): void {
+    const dialogRef = this.matDialog.open(QuickActionsDialogComponent, {
+      ...DEFAULT_DIALOG_CONFIG,
+      data: {
+        originalReceipt: this.originalReceipt,
+        amountToSplit: parseFloat(itemData.item.amount) || 0,
+        itemIndex: itemData.arrayIndex,
+        usersToOmit: []
+      }
+    });
+
+    // Pass data directly to component since it uses @Input decorators
+    dialogRef.componentInstance.originalReceipt = this.originalReceipt;
+    dialogRef.componentInstance.amountToSplit = parseFloat(itemData.item.amount) || 0;
+    dialogRef.componentInstance.itemIndex = itemData.arrayIndex;
+    dialogRef.componentInstance.usersToOmit = [];
+
+    // Subscribe to the component's itemsToAdd output
+    dialogRef.componentInstance.itemsToAdd.subscribe((data: { items: Item[], itemIndex?: number }) => {
+      if (data.itemIndex !== undefined) {
+        this.itemSplit.emit({ items: data.items, itemIndex: data.itemIndex });
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      // Dialog closed
+    });
   }
 
   public addInlineItem(event?: MouseEvent): void {

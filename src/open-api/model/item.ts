@@ -41,6 +41,10 @@ export interface Item {
     receiptId: number;
     status: ItemStatus;
     /**
+     * Items linked to this item (for sharing)
+     */
+    linkedItems?: Array<Item>;
+    /**
      * Categories associated to the item
      */
     categories?: Array<Category>;

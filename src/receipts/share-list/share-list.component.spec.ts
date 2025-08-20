@@ -70,7 +70,7 @@ describe("ShareListComponent", () => {
 
   function createFormWithItems(items: Item[]): FormGroup {
     const receiptItems = new FormArray(
-      items.map(item => buildItemForm(item, mockReceipt.id?.toString(), true))
+      items.map(item => buildItemForm(item, mockReceipt.id?.toString(), true, false))
     );
 
     return new FormGroup({
@@ -480,7 +480,9 @@ describe("ShareListComponent", () => {
 
       expect(component.itemRemoved.emit).toHaveBeenCalledWith({
         item: mockItems[0],
-        arrayIndex: 0
+        arrayIndex: 0,
+        isLinkedItem: undefined,
+        linkedItemIndex: undefined
       });
     });
 
@@ -620,7 +622,9 @@ describe("ShareListComponent", () => {
           chargedToUserId: 1,
           status: ItemStatus.Open
         }),
-        arrayIndex: 1
+        arrayIndex: 1,
+        isLinkedItem: undefined,
+        linkedItemIndex: undefined
       });
     });
 
@@ -649,7 +653,9 @@ describe("ShareListComponent", () => {
           chargedToUserId: 1,
           status: ItemStatus.Open
         }),
-        arrayIndex: 1
+        arrayIndex: 1,
+        isLinkedItem: undefined,
+        linkedItemIndex: undefined
       });
     });
 
@@ -906,7 +912,8 @@ describe("ShareListComponent", () => {
       const newItem = buildItemForm(
         { id: 5, name: "New Item", amount: "20.00", chargedToUserId: 4, status: ItemStatus.Open, receiptId: 1 } as Item,
         "1",
-        true
+        true,
+        false
       );
       (component.receiptItems as FormArray).push(newItem);
 
