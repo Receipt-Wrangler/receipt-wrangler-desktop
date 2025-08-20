@@ -258,6 +258,10 @@ export class ShareListComponent implements OnInit, OnChanges {
   }
 
   public getFormControlPath(itemData: ItemData, fieldName: string): string {
+    if (!itemData || !fieldName) {
+      return '';
+    }
+    
     if (itemData.isLinkedItem && itemData.linkedItemIndex !== undefined) {
       // For linkedItems: receiptItems.parentIndex.linkedItems.linkedIndex.fieldName
       return `receiptItems.${itemData.arrayIndex}.linkedItems.${itemData.linkedItemIndex}.${fieldName}`;

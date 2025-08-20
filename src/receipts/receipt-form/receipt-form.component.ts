@@ -743,21 +743,7 @@ export class ReceiptFormComponent implements OnInit {
     const { items, itemIndex } = data;
 
     if (itemIndex !== undefined) {
-      // Adding items as linkedItems to an existing item
-      const targetItemFormGroup = this.receiptItemsFormArray.at(itemIndex) as FormGroup;
-      let linkedItemsArray = targetItemFormGroup.get("linkedItems") as FormArray;
-
-      if (!linkedItemsArray) {
-        // Create linkedItems FormArray if it doesn't exist
-        linkedItemsArray = this.formBuilder.array([]);
-        targetItemFormGroup.addControl("linkedItems", linkedItemsArray);
-      }
-
-      // Add each item to the linkedItems array
-      items.forEach(item => {
-        const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), true, this.syncAmountWithItems);
-        linkedItemsArray.push(newFormGroup);
-      });
+      this.addLinkedItems(items, itemIndex);
     } else {
       // Adding items as regular receipt items
       items.forEach(item => {
@@ -766,19 +752,16 @@ export class ReceiptFormComponent implements OnInit {
       });
     }
 
-    // Refresh component views
-    this.shareListComponent?.setUserItemMap();
-    this.itemListComponent?.setItems();
-
-    // Auto-sync amount if enabled
-    if (this.syncAmountWithItems) {
-      this.updateAmountFromItems();
-    }
+    this.refreshComponentsAndSync();
   }
 
   public onItemSplit(data: { items: Item[], itemIndex: number }): void {
     const { items, itemIndex } = data;
+    this.addLinkedItems(items, itemIndex);
+    this.refreshComponentsAndSync();
+  }
 
+  private addLinkedItems(items: Item[], itemIndex: number): void {
     // Adding items as linkedItems to an existing item
     const targetItemFormGroup = this.receiptItemsFormArray.at(itemIndex) as FormGroup;
     let linkedItemsArray = targetItemFormGroup.get("linkedItems") as FormArray;
@@ -786,7 +769,7 @@ export class ReceiptFormComponent implements OnInit {
     if (!linkedItemsArray) {
       // Create linkedItems FormArray if it doesn't exist
       linkedItemsArray = this.formBuilder.array([]);
-      (targetItemFormGroup as any).addControl("linkedItems", linkedItemsArray);
+      targetItemFormGroup.addControl("linkedItems", linkedItemsArray);
     }
 
     // Add each item to the linkedItems array
@@ -794,7 +777,9 @@ export class ReceiptFormComponent implements OnInit {
       const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), true, this.syncAmountWithItems);
       linkedItemsArray.push(newFormGroup);
     });
+  }
 
+  private refreshComponentsAndSync(): void {
     // Refresh component views
     this.shareListComponent?.setUserItemMap();
     this.itemListComponent?.setItems();
@@ -909,7 +894,6 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   private updateReceipt(): void {
-    console.log(this.form.value, " value");
     this.receiptService
       .updateReceipt(this.originalReceipt?.id as number, this.form.value)
       .pipe(
