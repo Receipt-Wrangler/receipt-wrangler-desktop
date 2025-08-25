@@ -34,5 +34,13 @@ export interface UpdateGroupReceiptSettingsCommand {
      * Hide receipt comments
      */
     hideComments?: boolean;
+    /**
+     * Hide share categories
+     */
+    hideShareCategories?: boolean;
+    /**
+     * Hide share tags
+     */
+    hideShareTags?: boolean;
 }
 

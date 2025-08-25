@@ -1,19 +1,8 @@
-import { provideHttpClientTesting } from "@angular/common/http/testing";
-import { TestBed } from "@angular/core/testing";
-import { ApiModule } from "../../open-api";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { groupResolverFn } from "./group-resolver.service";
 
 describe("GroupResolverService", () => {
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-    imports: [ApiModule],
-    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-});
-  });
-
-  // TODO: write tests
-  it("should be created", () => {
-    expect(true);
+  it("should export groupResolverFn", () => {
+    expect(groupResolverFn).toBeDefined();
+    expect(typeof groupResolverFn).toBe('function');
   });
 });

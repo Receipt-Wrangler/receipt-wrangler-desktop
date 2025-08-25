@@ -35,14 +35,22 @@
               [inputFormControl]="form | formGet : 'name'"
               [readonly]="mode | inputReadonly"
             ></app-input>
-            <app-input
-              class="w-100"
-              label="Amount"
-              type="text"
-              [isCurrency]="true"
-              [inputFormControl]="form | formGet : 'amount'"
-              [readonly]="mode | inputReadonly"
-            ></app-input>
+            <div class="d-flex align-items-center w-100">
+              <app-input
+                class="w-100"
+                label="Amount"
+                type="text"
+                [isCurrency]="true"
+                [inputFormControl]="form | formGet : 'amount'"
+                [readonly]="(mode | inputReadonly) || syncAmountWithItems"
+              ></app-input>
+              @if (!(mode | inputReadonly)) {
+                <app-checkbox
+                  label="Sync with items"
+                  [inputFormControl]="form | formGet : 'syncAmountWithItems'"
+                ></app-checkbox>
+              }
+            </div>
             @if (!this.selectedGroup?.groupReceiptSettings?.hideReceiptCategories) {
               <app-category-autocomplete
                 class="w-100"
@@ -141,16 +149,36 @@
         }
       </div>
       <app-form-section
-        headerText="Shares"
+        headerText="Items"
         [indent]="false"
-        [headerButtonsTemplate]="sharesSectionHeaderButtons"
+        [headerButtonsTemplate]="itemsSectionHeaderButtons"
       >
         <app-item-list
           [form]="form"
           [categories]="categories"
           [tags]="tags"
           [selectedGroup]="selectedGroup"
+          [triggerAddMode]="triggerItemListAddMode"
+          (itemAdded)="onItemAdded($event)"
+          (itemRemoved)="onItemRemoved($event)"
+          (itemSplit)="onItemSplit($event)"
         ></app-item-list>
+      </app-form-section>
+      <app-form-section
+        headerText="Shares"
+        [indent]="false"
+        [headerButtonsTemplate]="sharesSectionHeaderButtons"
+      >
+        <app-share-list
+          [form]="form"
+          [categories]="categories"
+          [tags]="tags"
+          [selectedGroup]="selectedGroup"
+          [triggerAddMode]="triggerShareListAddMode"
+          (itemAdded)="onItemAdded($event)"
+          (itemRemoved)="onItemRemoved($event)"
+          (allItemsResolved)="onAllItemsResolved($event)"
+        ></app-share-list>
       </app-form-section>
       @if (!this.selectedGroup?.groupReceiptSettings?.hideComments) {
         <div class="mt-3">
@@ -233,9 +261,10 @@
     cdkDrag
     cdkDragHandle
     cdkDragRootElement=".cdk-overlay-pane"
-    [parentForm]="form"
     [originalReceipt]="originalReceipt"
     [usersToOmit]="usersToOmit"
+    [amountToSplit]="form.get('amount')?.value || 0"
+    (itemsToAdd)="onQuickActionItemsAdded($event)"
   ></app-quick-actions-dialog>
 </ng-template>
 
@@ -273,6 +302,19 @@
   ></app-button>
 </ng-template>
 
+<ng-template #itemsSectionHeaderButtons>
+  <app-button
+    *ngIf="!(mode | inputReadonly)"
+    type="button"
+    matButtonType="iconButton"
+    icon="add"
+    tooltip="Add item"
+    color="accent"
+    (clicked)="initItemListAddMode()"
+    [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
+  ></app-button>
+</ng-template>
+
 <ng-template #sharesSectionHeaderButtons>
   <app-button
     *ngIf="!(mode | inputReadonly)"
@@ -281,7 +323,7 @@
     icon="add"
     tooltip="Add share"
     color="accent"
-    (clicked)="initItemListAddMode()"
+    (clicked)="initShareListAddMode()"
     [disabled]="!(originalReceipt?.groupId | groupRole : groupRole.Editor)"
   ></app-button>
   <app-button

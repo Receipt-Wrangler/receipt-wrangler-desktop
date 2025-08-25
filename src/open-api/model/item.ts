@@ -27,7 +27,7 @@ export interface Item {
     /**
      * User foreign key
      */
-    chargedToUserId: number;
+    chargedToUserId?: number;
     createdAt?: string;
     createdBy?: number;
     id?: number;
@@ -40,6 +40,10 @@ export interface Item {
      */
     receiptId: number;
     status: ItemStatus;
+    /**
+     * Items linked to this item (for sharing)
+     */
+    linkedItems?: Array<Item>;
     /**
      * Categories associated to the item
      */

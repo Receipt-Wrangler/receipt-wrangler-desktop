@@ -31,12 +31,20 @@
       [inputFormControl]="form | formGet: 'hideReceiptTags'"
     ></app-checkbox>
     <app-checkbox
-      label="Hide Share Categories"
+      label="Hide Item Categories"
       [inputFormControl]="form | formGet: 'hideItemCategories'"
     ></app-checkbox>
     <app-checkbox
-      label="Hide Share Tags"
+      label="Hide Item Tags"
       [inputFormControl]="form | formGet: 'hideItemTags'"
+    ></app-checkbox>
+    <app-checkbox
+      label="Hide Share Categories"
+      [inputFormControl]="form | formGet: 'hideShareCategories'"
+    ></app-checkbox>
+    <app-checkbox
+      label="Hide Share Tags"
+      [inputFormControl]="form | formGet: 'hideShareTags'"
     ></app-checkbox>
     <app-checkbox
       label="Hide Comments"

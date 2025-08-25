@@ -20,7 +20,7 @@ export interface UpsertItemCommand {
     /**
      * User foreign key
      */
-    chargedToUserId: number;
+    chargedToUserId?: number;
     /**
      * Item name
      */
@@ -38,6 +38,10 @@ export interface UpsertItemCommand {
      * Tags associated to item
      */
     tags?: Array<UpsertTagCommand>;
+    /**
+     * Items linked to this item (for sharing) - one level deep only
+     */
+    linkedItems?: Array<UpsertItemCommand>;
 }
 export namespace UpsertItemCommand {
 }

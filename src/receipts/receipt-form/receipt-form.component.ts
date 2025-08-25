@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Select, Store } from "@ngxs/store";
 import { addHours } from "date-fns";
-import { finalize, forkJoin, iif, map, Observable, of, startWith, switchMap, take, tap } from "rxjs";
+import { debounceTime, finalize, forkJoin, iif, map, Observable, of, startWith, switchMap, take, tap } from "rxjs";
 import { CarouselComponent } from "src/carousel/carousel/carousel.component";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "src/constants";
 import { RECEIPT_STATUS_OPTIONS } from "src/constants/receipt-status-options";
@@ -23,6 +23,7 @@ import {
   FileDataView,
   Group,
   GroupRole,
+  Item,
   Receipt,
   ReceiptImageService,
   ReceiptService,
@@ -37,7 +38,11 @@ import { StatefulMenuItem } from "../../standalone/components/filtered-stateful-
 import { AuthState, FeatureConfigState, GroupState, UserState } from "../../store";
 import { downloadFile } from "../../utils/file";
 import { ItemListComponent } from "../item-list/item-list.component";
+import { ShareListComponent } from "../share-list/share-list.component";
+
+
 import { UploadImageComponent } from "../upload-image/upload-image.component";
+import { buildItemForm } from "../utils/form.utils";
 
 @UntilDestroy()
 @Component({
@@ -49,7 +54,11 @@ import { UploadImageComponent } from "../upload-image/upload-image.component";
   standalone: false
 })
 export class ReceiptFormComponent implements OnInit {
-  @ViewChild(ItemListComponent) public itemsListComponent!: ItemListComponent;
+  @ViewChild(ShareListComponent)
+  public shareListComponent!: ShareListComponent;
+
+  @ViewChild(ItemListComponent)
+  public itemListComponent!: ItemListComponent;
 
   @ViewChild(UploadImageComponent)
   public uploadImageComponent!: UploadImageComponent;
@@ -65,9 +74,6 @@ export class ReceiptFormComponent implements OnInit {
 
   @ViewChild("expandedImageTemplate")
   public expandedImageTemplate!: TemplateRef<any>;
-
-  @ViewChild(ItemListComponent)
-  public itemListComponent!: ItemListComponent;
 
   @ViewChild(CarouselComponent)
   public carouselComponent!: CarouselComponent;
@@ -139,8 +145,20 @@ export class ReceiptFormComponent implements OnInit {
 
   public queueMode: QueueMode | undefined;
 
+  public triggerItemListAddMode: boolean = false;
+
+  public triggerShareListAddMode: boolean = false;
+
+  public get syncAmountWithItems(): boolean {
+    return this.form.get("syncAmountWithItems")?.value ?? false;
+  };
+
   public get customFieldsFormArray(): FormArray {
     return this.form.get("customFields") as FormArray;
+  }
+
+  public get receiptItemsFormArray(): FormArray {
+    return this.form.get("receiptItems") as FormArray;
   }
 
   constructor(
@@ -163,6 +181,12 @@ export class ReceiptFormComponent implements OnInit {
       this.queueNext();
     } else if (event.key === "ArrowLeft" && isBodyActive && this.queueIds.length > 0) {
       this.queuePrevious();
+    }
+
+    // Global Ctrl+I shortcut for adding items
+    if (event.ctrlKey && event.key === "i" && !this.isAnyInputFocused()) {
+      event.preventDefault();
+      this.initItemListAddMode();
     }
   }
 
@@ -205,6 +229,64 @@ export class ReceiptFormComponent implements OnInit {
     }
 
     this.queueMode = this.activatedRoute.snapshot.queryParams["queueMode"];
+  }
+
+  public toggleAmountSync(sync: boolean): void {
+    if (sync) {
+      // Clear any existing itemLargerThanTotal errors first
+      this.clearItemValidationErrors();
+      // Then update the amount
+      this.updateAmountFromItems();
+      // Trigger revalidation
+      this.revalidateItems();
+    }
+  }
+
+  private clearItemValidationErrors(): void {
+    this.receiptItemsFormArray.controls.forEach((itemControl) => {
+      const amountControl = itemControl.get("amount");
+      if (amountControl?.errors && amountControl.hasError("itemLargerThanTotal")) {
+        const newErrors = { ...amountControl.errors };
+        delete newErrors["itemLargerThanTotal"];
+        const hasOtherErrors = Object.keys(newErrors).length > 0;
+        amountControl.setErrors(hasOtherErrors ? newErrors : null);
+      }
+    });
+  }
+
+  private revalidateItems(): void {
+    this.receiptItemsFormArray.controls.forEach((itemControl) => {
+      const amountControl = itemControl.get("amount");
+      amountControl?.updateValueAndValidity();
+    });
+  }
+
+  private updateAmountFromItems(): void {
+    const total = this.calculateItemsTotal();
+    this.form.get("amount")?.setValue(total.toFixed(2), { emitEvent: false });
+  }
+
+  private calculateItemsTotal(): number {
+    const items = this.form.get("receiptItems")?.value || [];
+    return items.reduce((sum: number, item: any) => {
+      // Only include items where chargedToUserId is undefined (general items, not shares)
+      if (!item?.chargedToUserId) {
+        return sum + (parseFloat(item.amount) || 0);
+      }
+      return sum;
+    }, 0);
+  }
+
+  private setupAmountSyncListener(): void {
+    // Listen to receiptItems changes
+    this.form.get("receiptItems")?.valueChanges.pipe(
+      untilDestroyed(this),
+      debounceTime(100)
+    ).subscribe(() => {
+      if (this.syncAmountWithItems) {
+        this.updateAmountFromItems();
+      }
+    });
   }
 
   private setShowLargeImagePreview(): void {
@@ -260,6 +342,7 @@ export class ReceiptFormComponent implements OnInit {
         this.originalReceipt?.amount ?? "",
         [Validators.required, Validators.min(1)],
       ],
+      syncAmountWithItems: false,
       categories: this.formBuilder.array(
         this.originalReceipt?.categories ?? []
       ),
@@ -274,14 +357,28 @@ export class ReceiptFormComponent implements OnInit {
         Validators.required,
       ],
       status: this.originalReceipt?.status ?? ReceiptStatus.Open,
-      customFields: this.formBuilder.array(this.originalReceipt?.customFields?.map((customField) => this.buildCustomOptionFormGroup(customField)) ?? [])
+      customFields: this.formBuilder.array(this.originalReceipt?.customFields?.map((customField) => this.buildCustomOptionFormGroup(customField)) ?? []),
+      receiptItems: this.formBuilder.array(
+        this.originalReceipt?.receiptItems
+          ? this.originalReceipt.receiptItems.map((item) =>
+            buildItemForm(item, this.originalReceipt?.id?.toString(), !!item.chargedToUserId, false)
+          )
+          : []
+      )
     });
 
     if (this.mode === FormMode.view) {
       this.form.get("status")?.disable();
     }
 
+    this.setupAmountSyncListener();
     this.listenForGroupChanges();
+    this.listenForSyncWithItemsChanges();
+  }
+
+  private listenForSyncWithItemsChanges(): void {
+    this.form
+      .get("syncAmountWithItems")?.valueChanges.pipe(untilDestroyed(this), tap((sync) => this.toggleAmountSync(sync))).subscribe();
   }
 
   private buildCustomOptionFormGroup(value: CustomFieldValue): FormGroup {
@@ -356,7 +453,7 @@ export class ReceiptFormComponent implements OnInit {
       .pipe(take(1))
       .subscribe((result: boolean) => {
         if (result) {
-          this.itemsListComponent.setUserItemMap();
+          this.shareListComponent.setUserItemMap();
         }
       });
   }
@@ -589,7 +686,113 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public initItemListAddMode(): void {
-    this.itemListComponent.initAddMode();
+    this.triggerItemListAddMode = true;
+    // Reset the trigger after a short delay to allow for re-triggering
+    setTimeout(() => this.triggerItemListAddMode = false, 100);
+  }
+
+  private isAnyInputFocused(): boolean {
+    const activeElement = document.activeElement;
+    return (activeElement?.tagName === "INPUT") ||
+      (activeElement?.tagName === "TEXTAREA") ||
+      (activeElement?.tagName === "SELECT") ||
+      (activeElement?.hasAttribute("contenteditable") || false);
+  }
+
+  public initShareListAddMode(): void {
+    this.triggerShareListAddMode = true;
+    // Reset the trigger after a short delay to allow for re-triggering
+    setTimeout(() => this.triggerShareListAddMode = false, 100);
+  }
+
+  public onItemAdded(item: Item): void {
+    const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), !!item.chargedToUserId, this.syncAmountWithItems);
+    this.receiptItemsFormArray.push(newFormGroup);
+    this.shareListComponent.setUserItemMap();
+    this.itemListComponent.setItems();
+
+    // Auto-sync amount if enabled
+    if (this.syncAmountWithItems) {
+      this.updateAmountFromItems();
+    }
+  }
+
+  public onItemRemoved(data: { item: Item; arrayIndex: number; isLinkedItem?: boolean; linkedItemIndex?: number }): void {
+    if (data.isLinkedItem && data.linkedItemIndex !== undefined) {
+      // Remove linked item from parent's linkedItems array
+      const parentItemFormGroup = this.receiptItemsFormArray.at(data.arrayIndex) as FormGroup;
+      const linkedItemsArray = parentItemFormGroup.get("linkedItems") as FormArray;
+      if (linkedItemsArray && data.linkedItemIndex < linkedItemsArray.length) {
+        linkedItemsArray.removeAt(data.linkedItemIndex);
+      }
+    } else {
+      // Remove regular item from main receiptItems array
+      this.receiptItemsFormArray.removeAt(data.arrayIndex);
+    }
+    
+    this.shareListComponent.setUserItemMap();
+    this.itemListComponent.setItems();
+
+    // Auto-sync amount if enabled
+    if (this.syncAmountWithItems) {
+      this.updateAmountFromItems();
+    }
+  }
+
+  public onQuickActionItemsAdded(data: { items: Item[], itemIndex?: number }): void {
+    const { items, itemIndex } = data;
+
+    if (itemIndex !== undefined) {
+      this.addLinkedItems(items, itemIndex);
+    } else {
+      // Adding items as regular receipt items
+      items.forEach(item => {
+        const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), true, this.syncAmountWithItems);
+        this.receiptItemsFormArray.push(newFormGroup);
+      });
+    }
+
+    this.refreshComponentsAndSync();
+  }
+
+  public onItemSplit(data: { items: Item[], itemIndex: number }): void {
+    const { items, itemIndex } = data;
+    this.addLinkedItems(items, itemIndex);
+    this.refreshComponentsAndSync();
+  }
+
+  private addLinkedItems(items: Item[], itemIndex: number): void {
+    // Adding items as linkedItems to an existing item
+    const targetItemFormGroup = this.receiptItemsFormArray.at(itemIndex) as FormGroup;
+    let linkedItemsArray = targetItemFormGroup.get("linkedItems") as FormArray;
+
+    if (!linkedItemsArray) {
+      // Create linkedItems FormArray if it doesn't exist
+      linkedItemsArray = this.formBuilder.array([]);
+      targetItemFormGroup.addControl("linkedItems", linkedItemsArray);
+    }
+
+    // Add each item to the linkedItems array
+    items.forEach(item => {
+      const newFormGroup = buildItemForm(item, this.originalReceipt?.id?.toString(), true, this.syncAmountWithItems);
+      linkedItemsArray.push(newFormGroup);
+    });
+  }
+
+  private refreshComponentsAndSync(): void {
+    // Refresh component views
+    this.shareListComponent?.setUserItemMap();
+    this.itemListComponent?.setItems();
+
+    // Auto-sync amount if enabled
+    if (this.syncAmountWithItems) {
+      this.updateAmountFromItems();
+    }
+  }
+
+  public onAllItemsResolved(userId: string): void {
+    // The actual item status updates are handled by the child component
+    // We don't need to do anything here as the form will reflect the changes
   }
 
   public queueNext(): void {
@@ -642,8 +845,8 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public submit(): void {
-    if (this.itemsListComponent.userExpansionPanels.length > 0) {
-      this.itemsListComponent.userExpansionPanels.forEach(
+    if (this.shareListComponent.userExpansionPanels.length > 0) {
+      this.shareListComponent.userExpansionPanels.forEach(
         (p: MatExpansionPanel) => p.close()
       );
     }
