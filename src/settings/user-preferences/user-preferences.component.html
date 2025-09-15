@@ -64,7 +64,7 @@
   @if (formConfig.mode === FormMode.edit) {
     <app-add-button
       tooltip="Add shortcut"
-      [disabled]="(userShortcutComponent.editableListComponent.getCurrentRowOpen() ?? -1) >= 0"
+      [disabled]="(userShortcutComponent?.editableListComponent?.getCurrentRowOpen() ?? -1) >= 0"
       (clicked)="addNewShortcut()"
     ></app-add-button>
   }
