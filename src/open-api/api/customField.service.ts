@@ -116,6 +116,12 @@ export class CustomFieldService {
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
+        // authentication (apiKeyAuth) required
+        localVarCredential = this.configuration.lookupCredential('apiKeyAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', localVarCredential);
+        }
+
         // authentication (bearerAuth) required
         localVarCredential = this.configuration.lookupCredential('bearerAuth');
         if (localVarCredential) {
@@ -198,6 +204,12 @@ export class CustomFieldService {
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
+        // authentication (apiKeyAuth) required
+        localVarCredential = this.configuration.lookupCredential('apiKeyAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', localVarCredential);
+        }
+
         // authentication (bearerAuth) required
         localVarCredential = this.configuration.lookupCredential('bearerAuth');
         if (localVarCredential) {
@@ -270,6 +282,12 @@ export class CustomFieldService {
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
+        // authentication (apiKeyAuth) required
+        localVarCredential = this.configuration.lookupCredential('apiKeyAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', localVarCredential);
+        }
+
         // authentication (bearerAuth) required
         localVarCredential = this.configuration.lookupCredential('bearerAuth');
         if (localVarCredential) {
@@ -342,6 +360,12 @@ export class CustomFieldService {
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
+        // authentication (apiKeyAuth) required
+        localVarCredential = this.configuration.lookupCredential('apiKeyAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', localVarCredential);
+        }
+
         // authentication (bearerAuth) required
         localVarCredential = this.configuration.lookupCredential('bearerAuth');
         if (localVarCredential) {
