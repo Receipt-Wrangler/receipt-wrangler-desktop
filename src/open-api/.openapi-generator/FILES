@@ -2,6 +2,7 @@
 README.md
 api.module.ts
 api/api.ts
+api/apiKey.service.ts
 api/auth.service.ts
 api/category.service.ts
 api/comment.service.ts
@@ -30,7 +31,12 @@ index.ts
 model/about.ts
 model/activity.ts
 model/aiType.ts
+model/apiKeyFilter.ts
+model/apiKeyResult.ts
+model/apiKeyScope.ts
+model/apiKeyView.ts
 model/appData.ts
+model/associatedApiKeys.ts
 model/associatedEntityType.ts
 model/associatedGroup.ts
 model/baseModel.ts
@@ -77,6 +83,7 @@ model/models.ts
 model/notification.ts
 model/ocrEngine.ts
 model/pagedActivityRequestCommand.ts
+model/pagedApiKeyRequestCommand.ts
 model/pagedData.ts
 model/pagedDataDataInner.ts
 model/pagedGroupRequestCommand.ts
@@ -105,6 +112,7 @@ model/tokenPair.ts
 model/updateGroupReceiptSettingsCommand.ts
 model/updateGroupSettingsCommand.ts
 model/updateProfileCommand.ts
+model/upsertApiKeyCommand.ts
 model/upsertCategoryCommand.ts
 model/upsertCommentCommand.ts
 model/upsertCustomFieldCommand.ts
