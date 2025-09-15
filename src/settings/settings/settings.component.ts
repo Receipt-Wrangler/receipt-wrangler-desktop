@@ -28,6 +28,11 @@ export class SettingsComponent implements OnInit {
         routerLink: "user-preferences/view",
         name: "user-preferences",
       },
+      {
+        label: "API Keys",
+        routerLink: "api-keys/view",
+        name: "api-keys",
+      },
     ];
   }
 }
