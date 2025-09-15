@@ -10,6 +10,7 @@ import { BaseTableService } from "../../services/base-table.service";
 import { BaseTableComponent } from "../../shared-ui/base-table/base-table.component";
 import { AuthState } from "../../store";
 import { ApiKeyTableState } from "../../store/api-key-table.state";
+import { ApiKeyFormDialogComponent } from "../api-key-form-dialog/api-key-form-dialog.component";
 import { ApiKeyTableFilterComponent } from "../api-key-table-filter/api-key-table-filter.component";
 import { ApiKeyTableService } from "./api-key-table.service";
 
@@ -145,5 +146,15 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
 
   public openFilterDialog(): void {
     const ref = this.matDialog.open(ApiKeyTableFilterComponent, DEFAULT_DIALOG_CONFIG);
+  }
+
+  public openCreateApiKeyDialog(): void {
+    const ref = this.matDialog.open(ApiKeyFormDialogComponent, DEFAULT_DIALOG_CONFIG);
+
+    ref.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getTableData();
+      }
+    });
   }
 }

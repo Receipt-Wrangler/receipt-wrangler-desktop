@@ -16,6 +16,7 @@ import { ButtonModule } from "../button";
 import { CheckboxModule } from "../checkbox/checkbox.module";
 import { DirectivesModule } from "../directives";
 import { InputModule } from "../input";
+import { ApiKeyFormDialogComponent } from "./api-key-form-dialog/api-key-form-dialog.component";
 import { ApiKeyTableFilterComponent } from "./api-key-table-filter/api-key-table-filter.component";
 import { ApiKeyTableComponent } from "./api-key-table/api-key-table.component";
 import { ApiKeysComponent } from "./api-keys/api-keys.component";
@@ -27,6 +28,7 @@ import { UserShortcutComponent } from './user-shortcut/user-shortcut.component';
 
 @NgModule({
   declarations: [
+    ApiKeyFormDialogComponent,
     ApiKeyTableComponent,
     ApiKeyTableFilterComponent,
     ApiKeysComponent,
