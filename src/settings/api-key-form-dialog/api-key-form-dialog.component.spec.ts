@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { of } from 'rxjs';
-import { ApiKeyResult, ApiKeyScope, ApiKeyService } from '../../open-api';
+import { ApiKeyResult, ApiKeyScope, ApiKeyService, ApiKeyView } from '../../open-api';
 import { SnackbarService } from '../../services';
 import { SharedUiModule } from '../../shared-ui/shared-ui.module';
 import { ButtonModule } from '../../button';
@@ -21,7 +21,7 @@ describe('ApiKeyFormDialogComponent', () => {
 
   beforeEach(async () => {
     mockDialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
-    mockApiKeyService = jasmine.createSpyObj('ApiKeyService', ['createApiKey']);
+    mockApiKeyService = jasmine.createSpyObj('ApiKeyService', ['createApiKey', 'updateApiKey']);
     mockSnackbarService = jasmine.createSpyObj('SnackbarService', ['success', 'error']);
 
     await TestBed.configureTestingModule({
@@ -58,7 +58,7 @@ describe('ApiKeyFormDialogComponent', () => {
 
   it('should create API key on valid form submission', () => {
     const mockResult: ApiKeyResult = { key: 'test-api-key-123' };
-    mockApiKeyService.createApiKey.and.returnValue(of(mockResult));
+    mockApiKeyService.createApiKey.and.returnValue(of(mockResult) as any);
 
     component.form.patchValue({
       name: 'Test API Key',
@@ -75,6 +75,50 @@ describe('ApiKeyFormDialogComponent', () => {
     });
     expect(component.apiKeyResult).toEqual(mockResult);
     expect(mockSnackbarService.success).toHaveBeenCalledWith('API key created successfully');
+  });
+
+  it('should update API key when editing existing API key', () => {
+    const mockApiKey: ApiKeyView = {
+      id: '123',
+      name: 'Existing API Key',
+      description: 'Existing description',
+      scope: ApiKeyScope.R
+    };
+    component.apiKey = mockApiKey;
+    component.ngOnInit(); // Re-initialize form with existing data
+
+    mockApiKeyService.updateApiKey.and.returnValue(of({}) as any);
+
+    component.form.patchValue({
+      name: 'Updated API Key',
+      description: 'Updated description',
+      scope: ApiKeyScope.Rw
+    });
+
+    component.submitButtonClicked();
+
+    expect(mockApiKeyService.updateApiKey).toHaveBeenCalledWith('123', {
+      name: 'Updated API Key',
+      description: 'Updated description',
+      scope: ApiKeyScope.Rw
+    });
+    expect(mockSnackbarService.success).toHaveBeenCalledWith('API key updated successfully');
+    expect(mockDialogRef.close).toHaveBeenCalledWith(true);
+  });
+
+  it('should initialize form with existing API key data when editing', () => {
+    const mockApiKey: ApiKeyView = {
+      id: '123',
+      name: 'Existing API Key',
+      description: 'Existing description',
+      scope: ApiKeyScope.Rw
+    };
+    component.apiKey = mockApiKey;
+    component.ngOnInit(); // Re-initialize form
+
+    expect(component.form.get('name')?.value).toBe('Existing API Key');
+    expect(component.form.get('description')?.value).toBe('Existing description');
+    expect(component.form.get('scope')?.value).toBe(ApiKeyScope.Rw);
   });
 
   it('should show error on invalid form submission', () => {
@@ -104,12 +148,21 @@ describe('ApiKeyFormDialogComponent', () => {
     expect(mockSnackbarService.success).toHaveBeenCalledWith('API key copied to clipboard');
   });
 
-  it('should close dialog with result', () => {
+  it('should close dialog with result when creating new API key', () => {
     const mockResult: ApiKeyResult = { key: 'test-api-key-123' };
     component.apiKeyResult = mockResult;
 
     component.closeDialog();
 
     expect(mockDialogRef.close).toHaveBeenCalledWith(mockResult);
+  });
+
+  it('should close dialog with true when editing existing API key', () => {
+    const mockApiKey: ApiKeyView = { id: '123', name: 'Test API Key' };
+    component.apiKey = mockApiKey;
+
+    component.closeDialog();
+
+    expect(mockDialogRef.close).toHaveBeenCalledWith(true);
   });
 });

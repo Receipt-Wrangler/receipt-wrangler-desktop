@@ -65,7 +65,7 @@
     <app-edit-button
       color="accent"
       tooltip="Edit API Key"
-      [buttonRouterLink]="['edit', element.id]"
+      (clicked)="openEditDialog(element)"
     ></app-edit-button>
   </div>
 </ng-template>

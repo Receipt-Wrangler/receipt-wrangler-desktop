@@ -151,6 +151,21 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
   public openCreateApiKeyDialog(): void {
     const ref = this.matDialog.open(ApiKeyFormDialogComponent, DEFAULT_DIALOG_CONFIG);
 
+    ref.componentInstance.headerText = "Add API Key";
+
+    ref.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getTableData();
+      }
+    });
+  }
+
+  public openEditDialog(apiKeyView: ApiKeyView): void {
+    const ref = this.matDialog.open(ApiKeyFormDialogComponent, DEFAULT_DIALOG_CONFIG);
+
+    ref.componentInstance.apiKey = apiKeyView;
+    ref.componentInstance.headerText = `Edit ${apiKeyView.name}`;
+
     ref.afterClosed().subscribe((result) => {
       if (result) {
         this.getTableData();

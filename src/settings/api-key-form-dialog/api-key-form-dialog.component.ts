@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { take, tap } from "rxjs";
-import { ApiKeyResult, ApiKeyScope, ApiKeyService, UpsertApiKeyCommand } from "../../open-api";
+import { ApiKeyResult, ApiKeyScope, ApiKeyService, ApiKeyView, UpsertApiKeyCommand } from "../../open-api";
 import { SnackbarService } from "../../services";
 
 @Component({
@@ -12,6 +12,9 @@ import { SnackbarService } from "../../services";
   standalone: false
 })
 export class ApiKeyFormDialogComponent implements OnInit {
+  @Input() public headerText: string = "";
+  @Input() public apiKey?: ApiKeyView;
+
   public form!: FormGroup;
   public apiKeyResult?: ApiKeyResult;
   public apiKeyScopes = [
@@ -33,9 +36,9 @@ export class ApiKeyFormDialogComponent implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      name: ["", Validators.required],
-      description: [""],
-      scope: [ApiKeyScope.R, Validators.required]
+      name: [this.apiKey?.name ?? "", Validators.required],
+      description: [this.apiKey?.description ?? ""],
+      scope: [this.apiKey?.scope ?? ApiKeyScope.R, Validators.required]
     });
   }
 
@@ -43,15 +46,27 @@ export class ApiKeyFormDialogComponent implements OnInit {
     if (this.form.valid) {
       const command: UpsertApiKeyCommand = this.form.value;
 
-      this.apiKeyService.createApiKey(command)
-        .pipe(
-          take(1),
-          tap((result: ApiKeyResult) => {
-            this.apiKeyResult = result;
-            this.snackbarService.success("API key created successfully");
-          })
-        )
-        .subscribe();
+      if (this.apiKey && this.apiKey.id) {
+        this.apiKeyService.updateApiKey(this.apiKey.id, command)
+          .pipe(
+            take(1),
+            tap(() => {
+              this.snackbarService.success("API key updated successfully");
+              this.dialogRef.close(true);
+            })
+          )
+          .subscribe();
+      } else {
+        this.apiKeyService.createApiKey(command)
+          .pipe(
+            take(1),
+            tap((result: ApiKeyResult) => {
+              this.apiKeyResult = result;
+              this.snackbarService.success("API key created successfully");
+            })
+          )
+          .subscribe();
+      }
     } else {
       this.snackbarService.error("Please fill in all required fields");
     }
@@ -72,6 +87,6 @@ export class ApiKeyFormDialogComponent implements OnInit {
   }
 
   public closeDialog(): void {
-    this.dialogRef.close(this.apiKeyResult);
+    this.dialogRef.close(this.apiKey ? true : this.apiKeyResult);
   }
 }
