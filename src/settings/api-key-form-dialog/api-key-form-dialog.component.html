@@ -1,4 +1,4 @@
-<app-dialog headerText="Create API Key">
+<app-dialog [headerText]="headerText">
   <div *ngIf="!apiKeyResult">
     <form [formGroup]="form">
       <div class="mb-2">
@@ -29,7 +29,7 @@
     </form>
 
     <app-dialog-footer
-      submitButtonTooltip="Create API Key"
+      [submitButtonTooltip]="apiKey ? 'Update API Key' : 'Create API Key'"
       (submitClicked)="submitButtonClicked()"
       (cancelClicked)="cancelButtonClicked()"
     ></app-dialog-footer>

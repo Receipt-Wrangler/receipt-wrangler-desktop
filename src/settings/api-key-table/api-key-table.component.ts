@@ -151,7 +151,7 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
   public openCreateApiKeyDialog(): void {
     const ref = this.matDialog.open(ApiKeyFormDialogComponent, DEFAULT_DIALOG_CONFIG);
 
-    ref.componentInstance.headerText = "Add API Key";
+    ref.componentInstance.headerText = "Create API Key";
 
     ref.afterClosed().subscribe((result) => {
       if (result) {
