@@ -2,12 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
 import { of } from 'rxjs';
 import { ApiKeyResult, ApiKeyScope, ApiKeyService, ApiKeyView } from '../../open-api';
 import { SnackbarService } from '../../services';
 import { SharedUiModule } from '../../shared-ui/shared-ui.module';
+import { LayoutState } from '../../store/layout.state';
 import { ButtonModule } from '../../button';
 import { InputModule } from '../../input';
+import { PipesModule } from '../../pipes/pipes.module';
 import { SelectModule } from '../../select/select.module';
 
 import { ApiKeyFormDialogComponent } from './api-key-form-dialog.component';
@@ -32,12 +36,15 @@ describe('ApiKeyFormDialogComponent', () => {
         SharedUiModule,
         ButtonModule,
         InputModule,
-        SelectModule
+        PipesModule,
+        SelectModule,
+        NgxsModule.forRoot([LayoutState])
       ],
       providers: [
         { provide: MatDialogRef, useValue: mockDialogRef },
         { provide: ApiKeyService, useValue: mockApiKeyService },
-        { provide: SnackbarService, useValue: mockSnackbarService }
+        { provide: SnackbarService, useValue: mockSnackbarService },
+        { provide: ActivatedRoute, useValue: {} }
       ]
     }).compileComponents();
 
