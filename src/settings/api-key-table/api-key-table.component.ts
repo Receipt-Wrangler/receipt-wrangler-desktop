@@ -110,7 +110,7 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
       },
       {
         columnHeader: "Created By",
-        matColumnDef: "created_by_string",
+        matColumnDef: "created_by",
         template: this.createdByCell,
         sortable: true,
       },
@@ -136,7 +136,7 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
     this.displayedColumns = [
       "name",
       "description",
-      "created_by_string",
+      "created_by",
       "created_at",
       "last_used_at",
       "actions",
