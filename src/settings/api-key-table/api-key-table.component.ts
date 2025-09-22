@@ -42,7 +42,6 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
 
   @ViewChild("lastUsedAtCell") private lastUsedAtCell!: TemplateRef<any>;
 
-  @ViewChild("revokedAtCell") private revokedAtCell!: TemplateRef<any>;
 
   @ViewChild("actionsCell") private actionsCell!: TemplateRef<any>;
 
@@ -128,12 +127,6 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
         sortable: true,
       },
       {
-        columnHeader: "Revoked At",
-        matColumnDef: "revoked_at",
-        template: this.revokedAtCell,
-        sortable: true,
-      },
-      {
         columnHeader: "Actions",
         matColumnDef: "actions",
         template: this.actionsCell,
@@ -146,7 +139,6 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
       "created_by_string",
       "created_at",
       "last_used_at",
-      "revoked_at",
       "actions",
     ];
   }
