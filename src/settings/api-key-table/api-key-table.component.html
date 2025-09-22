@@ -40,7 +40,7 @@
 </ng-template>
 
 <ng-template #createdByCell let-element="element" let-index="index">
-  {{ element.createdByString }}
+  {{ (element.createdBy | user)?.displayName || element.createdByString }}
 </ng-template>
 
 <ng-template #createdAtCell let-element="element" let-index="index">
@@ -51,21 +51,18 @@
   {{ (element.lastUsedAt | date : "short") || 'Never' }}
 </ng-template>
 
-<ng-template #revokedAtCell let-element="element" let-index="index">
-  <span *ngIf="element.revokedAt" class="text-danger">
-    {{ element.revokedAt | date : "short" }}
-  </span>
-  <span *ngIf="!element.revokedAt" class="text-success">
-    Active
-  </span>
-</ng-template>
 
 <ng-template #actionsCell let-element="element" let-index="index">
   <div class="d-flex">
     <app-edit-button
+      *ngIf="isOwner(element)"
       color="accent"
       tooltip="Edit API Key"
       (clicked)="openEditDialog(element)"
     ></app-edit-button>
+    <app-delete-button
+      tooltip="Delete API Key"
+      (clicked)="deleteApiKey(element)"
+    ></app-delete-button>
   </div>
 </ng-template>
