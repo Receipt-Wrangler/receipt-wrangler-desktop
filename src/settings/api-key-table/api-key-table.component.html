@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center">
       <app-add-button
         tooltip="Create API Key"
-        [buttonRouterLink]="['create']"
+        (clicked)="openCreateApiKeyDialog()"
       ></app-add-button>
       <ng-container *ngIf="isAdmin">
         <app-button
@@ -65,7 +65,7 @@
     <app-edit-button
       color="accent"
       tooltip="Edit API Key"
-      [buttonRouterLink]="['edit', element.id]"
+      (clicked)="openEditDialog(element)"
     ></app-edit-button>
   </div>
 </ng-template>
