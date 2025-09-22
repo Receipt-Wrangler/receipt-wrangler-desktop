@@ -17,11 +17,15 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { Dashboard } from '../model/dashboard';
+import { ApiKeyResult } from '../model/apiKeyResult';
 // @ts-ignore
 import { InternalErrorResponse } from '../model/internalErrorResponse';
 // @ts-ignore
-import { UpsertDashboardCommand } from '../model/upsertDashboardCommand';
+import { PagedApiKeyRequestCommand } from '../model/pagedApiKeyRequestCommand';
+// @ts-ignore
+import { PagedData } from '../model/pagedData';
+// @ts-ignore
+import { UpsertApiKeyCommand } from '../model/upsertApiKeyCommand';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -32,7 +36,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class DashboardService {
+export class ApiKeyService {
 
     protected basePath = '/api';
     public defaultHeaders = new HttpHeaders();
@@ -95,18 +99,18 @@ export class DashboardService {
     }
 
     /**
-     * Create dashboard
-     * This will create a dashboard [SYSTEM USER]
-     * @param upsertDashboardCommand Dashboard
+     * Create API key
+     * Create a new API key for the authenticated user
+     * @param upsertApiKeyCommand API key details
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createDashboard(upsertDashboardCommand: UpsertDashboardCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Dashboard>;
-    public createDashboard(upsertDashboardCommand: UpsertDashboardCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Dashboard>>;
-    public createDashboard(upsertDashboardCommand: UpsertDashboardCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Dashboard>>;
-    public createDashboard(upsertDashboardCommand: UpsertDashboardCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (upsertDashboardCommand === null || upsertDashboardCommand === undefined) {
-            throw new Error('Required parameter upsertDashboardCommand was null or undefined when calling createDashboard.');
+    public createApiKey(upsertApiKeyCommand: UpsertApiKeyCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ApiKeyResult>;
+    public createApiKey(upsertApiKeyCommand: UpsertApiKeyCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ApiKeyResult>>;
+    public createApiKey(upsertApiKeyCommand: UpsertApiKeyCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ApiKeyResult>>;
+    public createApiKey(upsertApiKeyCommand: UpsertApiKeyCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (upsertApiKeyCommand === null || upsertApiKeyCommand === undefined) {
+            throw new Error('Required parameter upsertApiKeyCommand was null or undefined when calling createApiKey.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -167,11 +171,11 @@ export class DashboardService {
             }
         }
 
-        let localVarPath = `/dashboard/`;
-        return this.httpClient.request<Dashboard>('post', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/apiKey/`;
+        return this.httpClient.request<ApiKeyResult>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: upsertDashboardCommand,
+                body: upsertApiKeyCommand,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -183,18 +187,18 @@ export class DashboardService {
     }
 
     /**
-     * Delete dashboard
-     * This will delete a dashboard by id
-     * @param dashboardId Id of dashboard to operate on
+     * Delete API key
+     * Delete an API key. Admins can delete any API key, non-admins can only delete their own API keys.
+     * @param id API key ID to update
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteDashboard(dashboardId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Dashboard>;
-    public deleteDashboard(dashboardId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Dashboard>>;
-    public deleteDashboard(dashboardId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Dashboard>>;
-    public deleteDashboard(dashboardId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (dashboardId === null || dashboardId === undefined) {
-            throw new Error('Required parameter dashboardId was null or undefined when calling deleteDashboard.');
+    public deleteApiKey(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteApiKey(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteApiKey(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteApiKey(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling deleteApiKey.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -246,8 +250,8 @@ export class DashboardService {
             }
         }
 
-        let localVarPath = `/dashboard/${this.configuration.encodeParam({name: "dashboardId", value: dashboardId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: undefined})}`;
-        return this.httpClient.request<Dashboard>('delete', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/apiKey/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -261,100 +265,18 @@ export class DashboardService {
     }
 
     /**
-     * Get dashboards for a user by group id
-     * This will get a dashboards for a user by group id
-     * @param groupId Id of group to get dashboard for
+     * Get paged API keys
+     * This will return paged API keys for the authenticated user or all API keys for admins
+     * @param pagedApiKeyRequestCommand Paging and sorting data
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getDashboardsForUserByGroupId(groupId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<Dashboard>>;
-    public getDashboardsForUserByGroupId(groupId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<Dashboard>>>;
-    public getDashboardsForUserByGroupId(groupId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<Dashboard>>>;
-    public getDashboardsForUserByGroupId(groupId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (groupId === null || groupId === undefined) {
-            throw new Error('Required parameter groupId was null or undefined when calling getDashboardsForUserByGroupId.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (apiKeyAuth) required
-        localVarCredential = this.configuration.lookupCredential('apiKeyAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', localVarCredential);
-        }
-
-        // authentication (bearerAuth) required
-        localVarCredential = this.configuration.lookupCredential('bearerAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/dashboard/${this.configuration.encodeParam({name: "groupId", value: groupId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<Array<Dashboard>>('get', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Update dashboard
-     * This will update a dashboard
-     * @param dashboardId Id of dashboard to operate on
-     * @param upsertDashboardCommand Dashboard to update
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public updateDashboard(dashboardId: number, upsertDashboardCommand: UpsertDashboardCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Dashboard>;
-    public updateDashboard(dashboardId: number, upsertDashboardCommand: UpsertDashboardCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Dashboard>>;
-    public updateDashboard(dashboardId: number, upsertDashboardCommand: UpsertDashboardCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Dashboard>>;
-    public updateDashboard(dashboardId: number, upsertDashboardCommand: UpsertDashboardCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (dashboardId === null || dashboardId === undefined) {
-            throw new Error('Required parameter dashboardId was null or undefined when calling updateDashboard.');
-        }
-        if (upsertDashboardCommand === null || upsertDashboardCommand === undefined) {
-            throw new Error('Required parameter upsertDashboardCommand was null or undefined when calling updateDashboard.');
+    public getPagedApiKeys(pagedApiKeyRequestCommand: PagedApiKeyRequestCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PagedData>;
+    public getPagedApiKeys(pagedApiKeyRequestCommand: PagedApiKeyRequestCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PagedData>>;
+    public getPagedApiKeys(pagedApiKeyRequestCommand: PagedApiKeyRequestCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PagedData>>;
+    public getPagedApiKeys(pagedApiKeyRequestCommand: PagedApiKeyRequestCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (pagedApiKeyRequestCommand === null || pagedApiKeyRequestCommand === undefined) {
+            throw new Error('Required parameter pagedApiKeyRequestCommand was null or undefined when calling getPagedApiKeys.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -415,11 +337,103 @@ export class DashboardService {
             }
         }
 
-        let localVarPath = `/dashboard/${this.configuration.encodeParam({name: "dashboardId", value: dashboardId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: undefined})}`;
-        return this.httpClient.request<Dashboard>('put', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/apiKey/paged`;
+        return this.httpClient.request<PagedData>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: upsertDashboardCommand,
+                body: pagedApiKeyRequestCommand,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Update API key
+     * This will update an API key. Users can only update their own API keys.
+     * @param id API key ID to update
+     * @param upsertApiKeyCommand API key details to update
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateApiKey(id: string, upsertApiKeyCommand: UpsertApiKeyCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public updateApiKey(id: string, upsertApiKeyCommand: UpsertApiKeyCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public updateApiKey(id: string, upsertApiKeyCommand: UpsertApiKeyCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public updateApiKey(id: string, upsertApiKeyCommand: UpsertApiKeyCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling updateApiKey.');
+        }
+        if (upsertApiKeyCommand === null || upsertApiKeyCommand === undefined) {
+            throw new Error('Required parameter upsertApiKeyCommand was null or undefined when calling updateApiKey.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (apiKeyAuth) required
+        localVarCredential = this.configuration.lookupCredential('apiKeyAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', localVarCredential);
+        }
+
+        // authentication (bearerAuth) required
+        localVarCredential = this.configuration.lookupCredential('bearerAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/apiKey/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: upsertApiKeyCommand,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
