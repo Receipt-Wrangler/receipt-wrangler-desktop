@@ -2,12 +2,14 @@ import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angul
 import { MatDialog } from "@angular/material/dialog";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
-import { tap } from "rxjs";
+import { take, tap } from "rxjs";
 import { TableComponent } from "src/table/table/table.component";
 import { DEFAULT_DIALOG_CONFIG, DEFAULT_HOST_CLASS } from "../../constants";
-import { ApiKeyView, AssociatedApiKeys, UserRole } from "../../open-api";
+import { ApiKeyService, ApiKeyView, AssociatedApiKeys, UserRole } from "../../open-api";
 import { BaseTableService } from "../../services/base-table.service";
+import { SnackbarService } from "../../services/snackbar.service";
 import { BaseTableComponent } from "../../shared-ui/base-table/base-table.component";
+import { ConfirmationDialogComponent } from "../../shared-ui/confirmation-dialog/confirmation-dialog.component";
 import { AuthState } from "../../store";
 import { ApiKeyTableState } from "../../store/api-key-table.state";
 import { ApiKeyFormDialogComponent } from "../api-key-form-dialog/api-key-form-dialog.component";
@@ -53,7 +55,9 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
   constructor(
     public override baseTableService: BaseTableService,
     private store: Store,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private apiKeyService: ApiKeyService,
+    private snackbarService: SnackbarService
   ) {
     super(baseTableService);
   }
@@ -169,6 +173,36 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
     ref.afterClosed().subscribe((result) => {
       if (result) {
         this.getTableData();
+      }
+    });
+  }
+
+  public deleteApiKey(apiKeyView: ApiKeyView): void {
+    if (!apiKeyView.id) {
+      this.snackbarService.error("Cannot delete API key: ID is missing");
+      return;
+    }
+
+    const dialogRef = this.matDialog.open(
+      ConfirmationDialogComponent,
+      DEFAULT_DIALOG_CONFIG
+    );
+
+    dialogRef.componentInstance.headerText = "Delete API Key";
+    dialogRef.componentInstance.dialogContent = `Are you sure you would like to delete the API key "${apiKeyView.name}"? This action is irreversible and the API key will no longer be usable.`;
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed && apiKeyView.id) {
+        this.apiKeyService
+          .deleteApiKey(apiKeyView.id)
+          .pipe(
+            take(1),
+            tap(() => {
+              this.snackbarService.success(`API key "${apiKeyView.name}" successfully deleted`);
+              this.getTableData();
+            })
+          )
+          .subscribe();
       }
     });
   }
