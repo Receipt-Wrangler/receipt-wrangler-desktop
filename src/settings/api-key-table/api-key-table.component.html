@@ -40,7 +40,7 @@
 </ng-template>
 
 <ng-template #createdByCell let-element="element" let-index="index">
-  {{ element.createdByString }}
+  {{ (element.createdBy | user)?.displayName || element.createdByString }}
 </ng-template>
 
 <ng-template #createdAtCell let-element="element" let-index="index">
