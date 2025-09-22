@@ -52,6 +52,8 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
 
   public tableHeaderText = "My API Keys";
 
+  private currentUserId = "";
+
   constructor(
     public override baseTableService: BaseTableService,
     private store: Store,
@@ -64,6 +66,7 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
 
   public ngOnInit(): void {
     this.isAdmin = this.store.selectSnapshot(AuthState.hasRole(UserRole.Admin));
+    this.currentUserId = this.store.selectSnapshot(AuthState.userId);
     this.listenForFilterChanges();
   }
 
@@ -146,6 +149,10 @@ export class ApiKeyTableComponent extends BaseTableComponent<ApiKeyView> impleme
       "revoked_at",
       "actions",
     ];
+  }
+
+  public isOwner(apiKey: ApiKeyView): boolean {
+    return apiKey.userId?.toString() === this.currentUserId;
   }
 
   public openFilterDialog(): void {

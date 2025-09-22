@@ -63,6 +63,7 @@
 <ng-template #actionsCell let-element="element" let-index="index">
   <div class="d-flex">
     <app-edit-button
+      *ngIf="isOwner(element)"
       color="accent"
       tooltip="Edit API Key"
       (clicked)="openEditDialog(element)"
