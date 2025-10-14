@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CustomFieldValue } from './customFieldValue';
 import { ItemStatus } from './itemStatus';
 import { Category } from './category';
 import { Tag } from './tag';
@@ -52,6 +53,10 @@ export interface Item {
      * Tags associated to the item
      */
     tags?: Array<Tag>;
+    /**
+     * Custom fields associated to the item
+     */
+    customFields?: Array<CustomFieldValue>;
     updatedAt?: string;
 }
 export namespace Item {

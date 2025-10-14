@@ -9,6 +9,7 @@
  */
 import { ItemStatus } from './itemStatus';
 import { UpsertCategoryCommand } from './upsertCategoryCommand';
+import { UpsertCustomFieldValueCommand } from './upsertCustomFieldValueCommand';
 import { UpsertTagCommand } from './upsertTagCommand';
 
 
@@ -42,6 +43,10 @@ export interface UpsertItemCommand {
      * Items linked to this item (for sharing) - one level deep only
      */
     linkedItems?: Array<UpsertItemCommand>;
+    /**
+     * Custom fields associated to item
+     */
+    customFields?: Array<UpsertCustomFieldValueCommand>;
 }
 export namespace UpsertItemCommand {
 }

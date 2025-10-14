@@ -21,7 +21,11 @@ export interface CustomFieldValue {
     /**
      * Receipt Id
      */
-    receiptId: number;
+    receiptId?: number;
+    /**
+     * Item Id
+     */
+    itemId?: number;
     /**
      * Custom Field ID
      */
