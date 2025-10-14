@@ -34,6 +34,7 @@ import { TagAutocompleteComponent } from "../tag-autocomplete/tag-autocomplete.c
 import { BulkStatusUpdateComponent } from "./bulk-resolve-dialog/bulk-status-update-dialog.component";
 import { ColumnConfigurationDialogComponent } from "./column-configuration-dialog/column-configuration-dialog.component";
 import { CustomFieldComponent } from "./custom-field/custom-field.component";
+import { CustomFieldMenuComponent } from "./custom-field-menu/custom-field-menu.component";
 import { ItemAddFormComponent } from "./item-add-form/item-add-form.component";
 import { ItemListComponent } from "./item-list/item-list.component";
 
@@ -52,18 +53,19 @@ import { UserTotalWithPercentagePipe } from "./user-total-with-percentage.pipe";
   declarations: [
     BulkStatusUpdateComponent,
     ColumnConfigurationDialogComponent,
+    CustomFieldComponent,
+    CustomFieldMenuComponent,
+    CustomFieldPipe,
     ItemAddFormComponent,
     ItemListComponent,
-    ShareListComponent,
     QuickActionsDialogComponent,
+    QuickScanDialogComponent,
     ReceiptCommentsComponent,
     ReceiptFormComponent,
     ReceiptsTableComponent,
+    ShareListComponent,
     UploadImageComponent,
     UserTotalWithPercentagePipe,
-    QuickScanDialogComponent,
-    CustomFieldComponent,
-    CustomFieldPipe,
   ],
   imports: [
     AutocompleteModule,

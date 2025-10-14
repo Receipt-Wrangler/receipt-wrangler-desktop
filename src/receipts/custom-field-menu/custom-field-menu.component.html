@@ -1,0 +1,11 @@
+<app-filtered-stateful-menu
+  filterLabel="Filter custom fields"
+  [matButtonType]="matButtonType"
+  [icon]="icon"
+  [tooltip]="tooltip"
+  [color]="color"
+  [readonly]="readonly"
+  [items]="customFieldsStatefulMenuItems"
+  [headerText]="headerText"
+  (itemSelected)="onCustomFieldChanged($event)"
+></app-filtered-stateful-menu>

@@ -31,7 +31,6 @@ import {
   Tag,
   UserPreferences
 } from "../../open-api";
-import { CustomFieldTypePipe } from "../../pipes/custom-field-type.pipe";
 import { SnackbarService } from "../../services";
 import { QueueMode, ReceiptQueueService } from "../../services/receipt-queue.service";
 import { StatefulMenuItem } from "../../standalone/components/filtered-stateful-menu/stateful-menu-item";
@@ -49,7 +48,6 @@ import { buildItemForm } from "../utils/form.utils";
   selector: "app-receipt-form",
   templateUrl: "./receipt-form.component.html",
   styleUrls: ["./receipt-form.component.scss"],
-  providers: [CustomFieldTypePipe],
   host: DEFAULT_HOST_CLASS,
   standalone: false
 })
@@ -100,8 +98,6 @@ export class ReceiptFormComponent implements OnInit {
   public tags: Tag[] = [];
 
   public customFields: CustomField[] = [];
-
-  public customFieldsStatefulMenuItems: StatefulMenuItem[] = [];
 
   public originalReceipt?: Receipt;
 
@@ -163,7 +159,6 @@ export class ReceiptFormComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private customFieldTypePipe: CustomFieldTypePipe,
     private formBuilder: FormBuilder,
     private matDialog: MatDialog,
     private receiptImageService: ReceiptImageService,
@@ -199,16 +194,6 @@ export class ReceiptFormComponent implements OnInit {
     this.originalReceipt = this.activatedRoute.snapshot.data["receipt"];
     this.editLink = `/receipts/${this.originalReceipt?.id}/edit`;
     this.mode = this.activatedRoute.snapshot.data["mode"];
-    this.customFieldsStatefulMenuItems = this.customFields.map(c => {
-      const selected = this.originalReceipt?.customFields.some(customField => customField.customFieldId === c.id) ?? false;
-
-      return {
-        value: c.id.toString(),
-        subtitle: this.customFieldTypePipe.transform(c.type),
-        displayValue: c.name,
-        selected: selected
-      };
-    });
     this.setCancelLink();
     this.initForm();
     this.getImageFiles();
@@ -808,18 +793,8 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   public customFieldChanged(item: StatefulMenuItem): void {
-    const newCustomFields = Array.from(this.customFieldsStatefulMenuItems);
-    const selectedItemIndex = this.customFieldsStatefulMenuItems.findIndex(customField => customField.value === item.value);
-
-    newCustomFields[selectedItemIndex] = {
-      ...item,
-      selected: !item.selected
-    };
-
-    this.customFieldsStatefulMenuItems = newCustomFields;
-
-    // Custom field was just selected
-    if (this.customFieldsStatefulMenuItems[selectedItemIndex].selected) {
+    // Custom field was just selected (toggled from unselected to selected)
+    if (item.selected) {
       const customField = this.customFields.find(customField => customField.id === Number(item.value));
       if (customField) {
         const customFieldValue = {
@@ -830,18 +805,10 @@ export class ReceiptFormComponent implements OnInit {
         this.customFieldsFormArray.push(this.buildCustomOptionFormGroup(customFieldValue));
       }
     } else {
-      // Custom field was just removed
+      // Custom field was just removed (toggled from selected to unselected)
       const formArrayIndex = this.customFieldsFormArray.controls.findIndex(control => control.value?.["customFieldId"]?.toString() === item.value);
       this.customFieldsFormArray.removeAt(formArrayIndex);
     }
-  }
-
-  private updateCustomFields(): void {
-    const formArray = this.customFieldsFormArray;
-
-    this.customFieldsStatefulMenuItems.forEach((item) => {
-
-    });
   }
 
   public submit(): void {
