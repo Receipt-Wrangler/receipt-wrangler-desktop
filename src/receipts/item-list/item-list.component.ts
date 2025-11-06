@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   HostListener,
   Input,
@@ -14,18 +13,19 @@ import {
   ViewChildren,
   ViewEncapsulation,
 } from "@angular/core";
-import { FormArray, FormGroup } from "@angular/forms";
+import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { MatExpansionPanel } from "@angular/material/expansion";
 import { ActivatedRoute } from "@angular/router";
-import { FormMode } from "src/enums/form-mode.enum";
-import { InputComponent } from "../../input";
-import { Category, Group, GroupRole, Item, Receipt, Tag } from "../../open-api";
-import { KeyboardShortcutService } from "../../services/keyboard-shortcut.service";
 import { Subject, takeUntil } from "rxjs";
-import { KEYBOARD_SHORTCUT_ACTIONS } from "../../constants/keyboard-shortcuts.constant";
-import { QuickActionsDialogComponent } from "../quick-actions-dialog/quick-actions-dialog.component";
 import { DEFAULT_DIALOG_CONFIG } from "src/constants";
+import { FormMode } from "src/enums/form-mode.enum";
+import { KEYBOARD_SHORTCUT_ACTIONS } from "../../constants/keyboard-shortcuts.constant";
+import { InputComponent } from "../../input";
+import { Category, CustomField, CustomFieldValue, Group, GroupRole, Item, Receipt, Tag } from "../../open-api";
+import { KeyboardShortcutService } from "../../services/keyboard-shortcut.service";
+import { StatefulMenuItem } from "../../standalone/components/filtered-stateful-menu/stateful-menu-item";
+import { QuickActionsDialogComponent } from "../quick-actions-dialog/quick-actions-dialog.component";
 
 export interface ItemData {
   item: Item;
@@ -55,6 +55,8 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() public tags: Tag[] = [];
 
+  @Input() public customFields: CustomField[] = [];
+
   @Input() public selectedGroup: Group | undefined;
 
   @Input() public triggerAddMode: boolean = false;
@@ -81,6 +83,11 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
 
   public get receiptItems(): FormArray {
     return this.form.get("receiptItems") as FormArray;
+  }
+
+  public getItemCustomFields(arrayIndex: number): FormArray {
+    const itemFormGroup = this.receiptItems.at(arrayIndex) as FormGroup;
+    return itemFormGroup.get("customFields") as FormArray;
   }
 
   constructor(
@@ -266,6 +273,41 @@ export class ItemListComponent implements OnInit, OnChanges, OnDestroy {
       const amount = parseFloat(itemData.item.amount) || 0;
       return total + amount;
     }, 0);
+  }
+
+  public customFieldChanged(item: StatefulMenuItem, itemData: ItemData): void {
+    const itemFormGroup = this.receiptItems.at(itemData.arrayIndex) as FormGroup;
+    const customFieldsArray = itemFormGroup.get("customFields") as FormArray;
+
+    // Custom field was just selected (toggled from unselected to selected)
+    if (item.selected) {
+      const customField = this.customFields.find(cf => cf.id === Number(item.value));
+      if (customField) {
+        const customFieldValue = {
+          customFieldId: customField.id,
+          receiptId: null,
+          value: null
+        } as any as CustomFieldValue;
+        const formGroup = new FormGroup({
+          receiptId: new FormControl(null),
+          customFieldId: new FormControl(customFieldValue.customFieldId),
+          stringValue: new FormControl(customFieldValue?.stringValue ?? null),
+          dateValue: new FormControl(customFieldValue?.dateValue ?? null),
+          selectValue: new FormControl(customFieldValue?.selectValue ?? null),
+          currencyValue: new FormControl(customFieldValue?.currencyValue ?? null),
+          booleanValue: new FormControl(customFieldValue?.booleanValue ?? false),
+        });
+        customFieldsArray.push(formGroup);
+      }
+    } else {
+      // Custom field was just removed (toggled from selected to unselected)
+      const formArrayIndex = customFieldsArray.controls.findIndex(
+        control => control.value?.["customFieldId"]?.toString() === item.value
+      );
+      if (formArrayIndex >= 0) {
+        customFieldsArray.removeAt(formArrayIndex);
+      }
+    }
   }
 
   // Keyboard event handlers

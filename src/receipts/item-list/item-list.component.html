@@ -5,6 +5,7 @@
     <app-item-add-form
       [categories]="categories"
       [tags]="tags"
+      [customFields]="customFields"
       [selectedGroup]="selectedGroup"
       [mode]="mode"
       [receiptId]="originalReceipt?.id?.toString()"
@@ -48,6 +49,13 @@
             <div content class="d-flex flex-column item-form-container">
               <div class="d-flex justify-content-end">
                 @if (!(mode | inputReadonly)) {
+                  <app-custom-field-menu
+                    [customFields]="customFields"
+                    [selectedCustomFields]="(form | formGet : 'receiptItems.' + itemData.arrayIndex + '.customFields')?.value ?? []"
+                    [readonly]="mode | inputReadonly"
+                    [tooltip]="'Manage item custom fields'"
+                    (customFieldChanged)="customFieldChanged($event, itemData)"
+                  ></app-custom-field-menu>
                   <app-button
                     matButtonType="iconButton"
                     icon="call_split"
@@ -106,6 +114,14 @@
                   ></app-tag-autocomplete>
                 }
               </div>
+              @for (customField of getItemCustomFields(itemData.arrayIndex).controls; track customField.value["customFieldId"]) {
+                <app-custom-field
+                  class="w-100"
+                  [formGroup]="$any(customField)"
+                  [customFields]="customFields"
+                  [readonly]="mode | inputReadonly"
+                ></app-custom-field>
+              }
             </div>
           </app-card>
         </div>

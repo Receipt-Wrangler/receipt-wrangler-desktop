@@ -10,12 +10,13 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
 import { FormMode } from "src/enums/form-mode.enum";
 import { InputComponent } from "../../input";
-import { Category, Group, Item, Tag } from "../../open-api";
+import { Category, CustomField, CustomFieldValue, Group, Item, Tag } from "../../open-api";
 import { KeyboardShortcutService } from "../../services/keyboard-shortcut.service";
+import { StatefulMenuItem } from "../../standalone/components/filtered-stateful-menu/stateful-menu-item";
 import { buildItemForm } from "../utils/form.utils";
 import { KEYBOARD_SHORTCUT_ACTIONS, DISPLAY_SHORTCUTS } from "../../constants/keyboard-shortcuts.constant";
 
@@ -44,6 +45,7 @@ export class ItemAddFormComponent implements OnInit, OnDestroy {
 
   @Input() public categories: Category[] = [];
   @Input() public tags: Tag[] = [];
+  @Input() public customFields: CustomField[] = [];
   @Input() public selectedGroup?: Group;
   @Input() public mode: FormMode = FormMode.add;
   @Input() public receiptId?: string;
@@ -58,6 +60,10 @@ export class ItemAddFormComponent implements OnInit, OnDestroy {
   public rapidAddMode: boolean = false;
   public displayShortcuts = DISPLAY_SHORTCUTS;
   public showKeyboardHint: boolean = false;
+
+  public get customFieldsFormArray(): FormArray {
+    return this.newItemFormGroup.get("customFields") as FormArray;
+  }
 
   private destroy$ = new Subject<void>();
 
@@ -224,6 +230,38 @@ export class ItemAddFormComponent implements OnInit, OnDestroy {
       const input = this.tagInput.nativeElement.querySelector('input');
       if (input) {
         input.focus();
+      }
+    }
+  }
+
+  public customFieldChanged(item: StatefulMenuItem): void {
+    // Custom field was just selected (toggled from unselected to selected)
+    if (item.selected) {
+      const customField = this.customFields.find(cf => cf.id === Number(item.value));
+      if (customField) {
+        const customFieldValue = {
+          customFieldId: customField.id,
+          receiptId: 0,
+          value: null
+        } as any as CustomFieldValue;
+        const formGroup = new FormGroup({
+          receiptId: new FormControl(0),
+          customFieldId: new FormControl(customFieldValue.customFieldId),
+          stringValue: new FormControl(customFieldValue?.stringValue ?? null),
+          dateValue: new FormControl(customFieldValue?.dateValue ?? null),
+          selectValue: new FormControl(customFieldValue?.selectValue ?? null),
+          currencyValue: new FormControl(customFieldValue?.currencyValue ?? null),
+          booleanValue: new FormControl(customFieldValue?.booleanValue ?? false),
+        });
+        this.customFieldsFormArray.push(formGroup);
+      }
+    } else {
+      // Custom field was just removed (toggled from selected to unselected)
+      const formArrayIndex = this.customFieldsFormArray.controls.findIndex(
+        control => control.value?.["customFieldId"]?.toString() === item.value
+      );
+      if (formArrayIndex >= 0) {
+        this.customFieldsFormArray.removeAt(formArrayIndex);
       }
     }
   }

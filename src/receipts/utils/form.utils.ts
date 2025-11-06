@@ -1,7 +1,22 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { Item, ItemStatus } from "../../open-api";
+import { CustomFieldValue, Item, ItemStatus } from "../../open-api";
 
-export function buildItemForm(item?: Item, receiptId?: string, isShare: boolean = true, syncAmountWithItems: boolean = false): FormGroup {
+function buildCustomFieldFormGroup(value: CustomFieldValue, receiptId?: string): FormGroup {
+  return new FormGroup({
+    receiptId: new FormControl(0),
+    customFieldId: new FormControl(value.customFieldId),
+    stringValue: new FormControl(value?.stringValue ?? null),
+    dateValue: new FormControl(value?.dateValue ?? null),
+    selectValue: new FormControl(value?.selectValue ?? null),
+    currencyValue: new FormControl(value?.currencyValue ?? null),
+    booleanValue: new FormControl(value?.booleanValue ?? false),
+  });
+}
+
+export function buildItemForm(item?: Item, receiptId?: string, isShare: boolean = true, syncAmountWithItems: boolean = false, customFields: CustomFieldValue[] = []): FormGroup {
+  // Use item's customFields if available, otherwise use provided customFields parameter
+  const itemCustomFields = item?.customFields ?? customFields;
+
   const formGroup = new FormGroup({
     name: new FormControl(item?.name ?? "", Validators.required),
     chargedToUserId: new FormControl(item?.chargedToUserId ?? undefined, []),
@@ -18,9 +33,12 @@ export function buildItemForm(item?: Item, receiptId?: string, isShare: boolean 
       item?.status ?? ItemStatus.Open,
       Validators.required
     ),
+    customFields: new FormArray(
+      itemCustomFields.map((customField) => buildCustomFieldFormGroup(customField, receiptId))
+    ),
     // Always include linkedItems FormArray, even if empty
     linkedItems: new FormArray(
-      item?.linkedItems?.map(linkedItem => 
+      item?.linkedItems?.map(linkedItem =>
         buildItemForm(linkedItem, receiptId, true, syncAmountWithItems)
       ) ?? []
     ),

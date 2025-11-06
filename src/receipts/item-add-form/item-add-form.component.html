@@ -46,7 +46,23 @@
           ></app-tag-autocomplete>
         }
       </div>
+      @for (customField of customFieldsFormArray.controls; track customField.value["customFieldId"]) {
+        <app-custom-field
+          class="w-100"
+          [formGroup]="$any(customField)"
+          [customFields]="customFields"
+          [readonly]="mode | inputReadonly"
+        ></app-custom-field>
+      }
       <div class="add-form-actions">
+        <app-custom-field-menu
+          [customFields]="customFields"
+          [selectedCustomFields]="newItemFormGroup.value.customFields ?? []"
+          [readonly]="mode | inputReadonly"
+          [matButtonType]="'basic'"
+          [tooltip]="'Manage item custom fields'"
+          (customFieldChanged)="customFieldChanged($event)"
+        ></app-custom-field-menu>
         <app-button
           matButtonType="basic"
           [buttonText]="'Add Item'"
