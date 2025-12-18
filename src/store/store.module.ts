@@ -21,6 +21,7 @@ import { ReceiptTableState } from "./receipt-table.state";
 import { SystemEmailTableState } from "./system-email-table.state";
 import { SystemEmailTaskTableState } from "./system-email-task-table.state";
 import { SystemSettingsState } from "./system-settings.state";
+import { SystemTaskTableState } from "./system-task-table.state";
 import { TagTableState } from "./tag-table.state";
 import { UserState } from "./user.state";
 
@@ -46,6 +47,7 @@ import { UserState } from "./user.state";
       SystemEmailTableState,
       SystemEmailTaskTableState,
       SystemSettingsState,
+      SystemTaskTableState,
       TagTableState,
       UserState,
     ]),
@@ -70,6 +72,7 @@ import { UserState } from "./user.state";
         "systemEmailTable",
         "systemEmailTaskTable",
         "systemSettings",
+        "systemTaskTable",
         "tagTable",
         "users",
       ],

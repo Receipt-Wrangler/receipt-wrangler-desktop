@@ -21,6 +21,7 @@ import { allGroupsResolver } from "./system-email-table/all-groups.resolver";
 import { SystemEmailTableComponent } from "./system-email-table/system-email-table.component";
 import { SystemSettingsFormComponent } from "./system-settings-form/system-settings-form.component";
 import { SystemSettingsComponent } from "./system-settings/system-settings.component";
+import { SystemTaskTableComponent } from "./system-task-table/system-task-table.component";
 
 const routes: Routes = [
   {
@@ -52,6 +53,14 @@ const routes: Routes = [
         component: ReceiptProcessingSettingsTableComponent,
         resolve: {
           systemSettings: systemSettingsResolver,
+        }
+      },
+      {
+        path: "system-tasks",
+        component: SystemTaskTableComponent,
+        resolve: {
+          prompts: promptsResolver,
+          allReceiptProcessingSettings: allReceiptProcessingSettingsResolver,
         }
       },
       {
