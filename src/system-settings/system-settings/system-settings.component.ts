@@ -36,6 +36,11 @@ export class SystemSettingsComponent implements OnInit {
         routerLink: "system-emails",
         name: "system-emails",
       },
+      {
+        label: "System Tasks",
+        routerLink: "system-tasks",
+        name: "system-tasks",
+      },
     ];
   }
 }

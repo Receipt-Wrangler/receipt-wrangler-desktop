@@ -22,6 +22,7 @@ import { SystemSettingsFormComponent } from "./system-settings-form/system-setti
 
 import { SystemSettingsRoutingModule } from "./system-settings-routing.module";
 import { SystemSettingsComponent } from "./system-settings/system-settings.component";
+import { SystemTaskTableComponent } from "./system-task-table/system-task-table.component";
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { SystemSettingsComponent } from "./system-settings/system-settings.compo
     SystemEmailFormComponent,
     SystemSettingsFormComponent,
     SystemEmailChildSystemTaskComponent,
+    SystemTaskTableComponent,
     TaskQueueFormControlPipe,
   ],
   imports: [
