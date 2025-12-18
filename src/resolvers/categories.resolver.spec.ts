@@ -21,7 +21,7 @@ describe("CategoriesResolverService", () => {
   });
 
   it("should call get all categories", () => {
-    const serviceSpy = spyOn(TestBed.inject(CategoryService), "getAllCategories");
+    const serviceSpy = jest.spyOn(TestBed.inject(CategoryService), "getAllCategories");
     executeResolver({} as any, {} as any);
     expect(serviceSpy).toHaveBeenCalled();
   });

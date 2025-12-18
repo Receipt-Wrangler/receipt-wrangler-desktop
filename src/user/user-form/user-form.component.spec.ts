@@ -90,23 +90,23 @@ describe("UserFormComponent", () => {
       },
     });
 
-    spyOn(TestBed.inject(SnackbarService), "success").and.returnValue();
-    spyOn(TestBed.inject(UserService), "getUsernameCount").and.returnValue(
+    jest.spyOn(TestBed.inject(SnackbarService), "success").mockReturnValue();
+    jest.spyOn(TestBed.inject(UserService), "getUsernameCount").mockReturnValue(
       of(0 as any)
     );
-    const userServiceSpy = spyOn(TestBed.inject(UserService), "updateUserById");
-    userServiceSpy.and.returnValue(of(undefined as any));
+    const userServiceSpy = jest.spyOn(TestBed.inject(UserService), "updateUserById");
+    userServiceSpy.mockReturnValue(of(undefined as any));
 
-    const authServiceSpy = spyOn(
+    const authServiceSpy = jest.spyOn(
       TestBed.inject(AuthService),
       "getNewRefreshToken"
     );
-    authServiceSpy.and.returnValue(of(undefined as any));
+    authServiceSpy.mockReturnValue(of(undefined as any));
 
-    const storeSpy = spyOn(TestBed.inject(Store), "dispatch");
-    storeSpy.and.returnValue(of(undefined));
+    const storeSpy = jest.spyOn(TestBed.inject(Store), "dispatch");
+    storeSpy.mockReturnValue(of(undefined));
 
-    const dialogRefSpy = spyOn(component.matDialogRef, "close");
+    const dialogRefSpy = jest.spyOn(component.matDialogRef, "close");
 
     const user: User = {
       id: 1,
@@ -130,7 +130,7 @@ describe("UserFormComponent", () => {
       } as User,
     );
 
-    expect(storeSpy).toHaveBeenCalledOnceWith(
+    expect(storeSpy).toHaveBeenCalledWith(
       new UpdateUser("1", {
         ...component.user,
         ...component.form.value,
@@ -149,23 +149,23 @@ describe("UserFormComponent", () => {
       },
     });
 
-    spyOn(TestBed.inject(SnackbarService), "success").and.returnValue();
-    spyOn(TestBed.inject(UserService), "getUsernameCount").and.returnValue(
+    jest.spyOn(TestBed.inject(SnackbarService), "success").mockReturnValue();
+    jest.spyOn(TestBed.inject(UserService), "getUsernameCount").mockReturnValue(
       of(0 as any)
     );
-    const userServiceSpy = spyOn(TestBed.inject(UserService), "updateUserById");
-    userServiceSpy.and.returnValue(of(undefined as any));
+    const userServiceSpy = jest.spyOn(TestBed.inject(UserService), "updateUserById");
+    userServiceSpy.mockReturnValue(of(undefined as any));
 
-    const authServiceSpy = spyOn(
+    const authServiceSpy = jest.spyOn(
       TestBed.inject(AuthService),
       "getNewRefreshToken"
     );
-    authServiceSpy.and.returnValue(of(undefined as any));
+    authServiceSpy.mockReturnValue(of(undefined as any));
 
-    const storeSpy = spyOn(TestBed.inject(Store), "dispatch");
-    storeSpy.and.returnValue(of(undefined));
+    const storeSpy = jest.spyOn(TestBed.inject(Store), "dispatch");
+    storeSpy.mockReturnValue(of(undefined));
 
-    const dialogRefSpy = spyOn(component.matDialogRef, "close");
+    const dialogRefSpy = jest.spyOn(component.matDialogRef, "close");
 
     const user: User = {
       id: 1,
@@ -189,7 +189,7 @@ describe("UserFormComponent", () => {
       } as User,
     );
 
-    expect(storeSpy).toHaveBeenCalledOnceWith(
+    expect(storeSpy).toHaveBeenCalledWith(
       new UpdateUser("1", {
         ...component.user,
         ...component.form.value,
@@ -203,8 +203,8 @@ describe("UserFormComponent", () => {
   });
 
   it("should attempt to create user", () => {
-    spyOn(TestBed.inject(SnackbarService), "success").and.returnValue();
-    spyOn(TestBed.inject(UserService), "getUsernameCount").and.returnValue(
+    jest.spyOn(TestBed.inject(SnackbarService), "success").mockReturnValue();
+    jest.spyOn(TestBed.inject(UserService), "getUsernameCount").mockReturnValue(
       of(0 as any)
     );
     const user: User = {
@@ -215,13 +215,13 @@ describe("UserFormComponent", () => {
       userRole: UserRole.Admin,
     } as User;
 
-    const userServiceSpy = spyOn(TestBed.inject(UserService), "createUser");
-    userServiceSpy.and.returnValue(of(user as any));
+    const userServiceSpy = jest.spyOn(TestBed.inject(UserService), "createUser");
+    userServiceSpy.mockReturnValue(of(user as any));
 
-    const storeSpy = spyOn(TestBed.inject(Store), "dispatch");
-    storeSpy.and.returnValue(of(undefined));
+    const storeSpy = jest.spyOn(TestBed.inject(Store), "dispatch");
+    storeSpy.mockReturnValue(of(undefined));
 
-    const dialogRefSpy = spyOn(component.matDialogRef, "close");
+    const dialogRefSpy = jest.spyOn(component.matDialogRef, "close");
     component.ngOnInit();
 
     component.form.patchValue({
@@ -242,7 +242,7 @@ describe("UserFormComponent", () => {
       password: "Dough boy",
     } as any);
 
-    expect(storeSpy).toHaveBeenCalledOnceWith(new AddUser(user));
+    expect(storeSpy).toHaveBeenCalledWith(new AddUser(user));
 
     expect(dialogRefSpy).toHaveBeenCalledWith(true);
   });

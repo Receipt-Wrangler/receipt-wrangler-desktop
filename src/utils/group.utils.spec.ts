@@ -28,12 +28,12 @@ describe("GroupUtil", () => {
 
     it("should return true when groupId is undefined", () => {
       const result = groupUtil.hasGroupAccess(undefined, testGroupRole, false);
-      expect(result).toBeTrue();
+      expect(result).toBe(true);
     });
 
     it("should return false when group is not found in store", () => {
       const result = groupUtil.hasGroupAccess(testGroupId, testGroupRole, false);
-      expect(result).toBeFalse();
+      expect(result).toBe(false);
     });
 
     it("should return false when user is not a member of group", () => {
@@ -51,7 +51,7 @@ describe("GroupUtil", () => {
       });
 
       const result = groupUtil.hasGroupAccess(testGroupId, testGroupRole, false);
-      expect(result).toBeFalse();
+      expect(result).toBe(false);
     });
 
     it("should return false when user has lower role than required", () => {
@@ -69,7 +69,7 @@ describe("GroupUtil", () => {
       });
 
       const result = groupUtil.hasGroupAccess(testGroupId, testGroupRole, false);
-      expect(result).toBeFalse();
+      expect(result).toBe(false);
     });
 
     it("should return true when user has same or higher role than required", () => {
@@ -87,15 +87,18 @@ describe("GroupUtil", () => {
       });
 
       const result = groupUtil.hasGroupAccess(testGroupId, testGroupRole, false);
-      expect(result).toBeTrue();
+      expect(result).toBe(true);
     });
   });
 
 
   it("should return true when allowAdminOverride is true and user is admin", () => {
-    spyOn(store, "selectSnapshot").and.returnValues(true, "1", null);
+    jest.spyOn(store, "selectSnapshot")
+      .mockReturnValueOnce(true)
+      .mockReturnValueOnce("1")
+      .mockReturnValueOnce(null);
     const result = groupUtil.hasGroupAccess(1, GroupRole.Viewer, true);
-    expect(result).toBeTrue();
+    expect(result).toBe(true);
   });
 
   it("should return false when allowAdminOverride is false and user is admin but not in group", () => {
@@ -111,6 +114,6 @@ describe("GroupUtil", () => {
       },
     });
     const result = groupUtil.hasGroupAccess(1, GroupRole.Viewer, false);
-    expect(result).toBeFalse();
+    expect(result).toBe(false);
   });
 });

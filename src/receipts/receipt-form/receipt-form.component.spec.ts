@@ -60,8 +60,9 @@ describe("ReceiptFormComponent", () => {
   });
 
   it("should init form correctly when there is no initial data", () => {
+    jest.useFakeTimers();
     const mockedDate = new Date(2020, 0, 1);
-    jasmine.clock().mockDate(mockedDate);
+    jest.setSystemTime(mockedDate);
     component.ngOnInit();
 
     expect(component.form.value).toEqual({
@@ -77,6 +78,7 @@ describe("ReceiptFormComponent", () => {
       receiptItems: [],
       syncAmountWithItems: false,
     });
+    jest.useRealTimers();
   });
 
   it("should patch magic fill values correctly", () => {
@@ -109,15 +111,15 @@ describe("ReceiptFormComponent", () => {
       ],
     } as any;
 
-    const receiptImageServiceSpy = spyOn(
+    const receiptImageServiceSpy = jest.spyOn(
       TestBed.inject(ReceiptImageService),
       "magicFillReceipt"
-    ).and.returnValue(of(magicReceipt));
+    ).mockReturnValue(of(magicReceipt));
 
-    const snackbarSpy = spyOn(
+    const snackbarSpy = jest.spyOn(
       TestBed.inject(SnackbarService),
       "success"
-    ).and.returnValue(undefined);
+    ).mockReturnValue(undefined);
 
     component.magicFill();
 
@@ -158,10 +160,10 @@ describe("ReceiptFormComponent", () => {
       date: "0001-01-01T00:00:00Z",
     } as any;
 
-    const receiptImageServiceSpy = spyOn(
+    const receiptImageServiceSpy = jest.spyOn(
       TestBed.inject(ReceiptImageService),
       "magicFillReceipt"
-    ).and.returnValue(of(magicReceipt));
+    ).mockReturnValue(of(magicReceipt));
 
     component.magicFill();
 
@@ -196,15 +198,15 @@ describe("ReceiptFormComponent", () => {
       date: "0001-01-01T00:00:00Z",
     } as any;
 
-    const receiptImageServiceSpy = spyOn(
+    const receiptImageServiceSpy = jest.spyOn(
       TestBed.inject(ReceiptImageService),
       "magicFillReceipt"
-    ).and.returnValue(of(magicReceipt));
+    ).mockReturnValue(of(magicReceipt));
 
-    const snackbarSpy = spyOn(
+    const snackbarSpy = jest.spyOn(
       TestBed.inject(SnackbarService),
       "error"
-    ).and.returnValue(undefined);
+    ).mockReturnValue(undefined);
 
     component.magicFill();
 

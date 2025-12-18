@@ -76,15 +76,17 @@ describe("QuickScanDialogComponent", () => {
   });
 
   it("should push fileData into images when loaded", () => {
-    spyOn(URL, "createObjectURL").and.returnValue("awesome");
+    const originalCreateObjectURL = URL.createObjectURL;
+    URL.createObjectURL = jest.fn().mockReturnValue("awesome");
     const fileData = {} as ReceiptFileUploadCommand;
     component.fileLoaded(fileData);
 
     expect(component.images).toEqual([fileData]);
+    URL.createObjectURL = originalCreateObjectURL;
   });
 
   it("should close the dialog", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialogRef), "close");
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialogRef), "close");
 
     component.cancelButtonClicked();
 
@@ -92,11 +94,11 @@ describe("QuickScanDialogComponent", () => {
   });
 
   it("should show error if no image has been selected", () => {
-    const snackbarSpy = spyOn(TestBed.inject(SnackbarService), "error");
+    const snackbarSpy = jest.spyOn(TestBed.inject(SnackbarService), "error");
 
     component.submitButtonClicked();
 
-    expect(snackbarSpy).toHaveBeenCalledOnceWith(
+    expect(snackbarSpy).toHaveBeenCalledWith(
       "Please select images to upload"
     );
   });
@@ -136,10 +138,10 @@ describe("QuickScanDialogComponent", () => {
 
   // TODO: fix
   // it('should call API with command', () => {
-  //   const serviceSpy = spyOn(
+  //   const serviceSpy = jest.spyOn(
   //     TestBed.inject(ReceiptService),
   //     'quickScanReceipt'
-  //   ).and.returnValue(of({} as any));
+  //   ).mockReturnValue(of({} as any));
   //   const fileData = {
   //     fileType: 'image/jpeg',
   //     imageData: '',

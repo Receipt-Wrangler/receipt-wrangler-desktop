@@ -72,10 +72,10 @@ describe("NotificationComponent", () => {
   });
 
   it("should delete notification", () => {
-    const serviceSpy = spyOn(service, "deleteNotificationById").and.returnValue(
+    const serviceSpy = jest.spyOn(service, "deleteNotificationById").mockReturnValue(
       of(undefined as any)
     );
-    const emitterSpy = spyOn(component.notificationDeleted, "emit");
+    const emitterSpy = jest.spyOn(component.notificationDeleted, "emit");
 
     component.deleteNotification();
 

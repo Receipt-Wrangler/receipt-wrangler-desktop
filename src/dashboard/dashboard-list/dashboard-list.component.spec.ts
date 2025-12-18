@@ -38,7 +38,7 @@ describe("DashboardListComponent", () => {
 
   it("should emit endOfListReached when reaching end of list", () => {
     // Setup spy on output emitter
-    const emitSpy = spyOn(component.endOfListReached, "emit");
+    const emitSpy = jest.spyOn(component.endOfListReached, "emit");
 
     // Mock items array
     component.items = Array(10).fill({});
@@ -54,7 +54,7 @@ describe("DashboardListComponent", () => {
   });
 
   it("should not emit endOfListReached when not at end of list", () => {
-    const emitSpy = spyOn(component.endOfListReached, "emit");
+    const emitSpy = jest.spyOn(component.endOfListReached, "emit");
 
     component.items = Array(10).fill({});
     fixture.detectChanges();
@@ -76,7 +76,7 @@ describe("DashboardListComponent", () => {
   });
 
   it("should clean up subscriptions on destroy", () => {
-    const subscription = spyOn(
+    const subscription = jest.spyOn(
       component.cdkVirtualScrollViewport.renderedRangeStream,
       "subscribe"
     );

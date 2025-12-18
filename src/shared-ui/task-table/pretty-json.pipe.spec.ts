@@ -29,6 +29,6 @@ describe("PrettyJsonPipe", () => {
     };
     const jsonString = JSON.stringify(json);
     const result = pipe.transform(jsonString);
-    expect(result === "").toBeFalse();
+    expect(result === "").toBe(false);
   });
 });

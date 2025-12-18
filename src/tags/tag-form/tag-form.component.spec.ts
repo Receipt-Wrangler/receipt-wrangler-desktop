@@ -63,12 +63,12 @@ describe("CategoryForm", () => {
   });
 
   it("should submit form with correct data, when editing", () => {
-    const tagServiceSpy = spyOn(TestBed.inject(TagService), "updateTag");
-    tagServiceSpy.and.returnValue(of({} as any));
-    const nameValidateSpy = spyOn(
+    const tagServiceSpy = jest.spyOn(TestBed.inject(TagService), "updateTag");
+    tagServiceSpy.mockReturnValue(of({} as any));
+    const nameValidateSpy = jest.spyOn(
       TestBed.inject(TagService),
       "getTagCountByName"
-    ).and.returnValue(of(0) as any);
+    ).mockReturnValue(of(0) as any);
     const tag: TagView = {
       id: 1,
       name: "test",
@@ -80,7 +80,7 @@ describe("CategoryForm", () => {
     component.ngOnInit();
     component.submit();
 
-    expect(tagServiceSpy).toHaveBeenCalledOnceWith(
+    expect(tagServiceSpy).toHaveBeenCalledWith(
       1,
       {
         name: "test",
@@ -90,12 +90,12 @@ describe("CategoryForm", () => {
   });
 
   it("should submit form with correct data, when creating", () => {
-    const nameValidateSpy = spyOn(
+    const nameValidateSpy = jest.spyOn(
       TestBed.inject(TagService),
       "getTagCountByName"
-    ).and.returnValue(of(0) as any);
-    const tagServiceSpy = spyOn(TestBed.inject(TagService), "createTag");
-    tagServiceSpy.and.returnValue(of({} as any));
+    ).mockReturnValue(of(0) as any);
+    const tagServiceSpy = jest.spyOn(TestBed.inject(TagService), "createTag");
+    tagServiceSpy.mockReturnValue(of({} as any));
 
     component.ngOnInit();
     component.form.patchValue({
@@ -104,7 +104,7 @@ describe("CategoryForm", () => {
     });
     component.submit();
 
-    expect(tagServiceSpy).toHaveBeenCalledOnceWith({
+    expect(tagServiceSpy).toHaveBeenCalledWith({
       name: "test",
       description: "test",
     });

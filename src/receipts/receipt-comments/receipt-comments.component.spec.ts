@@ -79,8 +79,8 @@ describe("ReceiptCommentsComponent", () => {
 
 
   it("should delete comment that is a top level comment", () => {
-    const spy = spyOn(TestBed.inject(CommentService), "deleteComment");
-    spy.and.returnValue(of(undefined as any));
+    const spy = jest.spyOn(TestBed.inject(CommentService), "deleteComment");
+    spy.mockReturnValue(of(undefined as any));
     component.comments = comments;
 
     component.ngOnInit();
@@ -113,7 +113,7 @@ describe("ReceiptCommentsComponent", () => {
   });
 
   it("should add comment if form is valid and is in add mode", () => {
-    const eventEmitterSpy = spyOn(component.commentsUpdated, "emit");
+    const eventEmitterSpy = jest.spyOn(component.commentsUpdated, "emit");
     store.reset({
       auth: {
         userId: 1,
@@ -137,8 +137,8 @@ describe("ReceiptCommentsComponent", () => {
   });
 
   it("should send api call if form is valid and is in edit mode", () => {
-    const spy = spyOn(TestBed.inject(CommentService), "addComment");
-    spy.and.returnValue(
+    const spy = jest.spyOn(TestBed.inject(CommentService), "addComment");
+    spy.mockReturnValue(
       of({
         id: 5,
         userId: 1,

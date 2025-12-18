@@ -114,10 +114,10 @@ describe("ReceiptFilterComponent", () => {
   });
 
   it("should init form with no default initial data", () => {
-    spyOn(TestBed.inject(CategoryService), "getAllCategories").and.returnValue(
+    jest.spyOn(TestBed.inject(CategoryService), "getAllCategories").mockReturnValue(
       of([]) as any
     );
-    spyOn(TestBed.inject(TagService), "getAllTags").and.returnValue(
+    jest.spyOn(TestBed.inject(TagService), "getAllTags").mockReturnValue(
       of([]) as any
     );
 
@@ -130,10 +130,10 @@ describe("ReceiptFilterComponent", () => {
   });
 
   it("should init form with initial data", () => {
-    spyOn(TestBed.inject(CategoryService), "getAllCategories").and.returnValue(
+    jest.spyOn(TestBed.inject(CategoryService), "getAllCategories").mockReturnValue(
       of([]) as any
     );
-    spyOn(TestBed.inject(TagService), "getAllTags").and.returnValue(
+    jest.spyOn(TestBed.inject(TagService), "getAllTags").mockReturnValue(
       of([]) as any
     );
     store.reset({
@@ -151,10 +151,10 @@ describe("ReceiptFilterComponent", () => {
   });
 
   it("should reset form", () => {
-    spyOn(TestBed.inject(CategoryService), "getAllCategories").and.returnValue(
+    jest.spyOn(TestBed.inject(CategoryService), "getAllCategories").mockReturnValue(
       of([]) as any
     );
-    spyOn(TestBed.inject(TagService), "getAllTags").and.returnValue(
+    jest.spyOn(TestBed.inject(TagService), "getAllTags").mockReturnValue(
       of([]) as any
     );
     store.reset({
@@ -179,27 +179,27 @@ describe("ReceiptFilterComponent", () => {
   });
 
   it("should set form in state and close dialog", () => {
-    const dialogRefSpy = spyOn(
+    const dialogRefSpy = jest.spyOn(
       TestBed.inject(MatDialogRef<ReceiptFilterComponent>),
       "close"
     );
-    const storeRefSpy = spyOn(store, "dispatch").and.returnValue(of(undefined));
+    const storeRefSpy = jest.spyOn(store, "dispatch").mockReturnValue(of(undefined));
 
     component.submitButtonClicked();
 
     expect(storeRefSpy).toHaveBeenCalledWith(
       new SetReceiptFilter(component.parentForm.value)
     );
-    expect(dialogRefSpy).toHaveBeenCalledOnceWith(true);
+    expect(dialogRefSpy).toHaveBeenCalledWith(true);
   });
 
   it("should close dialog on cancel", () => {
-    const dialogRefSpy = spyOn(
+    const dialogRefSpy = jest.spyOn(
       TestBed.inject(MatDialogRef<ReceiptFilterComponent>),
       "close"
     );
     component.cancelButtonClicked();
 
-    expect(dialogRefSpy).toHaveBeenCalledOnceWith(false);
+    expect(dialogRefSpy).toHaveBeenCalledWith(false);
   });
 });

@@ -49,7 +49,7 @@ describe("NotificationsListComponent", () => {
       },
     ];
 
-    spyOn(service, "getNotificationsForuser").and.returnValue(
+    jest.spyOn(service, "getNotificationsForuser").mockReturnValue(
       of(mockNotifications as any)
     );
 
@@ -60,7 +60,7 @@ describe("NotificationsListComponent", () => {
   });
 
   it("should delete all notifications", () => {
-    spyOn(service, "deleteAllNotificationsForUser").and.returnValue(
+    jest.spyOn(service, "deleteAllNotificationsForUser").mockReturnValue(
       of(undefined as any)
     );
     component.notifications = [

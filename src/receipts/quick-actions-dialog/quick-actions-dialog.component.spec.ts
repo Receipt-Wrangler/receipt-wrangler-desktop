@@ -15,17 +15,17 @@ describe("QuickActionsDialogComponent", () => {
   let fixture: ComponentFixture<QuickActionsDialogComponent>;
 
   const mockDialogRef = {
-    close: jasmine.createSpy("close"),
+    close: jest.fn(),
   };
 
   const mockSnackBar = {
-    open: jasmine.createSpy("open"),
+    open: jest.fn(),
   };
 
   const mockSnackbarService = {
-    error: jasmine.createSpy("error"),
-    info: jasmine.createSpy("info"),
-    success: jasmine.createSpy("success"),
+    error: jest.fn(),
+    info: jest.fn(),
+    success: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -50,10 +50,10 @@ describe("QuickActionsDialogComponent", () => {
     fixture.detectChanges();
 
     // Reset mocks
-    mockDialogRef.close.calls.reset();
-    mockSnackbarService.error.calls.reset();
-    mockSnackbarService.info.calls.reset();
-    mockSnackbarService.success.calls.reset();
+    mockDialogRef.close.mockClear();
+    mockSnackbarService.error.mockClear();
+    mockSnackbarService.info.mockClear();
+    mockSnackbarService.success.mockClear();
   });
 
   // Helper function to create test users
@@ -101,14 +101,14 @@ describe("QuickActionsDialogComponent", () => {
       quickAction: component.radioValues[0].value,
     });
 
-    spyOn(component.itemsToAdd, "emit");
+    jest.spyOn(component.itemsToAdd, "emit");
 
     component.addSplits();
 
     expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
-      items: jasmine.arrayContaining([
-        jasmine.objectContaining({ amount: 50, chargedToUserId: 1 }),
-        jasmine.objectContaining({ amount: 50, chargedToUserId: 2 }),
+      items: expect.arrayContaining([
+        expect.objectContaining({ amount: 50, chargedToUserId: 1 }),
+        expect.objectContaining({ amount: 50, chargedToUserId: 2 }),
       ]),
       itemIndex: undefined
     });
@@ -133,16 +133,16 @@ describe("QuickActionsDialogComponent", () => {
     component.localForm.addControl("1", new FormControl("10"));
     component.localForm.addControl("2", new FormControl("20"));
 
-    spyOn(component.itemsToAdd, "emit");
+    jest.spyOn(component.itemsToAdd, "emit");
 
     component.addSplits();
 
     expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
-      items: jasmine.arrayContaining([
-        jasmine.objectContaining({ amount: 1, chargedToUserId: 1, name: "User 1's Portion" }),
-        jasmine.objectContaining({ amount: 1, chargedToUserId: 2, name: "User 2's Portion" }),
-        jasmine.objectContaining({ amount: 49, chargedToUserId: 1, name: "User 1's Even Portion" }),
-        jasmine.objectContaining({ amount: 49, chargedToUserId: 2, name: "User 2's Even Portion" }),
+      items: expect.arrayContaining([
+        expect.objectContaining({ amount: 1, chargedToUserId: 1, name: "User 1's Portion" }),
+        expect.objectContaining({ amount: 1, chargedToUserId: 2, name: "User 2's Portion" }),
+        expect.objectContaining({ amount: 49, chargedToUserId: 1, name: "User 1's Even Portion" }),
+        expect.objectContaining({ amount: 49, chargedToUserId: 2, name: "User 2's Even Portion" }),
       ]),
       itemIndex: undefined
     });
@@ -154,8 +154,8 @@ describe("QuickActionsDialogComponent", () => {
     });
 
     it("should include Split by Percentage in radio options", () => {
-      expect(component.radioValues).toContain(
-        jasmine.objectContaining({
+      expect(component.radioValues).toContainEqual(
+        expect.objectContaining({
           displayValue: "Split by Percentage",
           value: "SplitByPercentage",
         })
@@ -340,15 +340,15 @@ describe("QuickActionsDialogComponent", () => {
         component.setPercentage(users[1].id.toString(), 35);
         component.setPercentage(users[2].id.toString(), 25);
 
-        spyOn(component.itemsToAdd, "emit");
+        jest.spyOn(component.itemsToAdd, "emit");
 
         component.addSplits();
 
         expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
-          items: jasmine.arrayContaining([
-            jasmine.objectContaining({ amount: 40 }), // 100 * 40% = 40
-            jasmine.objectContaining({ amount: 35 }), // 100 * 35% = 35
-            jasmine.objectContaining({ amount: 25 }), // 100 * 25% = 25
+          items: expect.arrayContaining([
+            expect.objectContaining({ amount: 40 }), // 100 * 40% = 40
+            expect.objectContaining({ amount: 35 }), // 100 * 35% = 35
+            expect.objectContaining({ amount: 25 }), // 100 * 25% = 25
           ]),
           itemIndex: undefined
         });
@@ -364,13 +364,13 @@ describe("QuickActionsDialogComponent", () => {
 
         component.setPercentage(users[0].id.toString(), 50);
 
-        spyOn(component.itemsToAdd, "emit");
+        jest.spyOn(component.itemsToAdd, "emit");
 
         component.addSplits();
 
         expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
-          items: jasmine.arrayContaining([
-            jasmine.objectContaining({ name: "John Doe's 50% Portion" }),
+          items: expect.arrayContaining([
+            expect.objectContaining({ name: "John Doe's 50% Portion" }),
           ]),
           itemIndex: undefined
         });
@@ -388,13 +388,13 @@ describe("QuickActionsDialogComponent", () => {
         component.setPercentage(users[0].id.toString(), 100);
         // Other users remain at 0%
 
-        spyOn(component.itemsToAdd, "emit");
+        jest.spyOn(component.itemsToAdd, "emit");
 
         component.addSplits();
 
         expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
           items: [
-            jasmine.objectContaining({ chargedToUserId: users[0].id }),
+            expect.objectContaining({ chargedToUserId: users[0].id }),
           ],
           itemIndex: undefined
         });
@@ -413,13 +413,13 @@ describe("QuickActionsDialogComponent", () => {
         percentageControl?.enable();
         percentageControl?.setValue(33.33);
 
-        spyOn(component.itemsToAdd, "emit");
+        jest.spyOn(component.itemsToAdd, "emit");
 
         component.addSplits();
 
         expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
           items: [
-            jasmine.objectContaining({ amount: 33.33 }),
+            expect.objectContaining({ amount: 33.33 }),
           ],
           itemIndex: undefined
         });
@@ -548,14 +548,14 @@ describe("QuickActionsDialogComponent", () => {
         percentageControl?.enable();
         percentageControl?.setValue(33.333);
 
-        spyOn(component.itemsToAdd, "emit");
+        jest.spyOn(component.itemsToAdd, "emit");
 
         component.addSplits();
 
         // Should round to 2 decimal places
         expect(component.itemsToAdd.emit).toHaveBeenCalledWith({
           items: [
-            jasmine.objectContaining({ amount: 33.33 }),
+            expect.objectContaining({ amount: 33.33 }),
           ],
           itemIndex: undefined
         });

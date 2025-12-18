@@ -28,7 +28,7 @@ describe("dashboardResolver", () => {
   });
 
   it("should attempt to get dashboards by group id", () => {
-    const dispatchSpy = spyOn(TestBed.inject(Store), "dispatch");
+    const dispatchSpy = jest.spyOn(TestBed.inject(Store), "dispatch");
 
     executeResolver(
       {

@@ -100,7 +100,7 @@ describe("SystemEmailFormComponent", () => {
   });
 
   it("should call create", () => {
-    const serviceSpy = spyOn(TestBed.inject(SystemEmailService), "createSystemEmail").and.returnValue(of({} as any));
+    const serviceSpy = jest.spyOn(TestBed.inject(SystemEmailService), "createSystemEmail").mockReturnValue(of({} as any));
     component.formConfig = { mode: FormMode.add } as any;
     component.submit();
 
@@ -109,7 +109,7 @@ describe("SystemEmailFormComponent", () => {
 
   it("should call update", () => {
     component.originalSystemEmail = { id: 1 } as any;
-    const serviceSpy = spyOn(TestBed.inject(SystemEmailService), "updateSystemEmailById").and.returnValue(of({} as any));
+    const serviceSpy = jest.spyOn(TestBed.inject(SystemEmailService), "updateSystemEmailById").mockReturnValue(of({} as any));
     component.formConfig = { mode: FormMode.edit } as any;
     component.submit();
 
@@ -120,7 +120,7 @@ describe("SystemEmailFormComponent", () => {
     component.ngOnInit();
     component.originalSystemEmail = { id: 1 } as any;
     component.form.get("password")?.markAsDirty();
-    const matDialogSpy = spyOn(TestBed.inject(MatDialog), "open").and.returnValue({
+    const matDialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open").mockReturnValue({
       componentInstance: {},
       afterClosed: () => of(undefined)
     } as any);

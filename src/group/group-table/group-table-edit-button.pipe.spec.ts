@@ -5,7 +5,7 @@ import { GroupTableEditButtonPipe } from "./group-table-edit-button.pipe";
 
 describe("GroupTableEditButtonPipe", () => {
   let pipe: GroupTableEditButtonPipe;
-  let groupUtilMock: jasmine.SpyObj<GroupUtil>;
+  let groupUtilMock: jest.Mocked<GroupUtil>;
 
   const mockGroup: Group = {
     id: "123",
@@ -13,7 +13,7 @@ describe("GroupTableEditButtonPipe", () => {
   } as any;
 
   beforeEach(() => {
-    groupUtilMock = jasmine.createSpyObj("GroupUtil", ["hasGroupAccess"]);
+    groupUtilMock = { hasGroupAccess: jest.fn() } as unknown as jest.Mocked<GroupUtil>;
 
     TestBed.configureTestingModule({
       providers: [
@@ -31,7 +31,7 @@ describe("GroupTableEditButtonPipe", () => {
 
   describe("transform", () => {
     it("should return edit route when user is group owner", () => {
-      groupUtilMock.hasGroupAccess.and.returnValue(true);
+      groupUtilMock.hasGroupAccess.mockReturnValue(true);
       const isAdmin = false;
 
       const result = pipe.transform(mockGroup, isAdmin);
@@ -49,7 +49,7 @@ describe("GroupTableEditButtonPipe", () => {
     });
 
     it("should return settings route when user is admin but not owner", () => {
-      groupUtilMock.hasGroupAccess.and.returnValue(false);
+      groupUtilMock.hasGroupAccess.mockReturnValue(false);
       const isAdmin = true;
 
       const result = pipe.transform(mockGroup, isAdmin);
@@ -67,7 +67,7 @@ describe("GroupTableEditButtonPipe", () => {
     });
 
     it("should return view route when user is neither owner nor admin", () => {
-      groupUtilMock.hasGroupAccess.and.returnValue(false);
+      groupUtilMock.hasGroupAccess.mockReturnValue(false);
       const isAdmin = false;
 
       const result = pipe.transform(mockGroup, isAdmin);
@@ -89,7 +89,7 @@ describe("GroupTableEditButtonPipe", () => {
         ...mockGroup,
         id: undefined
       } as any;
-      groupUtilMock.hasGroupAccess.and.returnValue(false);
+      groupUtilMock.hasGroupAccess.mockReturnValue(false);
       const isAdmin = false;
 
       const result = pipe.transform(undefinedGroup, isAdmin);

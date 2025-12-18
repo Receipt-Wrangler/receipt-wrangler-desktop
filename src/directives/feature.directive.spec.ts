@@ -6,12 +6,12 @@ import { FeatureDirective } from './feature.directive';
 
 describe('FeatureDirective', () => {
   let store: Store;
-  let templateRef: jasmine.SpyObj<TemplateRef<any>>;
-  let viewContainer: jasmine.SpyObj<ViewContainerRef>;
+  let templateRef: jest.Mocked<TemplateRef<any>>;
+  let viewContainer: jest.Mocked<ViewContainerRef>;
 
   beforeEach(() => {
-    const templateSpy = jasmine.createSpyObj('TemplateRef', ['createEmbeddedView']);
-    const viewContainerSpy = jasmine.createSpyObj('ViewContainerRef', ['createEmbeddedView', 'clear']);
+    const templateSpy = { createEmbeddedView: jest.fn() };
+    const viewContainerSpy = { createEmbeddedView: jest.fn(), clear: jest.fn() };
 
     TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([FeatureConfigState])],
@@ -22,8 +22,8 @@ describe('FeatureDirective', () => {
     });
 
     store = TestBed.inject(Store);
-    templateRef = TestBed.inject(TemplateRef) as jasmine.SpyObj<TemplateRef<any>>;
-    viewContainer = TestBed.inject(ViewContainerRef) as jasmine.SpyObj<ViewContainerRef>;
+    templateRef = TestBed.inject(TemplateRef) as jest.Mocked<TemplateRef<any>>;
+    viewContainer = TestBed.inject(ViewContainerRef) as jest.Mocked<ViewContainerRef>;
   });
 
   it('should create an instance', () => {

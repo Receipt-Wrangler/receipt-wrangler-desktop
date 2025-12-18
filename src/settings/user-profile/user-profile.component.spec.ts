@@ -63,10 +63,10 @@ describe("UserProfileComponent", () => {
 
   it("should submit form and update state correctly", () => {
     const store = TestBed.inject(Store);
-    const serviceSpy = spyOn(TestBed.inject(UserService), "updateUserProfile");
-    const authSpy = spyOn(TestBed.inject(AuthService), "getNewRefreshToken");
+    const serviceSpy = jest.spyOn(TestBed.inject(UserService), "updateUserProfile");
+    const authSpy = jest.spyOn(TestBed.inject(AuthService), "getNewRefreshToken");
 
-    spyOn(TestBed.inject(UserService), "getUserClaims").and.returnValue(
+    jest.spyOn(TestBed.inject(UserService), "getUserClaims").mockReturnValue(
       of({
         userId: "1",
         displayname: "store",
@@ -74,8 +74,8 @@ describe("UserProfileComponent", () => {
       } as any)
     );
 
-    serviceSpy.and.returnValue(of(undefined) as any);
-    authSpy.and.returnValue(of(undefined as any));
+    serviceSpy.mockReturnValue(of(undefined) as any);
+    authSpy.mockReturnValue(of(undefined as any));
 
     store.reset({
       users: { users: [{ id: 1, displayName: "cheetos", username: "burger" }] },

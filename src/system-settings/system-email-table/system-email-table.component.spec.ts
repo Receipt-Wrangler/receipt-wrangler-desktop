@@ -40,7 +40,7 @@ describe("SystemEmailsComponent", () => {
   });
 
   it("should pop confirmation dialog", () => {
-    const matDialogSpy = spyOn(component.matDialog, "open").and.returnValue({
+    const matDialogSpy = jest.spyOn(component.matDialog, "open").mockReturnValue({
       componentInstance: {},
       afterClosed: () => of(undefined)
     } as any);

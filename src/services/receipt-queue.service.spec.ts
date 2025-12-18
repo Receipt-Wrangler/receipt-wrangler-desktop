@@ -6,7 +6,7 @@ import { QueueMode, ReceiptQueueService } from "./receipt-queue.service";
 describe("ReceiptQueueService", () => {
   let service: ReceiptQueueService;
   let router: Router;
-  let navigateSpy: jasmine.Spy;
+  let navigateSpy: jest.SpyInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -15,7 +15,7 @@ describe("ReceiptQueueService", () => {
     });
     service = TestBed.inject(ReceiptQueueService);
     router = TestBed.inject(Router);
-    navigateSpy = spyOn(router, "navigate");
+    navigateSpy = jest.spyOn(router, "navigate");
   });
 
   it("should be created", () => {

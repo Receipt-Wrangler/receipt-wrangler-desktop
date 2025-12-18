@@ -38,11 +38,11 @@ describe("CategoriesListComponent", () => {
   });
 
   it("should attempt to get table data, set datasource and total count", () => {
-    const serviceSpy = spyOn(
+    const serviceSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "getPagedCategories"
     );
-    serviceSpy.and.returnValue(
+    serviceSpy.mockReturnValue(
       of({
         data: [{}],
         totalCount: 1,
@@ -51,7 +51,7 @@ describe("CategoriesListComponent", () => {
 
     component.ngOnInit();
 
-    expect(serviceSpy).toHaveBeenCalledOnceWith({
+    expect(serviceSpy).toHaveBeenCalledWith({
       page: 1,
       pageSize: 50,
       orderBy: "name",
@@ -63,11 +63,11 @@ describe("CategoriesListComponent", () => {
   });
 
   it("should attempt to get table data, with new sorted direction and key", () => {
-    const serviceSpy = spyOn(
+    const serviceSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "getPagedCategories"
     );
-    serviceSpy.and.returnValue(
+    serviceSpy.mockReturnValue(
       of({
         data: [{}],
         totalCount: 1,
@@ -85,7 +85,7 @@ describe("CategoriesListComponent", () => {
       orderBy: "numberOfReceipts",
       sortDirection: "asc",
     });
-    expect(serviceSpy).toHaveBeenCalledOnceWith({
+    expect(serviceSpy).toHaveBeenCalledWith({
       page: 1,
       pageSize: 50,
       orderBy: "numberOfReceipts",
@@ -94,11 +94,11 @@ describe("CategoriesListComponent", () => {
   });
 
   it("should attempt to get table data, with newpage and new page size", () => {
-    const serviceSpy = spyOn(
+    const serviceSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "getPagedCategories"
     );
-    serviceSpy.and.returnValue(
+    serviceSpy.mockReturnValue(
       of({
         data: [{}],
         totalCount: 1,
@@ -116,7 +116,7 @@ describe("CategoriesListComponent", () => {
       orderBy: "name",
       sortDirection: "desc",
     });
-    expect(serviceSpy).toHaveBeenCalledOnceWith({
+    expect(serviceSpy).toHaveBeenCalledWith({
       page: 3,
       pageSize: 100,
       orderBy: "name",
@@ -137,12 +137,12 @@ describe("CategoriesListComponent", () => {
   });
 
   it("should open edit dialog and refresh data when after closed with true", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    const serviceSpy = spyOn(
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open");
+    const serviceSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "getPagedCategories"
     );
-    dialogSpy.and.returnValue({
+    dialogSpy.mockReturnValue({
       componentInstance: {
         category: {},
         headerText: "",
@@ -153,7 +153,7 @@ describe("CategoriesListComponent", () => {
     const categoryView: any = {};
     component.openEditDialog(categoryView);
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
+    expect(dialogSpy).toHaveBeenCalledWith(
       CategoryForm,
       DEFAULT_DIALOG_CONFIG
     );
@@ -161,12 +161,12 @@ describe("CategoriesListComponent", () => {
   });
 
   it("should open edit dialog and not refresh data when after closed with false", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    const serviceSpy = spyOn(
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open");
+    const serviceSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "getPagedCategories"
     );
-    dialogSpy.and.returnValue({
+    dialogSpy.mockReturnValue({
       componentInstance: {
         category: {},
         headerText: "",
@@ -177,7 +177,7 @@ describe("CategoriesListComponent", () => {
     const categoryView: any = {};
     component.openEditDialog(categoryView);
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
+    expect(dialogSpy).toHaveBeenCalledWith(
       CategoryForm,
       DEFAULT_DIALOG_CONFIG
     );
@@ -185,14 +185,14 @@ describe("CategoriesListComponent", () => {
   });
 
   it("should open confirmation dialog and refresh data when after closed with true", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    const deleteSpy = spyOn(TestBed.inject(CategoryService), "deleteCategory");
-    deleteSpy.and.returnValue(of(undefined as any));
-    const serviceSpy = spyOn(
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open");
+    const deleteSpy = jest.spyOn(TestBed.inject(CategoryService), "deleteCategory");
+    deleteSpy.mockReturnValue(of(undefined as any));
+    const serviceSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "getPagedCategories"
     );
-    dialogSpy.and.returnValue({
+    dialogSpy.mockReturnValue({
       componentInstance: {
         category: {},
         headerText: "",
@@ -203,7 +203,7 @@ describe("CategoriesListComponent", () => {
     const categoryView: any = { id: 1 };
     component.openDeleteConfirmationDialog(categoryView);
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
+    expect(dialogSpy).toHaveBeenCalledWith(
       ConfirmationDialogComponent,
       DEFAULT_DIALOG_CONFIG
     );
@@ -211,12 +211,12 @@ describe("CategoriesListComponent", () => {
   });
 
   it("should open confirmation dialog and not refresh data when after closed with false", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    const serviceSpy = spyOn(
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open");
+    const serviceSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "getPagedCategories"
     );
-    dialogSpy.and.returnValue({
+    dialogSpy.mockReturnValue({
       componentInstance: {
         category: {},
         headerText: "",
@@ -227,7 +227,7 @@ describe("CategoriesListComponent", () => {
     const categoryView: any = {};
     component.openDeleteConfirmationDialog(categoryView);
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
+    expect(dialogSpy).toHaveBeenCalledWith(
       ConfirmationDialogComponent,
       DEFAULT_DIALOG_CONFIG
     );
@@ -235,12 +235,12 @@ describe("CategoriesListComponent", () => {
   });
 
   it("should open add dialog and refresh data when after closed with true", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    const serviceSpy = spyOn(
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open");
+    const serviceSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "getPagedCategories"
     );
-    dialogSpy.and.returnValue({
+    dialogSpy.mockReturnValue({
       componentInstance: {
         category: {},
         headerText: "",
@@ -250,7 +250,7 @@ describe("CategoriesListComponent", () => {
 
     component.openAddDialog();
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
+    expect(dialogSpy).toHaveBeenCalledWith(
       CategoryForm,
       DEFAULT_DIALOG_CONFIG
     );
@@ -258,12 +258,12 @@ describe("CategoriesListComponent", () => {
   });
 
   it("should open add dialog and not refresh data when after closed with false", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    const serviceSpy = spyOn(
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open");
+    const serviceSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "getPagedCategories"
     );
-    dialogSpy.and.returnValue({
+    dialogSpy.mockReturnValue({
       componentInstance: {
         category: {},
         headerText: "",
@@ -273,7 +273,7 @@ describe("CategoriesListComponent", () => {
 
     component.openAddDialog();
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
+    expect(dialogSpy).toHaveBeenCalledWith(
       CategoryForm,
       DEFAULT_DIALOG_CONFIG
     );

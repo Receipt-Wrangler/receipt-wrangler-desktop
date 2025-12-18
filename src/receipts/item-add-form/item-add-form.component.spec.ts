@@ -12,7 +12,7 @@ import { ItemAddFormComponent } from "./item-add-form.component";
 describe("ItemAddFormComponent", () => {
   let component: ItemAddFormComponent;
   let fixture: ComponentFixture<ItemAddFormComponent>;
-  let keyboardShortcutService: jasmine.SpyObj<KeyboardShortcutService>;
+  let keyboardShortcutService: jest.Mocked<KeyboardShortcutService>;
   let shortcutTriggered$: Subject<any>;
   let showHint$: Subject<boolean>;
 
@@ -20,12 +20,11 @@ describe("ItemAddFormComponent", () => {
     shortcutTriggered$ = new Subject();
     showHint$ = new Subject();
 
-    const keyboardSpy = jasmine.createSpyObj("KeyboardShortcutService", [
-      "handleKeyboardEvent"
-    ], {
+    const keyboardSpy = {
+      handleKeyboardEvent: jest.fn(),
       shortcutTriggered: shortcutTriggered$.asObservable(),
       showHint: showHint$.asObservable()
-    });
+    };
 
     await TestBed.configureTestingModule({
       declarations: [ItemAddFormComponent],
@@ -38,7 +37,7 @@ describe("ItemAddFormComponent", () => {
 
     fixture = TestBed.createComponent(ItemAddFormComponent);
     component = fixture.componentInstance;
-    keyboardShortcutService = TestBed.inject(KeyboardShortcutService) as jasmine.SpyObj<KeyboardShortcutService>;
+    keyboardShortcutService = TestBed.inject(KeyboardShortcutService) as jest.Mocked<KeyboardShortcutService>;
   });
 
   it("should create", () => {
@@ -61,17 +60,17 @@ describe("ItemAddFormComponent", () => {
     shortcutTriggered$.next({ action: KEYBOARD_SHORTCUT_ACTIONS.SUBMIT_AND_CONTINUE, event: new KeyboardEvent("keydown") });
 
     // Should have subscribed to the service
-    expect((component as any).showKeyboardHint).toBeFalse();
+    expect((component as any).showKeyboardHint).toBe(false);
   });
 
   it("should show keyboard hint when service emits", () => {
     component.ngOnInit();
 
     showHint$.next(true);
-    expect((component as any).showKeyboardHint).toBeTrue();
+    expect((component as any).showKeyboardHint).toBe(true);
 
     showHint$.next(false);
-    expect((component as any).showKeyboardHint).toBeFalse();
+    expect((component as any).showKeyboardHint).toBe(false);
   });
 
   describe("keyboard shortcut actions", () => {
@@ -81,9 +80,9 @@ describe("ItemAddFormComponent", () => {
       Object.defineProperty(component.newItemFormGroup, 'valid', {
         get: () => true
       });
-      spyOn(component, "onSubmitAndContinue");
-      spyOn(component, "onSubmitAndFinish");
-      spyOn(component, "onCancel");
+      jest.spyOn(component, "onSubmitAndContinue");
+      jest.spyOn(component, "onSubmitAndFinish");
+      jest.spyOn(component, "onCancel");
     });
 
     it("should handle SUBMIT_AND_CONTINUE action", () => {
@@ -115,27 +114,27 @@ describe("ItemAddFormComponent", () => {
     });
 
     it("should emit submitAndContinue event with item data", () => {
-      spyOn(component.submitAndContinue, "emit");
+      jest.spyOn(component.submitAndContinue, "emit");
 
       component.onSubmitAndContinue();
 
       expect(component.submitAndContinue.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
+        expect.objectContaining({
           name: "Test Item",
           amount: 10.00,
           chargedToUserId: undefined
         })
       );
-      expect(component.rapidAddMode).toBeTrue();
+      expect(component.rapidAddMode).toBe(true);
     });
 
     it("should emit submitAndFinish event with item data", () => {
-      spyOn(component.submitAndFinish, "emit");
+      jest.spyOn(component.submitAndFinish, "emit");
 
       component.onSubmitAndFinish();
 
       expect(component.submitAndFinish.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
+        expect.objectContaining({
           name: "Test Item",
           amount: 10.00,
           chargedToUserId: undefined
@@ -144,7 +143,7 @@ describe("ItemAddFormComponent", () => {
     });
 
     it("should not submit if form is invalid", () => {
-      spyOn(component.submitAndContinue, "emit");
+      jest.spyOn(component.submitAndContinue, "emit");
       component.newItemFormGroup.patchValue({ name: "" }); // Make form invalid
 
       component.onSubmitAndContinue();
@@ -154,7 +153,7 @@ describe("ItemAddFormComponent", () => {
   });
 
   it("should emit cancelled event on cancel", () => {
-    spyOn(component.cancelled, "emit");
+    jest.spyOn(component.cancelled, "emit");
 
     component.onCancel();
 
@@ -165,15 +164,15 @@ describe("ItemAddFormComponent", () => {
     beforeEach(() => {
       component.ngOnInit();
       // Mock focus methods
-      spyOn(component as any, "focusAmountField");
-      spyOn(component as any, "focusCategoryField");
-      spyOn(component as any, "focusTagField");
-      spyOn(component, "onSubmitAndContinue");
+      jest.spyOn(component as any, "focusAmountField");
+      jest.spyOn(component as any, "focusCategoryField");
+      jest.spyOn(component as any, "focusTagField");
+      jest.spyOn(component, "onSubmitAndContinue");
     });
 
     it("should focus amount field on name enter", () => {
       const event = new Event("keydown");
-      spyOn(event, "preventDefault");
+      jest.spyOn(event, "preventDefault");
 
       component.onNameEnter(event);
 
@@ -229,8 +228,8 @@ describe("ItemAddFormComponent", () => {
 
   it("should cleanup on destroy", () => {
     component.ngOnInit();
-    spyOn(component["destroy$"], "next");
-    spyOn(component["destroy$"], "complete");
+    jest.spyOn(component["destroy$"], "next");
+    jest.spyOn(component["destroy$"], "complete");
 
     component.ngOnDestroy();
 

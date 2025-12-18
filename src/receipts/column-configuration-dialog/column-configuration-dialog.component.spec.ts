@@ -10,12 +10,12 @@ import { ColumnConfigurationDialogComponent } from "./column-configuration-dialo
 describe("ColumnConfigurationDialogComponent", () => {
   let component: ColumnConfigurationDialogComponent;
   let fixture: ComponentFixture<ColumnConfigurationDialogComponent>;
-  let mockDialogRef: jasmine.SpyObj<MatDialogRef<ColumnConfigurationDialogComponent>>;
+  let mockDialogRef: jest.Mocked<MatDialogRef<ColumnConfigurationDialogComponent>>;
   let mockDialogData: { currentColumns?: ReceiptTableColumnConfig[] };
 
   beforeEach(async () => {
     // Create spy for MatDialogRef
-    mockDialogRef = jasmine.createSpyObj("MatDialogRef", ["close"]);
+    mockDialogRef = { close: jest.fn() } as unknown as jest.Mocked<MatDialogRef<ColumnConfigurationDialogComponent>>;
 
     // Initialize mock dialog data
     mockDialogData = {
@@ -61,7 +61,7 @@ describe("ColumnConfigurationDialogComponent", () => {
     });
 
     it("should initialize columns on ngOnInit", () => {
-      spyOn(component as any, "initializeColumns");
+      jest.spyOn(component as any, "initializeColumns");
 
       component.ngOnInit();
 
@@ -280,11 +280,11 @@ describe("ColumnConfigurationDialogComponent", () => {
       component.saveConfiguration();
 
       expect(mockDialogRef.close).toHaveBeenCalledWith(
-        jasmine.arrayContaining([
-          jasmine.objectContaining({
-            matColumnDef: jasmine.any(String),
-            visible: jasmine.any(Boolean),
-            order: jasmine.any(Number)
+        expect.arrayContaining([
+          expect.objectContaining({
+            matColumnDef: expect.any(String),
+            visible: expect.any(Boolean),
+            order: expect.any(Number)
           })
         ])
       );
@@ -293,7 +293,7 @@ describe("ColumnConfigurationDialogComponent", () => {
     it("should remove displayName property from result", () => {
       component.saveConfiguration();
 
-      const result = mockDialogRef.close.calls.mostRecent().args[0];
+      const result = mockDialogRef.close.mock.calls[mockDialogRef.close.mock.calls.length - 1][0];
       result.forEach((col: any) => {
         expect(col.displayName).toBeUndefined();
         expect(col.matColumnDef).toBeDefined();
@@ -305,7 +305,7 @@ describe("ColumnConfigurationDialogComponent", () => {
     it("should preserve all other column properties in result", () => {
       component.saveConfiguration();
 
-      const result = mockDialogRef.close.calls.mostRecent().args[0];
+      const result = mockDialogRef.close.mock.calls[mockDialogRef.close.mock.calls.length - 1][0];
       expect(result.length).toEqual(component.columns.length);
 
       result.forEach((resultCol: ReceiptTableColumnConfig, index: number) => {

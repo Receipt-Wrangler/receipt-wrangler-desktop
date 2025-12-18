@@ -26,7 +26,7 @@ describe("KeyboardShortcutService", () => {
       service.registerShortcut(shortcut);
       const shortcuts = service.getShortcuts();
 
-      expect(shortcuts).toContain(jasmine.objectContaining({
+      expect(shortcuts).toContainEqual(expect.objectContaining({
         key: "a",
         ctrlKey: true,
         action: "TEST_ACTION"
@@ -46,7 +46,7 @@ describe("KeyboardShortcutService", () => {
       service.unregisterShortcut(shortcut);
 
       const shortcuts = service.getShortcuts();
-      expect(shortcuts).not.toContain(jasmine.objectContaining({
+      expect(shortcuts).not.toContainEqual(expect.objectContaining({
         action: "REMOVE_ME"
       }));
     });
@@ -90,7 +90,7 @@ describe("KeyboardShortcutService", () => {
         key: "i",
         ctrlKey: true
       });
-      spyOn(event, "preventDefault");
+      jest.spyOn(event, "preventDefault");
 
       service.handleKeyboardEvent(event);
       expect(event.preventDefault).toHaveBeenCalled();
@@ -101,7 +101,7 @@ describe("KeyboardShortcutService", () => {
     it("should return shortcuts for specific action", () => {
       const shortcuts = service.getShortcutsByAction(KEYBOARD_SHORTCUT_ACTIONS.ADD_ITEM);
       expect(shortcuts.length).toBe(1);
-      expect(shortcuts[0]).toEqual(jasmine.objectContaining({
+      expect(shortcuts[0]).toEqual(expect.objectContaining({
         key: "i",
         ctrlKey: true,
         action: KEYBOARD_SHORTCUT_ACTIONS.ADD_ITEM
@@ -132,13 +132,13 @@ describe("KeyboardShortcutService", () => {
 
           // Fast-forward the timeout
           try {
-            jasmine.clock().install();
+            jest.useFakeTimers();
           } catch (e) {
             // Clock already installed, continue
           }
-          jasmine.clock().tick(2001);
+          jest.advanceTimersByTime(2001);
           try {
-            jasmine.clock().uninstall();
+            jest.useRealTimers();
           } catch (e) {
             // Clock not installed, continue
           }
@@ -181,26 +181,26 @@ describe("KeyboardShortcutService", () => {
     it("should have default shortcuts initialized", () => {
       const shortcuts = service.getShortcuts();
 
-      expect(shortcuts).toContain(jasmine.objectContaining({
+      expect(shortcuts).toContainEqual(expect.objectContaining({
         key: "i",
         ctrlKey: true,
         action: KEYBOARD_SHORTCUT_ACTIONS.ADD_ITEM
       }));
 
-      expect(shortcuts).toContain(jasmine.objectContaining({
+      expect(shortcuts).toContainEqual(expect.objectContaining({
         key: "Enter",
         ctrlKey: true,
         action: "SUBMIT_AND_CONTINUE"
       }));
 
-      expect(shortcuts).toContain(jasmine.objectContaining({
+      expect(shortcuts).toContainEqual(expect.objectContaining({
         key: "Enter",
         ctrlKey: true,
         shiftKey: true,
         action: "SUBMIT_AND_FINISH"
       }));
 
-      expect(shortcuts).toContain(jasmine.objectContaining({
+      expect(shortcuts).toContainEqual(expect.objectContaining({
         key: "Escape",
         action: "CANCEL"
       }));

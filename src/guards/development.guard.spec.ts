@@ -22,12 +22,12 @@ describe('developmentGuard', () => {
   });
 
   it('should return false if is production', () => {
-    spyOn(environmentService, 'isProduction').and.returnValue(true);
+    jest.spyOn(environmentService, 'isProduction').mockReturnValue(true);
     expect(executeGuard({} as any, {} as any)).toEqual(false);
   });
 
   it('should return true if is not production', () => {
-    spyOn(environmentService, 'isProduction').and.returnValue(false);
+    jest.spyOn(environmentService, 'isProduction').mockReturnValue(false);
     expect(executeGuard({} as any, {} as any)).toEqual(true);
   });
 });
