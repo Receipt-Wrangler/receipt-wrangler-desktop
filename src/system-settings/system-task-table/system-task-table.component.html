@@ -1,3 +1,12 @@
+<app-table-header headerText="System Tasks">
+  <app-button
+    matButtonType="iconButton"
+    icon="refresh"
+    color="accent"
+    tooltip="Refresh System Tasks"
+    (clicked)="refresh()"
+  ></app-button>
+</app-table-header>
 <app-task-table [expandedRowTemplate]="expandedRowTemplate"></app-task-table>
 
 <ng-template

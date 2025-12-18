@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { AssociatedEntityType, Prompt, ReceiptProcessingSettings } from "../../open-api";
 import { TABLE_SERVICE_INJECTION_TOKEN } from "../../services/injection-tokens/table-service";
 import { SystemTaskTableService } from "../../services/system-task-table.service";
+import { TaskTableComponent } from "../../shared-ui/task-table/task-table.component";
 
 @Component({
   selector: "app-system-task-table",
@@ -18,6 +19,7 @@ import { SystemTaskTableService } from "../../services/system-task-table.service
 })
 export class SystemTaskTableComponent implements OnInit {
   @ViewChild("expandedRowTemplate") public expandedRowTemplate!: TemplateRef<any>;
+  @ViewChild(TaskTableComponent) public taskTableComponent!: TaskTableComponent;
 
   public prompts: Prompt[] = [];
   public allReceiptProcessingSettings: ReceiptProcessingSettings[] = [];
@@ -28,5 +30,9 @@ export class SystemTaskTableComponent implements OnInit {
   public ngOnInit(): void {
     this.prompts = this.activatedRoute.snapshot.data["prompts"] || [];
     this.allReceiptProcessingSettings = this.activatedRoute.snapshot.data["allReceiptProcessingSettings"] || [];
+  }
+
+  public refresh(): void {
+    this.taskTableComponent.getTableData();
   }
 }
