@@ -1,1 +1,19 @@
-<app-task-table></app-task-table>
+<app-task-table [expandedRowTemplate]="expandedRowTemplate"></app-task-table>
+
+<ng-template
+  #expandedRowTemplate
+  let-element="element"
+>
+  <ng-container *ngIf="element.associatedEntityType === AssociatedEntityType.SystemEmail">
+    <app-system-email-child-system-task
+      [childTasks]="element.childSystemTasks ?? []"
+      [allReceiptProcessingSettings]="allReceiptProcessingSettings"
+    ></app-system-email-child-system-task>
+  </ng-container>
+
+  <ng-container *ngIf="element.associatedEntityType === AssociatedEntityType.ReceiptProcessingSettings">
+    <app-receipt-processing-settings-child-system-task-accordion
+      [childTasks]="element.childSystemTasks ?? []"
+    ></app-receipt-processing-settings-child-system-task-accordion>
+  </ng-container>
+</ng-template>

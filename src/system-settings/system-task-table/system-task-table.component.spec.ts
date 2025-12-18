@@ -23,7 +23,14 @@ describe("SystemTaskTableComponent", () => {
         NoopAnimationsModule],
       providers: [{
         provide: ActivatedRoute,
-        useValue: {}
+        useValue: {
+          snapshot: {
+            data: {
+              prompts: [],
+              allReceiptProcessingSettings: []
+            }
+          }
+        }
       }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
     })
       .compileComponents();

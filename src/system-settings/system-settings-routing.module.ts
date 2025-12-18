@@ -58,6 +58,10 @@ const routes: Routes = [
       {
         path: "system-tasks",
         component: SystemTaskTableComponent,
+        resolve: {
+          prompts: promptsResolver,
+          allReceiptProcessingSettings: allReceiptProcessingSettingsResolver,
+        }
       },
       {
         path: "settings/view",
