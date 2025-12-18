@@ -40,7 +40,7 @@
       <app-status-select
         aria-label="Default Status"
         [inputFormControl]="form | formGet : 'quickScanDefaultStatus'"
-        [readonly]="true"
+        [readonly]="formConfig.mode | inputReadonly"
         [addBlankOption]="true"
       ></app-status-select>
     </app-form-section>
