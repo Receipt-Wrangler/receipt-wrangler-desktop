@@ -6,8 +6,8 @@
     "types": [
       "jest"
     ],
-    "esModuleInterop": true,
-    "emitDecoratorMetadata": true
+    "isolatedModules": true,
+    "esModuleInterop": true
   },
   "include": [
     "src/**/*.spec.ts",
