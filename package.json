@@ -6,7 +6,9 @@
     "start": "ng serve --proxy-config ./proxy.conf.json --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "jest --coverage",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "test:ci": "jest --coverage --ci"
   },
   "private": true,

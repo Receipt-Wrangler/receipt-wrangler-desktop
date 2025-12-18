@@ -6,6 +6,21 @@ module.exports = {
     '<rootDir>/dist/',
     '<rootDir>/src/open-api/'
   ],
+  // Performance optimizations
+  maxWorkers: '50%',
+  cache: true,
+  cacheDirectory: '<rootDir>/.jest-cache',
+  // Transform configuration with isolatedModules for faster compilation
+  transform: {
+    '^.+\\.(ts|js|mjs|html|svg)$': [
+      'jest-preset-angular',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+        stringifyContentPathRegex: '\\.(html|svg)$',
+        isolatedModules: true
+      }
+    ]
+  },
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/**/*.d.ts',
@@ -28,5 +43,10 @@ module.exports = {
   },
   transformIgnorePatterns: [
     'node_modules/(?!.*\\.mjs$|@angular|@ngxs|rxjs|ngx-mask|@ng-bootstrap|ngx-bootstrap|pretty-print-json)'
-  ]
+  ],
+  // Additional performance settings
+  testEnvironmentOptions: {
+    customExportConditions: ['node', 'node-addons']
+  },
+  workerIdleMemoryLimit: '512MB'
 };
