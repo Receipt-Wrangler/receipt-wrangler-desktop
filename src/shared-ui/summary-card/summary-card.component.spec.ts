@@ -44,7 +44,7 @@ describe("SummaryCardComponent", () => {
 
   it("should set user data correctly when there is data", () => {
     const usersService = TestBed.inject(UserService);
-    spyOn(usersService, "getAmountOwedForUser").and.returnValue(
+    jest.spyOn(usersService, "getAmountOwedForUser").mockReturnValue(
       of({
         "1": 200,
         "2": -500,

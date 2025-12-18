@@ -39,7 +39,7 @@ describe("QueueStartMenuComponent", () => {
   });
 
   it("should init queue with receipt ids", () => {
-    const receiptQueueServiceSpy = spyOn(TestBed.inject(ReceiptQueueService), "initQueueAndNavigate");
+    const receiptQueueServiceSpy = jest.spyOn(TestBed.inject(ReceiptQueueService), "initQueueAndNavigate");
 
     component.receiptIds = [1, 2, 3];
     component.initQueue(QueueMode.VIEW);
@@ -48,7 +48,7 @@ describe("QueueStartMenuComponent", () => {
   });
 
   it("should init queue with receipt ids from receipts", () => {
-    const receiptQueueServiceSpy = spyOn(TestBed.inject(ReceiptQueueService), "initQueueAndNavigate");
+    const receiptQueueServiceSpy = jest.spyOn(TestBed.inject(ReceiptQueueService), "initQueueAndNavigate");
 
     component.receipts = [
       { id: 1 } as any,

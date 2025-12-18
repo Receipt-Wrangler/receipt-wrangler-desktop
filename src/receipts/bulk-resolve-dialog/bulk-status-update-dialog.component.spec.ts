@@ -44,14 +44,14 @@ describe("BulkStatusUpdateComponent", () => {
   });
 
   it("should close dialog with undefined", () => {
-    const spy = spyOn(component.matDialogRef, "close");
+    const spy = jest.spyOn(component.matDialogRef, "close");
     component.cancelButtonClicked();
 
     expect(spy).toHaveBeenCalledWith(undefined);
   });
 
   it("should close dialog with form value", () => {
-    const spy = spyOn(component.matDialogRef, "close");
+    const spy = jest.spyOn(component.matDialogRef, "close");
     component.form.patchValue({
       comment: "resolved",
       status: ReceiptStatus.NeedsAttention,

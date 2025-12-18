@@ -35,10 +35,10 @@ describe("FilteredReceiptsComponent", () => {
   });
 
   it("should get data", () => {
-    const serviceSpy = spyOn(
+    const serviceSpy = jest.spyOn(
       TestBed.inject(ReceiptFilterService),
       "getPagedReceiptsForGroups"
-    ).and.returnValue(of([] as any));
+    ).mockReturnValue(of([] as any));
     store.reset({
       groups: {
         selectedGroupId: "1",
@@ -65,10 +65,10 @@ describe("FilteredReceiptsComponent", () => {
   });
 
   it("should get next page of data", () => {
-    const serviceSpy = spyOn(
+    const serviceSpy = jest.spyOn(
       TestBed.inject(ReceiptFilterService),
       "getPagedReceiptsForGroups"
-    ).and.returnValue(of({ data: [{} as any] } as any));
+    ).mockReturnValue(of({ data: [{} as any] } as any));
 
     store.reset({
       groups: {
@@ -104,10 +104,10 @@ describe("FilteredReceiptsComponent", () => {
   });
 
   it("should not get next page of data", () => {
-    const serviceSpy = spyOn(
+    const serviceSpy = jest.spyOn(
       TestBed.inject(ReceiptFilterService),
       "getPagedReceiptsForGroups"
-    ).and.returnValue(of({ data: [{} as any] } as any));
+    ).mockReturnValue(of({ data: [{} as any] } as any));
 
     store.reset({
       groups: {

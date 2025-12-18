@@ -144,9 +144,9 @@ describe("SystemSettingsFormComponent", () => {
     const snackbarService = TestBed.inject(SnackbarService);
     const router = TestBed.inject(Router);
 
-    const updateSystemSettingsSpy = spyOn(systemSettingsService, "updateSystemSettings").and.returnValue(of(null as any));
-    const snackbarServiceSpy = spyOn(snackbarService, "success");
-    const routerSpy = spyOn(router, "navigate");
+    const updateSystemSettingsSpy = jest.spyOn(systemSettingsService, "updateSystemSettings").mockReturnValue(of(null as any));
+    const snackbarServiceSpy = jest.spyOn(snackbarService, "success");
+    const routerSpy = jest.spyOn(router, "navigate");
 
     component.originalSystemSettings.taskQueueConfigurations = [{
       name: QueueName.QuickScan,

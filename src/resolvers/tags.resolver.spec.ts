@@ -21,7 +21,7 @@ describe("TagsResolverService", () => {
   });
 
   it("should call tag service", () => {
-    const serviceSpy = spyOn(TestBed.inject(TagService), "getAllTags");
+    const serviceSpy = jest.spyOn(TestBed.inject(TagService), "getAllTags");
     executeResolver({} as any, {} as any);
     expect(serviceSpy).toHaveBeenCalled();
   });

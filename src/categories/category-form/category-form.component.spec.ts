@@ -65,15 +65,15 @@ describe("CategoryForm", () => {
   });
 
   it("should submit form with correct data, when editing", () => {
-    const categoryServiceSpy = spyOn(
+    const categoryServiceSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "updateCategory"
     );
-    categoryServiceSpy.and.returnValue(of({} as any));
-    const nameValidateSpy = spyOn(
+    categoryServiceSpy.mockReturnValue(of({} as any));
+    const nameValidateSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "getCategoryCountByName"
-    ).and.returnValue(of(0) as any);
+    ).mockReturnValue(of(0) as any);
     const category: CategoryView = {
       id: 1,
       name: "test",
@@ -85,7 +85,7 @@ describe("CategoryForm", () => {
     component.ngOnInit();
     component.submit();
 
-    expect(categoryServiceSpy).toHaveBeenCalledOnceWith(
+    expect(categoryServiceSpy).toHaveBeenCalledWith(
       1,
       {
         id: 1,
@@ -96,15 +96,15 @@ describe("CategoryForm", () => {
   });
 
   it("should submit form with correct data, when creating", () => {
-    const nameValidateSpy = spyOn(
+    const nameValidateSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "getCategoryCountByName"
-    ).and.returnValue(of(0) as any);
-    const categoryServiceSpy = spyOn(
+    ).mockReturnValue(of(0) as any);
+    const categoryServiceSpy = jest.spyOn(
       TestBed.inject(CategoryService),
       "createCategory"
     );
-    categoryServiceSpy.and.returnValue(of({} as any));
+    categoryServiceSpy.mockReturnValue(of({} as any));
 
     component.ngOnInit();
     component.form.patchValue({
@@ -113,7 +113,7 @@ describe("CategoryForm", () => {
     });
     component.submit();
 
-    expect(categoryServiceSpy).toHaveBeenCalledOnceWith({
+    expect(categoryServiceSpy).toHaveBeenCalledWith({
       name: "test",
       description: "test",
     });

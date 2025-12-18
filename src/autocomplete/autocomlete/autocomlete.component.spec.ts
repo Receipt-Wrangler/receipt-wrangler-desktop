@@ -9,7 +9,7 @@ import { AutocomleteComponent } from "./autocomlete.component";
 describe("AutocomleteComponent", () => {
   let component: AutocomleteComponent;
   let fixture: ComponentFixture<AutocomleteComponent>;
-  jasmine.clock().install();
+  jest.useFakeTimers();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

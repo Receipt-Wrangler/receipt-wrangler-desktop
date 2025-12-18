@@ -91,10 +91,10 @@ describe("GroupReceiptSettingsComponent", () => {
     const router = TestBed.inject(Router);
     const snackbarService = TestBed.inject(SnackbarService);
 
-    spyOn(groupsService, "updateGroupReceiptSettings").and.returnValue(of(testGroup.groupReceiptSettings as any));
-    spyOn(store, "dispatch").and.returnValue(of(undefined));
-    spyOn(router, "navigate");
-    spyOn(snackbarService, "success");
+    jest.spyOn(groupsService, "updateGroupReceiptSettings").mockReturnValue(of(testGroup.groupReceiptSettings as any));
+    jest.spyOn(store, "dispatch").mockReturnValue(of(undefined));
+    jest.spyOn(router, "navigate");
+    jest.spyOn(snackbarService, "success");
 
     component.form.patchValue(testGroup.groupReceiptSettings);
     component.submit();

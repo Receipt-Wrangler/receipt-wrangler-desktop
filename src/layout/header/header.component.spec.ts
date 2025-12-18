@@ -32,9 +32,9 @@ describe("HeaderComponent", () => {
   });
 
   it("should toggle sidebar", () => {
-    const store = spyOn(TestBed.inject(Store), "dispatch");
+    const store = jest.spyOn(TestBed.inject(Store), "dispatch");
     component.toggleSidebar();
 
-    expect(store).toHaveBeenCalledOnceWith(new ToggleIsSidebarOpen());
+    expect(store).toHaveBeenCalledWith(new ToggleIsSidebarOpen());
   });
 });

@@ -17,11 +17,14 @@ describe("TagsListComponent", () => {
   let component: TagTableComponent;
   let fixture: ComponentFixture<TagTableComponent>;
   let store: Store;
-  let tagService: jasmine.SpyObj<TagService>;
+  let tagService: jest.Mocked<TagService>;
 
   beforeEach(() => {
-    const tagServiceSpy = jasmine.createSpyObj('TagService', ['getPagedTags', 'deleteTag']);
-    tagServiceSpy.getPagedTags.and.returnValue(of({
+    const tagServiceSpy = {
+      getPagedTags: jest.fn(),
+      deleteTag: jest.fn()
+    };
+    tagServiceSpy.getPagedTags.mockReturnValue(of({
       data: [],
       totalCount: 0
     } as any));
@@ -41,7 +44,7 @@ describe("TagsListComponent", () => {
 });
     fixture = TestBed.createComponent(TagTableComponent);
     store = TestBed.inject(Store);
-    tagService = TestBed.inject(TagService) as jasmine.SpyObj<TagService>;
+    tagService = TestBed.inject(TagService) as jest.Mocked<TagService>;
     component = fixture.componentInstance;
   });
 
@@ -50,7 +53,7 @@ describe("TagsListComponent", () => {
   });
 
   it("should attempt to get table data, set datasource and total count", () => {
-    tagService.getPagedTags.and.returnValue(
+    tagService.getPagedTags.mockReturnValue(
       of({
         data: [{}],
         totalCount: 1,
@@ -59,7 +62,7 @@ describe("TagsListComponent", () => {
 
     component.ngOnInit();
 
-    expect(tagService.getPagedTags).toHaveBeenCalledOnceWith({
+    expect(tagService.getPagedTags).toHaveBeenCalledWith({
       page: 1,
       pageSize: 50,
       orderBy: "name",
@@ -71,7 +74,7 @@ describe("TagsListComponent", () => {
   });
 
   it("should attempt to get table data, with new sorted direction and key", () => {
-    tagService.getPagedTags.and.returnValue(
+    tagService.getPagedTags.mockReturnValue(
       of({
         data: [{}],
         totalCount: 1,
@@ -89,7 +92,7 @@ describe("TagsListComponent", () => {
       orderBy: "numberOfReceipts",
       sortDirection: "asc",
     });
-    expect(tagService.getPagedTags).toHaveBeenCalledOnceWith({
+    expect(tagService.getPagedTags).toHaveBeenCalledWith({
       page: 1,
       pageSize: 50,
       orderBy: "numberOfReceipts",
@@ -98,7 +101,7 @@ describe("TagsListComponent", () => {
   });
 
   it("should attempt to get table data, with newpage and new page size", () => {
-    tagService.getPagedTags.and.returnValue(
+    tagService.getPagedTags.mockReturnValue(
       of({
         data: [{}],
         totalCount: 1,
@@ -116,7 +119,7 @@ describe("TagsListComponent", () => {
       orderBy: "name",
       sortDirection: "desc",
     });
-    expect(tagService.getPagedTags).toHaveBeenCalledOnceWith({
+    expect(tagService.getPagedTags).toHaveBeenCalledWith({
       page: 3,
       pageSize: 100,
       orderBy: "name",
@@ -137,8 +140,8 @@ describe("TagsListComponent", () => {
   });
 
   it("should open edit dialog and refresh data when after closed with true", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    dialogSpy.and.returnValue({
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open");
+    dialogSpy.mockReturnValue({
       componentInstance: {
         tag: {},
         headerText: "",
@@ -149,7 +152,7 @@ describe("TagsListComponent", () => {
     const tagView: any = {};
     component.openEditDialog(tagView);
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
+    expect(dialogSpy).toHaveBeenCalledWith(
       TagFormComponent,
       DEFAULT_DIALOG_CONFIG
     );
@@ -157,8 +160,8 @@ describe("TagsListComponent", () => {
   });
 
   it("should open edit dialog and not refresh data when after closed with false", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    dialogSpy.and.returnValue({
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open");
+    dialogSpy.mockReturnValue({
       componentInstance: {
         tag: {},
         headerText: "",
@@ -169,7 +172,7 @@ describe("TagsListComponent", () => {
     const tagView: any = {};
     component.openEditDialog(tagView);
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
+    expect(dialogSpy).toHaveBeenCalledWith(
       TagFormComponent,
       DEFAULT_DIALOG_CONFIG
     );
@@ -177,9 +180,9 @@ describe("TagsListComponent", () => {
   });
 
   it("should open confirmation dialog and refresh data when after closed with true", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    tagService.deleteTag.and.returnValue(of(undefined as any));
-    dialogSpy.and.returnValue({
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open");
+    tagService.deleteTag.mockReturnValue(of(undefined as any));
+    dialogSpy.mockReturnValue({
       componentInstance: {
         tag: {},
         headerText: "",
@@ -190,7 +193,7 @@ describe("TagsListComponent", () => {
     const tagView: any = { id: 1 };
     component.openDeleteConfirmationDialog(tagView);
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
+    expect(dialogSpy).toHaveBeenCalledWith(
       ConfirmationDialogComponent,
       DEFAULT_DIALOG_CONFIG
     );
@@ -198,8 +201,8 @@ describe("TagsListComponent", () => {
   });
 
   it("should open confirmation dialog and not refresh data when after closed with false", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    dialogSpy.and.returnValue({
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open");
+    dialogSpy.mockReturnValue({
       componentInstance: {
         tag: {},
         headerText: "",
@@ -210,7 +213,7 @@ describe("TagsListComponent", () => {
     const tagView: any = {};
     component.openDeleteConfirmationDialog(tagView);
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
+    expect(dialogSpy).toHaveBeenCalledWith(
       ConfirmationDialogComponent,
       DEFAULT_DIALOG_CONFIG
     );
@@ -218,8 +221,8 @@ describe("TagsListComponent", () => {
   });
 
   it("should open add dialog and refresh data when after closed with true", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    dialogSpy.and.returnValue({
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open");
+    dialogSpy.mockReturnValue({
       componentInstance: {
         tag: {},
         headerText: "",
@@ -229,7 +232,7 @@ describe("TagsListComponent", () => {
 
     component.openAddDialog();
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
+    expect(dialogSpy).toHaveBeenCalledWith(
       TagFormComponent,
       DEFAULT_DIALOG_CONFIG
     );
@@ -237,8 +240,8 @@ describe("TagsListComponent", () => {
   });
 
   it("should open add dialog and not refresh data when after closed with false", () => {
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), "open");
-    dialogSpy.and.returnValue({
+    const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), "open");
+    dialogSpy.mockReturnValue({
       componentInstance: {
         tag: {},
         headerText: "",
@@ -248,7 +251,7 @@ describe("TagsListComponent", () => {
 
     component.openAddDialog();
 
-    expect(dialogSpy).toHaveBeenCalledOnceWith(
+    expect(dialogSpy).toHaveBeenCalledWith(
       TagFormComponent,
       DEFAULT_DIALOG_CONFIG
     );

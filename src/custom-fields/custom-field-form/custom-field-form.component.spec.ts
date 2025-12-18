@@ -36,19 +36,19 @@ describe("CustomFieldFormComponent", () => {
         {
           provide: MatDialogRef,
           useValue: {
-            close: jasmine.createSpy("close")
+            close: jest.fn()
           }
         },
         {
           provide: CustomFieldService,
           useValue: {
-            createCustomField: jasmine.createSpy("createCustomField").and.returnValue(of({}))
+            createCustomField: jest.fn().mockReturnValue(of({}))
           }
         },
         {
           provide: SnackbarService,
           useValue: {
-            success: jasmine.createSpy("success")
+            success: jest.fn()
           }
         },
         provideHttpClient(withInterceptorsFromDi()),

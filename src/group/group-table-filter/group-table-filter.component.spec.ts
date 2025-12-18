@@ -23,7 +23,7 @@ describe("GroupTableFilterComponent", () => {
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     imports: [ReactiveFormsModule, NgxsModule.forRoot([GroupTableState]), PipesModule, ReactiveFormsModule],
     providers: [
-        { provide: MatDialogRef, useValue: { close: jasmine.createSpy() } },
+        { provide: MatDialogRef, useValue: { close: jest.fn() } },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
     ]
@@ -42,14 +42,14 @@ describe("GroupTableFilterComponent", () => {
 
   it("should initialize form with current filter from store", () => {
     const filter = { associatedGroup: "test" };
-    spyOn(store, "selectSnapshot").and.returnValue(filter);
+    jest.spyOn(store, "selectSnapshot").mockReturnValue(filter);
     component.ngOnInit();
     expect(component.form.value).toEqual(filter);
   });
 
   it("should dispatch SetFilter action with form value and close dialog on submit", () => {
     const store = TestBed.inject(Store);
-    const storeSpy = spyOn(store, "dispatch");
+    const storeSpy = jest.spyOn(store, "dispatch");
 
     component.ngOnInit();
     const formValue = { associatedGroup: "test" };

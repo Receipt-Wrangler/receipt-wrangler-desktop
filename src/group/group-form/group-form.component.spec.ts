@@ -85,7 +85,7 @@ describe("GroupFormComponent", () => {
       groupId: "1",
       groupRole: GroupRole.Viewer,
     });
-    spyOn(matDialog, "open").and.returnValue({
+    jest.spyOn(matDialog, "open").mockReturnValue({
       afterClosed: () => of(formGroup),
       componentInstance: { currentGroupMembers: [] },
     } as any);
@@ -118,7 +118,7 @@ describe("GroupFormComponent", () => {
       groupId: 1,
       groupRole: GroupRole.Owner,
     });
-    spyOn(matDialog, "open").and.returnValue({
+    jest.spyOn(matDialog, "open").mockReturnValue({
       afterClosed: () => of(formGroup),
       componentInstance: { currentGroupMembers: [] },
     } as any);
@@ -188,9 +188,9 @@ describe("GroupFormComponent", () => {
   });
 
   it("should create group", () => {
-    const createSpy = spyOn(TestBed.inject(GroupsService), "createGroup");
-    const storeSpy = spyOn(TestBed.inject(Store), "dispatch");
-    const routerSpy = spyOn(TestBed.inject(Router), "navigate");
+    const createSpy = jest.spyOn(TestBed.inject(GroupsService), "createGroup");
+    const storeSpy = jest.spyOn(TestBed.inject(Store), "dispatch");
+    const routerSpy = jest.spyOn(TestBed.inject(Router), "navigate");
 
     const group: Group = {
       id: 1,
@@ -222,7 +222,7 @@ describe("GroupFormComponent", () => {
       id: 1,
     };
 
-    createSpy.and.returnValue(of(returnValue));
+    createSpy.mockReturnValue(of(returnValue));
 
     component.submit();
 
@@ -240,9 +240,9 @@ describe("GroupFormComponent", () => {
   });
 
   it("should update group", () => {
-    const updateSpy = spyOn(TestBed.inject(GroupsService), "updateGroup");
-    const storeSpy = spyOn(TestBed.inject(Store), "dispatch");
-    const routerSpy = spyOn(TestBed.inject(Router), "navigate");
+    const updateSpy = jest.spyOn(TestBed.inject(GroupsService), "updateGroup");
+    const storeSpy = jest.spyOn(TestBed.inject(Store), "dispatch");
+    const routerSpy = jest.spyOn(TestBed.inject(Router), "navigate");
 
     const group: Group = {
       id: 1,
@@ -293,7 +293,7 @@ describe("GroupFormComponent", () => {
       id: 1,
     };
 
-    updateSpy.and.returnValue(of(returnValue));
+    updateSpy.mockReturnValue(of(returnValue));
 
     component.submit();
 

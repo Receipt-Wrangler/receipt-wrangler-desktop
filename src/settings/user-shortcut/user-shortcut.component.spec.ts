@@ -32,7 +32,7 @@ describe("UserShortcutComponent", () => {
   });
 
   it("should emit formCommand event when removeShortcut is called", () => {
-    spyOn(component.formCommand, "emit");
+    jest.spyOn(component.formCommand, "emit");
     component.removeShortcut(1);
     expect(component.formCommand.emit).toHaveBeenCalledWith({
       path: "userShortcuts",
@@ -42,13 +42,13 @@ describe("UserShortcutComponent", () => {
   });
 
   it("should emit shortcutDoneClicked event when emitShortcutDoneClicked is called", () => {
-    spyOn(component.shortcutDoneClicked, "emit");
+    jest.spyOn(component.shortcutDoneClicked, "emit");
     component.emitShortcutDoneClicked();
     expect(component.shortcutDoneClicked.emit).toHaveBeenCalled();
   });
 
   it("should emit shortcutCancelClicked event when emitShortcutCancelClicked is called", () => {
-    spyOn(component.shortcutCancelClicked, "emit");
+    jest.spyOn(component.shortcutCancelClicked, "emit");
     component.emitShortcutCancelClicked();
     expect(component.shortcutCancelClicked.emit).toHaveBeenCalled();
   });

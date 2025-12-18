@@ -76,11 +76,11 @@ describe("DashboardFormComponent", () => {
       widgets: [],
     } as Dashboard;
 
-    const serviceSpy = spyOn(
+    const serviceSpy = jest.spyOn(
       TestBed.inject(DashboardService),
       "createDashboard"
-    ).and.callFake(() => of(dashboard as any));
-    const snackbarSpy = spyOn(SnackbarService.prototype, "success");
+    ).mockImplementation(() => of(dashboard as any));
+    const snackbarSpy = jest.spyOn(SnackbarService.prototype, "success");
 
     store.reset({
       groups: {

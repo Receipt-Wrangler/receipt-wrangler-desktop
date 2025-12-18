@@ -93,11 +93,11 @@ describe("UserPreferencesComponent", () => {
       quickScanDefaultGroupId: 2,
       quickScanDefaultStatus: "OPEN",
     } as UserPreferences;
-    const serviceSpy = spyOn(
+    const serviceSpy = jest.spyOn(
       TestBed.inject(UserPreferencesService),
       "updateUserPreferences"
-    ).and.returnValue(of(userPreference) as any);
-    const storeSpy = spyOn(TestBed.inject(Store), "dispatch");
+    ).mockReturnValue(of(userPreference) as any);
+    const storeSpy = jest.spyOn(TestBed.inject(Store), "dispatch");
 
     component.ngOnInit();
     component.form.patchValue(userPreference);
@@ -108,10 +108,20 @@ describe("UserPreferencesComponent", () => {
   });
 
   it("should attempt to call update endpoint with nulls", () => {
-    const serviceSpy = spyOn(
+    // Reset store state to ensure clean test
+    const store = TestBed.inject(Store);
+    store.reset({
+      ...store.snapshot(),
+      auth: {
+        ...store.snapshot().auth,
+        userPreferences: undefined,
+      },
+    });
+
+    const serviceSpy = jest.spyOn(
       TestBed.inject(UserPreferencesService),
       "updateUserPreferences"
-    ).and.returnValue(of(undefined as any));
+    ).mockReturnValue(of(undefined as any));
 
     component.ngOnInit();
     component.submit();

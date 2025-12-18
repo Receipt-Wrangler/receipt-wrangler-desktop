@@ -76,14 +76,14 @@ describe("GroupSettingsEmailComponent", () => {
     const form = component.form;
     expect(
       form.get("systemEmailId")?.hasValidator(Validators.required)
-    ).toBeFalse();
+    ).toBe(false);
 
     expect(
       form.get("emailDefaultReceiptStatus")?.hasValidator(Validators.required)
-    ).toBeFalse();
+    ).toBe(false);
     expect(
       form.get("emailDefaultReceiptPaidById")?.hasValidator(Validators.required)
-    ).toBeFalse();
+    ).toBe(false);
   });
 
   it("should init form with initial data", () => {
@@ -138,13 +138,13 @@ describe("GroupSettingsEmailComponent", () => {
     const form = component.form;
     expect(
       form.get("systemEmailId")?.hasValidator(Validators.required)
-    ).toBeTrue();
+    ).toBe(true);
 
     expect(
       form.get("emailDefaultReceiptStatus")?.hasValidator(Validators.required)
-    ).toBeTrue();
+    ).toBe(true);
     expect(
       form.get("emailDefaultReceiptPaidById")?.hasValidator(Validators.required)
-    ).toBeTrue();
+    ).toBe(true);
   });
 });

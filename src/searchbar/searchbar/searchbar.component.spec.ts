@@ -40,7 +40,7 @@ describe("SearchbarComponent", () => {
   });
 
   it("should attempt to navigate to result", () => {
-    const spy = spyOn(TestBed.inject(Router), "navigateByUrl");
+    const spy = jest.spyOn(TestBed.inject(Router), "navigateByUrl");
     const result: SearchResult = {
       id: 1,
       groupId: 1,
@@ -55,7 +55,7 @@ describe("SearchbarComponent", () => {
   });
 
   it("should do nothing when there is an invalid type", () => {
-    const spy = spyOn(TestBed.inject(Router), "navigateByUrl");
+    const spy = jest.spyOn(TestBed.inject(Router), "navigateByUrl");
     const result: SearchResult = {
       id: 1,
       groupId: 1,
@@ -70,8 +70,8 @@ describe("SearchbarComponent", () => {
   });
 
   it("should attempt to call the search service", () => {
-    const spy = spyOn(TestBed.inject(SearchService), "receiptSearch");
-    spy.and.returnValue(
+    const spy = jest.spyOn(TestBed.inject(SearchService), "receiptSearch");
+    spy.mockReturnValue(
       of([
         {
           id: 1,

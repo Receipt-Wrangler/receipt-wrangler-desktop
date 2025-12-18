@@ -4,11 +4,14 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": [
-      "jasmine"
-    ]
+      "jest"
+    ],
+    "isolatedModules": true,
+    "esModuleInterop": true
   },
   "include": [
     "src/**/*.spec.ts",
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "setup-jest.ts"
   ]
 }

@@ -19,14 +19,14 @@ import { ApiKeyFormDialogComponent } from './api-key-form-dialog.component';
 describe('ApiKeyFormDialogComponent', () => {
   let component: ApiKeyFormDialogComponent;
   let fixture: ComponentFixture<ApiKeyFormDialogComponent>;
-  let mockDialogRef: jasmine.SpyObj<MatDialogRef<ApiKeyFormDialogComponent>>;
-  let mockApiKeyService: jasmine.SpyObj<ApiKeyService>;
-  let mockSnackbarService: jasmine.SpyObj<SnackbarService>;
+  let mockDialogRef: jest.Mocked<MatDialogRef<ApiKeyFormDialogComponent>>;
+  let mockApiKeyService: jest.Mocked<ApiKeyService>;
+  let mockSnackbarService: jest.Mocked<SnackbarService>;
 
   beforeEach(async () => {
-    mockDialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
-    mockApiKeyService = jasmine.createSpyObj('ApiKeyService', ['createApiKey', 'updateApiKey']);
-    mockSnackbarService = jasmine.createSpyObj('SnackbarService', ['success', 'error']);
+    mockDialogRef = { close: jest.fn() } as unknown as jest.Mocked<MatDialogRef<ApiKeyFormDialogComponent>>;
+    mockApiKeyService = { createApiKey: jest.fn(), updateApiKey: jest.fn() } as unknown as jest.Mocked<ApiKeyService>;
+    mockSnackbarService = { success: jest.fn(), error: jest.fn() } as unknown as jest.Mocked<SnackbarService>;
 
     await TestBed.configureTestingModule({
       declarations: [ApiKeyFormDialogComponent],
@@ -53,11 +53,11 @@ describe('ApiKeyFormDialogComponent', () => {
     fixture.detectChanges();
 
     // Reset all mocks
-    mockDialogRef.close.calls.reset();
-    mockApiKeyService.createApiKey.calls.reset();
-    mockApiKeyService.updateApiKey.calls.reset();
-    mockSnackbarService.success.calls.reset();
-    mockSnackbarService.error.calls.reset();
+    mockDialogRef.close.mockClear();
+    mockApiKeyService.createApiKey.mockClear();
+    mockApiKeyService.updateApiKey.mockClear();
+    mockSnackbarService.success.mockClear();
+    mockSnackbarService.error.mockClear();
   });
 
   it('should create', () => {
@@ -72,7 +72,7 @@ describe('ApiKeyFormDialogComponent', () => {
 
   it('should create API key on valid form submission', () => {
     const mockResult: ApiKeyResult = { key: 'test-api-key-123' };
-    mockApiKeyService.createApiKey.and.returnValue(of(mockResult) as any);
+    mockApiKeyService.createApiKey.mockReturnValue(of(mockResult) as any);
 
     component.form.patchValue({
       name: 'Test API Key',
@@ -101,7 +101,7 @@ describe('ApiKeyFormDialogComponent', () => {
     component.apiKey = mockApiKey;
     component.ngOnInit(); // Re-initialize form with existing data
 
-    mockApiKeyService.updateApiKey.and.returnValue(of({}) as any);
+    mockApiKeyService.updateApiKey.mockReturnValue(of({}) as any);
 
     component.form.patchValue({
       name: 'Updated API Key',
@@ -150,8 +150,8 @@ describe('ApiKeyFormDialogComponent', () => {
   });
 
   it('should copy API key to clipboard', async () => {
-    const mockClipboard = jasmine.createSpyObj('clipboard', ['writeText']);
-    mockClipboard.writeText.and.returnValue(Promise.resolve());
+    const mockClipboard = { writeText: jest.fn() };
+    mockClipboard.writeText.mockReturnValue(Promise.resolve());
     Object.defineProperty(navigator, 'clipboard', { value: mockClipboard });
 
     component.apiKeyResult = { key: 'test-key-123' };
@@ -235,7 +235,7 @@ describe('ApiKeyFormDialogComponent', () => {
   describe('Error Handling', () => {
     it('should handle create API key error', () => {
       const error = { message: 'API Error', status: 500 };
-      mockApiKeyService.createApiKey.and.returnValue(throwError(() => error) as any);
+      mockApiKeyService.createApiKey.mockReturnValue(throwError(() => error) as any);
 
       component.form.patchValue({
         name: 'Test API Key',
@@ -259,7 +259,7 @@ describe('ApiKeyFormDialogComponent', () => {
       component.ngOnInit();
 
       const error = { message: 'Update Error', status: 500 };
-      mockApiKeyService.updateApiKey.and.returnValue(throwError(() => error) as any);
+      mockApiKeyService.updateApiKey.mockReturnValue(throwError(() => error) as any);
 
       component.form.patchValue({
         name: 'Updated API Key',
@@ -380,7 +380,7 @@ describe('ApiKeyFormDialogComponent', () => {
     });
 
     it('should handle submission with whitespace-only name', () => {
-      mockApiKeyService.createApiKey.and.returnValue(of({ key: 'test-key' }) as any);
+      mockApiKeyService.createApiKey.mockReturnValue(of({ key: 'test-key' }) as any);
 
       component.form.patchValue({
         name: '   ',
@@ -417,7 +417,7 @@ describe('ApiKeyFormDialogComponent', () => {
       });
 
       const mockResult: ApiKeyResult = { key: 'test-api-key-123' };
-      mockApiKeyService.createApiKey.and.returnValue(of(mockResult) as any);
+      mockApiKeyService.createApiKey.mockReturnValue(of(mockResult) as any);
 
       // Submit multiple times rapidly
       component.submitButtonClicked();
@@ -435,7 +435,7 @@ describe('ApiKeyFormDialogComponent', () => {
       });
 
       const mockResult: ApiKeyResult = { key: 'test-api-key-123' };
-      const createSpy = mockApiKeyService.createApiKey.and.returnValue(of(mockResult) as any);
+      const createSpy = mockApiKeyService.createApiKey.mockReturnValue(of(mockResult) as any);
 
       component.submitButtonClicked();
 
@@ -455,7 +455,7 @@ describe('ApiKeyFormDialogComponent', () => {
   describe('Integration Tests', () => {
     it('should complete full create workflow', () => {
       const mockResult: ApiKeyResult = { key: 'new-api-key-abc123' };
-      mockApiKeyService.createApiKey.and.returnValue(of(mockResult) as any);
+      mockApiKeyService.createApiKey.mockReturnValue(of(mockResult) as any);
 
       // Fill form
       component.form.patchValue({
@@ -492,7 +492,7 @@ describe('ApiKeyFormDialogComponent', () => {
       component.apiKey = mockApiKey;
       component.ngOnInit();
 
-      mockApiKeyService.updateApiKey.and.returnValue(of({}) as any);
+      mockApiKeyService.updateApiKey.mockReturnValue(of({}) as any);
 
       // Update form values
       component.form.patchValue({

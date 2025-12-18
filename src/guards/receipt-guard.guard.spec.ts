@@ -28,7 +28,7 @@ describe("receiptGuardGuard", () => {
   });
 
   it("should call service with the correct arguments", () => {
-    const spy = spyOn(receiptService, "hasAccessToReceipt").and.returnValue(
+    const spy = jest.spyOn(receiptService, "hasAccessToReceipt").mockReturnValue(
       of(false) as any
     );
     const route: any = {
@@ -46,7 +46,7 @@ describe("receiptGuardGuard", () => {
   });
 
   it("should allow the user through", (done) => {
-    spyOn(receiptService, "hasAccessToReceipt").and.returnValue(
+    jest.spyOn(receiptService, "hasAccessToReceipt").mockReturnValue(
       of(true) as any
     );
     const route: any = {
@@ -71,7 +71,7 @@ describe("receiptGuardGuard", () => {
 
   // TODO: Fix this test
   // it('should not allow the user through', (done) => {
-  //   spyOn(receiptService, 'hasAccessToReceipt').and.returnValue(
+  //   jest.spyOn(receiptService, 'hasAccessToReceipt').mockReturnValue(
   //     of(throwError('')) as any
   //   );
   //   const route: any = {

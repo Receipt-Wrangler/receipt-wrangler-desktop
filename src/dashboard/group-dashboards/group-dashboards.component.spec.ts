@@ -138,7 +138,7 @@ describe("GroupDashboardsComponent", () => {
   });
 
   it("should not navigate to selected dashboard", () => {
-    const routerSpy = spyOn(TestBed.inject(Router), "navigateByUrl");
+    const routerSpy = jest.spyOn(TestBed.inject(Router), "navigateByUrl");
     store.reset({
       groups: {
         selectedDashboardId: undefined,
@@ -152,7 +152,7 @@ describe("GroupDashboardsComponent", () => {
 
   it("should set selected dashboard id", () => {
     const store = TestBed.inject(Store);
-    const storeSpy = spyOn(store, "dispatch");
+    const storeSpy = jest.spyOn(store, "dispatch");
 
     component.setSelectedDashboardId(1);
 

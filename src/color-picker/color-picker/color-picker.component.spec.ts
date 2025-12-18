@@ -47,7 +47,7 @@ describe('ColorPickerComponent', () => {
     const event: any = {
       preventDefault: () => {},
     };
-    const eventSpy = spyOn(event, 'preventDefault');
+    const eventSpy = jest.spyOn(event, 'preventDefault');
 
     component.handleClick(event);
 
@@ -58,7 +58,7 @@ describe('ColorPickerComponent', () => {
     const event: any = {
       preventDefault: () => {},
     };
-    const eventSpy = spyOn(event, 'preventDefault');
+    const eventSpy = jest.spyOn(event, 'preventDefault');
     component.readonly = true;
     component.handleClick(event);
 
