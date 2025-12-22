@@ -1,0 +1,24 @@
+<app-card cardStyle="dashboard-card">
+  <ng-container header>
+    <h3>{{ widget.name }}</h3>
+  </ng-container>
+  <ng-container content>
+    @if (isLoading) {
+      <div class="loading-container">
+        <span>Loading...</span>
+      </div>
+    } @else if (!hasData) {
+      <div class="no-data-container">
+        <span>No receipt data available</span>
+      </div>
+    } @else {
+      <div class="chart-container">
+        <canvas baseChart
+          [data]="pieChartData"
+          [options]="pieChartOptions"
+          type="pie">
+        </canvas>
+      </div>
+    }
+  </ng-container>
+</app-card>

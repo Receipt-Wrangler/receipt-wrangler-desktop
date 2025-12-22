@@ -4,6 +4,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { provideCharts, withDefaultRegisterables } from "ng2-charts";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { AppInitService, initAppData } from "src/services";
 import { IconModule } from "../icon/icon.module";
@@ -39,6 +40,7 @@ import { AppComponent } from "./app.component";
       const initializerFn = (initAppData)(inject(AppInitService));
       return initializerFn();
     }),
+    provideCharts(withDefaultRegisterables()),
     provideNgxMask(),
     provideHttpClient(withInterceptors([httpInterceptor])),
   ]

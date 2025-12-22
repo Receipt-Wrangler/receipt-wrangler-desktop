@@ -41,7 +41,7 @@ module.exports = {
     '^src/(.*)$': '<rootDir>/src/$1'
   },
   transformIgnorePatterns: [
-    'node_modules/(?!.*\\.mjs$|@angular|@ngxs|rxjs|ngx-mask|@ng-bootstrap|ngx-bootstrap|pretty-print-json)'
+    'node_modules/(?!.*\\.mjs$|@angular|@ngxs|rxjs|ngx-mask|@ng-bootstrap|ngx-bootstrap|pretty-print-json|ng2-charts|chart\\.js|lodash-es)'
   ],
   // Additional performance settings
   testEnvironmentOptions: {
