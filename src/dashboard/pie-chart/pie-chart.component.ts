@@ -1,14 +1,22 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from "@angular/core";
+import { FormControl } from "@angular/forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Store } from "@ngxs/store";
 import { ChartConfiguration } from "chart.js";
 import { BaseChartDirective } from "ng2-charts";
 import { take, tap } from "rxjs";
 import { GroupState } from "../../store/index";
-import { Category, Group, Receipt, ReceiptPagedRequestCommand, Widget } from "../../open-api/index";
+import { Category, Group, Receipt, ReceiptPagedRequestCommand, Tag, Widget } from "../../open-api/index";
 import { ReceiptFilterService } from "../../services/receipt-filter.service";
 
-interface CategoryData {
+export type PieChartAggregationType = "category" | "tag";
+
+export interface AggregationOption {
+  value: PieChartAggregationType;
+  displayValue: string;
+}
+
+interface AggregatedData {
   name: string;
   amount: number;
 }
@@ -28,6 +36,13 @@ export class PieChartComponent implements OnInit {
 
   public isLoading = true;
   public hasData = false;
+
+  public aggregationOptions: AggregationOption[] = [
+    { value: "category", displayValue: "Categories" },
+    { value: "tag", displayValue: "Tags" }
+  ];
+
+  public aggregationTypeControl = new FormControl<PieChartAggregationType>("category");
 
   public pieChartData: ChartConfiguration<"pie">["data"] = {
     labels: [],
@@ -65,6 +80,8 @@ export class PieChartComponent implements OnInit {
     "#E91E63", "#673AB7", "#3F51B5", "#009688", "#CDDC39"
   ];
 
+  private receipts: Receipt[] = [];
+
   constructor(
     private receiptFilterService: ReceiptFilterService,
     private store: Store,
@@ -72,7 +89,30 @@ export class PieChartComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.initializeAggregationType();
+    this.listenForAggregationTypeChanges();
     this.loadData();
+  }
+
+  private initializeAggregationType(): void {
+    const savedType = this.widget.configuration?.["aggregationType"] as PieChartAggregationType;
+    if (savedType && (savedType === "category" || savedType === "tag")) {
+      this.aggregationTypeControl.setValue(savedType, { emitEvent: false });
+    }
+  }
+
+  private listenForAggregationTypeChanges(): void {
+    this.aggregationTypeControl.valueChanges
+      .pipe(
+        untilDestroyed(this),
+        tap(() => {
+          if (this.receipts.length > 0) {
+            this.aggregateData(this.receipts);
+            this.cdr.detectChanges();
+          }
+        })
+      )
+      .subscribe();
   }
 
   private loadData(): void {
@@ -110,8 +150,8 @@ export class PieChartComponent implements OnInit {
         take(1),
         untilDestroyed(this),
         tap((pagedData) => {
-          const receipts = pagedData.data as unknown as Receipt[];
-          this.aggregateByCategory(receipts);
+          this.receipts = pagedData.data as unknown as Receipt[];
+          this.aggregateData(this.receipts);
           this.isLoading = false;
           this.cdr.detectChanges();
         })
@@ -119,31 +159,41 @@ export class PieChartComponent implements OnInit {
       .subscribe();
   }
 
+  private aggregateData(receipts: Receipt[]): void {
+    const aggregationType = this.aggregationTypeControl.value;
+
+    if (aggregationType === "tag") {
+      this.aggregateByTag(receipts);
+    } else {
+      this.aggregateByCategory(receipts);
+    }
+  }
+
   private aggregateByCategory(receipts: Receipt[]): void {
-    const categoryMap = new Map<string, CategoryData>();
+    const dataMap = new Map<string, AggregatedData>();
 
     receipts.forEach(receipt => {
       const amount = parseFloat(receipt.amount) || 0;
 
       if (receipt.categories && receipt.categories.length > 0) {
         receipt.categories.forEach((category: Category) => {
-          const categoryName = category.name || "Unknown";
-          const existing = categoryMap.get(categoryName);
+          const name = category.name || "Unknown";
+          const existing = dataMap.get(name);
           if (existing) {
             existing.amount += amount / receipt.categories.length;
           } else {
-            categoryMap.set(categoryName, {
-              name: categoryName,
+            dataMap.set(name, {
+              name: name,
               amount: amount / receipt.categories.length
             });
           }
         });
       } else {
-        const uncategorized = categoryMap.get("Uncategorized");
+        const uncategorized = dataMap.get("Uncategorized");
         if (uncategorized) {
           uncategorized.amount += amount;
         } else {
-          categoryMap.set("Uncategorized", {
+          dataMap.set("Uncategorized", {
             name: "Uncategorized",
             amount: amount
           });
@@ -151,16 +201,55 @@ export class PieChartComponent implements OnInit {
       }
     });
 
-    const sortedCategories = Array.from(categoryMap.values())
+    this.updateChartData(dataMap);
+  }
+
+  private aggregateByTag(receipts: Receipt[]): void {
+    const dataMap = new Map<string, AggregatedData>();
+
+    receipts.forEach(receipt => {
+      const amount = parseFloat(receipt.amount) || 0;
+
+      if (receipt.tags && receipt.tags.length > 0) {
+        receipt.tags.forEach((tag: Tag) => {
+          const name = tag.name || "Unknown";
+          const existing = dataMap.get(name);
+          if (existing) {
+            existing.amount += amount / receipt.tags.length;
+          } else {
+            dataMap.set(name, {
+              name: name,
+              amount: amount / receipt.tags.length
+            });
+          }
+        });
+      } else {
+        const untagged = dataMap.get("Untagged");
+        if (untagged) {
+          untagged.amount += amount;
+        } else {
+          dataMap.set("Untagged", {
+            name: "Untagged",
+            amount: amount
+          });
+        }
+      }
+    });
+
+    this.updateChartData(dataMap);
+  }
+
+  private updateChartData(dataMap: Map<string, AggregatedData>): void {
+    const sortedData = Array.from(dataMap.values())
       .sort((a, b) => b.amount - a.amount);
 
-    this.hasData = sortedCategories.length > 0;
+    this.hasData = sortedData.length > 0;
 
     this.pieChartData = {
-      labels: sortedCategories.map(c => c.name),
+      labels: sortedData.map(d => d.name),
       datasets: [{
-        data: sortedCategories.map(c => parseFloat(c.amount.toFixed(2))),
-        backgroundColor: this.chartColors.slice(0, sortedCategories.length)
+        data: sortedData.map(d => parseFloat(d.amount.toFixed(2))),
+        backgroundColor: this.chartColors.slice(0, sortedData.length)
       }]
     };
 

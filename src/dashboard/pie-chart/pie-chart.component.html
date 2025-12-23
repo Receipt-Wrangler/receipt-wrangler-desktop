@@ -1,6 +1,15 @@
 <app-card cardStyle="dashboard-card">
   <ng-container header>
-    <h3>{{ widget.name }}</h3>
+    <div class="header-container">
+      <h3>{{ widget.name }}</h3>
+      <mat-form-field class="aggregation-select" subscriptSizing="dynamic">
+        <mat-select [formControl]="aggregationTypeControl">
+          <mat-option *ngFor="let option of aggregationOptions" [value]="option.value">
+            {{ option.displayValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </ng-container>
   <ng-container content>
     @if (isLoading) {

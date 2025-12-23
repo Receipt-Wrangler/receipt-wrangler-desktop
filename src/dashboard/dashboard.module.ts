@@ -4,7 +4,9 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
 import { MatChipsModule } from "@angular/material/chips";
+import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatListModule } from "@angular/material/list";
+import { MatSelectModule } from "@angular/material/select";
 import { BaseChartDirective } from "ng2-charts";
 import { CheckboxModule } from "src/checkbox/checkbox.module";
 import { PipesModule } from "src/pipes/pipes.module";
@@ -45,7 +47,9 @@ import { WidgetTypePipe } from "./widget-type.pipe";
     InputModule,
     MatCardModule,
     MatChipsModule,
+    MatFormFieldModule,
     MatListModule,
+    MatSelectModule,
     PipesModule,
     PipesModule,
     ReactiveFormsModule,

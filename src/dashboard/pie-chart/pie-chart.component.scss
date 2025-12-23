@@ -1,3 +1,35 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.aggregation-select {
+  width: 120px;
+  font-size: 14px;
+
+  ::ng-deep {
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+
+    .mat-mdc-text-field-wrapper {
+      padding: 0 8px;
+    }
+
+    .mat-mdc-form-field-infix {
+      min-height: 32px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+  }
+}
+
 .chart-container {
   height: 300px;
   width: 100%;
