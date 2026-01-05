@@ -1,3 +1,5 @@
+Archived since this has been combined in the monorepository: https://github.com/Receipt-Wrangler/receipt-wrangler
+
 [![Build](https://github.com/Noah231515/receipt-wrangler-desktop/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Noah231515/receipt-wrangler-desktop/actions/workflows/docker-image.yml)
 [![codecov](https://codecov.io/gh/Receipt-Wrangler/receipt-wrangler-desktop/graph/badge.svg?token=TCTGKLHIW1)](https://codecov.io/gh/Receipt-Wrangler/receipt-wrangler-desktop)
 
